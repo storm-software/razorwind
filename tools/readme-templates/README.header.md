@@ -1,8 +1,8 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x640-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x640-light.gif">
-<img src="https://public.storm-cdn.com/storm-software/media/banner-1280x640-dark.gif" width="100%" alt="Storm Software" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-light.gif">
+<img src="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif" width="100%" alt="Windie" />
 </picture>
 </div>
 <br />
@@ -10,19 +10,20 @@
 <div align="center">
 <b>
 <a href="https://stormsoftware.com" target="_blank">Website</a>  •
-<a href="https://github.com/storm-software/powerlines-monorepo-template" target="_blank">GitHub</a>  •
+<a href="https://github.com/storm-software/windie" target="_blank">GitHub</a>  •
 <a href="https://discord.gg/MQ6YVzakM5">Discord</a>  •  <a href="https://stormstack.github.io/stormstack/" target="_blank">Docs</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •
-<a href="https://github.com/storm-software/powerlines-monorepo-template/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
+<a href="https://github.com/storm-software/stack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
 </b>
 </div>
-
-<br />
-This package is part of the ⚡<b>Powerlines Monorepo Template</b> monorepo. The Powerlines Monorepo Template packages include CLI utility applications, tools, and various libraries used to create modern, scalable web applications.
 <br />
 
-<h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3><br />
+💨 Windie is a unified set of tools that make creating design systems a breeze.
 
-[![Version](https://img.shields.io/badge/version-<!-- VERSION -->-1fb2a6.svg?style=for-the-badge&color=1fb2a6)](https://prettier.io/)&nbsp;[![Nx](https://img.shields.io/badge/Nx-17.0.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20&&color=1fb2a6)](http://nx.dev/)&nbsp;[![NextJs](https://img.shields.io/badge/Next.js-14.0.2-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20&color=1fb2a6)](https://nextjs.org/)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![Semantic-Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;[![documented with Fumadocs](https://img.shields.io/badge/documented_with-fumadocs-success.svg?style=for-the-badge&logo=readthedocs&color=1fb2a6)](https://fumadocs.vercel.app/)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/powerlines-monorepo-template/cr.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
+<h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3>
+<br />
+
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/windie/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
+
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -34,7 +35,7 @@ This package is part of the ⚡<b>Powerlines Monorepo Template</b> monorepo. The
 <!-- prettier-ignore-end -->
 
 <div align="center">
-<b>Be sure to ⭐ this repository on <a href="https://github.com/storm-software/powerlines-monorepo-template" target="_blank">GitHub</a> so you can keep up to date on any daily progress!</b>
+<b>Be sure to ⭐ this repository on <a href="https://github.com/storm-software/windie" target="_blank">GitHub</a> so you can keep up to date on any daily progress!</b>
 </div>
 
 <br />

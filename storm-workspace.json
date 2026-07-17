@@ -1,10 +1,16 @@
 {
   "$schema": "https://public.storm-cdn.com/schemas/storm-workspace.schema.json",
   "extends": "@storm-software/config/presets/storm-software.json",
-  "name": "powerlines-monorepo-template",
-  "namespace": "powerlines-monorepo-template",
-  "repository": "https://github.com/storm-software/powerlines-monorepo-template",
+  "name": "windie",
+  "namespace": "windie",
+  "repository": "https://github.com/storm-software/windie",
   "packageManager": "pnpm",
-  "logLevel": "trace",
-  "docs": "https://docs.stormsoftware.com/projects/powerlines-monorepo-template"
+  "logLevel": "info",
+  "docs": "https://docs.stormsoftware.com/projects/windie",
+  "release": {
+    "banner": {
+      "url": "https://public.storm-cdn.com/windie/banner-1280x320-dark.gif",
+      "alt": "Windie's logo banner"
+    }
+  }
 }

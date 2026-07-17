@@ -1,6 +1,6 @@
-{ ... }:
+{ inputs, ... }:
 {
-  name = "storm-software/powerlines-monorepo-template";
+  name = "storm-software/windie";
 
   dotenv.enable = true;
   dotenv.filename = [

@@ -19,6 +19,7 @@ rules:
       - security-reusable.yml
       - schedule-stale.yml
       - greetings.yml
+      - all-contributors.yml
   excessive-permissions:
     ignore:
       - release.yml

@@ -1,11 +1,11 @@
 {
-  "name": "@powerlines-monorepo-template/monorepo",
+  "name": "@windie/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "⚡ A monorepo containing TypeScript utility packages with shared functionality common to many Storm Software applications.",
+  "description": "💨 Windie is a unified set of tools that make creating design systems a breeze.",
   "repository": {
     "type": "github",
-    "url": "https://github.com/storm-software/powerlines-monorepo-template.git"
+    "url": "https://github.com/storm-software/windie.git"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -29,9 +29,12 @@
     "pnpm": ">=11.1.2"
   },
   "keywords": [
+    "design-system",
+    "design-tokens",
+    "tailwindcss",
+    "css",
+    "react",
     "storm-software",
-    "template",
-    "github-template",
     "monorepo"
   ],
   "scripts": {
@@ -74,7 +77,7 @@
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
     "@storm-software/cspell": "catalog:",
-    "@storm-software/eslint": "catalog:",
+    "@storm-software/eslint-config-react": "catalog:",
     "@storm-software/git-tools": "catalog:",
     "@storm-software/linting-tools": "catalog:",
     "@storm-software/markdownlint": "catalog:",
@@ -97,18 +100,11 @@
     "vitest": "catalog:",
     "zx": "catalog:"
   },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "^26.3.0",
-      "onFail": "download"
-    }
-  },
   "manypkg": {
     "defaultBranch": "main",
     "workspaceProtocol": "require"
   },
-  "namespace": "@powerlines-monorepo-template",
+  "namespace": "@windie",
   "nx": {
     "includedScripts": [
       "lint-knip",

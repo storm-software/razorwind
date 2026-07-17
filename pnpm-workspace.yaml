@@ -4,53 +4,53 @@ packages:
   - docs/*
 catalog:
   "@ls-lint/ls-lint": ^2.3.1
-  "@nx/devkit": ^22.7.5
+  "@nx/devkit": ^22.7.7
   "@nx/eslint-plugin": 22.7.5
   "@nx/js": 22.7.5
   "@nx/plugin": 22.7.5
   "@nx/vite": 22.7.5
   "@nx/vitest": 22.7.5
   "@nx/workspace": 22.7.5
-  "@powerlines/nx": ^0.13.176
-  "@powerlines/tsconfig": ^0.4.186
-  "@powerlines/tsdoc": ^0.2.134
-  "@storm-software/config": ^1.138.6
-  "@storm-software/config-tools": ^1.190.69
-  "@storm-software/cspell": ^0.46.137
-  "@storm-software/eslint": ^0.170.102
-  "@storm-software/git-tools": ^2.131.76
-  "@storm-software/linting-tools": ^1.133.99
-  "@storm-software/markdownlint": ^0.30.225
-  "@storm-software/pnpm-tools": ^0.7.80
-  "@storm-software/prettier": ^0.59.122
-  "@storm-software/tsconfig": ^0.48.136
-  "@storm-software/untyped": ^0.24.211
-  "@storm-software/workspace-tools": ^1.296.49
+  "@powerlines/nx": ^0.13.183
+  "@powerlines/tsconfig": ^0.4.192
+  "@powerlines/tsdoc": ^0.2.140
+  "@storm-software/config": ^1.138.44
+  "@storm-software/config-tools": ^1.190.107
+  "@storm-software/cspell": ^0.46.175
+  "@storm-software/eslint-config-react": ^0.0.63
+  "@storm-software/git-tools": ^2.131.115
+  "@storm-software/linting-tools": ^1.134.37
+  "@storm-software/markdownlint": ^0.30.263
+  "@storm-software/pnpm-tools": ^0.7.118
+  "@storm-software/prettier": ^0.59.160
+  "@storm-software/tsconfig": ^0.48.174
+  "@storm-software/untyped": ^0.24.249
+  "@storm-software/workspace-tools": ^1.296.87
   "@swc-node/register": ^1.11.1
   "@swc/core": ^1.15.41
   "@swc/helpers": ^0.5.23
   "@taplo/cli": ^0.7.0
-  "@types/node": ^25.9.3
+  "@types/node": ^25.9.5
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   copyfiles: ^2.4.1
   esbuild: ^0.27.7
-  eslint: ^10.5.0
-  lefthook: ^1.13.6
+  eslint: ^10.7.0
+  lefthook: ^2.1.10
   log4brains: ^1.1.0
   nx: 22.7.5
-  prettier: ^3.8.4
+  prettier: ^3.9.5
   rimraf: ^6.1.3
   sherif: ^1.0.0
   tsdown: ^0.22.2
   typescript: ^6.0.3
   verdaccio: 6.0.5
-  vite: ^8.0.16
-  vitest: ~4.1.8
+  vite: ^8.1.5
+  vitest: ~4.1.10
   zx: ^8.8.5
 overrides:
-  "@powerlines-monorepo-template/tools-config": workspace:*
-  "@powerlines-monorepo-template/tools-scripts": workspace:*
-  "@powerlines-monorepo-template/tools-cspell": workspace:*
+  "@windie/tools-config": workspace:*
+  "@windie/tools-scripts": workspace:*
+  "@windie/tools-cspell": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"

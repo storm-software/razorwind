@@ -1,0 +1,15 @@
+windie
+
+codeship
+truecolor
+pathext
+colorterm
+cfonts
+pjson
+linkify
+mdurl
+maska
+bunshi
+
+# Ignore in Regex
+ommands

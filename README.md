@@ -1,38 +1,28 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x640-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x640-light.gif">
-<img src="https://public.storm-cdn.com/storm-software/media/banner-1280x640-dark.gif" width="100%" alt="Storm Software" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-light.gif">
+<img src="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif" width="100%" alt="Windie" />
 </picture>
 </div>
 <br />
 
-<br />
 <div align="center">
 <b>
 <a href="https://stormsoftware.com" target="_blank">Website</a>  •
-<a href="https://github.com/storm-software/powerlines-monorepo-template" target="_blank">GitHub</a>  •
+<a href="https://github.com/storm-software/windie" target="_blank">GitHub</a>  •
 <a href="https://discord.gg/MQ6YVzakM5">Discord</a>  •  <a href="https://stormstack.github.io/stormstack/" target="_blank">Docs</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •
 <a href="https://github.com/storm-software/stack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
 </b>
 </div>
 <br />
 
-Storm Software's **Powerlines Monorepo Template** monorepo containing TypeScript utility packages
-with shared functionality common to many Storm Software applications
-
-<br />
-
-**Powerlines Monorepo Template** is built using <a href="https://nx.dev/" target="_blank">Nx</a>, a
-set of extensible dev tools for monorepos, which helps you develop like Google,
-Facebook, and Microsoft. Building on top of Nx, the Open System provides a set
-of tools and patterns that help you scale your monorepo to many teams while
-keeping the codebase maintainable.
+💨 Windie is a unified set of tools that make creating design systems a breeze.
 
 <h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3>
 <br />
 
-[![github](https://img.shields.io/github/package-json/v/storm-software/powerlines-monorepo-template?style=for-the-badge&color=1fb2a6)](https://github.com/storm-software/powerlines-monorepo-template)&nbsp;[![Nx](https://img.shields.io/badge/Nx-17.0.2-lightgrey?style=for-the-badge&logo=nx&logoWidth=20&&color=1fb2a6)](http://nx.dev/)&nbsp;[![NextJs](https://img.shields.io/badge/Next.js-14.0.2-lightgrey?style=for-the-badge&logo=nextdotjs&logoWidth=20&color=1fb2a6)](https://nextjs.org/)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![documented with docusaurus](https://img.shields.io/badge/documented_with-docusaurus-success.svg?style=for-the-badge&logo=readthedocs&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/powerlines-monorepo-template/cr.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/windie/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -44,7 +34,9 @@ keeping the codebase maintainable.
 <!-- prettier-ignore-end -->
 
 <div align="center">
+<a href="https://github.com/storm-software/windie" target="_blank">
 <b>Be sure to ⭐ this repository on GitHub so you can keep up to date on any daily progress!</b>
+</a>
 </div>
 
 <!-- START doctoc -->
@@ -52,10 +44,8 @@ keeping the codebase maintainable.
 
 ## Table of Contents
 
-- [Quick Features](#quick-features)
-  - [Visual Studio Code Extension](#visual-studio-code-extension)
-  - [Environment Configuration Help](#environment-configuration-help)
 - [Getting Started](#getting-started)
+  - [Environment Configuration Help](#environment-configuration-help)
   - [Build](#build)
   - [Development Server](#development-server)
 - [Environment Configuration Help](#environment-configuration-help-1)
@@ -68,7 +58,6 @@ keeping the codebase maintainable.
   - [Running End-to-End Tests](#running-end-to-end-tests)
   - [Understand your workspace](#understand-your-workspace)
 - [☁ Nx Cloud](#-nx-cloud)
-  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Support](#support)
@@ -79,32 +68,22 @@ keeping the codebase maintainable.
 
 <br />
 
-# Quick Features
+# Getting Started
 
-This section contains a quick overview of the features and functionality of the repository.
+Once the code is pulled locally, open a command prompt and run `pnpm install` in
+the root repo directory (/windie).
 
-## Visual Studio Code Extension
+More information can be found in the
+[Windie documentation](https://storm-software.github.io/windie/docs/getting-started/installation).
 
-Acidic has it's own Visual Studio Code extension to support the language model
-in the IDE. The extension can be found in the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=storm-software.acidic).
+<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
+<br />
 
 ## Environment Configuration Help
 
 If you run into any issues while trying to run any of the above steps, please
 reach out to Patrick Sullivan. See the [Support](#support) section for more
 information.
-
-# Getting Started
-
-Once the code is pulled locally, open a command prompt and run `pnpm install` in
-the root repo directory (/powerlines-monorepo-template).
-
-More information can be found in the
-[Powerlines Monorepo Template documentation](https://storm-software.github.io/powerlines-monorepo-template/docs/getting-started/installation).
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
 
 ## Build
 
@@ -168,14 +147,14 @@ Run `nx g @storm-software/workspace:lib my-lib` to generate a library.
 > You can also use any of the plugins above to generate libraries as well.
 
 Libraries are shareable across libraries and applications. They can be imported
-from `@powerlines-monorepo-template/my-lib`.
+from `@windie/my-lib`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Code Scaffolding
 
-Run `nx g @nx/react:component my-component --project=powerlines-monorepo-template` to generate a new
+Run `nx g @nx/react:component my-component --project=windie` to generate a new
 component.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -210,7 +189,7 @@ Run `pnpm affected:e2e` to execute the end-to-end tests affected by a change.
 
 ## Understand your workspace
 
-Run `pnpm graph` to see a diagram of the dependencies of the Open System
+Run `pnpm graph` to see a diagram of the dependencies of the Windie
 projects.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -229,32 +208,16 @@ to share the computation cache across everyone in your team and CI.
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
-## Distributed Computation Caching & Distributed Task Execution
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more
-rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx
-Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their
-preferred framework alongside Nx’s advanced code generation and project
-dependency graph, plus a unified experience for both frontend and backend
-developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
 # Roadmap
 
-See the [open issues](https://github.com/storm-software/powerlines-monorepo-template/issues) for a
+See the [open issues](https://github.com/storm-software/windie/issues) for a
 list of proposed features (and known issues).
 
-- [Top Feature Requests](https://github.com/storm-software/powerlines-monorepo-template/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
+- [Top Feature Requests](https://github.com/storm-software/windie/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/storm-software/powerlines-monorepo-template/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
+- [Top Bugs](https://github.com/storm-software/windie/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/storm-software/powerlines-monorepo-template/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+- [Newest Bugs](https://github.com/storm-software/windie/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -277,7 +240,7 @@ Please try to create bug reports that are:
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 You can use
-[markdownlint-cli](https://github.com/storm-software/powerlines-monorepo-template/markdownlint-cli) to
+[markdownlint-cli](https://github.com/storm-software/storm-ops/tree/main/packages/markdownlint) to
 check for common markdown style inconsistency.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -288,7 +251,7 @@ check for common markdown style inconsistency.
 Reach out to the maintainer at one of the following places:
 
 - [Contact](https://stormsoftware.com/contact)
-- [GitHub discussions](https://github.com/storm-software/powerlines-monorepo-template/discussions)
+- [GitHub discussions](https://github.com/storm-software/windie/discussions)
 - <contact@stormsoftware.com>
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -301,10 +264,6 @@ distribute this template as you like. If you have any specific questions, please
 reach out to the Storm Software development team.
 
 See [LICENSE](LICENSE) for more information.
-
-<br />
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fstorm-software%2Fpowerlines-monorepo-template.svg?type=large&issueType=license)](https://app.fossa.io/projects/git%2Bgithub.com%2Fstorm-software%2Fpowerlines-monorepo-template?ref=badge_large&issueType=license)
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -320,7 +279,7 @@ Thanks goes to these wonderful people
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/powerlines-monorepo-template/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/powerlines-monorepo-template/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/powerlines-monorepo-template/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://stormsoftware.com"><img src="https://avatars.githubusercontent.com/u/149802440?v=4?s=100" width="100px;" alt="Stormie"/><br /><sub><b>Stormie</b></sub></a><br /><a href="#maintenance-stormie-bot" title="Maintenance">🚧</a></td>
     </tr>
@@ -348,14 +307,15 @@ specification. Contributions of any kind welcome!
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
-<hr />
+---
+
 <br />
 
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x320-dark.webp">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x320-light.webp">
-<img src="https://public.storm-cdn.com/storm-software/media/banner-1280x320-dark.webp" width="100%" alt="Storm Software" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/banner-1280x320-dark.webp">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/banner-1280x320-light.webp">
+<img src="https://public.storm-cdn.com/storm-software/banner-1280x320-dark.webp" width="100%" alt="Storm Software" />
 </picture>
 </div>
 <br />
@@ -377,21 +337,15 @@ one where anyone can create software without years of prior development
 experience serving as a barrier to entry. We hope to achieve this via LLMs,
 Generative AI, and intuitive, high-level data modeling/programming languages.
 
-Join us on [Discord](https://discord.gg/MQ6YVzakM5) to chat with the team,
-receive release notifications, ask questions, and get involved.
+Join us on [**Discord**](https://discord.gg/MQ6YVzakM5) to chat with the team, receive release notifications, ask questions, and get involved.
 
-If this sounds interesting, and you would like to help us in creating the next
-generation of development tools, please reach out on our
-[website](https://stormsoftware.com/contact) or join our
-[Slack](https://join.slack.com/t/storm-software/shared_invite/zt-2gsmk04hs-i6yhK_r6urq0dkZYAwq2pA)
-channel!
+If this sounds interesting, and you would like to help us in creating the next generation of development tools, please reach out on our [**website**](https://stormsoftware.com/contact) or join our [**Slack**](https://join.slack.com/t/storm-software/shared_invite/zt-2gsmk04hs-i6yhK_r6urq0dkZYAwq2pA) channel! If you plan on publishing content that incorporates the Storm Software brand in anyway, please take a quick look at our [**brand guidelines**](https://github.com/storm-software/media-kit).
 
 <br />
 
-<div align="center"><a href="https://stormsoftware.com" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/icons/circle-dark.webp"><source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/icons/circle-light.webp"><img src="https://public.storm-cdn.com/storm-software/icons/circle-dark.webp" width="200px" alt="Storm Software" /></picture></a></div>
+<div align="center"><a href="https://stormsoftware.com" target="_blank"><img src="https://public.storm-cdn.com/storm-software/icon-circle-fill-dark.png" alt="Storm Software" width="200px"/></a></div>
 <br />
 <div align="center"><a href="https://stormsoftware.com" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/misc/text/visit-us-dark.png"><source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/misc/text/visit-us-light.png"><img src="https://public.storm-cdn.com/misc/text/visit-us-dark.png" height="90px" alt="Visit us at stormsoftware.com" /></picture></a></div>
-<br />
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
