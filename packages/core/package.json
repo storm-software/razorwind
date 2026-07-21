@@ -1,12 +1,9 @@
 {
   "name": "@windie/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "💨 Windie is a unified set of tools that make creating design systems a breeze.",
-  "keywords": [
-    "windie",
-    "storm-software"
-  ],
+  "keywords": ["windie", "storm-software"],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
@@ -91,9 +88,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
