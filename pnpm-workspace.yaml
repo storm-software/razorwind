@@ -11,13 +11,20 @@ catalog:
   "@nx/vite": 22.7.5
   "@nx/vitest": 22.7.5
   "@nx/workspace": 22.7.5
+  "@power-plant/core": ^0.0.17
+  "@power-plant/dtcg-schema": ^0.0.1
+  "@power-plant/style-dictionary": ^0.0.3
+  "@power-plant/schema": ^0.0.15
+  "@power-plant/terrazzo": ^0.0.3
   "@powerlines/nx": ^0.13.183
   "@powerlines/tsconfig": ^0.4.192
   "@powerlines/tsdoc": ^0.2.140
+  "@powerlines/plugin-tsdown": ^0.1.545
   "@storm-software/config": ^1.138.44
   "@storm-software/config-tools": ^1.190.107
   "@storm-software/cspell": ^0.46.175
   "@storm-software/eslint-config-react": ^0.0.63
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.70
   "@storm-software/git-tools": ^2.131.115
   "@storm-software/linting-tools": ^1.134.37
   "@storm-software/markdownlint": ^0.30.263
@@ -26,12 +33,29 @@ catalog:
   "@storm-software/tsconfig": ^0.48.174
   "@storm-software/untyped": ^0.24.249
   "@storm-software/workspace-tools": ^1.296.87
+  "@stryke/convert": ^0.7.27
+  "@stryke/date": ^0.0.8
+  "@stryke/env": ^0.20.114
+  "@stryke/fs": ^0.33.97
+  "@stryke/hash": ^0.13.50
+  "@stryke/helpers": ^0.10.36
+  "@stryke/http": ^0.12.87
+  "@stryke/json": ^0.15.20
+  "@stryke/path": ^0.29.23
+  "@stryke/resolve": ^0.0.12
+  "@stryke/string-format": ^0.17.38
+  "@stryke/type-checks": ^0.6.29
+  "@stryke/types": ^0.12.24
+  "@stryke/unique-id": ^0.3.108
+  "@stryke/url": ^0.4.47
+  "@stryke/zod": ^0.3.42
   "@swc-node/register": ^1.11.1
   "@swc/core": ^1.15.41
   "@swc/helpers": ^0.5.23
   "@taplo/cli": ^0.7.0
   "@types/node": ^25.9.5
   "@typescript/native-preview": 7.0.0-dev.20251218.3
+  chalk: ^5.6.2
   copyfiles: ^2.4.1
   esbuild: ^0.27.7
   eslint: ^10.7.0
@@ -40,14 +64,18 @@ catalog:
   nx: 22.7.5
   prettier: ^3.9.5
   rimraf: ^6.1.3
+  shadcn: ^4.13.1
   sherif: ^1.0.0
   tsdown: ^0.22.2
   typescript: ^6.0.3
   verdaccio: 6.0.5
   vite: ^8.1.5
   vitest: ~4.1.10
+  zod: ^4.4.3
   zx: ^8.8.5
 overrides:
+  "@emnapi/core": 1.11.2
+  "@emnapi/runtime": 1.11.2
   "@windie/tools-config": workspace:*
   "@windie/tools-scripts": workspace:*
   "@windie/tools-cspell": workspace:*

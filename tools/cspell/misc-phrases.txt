@@ -10,6 +10,9 @@ linkify
 mdurl
 maska
 bunshi
+oklch
+
+dtcg
 
 # Ignore in Regex
 ommands

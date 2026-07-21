@@ -18,7 +18,7 @@ updates:
       dependency-type: "all"
       interval: "weekly"
     ignore:
-      - dependency-name: "{@storm-software/*,@stryke/*,@cyclone-ui/*,@acidic/*,@powerlines/*,@earthquake/*,@nx/*,nx}"
+      - dependency-name: "{@storm-software/*,@stryke/*,@cyclone-ui/*,@windie/*,@acidic/*,@powerlines/*,@power-plant/*,@earthquake/*,@may-i/*,@nx/*,nx}"
     open-pull-requests-limit: 1
     labels:
       - dependencies

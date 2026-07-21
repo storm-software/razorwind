@@ -6,9 +6,11 @@
 # compiled output
 dist
 tmp
-/out-tsc
+out-tsc
 out
 .nx
+
+.pnpm-store
 
 powerlines.d.ts
 .powerlines
