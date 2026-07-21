@@ -17,8 +17,21 @@
  ------------------------------------------------------------------- */
 
 export interface InputOptions {
-  components?: string;
-  tokens?: string;
+  /**
+   * The path to the registry.json file.
+   *
+   * @see https://shadcn.com/docs/registry
+   */
+  registryPath?: string;
+
+  /**
+   * The directory or file containing the tokens.
+   *
+   * @see https://styledictionary.com/info/tokens/
+   *
+   * @defaultValue "tokens.json" (or "tokens" directory)
+   */
+  tokensPath?: string;
 }
 
 export interface Config extends InputOptions {

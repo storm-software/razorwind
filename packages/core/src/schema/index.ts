@@ -17,5 +17,5 @@
  ------------------------------------------------------------------- */
 
 export { componentSchema, type Component } from "./components";
-export { schema, type Meta, type Schema } from "./schema";
+export { schema, type Schema } from "./schema";
 export { tokenSchema, tokensSchema, type Token, type Tokens } from "./tokens";

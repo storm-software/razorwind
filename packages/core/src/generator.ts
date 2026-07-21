@@ -17,10 +17,14 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import { defineGenerator } from "@power-plant/core";
-import type { SchemaSourceConfig } from "@power-plant/schema";
+import { defineGenerator, useExecution } from "@power-plant/core";
+import { findFilePath } from "@stryke/path/find";
+import { isSetString } from "@stryke/type-checks/is-set-string";
+import StyleDictionary from "style-dictionary";
+import { createConfig, getConfig } from "./registry/config";
 import type { Schema } from "./schema";
 import { schema } from "./schema";
+import { loadTokens, registerWindieParsers } from "./tokens";
 import type { Config, InputOptions } from "./types/config";
 
 /**
@@ -39,11 +43,32 @@ export default defineGenerator<Schema, Config, void>({
     version: "1.0",
     tags: ["windie", "dtcg"]
   },
-  schema: schema as unknown as SchemaSourceConfig<Schema>,
-  input: async (_options: InputOptions): Promise<Schema> => {
-    throw new Error(
-      "Windie spec loading is not implemented yet. Provide a spec via Power Plant input config."
-    );
+  schema,
+  input: async (options: InputOptions): Promise<Schema> => {
+    const { registryPath, tokensPath } = options;
+    const { cwd } = useExecution();
+
+    const registryRoot = isSetString(registryPath)
+      ? findFilePath(registryPath)
+      : cwd;
+    const registry =
+      (await getConfig(registryRoot)) ??
+      createConfig({
+        resolvedPaths: { cwd: registryRoot }
+      });
+
+    registerWindieParsers(StyleDictionary);
+
+    const tokens = await loadTokens({
+      cwd,
+      tokensPath,
+      fallbackPaths: [
+        registry.resolvedPaths?.tailwindCss,
+        registry.tailwind?.css
+      ]
+    });
+
+    return { registry, tokens };
   },
   generator: async (
     _spec,

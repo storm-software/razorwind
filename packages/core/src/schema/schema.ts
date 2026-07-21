@@ -17,27 +17,43 @@
  ------------------------------------------------------------------- */
 
 import { tokensSchema } from "@power-plant/dtcg-schema";
+import type { Tokens } from "@power-plant/dtcg-schema";
+import { configSchema } from "shadcn/schema";
+import type { z as z3 } from "zod/v3";
 import z from "zod";
-import { componentSchema } from "./components";
+import type { ShadcnConfig } from "../registry/shadcn-types";
 
-export const metaSchema = z.object({
-  name: z.string(),
-  version: z.string(),
-  description: z.string(),
-  author: z.string(),
-  license: z.string(),
-  repository: z.string(),
-  homepage: z.string(),
-  tags: z.array(z.string())
+function fromZod3<T extends z3.ZodTypeAny>(source: T): z.ZodType<z3.infer<T>> {
+  return z.unknown().transform((value, ctx) => {
+    const result = source.safeParse(value);
+
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        ctx.addIssue({
+          code: "custom",
+          message: issue.message,
+          path: issue.path
+        });
+      }
+
+      return z.NEVER;
+    }
+
+    return result.data;
+  });
+}
+
+const tokensFieldSchema = z.union([
+  tokensSchema,
+  z.record(z.string(), tokensSchema)
+]);
+
+export type Schema = {
+  registry: ShadcnConfig;
+  tokens: Tokens | Record<string, Tokens>;
+};
+
+export const schema: z.ZodType<Schema> = z.object({
+  registry: fromZod3(configSchema),
+  tokens: tokensFieldSchema
 });
-
-export type Meta = z.infer<typeof metaSchema>;
-
-export const schema = z
-  .object({
-    components: z.array(componentSchema),
-    tokens: z.union([tokensSchema, z.record(z.string(), tokensSchema)])
-  })
-  .merge(metaSchema);
-
-export type Schema = z.infer<typeof schema>;
