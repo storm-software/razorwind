@@ -2,23 +2,23 @@
 
 <!-- END header -->
 
-# Windie
+# Razorwind
 
-**Windie** is a unified set of tools that make creating design systems a breeze.
+**Razorwind** is a unified set of tools that make creating design systems a breeze.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @windie/core
+pnpm add -D @razorwind/core
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @windie/core
+npm install -D @razorwind/core
 ```
 
 </details>
@@ -27,7 +27,7 @@ npm install -D @windie/core
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @windie/core
+yarn add -D @razorwind/core
 ```
 
 </details>

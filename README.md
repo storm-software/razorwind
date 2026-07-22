@@ -1,8 +1,8 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/windie/media/banner-1280x640-light.gif">
-<img src="https://public.storm-cdn.com/windie/media/banner-1280x640-dark.gif" width="100%" alt="Windie" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-light.gif">
+<img src="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif" width="100%" alt="Razorwind" />
 </picture>
 </div>
 <br />
@@ -10,19 +10,19 @@
 <div align="center">
 <b>
 <a href="https://stormsoftware.com" target="_blank">Website</a>  •
-<a href="https://github.com/storm-software/windie" target="_blank">GitHub</a>  •
+<a href="https://github.com/storm-software/razorwind" target="_blank">GitHub</a>  •
 <a href="https://discord.gg/MQ6YVzakM5">Discord</a>  •  <a href="https://stormstack.github.io/stormstack/" target="_blank">Docs</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •
 <a href="https://github.com/storm-software/stack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
 </b>
 </div>
 <br />
 
-💨 Windie is a unified set of tools that make creating design systems a breeze.
+💨 Razorwind is a unified set of tools that make creating design systems a breeze.
 
 <h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3>
 <br />
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/windie/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/razorwind/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -34,7 +34,7 @@
 <!-- prettier-ignore-end -->
 
 <div align="center">
-<a href="https://github.com/storm-software/windie" target="_blank">
+<a href="https://github.com/storm-software/razorwind" target="_blank">
 <b>Be sure to ⭐ this repository on GitHub so you can keep up to date on any daily progress!</b>
 </a>
 </div>
@@ -71,10 +71,10 @@
 # Getting Started
 
 Once the code is pulled locally, open a command prompt and run `pnpm install` in
-the root repo directory (/windie).
+the root repo directory (/razorwind).
 
 More information can be found in the
-[Windie documentation](https://storm-software.github.io/windie/docs/getting-started/installation).
+[Razorwind documentation](https://storm-software.github.io/razorwind/docs/getting-started/installation).
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -147,14 +147,14 @@ Run `nx g @storm-software/workspace:lib my-lib` to generate a library.
 > You can also use any of the plugins above to generate libraries as well.
 
 Libraries are shareable across libraries and applications. They can be imported
-from `@windie/my-lib`.
+from `@razorwind/my-lib`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Code Scaffolding
 
-Run `nx g @nx/react:component my-component --project=windie` to generate a new
+Run `nx g @nx/react:component my-component --project=razorwind` to generate a new
 component.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -189,7 +189,7 @@ Run `pnpm affected:e2e` to execute the end-to-end tests affected by a change.
 
 ## Understand your workspace
 
-Run `pnpm graph` to see a diagram of the dependencies of the Windie
+Run `pnpm graph` to see a diagram of the dependencies of the Razorwind
 projects.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -210,14 +210,14 @@ to share the computation cache across everyone in your team and CI.
 
 # Roadmap
 
-See the [open issues](https://github.com/storm-software/windie/issues) for a
+See the [open issues](https://github.com/storm-software/razorwind/issues) for a
 list of proposed features (and known issues).
 
-- [Top Feature Requests](https://github.com/storm-software/windie/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
+- [Top Feature Requests](https://github.com/storm-software/razorwind/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/storm-software/windie/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
+- [Top Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/storm-software/windie/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+- [Newest Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -251,7 +251,7 @@ check for common markdown style inconsistency.
 Reach out to the maintainer at one of the following places:
 
 - [Contact](https://stormsoftware.com/contact)
-- [GitHub discussions](https://github.com/storm-software/windie/discussions)
+- [GitHub discussions](https://github.com/storm-software/razorwind/discussions)
 - <contact@stormsoftware.com>
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -279,7 +279,7 @@ Thanks goes to these wonderful people
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/windie/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://stormsoftware.com"><img src="https://avatars.githubusercontent.com/u/149802440?v=4?s=100" width="100px;" alt="Stormie"/><br /><sub><b>Stormie</b></sub></a><br /><a href="#maintenance-stormie-bot" title="Maintenance">🚧</a></td>
     </tr>

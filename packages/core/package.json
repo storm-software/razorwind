@@ -1,9 +1,12 @@
 {
-  "name": "@windie/core",
+  "name": "@razorwind/core",
   "version": "0.0.4",
   "private": false,
-  "description": "💨 Windie is a unified set of tools that make creating design systems a breeze.",
-  "keywords": ["windie", "storm-software"],
+  "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
+  "keywords": [
+    "razorwind",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
@@ -11,7 +14,7 @@
   },
   "repository": {
     "type": "github",
-    "url": "https://github.com/storm-software/windie.git",
+    "url": "https://github.com/storm-software/razorwind.git",
     "directory": "packages/core"
   },
   "funding": {
@@ -88,7 +91,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
@@ -104,10 +109,11 @@
     "chalk": "catalog:",
     "fast-glob": "catalog:",
     "json5": "catalog:",
+    "lightningcss": "^1.33.0",
     "shadcn": "catalog:",
     "smol-toml": "catalog:",
     "style-dictionary": "catalog:",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "catalog:",
     "yaml": "catalog:",
     "zod": "catalog:"
   },

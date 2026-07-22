@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------
 
-                       🗲 Storm Software - Windie
+                       🗲 Storm Software - Razorwind
 
- This code was released as part of the Windie project. Windie
+ This code was released as part of the Razorwind project. Razorwind
  is maintained by Storm Software under the Apache-2.0 license, and is
  free for commercial and private use. For more information, please visit
- our licensing page at https://stormsoftware.com/licenses/projects/windie.
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
  Website:                  https://stormsoftware.com
- Repository:               https://github.com/storm-software/windie
- Documentation:            https://docs.stormsoftware.com/projects/windie
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
@@ -23,7 +23,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { parseCssCustomProperties } from "../../src/tokens/css";
 import { inferValue, normalizeTokenTree } from "../../src/tokens/infer";
 import { loadTokens } from "../../src/tokens/load";
-import { windieParsers } from "../../src/tokens/parsers";
+import { razorwindParsers } from "../../src/tokens/parsers";
 import { resolveTokensSource } from "../../src/tokens/resolve-path";
 
 const tempDirs: string[] = [];
@@ -34,7 +34,7 @@ afterEach(async () => {
 });
 
 async function makeTempDir(): Promise<string> {
-  const dir = await mkdtemp(join(tmpdir(), "windie-tokens-"));
+  const dir = await mkdtemp(join(tmpdir(), "razorwind-tokens-"));
   tempDirs.push(dir);
   return dir;
 }
@@ -120,19 +120,19 @@ describe("parseCssCustomProperties", () => {
   });
 });
 
-describe("windieParsers", () => {
+describe("razorwindParsers", () => {
   it("registers json, yaml, toml, and css parsers", () => {
-    expect(windieParsers.map(parser => parser.name)).toEqual([
-      "windie-json",
-      "windie-yaml",
-      "windie-toml",
-      "windie-css"
+    expect(razorwindParsers.map(parser => parser.name)).toEqual([
+      "razorwind-json",
+      "razorwind-yaml",
+      "razorwind-toml",
+      "razorwind-css"
     ]);
   });
 
-  it("parses yaml through the windie-yaml parser", async () => {
-    const yamlParser = windieParsers.find(
-      parser => parser.name === "windie-yaml"
+  it("parses yaml through the razorwind-yaml parser", async () => {
+    const yamlParser = razorwindParsers.find(
+      parser => parser.name === "razorwind-yaml"
     );
     expect(yamlParser).toBeDefined();
 

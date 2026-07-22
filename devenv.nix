@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  name = "storm-software/windie";
+  name = "storm-software/razorwind";
 
   dotenv.enable = true;
   dotenv.filename = [

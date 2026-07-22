@@ -1,5 +1,5 @@
 project:
-  name: windie
+  name: razorwind
   tz: America/New_York
   adrFolder: ./docs/adr
   packages: []

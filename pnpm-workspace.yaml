@@ -83,9 +83,9 @@ catalog:
 overrides:
   "@emnapi/core": 1.11.2
   "@emnapi/runtime": 1.11.2
-  "@windie/tools-config": workspace:*
-  "@windie/tools-scripts": workspace:*
-  "@windie/tools-cspell": workspace:*
+  "@razorwind/tools-config": workspace:*
+  "@razorwind/tools-scripts": workspace:*
+  "@razorwind/tools-cspell": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"

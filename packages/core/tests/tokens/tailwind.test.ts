@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------
 
-                       🗲 Storm Software - Windie
+                       🗲 Storm Software - Razorwind
 
- This code was released as part of the Windie project. Windie
+ This code was released as part of the Razorwind project. Razorwind
  is maintained by Storm Software under the Apache-2.0 license, and is
  free for commercial and private use. For more information, please visit
- our licensing page at https://stormsoftware.com/licenses/projects/windie.
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
  Website:                  https://stormsoftware.com
- Repository:               https://github.com/storm-software/windie
- Documentation:            https://docs.stormsoftware.com/projects/windie
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
@@ -30,12 +30,12 @@ const require = createRequire(import.meta.url);
 const repoTailwindRoot = dirname(require.resolve("tailwindcss/package.json"));
 
 async function makeTailwindFixture(css: string): Promise<string> {
-  const dir = await mkdtemp(join(tmpdir(), "windie-tw-"));
+  const dir = await mkdtemp(join(tmpdir(), "razorwind-tw-"));
 
   await writeFile(
     join(dir, "package.json"),
     JSON.stringify({
-      name: "windie-tw-fixture",
+      name: "razorwind-tw-fixture",
       private: true,
       dependencies: { tailwindcss: "^4.3.3" }
     }),
@@ -63,7 +63,7 @@ describe("detectTailwindWorkspace", () => {
   });
 
   it("reports unconfigured when no tailwindcss dependency", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "windie-no-tw-"));
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-no-tw-"));
     await writeFile(
       join(dir, "package.json"),
       JSON.stringify({ name: "no-tw", private: true }),
@@ -96,7 +96,7 @@ describe("extractTailwindTokens", () => {
   });
 
   it("returns null when Tailwind is not configured", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "windie-no-tw-"));
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-no-tw-"));
     await writeFile(
       join(dir, "package.json"),
       JSON.stringify({ name: "no-tw", private: true }),

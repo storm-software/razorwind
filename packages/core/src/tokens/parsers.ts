@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------
 
-                       🗲 Storm Software - Windie
+                    🗲 Storm Software - Razorwind
 
- This code was released as part of the Windie project. Windie
+ This code was released as part of the Razorwind project. Razorwind
  is maintained by Storm Software under the Apache-2.0 license, and is
  free for commercial and private use. For more information, please visit
- our licensing page at https://stormsoftware.com/licenses/projects/windie.
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
  Website:                  https://stormsoftware.com
- Repository:               https://github.com/storm-software/windie
- Documentation:            https://docs.stormsoftware.com/projects/windie
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
@@ -31,7 +31,7 @@ import { parseCssCustomProperties } from "./css";
 import { normalizeTokenTree } from "./infer";
 
 /** Preprocessor name applied after all sources merge. */
-export const WINDIE_INFER_PREPROCESSOR = "windie-infer";
+export const WINDIE_INFER_PREPROCESSOR = "razorwind-infer";
 
 function asDesignTokens(data: unknown): DesignTokens {
   if (data === null || data === undefined) {
@@ -73,28 +73,28 @@ function parseTomlContents(contents: string): DesignTokens {
 }
 
 /**
- * Windie Style Dictionary parsers — JSON/JSON5/JSONC, YAML, TOML, CSS.
+ * Razorwind Style Dictionary parsers — JSON/JSON5/JSONC, YAML, TOML, CSS.
  *
  * @see https://styledictionary.com/reference/hooks/parsers/
  */
-export const windieParsers: Parser[] = [
+export const razorwindParsers: Parser[] = [
   {
-    name: "windie-json",
+    name: "razorwind-json",
     pattern: /\.json[c5]?$/i,
     parser: ({ contents }) => parseJsonContents(contents)
   },
   {
-    name: "windie-yaml",
+    name: "razorwind-yaml",
     pattern: /\.ya?ml$/i,
     parser: ({ contents }) => parseYamlContents(contents)
   },
   {
-    name: "windie-toml",
+    name: "razorwind-toml",
     pattern: /\.toml$/i,
     parser: ({ contents }) => parseTomlContents(contents)
   },
   {
-    name: "windie-css",
+    name: "razorwind-css",
     pattern: /\.css$/i,
     parser: ({ contents }) =>
       normalizeTokenTree(parseCssCustomProperties(contents)) as DesignTokens
@@ -102,9 +102,9 @@ export const windieParsers: Parser[] = [
 ];
 
 /** Inline `hooks.parsers` map for Style Dictionary config. */
-export function getWindieParserHooks(): NonNullable<Hooks["parsers"]> {
+export function getRazorwindParserHooks(): NonNullable<Hooks["parsers"]> {
   return Object.fromEntries(
-    windieParsers.map(({ name, pattern, parser }) => [
+    razorwindParsers.map(({ name, pattern, parser }) => [
       name,
       { pattern, parser }
     ])
@@ -115,41 +115,41 @@ export function getWindieParserHooks(): NonNullable<Hooks["parsers"]> {
  * Infer DTCG `$type` / normalize legacy keys after sources merge.
  * Covers JS/TS modules that bypass custom file parsers.
  */
-export function windieInferPreprocessor(
+export function razorwindInferPreprocessor(
   dictionary: PreprocessedTokens
 ): PreprocessedTokens {
   return normalizeTokenTree(dictionary) as PreprocessedTokens;
 }
 
 /** Inline `hooks.preprocessors` map for Style Dictionary config. */
-export function getWindiePreprocessorHooks(): NonNullable<
+export function getRazorwindPreprocessorHooks(): NonNullable<
   Hooks["preprocessors"]
 > {
   return {
-    [WINDIE_INFER_PREPROCESSOR]: windieInferPreprocessor
+    [WINDIE_INFER_PREPROCESSOR]: razorwindInferPreprocessor
   };
 }
 
 /**
- * Register Windie parsers + infer preprocessor on Style Dictionary.
+ * Register Razorwind parsers + infer preprocessor on Style Dictionary.
  *
  * @see https://styledictionary.com/reference/hooks/parsers/
  */
-export function registerWindieParsers(
+export function registerRazorwindParsers(
   target: {
     registerParser: (parser: Parser) => unknown;
     registerPreprocessor: (preprocessor: {
       name: string;
-      preprocessor: typeof windieInferPreprocessor;
+      preprocessor: typeof razorwindInferPreprocessor;
     }) => unknown;
   } = StyleDictionary
 ): void {
-  for (const parser of windieParsers) {
+  for (const parser of razorwindParsers) {
     target.registerParser(parser);
   }
   target.registerPreprocessor({
     name: WINDIE_INFER_PREPROCESSOR,
-    preprocessor: windieInferPreprocessor
+    preprocessor: razorwindInferPreprocessor
   });
 }
 

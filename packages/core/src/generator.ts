@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------
 
-                       🗲 Storm Software - Windie
+                    🗲 Storm Software - Razorwind
 
- This code was released as part of the Windie project. Windie
+ This code was released as part of the Razorwind project. Razorwind
  is maintained by Storm Software under the Apache-2.0 license, and is
  free for commercial and private use. For more information, please visit
- our licensing page at https://stormsoftware.com/licenses/projects/windie.
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
  Website:                  https://stormsoftware.com
- Repository:               https://github.com/storm-software/windie
- Documentation:            https://docs.stormsoftware.com/projects/windie
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
@@ -28,7 +28,7 @@ import {
   detectTailwindWorkspace,
   extractTailwindTokens,
   loadTokens,
-  registerWindieParsers
+  registerRazorwindParsers
 } from "./tokens";
 import type { Config, InputOptions } from "./types/config";
 
@@ -40,20 +40,20 @@ function isEmptyTokens(tokens: unknown): boolean {
 }
 
 /**
- * A Power Plant generator for Windie.
+ * A Power Plant generator for Razorwind.
  *
- * @param spec - The Windie schema to generate from.
- * @param options - Windie config (plugins, outDir, lint, …).
+ * @param spec - The Razorwind schema to generate from.
+ * @param options - Razorwind config (plugins, outDir, lint, …).
  * @returns Generated documents keyed by output filename.
  */
 export default defineGenerator<Schema, Config, void>({
   meta: {
-    name: "windie",
-    title: "Windie",
+    name: "razorwind",
+    title: "Razorwind",
     description:
-      "A generator that uses Windie to generate design system code from design tokens and components.",
+      "A generator that uses Razorwind to generate design system code from design tokens and components.",
     version: "1.0",
-    tags: ["windie", "dtcg"]
+    tags: ["razorwind", "dtcg"]
   },
   schema,
   input: async (options: InputOptions): Promise<Schema> => {
@@ -69,7 +69,7 @@ export default defineGenerator<Schema, Config, void>({
         resolvedPaths: { cwd: registryRoot }
       });
 
-    registerWindieParsers(StyleDictionary);
+    registerRazorwindParsers(StyleDictionary);
 
     const tailwindCssCandidates = [
       registry.resolvedPaths?.tailwindCss,

@@ -1,11 +1,11 @@
 {
-  "name": "@windie/monorepo",
+  "name": "@razorwind/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "💨 Windie is a unified set of tools that make creating design systems a breeze.",
+  "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
   "repository": {
     "type": "github",
-    "url": "https://github.com/storm-software/windie.git"
+    "url": "https://github.com/storm-software/razorwind.git"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -106,7 +106,7 @@
     "defaultBranch": "main",
     "workspaceProtocol": "require"
   },
-  "namespace": "@windie",
+  "namespace": "@razorwind",
   "nx": {
     "includedScripts": [
       "lint-knip",

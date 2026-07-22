@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------
 
-                       🗲 Storm Software - Windie
+                    🗲 Storm Software - Razorwind
 
- This code was released as part of the Windie project. Windie
+ This code was released as part of the Razorwind project. Razorwind
  is maintained by Storm Software under the Apache-2.0 license, and is
  free for commercial and private use. For more information, please visit
- our licensing page at https://stormsoftware.com/licenses/projects/windie.
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
  Website:                  https://stormsoftware.com
- Repository:               https://github.com/storm-software/windie
- Documentation:            https://docs.stormsoftware.com/projects/windie
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
@@ -26,9 +26,9 @@ import StyleDictionary from "style-dictionary";
 import type { Config as StyleDictionaryConfig } from "style-dictionary/types";
 import { WINDIE_PARSERS } from "./constants";
 import {
-  getWindieParserHooks,
-  getWindiePreprocessorHooks,
-  registerWindieParsers,
+  getRazorwindParserHooks,
+  getRazorwindPreprocessorHooks,
+  registerRazorwindParsers,
   WINDIE_INFER_PREPROCESSOR
 } from "./parsers";
 import type { ResolveTokensPathOptions } from "./resolve-path";
@@ -51,7 +51,7 @@ function ensureParsersRegistered(): void {
   if (parsersRegistered) {
     return;
   }
-  registerWindieParsers(StyleDictionary);
+  registerRazorwindParsers(StyleDictionary);
   parsersRegistered = true;
 }
 
@@ -93,11 +93,11 @@ async function createDictionary(
     hooks: {
       ...config.hooks,
       parsers: {
-        ...getWindieParserHooks(),
+        ...getRazorwindParserHooks(),
         ...config.hooks?.parsers
       },
       preprocessors: {
-        ...getWindiePreprocessorHooks(),
+        ...getRazorwindPreprocessorHooks(),
         ...config.hooks?.preprocessors
       }
     },

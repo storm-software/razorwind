@@ -358,6 +358,9 @@ catalogs:
     style-dictionary:
       specifier: ^5.5.0
       version: 5.5.0
+    tailwindcss:
+      specifier: ^4.3.3
+      version: 4.3.3
     verdaccio:
       specifier: 6.0.5
       version: 6.0.5
@@ -380,9 +383,9 @@ catalogs:
 overrides:
   '@emnapi/core': 1.11.2
   '@emnapi/runtime': 1.11.2
-  '@windie/tools-config': workspace:*
-  '@windie/tools-scripts': workspace:*
-  '@windie/tools-cspell': workspace:*
+  '@razorwind/tools-config': workspace:*
+  '@razorwind/tools-scripts': workspace:*
+  '@razorwind/tools-cspell': workspace:*
   cookie: '>=0.7.0'
   debug: '>=4.4.0'
   follow-redirects: '>=1.15.9'
@@ -563,6 +566,9 @@ importers:
       json5:
         specifier: 'catalog:'
         version: 2.2.3
+      lightningcss:
+        specifier: ^1.33.0
+        version: 1.33.0
       shadcn:
         specifier: 'catalog:'
         version: 4.13.1(babel-plugin-macros@3.1.0)(typescript@6.0.3)
@@ -573,7 +579,7 @@ importers:
         specifier: 'catalog:'
         version: 5.5.0(tslib@2.8.1)
       tailwindcss:
-        specifier: ^4.3.3
+        specifier: 'catalog:'
         version: 4.3.3
       yaml:
         specifier: 'catalog:'
