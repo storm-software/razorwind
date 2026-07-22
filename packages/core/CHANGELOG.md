@@ -1,3 +1,13 @@
+![Razorwind's logo banner](https://public.storm-cdn.com/razorwind/banner-1280x320-dark.gif)
+
+# Changelog for Razorwind - Core
+
+## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/core%400.0.5) (07/22/2026)
+
+### Features
+
+- **monorepo:** Rename repository to Razorwind ([1206222](https://github.com/storm-software/razorwind/commit/1206222))
+
 ![Windie's logo banner](https://public.storm-cdn.com/windie/banner-1280x320-dark.gif)
 
 # Changelog for Windie - Core
