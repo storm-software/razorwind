@@ -24,8 +24,20 @@ import StyleDictionary from "style-dictionary";
 import { createConfig, getConfig } from "./registry/config";
 import type { Schema } from "./schema";
 import { schema } from "./schema";
-import { loadTokens, registerWindieParsers } from "./tokens";
+import {
+  detectTailwindWorkspace,
+  extractTailwindTokens,
+  loadTokens,
+  registerWindieParsers
+} from "./tokens";
 import type { Config, InputOptions } from "./types/config";
+
+function isEmptyTokens(tokens: unknown): boolean {
+  if (!tokens || typeof tokens !== "object") {
+    return true;
+  }
+  return Object.keys(tokens).length === 0;
+}
 
 /**
  * A Power Plant generator for Windie.
@@ -59,16 +71,41 @@ export default defineGenerator<Schema, Config, void>({
 
     registerWindieParsers(StyleDictionary);
 
-    const tokens = await loadTokens({
-      cwd,
-      tokensPath,
-      fallbackPaths: [
-        registry.resolvedPaths?.tailwindCss,
-        registry.tailwind?.css
-      ]
-    });
+    const tailwindCssCandidates = [
+      registry.resolvedPaths?.tailwindCss,
+      registry.tailwind?.css
+    ];
 
-    return { registry, tokens };
+    let tokens;
+
+    if (isSetString(tokensPath)) {
+      tokens = await loadTokens({ cwd, tokensPath });
+    } else {
+      const workspace = await detectTailwindWorkspace(
+        cwd,
+        registry.tailwind?.css
+      );
+
+      // Tailwind v4: resolve `@theme` / `@import` via `@tailwindcss/node`.
+      if (workspace.configured && workspace.version === "v4") {
+        tokens = await extractTailwindTokens({
+          cwd,
+          cssPath:
+            registry.resolvedPaths?.tailwindCss ??
+            registry.tailwind?.css ??
+            workspace.cssFile
+        });
+      }
+
+      if (isEmptyTokens(tokens)) {
+        tokens = await loadTokens({
+          cwd,
+          fallbackPaths: tailwindCssCandidates
+        });
+      }
+    }
+
+    return { registry, tokens: tokens ?? {} };
   },
   generator: async (
     _spec,

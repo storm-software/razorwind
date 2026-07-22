@@ -439,6 +439,9 @@ export function normalizeTokenTree(
 /**
  * Nest a flat map of dashed keys into a token tree.
  * `--color-primary-500` / `color-primary-500` → `color.primary.500`.
+ *
+ * Scalar parents that also have children (e.g. `--radius` + `--radius-lg`) are
+ * preserved under `DEFAULT` so neither value is dropped.
  */
 export function nestFlatTokens(
   flat: Record<string, unknown>
@@ -456,18 +459,29 @@ export function nestFlatTokens(
     for (let i = 0; i < segments.length - 1; i++) {
       const segment = segments[i]!;
       const existing = cursor[segment];
-      if (!isPlainObject(existing) || isTokenLeaf(existing)) {
+      if (!isPlainObject(existing)) {
         cursor[segment] = {};
+      } else if (isTokenLeaf(existing)) {
+        // Promote leaf → group, keeping the scalar under DEFAULT.
+        cursor[segment] = { DEFAULT: existing };
       }
       cursor = cursor[segment] as Record<string, unknown>;
     }
 
     const leafKey = segments.at(-1)!;
     const inferred = inferValue(rawValue, segments);
-    cursor[leafKey] = {
+    const leaf = {
       $value: inferred.value,
       ...(inferred.type ? { $type: inferred.type } : {})
     };
+
+    const existing = cursor[leafKey];
+    if (isPlainObject(existing) && !isTokenLeaf(existing)) {
+      // Scalar collides with an existing group — keep both via DEFAULT.
+      existing.DEFAULT = leaf;
+    } else {
+      cursor[leafKey] = leaf;
+    }
   }
 
   return normalizeTokenTree(root) as Record<string, unknown>;

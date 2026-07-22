@@ -7,10 +7,10 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/windie.
 
-Website:                  https://stormsoftware.com
-Repository:               https://github.com/storm-software/windie
-Documentation:            https://docs.stormsoftware.com/projects/windie
-Contact:                  https://stormsoftware.com/contact
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/windie
+ Documentation:            https://docs.stormsoftware.com/projects/windie
+ Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
 

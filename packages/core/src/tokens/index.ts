@@ -36,20 +36,27 @@ export {
 export {
   loadTokens,
   loadTokensOrThrow,
-  type LoadedTokens,
-  type LoadTokensOptions
+  type LoadTokensOptions,
+  type LoadedTokens
 } from "./load";
 export {
+  WINDIE_INFER_PREPROCESSOR,
   getWindieParserHooks,
   getWindiePreprocessorHooks,
   registerWindieParsers,
-  WINDIE_INFER_PREPROCESSOR,
   windieInferPreprocessor,
   windieParsers
 } from "./parsers";
 export {
   resolveTokensSource,
   themeKeyFromPath,
-  type ResolvedTokensSource,
-  type ResolveTokensPathOptions
+  type ResolveTokensPathOptions,
+  type ResolvedTokensSource
 } from "./resolve-path";
+export {
+  detectTailwindWorkspace,
+  extractTailwindTokens,
+  resolveTailwindCssEntry,
+  type ExtractTailwindTokensOptions,
+  type TailwindWorkspaceInfo
+} from "./tailwind";

@@ -52,6 +52,7 @@ catalog:
   "@swc-node/register": ^1.11.1
   "@swc/core": ^1.15.41
   "@swc/helpers": ^0.5.23
+  "@tailwindcss/node": ^4.3.3
   "@taplo/cli": ^0.7.0
   "@types/node": ^25.9.5
   "@typescript/native-preview": 7.0.0-dev.20251218.3
@@ -70,6 +71,7 @@ catalog:
   sherif: ^1.0.0
   smol-toml: ^1.7.0
   style-dictionary: ^5.5.0
+  tailwindcss: ^4.3.3
   tsdown: ^0.22.2
   typescript: ^6.0.3
   verdaccio: 6.0.5

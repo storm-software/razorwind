@@ -7,10 +7,10 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/windie.
 
-Website:                  https://stormsoftware.com
-Repository:               https://github.com/storm-software/windie
-Documentation:            https://docs.stormsoftware.com/projects/windie
-Contact:                  https://stormsoftware.com/contact
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/windie
+ Documentation:            https://docs.stormsoftware.com/projects/windie
+ Contact:                  https://stormsoftware.com/contact
 
  SPDX-License-Identifier:  Apache-2.0
 
@@ -67,6 +67,7 @@ function toAbsolute(cwd: string, target: string): string {
 
 function extensionOf(filePath: string): string {
   const match = /\.([^.]+)$/.exec(filePath);
+
   return match?.[1]?.toLowerCase() ?? "";
 }
 
@@ -78,9 +79,9 @@ function isTokenFile(filePath: string): boolean {
 
 function isStyleDictionaryConfig(filePath: string): boolean {
   const base = filePath.split(/[/\\]/).pop()?.toLowerCase() ?? "";
+
   return (
-    base.startsWith("style-dictionary.config.") ||
-    base.startsWith("sd.config.")
+    base.startsWith("style-dictionary.config.") || base.startsWith("sd.config.")
   );
 }
 
@@ -186,5 +187,6 @@ export function themeKeyFromPath(filePath: string): string | undefined {
   const base = filePath.split(/[/\\]/).pop() ?? "";
   const withoutExt = base.replace(/\.[^.]+$/, "");
   const match = withoutExt.match(THEME_BASENAME_PATTERN);
+
   return match?.[1]?.toLowerCase();
 }
