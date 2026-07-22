@@ -2,6 +2,12 @@
 
 # Changelog for Windie - Core
 
+## [0.0.4](https://github.com/storm-software/windie/releases/tag/core%400.0.4) (07/21/2026)
+
+### Miscellaneous
+
+- **core:** Added logic to extract tokens from Tailwind projects ([cfc78e0](https://github.com/storm-software/windie/commit/cfc78e0))
+
 ## [0.0.3](https://github.com/storm-software/windie/releases/tag/core%400.0.3) (07/21/2026)
 
 ### Miscellaneous
