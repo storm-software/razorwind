@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/core%400.0.6) (07/22/2026)
+
+### Miscellaneous
+
+- **core:** Resolve typescript compilation issues ([075dc57](https://github.com/storm-software/razorwind/commit/075dc57))
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/core%400.0.5) (07/22/2026)
 
 ### Features
