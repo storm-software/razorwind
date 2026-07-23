@@ -129,9 +129,10 @@ export async function getWorkspacePatterns(cwd: string) {
   if (existsSync(packageJsonPath)) {
     try {
       const packageJson = await readJsonFile<PackageJson>(packageJsonPath);
-      const workspaces = Array.isArray(packageJson.workspaces)
-        ? packageJson.workspaces
-        : packageJson.workspaces?.packages;
+      const workspacesField = packageJson.workspaces;
+      const workspaces = Array.isArray(workspacesField)
+        ? workspacesField
+        : workspacesField?.packages;
       if (Array.isArray(workspaces)) {
         // Filter out negation patterns.
         patterns.push(...workspaces.filter((w: string) => !w.startsWith("!")));

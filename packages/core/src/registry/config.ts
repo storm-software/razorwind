@@ -314,10 +314,8 @@ export async function findPackageRoot(cwd: string, resolvedPath: string) {
 function isAliasKey(
   key: string,
   config: Config
-): key is keyof Config["aliases"] {
-  return Object.keys(config.resolvedPaths)
-    .filter(key => key !== "utils")
-    .includes(key);
+): key is Exclude<Extract<keyof Config["aliases"], string>, "utils"> {
+  return key !== "utils" && key in config.resolvedPaths;
 }
 
 export function findCommonRoot(cwd: string, resolvedPath: string) {

@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import { defineGenerator, useExecution } from "@power-plant/core";
+import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
 import { findFilePath } from "@stryke/path/find";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import StyleDictionary from "style-dictionary";
@@ -30,7 +30,7 @@ import {
   loadTokens,
   registerRazorwindParsers
 } from "./tokens";
-import type { Config, InputOptions } from "./types/config";
+import type { Config } from "./types/config";
 
 function isEmptyTokens(tokens: unknown): boolean {
   if (!tokens || typeof tokens !== "object") {
@@ -55,8 +55,8 @@ export default defineGenerator<Schema, Config, void>({
     version: "1.0",
     tags: ["razorwind", "dtcg"]
   },
-  schema,
-  input: async (options: InputOptions): Promise<Schema> => {
+  schema: defineSchema<Schema>({ schema }),
+  input: async (options: Config): Promise<Schema> => {
     const { registryPath, tokensPath } = options;
     const { cwd } = useExecution();
 

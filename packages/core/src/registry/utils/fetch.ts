@@ -81,8 +81,8 @@ export async function fetchRegistry(
           "User-Agent": "shadcn"
         };
 
-        for (const [key, value] of Object.entries(headers)) {
-          requestHeaders[key] = value;
+        for (const key of Object.keys(headers)) {
+          requestHeaders[key] = headers[key]!;
         }
 
         const response = await fetchRequest(url, {

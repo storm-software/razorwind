@@ -102,6 +102,7 @@
     "@stryke/url": "catalog:",
     "@tailwindcss/node": "catalog:",
     "chalk": "catalog:",
+    "cosmiconfig": "^9.0.0",
     "fast-glob": "catalog:",
     "json5": "catalog:",
     "lightningcss": "^1.33.0",
@@ -109,6 +110,7 @@
     "smol-toml": "catalog:",
     "style-dictionary": "catalog:",
     "tailwindcss": "catalog:",
+    "tsconfig-paths": "^4.2.0",
     "yaml": "catalog:",
     "zod": "catalog:"
   },

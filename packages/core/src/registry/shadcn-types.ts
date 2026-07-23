@@ -22,9 +22,10 @@ import type {
   registryConfigSchema,
   workspaceConfigSchema
 } from "shadcn/schema";
+import type { z } from "zod";
+import type { z as z3 } from "zod/v3";
 
-// Read precomputed schema output types directly to avoid deep Zod inference.
-export type ShadcnConfig = (typeof configSchema)["_output"];
-export type ShadcnRawConfig = (typeof rawConfigSchema)["_output"];
-export type ShadcnRegistryConfig = (typeof registryConfigSchema)["_output"];
-export type ShadcnWorkspaceConfig = (typeof workspaceConfigSchema)["_output"];
+export type ShadcnConfig = z3.infer<typeof configSchema>;
+export type ShadcnRawConfig = z3.infer<typeof rawConfigSchema>;
+export type ShadcnRegistryConfig = z.infer<typeof registryConfigSchema>;
+export type ShadcnWorkspaceConfig = z.infer<typeof workspaceConfigSchema>;
