@@ -23,6 +23,7 @@ import type {
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
 import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
+import { defu } from "defu";
 import StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
 import { resolveConfig } from "./lib/resolve-config";
@@ -34,10 +35,9 @@ import type { Config, Options } from "./types/config";
 /**
  * A Power Plant generator for Razorwind.
  *
- * Orchestrates configured {@link Plugin}s: Style Dictionary parsers /
- * preprocessors, then `extract` → `validate` on input, then `generate`.
+ * Orchestrates configured {@link Plugin}s: Style Dictionary parsers / preprocessors, then `extract` → `validate` on input, then `generate`.
  */
-export default defineGenerator<Schema, Options, void>({
+export const generator = defineGenerator<Schema, Options, void>({
   meta: {
     name: "razorwind",
     title: "Razorwind",
@@ -73,7 +73,9 @@ export default defineGenerator<Schema, Options, void>({
 
     let spec: Schema = { tokens: tokens ?? {}, components: {} };
 
-    for (const plugin of context.options.plugins.filter(plugin => plugin.extract)) {
+    for (const plugin of context.options.plugins.filter(
+      plugin => plugin.extract
+    )) {
       spec = await plugin.extract!(spec, context.options);
     }
 
@@ -83,7 +85,9 @@ export default defineGenerator<Schema, Options, void>({
       );
     }
 
-    for (const plugin of context.options.plugins.filter(plugin => plugin.validate)) {
+    for (const plugin of context.options.plugins.filter(
+      plugin => plugin.validate
+    )) {
       await plugin.validate!(spec, context.options);
     }
 
@@ -95,11 +99,12 @@ export default defineGenerator<Schema, Options, void>({
     // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
     const context = useExecution<Schema, Config>();
 
-    const documents: Record<string, GeneratedDocument> = {};
-
-    for (const plugin of context.options.plugins.filter(plugin => plugin.generate)) {
+    let documents: Record<string, GeneratedDocument> = {};
+    for (const plugin of context.options.plugins.filter(
+      plugin => plugin.generate
+    )) {
       const generated = await plugin.generate!(spec, context.options);
-      Object.assign(documents, generated);
+      documents = defu(generated, documents);
     }
 
     return documents;

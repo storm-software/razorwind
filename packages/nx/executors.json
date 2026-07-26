@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "executors": {
+    "generate": {
+      "implementation": "./dist/executors/generate/executor",
+      "schema": "./dist/executors/generate/schema.json",
+      "description": "Run the `generate` Razorwind command on the given project"
+    }
+  }
+}

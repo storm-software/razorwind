@@ -1,0 +1,118 @@
+{
+  "name": "@razorwind/nx",
+  "version": "0.0.1",
+  "description": "A Nx plugin to support Razorwind development in Nx monorepos.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/nx"
+  },
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./docs/*": "./docs/*",
+    "./executors.json": "./executors.json",
+    "./executors/*/schema.json": "./dist/executors/*/schema.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./index": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./plugin": {
+      "import": {
+        "types": "./dist/plugin/index.d.mts",
+        "default": "./dist/plugin/index.mjs"
+      },
+      "require": {
+        "types": "./dist/plugin/index.d.ts",
+        "default": "./dist/plugin/index.js"
+      },
+      "default": {
+        "types": "./dist/plugin/index.d.ts",
+        "default": "./dist/plugin/index.js"
+      }
+    },
+    "./executors/*/untyped": {
+      "import": {
+        "types": "./dist/executors/*/untyped.d.mts",
+        "default": "./dist/executors/*/untyped.mjs"
+      },
+      "require": {
+        "types": "./dist/executors/*/untyped.d.ts",
+        "default": "./dist/executors/*/untyped.js"
+      },
+      "default": {
+        "types": "./dist/executors/*/untyped.d.ts",
+        "default": "./dist/executors/*/untyped.js"
+      }
+    },
+    "./executors/*/executor": {
+      "import": {
+        "types": "./dist/executors/*/executor.d.mts",
+        "default": "./dist/executors/*/executor.mjs"
+      },
+      "require": {
+        "types": "./dist/executors/*/executor.d.ts",
+        "default": "./dist/executors/*/executor.js"
+      },
+      "default": {
+        "types": "./dist/executors/*/executor.d.ts",
+        "default": "./dist/executors/*/executor.js"
+      }
+    },
+    "./executors/*/executor.js": "./dist/executors/*/executor.js",
+    "./executors/*/executor.mjs": "./dist/executors/*/executor.mjs"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "@nx/devkit": "catalog:",
+    "@power-plant/core": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@stryke/hash": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "defu": "catalog:",
+    "jiti": "catalog:",
+    "untyped": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@powerlines/plugin-untyped": "catalog:",
+    "@types/node": "catalog:",
+    "eslint-flat-config-utils": "catalog:",
+    "jsonc-eslint-parser": "catalog:"
+  },
+  "peerDependencies": {
+    "nx": ">=23.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "executors": "./executors.json"
+}

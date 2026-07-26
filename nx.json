@@ -9,7 +9,8 @@
           "packages/docgen",
           "packages/shadcn",
           "packages/storybook",
-          "packages/tailwindcss"
+          "packages/tailwindcss",
+          "packages/nx"
         ],
         "projectsRelationship": "independent"
       }

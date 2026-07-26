@@ -29,6 +29,9 @@
     },
     {
       "path": "./packages/docgen"
+    },
+    {
+      "path": "./packages/nx"
     }
   ],
   "files": []

@@ -1,0 +1,39 @@
+{
+  "id": "#",
+  "title": "Generate Executor",
+  "description": "A type definition for the Powerlines - Generate executor schema",
+  "required": [
+    "configFile",
+    "mode"
+  ],
+  "properties": {
+    "configFile": {
+      "type": "string",
+      "description": "The path to the configuration file",
+      "default": "{projectRoot}/razorwind.config.ts"
+    },
+    "mode": {
+      "type": "string",
+      "description": "The mode to use",
+      "default": "production",
+      "enum": [
+        "development",
+        "production"
+      ]
+    },
+    "registryPath": {
+      "type": "string",
+      "description": "The path to the registry.json file"
+    },
+    "tokensPath": {
+      "type": "string",
+      "description": "The path to the tokens.json file"
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "default": {
+    "configFile": "{projectRoot}/razorwind.config.ts",
+    "mode": "production"
+  }
+}
