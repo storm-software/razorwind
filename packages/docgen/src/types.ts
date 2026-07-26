@@ -19,9 +19,14 @@
 import type { TokenType } from "@power-plant/dtcg-schema";
 
 /**
+ * Options for the Razorwind MDX documentation extract plugin.
+ */
+export interface DocgenExtractPluginOptions {}
+
+/**
  * Options for the Razorwind MDX documentation generator.
  */
-export interface Options {
+export interface DocgenGeneratePluginOptions {
   /**
    * Directory (relative to the execution cwd) where generated docs are written.
    *

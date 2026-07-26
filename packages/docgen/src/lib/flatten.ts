@@ -18,8 +18,8 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
+import type { DocgenGeneratePluginOptions, FlatToken } from "../types";
 import { formatTokenValue, toCssVar } from "./format";
-import type { FlatToken, Options } from "./types";
 
 /** Theme-like basename patterns used to split multi-theme token records. */
 const THEME_BASENAME_PATTERN =
@@ -146,7 +146,10 @@ export function resolveTokenSets(
  */
 export function flattenTokens(
   tokens: Tokens | Record<string, Tokens>,
-  options: Pick<Options, "cssVarPrefix" | "includeTypes"> = {}
+  options: Pick<
+    DocgenGeneratePluginOptions,
+    "cssVarPrefix" | "includeTypes"
+  > = {}
 ): FlatToken[] {
   const cssVarPrefix = options.cssVarPrefix ?? "rw";
   const includeTypes = options.includeTypes

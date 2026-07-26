@@ -16,5 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-export * as extract from "./extract";
-export * as generate from "./generate";
+import { definePlugin } from "@razorwind/core/plugin";
+import type { DocgenExtractPluginOptions } from "./types";
+
+/**
+ * Razorwind plugin that passes through the design-system specification during
+ * extract. Documentation pages are produced by the generate plugin.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from "@razorwind/core";
+ * import docgen from "@razorwind/docgen/extract";
+ *
+ * export default defineConfig({
+ *   plugins: [docgen()]
+ * });
+ * ```
+ */
+export default definePlugin((_options: DocgenExtractPluginOptions = {}) => ({
+  name: "docgen:extract",
+  extract: async spec => spec
+}));

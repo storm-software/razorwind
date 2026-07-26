@@ -43,6 +43,34 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./extract": {
+      "require": {
+        "types": "./dist/extract.d.cts",
+        "default": "./dist/extract.cjs"
+      },
+      "import": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      },
+      "default": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/generate.d.cts",
+        "default": "./dist/generate.cjs"
+      },
+      "import": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      },
+      "default": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",

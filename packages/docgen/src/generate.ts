@@ -17,12 +17,13 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { join } from "node:path";
-import { flattenTokens } from "./flatten";
-import { escapeTableCell, toSlug } from "./format";
-import type { FlatToken, Options } from "./types";
+import { flattenTokens } from "./lib/flatten";
+import { escapeTableCell, toSlug } from "./lib/format";
+import type { DocgenGeneratePluginOptions, FlatToken } from "./types";
 
 function frontmatter(fields: Record<string, string>): string {
   const lines = Object.entries(fields).map(
@@ -426,11 +427,11 @@ function document(
   path: string,
   content: string,
   language?: string
-): GeneratorFunctionResult<Schema, Options>[string] {
-  return createDocument<Schema, Options>(
+): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions>[string] {
+  return createDocument<Schema, DocgenGeneratePluginOptions>(
     path,
     content,
-    { name: "razorwind-docs" },
+    { name: "docgen" },
     language
   );
 }
@@ -443,8 +444,8 @@ function document(
  */
 export function generateDocs(
   spec: Schema,
-  options: Options = {}
-): GeneratorFunctionResult<Schema, Options> {
+  options: DocgenGeneratePluginOptions = {}
+): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions> {
   const outDir = options.outDir ?? "docs/design-system";
   const title = options.title ?? "Design System";
 
@@ -455,7 +456,10 @@ export function generateDocs(
     : extractRegistryItems(spec.components);
   const hasComponents = itemPages.length > 0;
 
-  const documents: GeneratorFunctionResult<Schema, Options> = {
+  const documents: GeneratorFunctionResult<
+    Schema,
+    DocgenGeneratePluginOptions
+  > = {
     [join(outDir, "index.mdx")]: document(
       join(outDir, "index.mdx"),
       renderIndexMdx({
@@ -490,3 +494,23 @@ export function generateDocs(
 
   return documents;
 }
+
+/**
+ * Generate MDX documentation pages from a Razorwind schema.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from "@razorwind/core";
+ * import docgen from "@razorwind/docgen/generate";
+ *
+ * export default defineConfig({
+ *   plugins: [docgen()]
+ * });
+ * ```
+ */
+export default definePlugin((options: DocgenGeneratePluginOptions = {}) => ({
+  name: "docgen:generate",
+  generate: async spec => {
+    return generateDocs(spec, options);
+  }
+}));

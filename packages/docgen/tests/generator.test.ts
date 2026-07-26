@@ -18,10 +18,15 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import { flattenTokens } from "../src/flatten";
-import { escapeTableCell, formatTokenValue, toCssVar, toSlug } from "../src/format";
-import { generateDocs } from "../src/generate";
-import docs from "../src/index";
+import extract from "../src/extract";
+import generate, { generateDocs } from "../src/generate";
+import { flattenTokens } from "../src/lib/flatten";
+import {
+  escapeTableCell,
+  formatTokenValue,
+  toCssVar,
+  toSlug
+} from "../src/lib/format";
 
 const tokens = {
   color: {
@@ -153,18 +158,29 @@ describe("flattenTokens", () => {
   });
 });
 
-describe("docs plugin", () => {
+describe("docgen extract plugin", () => {
   it("is a Razorwind Plugin", () => {
-    expect(docs.name).toBe("razorwind-docs");
-    expect(typeof docs.extract).toBe("function");
-    expect(typeof docs.validate).toBe("function");
-    expect(typeof docs.generate).toBe("function");
+    const plugin = extract();
+    expect(plugin.name).toBe("docgen:extract");
+    expect(typeof plugin.extract).toBe("function");
+  });
+
+  it("passes the schema through", async () => {
+    const plugin = extract();
+    await expect(plugin.extract?.(spec)).resolves.toBe(spec);
+  });
+});
+
+describe("docgen generate plugin", () => {
+  it("is a Razorwind Plugin", () => {
+    const plugin = generate();
+    expect(plugin.name).toBe("docgen:generate");
+    expect(typeof plugin.generate).toBe("function");
   });
 
   it("generates MDX documentation from the schema", async () => {
-    const documents = await docs.generate(spec, {
-      outDir: "docs/design-system"
-    } as never);
+    const plugin = generate({ outDir: "docs/design-system" });
+    const documents = await plugin.generate!(spec);
 
     expect(Object.keys(documents)).toEqual(
       expect.arrayContaining([
@@ -236,10 +252,13 @@ describe("docs plugin", () => {
     );
   });
 
-  it("generateDocs mirrors the plugin generate output", () => {
-    const documents = generateDocs(spec, { outDir: "out" });
-    expect(documents["out/tokens.json"]?.chunks?.[0]?.content).toContain(
-      "color.primary"
+  it("generateDocs mirrors the plugin generate output", async () => {
+    const plugin = generate({ outDir: "out" });
+    const fromPlugin = await plugin.generate!(spec);
+    const fromHelper = generateDocs(spec, { outDir: "out" });
+
+    expect(fromPlugin["out/tokens.json"]?.chunks?.[0]?.content).toEqual(
+      fromHelper["out/tokens.json"]?.chunks?.[0]?.content
     );
   });
 });
