@@ -3,7 +3,14 @@
   "release": {
     "groups": {
       "packages": {
-        "projects": ["packages/*"],
+        "projects": [
+          "packages/core",
+          "packages/design-md",
+          "packages/docgen",
+          "packages/shadcn",
+          "packages/storybook",
+          "packages/tailwindcss"
+        ],
         "projectsRelationship": "independent"
       }
     }
