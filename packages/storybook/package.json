@@ -2,7 +2,7 @@
   "name": "@razorwind/storybook",
   "version": "0.0.4",
   "type": "module",
-  "description": "Power Plant generator that creates Storybook MDX token doc blocks from Razorwind design tokens.",
+  "description": "Razorwind plugin that creates Storybook MDX token doc blocks from Razorwind design tokens.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/razorwind.git",

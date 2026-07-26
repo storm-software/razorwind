@@ -2,7 +2,7 @@
   "name": "@razorwind/tailwindcss",
   "version": "0.0.4",
   "type": "module",
-  "description": "Razorwind Tailwind CSS package that can create Tailwind CSS files from design tokens or read a Tailwind CSS file and return the design tokens.",
+  "description": "Razorwind Tailwind CSS plugin that can create Tailwind CSS files from design tokens or read a Tailwind CSS file and return the design tokens.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/razorwind.git",
@@ -43,6 +43,34 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./extract": {
+      "require": {
+        "types": "./dist/extract.d.cts",
+        "default": "./dist/extract.cjs"
+      },
+      "import": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      },
+      "default": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/generate.d.cts",
+        "default": "./dist/generate.cjs"
+      },
+      "import": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      },
+      "default": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      }
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
@@ -54,6 +82,7 @@
     "@power-plant/dtcg-schema": "catalog:",
     "@razorwind/core": "workspace:*",
     "@stryke/fs": "catalog:",
+    "@stryke/path": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
     "@tailwindcss/node": "catalog:",

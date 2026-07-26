@@ -81,18 +81,20 @@ export interface ShadcnPluginOptions {
  */
 export default definePlugin((options: ShadcnPluginOptions = {}) => ({
   name: "razorwind-shadcn",
-  extract: async (spec, config) => {
+  extract: async spec => {
     if (spec.components && Object.keys(spec.components).length > 0) {
       return spec;
     }
 
     let configFile = options.configFile;
     if (!configFile) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
       const { cwd } = useExecution();
       configFile = joinPaths(cwd, "registry.json");
     }
 
     const components = await extractComponentsFromRegistry(configFile);
+
     return { ...spec, components };
   }
 }));

@@ -16,15 +16,21 @@
 
  ------------------------------------------------------------------- */
 
+import { useExecution } from "@power-plant/core";
 import type { Tokens } from "@power-plant/dtcg-schema";
+import { definePlugin } from "@razorwind/core/plugin";
 import { nestFlatTokens } from "@razorwind/core/tokens";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
+import { appendPath } from "@stryke/path/append";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import fg from "fast-glob";
 import { dirname, isAbsolute, resolve } from "node:path";
-import type { TailwindPluginOptions } from "./types";
+import type { TailwindExtractPluginOptions } from "./types";
 import { getPackageInfo } from "./workspace";
+
+export type { TailwindExtractPluginOptions } from "./types";
+export { getPackageInfo } from "./workspace";
 
 /** Loosely-typed surface of `@tailwindcss/node` unstable extract API. */
 interface TailwindNodeModule {
@@ -195,7 +201,7 @@ export function resolveTailwindCssEntry(
  * namespaces merge the same way the Tailwind engine does.
  */
 export async function extractTailwindTokens(
-  options: TailwindPluginOptions & { cwd: string }
+  options: TailwindExtractPluginOptions & { cwd: string }
 ): Promise<Tokens | undefined> {
   const { cwd, cssPath, omitDefaults = false } = options;
 
@@ -235,3 +241,47 @@ export async function extractTailwindTokens(
 
   return nestFlatTokens(flat) as Tokens;
 }
+
+/**
+ * Razorwind plugin: extract design tokens from Tailwind v4 `@theme` CSS.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from "@razorwind/core";
+ * import tailwindcss from "@razorwind/tailwindcss/extract";
+ *
+ * export default defineConfig({
+ *   plugins: [tailwindcss()]
+ * });
+ * ```
+ */
+export default definePlugin((options: TailwindExtractPluginOptions = {}) => ({
+  name: "tailwindcss:extract",
+  extract: async spec => {
+    if (spec.tokens && Object.keys(spec.tokens).length > 0) {
+      return spec;
+    }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+    const { cwd } = useExecution();
+
+    const workspace = await detectTailwindWorkspace(cwd, options.cssPath);
+    if (!workspace.configured || workspace.version !== "v4") {
+      return spec;
+    }
+
+    const tokens = await extractTailwindTokens({
+      cwd,
+      cssPath: options.cssPath
+        ? appendPath(options.cssPath, cwd)
+        : workspace.cssFile,
+      omitDefaults: options.omitDefaults
+    });
+
+    if (!tokens || Object.keys(tokens).length === 0) {
+      return spec;
+    }
+
+    return { ...spec, tokens };
+  }
+}));
