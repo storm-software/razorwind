@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.5) (07/26/2026)
+
+### Features
+
+- **shadcn:** Added `generate` plugin to create `registry.json` output ([e127e31](https://github.com/storm-software/razorwind/commit/e127e31))
+- **docgen:** Added separate `extract` and `generate` plugins ([fc9a97e](https://github.com/storm-software/razorwind/commit/fc9a97e))
+- **design-md:** Added separate `extract` and `generate` plugins ([fa98009](https://github.com/storm-software/razorwind/commit/fa98009))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.9**
+
 ## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.4) (07/26/2026)
 
 ### Miscellaneous

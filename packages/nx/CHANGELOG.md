@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.3](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.3) (07/26/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.9**
+
 ## [0.0.2](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.2) (07/26/2026)
 
 ### Features

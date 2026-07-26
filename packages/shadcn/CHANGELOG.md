@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.5) (07/26/2026)
+
+### Features
+
+- **shadcn:** Added `generate` plugin to create `registry.json` output ([e127e31](https://github.com/storm-software/razorwind/commit/e127e31))
+- **tailwindcss:** Added separate `extract` and `generate` plugins ([5a7ebb3](https://github.com/storm-software/razorwind/commit/5a7ebb3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.9**
+
 ## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.4) (07/26/2026)
 
 ### Miscellaneous
