@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/core%400.0.8) (07/26/2026)
+
+### Features
+
+- **nx:** Initial check-in of the Nx plugin package ([3ddb80e](https://github.com/storm-software/razorwind/commit/3ddb80e))
+
 ## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/core%400.0.7) (07/26/2026)
 
 ### Features
