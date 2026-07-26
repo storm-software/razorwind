@@ -16,29 +16,62 @@
 
  ------------------------------------------------------------------- */
 
+import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import shadcn, {
+import extract, {
   registryItemToComponent,
   registryItemsToComponents,
   toDependencyRecord
-} from "../src/index";
+} from "../src/extract";
 import { createRegistryConfig } from "../src/registry/config";
+import generate, {
+  componentToRegistryItem,
+  fromDependencyRecord,
+  generateRegistryJson,
+  renderRegistryJson
+} from "../src/generate";
 
-describe("shadcn plugin", () => {
-  it("exposes extract / validate / generate hooks", () => {
-    expect(shadcn.name).toBe("razorwind-shadcn");
-    expect(typeof shadcn.extract).toBe("function");
-    expect(typeof shadcn.validate).toBe("function");
-    expect(typeof shadcn.generate).toBe("function");
+const components = {
+  button: {
+    name: "button",
+    title: "Button",
+    type: "ui" as const,
+    category: "primitives",
+    tags: ["primitives"],
+    description: "A button.",
+    dependencies: { "@radix-ui/react-slot": "*" },
+    registryDependencies: { utils: "*" },
+    files: [
+      { path: "ui/button.tsx", type: "ui" as const, content: "export {}" }
+    ]
+  },
+  card: {
+    name: "card",
+    title: "Card",
+    type: "component" as const
+  }
+} satisfies Schema["components"];
+
+const spec = {
+  tokens: {},
+  components
+} as Schema;
+
+describe("shadcn extract plugin", () => {
+  it("is a Razorwind Plugin", () => {
+    const plugin = extract();
+    expect(plugin.name).toBe("shadcn:extract");
+    expect(typeof plugin.extract).toBe("function");
   });
 
   it("fills schema.components from registry when missing", async () => {
-    const spec = await shadcn.extract(
+    const plugin = extract({ configFile: process.cwd() });
+    const result = await plugin.extract!(
       { tokens: {}, components: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
-        plugins: [shadcn],
+        plugins: [plugin],
         envPaths: {
           data: "",
           config: "",
@@ -50,12 +83,13 @@ describe("shadcn plugin", () => {
       } as never
     );
 
-    expect(spec.components).toBeDefined();
-    expect(typeof spec.components).toBe("object");
+    expect(result.components).toBeDefined();
+    expect(typeof result.components).toBe("object");
   });
 
   it("leaves existing components untouched", async () => {
-    const components = {
+    const plugin = extract();
+    const existing = {
       button: {
         name: "button",
         title: "Button",
@@ -63,12 +97,12 @@ describe("shadcn plugin", () => {
       }
     };
 
-    const spec = await shadcn.extract(
-      { tokens: {}, components },
+    const result = await plugin.extract!(
+      { tokens: {}, components: existing },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
-        plugins: [shadcn],
+        plugins: [plugin],
         envPaths: {
           data: "",
           config: "",
@@ -80,7 +114,7 @@ describe("shadcn plugin", () => {
       } as never
     );
 
-    expect(spec.components).toBe(components);
+    expect(result.components).toBe(existing);
   });
 
   it("createRegistryConfig returns defaults", () => {
@@ -104,7 +138,9 @@ describe("shadcn plugin", () => {
       dependencies: ["@radix-ui/react-slot"],
       registryDependencies: ["utils"],
       categories: ["primitives"],
-      files: [{ path: "ui/button.tsx", type: "registry:ui", content: "export {}" }]
+      files: [
+        { path: "ui/button.tsx", type: "registry:ui", content: "export {}" }
+      ]
     });
 
     expect(component).toEqual({
@@ -116,9 +152,7 @@ describe("shadcn plugin", () => {
       description: "A button.",
       dependencies: { "@radix-ui/react-slot": "*" },
       registryDependencies: { utils: "*" },
-      files: [
-        { path: "ui/button.tsx", type: "ui", content: "export {}" }
-      ]
+      files: [{ path: "ui/button.tsx", type: "ui", content: "export {}" }]
     });
 
     expect(
@@ -138,5 +172,80 @@ describe("shadcn plugin", () => {
         type: "component"
       }
     });
+  });
+});
+
+describe("shadcn generate plugin", () => {
+  it("is a Razorwind Plugin", () => {
+    const plugin = generate({ configFile: "out/registry.json" });
+    expect(plugin.name).toBe("shadcn:generate");
+    expect(typeof plugin.generate).toBe("function");
+  });
+
+  it("maps components into registry items", () => {
+    expect(fromDependencyRecord({ button: "*", lodash: "4.17.21" })).toEqual([
+      "button",
+      "lodash@4.17.21"
+    ]);
+
+    expect(componentToRegistryItem(components.button)).toEqual({
+      name: "button",
+      type: "registry:ui",
+      title: "Button",
+      description: "A button.",
+      categories: ["primitives"],
+      dependencies: ["@radix-ui/react-slot"],
+      registryDependencies: ["utils"],
+      files: [
+        { path: "ui/button.tsx", type: "registry:ui", content: "export {}" }
+      ]
+    });
+  });
+
+  it("renders a registry.json document", () => {
+    const document = renderRegistryJson(components, {
+      name: "acme",
+      homepage: "https://acme.com"
+    });
+
+    expect(document.$schema).toBe(
+      "https://ui.shadcn.com/schema/registry.json"
+    );
+    expect(document.name).toBe("acme");
+    expect(document.homepage).toBe("https://acme.com");
+    expect(document.items.map(item => item.name)).toEqual(["button", "card"]);
+  });
+
+  it("generates registry.json from schema components", async () => {
+    const plugin = generate({
+      configFile: "out/registry.json",
+      name: "acme"
+    });
+    const documents = await plugin.generate!(spec, {} as never);
+
+    expect(Object.keys(documents)).toEqual(["out/registry.json"]);
+    const content = documents["out/registry.json"]?.chunks?.[0]?.content;
+    expect(content).toContain(`"name": "acme"`);
+    expect(content).toContain(`"type": "registry:ui"`);
+    expect(content).toContain(`"name": "button"`);
+  });
+
+  it("generateRegistryJson mirrors the plugin generate output", async () => {
+    const documents = await generateRegistryJson(spec, {
+      configFile: "registry.json",
+      homepage: "https://acme.com"
+    });
+
+    const content = documents["registry.json"]?.chunks?.[0]?.content;
+    expect(content).toContain(`"homepage": "https://acme.com"`);
+    expect(content).toContain(`"name": "card"`);
+  });
+
+  it("returns empty when schema has no components", async () => {
+    const documents = await generateRegistryJson(
+      { tokens: {}, components: {} },
+      { configFile: "registry.json" }
+    );
+    expect(documents).toEqual({});
   });
 });

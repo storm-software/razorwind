@@ -43,6 +43,6 @@ export type { FlatToken, StorybookPluginOptions } from "./types";
  * ```
  */
 export default definePlugin((options: StorybookPluginOptions = {}) => ({
-  name: "razorwind-storybook",
+  name: "storybook",
   generate: async spec => generateTokenDocs(spec, options)
 }));

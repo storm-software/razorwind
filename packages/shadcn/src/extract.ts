@@ -16,14 +16,40 @@
 
  ------------------------------------------------------------------- */
 
+import { useExecution } from "@power-plant/core";
+import { definePlugin } from "@razorwind/core/plugin";
 import type {
   Component,
   ComponentFile,
   Components
 } from "@razorwind/core/schema";
+import { joinPaths } from "@stryke/path/join";
 import { existsSync, statSync } from "node:fs";
 import { basename, dirname } from "node:path";
 import { loadRegistry } from "shadcn/registry";
+import type { ShadcnExtractPluginOptions } from "./types";
+
+export {
+  BUILTIN_REGISTRIES,
+  createRegistryConfig,
+  DEFAULT_COMPONENTS,
+  DEFAULT_STYLE,
+  DEFAULT_TAILWIND_BASE_COLOR,
+  DEFAULT_TAILWIND_CONFIG,
+  DEFAULT_TAILWIND_CSS,
+  DEFAULT_UTILS,
+  getRawConfig,
+  getRegistryConfig,
+  resolveConfigPaths,
+  type RegistryConfig
+} from "./registry/config";
+export type {
+  ShadcnConfig,
+  ShadcnRawConfig,
+  ShadcnRegistryConfig,
+  ShadcnWorkspaceConfig
+} from "./registry/shadcn-types";
+export type { ShadcnExtractPluginOptions } from "./types";
 
 const COMPONENT_TYPES = new Set(["block", "component", "ui", "page"]);
 
@@ -42,7 +68,7 @@ const FILE_TYPES = new Set([
   "item"
 ]);
 
-type RegistryItemLike = {
+interface RegistryItemLike {
   name: string;
   title?: string;
   type?: string;
@@ -53,7 +79,7 @@ type RegistryItemLike = {
   registryDependencies?: string[];
   files?: unknown[];
   docs?: string;
-};
+}
 
 /**
  * Convert npm-style dependency strings (`pkg`, `pkg@version`) into a
@@ -81,7 +107,9 @@ export function toDependencyRecord(
 }
 
 function stripRegistryPrefix(value: string): string {
-  return value.startsWith("registry:") ? value.slice("registry:".length) : value;
+  return value.startsWith("registry:")
+    ? value.slice("registry:".length)
+    : value;
 }
 
 function mapComponentType(
@@ -92,6 +120,7 @@ function mapComponentType(
   }
 
   const normalized = stripRegistryPrefix(type);
+
   return COMPONENT_TYPES.has(normalized)
     ? (normalized as Component["type"])
     : undefined;
@@ -105,6 +134,7 @@ function mapFileType(
   }
 
   const normalized = stripRegistryPrefix(type);
+
   return FILE_TYPES.has(normalized)
     ? (normalized as ComponentFile["type"])
     : undefined;
@@ -204,10 +234,7 @@ function resolveLoadOptions(registryPath: string): {
   cwd: string;
   registryFile?: string;
 } {
-  if (
-    existsSync(registryPath) &&
-    statSync(registryPath).isFile()
-  ) {
+  if (existsSync(registryPath) && statSync(registryPath).isFile()) {
     return {
       cwd: dirname(registryPath),
       registryFile: basename(registryPath)
@@ -227,10 +254,42 @@ export async function extractComponentsFromRegistry(
 ): Promise<Components> {
   try {
     const registry = await loadRegistry(resolveLoadOptions(registryPath));
-    return registryItemsToComponents(
-      registry.items as RegistryItemLike[] | undefined
-    );
+
+    return registryItemsToComponents(registry.items);
   } catch {
     return {};
   }
 }
+
+/**
+ * Razorwind plugin: load shadcn `registry.json` items into `schema.components`.
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from "@razorwind/core";
+ * import shadcn from "@razorwind/shadcn/extract";
+ *
+ * export default defineConfig({
+ *   plugins: [shadcn()]
+ * });
+ * ```
+ */
+export default definePlugin((options: ShadcnExtractPluginOptions = {}) => ({
+  name: "shadcn:extract",
+  extract: async spec => {
+    if (spec.components && Object.keys(spec.components).length > 0) {
+      return spec;
+    }
+
+    let configFile = options.configFile;
+    if (!configFile) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+      const { cwd } = useExecution();
+      configFile = joinPaths(cwd, "registry.json");
+    }
+
+    const components = await extractComponentsFromRegistry(configFile);
+
+    return { ...spec, components };
+  }
+}));
