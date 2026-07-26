@@ -20,11 +20,12 @@ import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { parseCssCustomProperties } from "../../src/tokens/css";
-import { inferValue, normalizeTokenTree } from "../../src/tokens/infer";
-import { loadTokens } from "../../src/tokens/load";
-import { razorwindParsers } from "../../src/tokens/parsers";
-import { resolveTokensSource } from "../../src/tokens/resolve-path";
+import type { Config } from "../../src/types/config";
+import { parseCssCustomProperties } from "../../src/lib/tokens/css";
+import { inferValue, normalizeTokenTree } from "../../src/lib/tokens/infer";
+import { loadTokens } from "../../src/lib/tokens/load";
+import { TOKEN_PARSERS } from "../../src/lib/tokens/parsers";
+import { resolveTokensSource } from "../../src/lib/tokens/resolve-path";
 
 const tempDirs: string[] = [];
 
@@ -37,6 +38,22 @@ async function makeTempDir(): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "razorwind-tokens-"));
   tempDirs.push(dir);
   return dir;
+}
+
+function testConfig(cwd: string): Config {
+  return {
+    cwd,
+    registryPath: cwd,
+    plugins: [],
+    envPaths: {
+      data: "",
+      config: "",
+      cache: "",
+      log: "",
+      temp: "",
+      home: ""
+    }
+  };
 }
 
 describe("inferValue", () => {
@@ -122,7 +139,7 @@ describe("parseCssCustomProperties", () => {
 
 describe("razorwindParsers", () => {
   it("registers json, yaml, toml, and css parsers", () => {
-    expect(razorwindParsers.map(parser => parser.name)).toEqual([
+    expect(TOKEN_PARSERS.map(parser => parser.name)).toEqual([
       "razorwind-json",
       "razorwind-yaml",
       "razorwind-toml",
@@ -131,7 +148,7 @@ describe("razorwindParsers", () => {
   });
 
   it("parses yaml through the razorwind-yaml parser", async () => {
-    const yamlParser = razorwindParsers.find(
+    const yamlParser = TOKEN_PARSERS.find(
       parser => parser.name === "razorwind-yaml"
     );
     expect(yamlParser).toBeDefined();
@@ -172,7 +189,10 @@ describe("resolveTokensSource + loadTokens", () => {
     expect(resolved.origin).toBe("tokensPath");
     expect(resolved.source).toEqual([file]);
 
-    const tokens = await loadTokens({ cwd: dir, tokensPath: file });
+    const tokens = await loadTokens(testConfig(dir), {
+      cwd: dir,
+      tokensPath: file
+    });
     expect(tokens).toMatchObject({
       color: {
         accent: {
@@ -196,7 +216,7 @@ describe("resolveTokensSource + loadTokens", () => {
     const resolved = resolveTokensSource({ cwd: dir });
     expect(resolved.origin).toBe("default");
 
-    const tokens = await loadTokens({ cwd: dir });
+    const tokens = await loadTokens(testConfig(dir), { cwd: dir });
     expect(tokens).toMatchObject({
       spacing: {
         md: {
@@ -216,7 +236,7 @@ describe("resolveTokensSource + loadTokens", () => {
       "utf8"
     );
 
-    const tokens = await loadTokens({
+    const tokens = await loadTokens(testConfig(dir), {
       cwd: dir,
       fallbackPaths: [cssPath]
     });
@@ -243,7 +263,10 @@ describe("resolveTokensSource + loadTokens", () => {
       "utf8"
     );
 
-    const tokens = await loadTokens({ cwd: dir, tokensPath: tokensDir });
+    const tokens = await loadTokens(testConfig(dir), {
+      cwd: dir,
+      tokensPath: tokensDir
+    });
     expect(tokens).toMatchObject({
       color: {
         brand: {

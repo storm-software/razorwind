@@ -16,6 +16,13 @@
 
  ------------------------------------------------------------------- */
 
-export { componentSchema, type Component } from "./components";
+export {
+  componentFileSchema,
+  componentSchema,
+  componentsSchema,
+  type Component,
+  type ComponentFile,
+  type Components
+} from "./components";
 export { schema, type Schema } from "./schema";
 export { tokenSchema, tokensSchema, type Token, type Tokens } from "./tokens";

@@ -24,7 +24,10 @@ import type {
   UserConfigFnPromise
 } from "./types/config";
 
+export * from "./lib/resolve-config";
+export { definePlugin } from "./plugin";
 export type * from "./types/config";
+export type * from "./types/plugin";
 
 /**
  * Type helper to make it easier to use `razorwind.config.ts` files. Accepts a direct {@link UserConfig} object, or a function that returns it. The function receives a {@link ConfigParams} object.

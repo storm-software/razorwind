@@ -17,4 +17,8 @@
  ------------------------------------------------------------------- */
 
 export * from "./config";
+export * from "./generator";
+export * from "./plugin";
+export * from "./schema";
 export type * from "./types";
+export * from "./utils";

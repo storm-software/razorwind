@@ -2,12 +2,33 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Razorwind - Monorepo",
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  },
   "references": [
     {
       "path": "./tools/config"
     },
     {
       "path": "./packages/core"
+    },
+    {
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/storybook"
+    },
+    {
+      "path": "./packages/design-md"
+    },
+    {
+      "path": "./packages/tailwindcss"
+    },
+    {
+      "path": "./packages/shadcn"
+    },
+    {
+      "path": "./packages/docgen"
     }
   ],
   "files": []

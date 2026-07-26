@@ -18,10 +18,38 @@
 
 import { z } from "zod";
 
+export const componentFileSchema = z.object({
+  path: z.string(),
+  type: z.enum([
+    "lib",
+    "block",
+    "component",
+    "ui",
+    "hook",
+    "theme",
+    "page",
+    "file",
+    "style",
+    "base",
+    "font",
+    "item"
+  ]),
+  content: z.string().optional(),
+  target: z
+    .string()
+    .optional()
+    .describe(
+      "The target path of the file. This is the path to the file in the project. Supports registry target placeholders @components/, @ui/, @lib/, and @hooks/, which resolve to the corresponding aliases configured in components.json. These placeholders are independent of the project's import prefix."
+    )
+});
+
+export type ComponentFile = z.infer<typeof componentFileSchema>;
+
 export const componentSchema = z.object({
-  category: z.enum(["block", "component", "ui", "page"]),
   name: z.string(),
   title: z.string(),
+  type: z.enum(["block", "component", "ui", "page"]).optional(),
+  category: z.string().optional(),
   description: z.string().optional(),
   tags: z.array(z.string()).optional(),
   related: z.array(z.string()).optional(),
@@ -30,12 +58,13 @@ export const componentSchema = z.object({
   repository: z.string().optional(),
   homepage: z.string().optional(),
   dependencies: z.record(z.string(), z.string()).optional(),
+  devDependencies: z.record(z.string(), z.string()).optional(),
   registryDependencies: z.record(z.string(), z.string()).optional(),
-  files: z.array(z.string()).optional()
+  files: z.array(componentFileSchema).optional()
 });
 
 export type Component = z.infer<typeof componentSchema>;
 
-export const schema = z.record(z.string(), componentSchema);
+export const componentsSchema = z.record(z.string(), componentSchema);
 
-export type Components = z.infer<typeof schema>;
+export type Components = z.infer<typeof componentsSchema>;

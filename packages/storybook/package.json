@@ -1,0 +1,100 @@
+{
+  "name": "@razorwind/storybook",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Power Plant generator that creates Storybook MDX token doc blocks from Razorwind design tokens.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/storybook"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "private": true,
+  "files": ["dist"],
+  "keywords": [
+    "storybook",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "power-plant-generator",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@power-plant/dtcg-schema": "catalog:",
+    "@razorwind/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@storybook/addon-docs": ">=8",
+    "react": ">=18",
+    "storybook": ">=8"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/addon-docs": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "storybook": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

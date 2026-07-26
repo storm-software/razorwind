@@ -4,35 +4,40 @@ packages:
   - docs/*
 catalog:
   "@ls-lint/ls-lint": ^2.3.1
-  "@nx/devkit": ^22.7.7
-  "@nx/eslint-plugin": 22.7.5
-  "@nx/js": 22.7.5
-  "@nx/plugin": 22.7.5
-  "@nx/vite": 22.7.5
-  "@nx/vitest": 22.7.5
-  "@nx/workspace": 22.7.5
-  "@power-plant/core": ^0.0.17
+  "@nx/devkit": 23.1.0
+  "@nx/eslint-plugin": 23.1.0
+  "@nx/js": 23.1.0
+  "@nx/plugin": 23.1.0
+  "@nx/vite": 23.1.0
+  "@nx/vitest": 23.1.0
+  "@nx/workspace": 23.1.0
+  "@power-plant/core": ^0.0.33
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/style-dictionary": ^0.0.3
-  "@power-plant/schema": ^0.0.15
-  "@power-plant/terrazzo": ^0.0.3
-  "@powerlines/nx": ^0.13.183
-  "@powerlines/tsconfig": ^0.4.192
-  "@powerlines/tsdoc": ^0.2.140
-  "@powerlines/plugin-tsdown": ^0.1.545
-  "@storm-software/config": ^1.138.44
-  "@storm-software/config-tools": ^1.190.107
-  "@storm-software/cspell": ^0.46.175
-  "@storm-software/eslint-config-react": ^0.0.63
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.70
-  "@storm-software/git-tools": ^2.131.115
-  "@storm-software/linting-tools": ^1.134.37
-  "@storm-software/markdownlint": ^0.30.263
-  "@storm-software/pnpm-tools": ^0.7.118
-  "@storm-software/prettier": ^0.59.160
-  "@storm-software/tsconfig": ^0.48.174
-  "@storm-software/untyped": ^0.24.249
-  "@storm-software/workspace-tools": ^1.296.87
+  "@power-plant/style-dictionary": ^0.0.18
+  "@power-plant/schema": ^0.0.32
+  "@power-plant/terrazzo": ^0.0.19
+  "@power-plant/utils": ^0.0.19
+  "@powerlines/nx": ^0.13.193
+  "@powerlines/tsconfig": ^0.4.202
+  "@powerlines/tsdoc": ^0.2.150
+  "@powerlines/plugin-tsdown": ^0.1.555
+  "@shell-shock/eslint-plugin": ^0.0.86
+  "@shell-shock/preset-cli": ^0.9.34
+  "@shell-shock/core": ^0.17.22
+  "@shell-shock/nx": ^0.0.95
+  "@storm-software/config": ^1.138.46
+  "@storm-software/config-tools": ^1.190.109
+  "@storm-software/cspell": ^0.46.177
+  "@storm-software/eslint-config-react": ^0.0.65
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.72
+  "@storm-software/git-tools": ^2.131.117
+  "@storm-software/linting-tools": ^1.134.39
+  "@storm-software/markdownlint": ^0.30.265
+  "@storm-software/pnpm-tools": ^0.7.120
+  "@storm-software/prettier": ^0.59.162
+  "@storm-software/tsconfig": ^0.48.176
+  "@storm-software/untyped": ^0.24.251
+  "@storm-software/workspace-tools": ^1.296.89
   "@stryke/convert": ^0.7.27
   "@stryke/date": ^0.0.8
   "@stryke/env": ^0.20.114
@@ -56,23 +61,28 @@ catalog:
   "@taplo/cli": ^0.7.0
   "@types/node": ^25.9.5
   "@typescript/native-preview": 7.0.0-dev.20251218.3
+  c12: ^3.3.4
   chalk: ^5.6.2
   copyfiles: ^2.4.1
+  cosmiconfig: ^9.0.2
+  defu: ^6.1.7
   esbuild: ^0.27.7
-  eslint: ^10.7.0
+  eslint: ^10.8.0
   fast-glob: ^3.3.3
+  jiti: ^0.0.0
   json5: ^2.2.3
   lefthook: ^2.1.10
   lightningcss: ^1.33.0
   log4brains: ^1.1.0
-  nx: 22.7.5
-  prettier: ^3.9.5
+  nx: 23.1.0
+  prettier: ^3.9.6
   rimraf: ^6.1.3
-  shadcn: ^4.13.1
+  shadcn: ^4.14.1
   sherif: ^1.0.0
   smol-toml: ^1.7.0
   style-dictionary: ^5.5.0
   tailwindcss: ^4.3.3
+  tsconfig-paths: ^4.2.0
   tsdown: ^0.22.2
   typescript: ^6.0.3
   verdaccio: 6.0.5
@@ -87,6 +97,13 @@ overrides:
   "@razorwind/tools-config": workspace:*
   "@razorwind/tools-scripts": workspace:*
   "@razorwind/tools-cspell": workspace:*
+  "@razorwind/core": workspace:*
+  "@razorwind/cli": workspace:*
+  "@razorwind/docgen": workspace:*
+  "@razorwind/storybook": workspace:*
+  "@razorwind/design-md": workspace:*
+  "@razorwind/tailwindcss": workspace:*
+  "@razorwind/shadcn": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"
@@ -109,6 +126,7 @@ fetchTimeout: 240000
 dedupeDirectDeps: true
 dedupePeerDependents: true
 allowBuilds:
+  "@parcel/watcher": true
   "@swc/core": true
   core-js: true
   esbuild: true

@@ -11,7 +11,7 @@ mdurl
 maska
 bunshi
 oklch
-
+smol
 dtcg
 
 # Ignore in Regex

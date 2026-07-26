@@ -18,30 +18,11 @@
 
 import type { Tokens } from "@power-plant/dtcg-schema";
 import { tokensSchema } from "@power-plant/dtcg-schema";
-import { configSchema } from "shadcn/schema";
 import z from "zod";
-import type { z as z3 } from "zod/v3";
-import type { ShadcnConfig } from "../registry/shadcn-types";
-
-function fromZod3<T extends z3.ZodTypeAny>(source: T): z.ZodType<z3.infer<T>> {
-  return z.unknown().transform((value, ctx) => {
-    const result = source.safeParse(value);
-
-    if (!result.success) {
-      for (const issue of result.error.issues) {
-        ctx.addIssue({
-          code: "custom",
-          message: issue.message,
-          path: issue.path
-        });
-      }
-
-      return z.NEVER;
-    }
-
-    return result.data;
-  });
-}
+import {
+  componentsSchema,
+  type Components
+} from "./components";
 
 const tokensFieldSchema = z.union([
   tokensSchema,
@@ -49,11 +30,11 @@ const tokensFieldSchema = z.union([
 ]);
 
 export interface Schema {
-  registry: ShadcnConfig;
+  components: Components;
   tokens: Tokens | Record<string, Tokens>;
 }
 
 export const schema: z.ZodType<Schema> = z.object({
-  registry: fromZod3(configSchema),
-  tokens: tokensFieldSchema
+  tokens: tokensFieldSchema,
+  components: componentsSchema
 });

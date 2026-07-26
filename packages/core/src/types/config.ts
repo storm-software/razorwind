@@ -16,7 +16,19 @@
 
  ------------------------------------------------------------------- */
 
-export interface InputOptions {
+import type { Tokens } from "@power-plant/dtcg-schema";
+import type { EnvPaths } from "@stryke/env";
+import type { RequiredKeys } from "@stryke/types/base";
+import type { Plugin } from "./plugin";
+
+export interface Options {
+  /**
+   * The directory or file containing a Razorwind configuration file.
+   *
+   * @defaultValue "razorwind.config.ts"
+   */
+  configFile?: string;
+
   /**
    * The path to the registry.json file.
    *
@@ -32,9 +44,16 @@ export interface InputOptions {
    * @defaultValue "tokens.json" (or "tokens" directory)
    */
   tokensPath?: string;
+
+  /**
+   * The mode to use for the configuration.
+   *
+   * @defaultValue "production"
+   */
+  mode?: "development" | "test" | "production";
 }
 
-export interface Config extends InputOptions {
+export interface UserConfig extends Options {
   name?: string;
   title?: string;
   version?: string;
@@ -44,6 +63,8 @@ export interface Config extends InputOptions {
   repository?: string;
   homepage?: string;
   tags?: string[];
+  tokens?: Tokens | Record<string, Tokens>;
+  plugins?: Plugin[];
 }
 
 export interface UserConfigParams {
@@ -51,7 +72,6 @@ export interface UserConfigParams {
   mode: string;
 }
 
-export type UserConfig = Config;
 export type UserConfigFnObject = (config: UserConfig) => UserConfig;
 export type UserConfigFnPromise = (
   params: UserConfigParams
@@ -66,3 +86,10 @@ export type UserConfigExport =
   | UserConfigFnObject
   | UserConfigFnPromise
   | UserConfigFn;
+
+export type Config = RequiredKeys<UserConfig, "registryPath" | "plugins"> & {
+  cwd: string;
+  envPaths: EnvPaths & {
+    home: string;
+  };
+};

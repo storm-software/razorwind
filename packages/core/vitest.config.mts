@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: "../../../node_modules/.vite/packages/base/core",
+  cacheDir: "../../node_modules/.vite/packages/core",
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(["*.md"])],
   test: {
     name: "core",
@@ -14,7 +14,7 @@ export default defineConfig(() => ({
     include: ["{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],
     coverage: {
-      reportsDirectory: "../../../coverage/packages/base/core",
+      reportsDirectory: "../../coverage/packages/core",
       provider: "v8" as const
     }
   }

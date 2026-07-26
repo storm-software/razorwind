@@ -16,101 +16,92 @@
 
  ------------------------------------------------------------------- */
 
-import type { GeneratorFunctionResult } from "@power-plant/core";
+import type {
+  GeneratedDocument,
+  GeneratorFunctionResult
+} from "@power-plant/core";
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
-import { findFilePath } from "@stryke/path/find";
+import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import StyleDictionary from "style-dictionary";
-import { createConfig, getConfig } from "./registry/config";
-import type { Schema } from "./schema";
+import packageJson from "../package.json" with { type: "json" };
+import { resolveConfig } from "./lib/resolve-config";
+import { loadTokens, registerRazorwindParsers } from "./lib/tokens";
+import type { Schema, Tokens } from "./schema";
 import { schema } from "./schema";
-import {
-  detectTailwindWorkspace,
-  extractTailwindTokens,
-  loadTokens,
-  registerRazorwindParsers
-} from "./tokens";
-import type { Config } from "./types/config";
-
-function isEmptyTokens(tokens: unknown): boolean {
-  if (!tokens || typeof tokens !== "object") {
-    return true;
-  }
-  return Object.keys(tokens).length === 0;
-}
+import type { Config, Options } from "./types/config";
 
 /**
  * A Power Plant generator for Razorwind.
  *
- * @param spec - The Razorwind schema to generate from.
- * @param options - Razorwind config (plugins, outDir, lint, …).
- * @returns Generated documents keyed by output filename.
+ * Orchestrates configured {@link Plugin}s: Style Dictionary parsers /
+ * preprocessors, then `extract` → `validate` on input, then `generate`.
  */
-export default defineGenerator<Schema, Config, void>({
+export default defineGenerator<Schema, Options, void>({
   meta: {
     name: "razorwind",
     title: "Razorwind",
     description:
       "A generator that uses Razorwind to generate design system code from design tokens and components.",
-    version: "1.0",
+    version: packageJson.version,
     tags: ["razorwind", "dtcg"]
   },
   schema: defineSchema<Schema>({ schema }),
-  input: async (options: Config): Promise<Schema> => {
-    const { registryPath, tokensPath } = options;
-    const { cwd } = useExecution();
+  input: async (options: Options): Promise<Schema> => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+    const context = useExecution<Schema, Config>();
+    context.options = await resolveConfig(context.cwd, options);
 
-    const registryRoot = isSetString(registryPath)
-      ? findFilePath(registryPath)
-      : cwd;
-    const registry =
-      (await getConfig(registryRoot)) ??
-      createConfig({
-        resolvedPaths: { cwd: registryRoot }
-      });
-
-    registerRazorwindParsers(StyleDictionary);
-
-    const tailwindCssCandidates = [
-      registry.resolvedPaths?.tailwindCss,
-      registry.tailwind?.css
-    ];
-
-    let tokens;
-
-    if (isSetString(tokensPath)) {
-      tokens = await loadTokens({ cwd, tokensPath });
-    } else {
-      const workspace = await detectTailwindWorkspace(
-        cwd,
-        registry.tailwind?.css
+    if (context.options.plugins.length === 0) {
+      throw new Error(
+        "Razorwind will not generate any code - no plugins configured. Please add at least one plugin to the configuration."
       );
-
-      // Tailwind v4: resolve `@theme` / `@import` via `@tailwindcss/node`.
-      if (workspace.configured && workspace.version === "v4") {
-        tokens = await extractTailwindTokens({
-          cwd,
-          cssPath:
-            registry.resolvedPaths?.tailwindCss ??
-            registry.tailwind?.css ??
-            workspace.cssFile
-        });
-      }
-
-      if (isEmptyTokens(tokens)) {
-        tokens = await loadTokens({
-          cwd,
-          fallbackPaths: tailwindCssCandidates
-        });
-      }
     }
 
-    return { registry, tokens: tokens ?? {} };
+    registerRazorwindParsers(context.options.plugins, StyleDictionary);
+
+    let tokens: Tokens | Record<string, Tokens> | undefined =
+      context.options.tokens;
+    if (!tokens || isEmptyObject(tokens)) {
+      tokens = await loadTokens(context.options, {
+        cwd: context.cwd,
+        tokensPath: isSetString(context.options.tokensPath)
+          ? context.options.tokensPath
+          : undefined
+      });
+    }
+
+    let spec: Schema = { tokens: tokens ?? {}, components: {} };
+
+    for (const plugin of context.options.plugins.filter(plugin => plugin.extract)) {
+      spec = await plugin.extract!(spec, context.options);
+    }
+
+    if (!spec.tokens || isEmptyObject(spec.tokens)) {
+      throw new Error(
+        "Unable to load design tokens for the current workspace. Please ensure that Razorwind is configured correctly and that the tokens are available."
+      );
+    }
+
+    for (const plugin of context.options.plugins.filter(plugin => plugin.validate)) {
+      await plugin.validate!(spec, context.options);
+    }
+
+    return spec;
   },
   generator: async (
-    _spec,
-    _options
-  ): Promise<GeneratorFunctionResult<Schema, Config>> => {
-    return {};
+    spec
+  ): Promise<GeneratorFunctionResult<Schema, Options>> => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+    const context = useExecution<Schema, Config>();
+
+    const documents: Record<string, GeneratedDocument> = {};
+
+    for (const plugin of context.options.plugins.filter(plugin => plugin.generate)) {
+      const generated = await plugin.generate!(spec, context.options);
+      Object.assign(documents, generated);
+    }
+
+    return documents;
   }
 });

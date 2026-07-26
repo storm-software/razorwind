@@ -20,7 +20,12 @@ import tsdown from "@powerlines/plugin-tsdown";
 import { defineConfig } from "powerlines/config";
 
 export default defineConfig({
-  input: ["src/*.ts"],
+  input: [
+    "src/*.ts",
+    "src/schema/index.ts",
+    "src/utils/index.ts",
+    "src/lib/tokens/index.ts"
+  ],
   platform: "node",
   output: {
     format: ["cjs", "esm"]

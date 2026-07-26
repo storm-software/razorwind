@@ -82,7 +82,63 @@
         "default": "./dist/generator.mjs"
       }
     },
-    "./package.json": "./package.json"
+    "./lib/tokens": {
+      "require": {
+        "types": "./dist/lib/tokens/index.d.cts",
+        "default": "./dist/lib/tokens/index.cjs"
+      },
+      "import": {
+        "types": "./dist/lib/tokens/index.d.mts",
+        "default": "./dist/lib/tokens/index.mjs"
+      },
+      "default": {
+        "types": "./dist/lib/tokens/index.d.mts",
+        "default": "./dist/lib/tokens/index.mjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./plugin": {
+      "require": {
+        "types": "./dist/plugin.d.cts",
+        "default": "./dist/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      }
+    },
+    "./schema": {
+      "require": {
+        "types": "./dist/schema/index.d.cts",
+        "default": "./dist/schema/index.cjs"
+      },
+      "import": {
+        "types": "./dist/schema/index.d.mts",
+        "default": "./dist/schema/index.mjs"
+      },
+      "default": {
+        "types": "./dist/schema/index.d.mts",
+        "default": "./dist/schema/index.mjs"
+      }
+    },
+    "./utils": {
+      "require": {
+        "types": "./dist/utils/index.d.cts",
+        "default": "./dist/utils/index.cjs"
+      },
+      "import": {
+        "types": "./dist/utils/index.d.mts",
+        "default": "./dist/utils/index.mjs"
+      },
+      "default": {
+        "types": "./dist/utils/index.d.mts",
+        "default": "./dist/utils/index.mjs"
+      }
+    }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -94,23 +150,21 @@
     "@power-plant/dtcg-schema": "catalog:",
     "@power-plant/schema": "catalog:",
     "@power-plant/style-dictionary": "catalog:",
-    "@power-plant/terrazzo": "catalog:",
+    "@power-plant/utils": "catalog:",
+    "@stryke/env": "catalog:",
     "@stryke/fs": "catalog:",
     "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
     "@stryke/url": "catalog:",
-    "@tailwindcss/node": "catalog:",
-    "chalk": "catalog:",
-    "cosmiconfig": "^9.0.0",
+    "c12": "catalog:",
+    "defu": "catalog:",
     "fast-glob": "catalog:",
+    "jiti": "catalog:",
     "json5": "catalog:",
-    "lightningcss": "^1.33.0",
-    "shadcn": "catalog:",
     "smol-toml": "catalog:",
     "style-dictionary": "catalog:",
-    "tailwindcss": "catalog:",
-    "tsconfig-paths": "^4.2.0",
     "yaml": "catalog:",
     "zod": "catalog:"
   },
