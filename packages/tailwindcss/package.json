@@ -19,7 +19,7 @@
     "url": "https://stormsoftware.com"
   },
   "license": "Apache-2.0",
-  "private": true,
+  "private": false,
   "files": ["dist"],
   "keywords": [
     "tailwindcss",
