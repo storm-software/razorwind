@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/core%400.0.7) (07/26/2026)
+
+### Features
+
+- **monorepo:** Added initial plugin packages: Docgen, Storybook, Shadcn, and DESIGN.md ([7d361e6](https://github.com/storm-software/razorwind/commit/7d361e6))
+
 ## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/core%400.0.6) (07/22/2026)
 
 ### Miscellaneous
