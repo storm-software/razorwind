@@ -18,16 +18,22 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 
-/**
- * Options for the Razorwind DESIGN.md generator.
- */
-export interface Options {
+export interface DesignMdExtractPluginOptions {
+  /**
+   * The path to the DESIGN.md file.
+   *
+   * @default "DESIGN.md"
+   */
+  path?: string;
+}
+
+export interface DesignMdGeneratePluginOptions {
   /**
    * Output file path (relative to the execution cwd).
    *
-   * @defaultValue `"DESIGN.md"`
+   * @default "DESIGN.md"
    */
-  outFile?: string;
+  outputPath?: string;
 
   /**
    * Design system name written to the YAML front matter.
@@ -97,7 +103,7 @@ export type ComponentToken = Record<string, string>;
  * Razorwind schema before rendering.
  */
 export interface DesignMdDocument {
-  name: string;
+  name?: string;
   description?: string;
   version?: string;
   colors: Record<string, string>;

@@ -18,10 +18,10 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import { extractDesignMd } from "../src/extract";
-import { flattenTokens } from "../src/flatten";
-import { toTokenName, toYamlScalar } from "../src/format";
-import { generateDesignMd, renderDesignMd } from "../src/generate";
+import { extractDesignMd } from "../src/lib/extract";
+import { flattenTokens } from "../src/lib/flatten";
+import { toTokenName, toYamlScalar } from "../src/lib/format";
+import { generateDesignMd, renderDesignMd } from "../src/lib/generate";
 import designMd from "../src/index";
 
 const tokens = {

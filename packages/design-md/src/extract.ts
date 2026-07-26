@@ -16,280 +16,375 @@
 
  ------------------------------------------------------------------- */
 
-import type { Schema } from "@razorwind/core/schema";
-import { flattenTokens } from "./flatten";
-import { formatTokenValue, toTokenName } from "./format";
-import type {
-  DesignMdDocument,
-  FlatToken,
-  Options,
-  TypographyToken
-} from "./types";
+import { useExecution } from "@power-plant/core";
+import { definePlugin } from "@razorwind/core/plugin";
+import { readFile } from "@stryke/fs/read-file";
+import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
+import type { DesignTokens } from "style-dictionary/types";
+import type { DesignMdExtractPluginOptions } from "./types";
 
-/** DESIGN.md component properties considered valid by the spec linter. */
-const VALID_COMPONENT_PROPS = new Set([
-  "backgroundColor",
-  "textColor",
-  "typography",
-  "rounded",
-  "padding",
-  "size",
-  "height",
-  "width"
-]);
+import { normalizeTokenTree } from "@razorwind/core/tokens";
+import { existsSync } from "@stryke/fs/exists";
+import { joinPaths } from "@stryke/path/join";
+import { parse as parseYaml } from "yaml";
 
-/** Common token property names mapped onto valid DESIGN.md component props. */
-const COMPONENT_PROP_ALIASES: Record<string, string> = {
-  background: "backgroundColor",
-  backgroundcolor: "backgroundColor",
-  bg: "backgroundColor",
-  fill: "backgroundColor",
-  color: "textColor",
-  foreground: "textColor",
-  text: "textColor",
-  textcolor: "textColor",
-  font: "typography",
-  radius: "rounded",
-  borderradius: "rounded",
-  corner: "rounded"
-};
+/**
+ * Basename pattern for DESIGN.md spec files
+ * (https://github.com/google-labs-code/design.md).
+ */
+export const DESIGN_MD_FILE_PATTERN = /(?:^|[/\\])design\.md$/i;
 
-const COLOR_PREFIXES = ["color", "colors", "palette"];
-const TYPOGRAPHY_PREFIXES = ["typography", "type", "text", "font", "fonts"];
-const ROUNDED_PATTERN = /(?:^|\.)(?:radius|radii|rounded|corner)(?:\.|$)/i;
-const SPACING_PATTERN = /(?:^|\.)(?:spacing|space|gap)(?:\.|$)/i;
-const COMPONENT_PATTERN = /^components?$/i;
-const ALIAS_PATTERN = /^\{([^}]+)\}$/;
+/** Candidate workspace paths checked for a DESIGN.md spec file. */
+export const DESIGN_MD_PATH_CANDIDATES = [
+  "DESIGN.md",
+  "design.md",
+  "docs/DESIGN.md"
+] as const;
 
+/**
+ * YAML front matter fenced by `---` at the top of a DESIGN.md file.
+ *
+ * @see https://github.com/google-labs-code/design.md#the-specification
+ */
+const FRONT_MATTER_PATTERN = /^\uFEFF?---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
+
+/** DESIGN.md `{path.to.token}` reference. */
+const TOKEN_REFERENCE_PATTERN = /^\{[^{}]+\}$/;
+
+/** Top-level front-matter keys that carry metadata rather than tokens. */
+const METADATA_KEYS = new Set(["version", "name", "description"]);
+
+/** DESIGN.md typography sub-properties defined by the spec. */
 const TYPOGRAPHY_SUB_PROPERTIES = [
   "fontFamily",
   "fontSize",
   "fontWeight",
   "lineHeight",
-  "letterSpacing"
+  "letterSpacing",
+  "fontFeature",
+  "fontVariation"
 ] as const;
+
+/**
+ * DESIGN.md component sub-token properties mapped to DTCG `$type`s.
+ * Unknown properties are accepted without a `$type` per the spec's consumer
+ * behavior rules ("Unknown component property → accept with warning").
+ */
+const COMPONENT_PROPERTY_TYPES: Record<string, string> = {
+  backgroundColor: "color",
+  textColor: "color",
+  typography: "typography",
+  rounded: "dimension",
+  padding: "dimension",
+  size: "dimension",
+  height: "dimension",
+  width: "dimension"
+};
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-/**
- * Select the token set used for the front matter when tokens are split into
- * multiple themes: the un-themed set first, then `light`, then `default`,
- * then whichever theme appears first.
- */
-export function selectPrimaryTheme(flat: FlatToken[]): FlatToken[] {
-  const themes = [...new Set(flat.map(token => token.theme))];
-
-  const preferred =
-    themes.find(theme => theme === undefined) ??
-    themes.find(theme => /^light/i.test(theme ?? "")) ??
-    themes.find(theme => /^(?:default|base)/i.test(theme ?? "")) ??
-    themes[0];
-
-  return flat.filter(token => token.theme === preferred);
-}
-
-function readAliasPath(value: unknown): string | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const match = ALIAS_PATTERN.exec(value.trim());
-
-  return match?.[1];
+function isTokenReference(value: unknown): value is string {
+  return (
+    typeof value === "string" && TOKEN_REFERENCE_PATTERN.test(value.trim())
+  );
 }
 
 /**
- * Resolve a chain of DTCG aliases (`{color.primary}`) to the terminal token.
+ * Convert a DESIGN.md scalar (Color / Dimension / number / reference) into a
+ * DTCG `$value`. Bare numbers in dimension scales are treated as pixels, per
+ * the spec's `spacing: <Dimension | number>` rule.
  */
-function resolveAlias(
-  token: FlatToken,
-  byPath: Map<string, FlatToken>
-): FlatToken {
-  let current = token;
-
-  for (let depth = 0; depth < 8; depth++) {
-    const aliasPath = readAliasPath(current.value);
-    if (!aliasPath) {
-      return current;
-    }
-
-    const target = byPath.get(aliasPath);
-    if (!target) {
-      return current;
-    }
-
-    current = target;
+function toDimensionValue(value: unknown): unknown {
+  if (typeof value === "number") {
+    return `${value}px`;
   }
 
-  return current;
+  return value;
 }
 
-function toCamelCase(value: string): string {
-  return value
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map((part, index) =>
-      index === 0
-        ? part.toLowerCase()
-        : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-    )
-    .join("");
-}
-
-function normalizeComponentProp(name: string): string | undefined {
-  const camel = toCamelCase(name);
-
-  if (VALID_COMPONENT_PROPS.has(camel)) {
-    return camel;
-  }
-
-  return COMPONENT_PROP_ALIASES[camel.toLowerCase()];
-}
-
-function extractTypographyValue(
-  value: unknown,
-  byPath: Map<string, FlatToken>
-): TypographyToken {
-  const typography: TypographyToken = {};
-
-  if (!isPlainObject(value)) {
-    return typography;
-  }
+function toTypographyValue(
+  value: Record<string, unknown>
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
 
   for (const property of TYPOGRAPHY_SUB_PROPERTIES) {
     const raw = value[property];
+    if (raw !== undefined && raw !== null) {
+      result[property] = raw;
+    }
+  }
+
+  // Unknown typography sub-properties are accepted per the spec.
+  for (const [property, raw] of Object.entries(value)) {
+    if (
+      !(property in result) &&
+      raw !== undefined &&
+      raw !== null &&
+      (typeof raw === "string" || typeof raw === "number")
+    ) {
+      result[property] = raw;
+    }
+  }
+
+  return result;
+}
+
+function toScaleGroup(
+  section: Record<string, unknown>,
+  type: string,
+  dimension = false
+): DesignTokens {
+  const group: DesignTokens = {};
+
+  for (const [name, raw] of Object.entries(section)) {
     if (raw === undefined || raw === null) {
       continue;
     }
 
-    const aliasPath = readAliasPath(raw);
-    const target = aliasPath ? byPath.get(aliasPath) : undefined;
-    const resolved = target ? resolveAlias(target, byPath).cssValue : undefined;
+    group[name] = {
+      $type: type,
+      $value: isTokenReference(raw)
+        ? raw.trim()
+        : dimension
+          ? toDimensionValue(raw)
+          : raw
+    };
+  }
 
-    if (typeof raw === "number") {
-      typography[property] = raw as never;
+  return group;
+}
+
+function toTypographyGroup(section: Record<string, unknown>): DesignTokens {
+  const group: DesignTokens = {};
+
+  for (const [name, raw] of Object.entries(section)) {
+    if (isTokenReference(raw)) {
+      group[name] = { $type: "typography", $value: raw.trim() };
+    } else if (isPlainObject(raw)) {
+      group[name] = {
+        $type: "typography",
+        $value: toTypographyValue(raw)
+      };
+    }
+  }
+
+  return group;
+}
+
+function toComponentsGroup(section: Record<string, unknown>): DesignTokens {
+  const group: DesignTokens = {};
+  for (const [componentName, component] of Object.entries(section)) {
+    if (!isPlainObject(component)) {
       continue;
     }
 
-    typography[property] = resolved ?? formatTokenValue(raw);
+    const componentGroup: DesignTokens = {};
+    for (const [property, raw] of Object.entries(component)) {
+      if (raw === undefined || raw === null) {
+        continue;
+      }
+
+      const type = COMPONENT_PROPERTY_TYPES[property];
+      componentGroup[property] = {
+        ...(type ? { $type: type } : {}),
+        $value: isTokenReference(raw)
+          ? raw.trim()
+          : type === "typography" && isPlainObject(raw)
+            ? toTypographyValue(raw)
+            : toDimensionValue(raw)
+      };
+    }
+
+    if (Object.keys(componentGroup).length > 0) {
+      group[componentName] = componentGroup;
+    }
   }
 
-  return typography;
+  return group;
 }
 
 /**
- * Extract a DESIGN.md document from the Razorwind schema.
+ * Extract the YAML front matter object from DESIGN.md contents.
  *
- * Colors, typography, rounded / spacing scales, and component tokens are
- * derived from the DTCG token tree. DTCG aliases are re-emitted as DESIGN.md
- * `{section.token}` references when the target token is part of the output,
- * or resolved to their terminal CSS value otherwise.
+ * @param contents - The raw DESIGN.md file contents.
+ * @returns The parsed front matter, or `undefined` when no front matter fence
+ * is present.
  */
-export function extractDesignMd(
-  spec: Schema,
-  options: Options = {}
-): DesignMdDocument {
-  const flat = selectPrimaryTheme(flattenTokens(spec.tokens));
-  const byPath = new Map(flat.map(token => [token.path, token]));
-
-  const document: DesignMdDocument = {
-    name: options.name ?? "Razorwind Design System",
-    description: options.description,
-    version: options.version ?? "alpha",
-    colors: {},
-    colorDescriptions: {},
-    typography: {},
-    rounded: {},
-    spacing: {},
-    components: {}
-  };
-
-  /** DTCG token path → DESIGN.md `section.token` reference target. */
-  const refTargets = new Map<string, string>();
-
-  const componentTokens: FlatToken[] = [];
-
-  for (const token of flat) {
-    const segments = token.path.split(".");
-
-    if (segments[0] && COMPONENT_PATTERN.test(segments[0])) {
-      componentTokens.push(token);
-      continue;
-    }
-
-    if (token.type === "color") {
-      const name = toTokenName(token.path, COLOR_PREFIXES);
-      const resolved = resolveAlias(token, byPath);
-      document.colors[name] = resolved.cssValue;
-      if (token.description) {
-        document.colorDescriptions[name] = token.description;
-      }
-      refTargets.set(token.path, `colors.${name}`);
-      continue;
-    }
-
-    if (token.type === "typography") {
-      const name = toTokenName(token.path, TYPOGRAPHY_PREFIXES);
-      document.typography[name] = extractTypographyValue(token.value, byPath);
-      refTargets.set(token.path, `typography.${name}`);
-      continue;
-    }
-
-    if (token.type === "fontFamily") {
-      const name = toTokenName(token.path, TYPOGRAPHY_PREFIXES);
-      document.typography[name] ??= {};
-      document.typography[name].fontFamily = token.cssValue;
-      refTargets.set(token.path, `typography.${name}`);
-      continue;
-    }
-
-    const isScale =
-      token.type === "dimension" ||
-      token.type === "number" ||
-      typeof token.value === "number";
-
-    if (isScale && ROUNDED_PATTERN.test(token.path)) {
-      const name = segments.at(-1)!;
-      document.rounded[name] = resolveAlias(token, byPath).cssValue;
-      refTargets.set(token.path, `rounded.${name}`);
-      continue;
-    }
-
-    if (isScale && SPACING_PATTERN.test(token.path)) {
-      const name = segments.at(-1)!;
-      document.spacing[name] = resolveAlias(token, byPath).cssValue;
-      refTargets.set(token.path, `spacing.${name}`);
-    }
+export function extractDesignMdFrontMatter(
+  contents: string
+): Record<string, unknown> | undefined {
+  const match = FRONT_MATTER_PATTERN.exec(contents);
+  if (!match?.[1]) {
+    return undefined;
   }
 
-  for (const token of componentTokens) {
-    const segments = token.path.split(".").slice(1);
-    if (segments.length < 2) {
-      continue;
-    }
-
-    const property = normalizeComponentProp(segments.at(-1)!);
-    if (!property) {
-      continue;
-    }
-
-    const componentName = segments
-      .slice(0, -1)
-      .join("-")
-      .replaceAll(/[^\w-]+/g, "-")
-      .toLowerCase();
-
-    const aliasPath = readAliasPath(token.value);
-    const reference = aliasPath ? refTargets.get(aliasPath) : undefined;
-    const value = reference
-      ? `{${reference}}`
-      : resolveAlias(token, byPath).cssValue;
-
-    document.components[componentName] ??= {};
-    document.components[componentName][property] = value;
+  let parsed: unknown;
+  try {
+    parsed = parseYaml(match[1]);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(
+      `Failed to parse DESIGN.md front matter as YAML: ${message}`
+    );
   }
 
-  return document;
+  return isPlainObject(parsed) ? parsed : undefined;
 }
+
+/**
+ * Convert DESIGN.md front-matter tokens (colors, typography, rounded,
+ * spacing, components) into a DTCG design-token tree.
+ *
+ * DESIGN.md `{path.to.token}` references are preserved verbatim — the group
+ * names in the emitted tree match the front-matter section names, so the
+ * references resolve as DTCG aliases without rewriting.
+ *
+ * @see https://github.com/google-labs-code/design.md#the-specification
+ *
+ * @param frontMatter - The parsed DESIGN.md YAML front matter.
+ * @returns The equivalent DTCG token tree.
+ */
+export function designMdToTokens(
+  frontMatter: Record<string, unknown>
+): DesignTokens {
+  const tokens: DesignTokens = {};
+
+  for (const [section, value] of Object.entries(frontMatter)) {
+    if (METADATA_KEYS.has(section) || !isPlainObject(value)) {
+      continue;
+    }
+
+    switch (section) {
+      case "colors":
+        tokens[section] = toScaleGroup(value, "color");
+        break;
+      case "typography":
+        tokens[section] = toTypographyGroup(value);
+        break;
+      case "rounded":
+      case "spacing":
+        tokens[section] = toScaleGroup(value, "dimension", true);
+        break;
+      case "components":
+        tokens[section] = toComponentsGroup(value);
+        break;
+      default:
+        // Custom extension keys stay: accept as a generic token group and let
+        // type inference classify the values.
+        tokens[section] = value;
+        break;
+    }
+  }
+
+  return normalizeTokenTree(tokens) as DesignTokens;
+}
+
+/**
+ * Parse DESIGN.md file contents into a DTCG token tree.
+ *
+ * @param contents - The raw DESIGN.md file contents.
+ * @returns The extracted tokens; an empty object when the file has no YAML
+ * front matter.
+ */
+export function parseDesignMdTokens(contents: string): DesignTokens {
+  const frontMatter = extractDesignMdFrontMatter(contents);
+  if (!frontMatter) {
+    return {};
+  }
+
+  return designMdToTokens(frontMatter);
+}
+
+/**
+ * Check whether a path points at a DESIGN.md spec file.
+ *
+ * @param filePath - The file path to test.
+ * @returns True when the basename is `DESIGN.md` (case-insensitive).
+ */
+export function isDesignMdFile(filePath: string): boolean {
+  return DESIGN_MD_FILE_PATTERN.test(filePath);
+}
+
+/**
+ * Resolve the DESIGN.md file for a workspace, if one exists.
+ *
+ * @param cwd - The workspace root to search from.
+ * @returns The absolute path to the first matching candidate, or `undefined`.
+ */
+export function resolveDesignMdPath(cwd: string): string | undefined {
+  for (const candidate of DESIGN_MD_PATH_CANDIDATES) {
+    const absolute = joinPaths(cwd, candidate);
+    if (existsSync(absolute)) {
+      return absolute;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Load DTCG tokens from the DESIGN.md file in a workspace, if present.
+ *
+ * @param cwd - The workspace root to search from.
+ * @returns Parsed tokens, or `undefined` when no DESIGN.md exists.
+ */
+export async function loadDesignMdTokens(
+  cwd: string
+): Promise<DesignTokens | undefined> {
+  const path = resolveDesignMdPath(cwd);
+  if (!path) {
+    return undefined;
+  }
+
+  return parseDesignMdTokens(await readFile(path));
+}
+
+/**
+ * Extract design-system specification from DESIGN.md
+ *
+ * @see https://github.com/google-labs-code/design.md
+ *
+ * @example
+ * ```ts
+ * import { defineConfig } from "@razorwind/core";
+ * import designMd from "@razorwind/design-md/extract";
+ *
+ * export default defineConfig({
+ *   plugins: [designMd()]
+ * });
+ * ```
+ */
+export default definePlugin((options: DesignMdExtractPluginOptions = {}) => ({
+  name: "design-md:extract",
+  parsers: [
+    {
+      name: "design-md",
+      pattern: DESIGN_MD_FILE_PATTERN,
+      parser: (contents: string): DesignTokens => parseDesignMdTokens(contents)
+    }
+  ],
+  extract: async spec => {
+    if (spec.tokens && !isEmptyObject(spec.tokens)) {
+      return spec;
+    }
+
+    let path = options.path;
+    if (!path) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+      const { cwd } = useExecution();
+      path = resolveDesignMdPath(cwd);
+      if (!path) {
+        return spec;
+      }
+    }
+
+    const tokens = parseDesignMdTokens(await readFile(path));
+    if (!tokens || isEmptyObject(tokens)) {
+      return spec;
+    }
+
+    return { ...spec, tokens };
+  }
+}));

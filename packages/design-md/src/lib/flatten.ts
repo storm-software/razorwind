@@ -18,8 +18,8 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
+import type { FlatToken } from "../types";
 import { formatTokenValue } from "./format";
-import type { FlatToken } from "./types";
 
 /** Theme-like basename patterns used to split multi-theme token records. */
 const THEME_BASENAME_PATTERN =

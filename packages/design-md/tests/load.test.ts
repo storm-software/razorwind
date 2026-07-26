@@ -27,7 +27,7 @@ import {
   loadDesignMdTokens,
   parseDesignMdTokens,
   resolveDesignMdPath
-} from "../src/load";
+} from "../src/extract";
 
 const DESIGN_MD = `---
 name: Heritage
