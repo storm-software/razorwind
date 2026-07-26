@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.4) (07/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update plugin packages to be public ([010c871](https://github.com/storm-software/razorwind/commit/010c871))
+
 ## [0.0.3](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.3) (07/26/2026)
 
 ### Updated Dependencies
