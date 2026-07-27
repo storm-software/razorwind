@@ -17,14 +17,10 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import { isObject as isObjectFn } from "@stryke/type-checks/is-object";
 
-/**
- * Type guard for plain (non-array, non-null) objects.
- */
-export function isPlainObject(
-  value: unknown
-): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+export function isObject(value: unknown): value is Record<string, unknown> {
+  return isObjectFn(value);
 }
 
 /**
@@ -36,7 +32,7 @@ export function formatColorValue(value: unknown): string | undefined {
     return value;
   }
 
-  if (!isPlainObject(value)) {
+  if (!isObject(value)) {
     return undefined;
   }
 
@@ -96,7 +92,7 @@ export function formatDimensionValue(value: unknown): string | undefined {
   }
 
   if (
-    isPlainObject(value) &&
+    isObject(value) &&
     typeof value.value === "number" &&
     typeof value.unit === "string"
   ) {
@@ -119,10 +115,7 @@ export function formatTokenValue(value: unknown, type?: string): string {
     return String(value);
   }
 
-  if (
-    type === "color" ||
-    (!type && isPlainObject(value) && "colorSpace" in value)
-  ) {
+  if (type === "color" || (!type && isObject(value) && "colorSpace" in value)) {
     const color = formatColorValue(value);
     if (color) {
       return color;
@@ -132,7 +125,7 @@ export function formatTokenValue(value: unknown, type?: string): string {
   if (
     type === "dimension" ||
     type === "duration" ||
-    (isPlainObject(value) && "value" in value && "unit" in value)
+    (isObject(value) && "value" in value && "unit" in value)
   ) {
     const dimension = formatDimensionValue(value);
     if (dimension) {
@@ -148,7 +141,7 @@ export function formatTokenValue(value: unknown, type?: string): string {
     return value.map(String).join(", ");
   }
 
-  if (isPlainObject(value)) {
+  if (isObject(value)) {
     const color = formatColorValue(value);
     if (color) {
       return color;
@@ -186,7 +179,7 @@ export function toCssVar(path: string, prefix: string): string {
 /**
  * Build a single-chunk generator result document entry.
  */
-export function createDocument<TSchema, TOptions>(
+export function createDocument<TSchema, TOptions extends object>(
   path: string,
   content: string,
   meta: { name: string },

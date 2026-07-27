@@ -18,15 +18,15 @@
 
 import { useExecution } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
+import { normalizeTokenTree } from "@razorwind/core/tokens";
+import { isObject } from "@razorwind/core/utils";
+import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
+import { joinPaths } from "@stryke/path/join";
 import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import type { DesignTokens } from "style-dictionary/types";
-import type { DesignMdExtractPluginOptions } from "./types";
-
-import { normalizeTokenTree } from "@razorwind/core/tokens";
-import { existsSync } from "@stryke/fs/exists";
-import { joinPaths } from "@stryke/path/join";
 import { parse as parseYaml } from "yaml";
+import type { DesignMdExtractPluginOptions } from "./types";
 
 /**
  * Basename pattern for DESIGN.md spec files
@@ -80,10 +80,6 @@ const COMPONENT_PROPERTY_TYPES: Record<string, string> = {
   height: "dimension",
   width: "dimension"
 };
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function isTokenReference(value: unknown): value is string {
   return (
@@ -162,7 +158,7 @@ function toTypographyGroup(section: Record<string, unknown>): DesignTokens {
   for (const [name, raw] of Object.entries(section)) {
     if (isTokenReference(raw)) {
       group[name] = { $type: "typography", $value: raw.trim() };
-    } else if (isPlainObject(raw)) {
+    } else if (isObject(raw)) {
       group[name] = {
         $type: "typography",
         $value: toTypographyValue(raw)
@@ -176,7 +172,7 @@ function toTypographyGroup(section: Record<string, unknown>): DesignTokens {
 function toComponentsGroup(section: Record<string, unknown>): DesignTokens {
   const group: DesignTokens = {};
   for (const [componentName, component] of Object.entries(section)) {
-    if (!isPlainObject(component)) {
+    if (!isObject(component)) {
       continue;
     }
 
@@ -191,7 +187,7 @@ function toComponentsGroup(section: Record<string, unknown>): DesignTokens {
         ...(type ? { $type: type } : {}),
         $value: isTokenReference(raw)
           ? raw.trim()
-          : type === "typography" && isPlainObject(raw)
+          : type === "typography" && isObject(raw)
             ? toTypographyValue(raw)
             : toDimensionValue(raw)
       };
@@ -230,7 +226,7 @@ export function extractDesignMdFrontMatter(
     );
   }
 
-  return isPlainObject(parsed) ? parsed : undefined;
+  return isObject(parsed) ? parsed : undefined;
 }
 
 /**
@@ -252,7 +248,7 @@ export function designMdToTokens(
   const tokens: DesignTokens = {};
 
   for (const [section, value] of Object.entries(frontMatter)) {
-    if (METADATA_KEYS.has(section) || !isPlainObject(value)) {
+    if (METADATA_KEYS.has(section) || !isObject(value)) {
       continue;
     }
 

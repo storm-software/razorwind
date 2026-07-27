@@ -7,7 +7,7 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-Website:                  https://stormsoftware.com
+ Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
@@ -34,10 +34,7 @@ export type { ShadcnGeneratePluginOptions } from "./types";
 const REGISTRY_SCHEMA = "https://ui.shadcn.com/schema/registry.json";
 
 type RegistryItemType =
-  | "registry:block"
-  | "registry:component"
-  | "registry:ui"
-  | "registry:page";
+  "registry:block" | "registry:component" | "registry:ui" | "registry:page";
 
 type RegistryFileType =
   | "registry:lib"
@@ -145,13 +142,14 @@ function mapFiles(
 /**
  * Map a Razorwind {@link Component} into a shadcn registry item.
  */
-export function componentToRegistryItem(component: Component): RegistryItemLike {
-  const categories =
-    component.tags?.length
-      ? [...component.tags]
-      : component.category
-        ? [component.category]
-        : undefined;
+export function componentToRegistryItem(
+  component: Component
+): RegistryItemLike {
+  const categories = component.tags?.length
+    ? [...component.tags]
+    : component.category
+      ? [component.category]
+      : undefined;
   const dependencies = fromDependencyRecord(component.dependencies);
   const devDependencies = fromDependencyRecord(component.devDependencies);
   const registryDependencies = fromDependencyRecord(
@@ -220,6 +218,7 @@ async function resolveOutFile(
 
   // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
   const { cwd } = useExecution();
+
   return joinPaths(cwd, "registry.json");
 }
 

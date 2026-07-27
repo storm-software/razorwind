@@ -16,3 +16,4 @@ dtcg
 
 # Ignore in Regex
 ommands
+zindex

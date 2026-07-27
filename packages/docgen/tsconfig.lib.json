@@ -3,15 +3,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "rootDir": ".",
-    "outDir": "./out-tsc",
-    "paths": {
-      "@razorwind/core": ["../core/src/index.ts"],
-      "@razorwind/core/plugin": ["../core/src/plugin.ts"],
-      "@razorwind/core/config": ["../core/src/config.ts"],
-      "@razorwind/core/schema": ["../core/src/schema/index.ts"],
-      "@razorwind/core/tokens": ["../core/src/lib/tokens/index.ts"],
-      "@razorwind/core/utils": ["../core/src/utils/index.ts"]
-    }
+    "outDir": "./out-tsc"
   },
   "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [

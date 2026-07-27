@@ -19,12 +19,28 @@
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
 import { isObject } from "@razorwind/core/utils";
-import { formatTokenValue, toCssVar } from "./format";
-import type { FlatToken, StorybookPluginOptions } from "./types";
+import { formatTokenValue, toTamaguiValue } from "./format";
+import type {
+  FlatToken,
+  TamaguiPluginOptions,
+  TamaguiTokenCategory
+} from "./types";
 
 /** Theme-like basename patterns used to split multi-theme token records. */
 const THEME_BASENAME_PATTERN =
   /^(?:light|dark|dim|high-contrast|hc|default|base|theme)(?:[._-].+)?$/i;
+
+const CATEGORY_PREFIXES: Array<{
+  prefix: RegExp;
+  category: TamaguiTokenCategory;
+}> = [
+  { prefix: /^(?:color|colours?|palette)\b/i, category: "color" },
+  { prefix: /^(?:space|spacing|gap|inset)\b/i, category: "space" },
+  { prefix: /^(?:size|sizing)\b/i, category: "size" },
+  { prefix: /^(?:radius|rounded|radii)\b/i, category: "radius" },
+  // eslint-disable-next-line regexp/no-dupe-disjunctions
+  { prefix: /^(?:z-?index|zindex|elevation)\b/i, category: "zIndex" }
+];
 
 function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
@@ -69,12 +85,79 @@ function readValue(node: Record<string, unknown>): unknown {
   return undefined;
 }
 
+/**
+ * Map a DTCG token path + type onto a Tamagui `createTokens` category.
+ */
+export function resolveTokenCategory(
+  path: string,
+  type?: string
+): TamaguiTokenCategory | undefined {
+  for (const { prefix, category } of CATEGORY_PREFIXES) {
+    if (prefix.test(path)) {
+      return category;
+    }
+  }
+
+  if (type === "color") {
+    return "color";
+  }
+
+  if (type === "dimension") {
+    if (/space|spacing|gap|inset/i.test(path)) {
+      return "space";
+    }
+    if (/radius|rounded/i.test(path)) {
+      return "radius";
+    }
+    if (/z-?index|elevation/i.test(path)) {
+      return "zIndex";
+    }
+    if (/size|sizing|width|height/i.test(path)) {
+      return "size";
+    }
+  }
+
+  if (type === "number" && /z-?index|elevation/i.test(path)) {
+    return "zIndex";
+  }
+
+  return undefined;
+}
+
+/**
+ * Derive the Tamagui token key from a DTCG path (strip category prefix).
+ *
+ * `radius.DEFAULT` → `true` (Tamagui default token convention).
+ * `color.blue.1` → `blue1`.
+ */
+export function toTokenKey(path: string): string {
+  const segments = path.split(".").filter(Boolean);
+  const first = segments[0];
+
+  if (
+    first &&
+    // eslint-disable-next-line regexp/no-dupe-disjunctions
+    /^(?:color|colours?|palette|space|spacing|gap|inset|size|sizing|radius|rounded|radii|z-?index|zindex|elevation)$/i.test(
+      first
+    )
+  ) {
+    segments.shift();
+  }
+
+  const leaf = segments.join("") || path.split(".").at(-1) || path;
+  // eslint-disable-next-line regexp/no-dupe-disjunctions
+  if (/^(?:DEFAULT|default)$/i.test(leaf)) {
+    return "true";
+  }
+
+  return leaf;
+}
+
 function walkTokens(
   node: unknown,
   path: string[],
   inheritedType: string | undefined,
   theme: string | undefined,
-  cssVarPrefix: string,
   out: FlatToken[]
 ): void {
   if (!isObject(node)) {
@@ -86,12 +169,21 @@ function walkTokens(
   if (isTokenLeaf(node)) {
     const value = readValue(node);
     const tokenPath = path.join(".");
+    const category = resolveTokenCategory(tokenPath, type);
+    const cssValue = formatTokenValue(value, type);
+    const tamaguiValue =
+      category === "color" || type === "color"
+        ? cssValue
+        : toTamaguiValue(value, type);
+
     out.push({
       path: tokenPath,
       type,
       value,
-      cssValue: formatTokenValue(value, type),
-      cssVar: toCssVar(tokenPath, cssVarPrefix),
+      cssValue,
+      tamaguiValue,
+      category,
+      tokenKey: category ? toTokenKey(tokenPath) : undefined,
       description: readDescription(node),
       theme
     });
@@ -102,7 +194,7 @@ function walkTokens(
     if (key.startsWith("$")) {
       continue;
     }
-    walkTokens(child, [...path, key], type, theme, cssVarPrefix, out);
+    walkTokens(child, [...path, key], type, theme, out);
   }
 }
 
@@ -139,13 +231,12 @@ export function resolveTokenSets(
 }
 
 /**
- * Flatten DTCG token trees into documentation rows.
+ * Flatten DTCG token trees into Tamagui config rows.
  */
 export function flattenTokens(
   tokens: Tokens | Record<string, Tokens>,
-  options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes"> = {}
+  options: Pick<TamaguiPluginOptions, "includeTypes"> = {}
 ): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
   const includeTypes = options.includeTypes
     ? new Set<string>(options.includeTypes)
     : undefined;
@@ -153,7 +244,7 @@ export function flattenTokens(
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walkTokens(set.tokens, [], undefined, theme, cssVarPrefix, flat);
+    walkTokens(set.tokens, [], undefined, theme, flat);
   }
 
   if (!includeTypes) {

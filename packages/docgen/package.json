@@ -99,7 +99,8 @@
   "dependencies": {
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
-    "@razorwind/core": "workspace:*"
+    "@razorwind/core": "workspace:*",
+    "@stryke/type-checks": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",

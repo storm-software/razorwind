@@ -20,7 +20,11 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { useExecution } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema, Tokens } from "@razorwind/core/schema";
-import { createDocument, formatTokenValue } from "@razorwind/core/utils";
+import {
+  createDocument,
+  formatTokenValue,
+  isObject
+} from "@razorwind/core/utils";
 import { detectTailwindWorkspace } from "./extract";
 import type { FlatThemeToken, TailwindGeneratePluginOptions } from "./types";
 
@@ -31,10 +35,6 @@ const THEME_BASENAME_PATTERN =
   /^(?:light|dark|dim|high-contrast|hc|default|base|theme)(?:[._-].+)?$/i;
 
 const PRIMARY_THEME_IDS = new Set(["default", "base", "light", "theme"]);
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
@@ -92,7 +92,7 @@ function walkTokens(
   inheritedType: string | undefined,
   out: FlatThemeToken[]
 ): void {
-  if (!isPlainObject(node)) {
+  if (!isObject(node)) {
     return;
   }
 
@@ -133,7 +133,7 @@ interface TokenSet {
 export function resolveTokenSets(
   tokens: Tokens | Record<string, Tokens>
 ): TokenSet[] {
-  if (!isPlainObject(tokens)) {
+  if (!isObject(tokens)) {
     return [];
   }
 
@@ -144,7 +144,7 @@ export function resolveTokenSets(
   if (allThemes) {
     return keys.map(id => ({
       id,
-      tokens: (tokens as Record<string, Tokens>)[id]!
+      tokens: tokens[id]!
     }));
   }
 

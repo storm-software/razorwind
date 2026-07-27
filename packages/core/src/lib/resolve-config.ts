@@ -80,7 +80,7 @@ export async function resolveConfig(
   });
 
   const jitiOptions = {
-    cacheDir: envPaths.cache
+    fsCache: envPaths.cache
   };
   const jiti = createJiti(cwd, jitiOptions);
 
@@ -93,7 +93,7 @@ export async function resolveConfig(
       let config = {};
       if (isFunction(resolved.default)) {
         config = await Promise.resolve(
-          resolved.default({ cwd, mode: options.mode })
+          resolved.default({ cwd, mode: options.mode ?? "development" })
         );
       } else if (
         isSetObject(resolved.default) ||

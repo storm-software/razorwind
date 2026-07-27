@@ -1,12 +1,12 @@
 {
-  "name": "@razorwind/storybook",
-  "version": "0.0.5",
+  "name": "@razorwind/tamagui",
+  "version": "0.0.1",
   "type": "module",
-  "description": "Razorwind plugin that creates Storybook MDX token doc blocks from Razorwind design tokens.",
+  "description": "Razorwind plugin that creates Tamagui theme tokens from Razorwind design tokens.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/razorwind.git",
-    "directory": "packages/storybook"
+    "directory": "packages/tamagui"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -40,7 +40,7 @@
   "private": false,
   "files": ["dist"],
   "keywords": [
-    "storybook",
+    "tamagui",
     "razorwind",
     "design-tokens",
     "dtcg",
@@ -75,18 +75,18 @@
     "@stryke/type-checks": "catalog:"
   },
   "peerDependencies": {
-    "@storybook/addon-docs": ">=8",
+    "@tamagui/config": ">=1.120.0",
     "react": ">=18",
-    "storybook": ">=8"
+    "tamagui": ">=1.120.0"
   },
   "peerDependenciesMeta": {
-    "@storybook/addon-docs": {
+    "@tamagui/config": {
       "optional": true
     },
     "react": {
       "optional": true
     },
-    "storybook": {
+    "tamagui": {
       "optional": true
     }
   },

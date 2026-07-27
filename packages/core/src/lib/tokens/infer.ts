@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { isObject } from "../../utils";
 import { TYPE_PATH_HINTS } from "./constants";
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
@@ -117,10 +118,6 @@ function cssVarToReference(varName: string): string {
   const segments = varName.replace(/^--/, "").split("-").filter(Boolean);
 
   return `{${segments.join(".")}}`;
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function isTokenLeaf(node: Record<string, unknown>): boolean {
@@ -338,7 +335,7 @@ export function inferValue(
     return { value: raw, type: pathType };
   }
 
-  if (isPlainObject(raw)) {
+  if (isObject(raw)) {
     if ("colorSpace" in raw && "components" in raw) {
       return { value: raw, type: "color" };
     }
@@ -408,7 +405,7 @@ export function normalizeTokenTree(
     );
   }
 
-  if (!isPlainObject(input)) {
+  if (!isObject(input)) {
     return input;
   }
 
@@ -459,7 +456,7 @@ export function nestFlatTokens(
     for (let i = 0; i < segments.length - 1; i++) {
       const segment = segments[i]!;
       const existing = cursor[segment];
-      if (!isPlainObject(existing)) {
+      if (!isObject(existing)) {
         cursor[segment] = {};
       } else if (isTokenLeaf(existing)) {
         // Promote leaf → group, keeping the scalar under DEFAULT.
@@ -476,7 +473,7 @@ export function nestFlatTokens(
     };
 
     const existing = cursor[leafKey];
-    if (isPlainObject(existing) && !isTokenLeaf(existing)) {
+    if (isObject(existing) && !isTokenLeaf(existing)) {
       // Scalar collides with an existing group — keep both via DEFAULT.
       existing.DEFAULT = leaf;
     } else {

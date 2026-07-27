@@ -19,6 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
+import { isObject } from "@razorwind/core/utils";
 import { flattenTokens } from "./lib/flatten";
 import {
   formatTokenValue,
@@ -75,10 +76,6 @@ const TYPOGRAPHY_SUB_PROPERTIES = [
   "lineHeight",
   "letterSpacing"
 ] as const;
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 /**
  * Select the token set used for the front matter when tokens are split into
@@ -161,7 +158,7 @@ function extractTypographyValue(
 ): TypographyToken {
   const typography: TypographyToken = {};
 
-  if (!isPlainObject(value)) {
+  if (!isObject(value)) {
     return typography;
   }
 
@@ -176,7 +173,7 @@ function extractTypographyValue(
     const resolved = target ? resolveAlias(target, byPath).cssValue : undefined;
 
     if (typeof raw === "number") {
-      typography[property] = raw as never;
+      typography[property] = raw;
       continue;
     }
 

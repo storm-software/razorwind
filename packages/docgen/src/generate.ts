@@ -19,7 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument } from "@razorwind/core/utils";
+import { createDocument, isObject } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
@@ -39,10 +39,6 @@ function titleCase(value: string): string {
     .filter(Boolean)
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /** Top-level path segment used to group tokens into pages. */
@@ -255,14 +251,12 @@ function readDependencyEntries(
     return value.filter((entry): entry is string => typeof entry === "string");
   }
 
-  if (!isPlainObject(value)) {
+  if (!isObject(value)) {
     return [];
   }
 
   return Object.entries(value).map(([name, version]) =>
-    typeof version === "string" && version !== "*"
-      ? `${name}@${version}`
-      : name
+    typeof version === "string" && version !== "*" ? `${name}@${version}` : name
   );
 }
 
@@ -288,11 +282,11 @@ function readCategories(item: Record<string, unknown>): string[] {
  * per type.
  */
 export function extractRegistryItems(components: unknown): RegistryItemPage[] {
-  if (!isPlainObject(components)) {
+  if (!isObject(components)) {
     return [];
   }
 
-  const items = Object.values(components).filter(isPlainObject);
+  const items = Object.values(components).filter(isObject);
   const pages: RegistryItemPage[] = [];
 
   for (const [type, meta] of Object.entries(COMPONENT_TYPES)) {
@@ -322,7 +316,7 @@ function renderRegistryItemFiles(item: Record<string, unknown>): string {
         return `| \`${escapeTableCell(file)}\` | — | — |`;
       }
 
-      if (!isPlainObject(file)) {
+      if (!isObject(file)) {
         return undefined;
       }
 

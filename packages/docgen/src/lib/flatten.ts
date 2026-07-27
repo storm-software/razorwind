@@ -18,16 +18,13 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
+import { isObject } from "@razorwind/core/utils";
 import type { DocgenGeneratePluginOptions, FlatToken } from "../types";
 import { formatTokenValue, toCssVar } from "./format";
 
 /** Theme-like basename patterns used to split multi-theme token records. */
 const THEME_BASENAME_PATTERN =
   /^(?:light|dark|dim|high-contrast|hc|default|base|theme)(?:[._-].+)?$/i;
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
@@ -80,7 +77,7 @@ function walkTokens(
   cssVarPrefix: string,
   out: FlatToken[]
 ): void {
-  if (!isPlainObject(node)) {
+  if (!isObject(node)) {
     return;
   }
 
@@ -123,7 +120,7 @@ export interface TokenSet {
 export function resolveTokenSets(
   tokens: Tokens | Record<string, Tokens>
 ): TokenSet[] {
-  if (!isPlainObject(tokens)) {
+  if (!isObject(tokens)) {
     return [];
   }
 
@@ -134,7 +131,7 @@ export function resolveTokenSets(
   if (allThemes) {
     return keys.map(id => ({
       id,
-      tokens: (tokens as Record<string, Tokens>)[id]!
+      tokens: tokens[id]!
     }));
   }
 
