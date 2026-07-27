@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/core%400.0.10) (07/27/2026)
+
+### Features
+
+- **tamagui:** Initial check-in of the Tamagui theme generator plugin ([6070f74](https://github.com/storm-software/razorwind/commit/6070f74))
+
 ## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/core%400.0.8) (07/26/2026)
 
 ### Features

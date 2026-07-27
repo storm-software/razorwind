@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.6) (07/27/2026)
+
+### Features
+
+- **tamagui:** Initial check-in of the Tamagui theme generator plugin ([6070f74](https://github.com/storm-software/razorwind/commit/6070f74))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.10**
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.5) (07/26/2026)
 
 ### Features
