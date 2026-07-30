@@ -21,10 +21,15 @@ import JSON5 from "json5";
 import { parse as parseToml } from "smol-toml";
 import StyleDictionary from "style-dictionary";
 import type {
+  Action,
   DesignTokens,
+  FileHeader,
+  Filter,
+  Format,
   Hooks,
   Parser,
-  PreprocessedTokens
+  PreprocessedTokens,
+  Transform
 } from "style-dictionary/types";
 import { parse as parseYaml } from "yaml";
 import type { Plugin } from "../../types/plugin";
@@ -34,6 +39,27 @@ import { normalizeTokenTree } from "./infer";
 
 /** Preprocessor name applied after all sources merge. */
 export const RAZORWIND_INFER_PREPROCESSOR = "razorwind-infer";
+
+/** Target capable of registering Style Dictionary hooks (class or instance). */
+export interface StyleDictionaryRegisterTarget {
+  registerParser: (parser: Parser) => unknown;
+  registerPreprocessor: (preprocessor: {
+    name: string;
+    preprocessor: typeof razorwindInferPreprocessor;
+  }) => unknown;
+  registerTransform: (transform: Transform) => unknown;
+  registerTransformGroup: (transformGroup: {
+    name: string;
+    transforms: string[];
+  }) => unknown;
+  registerFormat: (format: Format) => unknown;
+  registerFilter: (filter: Filter) => unknown;
+  registerFileHeader: (fileHeader: {
+    name: string;
+    fileHeader: FileHeader;
+  }) => unknown;
+  registerAction: (action: Action) => unknown;
+}
 
 function asDesignTokens(data: unknown): DesignTokens {
   if (data === null || data === undefined) {
@@ -134,19 +160,13 @@ export function getRazorwindPreprocessorHooks(): NonNullable<
 
 /**
  * Register Razorwind parsers + infer preprocessor on Style Dictionary,
- * then register any parsers / preprocessors contributed by plugins.
+ * then register any Style Dictionary hooks contributed by plugins.
  *
- * @see https://styledictionary.com/reference/hooks/parsers/
+ * @see https://styledictionary.com/reference/api/
  */
-export function registerRazorwindParsers(
+export function registerRazorwindHooks(
   plugins: Plugin[] = [],
-  target: {
-    registerParser: (parser: Parser) => unknown;
-    registerPreprocessor: (preprocessor: {
-      name: string;
-      preprocessor: typeof razorwindInferPreprocessor;
-    }) => unknown;
-  } = StyleDictionary
+  target: StyleDictionaryRegisterTarget = StyleDictionary
 ) {
   for (const parser of TOKEN_PARSERS) {
     target.registerParser(parser);
@@ -158,6 +178,12 @@ export function registerRazorwindParsers(
 
   let parserIndex = 0;
   let preprocessorIndex = 0;
+  let transformIndex = 0;
+  let transformGroupIndex = 0;
+  let formatIndex = 0;
+  let filterIndex = 0;
+  let fileHeaderIndex = 0;
+  let actionIndex = 0;
 
   for (const plugin of plugins) {
     for (const parser of plugin.parsers ?? []) {
@@ -185,7 +211,78 @@ export function registerRazorwindParsers(
       );
       preprocessorIndex++;
     }
+
+    for (const transform of plugin.transforms ?? []) {
+      target.registerTransform({
+        ...transform,
+        name: transform.name ?? `${plugin.name}-transform-${transformIndex}`
+      } as Transform);
+      transformIndex++;
+    }
+
+    for (const transformGroup of plugin.transformGroups ?? []) {
+      target.registerTransformGroup({
+        name:
+          transformGroup.name ??
+          `${plugin.name}-transform-group-${transformGroupIndex}`,
+        transforms: transformGroup.transforms
+      });
+      transformGroupIndex++;
+    }
+
+    for (const format of plugin.formats ?? []) {
+      target.registerFormat({
+        ...format,
+        name: format.name ?? `${plugin.name}-format-${formatIndex}`
+      });
+      formatIndex++;
+    }
+
+    for (const filter of plugin.filters ?? []) {
+      target.registerFilter(
+        isFunction(filter)
+          ? {
+              name: `${plugin.name}-filter-${filterIndex}`,
+              filter
+            }
+          : {
+              name: filter.name ?? `${plugin.name}-filter-${filterIndex}`,
+              filter: filter.filter
+            }
+      );
+      filterIndex++;
+    }
+
+    for (const fileHeader of plugin.fileHeaders ?? []) {
+      target.registerFileHeader(
+        isFunction(fileHeader)
+          ? {
+              name: `${plugin.name}-file-header-${fileHeaderIndex}`,
+              fileHeader
+            }
+          : {
+              name:
+                fileHeader.name ??
+                `${plugin.name}-file-header-${fileHeaderIndex}`,
+              fileHeader: fileHeader.fileHeader
+            }
+      );
+      fileHeaderIndex++;
+    }
+
+    for (const action of plugin.actions ?? []) {
+      target.registerAction({
+        ...action,
+        name: action.name ?? `${plugin.name}-action-${actionIndex}`
+      });
+      actionIndex++;
+    }
   }
 }
+
+/**
+ * @deprecated Use {@link registerRazorwindHooks} instead.
+ */
+export const registerRazorwindParsers = registerRazorwindHooks;
 
 export { TOKEN_PARSER_NAMES };

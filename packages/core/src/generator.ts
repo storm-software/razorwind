@@ -27,7 +27,7 @@ import { defu } from "defu";
 import StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
 import { resolveConfig } from "./lib/resolve-config";
-import { loadTokens, registerRazorwindParsers } from "./lib/tokens";
+import { loadTokens, registerRazorwindHooks } from "./lib/tokens";
 import type { Schema, Tokens } from "./schema";
 import { schema } from "./schema";
 import type { Config, Options } from "./types/config";
@@ -35,7 +35,7 @@ import type { Config, Options } from "./types/config";
 /**
  * A Power Plant generator for Razorwind.
  *
- * Orchestrates configured {@link Plugin}s: Style Dictionary parsers / preprocessors, then `extract` → `validate` on input, then `generate`.
+ * Orchestrates configured {@link Plugin}s: Style Dictionary hooks, then `extract` → `validate` on input, then `generate`.
  */
 export const generator = defineGenerator<Schema, Options, void>({
   meta: {
@@ -58,7 +58,7 @@ export const generator = defineGenerator<Schema, Options, void>({
       );
     }
 
-    registerRazorwindParsers(context.options.plugins, StyleDictionary);
+    registerRazorwindHooks(context.options.plugins, StyleDictionary);
 
     let tokens: Tokens | Record<string, Tokens> | undefined =
       context.options.tokens;

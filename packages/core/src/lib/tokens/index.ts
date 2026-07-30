@@ -45,7 +45,9 @@ export {
   getRazorwindPreprocessorHooks,
   razorwindInferPreprocessor,
   TOKEN_PARSER_NAMES as razorwindParsers,
-  registerRazorwindParsers
+  registerRazorwindHooks,
+  registerRazorwindParsers,
+  type StyleDictionaryRegisterTarget
 } from "./parsers";
 export {
   resolveTokensSource,

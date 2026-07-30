@@ -30,7 +30,7 @@ import {
   getRazorwindParserHooks,
   getRazorwindPreprocessorHooks,
   RAZORWIND_INFER_PREPROCESSOR,
-  registerRazorwindParsers
+  registerRazorwindHooks
 } from "./parsers";
 import type { ResolveTokensPathOptions } from "./resolve-path";
 import { resolveTokensSource, themeKeyFromPath } from "./resolve-path";
@@ -46,8 +46,8 @@ export interface LoadTokensOptions extends ResolveTokensPathOptions {
 
 export type LoadedTokens = Tokens | Record<string, Tokens>;
 
-function ensureParsersRegistered(config: Config): void {
-  registerRazorwindParsers(config.plugins, StyleDictionary);
+function ensureHooksRegistered(config: Config): void {
+  registerRazorwindHooks(config.plugins, StyleDictionary);
 }
 
 function isEmptyTokens(tokens: unknown): boolean {
@@ -80,7 +80,7 @@ async function createDictionary(
   config: Config,
   styleDictionaryConfig: StyleDictionaryConfig
 ): Promise<StyleDictionary> {
-  ensureParsersRegistered(config);
+  ensureHooksRegistered(config);
 
   const sd = new StyleDictionary({
     ...styleDictionaryConfig,

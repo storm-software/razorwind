@@ -101,6 +101,7 @@ function toRegistryItemType(
     case "ui":
     case "page":
       return `registry:${type}`;
+    case undefined:
     default:
       return "registry:component";
   }

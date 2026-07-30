@@ -21,7 +21,9 @@ import type { Plugin } from "./types/plugin";
 export type * from "./types/plugin";
 
 /**
- * Type helper for Razorwind plugins (`extract` / `validate` / `generate`).
+ * Type helper for Razorwind plugins (Style Dictionary hooks + `extract` / `validate` / `generate`).
+ *
+ * @see https://styledictionary.com/reference/api/
  *
  * @example
  * ```ts
@@ -30,6 +32,7 @@ export type * from "./types/plugin";
  * // As a plugin
  * export default definePlugin({
  *   name: "my-plugin",
+ *   transforms: [{ name: "size/px", type: "value", transform: (t) => t }],
  *   extract: async (spec) => {
  *     ...
  *   },
