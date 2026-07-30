@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/core%400.0.12) (07/30/2026)
+
+### Features
+
+- **nx:** Added sync generator to Nx plugin ([b72ebe4](https://github.com/storm-software/razorwind/commit/b72ebe4))
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/core%400.0.11) (07/30/2026)
 
 ### Bug Fixes

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.6) (07/30/2026)
+
+### Features
+
+- **nx:** Added sync generator to Nx plugin ([b72ebe4](https://github.com/storm-software/razorwind/commit/b72ebe4))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.12**
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.5) (07/30/2026)
 
 ### Features
