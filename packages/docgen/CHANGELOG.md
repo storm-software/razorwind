@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.7) (07/30/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typescript compilation issues ([9adb698](https://github.com/storm-software/razorwind/commit/9adb698))
+
+### Features
+
+- **core:** Added support for other style dictionary hooks in plugins ([5c39d9a](https://github.com/storm-software/razorwind/commit/5c39d9a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.11**
+
 ## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.6) (07/27/2026)
 
 ### Features

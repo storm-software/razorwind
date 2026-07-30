@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.7) (07/30/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typescript compilation issues ([9adb698](https://github.com/storm-software/razorwind/commit/9adb698))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.11**
+
 ## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.6) (07/27/2026)
 
 ### Features

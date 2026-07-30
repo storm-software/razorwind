@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.5) (07/30/2026)
+
+### Features
+
+- **core:** Update generator to read `componentsPath` to populate specification ([77ce658](https://github.com/storm-software/razorwind/commit/77ce658))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.11**
+
 ## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.4) (07/27/2026)
 
 ### Updated Dependencies
