@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "generators": {
+    "sync": {
+      "factory": "./dist/generators/sync/generator",
+      "schema": "./dist/generators/sync/schema.json",
+      "description": "Synchronize Razorwind generated files across the workspace",
+      "alias": ["generate-sync"],
+      "hidden": true
+    }
+  }
+}

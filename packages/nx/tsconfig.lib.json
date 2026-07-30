@@ -13,7 +13,9 @@
     "powerlines.base.ts",
     "powerlines.plugin.ts",
     "executors.json",
+    "generators.json",
     "src/executors/**/schema.json",
+    "src/generators/**/schema.json",
     "powerlines.d.ts"
   ],
   "exclude": [

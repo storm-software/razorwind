@@ -46,7 +46,7 @@ export type * from "./types";
  *
  * Orchestrates configured {@link Plugin}s: Style Dictionary hooks, then `extract` → `validate` on input, then `generate`.
  */
-export const generator = defineGenerator<Schema, Options, void>({
+export const generator = defineGenerator<Schema, Options, any>({
   meta: {
     name: "razorwind",
     title: "Razorwind",

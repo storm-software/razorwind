@@ -12,7 +12,9 @@
     "./package.json": "./package.json",
     "./docs/*": "./docs/*",
     "./executors.json": "./executors.json",
+    "./generators.json": "./generators.json",
     "./executors/*/schema.json": "./dist/executors/*/schema.json",
+    "./generators/*/schema.json": "./dist/generators/*/schema.json",
     ".": {
       "import": {
         "types": "./dist/index.d.mts",
@@ -69,6 +71,20 @@
         "default": "./dist/executors/*/untyped.js"
       }
     },
+    "./generators/*/untyped": {
+      "import": {
+        "types": "./dist/generators/*/untyped.d.mts",
+        "default": "./dist/generators/*/untyped.mjs"
+      },
+      "require": {
+        "types": "./dist/generators/*/untyped.d.ts",
+        "default": "./dist/generators/*/untyped.js"
+      },
+      "default": {
+        "types": "./dist/generators/*/untyped.d.ts",
+        "default": "./dist/generators/*/untyped.js"
+      }
+    },
     "./executors/*/executor": {
       "import": {
         "types": "./dist/executors/*/executor.d.mts",
@@ -83,8 +99,24 @@
         "default": "./dist/executors/*/executor.js"
       }
     },
+    "./generators/*/generator": {
+      "import": {
+        "types": "./dist/generators/*/generator.d.mts",
+        "default": "./dist/generators/*/generator.mjs"
+      },
+      "require": {
+        "types": "./dist/generators/*/generator.d.ts",
+        "default": "./dist/generators/*/generator.js"
+      },
+      "default": {
+        "types": "./dist/generators/*/generator.d.ts",
+        "default": "./dist/generators/*/generator.js"
+      }
+    },
     "./executors/*/executor.js": "./dist/executors/*/executor.js",
-    "./executors/*/executor.mjs": "./dist/executors/*/executor.mjs"
+    "./executors/*/executor.mjs": "./dist/executors/*/executor.mjs",
+    "./generators/*/generator.js": "./dist/generators/*/generator.js",
+    "./generators/*/generator.mjs": "./dist/generators/*/generator.mjs"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -114,5 +146,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "generators": "./generators.json"
 }

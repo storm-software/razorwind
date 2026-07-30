@@ -16,26 +16,33 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import untyped from "@powerlines/plugin-untyped";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineUntypedSchema } from "untyped";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  name: "nx-base",
-  input: ["src/executors/*/executor.ts", "src/generators/*/generator.ts"],
-  plugins: [untyped(), tsdown()],
-  platform: "node",
-  resolve: {
-    skipNodeModulesBundle: true
+export default defineUntypedSchema({
+  $schema: {
+    id: "SyncGeneratorSchema",
+    title: "Sync Generator",
+    description:
+      "A type definition for the Razorwind - Sync generator's options",
+    required: []
   },
-  tsdown: {
-    minify: false,
-    unbundle: false,
-    exports: false,
-    fixedExtension: false
+  mode: {
+    $schema: {
+      title: "Mode",
+      type: "string",
+      description: "The mode to use when running Razorwind generate",
+      enum: ["development", "production"]
+    },
+    $default: "production"
+  },
+  outOfSyncMessage: {
+    $schema: {
+      title: "Out of Sync Message",
+      type: "string",
+      description:
+        "The message to display when Razorwind generated files are out of sync"
+    },
+    $default:
+      "Razorwind generated files are out of sync. Run `nx sync` to regenerate."
   }
 });
-
-export default config;

@@ -1,0 +1,31 @@
+{
+  "id": "#",
+  "title": "Sync Generator",
+  "description": "A type definition for the Razorwind - Sync generator's options",
+  "required": [],
+  "properties": {
+    "mode": {
+      "title": "Mode",
+      "type": "string",
+      "description": "The mode to use when running Razorwind generate",
+      "enum": [
+        "development",
+        "production"
+      ],
+      "id": "#mode",
+      "default": "production"
+    },
+    "outOfSyncMessage": {
+      "title": "Out of Sync Message",
+      "type": "string",
+      "description": "The message to display when Razorwind generated files are out of sync",
+      "id": "#outOfSyncMessage",
+      "default": "Razorwind generated files are out of sync. Run `nx sync` to regenerate."
+    }
+  },
+  "type": "object",
+  "default": {
+    "mode": "production",
+    "outOfSyncMessage": "Razorwind generated files are out of sync. Run `nx sync` to regenerate."
+  }
+}
