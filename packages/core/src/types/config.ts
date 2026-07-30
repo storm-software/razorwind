@@ -19,6 +19,7 @@
 import type { Tokens } from "@power-plant/dtcg-schema";
 import type { EnvPaths } from "@stryke/env";
 import type { RequiredKeys } from "@stryke/types/base";
+import type { Components } from "../schema/components";
 import type { Plugin } from "./plugin";
 
 export interface Options {
@@ -30,20 +31,18 @@ export interface Options {
   configFile?: string;
 
   /**
-   * The path to the registry.json file.
-   *
-   * @see https://shadcn.com/docs/registry
+   * The path(s) to directories containing component directories or files.
    */
-  registryPath?: string;
+  componentsPath?: string | string[];
 
   /**
-   * The directory or file containing the tokens.
+   * The directory(ies) or file(s) containing the tokens.
    *
    * @see https://styledictionary.com/info/tokens/
    *
    * @defaultValue "tokens.json" (or "tokens" directory)
    */
-  tokensPath?: string;
+  tokensPath?: string | string[];
 
   /**
    * The mode to use for the configuration.
@@ -51,6 +50,33 @@ export interface Options {
    * @defaultValue "production"
    */
   mode?: "development" | "test" | "production";
+
+  /**
+   * Whether to split multi-file token sources into a record keyed by theme.
+   *
+   * @remarks
+   * When `true`, each resolved source file is inspected for a theme-like basename. The recognized names include (case-insensitive):
+   * - `light`
+   * - `dark`
+   * - `dim`
+   * - `dimmed`
+   * - `high-contrast`
+   * - `hc`
+   * - `default`
+   * - `base`
+   * - `theme`
+   *
+   * The basename is optionally followed by a suffix separated by `.`, `_`, or `-` (for example `light.json`, `dark-mode.tokens.json`, `theme.custom.yaml`).
+   *
+   * Files that match are grouped under that theme key. Non-theme files are merged into a shared `base` entry when at least two distinct themes are detected. If fewer than two themes are found, all sources are merged into a single {@link Tokens} object instead of a record.
+   *
+   * When `false`, every source file is merged into one flat {@link Tokens} object regardless of filename.
+   *
+   * Basename detection uses {@link ../lib/tokens/constants#THEME_BASENAME_PATTERN}.
+   *
+   * @defaultValue true
+   */
+  splitThemes?: boolean;
 }
 
 export interface UserConfig extends Options {
@@ -64,6 +90,7 @@ export interface UserConfig extends Options {
   homepage?: string;
   tags?: string[];
   tokens?: Tokens | Record<string, Tokens>;
+  components?: Components;
   plugins?: Plugin[];
 }
 
@@ -87,7 +114,7 @@ export type UserConfigExport =
   | UserConfigFnPromise
   | UserConfigFn;
 
-export type Config = RequiredKeys<UserConfig, "registryPath" | "plugins"> & {
+export type Config = RequiredKeys<UserConfig, "componentsPath" | "plugins"> & {
   cwd: string;
   envPaths: EnvPaths & {
     home: string;

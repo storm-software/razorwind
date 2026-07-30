@@ -19,6 +19,7 @@
 import { existsSync } from "@stryke/fs/exists";
 import { isDirectory } from "@stryke/fs/is-file";
 import { joinPaths } from "@stryke/path/join";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import { isAbsolute, resolve } from "node:path";
 import {
   DEFAULT_TOKEN_PATH_CANDIDATES,
@@ -34,9 +35,9 @@ export interface ResolveTokensPathOptions {
   cwd: string;
 
   /**
-   * Explicit tokens file or directory from config.
+   * Explicit tokens file(s) or directory(ies) from config.
    */
-  tokensPath?: string;
+  tokensPath?: string | string[];
 
   /**
    * Extra fallback paths (e.g. registry `tailwind.css`).
@@ -47,6 +48,9 @@ export interface ResolveTokensPathOptions {
 export interface ResolvedTokensSource {
   /**
    * Absolute path to the resolved file or directory (if any).
+   *
+   * When multiple `tokensPath` entries are provided, this is the first
+   * resolved path (or the Style Dictionary config when that is the sole entry).
    */
   resolvedPath?: string;
 
@@ -59,6 +63,12 @@ export interface ResolvedTokensSource {
    * How the path was discovered.
    */
   origin: "tokensPath" | "default" | "fallback" | "none";
+}
+
+interface ResolvedSingleTokensPath {
+  resolvedPath: string;
+  source: string[];
+  isStyleDictionaryConfig: boolean;
 }
 
 function toAbsolute(cwd: string, target: string): string {
@@ -89,42 +99,87 @@ function directorySourceGlob(dirPath: string): string {
   return joinPaths(dirPath, TOKEN_DIRECTORY_GLOB);
 }
 
+function normalizeTokensPaths(
+  tokensPath: string | string[] | undefined
+): string[] {
+  if (Array.isArray(tokensPath)) {
+    return tokensPath.filter(isSetString);
+  }
+
+  return isSetString(tokensPath) ? [tokensPath] : [];
+}
+
+function resolveSingleTokensPath(
+  cwd: string,
+  tokensPath: string
+): ResolvedSingleTokensPath {
+  const absolute = toAbsolute(cwd, tokensPath);
+
+  if (!existsSync(absolute)) {
+    throw new Error(
+      `tokensPath "${tokensPath}" does not exist (resolved: ${absolute}).`
+    );
+  }
+
+  if (isDirectory(absolute)) {
+    return {
+      resolvedPath: absolute,
+      source: [directorySourceGlob(absolute)],
+      isStyleDictionaryConfig: false
+    };
+  }
+
+  if (isStyleDictionaryConfig(absolute)) {
+    return {
+      resolvedPath: absolute,
+      source: [],
+      isStyleDictionaryConfig: true
+    };
+  }
+
+  return {
+    resolvedPath: absolute,
+    source: [absolute],
+    isStyleDictionaryConfig: false
+  };
+}
+
 /**
  * Resolve Style Dictionary source globs from `tokensPath` or common defaults.
+ *
+ * When `tokensPath` is an array, each entry is resolved and the resulting
+ * source globs are merged. A Style Dictionary config file may only be used as
+ * the sole `tokensPath` entry.
  */
 export function resolveTokensSource(
   options: ResolveTokensPathOptions
 ): ResolvedTokensSource {
   const { cwd, tokensPath, fallbackPaths = [] } = options;
 
-  if (tokensPath) {
-    const absolute = toAbsolute(cwd, tokensPath);
+  const paths = normalizeTokensPaths(tokensPath);
+  if (paths.length > 0) {
+    const resolved = paths.map(path => resolveSingleTokensPath(cwd, path));
+    const styleDictionaryConfigs = resolved.filter(
+      entry => entry.isStyleDictionaryConfig
+    );
 
-    if (!existsSync(absolute)) {
-      throw new Error(
-        `tokensPath "${tokensPath}" does not exist (resolved: ${absolute}).`
-      );
-    }
+    if (styleDictionaryConfigs.length > 0) {
+      if (resolved.length > 1) {
+        throw new Error(
+          "tokensPath cannot mix Style Dictionary config files with other token sources."
+        );
+      }
 
-    if (isDirectory(absolute)) {
       return {
-        resolvedPath: absolute,
-        source: [directorySourceGlob(absolute)],
-        origin: "tokensPath"
-      };
-    }
-
-    if (isStyleDictionaryConfig(absolute)) {
-      return {
-        resolvedPath: absolute,
+        resolvedPath: styleDictionaryConfigs[0]!.resolvedPath,
         source: [],
         origin: "tokensPath"
       };
     }
 
     return {
-      resolvedPath: absolute,
-      source: [absolute],
+      resolvedPath: resolved[0]?.resolvedPath,
+      source: resolved.flatMap(entry => entry.source),
       origin: "tokensPath"
     };
   }

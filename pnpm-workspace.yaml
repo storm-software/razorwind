@@ -11,12 +11,12 @@ catalog:
   "@nx/vite": 23.1.0
   "@nx/vitest": 23.1.0
   "@nx/workspace": 23.1.0
-  "@power-plant/core": ^0.0.51
+  "@power-plant/core": ^0.0.52
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/style-dictionary": ^0.0.36
-  "@power-plant/schema": ^0.0.49
-  "@power-plant/terrazzo": ^0.0.37
-  "@power-plant/utils": ^0.0.37
+  "@power-plant/style-dictionary": ^0.0.37
+  "@power-plant/schema": ^0.0.50
+  "@power-plant/terrazzo": ^0.0.38
+  "@power-plant/utils": ^0.0.38
   "@powerlines/nx": ^0.13.209
   "@powerlines/plugin-untyped": ^0.2.585
   "@powerlines/tsconfig": ^0.4.217

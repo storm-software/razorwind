@@ -37,9 +37,10 @@ export default defineUntypedSchema({
         default: "production",
         enum: ["development", "production"]
       },
-      registryPath: {
+      componentsPath: {
         type: "string",
-        description: "The path to the registry.json file"
+        description:
+          "The path to a directory containing component directories or files"
       },
       tokensPath: {
         type: "string",

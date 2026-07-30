@@ -289,8 +289,7 @@ export function renderTamaguiConfig(
   options: TamaguiPluginOptions = {}
 ): string {
   const useDefaultConfig = options.useDefaultConfig !== false;
-  const animations =
-    options.animations === undefined ? "css" : options.animations;
+  const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
 
   const primary = pickPrimaryTheme(tokens);
@@ -333,18 +332,19 @@ export function renderTamaguiConfig(
     }
   }
 
-  const hasTokens = createTokensArgs.length > 0;
-
   const themeOptions: string[] = [];
   if (lightPalette) {
     themeOptions.push(`  lightPalette: ${toLiteral(lightPalette)}`);
   }
+
   if (darkPalette) {
     themeOptions.push(`  darkPalette: ${toLiteral(darkPalette)}`);
   }
+
   if (childrenThemes) {
     themeOptions.push(`  childrenThemes: ${childrenThemes}`);
   }
+
   if (hasSemantic) {
     themeOptions.push(`  getTheme: ({ scheme }) => {
     const semantic = scheme === "dark"
@@ -370,7 +370,7 @@ export function renderTamaguiConfig(
   }
 
   const tamaguiImports = ["createTamagui"];
-  if (hasTokens) {
+  if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
   imports.push(`import { ${tamaguiImports.join(", ")} } from "tamagui";`);
@@ -386,7 +386,7 @@ export function renderTamaguiConfig(
     ""
   ];
 
-  if (hasTokens) {
+  if (createTokensArgs.length > 0) {
     lines.push(
       `const tokens = createTokens({`,
       createTokensArgs.join(",\n"),
@@ -406,10 +406,12 @@ export function renderTamaguiConfig(
   if (useDefaultConfig) {
     configParts.push("  ...defaultConfig");
   }
+
   if (animations !== false) {
     configParts.push("  animations");
   }
-  if (hasTokens) {
+
+  if (createTokensArgs.length > 0) {
     if (useDefaultConfig) {
       configParts.push(`  tokens: {
     ...defaultConfig.tokens,

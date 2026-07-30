@@ -20,10 +20,10 @@ export interface GenerateExecutorSchema {
  mode: string,
 
  /**
-  * The path to the registry.json file
+  * The path to a directory containing component directories or files
   * 
  */
- registryPath?: string,
+ componentsPath?: string,
 
  /**
   * The path to the tokens.json file

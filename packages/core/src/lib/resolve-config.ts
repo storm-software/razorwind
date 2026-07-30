@@ -153,12 +153,21 @@ export async function resolveConfig(
       : {},
     isSetObject(homeConfig?.config) ? { ...homeConfig.config } : {},
     {
-      registryPath: isSetString(options.registryPath)
-        ? findFilePath(options.registryPath)
-        : cwd,
+      componentsPath: cwd,
       plugins: []
     }
   );
+
+  if (Array.isArray(config.componentsPath)) {
+    const paths = config.componentsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.componentsPath = paths.length > 0 ? paths : cwd;
+  } else if (isSetString(config.componentsPath)) {
+    config.componentsPath = findFilePath(config.componentsPath);
+  } else {
+    config.componentsPath = cwd;
+  }
 
   if (!Array.isArray(config.plugins)) {
     config.plugins = [];

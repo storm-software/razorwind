@@ -230,20 +230,20 @@ catalogs:
       specifier: 23.1.0
       version: 23.1.0
     '@power-plant/core':
-      specifier: ^0.0.51
-      version: 0.0.51
+      specifier: ^0.0.52
+      version: 0.0.52
     '@power-plant/dtcg-schema':
       specifier: ^0.0.1
       version: 0.0.1
     '@power-plant/schema':
-      specifier: ^0.0.49
-      version: 0.0.49
+      specifier: ^0.0.50
+      version: 0.0.50
     '@power-plant/style-dictionary':
-      specifier: ^0.0.36
-      version: 0.0.36
-    '@power-plant/utils':
       specifier: ^0.0.37
       version: 0.0.37
+    '@power-plant/utils':
+      specifier: ^0.0.38
+      version: 0.0.38
     '@powerlines/nx':
       specifier: ^0.13.209
       version: 0.13.209
@@ -485,7 +485,7 @@ importers:
         version: 23.1.0
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.13.209(a6b5ba732c180e57c94c2f26782e19e5)
+        version: 0.13.209(6ccdfd41d673e301a926dd1c8484296c)
       '@powerlines/tsconfig':
         specifier: 'catalog:'
         version: 0.4.217(@storm-software/tsconfig@0.48.176)
@@ -494,7 +494,7 @@ importers:
         version: 0.2.165(@storm-software/tsdoc@0.13.221(@microsoft/api-extractor@7.58.12(@types/node@25.9.5))(@microsoft/tsdoc-config@0.18.1)(@microsoft/tsdoc@0.16.0))
       '@shell-shock/nx':
         specifier: 'catalog:'
-        version: 0.0.95(51f45b4e20d2133ae1ed1518ab4055aa)
+        version: 0.0.95(7a30d59ffc116d9ea9c75b59444daed1)
       '@storm-software/config':
         specifier: 'catalog:'
         version: 1.138.46(zod@4.4.3)
@@ -603,19 +603,19 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
       '@power-plant/schema':
         specifier: 'catalog:'
-        version: 0.0.49(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.50(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/style-dictionary':
         specifier: 'catalog:'
-        version: 0.0.36(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(tslib@2.8.1)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.37(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(tslib@2.8.1)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/utils':
         specifier: 'catalog:'
-        version: 0.0.37(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.38(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@stryke/env':
         specifier: 'catalog:'
         version: 0.20.116(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
@@ -679,7 +679,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -716,7 +716,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -744,7 +744,7 @@ importers:
         version: 23.1.0(nx@23.1.0)
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
@@ -793,7 +793,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -842,7 +842,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -876,7 +876,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -919,7 +919,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+        version: 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -4264,6 +4264,9 @@ packages:
   '@power-plant/core@0.0.51':
     resolution: {integrity: sha512-4Ljdm00XYqZqbh4/WleSUrOY+3IfOae083O6D+vaFOlI+XPAqRtF92Zfy8wvViNN9TlZm5JZfi4+TYaJvztxZw==}
 
+  '@power-plant/core@0.0.52':
+    resolution: {integrity: sha512-4k6d9CL7Z9lZovKkTSz71MRtt2Dg6KzGStVQdcW1N+dxXS9uj1RziyTeh79gAxivNK3KljPpkXD9r14ehNsVFQ==}
+
   '@power-plant/dtcg-schema@0.0.1':
     resolution: {integrity: sha512-VkM7yuIbOi/vTPLmleXYxD4mlccCVefYhlgWcb3nafI1ogYYTa7yRb5GMSn0NYefVOCGZGxF1bQ/WSjIqU54/w==}
 
@@ -4292,11 +4295,25 @@ packages:
       zod:
         optional: true
 
+  '@power-plant/schema@0.0.50':
+    resolution: {integrity: sha512-Anij87x+/AIgVl8Hxb3PFX5M0RuTo5lQdzbitV34zWmS0t9IVFdxRC0KQKF6pUF1q6TblbsQWpeO3AB8qRDA4g==}
+    peerDependencies:
+      valibot: ^1.4.0 || ^1.5.0
+      zod: ^3.25.0 || ^4.0.0
+    peerDependenciesMeta:
+      valibot:
+        optional: true
+      zod:
+        optional: true
+
   '@power-plant/style-dictionary@0.0.36':
     resolution: {integrity: sha512-2cvUSe6YU32EqtMrIL40WQl7UUOy805uDQfLSv74hGfNsTADTfQXo8NEuqCU05Ls/a+tbdrECLIgY37of7EAvw==}
 
-  '@power-plant/utils@0.0.37':
-    resolution: {integrity: sha512-jYb49Gvi3pC2hvugeYUKhf+ng6wkRExvZloCVrGGOoj5MYYk+miMSinM/GSobZkhKq/TZ2imH+HVuDxGzyj6Yw==}
+  '@power-plant/style-dictionary@0.0.37':
+    resolution: {integrity: sha512-5RtoMwEsgx5XXF30CnEhbtmdKdLguqyyco+7XtsYy6n++cdYbnO0JYZwOY5x/jMcNDvVCjo1YkvH+r+SXpjkEg==}
+
+  '@power-plant/utils@0.0.38':
+    resolution: {integrity: sha512-41MyS2MIZQAYfifsV2l22rSoO/G2CuIZJE3Ht5PtB0mMhkItPNsab3ZANJkAyNnYih77EEg/mxr6sOW7ukXNrg==}
 
   '@powerlines/core@0.48.91':
     resolution: {integrity: sha512-m7OjgLI2W5+lYpWDNgBb1ujpbXJOJ1EnGD++ClVplyHAFwlrYBY0XGX+r1l7lmHtRinaM3RBQA/fUG25sHtyTQ==}
@@ -13311,8 +13328,8 @@ packages:
   strip-literal@3.1.0:
     resolution: {integrity: sha512-8r3mkIM/2+PpjHoOtiAW8Rg3jJLHaV7xPwG+YRGrv6FP0wwk/toTpATxWYOW0BKdWwl82VT2tFYi5DlROa0Mxg==}
 
-  structured-clone-es@2.0.0:
-    resolution: {integrity: sha512-5UuAHmBLXYPCl22xWJrFuGmIhBKQzxISPVz6E7nmTmTcAOpUzlbjKJsRrCE4vADmMQ0dzeCnlWn9XufnAGf76Q==}
+  structured-clone-es@2.0.1:
+    resolution: {integrity: sha512-10ZL5r77LhknxlP1FBiCW+VdnuWOEFLdSS2SKtjyEV+L4qP1hUEIMIZW94LC3jKxRmT/Dj7KkD1mqh/IY6lhKQ==}
 
   style-dictionary@5.5.0:
     resolution: {integrity: sha512-AGkOZtAc3OTz99wlzstrmj5OM5BWOW2IbmXD74sf0MXFPi271TGBdywokgd7bS3L0tKOk9M0FR+R9gnbXRSSfg==}
@@ -18717,52 +18734,6 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/alloy-js@0.0.48(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
-    dependencies:
-      '@alloy-js/core': 0.24.1
-      '@alloy-js/json': 0.24.0
-      '@alloy-js/markdown': 0.24.0
-      '@alloy-js/typescript': 0.24.0
-      '@power-plant/core': 0.0.51(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/noop-output': 0.0.30(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/helpers': 0.10.38
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      defu: 6.1.7
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@netlify/blobs'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - aws4fetch
-      - bufferutil
-      - db0
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - supports-color
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - zod
-
   '@power-plant/core@0.0.16(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
       '@power-plant/schema': 0.0.16(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
@@ -18844,21 +18815,21 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/core@0.0.51(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
+  '@power-plant/core@0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/schema': 0.0.50(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@stryke/convert': 0.7.29
       '@stryke/date': 0.0.10
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/env': 0.20.116(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/fs': 0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/helpers': 0.10.38
       '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/resolve': 0.0.14(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/resolve': 0.0.14(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/unique-id': 0.3.110(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       c12: 3.3.4
       defu: 6.1.7
       jiti: 2.7.0
@@ -18924,36 +18895,6 @@ snapshots:
   '@power-plant/noop-output@0.0.30(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
       '@power-plant/core': 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@netlify/blobs'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - aws4fetch
-      - db0
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - supports-color
-      - uploadthing
-      - valibot
-      - zod
-
-  '@power-plant/noop-output@0.0.30(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
-    dependencies:
-      '@power-plant/core': 0.0.51(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -19086,7 +19027,7 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@power-plant/schema@0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
+  '@power-plant/schema@0.0.50(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
       '@deepkit/core': 1.0.19
       '@deepkit/type': 1.0.19(@deepkit/core@1.0.19)
@@ -19094,17 +19035,17 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       '@stryke/convert': 0.7.29
       '@stryke/date': 0.0.10
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/fs': 0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/hash': 0.13.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/helpers': 0.10.38
       '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/resolve': 0.0.14(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/resolve': 0.0.14(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/url': 0.4.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/unique-id': 0.3.110(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/url': 0.4.49(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/zod': 0.3.44(zod@4.4.3)
       '@valibot/to-json-schema': 1.7.1(valibot@1.4.2(typescript@6.0.3))
       defu: 6.1.7
@@ -19141,7 +19082,7 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@power-plant/style-dictionary@0.0.36(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(tslib@2.8.1)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
+  '@power-plant/style-dictionary@0.0.36(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
       '@power-plant/core': 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@power-plant/dtcg-schema': 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
@@ -19177,10 +19118,46 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/utils@0.0.37(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
+  '@power-plant/style-dictionary@0.0.37(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(tslib@2.8.1)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
     dependencies:
-      '@power-plant/core': 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/schema': 0.0.49(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/core': 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/dtcg-schema': 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
+      '@power-plant/schema': 0.0.50(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@stryke/type-checks': 0.6.31
+      '@stryke/types': 0.12.26
+      style-dictionary: 5.5.0(tslib@2.8.1)
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@deno/kv'
+      - '@netlify/blobs'
+      - '@nx/jest'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/blob'
+      - '@vercel/functions'
+      - '@vercel/kv'
+      - aws4fetch
+      - db0
+      - idb-keyval
+      - ioredis
+      - jest
+      - magicast
+      - supports-color
+      - tslib
+      - uploadthing
+      - valibot
+      - zod
+
+  '@power-plant/utils@0.0.38(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)':
+    dependencies:
+      '@power-plant/core': 0.0.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/schema': 0.0.50(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
@@ -19283,77 +19260,6 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/core@0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@cacheable/memory': 2.2.0
-      '@donedeal0/superdiff': 3.2.0
-      '@jridgewell/sourcemap-codec': 1.5.5
-      '@rolldown/pluginutils': 1.0.1
-      '@storm-software/config': 1.138.46(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@storm-software/prettier': 0.59.162(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(prettier@3.9.6)
-      '@stryke/capnp': 0.12.125(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(typescript@6.0.3)(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      birpc: 4.0.0
-      bundle-require: 5.1.0(esbuild@0.28.1)
-      c12: 3.3.4
-      chalk: 5.6.2
-      compatx: 0.2.0
-      date-fns: 4.4.0
-      defu: 6.1.7
-      devframe: 0.1.22(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      diff-match-patch: 1.0.5
-      flat-cache: 6.1.23
-      jiti: 2.7.0
-      locate-character: 3.0.0
-      magic-string: 0.30.21
-      oxc-parser: 0.99.0(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
-      oxc-resolver: 11.24.2
-      picomatch: 4.0.5
-      prettier: 3.9.6
-      ts-morph: 27.0.2
-      undici: 7.29.0
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      unplugin-combine: 2.4.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@nx/jest'
-      - '@rspack/core'
-      - bufferutil
-      - bun-types-no-globals
-      - esbuild
-      - jest
-      - magicast
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - supports-color
-      - typescript
-      - unloader
-      - utf-8-validate
-      - vite
-      - webpack
-      - zod
-
   '@powerlines/deepkit@0.9.113(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
     dependencies:
       '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
@@ -19363,50 +19269,6 @@ snapshots:
       '@stryke/helpers': 0.10.38
       '@stryke/json': 0.15.22
       '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      defu: 6.1.7
-      jiti: 2.7.0
-      typescript: 6.0.3
-    optionalDependencies:
-      esbuild: 0.28.1
-      rolldown: 1.2.0
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@nx/jest'
-      - '@rspack/core'
-      - bufferutil
-      - bun-types-no-globals
-      - jest
-      - magicast
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rollup
-      - supports-color
-      - unloader
-      - utf-8-validate
-      - vite
-      - webpack
-      - zod
-
-  '@powerlines/deepkit@0.9.113(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/capnp': 0.12.125(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(typescript@6.0.3)(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
       defu: 6.1.7
@@ -19468,7 +19330,7 @@ snapshots:
       human-id: 4.2.0
       jiti: 2.7.0
       sirv: 3.0.2
-      structured-clone-es: 2.0.0
+      structured-clone-es: 2.0.1
       tinypool: 2.1.0
       ua-parser-modern: 0.1.1
       unimport: 5.7.0
@@ -19503,85 +19365,24 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/engine@0.49.93(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config': 1.138.46(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/async': 0.1.26
-      '@stryke/convert': 0.7.29
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/url': 0.4.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      birpc: 4.0.0
-      defu: 6.1.7
-      devframe: 0.1.22(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      get-port-please: 3.2.0
-      h3: 1.15.11
-      handlebars: 4.7.9
-      human-id: 4.2.0
-      jiti: 2.7.0
-      sirv: 3.0.2
-      structured-clone-es: 2.0.0
-      tinypool: 2.1.0
-      ua-parser-modern: 0.1.1
-      unimport: 5.7.0
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@nx/jest'
-      - '@rspack/core'
-      - bufferutil
-      - bun-types-no-globals
-      - esbuild
-      - jest
-      - magicast
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - supports-color
-      - typescript
-      - unloader
-      - utf-8-validate
-      - vite
-      - webpack
-      - zod
-
-  '@powerlines/nx@0.13.209(a6b5ba732c180e57c94c2f26782e19e5)':
+  '@powerlines/nx@0.13.209(6ccdfd41d673e301a926dd1c8484296c)':
     dependencies:
       '@nx/devkit': 23.1.0(nx@23.1.0)
       '@storm-software/build-tools': 0.158.269(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.7)(nx@23.1.0)(verdaccio@6.0.5(typanion@3.14.0)))(nx@23.1.0)(typescript@6.0.3)
       '@storm-software/config': 1.138.46(zod@4.4.3)
       '@storm-software/config-tools': 1.190.109(zod@4.4.3)
       '@storm-software/workspace-tools': 1.296.89(@babel/traverse@7.29.7)(@storm-software/pnpm-tools@0.7.120(zod@4.4.3))(@types/node@25.9.5)(markdownlint-cli2@0.17.2)(nx@23.1.0)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(prettier@3.9.6)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0))
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/env': 0.20.116(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/fs': 0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/hash': 0.13.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/helpers': 0.10.38
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       defu: 6.1.7
       jiti: 2.7.0
       nx: 23.1.0
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
+      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -19655,92 +19456,6 @@ snapshots:
       - utf-8-validate
       - valibot
       - verdaccio
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
-  '@powerlines/plugin-alloy@0.26.264(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@alloy-js/core': 0.24.1
-      '@alloy-js/typescript': 0.24.0
-      '@babel/preset-typescript': 8.0.1(@babel/core@8.0.1)
-      '@power-plant/alloy-js': 0.0.48(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/core': 0.0.51(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@powerlines/plugin-babel': 0.13.166(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-power-plant': 0.1.26(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/capnp': 0.12.125(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(typescript@6.0.3)(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@babel/core'
-      - '@babel/plugin-syntax-jsx'
-      - '@babel/plugin-syntax-typescript'
-      - '@babel/plugin-transform-json-modules'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
       - vite
       - vue-tsc
       - webpack
@@ -19845,159 +19560,6 @@ snapshots:
       defu: 6.1.7
       markdown-toc: 1.2.0
       powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
-  '@powerlines/plugin-automd@0.1.631(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      c12: 3.3.4
-      defu: 6.1.7
-      markdown-toc: 1.2.0
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
-  '@powerlines/plugin-babel@0.13.166(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@babel/core': 8.0.1
-      '@babel/generator': 8.0.0
-      '@babel/helper-plugin-utils': 8.0.1(@babel/core@8.0.1)
-      '@babel/parser': 8.0.4
-      '@babel/types': 8.0.4
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      chalk: 5.6.2
-      defu: 6.1.7
-      jiti: 2.7.0
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -20211,174 +19773,6 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/plugin-deepkit@0.11.513(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@powerlines/plugin-tsc': 0.3.167(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
-  '@powerlines/plugin-env@0.16.375(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))':
-    dependencies:
-      '@alloy-js/core': 0.24.1
-      '@alloy-js/json': 0.24.0
-      '@alloy-js/markdown': 0.24.0
-      '@alloy-js/typescript': 0.24.0
-      '@babel/core': 8.0.1
-      '@babel/types': 8.0.4
-      '@power-plant/alloy-js': 0.0.48(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-alloy': 0.26.264(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-automd': 0.1.631(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-babel': 0.13.166(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-plugin': 0.12.582(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-power-plant': 0.1.26(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/capnp': 0.12.125(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(typescript@6.0.3)(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      automd: 0.4.3
-      c12: 3.3.4
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - '@alloy-js/babel-preset'
-      - '@arethetypeswrong/core'
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@babel/plugin-syntax-jsx'
-      - '@babel/plugin-syntax-typescript'
-      - '@babel/plugin-transform-json-modules'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - publint
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-
   '@powerlines/plugin-env@0.16.375(ac251d73d1a3d6291d83041e3890fb34)':
     dependencies:
       '@alloy-js/core': 0.24.1
@@ -20477,88 +19871,6 @@ snapshots:
       - vite
       - vue-tsc
       - webpack
-
-  '@powerlines/plugin-nodejs@0.1.576(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@alloy-js/core': 0.24.1
-      '@alloy-js/typescript': 0.24.0
-      '@power-plant/alloy-js': 0.0.48(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@powerlines/plugin-alloy': 0.26.264(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-babel': 0.13.166(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-env': 0.16.375(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      '@powerlines/plugin-plugin': 0.12.582(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@alloy-js/babel-preset'
-      - '@arethetypeswrong/core'
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@babel/core'
-      - '@babel/plugin-syntax-jsx'
-      - '@babel/plugin-syntax-typescript'
-      - '@babel/plugin-transform-json-modules'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - publint
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
 
   '@powerlines/plugin-nodejs@0.1.576(ecb751c7d4acd8631eca9a80f606341b)':
     dependencies:
@@ -20712,76 +20024,6 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/plugin-plugin@0.12.582(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@powerlines/plugin-tsdown': 0.1.571(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/types': 0.12.26
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-    transitivePeerDependencies:
-      - '@arethetypeswrong/core'
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - publint
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
   '@powerlines/plugin-power-plant@0.1.26(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
     dependencies:
       '@power-plant/core': 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
@@ -20851,79 +20093,10 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/plugin-power-plant@0.1.26(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@power-plant/core': 0.0.51(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      unstorage: 1.17.5
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
   '@powerlines/plugin-style-dictionary@0.3.539(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
     dependencies:
       '@power-plant/core': 0.0.51(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@power-plant/style-dictionary': 0.0.36(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(tslib@2.8.1)(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/style-dictionary': 0.0.36(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
       '@powerlines/plugin-power-plant': 0.1.26(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
       '@storm-software/config-tools': 1.190.109(zod@4.4.3)
       '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
@@ -21062,74 +20235,6 @@ snapshots:
       - webpack
       - zod
 
-  '@powerlines/plugin-tsc@0.3.167(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      typescript: 6.0.3
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
   ? '@powerlines/plugin-tsdown@0.1.571(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)'
   : dependencies:
       '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
@@ -21138,77 +20243,6 @@ snapshots:
       '@stryke/helpers': 0.10.38
       defu: 6.1.7
       powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      tsdown: 0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3)
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
-  '@powerlines/plugin-tsdown@0.1.571(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/unplugin': 0.0.139(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/helpers': 0.10.38
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
       tsdown: 0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3)
       unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
     transitivePeerDependencies:
@@ -21406,73 +20440,6 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@powerlines/schema@0.11.127(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@msgpack/msgpack': 3.1.3
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/deepkit': 0.9.113(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/unplugin': 0.0.114(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@standard-schema/spec': 1.1.0
-      '@stryke/convert': 0.7.29
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      '@stryke/zod': 0.3.44(zod@4.4.3)
-      '@valibot/to-json-schema': 1.7.1(valibot@1.4.2(typescript@6.0.3))
-      ajv: 8.20.0
-      ajv-formats: 3.0.1(ajv@8.20.0)
-      defu: 6.1.7
-      esbuild: 0.28.1
-      smol-toml: 1.7.1
-      typescript: 6.0.3
-      untyped: 1.5.2
-      yaml: 2.9.0
-    optionalDependencies:
-      valibot: 1.4.2(typescript@6.0.3)
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - astro
-      - bufferutil
-      - bun-types-no-globals
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - unloader
-      - utf-8-validate
-      - vite
-      - vue-tsc
-      - webpack
-
   '@powerlines/tsconfig@0.4.217(@storm-software/tsconfig@0.48.176)':
     dependencies:
       '@storm-software/tsconfig': 0.48.176
@@ -21536,61 +20503,6 @@ snapshots:
       - vue-tsc
       - zod
 
-  '@powerlines/unplugin@0.0.114(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@farmfe/cli': 1.0.5
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@rollup/plugin-alias': 6.0.0(rollup@4.62.3)
-      '@rollup/plugin-inject': 5.0.5(rollup@4.62.3)
-      '@rollup/plugin-node-resolve': 16.0.3(rollup@4.62.3)
-      '@rollup/plugin-replace': 6.0.3(rollup@4.62.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      defu: 6.1.7
-      glob: 13.0.6
-      jiti: 2.7.0
-      rolldown-plugin-dts: 0.25.2(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(rolldown@1.2.0)(typescript@6.0.3)
-      rollup-plugin-typescript2: 0.36.0(rollup@4.62.3)(typescript@6.0.3)
-    optionalDependencies:
-      esbuild: 0.28.1
-      rolldown: 1.2.0
-      rollup: 4.62.3
-      tsdown: 0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3)
-      vite: 8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@modelcontextprotocol/sdk'
-      - '@nx/jest'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - bufferutil
-      - bun-types-no-globals
-      - jest
-      - magicast
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - supports-color
-      - typescript
-      - utf-8-validate
-      - vue-tsc
-      - zod
-
   '@powerlines/unplugin@0.0.139(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
     dependencies:
       '@farmfe/cli': 1.0.5
@@ -21608,61 +20520,6 @@ snapshots:
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
       '@stryke/unique-id': 0.3.110(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      defu: 6.1.7
-      glob: 13.0.6
-      jiti: 2.7.0
-      rolldown-plugin-dts: 0.25.2(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(rolldown@1.2.0)(typescript@6.0.3)
-      rollup-plugin-typescript2: 0.36.0(rollup@4.62.3)(typescript@6.0.3)
-    optionalDependencies:
-      esbuild: 0.28.1
-      rolldown: 1.2.0
-      rollup: 4.62.3
-      tsdown: 0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3)
-      vite: 8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@modelcontextprotocol/sdk'
-      - '@nx/jest'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - bufferutil
-      - bun-types-no-globals
-      - jest
-      - magicast
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - supports-color
-      - typescript
-      - utf-8-validate
-      - vue-tsc
-      - zod
-
-  '@powerlines/unplugin@0.0.139(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@farmfe/cli': 1.0.5
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@rollup/plugin-alias': 6.0.0(rollup@4.62.3)
-      '@rollup/plugin-inject': 5.0.5(rollup@4.62.3)
-      '@rollup/plugin-node-resolve': 16.0.3(rollup@4.62.3)
-      '@rollup/plugin-replace': 6.0.3(rollup@4.62.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      '@stryke/unique-id': 0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       defu: 6.1.7
       glob: 13.0.6
       jiti: 2.7.0
@@ -22225,108 +21082,6 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/core@0.17.22(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)':
-    dependencies:
-      '@alloy-js/core': 0.23.1
-      '@alloy-js/markdown': 0.23.0
-      '@alloy-js/typescript': 0.23.0
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/deepkit': 0.9.113(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/engine': 0.49.93(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-alloy': 0.26.264(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-automd': 0.1.631(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-deepkit': 0.11.513(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-nodejs': 0.1.576(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/plugin-tsdown': 0.1.571(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/schema': 0.11.127(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@stryke/cli': 0.13.71(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      automd: 0.4.3
-      defu: 6.1.7
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      tsdown: 0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3)
-    transitivePeerDependencies:
-      - '@alloy-js/babel-preset'
-      - '@arethetypeswrong/core'
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@babel/core'
-      - '@babel/plugin-syntax-jsx'
-      - '@babel/plugin-syntax-typescript'
-      - '@babel/plugin-transform-json-modules'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@tsdown/css'
-      - '@tsdown/exe'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - '@vitejs/devtools'
-      - '@volar/typescript'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - esbuild
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - publint
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsup
-      - tsx
-      - typescript
-      - unloader
-      - unplugin-unused
-      - unrun
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
   '@shell-shock/eslint-plugin@0.0.86(ebed1edea19be88134107883b657fe97)':
     dependencies:
       '@storm-software/testing-tools': 1.119.262(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
@@ -22397,22 +21152,22 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/nx@0.0.95(51f45b4e20d2133ae1ed1518ab4055aa)':
+  '@shell-shock/nx@0.0.95(7a30d59ffc116d9ea9c75b59444daed1)':
     dependencies:
       '@nx/devkit': 22.7.5(nx@23.1.0)
-      '@powerlines/nx': 0.13.209(a6b5ba732c180e57c94c2f26782e19e5)
-      '@shell-shock/core': 0.17.22(@babel/core@8.0.1)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
+      '@powerlines/nx': 0.13.209(6ccdfd41d673e301a926dd1c8484296c)
+      '@shell-shock/core': 0.17.22(9dd3f6fef19fedebdf3c4f40f9e95e80)
       '@storm-software/config': 1.138.46(zod@4.4.3)
       '@storm-software/config-tools': 1.190.109(zod@4.4.3)
       '@storm-software/workspace-tools': 1.296.89(@babel/traverse@7.29.7)(@storm-software/pnpm-tools@0.7.120(zod@4.4.3))(@types/node@25.9.5)(markdownlint-cli2@0.17.2)(nx@23.1.0)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(prettier@3.9.6)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0))
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/hash': 0.13.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
+      '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
+      '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       defu: 6.1.7
       jiti: 2.7.0
       nx: 23.1.0
-      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
+      powerlines: 0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
       untyped: 1.5.2
     transitivePeerDependencies:
       - '@alloy-js/babel-preset'
@@ -23956,13 +22711,6 @@ snapshots:
       jest: 30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0)
       mlly: 1.8.2
 
-  '@storm-software/testing-tools@1.119.262(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))':
-    dependencies:
-      '@nx/jest': 23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0))
-      defu: 6.1.7
-      jest: 30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0)
-      mlly: 1.8.2
-
   '@storm-software/tsconfig@0.48.176':
     dependencies:
       '@total-typescript/ts-reset': 0.5.1
@@ -24096,46 +22844,12 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/capnp@0.12.125(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(typescript@6.0.3)(zod@4.4.3)':
-    dependencies:
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      defu: 6.1.7
-      hex2dec: 1.1.2
-      nanotar: 0.2.1
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/cli@0.13.71(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
     dependencies:
       '@antfu/ni': 23.3.1
       '@stryke/convert': 0.7.29
       '@stryke/env': 0.20.116(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/string-format': 0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      defu: 6.1.7
-      execa: 9.6.1
-      figlet: 1.11.4
-      is-unicode-supported: 2.1.0
-      string-width: 7.2.0
-      terminal-link: 3.0.0
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
-  '@stryke/cli@0.13.71(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@antfu/ni': 23.3.1
-      '@stryke/convert': 0.7.29
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
       defu: 6.1.7
@@ -24173,20 +22887,6 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/env@0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@dotenvx/dotenvx': 1.35.0
-      '@stryke/convert': 0.7.29
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      defu: 6.1.7
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/fs@0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
     dependencies:
       '@antfu/install-pkg': 1.1.0
@@ -24212,47 +22912,9 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/fs@0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@antfu/install-pkg': 1.1.0
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/helpers': 0.10.38
-      '@stryke/json': 0.15.22
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/string-format': 0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      chalk: 5.6.2
-      defu: 6.1.7
-      glob: 11.1.0
-      nanotar: 0.2.1
-      semver: 7.7.1
-      smol-toml: 1.7.1
-      tinyexec: 0.3.2
-      yaml: 2.9.0
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/hash@0.13.52(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
     dependencies:
       '@stryke/fs': 0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/json': 0.15.22
-      '@stryke/type-checks': 0.6.31
-      js-xxhash: 4.0.0
-      ohash: 2.0.11
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
-  '@stryke/hash@0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/json': 0.15.22
       '@stryke/type-checks': 0.6.31
       js-xxhash: 4.0.0
@@ -24283,20 +22945,6 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/http@0.12.89(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/type-checks': 0.6.31
-      '@stryke/url': 0.4.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      defu: 6.1.7
-      mime-types: 3.0.2
-      ufo: 1.6.4
-      undici: 7.29.0
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/json@0.15.22':
     dependencies:
       '@stryke/type-checks': 0.6.31
@@ -24309,16 +22957,6 @@ snapshots:
   '@stryke/path@0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))':
     dependencies:
       '@storm-software/testing-tools': 1.119.262(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/convert': 0.7.29
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-
-  '@stryke/path@0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))':
-    dependencies:
-      '@storm-software/testing-tools': 1.119.262(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/convert': 0.7.29
       '@stryke/type-checks': 0.6.31
       '@stryke/types': 0.12.26
@@ -24366,38 +23004,10 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/resolve@0.0.14(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/http': 0.12.89(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      '@stryke/url': 0.4.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      defu: 6.1.7
-      esbuild: 0.28.1
-      jiti: 2.7.0
-      smol-toml: 1.7.1
-      typescript: 6.0.3
-      yaml: 2.9.0
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/string-format@0.17.40(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))':
     dependencies:
       '@stryke/helpers': 0.10.38
       '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-
-  '@stryke/string-format@0.17.40(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))':
-    dependencies:
-      '@stryke/helpers': 0.10.38
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
     transitivePeerDependencies:
       - '@nx/jest'
       - jest
@@ -24418,31 +23028,10 @@ snapshots:
       - magicast
       - zod
 
-  '@stryke/unique-id@0.3.110(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/hash': 0.13.52(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      human-id: 4.2.0
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
   '@stryke/url@0.4.49(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
     dependencies:
       '@stryke/fs': 0.33.99(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
       '@stryke/path': 0.29.25(@nx/jest@23.0.1(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-    transitivePeerDependencies:
-      - '@nx/jest'
-      - jest
-      - magicast
-      - zod
-
-  '@stryke/url@0.4.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)':
-    dependencies:
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks': 0.6.31
     transitivePeerDependencies:
       - '@nx/jest'
@@ -33789,88 +32378,6 @@ snapshots:
       - webpack
       - zod
 
-  powerlines@0.47.170(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3):
-    dependencies:
-      '@babel/types': 8.0.4
-      '@power-plant/schema': 0.0.49(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      '@powerlines/core': 0.48.91(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/engine': 0.49.93(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@powerlines/unplugin': 0.0.139(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-organize-imports@4.3.0(prettier@3.9.6)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.6))(prettier-plugin-sh@0.15.0(prettier@3.9.6))(prettier-plugin-toml@2.0.4(prettier@3.9.6))(rolldown@1.2.0)(rollup@4.62.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(typescript@6.0.3))(typescript@6.0.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(zod@4.4.3)
-      '@storm-software/config': 1.138.46(zod@4.4.3)
-      '@storm-software/config-tools': 1.190.109(zod@4.4.3)
-      '@stryke/convert': 0.7.29
-      '@stryke/env': 0.20.116(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/fs': 0.33.99(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(zod@4.4.3)
-      '@stryke/helpers': 0.10.38
-      '@stryke/path': 0.29.25(@nx/jest@23.1.0(@babel/traverse@7.29.7)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
-      '@stryke/type-checks': 0.6.31
-      '@stryke/types': 0.12.26
-      defu: 6.1.7
-      esbuild: 0.28.1
-      smol-toml: 1.7.1
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.2.0)(rollup@4.62.3)(vite@8.1.5(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      yaml: 2.9.0
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@farmfe/cli'
-      - '@farmfe/core'
-      - '@modelcontextprotocol/sdk'
-      - '@netlify/blobs'
-      - '@nuxt/kit'
-      - '@nuxt/schema'
-      - '@nx/jest'
-      - '@planetscale/database'
-      - '@rspack/core'
-      - '@ts-macro/tsc'
-      - '@typescript/native-preview'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - astro
-      - aws4fetch
-      - bufferutil
-      - bun-types-no-globals
-      - db0
-      - idb-keyval
-      - ioredis
-      - jest
-      - magicast
-      - next
-      - oxc-resolver
-      - prettier-plugin-astro
-      - prettier-plugin-organize-imports
-      - prettier-plugin-packagejson
-      - prettier-plugin-prisma
-      - prettier-plugin-sh
-      - prettier-plugin-solidity
-      - prettier-plugin-tailwindcss
-      - prettier-plugin-toml
-      - rolldown
-      - rollup
-      - rspack
-      - supports-color
-      - tsdown
-      - tsup
-      - typescript
-      - unloader
-      - uploadthing
-      - utf-8-validate
-      - valibot
-      - vite
-      - vue-tsc
-      - webpack
-      - zod
-
   powershell-utils@0.1.0: {}
 
   prelude-ls@1.2.1: {}
@@ -35326,7 +33833,7 @@ snapshots:
     dependencies:
       js-tokens: 9.0.1
 
-  structured-clone-es@2.0.0: {}
+  structured-clone-es@2.0.1: {}
 
   style-dictionary@5.5.0(tslib@2.8.1):
     dependencies:

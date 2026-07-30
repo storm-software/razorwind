@@ -20,11 +20,11 @@ The path to the configuration file
 The mode to use
 
 
-## `registryPath`
+## `componentsPath`
 - **Type**: `string`
 
 
-The path to the registry.json file
+The path to a directory containing component directories or files
 
 
 ## `tokensPath`

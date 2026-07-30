@@ -270,7 +270,7 @@ export async function extractComponentsFromRegistry(
  * import shadcn from "@razorwind/shadcn/extract";
  *
  * export default defineConfig({
- *   plugins: [shadcn()]
+ *   plugins: [shadcn({ configFile: "components/registry.json" })]
  * });
  * ```
  */

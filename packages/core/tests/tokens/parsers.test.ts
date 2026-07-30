@@ -43,7 +43,7 @@ async function makeTempDir(): Promise<string> {
 function testConfig(cwd: string): Config {
   return {
     cwd,
-    registryPath: cwd,
+    componentsPath: cwd,
     plugins: [],
     envPaths: {
       data: "",
@@ -201,6 +201,34 @@ describe("resolveTokensSource + loadTokens", () => {
         }
       }
     });
+  });
+
+  it("merges multiple tokensPath entries", async () => {
+    const dir = await makeTempDir();
+    const brand = join(dir, "brand.json");
+    const spacing = join(dir, "spacing.json");
+    await writeFile(
+      brand,
+      JSON.stringify({
+        color: { accent: { value: "#abcdef" } }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      spacing,
+      JSON.stringify({
+        spacing: { md: { value: "1rem" } }
+      }),
+      "utf8"
+    );
+
+    const resolved = resolveTokensSource({
+      cwd: dir,
+      tokensPath: [brand, spacing]
+    });
+    expect(resolved.origin).toBe("tokensPath");
+    expect(resolved.source).toEqual([brand, spacing]);
+    expect(resolved.resolvedPath).toBe(brand);
   });
 
   it("falls back to tokens.json when tokensPath omitted", async () => {

@@ -44,10 +44,8 @@ async function executorFn(
   }
 
   await execute(generator, {
-    configFile: options.configFile,
-    mode: options.mode as "development" | "production",
-    registryPath: options.registryPath,
-    tokensPath: options.tokensPath
+    ...options,
+    mode: options.mode as "development" | "production"
   });
 
   return {

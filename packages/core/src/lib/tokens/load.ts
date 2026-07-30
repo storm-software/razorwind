@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { ExecutionContext } from "@power-plant/core";
 import type { Tokens } from "@power-plant/dtcg-schema";
 import { existsSync } from "@stryke/fs/exists";
 import { importModule } from "@stryke/fs/resolve";
@@ -24,6 +25,7 @@ import fg from "fast-glob";
 import { basename } from "node:path";
 import StyleDictionary from "style-dictionary";
 import type { Config as StyleDictionaryConfig } from "style-dictionary/types";
+import type { Schema } from "../../schema";
 import type { Config } from "../../types/config";
 import { TOKEN_PARSER_NAMES } from "./constants";
 import {
@@ -179,16 +181,14 @@ async function loadSplitByTheme(
  * Load design tokens via Style Dictionary parser hooks.
  *
  * Resolution order:
- * 1. Explicit `tokensPath` (file, directory, or SD config)
+ * 1. Explicit `tokensPath` (file, directory, array of those, or SD config)
  * 2. Common default paths (`tokens.json`, `tokens/`, …)
  * 3. Fallback paths (e.g. registry Tailwind CSS)
  */
 export async function loadTokens(
-  config: Config,
-  options: LoadTokensOptions
+  context: ExecutionContext<Schema, Config, void>
 ): Promise<LoadedTokens> {
-  const { splitThemes = true, ...resolveOptions } = options;
-  const resolved = resolveTokensSource(resolveOptions);
+  const resolved = resolveTokensSource(context.options);
 
   if (
     resolved.resolvedPath &&
@@ -197,23 +197,23 @@ export async function loadTokens(
       basename(resolved.resolvedPath)
     )
   ) {
-    const sd = await createDictionary(
-      config,
+    context.sd = await createDictionary(
+      context.options,
       await loadStyleDictionaryConfig(resolved.resolvedPath)
     );
 
-    return sd.tokens;
+    return context.sd.tokens;
   }
 
   if (resolved.source.length === 0) {
     return {};
   }
 
-  if (splitThemes) {
-    return loadSplitByTheme(config, resolved.source);
+  if (context.options.splitThemes) {
+    return loadSplitByTheme(context.options, resolved.source);
   }
 
-  return loadFromSources(config, resolved.source);
+  return loadFromSources(context.options, resolved.source);
 }
 
 /**
@@ -226,15 +226,19 @@ export async function loadTokens(
  * @throws An error if the tokens are not valid.
  */
 export async function loadTokensOrThrow(
-  config: Config,
-  options: LoadTokensOptions
+  context: ExecutionContext<Schema, Config, void>
 ): Promise<LoadedTokens> {
-  const tokens = await loadTokens(config, options);
+  const tokens = await loadTokens(context);
 
   if (isEmptyTokens(tokens)) {
-    const hint = isSetString(options.tokensPath)
-      ? `tokensPath="${options.tokensPath}"`
-      : "default token paths / CSS fallbacks";
+    const { tokensPath } = context.options;
+    const hint = Array.isArray(tokensPath)
+      ? tokensPath.length > 0
+        ? `tokensPath=[${tokensPath.map(path => `"${path}"`).join(", ")}]`
+        : "default token paths / CSS fallbacks"
+      : isSetString(tokensPath)
+        ? `tokensPath="${tokensPath}"`
+        : "default token paths / CSS fallbacks";
     throw new Error(
       `No design tokens found via ${hint}. Provide tokensPath or add a tokens file.`
     );

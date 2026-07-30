@@ -78,7 +78,7 @@ export const TOKEN_DIRECTORY_GLOB = `**/*.{${EXT_GLOB}}`;
 
 /** Theme-like basename patterns used to split multi-file sources into a record. */
 export const THEME_BASENAME_PATTERN =
-  /^(light|dark|dim|high-contrast|hc|default|base|theme)([._-].+)?$/i;
+  /^(light|dark|dim|dimmed|high-contrast|hc|default|base|theme)([._-].+)?$/i;
 
 /** Path segment hints used when inferring `$type`. */
 export const TYPE_PATH_HINTS: Record<string, string> = {
