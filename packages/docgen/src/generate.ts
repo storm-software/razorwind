@@ -502,9 +502,9 @@ export function generateDocs(
  * });
  * ```
  */
-export default definePlugin((options: DocgenGeneratePluginOptions = {}) => ({
+export default definePlugin((options?: DocgenGeneratePluginOptions) => ({
   name: "docgen:generate",
   generate: async spec => {
-    return generateDocs(spec, options);
+    return generateDocs(spec, options ?? {});
   }
 }));

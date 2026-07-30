@@ -352,7 +352,7 @@ export async function loadDesignMdTokens(
  * });
  * ```
  */
-export default definePlugin((options: DesignMdExtractPluginOptions = {}) => ({
+export default definePlugin((options?: DesignMdExtractPluginOptions) => ({
   name: "design-md:extract",
   parsers: [
     {
@@ -366,7 +366,7 @@ export default definePlugin((options: DesignMdExtractPluginOptions = {}) => ({
       return spec;
     }
 
-    let path = options.path;
+    let path = options?.path;
     if (!path) {
       // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
       const { cwd } = useExecution();

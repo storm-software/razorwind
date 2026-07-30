@@ -173,7 +173,11 @@ function extractTypographyValue(
     const resolved = target ? resolveAlias(target, byPath).cssValue : undefined;
 
     if (typeof raw === "number") {
-      typography[property] = raw;
+      if (property === "fontWeight" || property === "lineHeight") {
+        typography[property] = raw;
+      } else {
+        typography[property] = formatTokenValue(raw);
+      }
       continue;
     }
 
@@ -181,6 +185,18 @@ function extractTypographyValue(
   }
 
   return typography;
+}
+
+function applyGenerateOptions(
+  document: DesignMdDocument,
+  options: DesignMdGeneratePluginOptions
+): DesignMdDocument {
+  return {
+    ...document,
+    ...(options.name !== undefined && { name: options.name }),
+    ...(options.description !== undefined && { description: options.description }),
+    ...(options.version !== undefined && { version: options.version })
+  };
 }
 
 /**
@@ -191,7 +207,7 @@ function extractTypographyValue(
  * `{section.token}` references when the target token is part of the output,
  * or resolved to their terminal CSS value otherwise.
  */
-function extractDesignMd(spec: Schema): DesignMdDocument {
+export function extractDesignMd(spec: Schema): DesignMdDocument {
   const flat = selectPrimaryTheme(flattenTokens(spec.tokens));
   const byPath = new Map(flat.map(token => [token.path, token]));
 
@@ -465,7 +481,7 @@ function renderBody(
  *
  * @see https://github.com/google-labs-code/design.md
  */
-function renderDesignMd(
+export function renderDesignMd(
   document: DesignMdDocument,
   options: DesignMdGeneratePluginOptions = {}
 ): string {
@@ -478,11 +494,11 @@ function renderDesignMd(
  *
  * @see https://github.com/google-labs-code/design.md
  */
-function generateDesignMd(
+export function generateDesignMd(
   spec: Schema,
   options: DesignMdGeneratePluginOptions = {}
 ): GeneratorFunctionResult<Schema, DesignMdGeneratePluginOptions> {
-  const document = extractDesignMd(spec);
+  const document = applyGenerateOptions(extractDesignMd(spec), options);
 
   return {
     [options.outputPath ?? "DESIGN.md"]: {
@@ -515,9 +531,9 @@ function generateDesignMd(
  * });
  * ```
  */
-export default definePlugin((options: DesignMdGeneratePluginOptions = {}) => ({
+export default definePlugin((options?: DesignMdGeneratePluginOptions) => ({
   name: "design-md:generate",
   generate: async spec => {
-    return generateDesignMd(spec, options);
+    return generateDesignMd(spec, options ?? {});
   }
 }));

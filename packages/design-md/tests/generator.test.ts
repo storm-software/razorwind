@@ -18,11 +18,15 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import { extractDesignMd } from "../src/lib/extract";
+import extract from "../src/extract";
+import {
+  extractDesignMd,
+  generateDesignMd,
+  renderDesignMd
+} from "../src/generate";
 import { flattenTokens } from "../src/lib/flatten";
 import { toTokenName, toYamlScalar } from "../src/lib/format";
-import { generateDesignMd, renderDesignMd } from "../src/lib/generate";
-import designMd from "../src/index";
+import generate from "../src/generate";
 
 const tokens = {
   color: {
@@ -93,9 +97,8 @@ describe("format helpers", () => {
 
 describe("extractDesignMd", () => {
   it("maps DTCG tokens into DESIGN.md sections", () => {
-    const document = extractDesignMd(spec, { name: "Heritage" });
+    const document = extractDesignMd(spec);
 
-    expect(document.name).toBe("Heritage");
     expect(document.colors.primary).toBe("#0066cc");
     expect(document.colors.secondary).toBe("#663399");
     expect(document.colorDescriptions.primary).toBe("Brand primary");
@@ -147,21 +150,27 @@ describe("renderDesignMd", () => {
   });
 });
 
-describe("design-md plugin", () => {
-  it("is a Razorwind Plugin", () => {
-    expect(designMd.name).toBe("razorwind-design-md");
-    expect(typeof designMd.extract).toBe("function");
-    expect(typeof designMd.validate).toBe("function");
-    expect(typeof designMd.generate).toBe("function");
-    expect(designMd.parsers?.length).toBeGreaterThan(0);
+describe("design-md plugins", () => {
+  it("extract plugin is a Razorwind Plugin", () => {
+    const plugin = extract({});
+    expect(plugin.name).toBe("design-md:extract");
+    expect(typeof plugin.extract).toBe("function");
+    expect(plugin.parsers?.length).toBeGreaterThan(0);
+  });
+
+  it("generate plugin is a Razorwind Plugin", () => {
+    const plugin = generate({});
+    expect(plugin.name).toBe("design-md:generate");
+    expect(typeof plugin.generate).toBe("function");
   });
 
   it("generates a DESIGN.md document from the schema", async () => {
-    const documents = await designMd.generate(spec, {
-      outFile: "docs/DESIGN.md",
+    const plugin = generate({
+      outputPath: "docs/DESIGN.md",
       name: "Heritage",
       overview: "Architectural minimalism."
-    } as never);
+    });
+    const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual(["docs/DESIGN.md"]);
 

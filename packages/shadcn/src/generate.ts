@@ -259,7 +259,7 @@ export async function generateRegistryJson(
  * });
  * ```
  */
-export default definePlugin((options: ShadcnGeneratePluginOptions = {}) => ({
+export default definePlugin((options?: ShadcnGeneratePluginOptions) => ({
   name: "shadcn:generate",
-  generate: async spec => generateRegistryJson(spec, options)
+  generate: async spec => generateRegistryJson(spec, options ?? {})
 }));

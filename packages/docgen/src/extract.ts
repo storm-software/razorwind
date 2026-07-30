@@ -33,7 +33,7 @@ import type { DocgenExtractPluginOptions } from "./types";
  * });
  * ```
  */
-export default definePlugin((_options: DocgenExtractPluginOptions = {}) => ({
+export default definePlugin((_options?: DocgenExtractPluginOptions) => ({
   name: "docgen:extract",
   extract: async spec => spec
 }));

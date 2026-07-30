@@ -57,11 +57,11 @@ export type * from "./types/plugin";
  * ```
  */
 export function definePlugin(
-  factory: (options: any) => Plugin
-): (options: any) => Plugin;
+  factory: (options?: any) => Plugin
+): (options?: any) => Plugin;
 export function definePlugin(plugin: Plugin): Plugin;
-export function definePlugin<T extends Plugin | ((options: any) => Plugin)>(
-  pluginOrFactory: T
-): T {
+export function definePlugin(
+  pluginOrFactory: Plugin | ((options?: any) => Plugin)
+): Plugin | ((options?: any) => Plugin) {
   return pluginOrFactory;
 }

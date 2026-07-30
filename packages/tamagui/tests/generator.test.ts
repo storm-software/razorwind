@@ -132,7 +132,7 @@ describe("flattenTokens", () => {
 
 describe("tamagui plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = tamagui();
+    const plugin = tamagui({});
     expect(plugin.name).toBe("tamagui");
     expect(typeof plugin.generate).toBe("function");
   });

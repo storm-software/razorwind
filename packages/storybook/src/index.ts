@@ -42,7 +42,7 @@ export type { FlatToken, StorybookPluginOptions } from "./types";
  * });
  * ```
  */
-export default definePlugin((options: StorybookPluginOptions = {}) => ({
+export default definePlugin((options?: StorybookPluginOptions) => ({
   name: "storybook",
-  generate: async spec => generateTokenDocs(spec, options)
+  generate: async spec => generateTokenDocs(spec, options ?? {})
 }));

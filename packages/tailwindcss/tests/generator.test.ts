@@ -93,13 +93,13 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
 
 describe("tailwindcss extract plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = extract();
+    const plugin = extract({});
     expect(plugin.name).toBe("tailwindcss:extract");
     expect(typeof plugin.extract).toBe("function");
   });
 
   it("leaves existing tokens untouched", async () => {
-    const plugin = extract();
+    const plugin = extract({});
     const existing = {
       color: { primary: { $type: "color", $value: "#000" } }
     };

@@ -55,7 +55,7 @@ export type {
  * });
  * ```
  */
-export default definePlugin((options: TamaguiPluginOptions = {}) => ({
+export default definePlugin((options?: TamaguiPluginOptions) => ({
   name: "tamagui",
-  generate: async spec => generateTamaguiConfig(spec, options)
+  generate: async spec => generateTamaguiConfig(spec, options ?? {})
 }));

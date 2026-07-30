@@ -59,7 +59,7 @@ const spec = {
 
 describe("shadcn extract plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = extract();
+    const plugin = extract({});
     expect(plugin.name).toBe("shadcn:extract");
     expect(typeof plugin.extract).toBe("function");
   });
@@ -88,7 +88,7 @@ describe("shadcn extract plugin", () => {
   });
 
   it("leaves existing components untouched", async () => {
-    const plugin = extract();
+    const plugin = extract({});
     const existing = {
       button: {
         name: "button",

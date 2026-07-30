@@ -106,16 +106,14 @@ describe("flattenTokens", () => {
 
 describe("storybook plugin", () => {
   it("is a Razorwind Plugin", () => {
-    expect(storybook.name).toBe("razorwind-storybook");
-    expect(typeof storybook.extract).toBe("function");
-    expect(typeof storybook.validate).toBe("function");
-    expect(typeof storybook.generate).toBe("function");
+    const plugin = storybook({});
+    expect(plugin.name).toBe("storybook");
+    expect(typeof plugin.generate).toBe("function");
   });
 
   it("generates Storybook token doc blocks from the schema", async () => {
-    const documents = await storybook.generate(spec, {
-      outDir: "docs/tokens"
-    } as never);
+    const plugin = storybook({ outDir: "docs/tokens" });
+    const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual(
       expect.arrayContaining([

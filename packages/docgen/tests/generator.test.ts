@@ -160,27 +160,27 @@ describe("flattenTokens", () => {
 
 describe("docgen extract plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = extract();
+    const plugin = extract({});
     expect(plugin.name).toBe("docgen:extract");
     expect(typeof plugin.extract).toBe("function");
   });
 
   it("passes the schema through", async () => {
-    const plugin = extract();
-    await expect(plugin.extract?.(spec)).resolves.toBe(spec);
+    const plugin = extract({});
+    await expect(plugin.extract?.(spec, {} as never)).resolves.toBe(spec);
   });
 });
 
 describe("docgen generate plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = generate();
+    const plugin = generate({});
     expect(plugin.name).toBe("docgen:generate");
     expect(typeof plugin.generate).toBe("function");
   });
 
   it("generates MDX documentation from the schema", async () => {
     const plugin = generate({ outDir: "docs/design-system" });
-    const documents = await plugin.generate!(spec);
+    const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual(
       expect.arrayContaining([
@@ -254,7 +254,7 @@ describe("docgen generate plugin", () => {
 
   it("generateDocs mirrors the plugin generate output", async () => {
     const plugin = generate({ outDir: "out" });
-    const fromPlugin = await plugin.generate!(spec);
+    const fromPlugin = await plugin.generate!(spec, {} as never);
     const fromHelper = generateDocs(spec, { outDir: "out" });
 
     expect(fromPlugin["out/tokens.json"]?.chunks?.[0]?.content).toEqual(

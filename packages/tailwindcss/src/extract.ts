@@ -255,7 +255,7 @@ export async function extractTailwindTokens(
  * });
  * ```
  */
-export default definePlugin((options: TailwindExtractPluginOptions = {}) => ({
+export default definePlugin((options?: TailwindExtractPluginOptions) => ({
   name: "tailwindcss:extract",
   extract: async spec => {
     if (spec.tokens && Object.keys(spec.tokens).length > 0) {
@@ -265,17 +265,17 @@ export default definePlugin((options: TailwindExtractPluginOptions = {}) => ({
     // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
     const { cwd } = useExecution();
 
-    const workspace = await detectTailwindWorkspace(cwd, options.cssPath);
+    const workspace = await detectTailwindWorkspace(cwd, options?.cssPath);
     if (!workspace.configured || workspace.version !== "v4") {
       return spec;
     }
 
     const tokens = await extractTailwindTokens({
       cwd,
-      cssPath: options.cssPath
+      cssPath: options?.cssPath
         ? appendPath(options.cssPath, cwd)
         : workspace.cssFile,
-      omitDefaults: options.omitDefaults
+      omitDefaults: options?.omitDefaults
     });
 
     if (!tokens || Object.keys(tokens).length === 0) {

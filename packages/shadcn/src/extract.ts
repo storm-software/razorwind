@@ -274,14 +274,14 @@ export async function extractComponentsFromRegistry(
  * });
  * ```
  */
-export default definePlugin((options: ShadcnExtractPluginOptions = {}) => ({
+export default definePlugin((options?: ShadcnExtractPluginOptions) => ({
   name: "shadcn:extract",
   extract: async spec => {
     if (spec.components && Object.keys(spec.components).length > 0) {
       return spec;
     }
 
-    let configFile = options.configFile;
+    let configFile = options?.configFile;
     if (!configFile) {
       // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
       const { cwd } = useExecution();

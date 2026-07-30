@@ -126,9 +126,10 @@ export function resolveTokenSets(
     keys.length > 0 && keys.every(key => THEME_BASENAME_PATTERN.test(key));
 
   if (allThemes) {
+    const themeTokens = tokens as Record<string, Tokens>;
     return keys.map(id => ({
       id,
-      tokens: tokens[id]!
+      tokens: themeTokens[id]!
     }));
   }
 
