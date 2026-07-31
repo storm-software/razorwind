@@ -30,16 +30,12 @@ import { generator } from "@razorwind/core";
 import type { Schema } from "@razorwind/core/schema";
 import { isAbsolute, relative } from "node:path";
 import type { SyncGeneratorResult } from "nx/src/utils/sync-generators";
+import {
+  CONFIG_FILE_NAMES,
+  GENERATE_EXECUTOR,
+  GENERATOR_NAME
+} from "../../helpers/constants";
 import type { SyncGeneratorSchema } from "./schema";
-
-const GENERATOR_NAME = "@razorwind/nx:sync";
-const GENERATE_EXECUTOR = "@razorwind/nx:generate";
-const CONFIG_FILE_NAMES = [
-  "razorwind.config.ts",
-  "razorwind.config.js",
-  "razorwind.config.mts",
-  "razorwind.config.mjs"
-] as const;
 
 const DEFAULT_OUT_OF_SYNC_MESSAGE =
   "Razorwind generated files are out of sync. Run `nx sync` to regenerate.";
@@ -93,12 +89,10 @@ async function generateForProject(
   options: {
     configFile: string;
     mode: "development" | "production";
-    componentsPath?: string;
-    tokensPath?: string;
+    componentsPath?: string | string[];
+    tokensPath?: string | string[];
   }
 ): Promise<string[]> {
-  // Same entrypoint as `@razorwind/nx:generate`, with a noop output so Nx Tree
-  // can detect and apply changes (required for `nx sync` / `nx sync:check`).
   const documents = await execute<
     Schema,
     Options,
@@ -128,9 +122,11 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
   const generatorOptions =
     (nxJson?.sync?.generatorOptions?.[GENERATOR_NAME] as
       SyncGeneratorSchema | undefined) ?? {};
+
   const defaultMode =
     (generatorOptions.mode as "development" | "production" | undefined) ??
     "production";
+  const targetName = generatorOptions.targetName ?? "generate";
   const outOfSyncMessage =
     generatorOptions.outOfSyncMessage ?? DEFAULT_OUT_OF_SYNC_MESSAGE;
 
@@ -140,12 +136,16 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
 
   for (const project of Object.values(projectGraph.nodes)) {
     const projectRoot = project.data.root;
-    const generateTarget = project.data.targets?.generate;
+    const generateTarget =
+      project.data.targets?.[targetName] ??
+      Object.values(project.data.targets ?? {}).find(
+        target => target.executor === GENERATE_EXECUTOR
+      );
 
     let configFile: string | undefined;
     let mode = defaultMode;
-    let componentsPath: string | undefined;
-    let tokensPath: string | undefined;
+    let componentsPath: string | string[] | undefined;
+    let tokensPath: string | string[] | undefined;
 
     if (generateTarget?.executor === GENERATE_EXECUTOR) {
       const targetMode =

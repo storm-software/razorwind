@@ -35,6 +35,15 @@ export default defineUntypedSchema({
     },
     $default: "production"
   },
+  targetName: {
+    $schema: {
+      title: "Target Name",
+      type: "string",
+      description:
+        "The name of the target to use when running Razorwind generate",
+      $default: "generate"
+    }
+  },
   outOfSyncMessage: {
     $schema: {
       title: "Out of Sync Message",

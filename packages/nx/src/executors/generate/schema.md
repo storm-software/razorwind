@@ -21,16 +21,16 @@ The mode to use
 
 
 ## `componentsPath`
-- **Type**: `string`
+- **Type**: `string | string[]`
 
 
-The path to a directory containing component directories or files
+The path to a directory containing component directories or files, or an array of paths
 
 
 ## `tokensPath`
-- **Type**: `string`
+- **Type**: `string | string[]`
 
 
-The path to the tokens.json file
+The path to the tokens.json file, or an array of paths
 
 

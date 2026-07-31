@@ -141,7 +141,7 @@ describe("storybook plugin", () => {
   });
 
   it("generateTokenDocs mirrors the plugin generate output", () => {
-    const documents = generateTokenDocs(spec, { outDir: "out" });
+    const documents = generateTokenDocs(spec, { outputPath: "out" });
     expect(documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content).toContain(
       "TokenTableBlock"
     );

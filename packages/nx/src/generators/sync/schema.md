@@ -14,6 +14,15 @@
 The mode to use when running Razorwind generate
 
 
+## `targetName`
+- **Type**: `string`
+
+> Target Name
+
+
+The name of the target to use when running Razorwind generate
+
+
 ## `outOfSyncMessage`
 - **Type**: `string`
 - **Default**: `"Razorwind generated files are out of sync. Run `nx sync` to regenerate."`

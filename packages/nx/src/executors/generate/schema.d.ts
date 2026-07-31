@@ -20,15 +20,19 @@ export interface GenerateExecutorSchema {
  mode: string,
 
  /**
-  * The path to a directory containing component directories or files
+  * The path to a directory containing component directories or files, or an array of paths
   * 
+  * 
+  * @oneOf [object Object],[object Object]
  */
- componentsPath?: string,
+ componentsPath?: string | string[],
 
  /**
-  * The path to the tokens.json file
+  * The path to the tokens.json file, or an array of paths
   * 
+  * 
+  * @oneOf [object Object],[object Object]
  */
- tokensPath?: string,
+ tokensPath?: string | string[],
 }
 

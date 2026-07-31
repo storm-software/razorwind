@@ -15,6 +15,16 @@ export interface SyncGeneratorSchema {
  mode?: string,
 
  /**
+  * Target Name
+  * 
+  * The name of the target to use when running Razorwind generate
+  * 
+  * 
+  * @$default generate
+ */
+ targetName?: string,
+
+ /**
   * Out of Sync Message
   * 
   * The message to display when Razorwind generated files are out of sync

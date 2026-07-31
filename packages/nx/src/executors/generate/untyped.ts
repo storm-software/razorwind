@@ -38,13 +38,21 @@ export default defineUntypedSchema({
         enum: ["development", "production"]
       },
       componentsPath: {
-        type: "string",
+        oneOf: [
+          { type: "string" },
+          { type: "array", items: { type: "string" } }
+        ],
+        tsType: "string | string[]",
         description:
-          "The path to a directory containing component directories or files"
+          "The path to a directory containing component directories or files, or an array of paths"
       },
       tokensPath: {
-        type: "string",
-        description: "The path to the tokens.json file"
+        oneOf: [
+          { type: "string" },
+          { type: "array", items: { type: "string" } }
+        ],
+        tsType: "string | string[]",
+        description: "The path to the tokens.json file, or an array of paths"
       }
     },
     additionalProperties: false

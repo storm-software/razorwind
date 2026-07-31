@@ -27,7 +27,7 @@ export interface StorybookPluginOptions {
    *
    * @defaultValue `"storybook/tokens"`
    */
-  outDir?: string;
+  outputPath?: string;
 
   /**
    * Storybook sidebar title prefix for generated MDX pages.

@@ -15,6 +15,13 @@
       "id": "#mode",
       "default": "production"
     },
+    "targetName": {
+      "title": "Target Name",
+      "type": "string",
+      "description": "The name of the target to use when running Razorwind generate",
+      "$default": "generate",
+      "id": "#targetName"
+    },
     "outOfSyncMessage": {
       "title": "Out of Sync Message",
       "type": "string",

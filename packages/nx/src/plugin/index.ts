@@ -42,8 +42,31 @@ import {
   detectPackageManager,
   getPackageManagerCommand
 } from "nx/src/utils/package-manager.js";
+import { GENERATE_EXECUTOR } from "../helpers/constants";
 
 export interface NxPluginOptions {
+  /**
+   * The name of the target to use.
+   *
+   * @defaultValue `"generate"`
+   */
+  targetName?: string;
+
+  /**
+   * The path to a directory containing component directories or files, or an array of paths.
+   */
+  componentsPath?: string | string[];
+
+  /**
+   * The path to the tokens.json file, or an array of paths.
+   */
+  tokensPath?: string | string[];
+
+  /**
+   * Whether to output verbose logs.
+   *
+   * @defaultValue `false`
+   */
   verboseOutput?: boolean;
 }
 
@@ -163,12 +186,30 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
             );
           }
 
-          targets.generate = {
-            executor: "@razorwind/nx:generate",
-            dependsOn: ["^generate"],
+          const targetName =
+            options?.targetName ||
+            Object.keys(targets ?? {}).find(
+              name => targets[name]?.executor === GENERATE_EXECUTOR
+            ) ||
+            "generate";
+
+          targets[targetName] = defu(targets[targetName], {
+            inputs: [
+              configFile,
+              ...((isSetString(options?.componentsPath)
+                ? [options.componentsPath]
+                : options?.componentsPath) ?? []),
+              ...((isSetString(options?.tokensPath)
+                ? [options.tokensPath]
+                : options?.tokensPath) ?? [])
+            ],
+            executor: GENERATE_EXECUTOR,
+            dependsOn: [`^${targetName}`],
             defaultConfiguration: "production",
             options: {
-              configFile
+              configFile,
+              componentsPath: options?.componentsPath,
+              tokensPath: options?.tokensPath
             },
             configurations: {
               production: {
@@ -178,7 +219,7 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
                 mode: "development"
               }
             }
-          };
+          });
 
           setDefaultProjectTags(projectConfig, "razorwind");
           if (options?.verboseOutput) {
@@ -192,7 +233,6 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
               [root]: defu(projectConfig, {
                 projectType: projectConfig.projectType || "library",
                 root,
-                sourceRoot: joinPaths(root, "src"),
                 targets
               })
             }

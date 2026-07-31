@@ -389,7 +389,7 @@ export function generateTokenDocs(
   spec: Schema,
   options: StorybookPluginOptions = {}
 ): GeneratorFunctionResult<Schema, StorybookPluginOptions> {
-  const outDir = options.outDir ?? "storybook/tokens";
+  const outputPath = options.outputPath ?? "storybook/tokens";
   const flat = flattenTokens(spec.tokens, options);
   const hasColors = flat.some(token => token.type === "color");
   const hasTypography = flat.some(
@@ -402,28 +402,28 @@ export function generateTokenDocs(
   );
 
   const documents: GeneratorFunctionResult<Schema, StorybookPluginOptions> = {
-    [join(outDir, "blocks/ColorPalette.tsx")]: document(
-      join(outDir, "blocks/ColorPalette.tsx"),
+    [join(outputPath, "blocks/ColorPalette.tsx")]: document(
+      join(outputPath, "blocks/ColorPalette.tsx"),
       renderColorPaletteBlock(flat, options),
       "tsx"
     ),
-    [join(outDir, "blocks/Typeset.tsx")]: document(
-      join(outDir, "blocks/Typeset.tsx"),
+    [join(outputPath, "blocks/Typeset.tsx")]: document(
+      join(outputPath, "blocks/Typeset.tsx"),
       renderTypesetBlock(flat, options),
       "tsx"
     ),
-    [join(outDir, "blocks/TokenTable.tsx")]: document(
-      join(outDir, "blocks/TokenTable.tsx"),
+    [join(outputPath, "blocks/TokenTable.tsx")]: document(
+      join(outputPath, "blocks/TokenTable.tsx"),
       renderTokenTableBlock(flat),
       "tsx"
     ),
-    [join(outDir, "blocks/index.ts")]: document(
-      join(outDir, "blocks/index.ts"),
+    [join(outputPath, "blocks/index.ts")]: document(
+      join(outputPath, "blocks/index.ts"),
       renderBlocksIndex(),
       "typescript"
     ),
-    [join(outDir, "Tokens.mdx")]: document(
-      join(outDir, "Tokens.mdx"),
+    [join(outputPath, "Tokens.mdx")]: document(
+      join(outputPath, "Tokens.mdx"),
       renderTokensMdx({
         titlePrefix: options.titlePrefix,
         hasColors,
@@ -434,23 +434,23 @@ export function generateTokenDocs(
   };
 
   if (hasColors) {
-    documents[join(outDir, "Colors.mdx")] = document(
-      join(outDir, "Colors.mdx"),
+    documents[join(outputPath, "Colors.mdx")] = document(
+      join(outputPath, "Colors.mdx"),
       renderColorsMdx(options),
       "mdx"
     );
   }
 
   if (hasTypography) {
-    documents[join(outDir, "Typography.mdx")] = document(
-      join(outDir, "Typography.mdx"),
+    documents[join(outputPath, "Typography.mdx")] = document(
+      join(outputPath, "Typography.mdx"),
       renderTypographyMdx(options),
       "mdx"
     );
   }
 
-  documents[join(outDir, "tokens.json")] = document(
-    join(outDir, "tokens.json"),
+  documents[join(outputPath, "tokens.json")] = document(
+    join(outputPath, "tokens.json"),
     `${JSON.stringify(flat, null, 2)}\n`,
     "json"
   );
