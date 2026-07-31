@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.9](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.9) (07/31/2026)
+
+### Miscellaneous
+
+- **nx:** Improve Nx plugin and Sync Generator to use user provided configuration ([71ff227](https://github.com/storm-software/razorwind/commit/71ff227))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.13**
+
 ## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.8) (07/30/2026)
 
 ### Updated Dependencies
