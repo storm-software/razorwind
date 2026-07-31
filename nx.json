@@ -10,6 +10,7 @@
           "packages/shadcn",
           "packages/storybook",
           "packages/tailwindcss",
+          "packages/tamagui",
           "packages/nx"
         ],
         "projectsRelationship": "independent"
