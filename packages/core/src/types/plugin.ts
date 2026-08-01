@@ -19,19 +19,14 @@
 import type { GeneratedDocument } from "@power-plant/core";
 import type { MaybePromise } from "@stryke/types/base";
 import type { PreprocessedTokens } from "style-dictionary";
-import type {
-  Action,
-  DesignTokens,
-  FileHeader,
-  Filter,
-  Format,
-  Transform
-} from "style-dictionary/types";
+import type { DesignTokens } from "style-dictionary/types";
 import type { Schema } from "../schema/schema";
 import type { Config } from "./config";
 
 /**
  * Style Dictionary parser hook contributed by a plugin.
+ *
+ * Used during token extraction to load token sources.
  *
  * @see https://styledictionary.com/reference/hooks/parsers/
  */
@@ -44,6 +39,8 @@ export interface TokensParser {
 /**
  * Style Dictionary preprocessor hook contributed by a plugin.
  *
+ * Used during token extraction to normalize the merged token dictionary.
+ *
  * @see https://styledictionary.com/reference/hooks/preprocessors/
  */
 export type TokensPreprocessor =
@@ -54,58 +51,10 @@ export type TokensPreprocessor =
   | ((dictionary: PreprocessedTokens) => PreprocessedTokens);
 
 /**
- * Style Dictionary transform hook contributed by a plugin.
+ * Razorwind plugin: extraction hooks plus extract / generate / validate.
  *
- * @see https://styledictionary.com/reference/hooks/transforms/
- */
-export type TokensTransform = Omit<Transform, "name"> & { name?: string };
-
-/**
- * Style Dictionary transform group hook contributed by a plugin.
- *
- * @see https://styledictionary.com/reference/hooks/transform-groups/
- */
-export interface TokensTransformGroup {
-  name?: string;
-  transforms: string[];
-}
-
-/**
- * Style Dictionary format hook contributed by a plugin.
- *
- * @see https://styledictionary.com/reference/hooks/formats/
- */
-export type TokensFormat = Omit<Format, "name"> & { name?: string };
-
-/**
- * Style Dictionary filter hook contributed by a plugin.
- *
- * @see https://styledictionary.com/reference/hooks/filters/
- */
-export type TokensFilter =
-  (Omit<Filter, "name"> & { name?: string }) | Filter["filter"];
-
-/**
- * Style Dictionary file header hook contributed by a plugin.
- *
- * @see https://styledictionary.com/reference/hooks/file-headers/
- */
-export type TokensFileHeader =
-  | {
-      name?: string;
-      fileHeader: FileHeader;
-    }
-  | FileHeader;
-
-/**
- * Style Dictionary action hook contributed by a plugin.
- *
- * @see https://styledictionary.com/reference/hooks/actions/
- */
-export type TokensAction = Omit<Action, "name"> & { name?: string };
-
-/**
- * Razorwind plugin: Style Dictionary hooks plus extract / generate / validate.
+ * Platform generation hooks (`transforms`, `formats`, `platforms`, …) live on
+ * `@razorwind/style-dictionary` — not on the core plugin interface.
  *
  * @see https://styledictionary.com/reference/api/
  */
@@ -131,48 +80,6 @@ export interface Plugin {
    * @see https://styledictionary.com/reference/hooks/preprocessors/
    */
   preprocessors?: TokensPreprocessor[];
-
-  /**
-   * Transforms that modify token names, attributes, or values per platform.
-   *
-   * @see https://styledictionary.com/reference/hooks/transforms/
-   */
-  transforms?: TokensTransform[];
-
-  /**
-   * Named groups of transforms applied together in platform configuration.
-   *
-   * @see https://styledictionary.com/reference/hooks/transform-groups/
-   */
-  transformGroups?: TokensTransformGroup[];
-
-  /**
-   * Output formats that turn the transformed dictionary into file contents.
-   *
-   * @see https://styledictionary.com/reference/hooks/formats/
-   */
-  formats?: TokensFormat[];
-
-  /**
-   * Filters that decide which tokens are included in a platform or format.
-   *
-   * @see https://styledictionary.com/reference/hooks/filters/
-   */
-  filters?: TokensFilter[];
-
-  /**
-   * File header generators that add build metadata comments to output files.
-   *
-   * @see https://styledictionary.com/reference/hooks/file-headers/
-   */
-  fileHeaders?: TokensFileHeader[];
-
-  /**
-   * Post-build actions such as copying assets or running follow-up scripts.
-   *
-   * @see https://styledictionary.com/reference/hooks/actions/
-   */
-  actions?: TokensAction[];
 
   /**
    * Extract the design tokens from the source files.

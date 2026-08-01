@@ -107,7 +107,6 @@
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
     "@power-plant/schema": "catalog:",
-    "@power-plant/style-dictionary": "catalog:",
     "@power-plant/utils": "catalog:",
     "@stryke/env": "catalog:",
     "@stryke/fs": "catalog:",

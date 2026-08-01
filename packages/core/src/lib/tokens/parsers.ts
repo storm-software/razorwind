@@ -21,15 +21,10 @@ import JSON5 from "json5";
 import { parse as parseToml } from "smol-toml";
 import StyleDictionary from "style-dictionary";
 import type {
-  Action,
   DesignTokens,
-  FileHeader,
-  Filter,
-  Format,
   Hooks,
   Parser,
-  PreprocessedTokens,
-  Transform
+  PreprocessedTokens
 } from "style-dictionary/types";
 import { parse as parseYaml } from "yaml";
 import type { Plugin } from "../../types/plugin";
@@ -40,25 +35,13 @@ import { normalizeTokenTree } from "./infer";
 /** Preprocessor name applied after all sources merge. */
 export const RAZORWIND_INFER_PREPROCESSOR = "razorwind-infer";
 
-/** Target capable of registering Style Dictionary hooks (class or instance). */
+/** Target capable of registering Style Dictionary extraction hooks. */
 export interface StyleDictionaryRegisterTarget {
   registerParser: (parser: Parser) => unknown;
   registerPreprocessor: (preprocessor: {
     name: string;
     preprocessor: typeof razorwindInferPreprocessor;
   }) => unknown;
-  registerTransform: (transform: Transform) => unknown;
-  registerTransformGroup: (transformGroup: {
-    name: string;
-    transforms: string[];
-  }) => unknown;
-  registerFormat: (format: Format) => unknown;
-  registerFilter: (filter: Filter) => unknown;
-  registerFileHeader: (fileHeader: {
-    name: string;
-    fileHeader: FileHeader;
-  }) => unknown;
-  registerAction: (action: Action) => unknown;
 }
 
 function asDesignTokens(data: unknown): DesignTokens {
@@ -160,7 +143,10 @@ export function getRazorwindPreprocessorHooks(): NonNullable<
 
 /**
  * Register Razorwind parsers + infer preprocessor on Style Dictionary,
- * then register any Style Dictionary hooks contributed by plugins.
+ * then register any extraction hooks contributed by plugins.
+ *
+ * Platform generation hooks (transforms, formats, …) are registered by
+ * `@razorwind/style-dictionary` during generate.
  *
  * @see https://styledictionary.com/reference/api/
  */
@@ -178,12 +164,6 @@ export function registerRazorwindHooks(
 
   let parserIndex = 0;
   let preprocessorIndex = 0;
-  let transformIndex = 0;
-  let transformGroupIndex = 0;
-  let formatIndex = 0;
-  let filterIndex = 0;
-  let fileHeaderIndex = 0;
-  let actionIndex = 0;
 
   for (const plugin of plugins) {
     for (const parser of plugin.parsers ?? []) {
@@ -210,72 +190,6 @@ export function registerRazorwindHooks(
             }
       );
       preprocessorIndex++;
-    }
-
-    for (const transform of plugin.transforms ?? []) {
-      target.registerTransform({
-        ...transform,
-        name: transform.name ?? `${plugin.name}-transform-${transformIndex}`
-      } as Transform);
-      transformIndex++;
-    }
-
-    for (const transformGroup of plugin.transformGroups ?? []) {
-      target.registerTransformGroup({
-        name:
-          transformGroup.name ??
-          `${plugin.name}-transform-group-${transformGroupIndex}`,
-        transforms: transformGroup.transforms
-      });
-      transformGroupIndex++;
-    }
-
-    for (const format of plugin.formats ?? []) {
-      target.registerFormat({
-        ...format,
-        name: format.name ?? `${plugin.name}-format-${formatIndex}`
-      });
-      formatIndex++;
-    }
-
-    for (const filter of plugin.filters ?? []) {
-      target.registerFilter(
-        isFunction(filter)
-          ? {
-              name: `${plugin.name}-filter-${filterIndex}`,
-              filter
-            }
-          : {
-              name: filter.name ?? `${plugin.name}-filter-${filterIndex}`,
-              filter: filter.filter
-            }
-      );
-      filterIndex++;
-    }
-
-    for (const fileHeader of plugin.fileHeaders ?? []) {
-      target.registerFileHeader(
-        isFunction(fileHeader)
-          ? {
-              name: `${plugin.name}-file-header-${fileHeaderIndex}`,
-              fileHeader
-            }
-          : {
-              name:
-                fileHeader.name ??
-                `${plugin.name}-file-header-${fileHeaderIndex}`,
-              fileHeader: fileHeader.fileHeader
-            }
-      );
-      fileHeaderIndex++;
-    }
-
-    for (const action of plugin.actions ?? []) {
-      target.registerAction({
-        ...action,
-        name: action.name ?? `${plugin.name}-action-${actionIndex}`
-      });
-      actionIndex++;
     }
   }
 }

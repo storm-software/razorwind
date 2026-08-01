@@ -21,7 +21,10 @@ import type { Plugin } from "./types/plugin";
 export type * from "./types/plugin";
 
 /**
- * Type helper for Razorwind plugins (Style Dictionary hooks + `extract` / `validate` / `generate`).
+ * Type helper for Razorwind plugins (`parsers` / `preprocessors` + `extract` / `validate` / `generate`).
+ *
+ * Platform generation (`platforms`, transforms, formats, …) belongs on
+ * `@razorwind/style-dictionary` plugin options — not on this interface.
  *
  * @see https://styledictionary.com/reference/api/
  *
@@ -32,7 +35,7 @@ export type * from "./types/plugin";
  * // As a plugin
  * export default definePlugin({
  *   name: "my-plugin",
- *   transforms: [{ name: "size/px", type: "value", transform: (t) => t }],
+ *   parsers: [{ pattern: /\.foo$/, parser: contents => JSON.parse(contents) }],
  *   extract: async (spec) => {
  *     ...
  *   },

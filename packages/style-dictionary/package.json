@@ -1,0 +1,85 @@
+{
+  "name": "@razorwind/style-dictionary",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind plugin that uses Style Dictionary to generate code from Razorwind design tokens.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/style-dictionary"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "keywords": [
+    "style-dictionary",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "power-plant-generator",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@stryke/type-checks": "catalog:",
+    "style-dictionary": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

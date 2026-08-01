@@ -44,7 +44,8 @@ export type * from "./types";
 /**
  * A Power Plant generator for Razorwind.
  *
- * Orchestrates configured {@link Plugin}s: Style Dictionary hooks, then `extract` → `validate` on input, then `generate`.
+ * Orchestrates configured {@link Plugin}s: extraction hooks, then
+ * `extract` → `validate` on input, then `generate`.
  */
 export const generator = defineGenerator<Schema, Options, any>({
   meta: {

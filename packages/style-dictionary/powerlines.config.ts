@@ -16,23 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import type { Tokens } from "@power-plant/dtcg-schema";
-import { tokensSchema } from "@power-plant/dtcg-schema";
-import z from "zod";
-import type { Components } from "./components";
-import { componentsSchema } from "./components";
+import tsdown from "@powerlines/plugin-tsdown";
+import { defineConfig } from "powerlines/config";
 
-const tokensFieldSchema = z.union([
-  tokensSchema,
-  z.record(z.string(), tokensSchema)
-]);
-
-export interface Schema {
-  components: Components;
-  tokens: Tokens | Record<string, Tokens>;
-}
-
-export const schema: z.ZodType<Schema> = z.object({
-  tokens: tokensFieldSchema,
-  components: componentsSchema
+export default defineConfig({
+  input: ["src/index.ts"],
+  platform: "node",
+  output: {
+    format: ["cjs", "esm"]
+  },
+  resolve: {
+    skipNodeModulesBundle: true
+  },
+  plugins: [tsdown()]
 });

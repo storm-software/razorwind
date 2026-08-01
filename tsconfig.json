@@ -35,6 +35,9 @@
     },
     {
       "path": "./packages/nx"
+    },
+    {
+      "path": "./packages/style-dictionary"
     }
   ],
   "files": []
