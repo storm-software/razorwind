@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/tailwindcss",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "type": "module",
   "description": "Razorwind Tailwind CSS plugin that can create Tailwind CSS files from design tokens or read a Tailwind CSS file and return the design tokens.",
   "repository": {

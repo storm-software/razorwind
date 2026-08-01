@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/core%400.0.15) (08/01/2026)
+
+### Features
+
+- **style-dictionary:** Added the Style Dictionary plugin ([994906d](https://github.com/storm-software/razorwind/commit/994906d))
+
 ## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/core%400.0.12) (07/30/2026)
 
 ### Features
