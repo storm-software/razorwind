@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.14) (08/02/2026)
+
+### Features
+
+- **css:** Added the CSS plugin package ([cf0437d](https://github.com/storm-software/razorwind/commit/cf0437d))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.18**
+
 ## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.13) (08/02/2026)
 
 ### Updated Dependencies

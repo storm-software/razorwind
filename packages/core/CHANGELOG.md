@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.18](https://github.com/storm-software/razorwind/releases/tag/core%400.0.18) (08/02/2026)
+
+### Features
+
+- **css:** Added the CSS plugin package ([cf0437d](https://github.com/storm-software/razorwind/commit/cf0437d))
+
 ## [0.0.17](https://github.com/storm-software/razorwind/releases/tag/core%400.0.17) (08/02/2026)
 
 ### Miscellaneous
