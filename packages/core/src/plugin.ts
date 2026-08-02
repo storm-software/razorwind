@@ -62,12 +62,12 @@ export type * from "./types/plugin";
  * }));
  * ```
  */
-export function definePlugin(
-  factory: (options?: any) => Plugin
-): (options?: any) => Plugin;
+export function definePlugin<TOptions>(
+  factory: (options?: TOptions) => Plugin
+): (options?: TOptions) => Plugin;
 export function definePlugin(plugin: Plugin): Plugin;
-export function definePlugin(
-  pluginOrFactory: Plugin | ((options?: any) => Plugin)
-): Plugin | ((options?: any) => Plugin) {
+export function definePlugin<TOptions>(
+  pluginOrFactory: Plugin | ((options?: TOptions) => Plugin)
+): Plugin | ((options?: TOptions) => Plugin) {
   return pluginOrFactory;
 }
