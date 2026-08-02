@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.14) (08/02/2026)
+
+### Bug Fixes
+
+- **nx:** Added missing `@storm-software/workspace-tools` dependency ([adb2310](https://github.com/storm-software/razorwind/commit/adb2310))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.20**
+
 ## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.13) (08/02/2026)
 
 ### Updated Dependencies
