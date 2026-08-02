@@ -20,20 +20,22 @@ import { z } from "zod";
 
 export const componentFileSchema = z.object({
   path: z.string(),
-  type: z.enum([
-    "lib",
-    "block",
-    "component",
-    "ui",
-    "hook",
-    "theme",
-    "page",
-    "file",
-    "style",
-    "base",
-    "font",
-    "item"
-  ]),
+  type: z
+    .enum([
+      "lib",
+      "block",
+      "component",
+      "ui",
+      "hook",
+      "theme",
+      "page",
+      "file",
+      "style",
+      "base",
+      "font",
+      "item"
+    ])
+    .default("component"),
   content: z.string().optional(),
   target: z
     .string()

@@ -17,9 +17,9 @@
  ------------------------------------------------------------------- */
 
 import { useExecution } from "@power-plant/core";
+import { parseCssCustomProperties } from "@razorwind/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Tokens } from "@razorwind/core/schema";
-import { parseCssCustomProperties } from "@razorwind/core/tokens";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
 import { isAbsolute, resolve } from "node:path";

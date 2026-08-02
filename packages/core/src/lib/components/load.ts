@@ -20,12 +20,16 @@ import type { ExecutionContext } from "@power-plant/core";
 import { existsSync } from "@stryke/fs/exists";
 import { isDirectory } from "@stryke/fs/is-file";
 import { readJsonFile } from "@stryke/fs/json";
+import { listFiles } from "@stryke/fs/list-files";
+import { appendPath } from "@stryke/path/append";
+import { findFolderName } from "@stryke/path/file-path-fns";
 import { joinPaths } from "@stryke/path/join";
+import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { createDefu } from "defu";
-import { readdir } from "node:fs/promises";
-import { basename, isAbsolute, resolve } from "node:path";
+import { readdir, readFile } from "node:fs/promises";
+import { isAbsolute, resolve } from "node:path";
 import type { Schema } from "../../schema";
 import type {
   Component,
@@ -241,17 +245,44 @@ async function loadComponentFromDirectory(
     fromPackageJson ?? {}
   );
 
-  const fallbackName = basename(directory);
-  const name = isSetString(merged.name) ? merged.name : fallbackName;
-  const title = isSetString(merged.title) ? merged.title : name;
+  const name = isSetString(merged.name)
+    ? merged.name
+    : findFolderName(directory);
+  const title = isSetString(merged.title) ? merged.title : titleCase(name);
 
   const parsed = componentSchema.safeParse({
     ...merged,
     name,
     title
   });
+  if (!parsed.success) {
+    return undefined;
+  }
 
-  return parsed.success ? parsed.data : undefined;
+  return {
+    ...parsed.data,
+    files: await Promise.all(
+      (parsed.data.files ?? (await listFiles(directory)))
+        ?.filter(Boolean)
+        ?.map(async file =>
+          typeof file === "string"
+            ? {
+                type: "component",
+                path: file,
+                content: await readFile(appendPath(file, directory), "utf8")
+              }
+            : {
+                ...file,
+                content: file.content
+                  ? file.content
+                  : file.path
+                    ? await readFile(appendPath(file.path, directory), "utf8")
+                    : undefined,
+                path: appendPath(file.path, directory)
+              }
+        )
+    )
+  };
 }
 
 /**
