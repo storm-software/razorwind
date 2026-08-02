@@ -5,6 +5,7 @@
       "packages": {
         "projects": [
           "packages/core",
+          "packages/css",
           "packages/design-md",
           "packages/docgen",
           "packages/shadcn",
