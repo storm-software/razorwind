@@ -9,6 +9,7 @@
           "packages/docgen",
           "packages/shadcn",
           "packages/storybook",
+          "packages/style-dictionary",
           "packages/tailwindcss",
           "packages/tamagui",
           "packages/nx"
