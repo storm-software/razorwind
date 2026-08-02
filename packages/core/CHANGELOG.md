@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/core%400.0.21) (08/02/2026)
+
+### Miscellaneous
+
+- **core:** Extended the logic to parse the component schema ([d3aa1e4](https://github.com/storm-software/razorwind/commit/d3aa1e4))
+
 ## [0.0.18](https://github.com/storm-software/razorwind/releases/tag/core%400.0.18) (08/02/2026)
 
 ### Features
