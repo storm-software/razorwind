@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/core%400.0.22) (08/02/2026)
+
+### Miscellaneous
+
+- **core:** Updated the defaulting logic in component schema extraction ([4f9566c](https://github.com/storm-software/razorwind/commit/4f9566c))
+
 ## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/core%400.0.21) (08/02/2026)
 
 ### Miscellaneous
