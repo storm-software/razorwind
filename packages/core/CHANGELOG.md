@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.17](https://github.com/storm-software/razorwind/releases/tag/core%400.0.17) (08/02/2026)
+
+### Miscellaneous
+
+- **core:** Improve typescript inference on `definePlugin` overloads ([887377f](https://github.com/storm-software/razorwind/commit/887377f))
+
 ## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/core%400.0.15) (08/01/2026)
 
 ### Features
