@@ -5,9 +5,9 @@
 
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/shell-shock/media/banner-1280x640-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/shell-shock/media/banner-1280x640-light.gif">
-<img src="https://public.storm-cdn.com/shell-shock/media/banner-1280x640-dark.gif" width="100%" alt="Storm Software" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-light.gif">
+<img src="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif" width="100%" alt="Razorwind" />
 </picture>
 </div>
 <br />
@@ -15,19 +15,19 @@
 <div align="center">
 <b>
 <a href="https://stormsoftware.com" target="_blank">Website</a>  •
-<a href="https://github.com/storm-software/shell-shock" target="_blank">GitHub</a>  •
+<a href="https://github.com/storm-software/razorwind" target="_blank">GitHub</a>  •
 <a href="https://discord.gg/MQ6YVzakM5">Discord</a>  •  <a href="https://stormstack.github.io/stormstack/" target="_blank">Docs</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •
-<a href="https://github.com/storm-software/shell-shock/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
+<a href="https://github.com/storm-software/razorwind/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
 </b>
 </div>
 
 <br />
-This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock packages include CLI utility applications, tools, and various libraries used to create modern, scalable web applications.
-<br />
+
+💨 Razorwind is a unified set of tools that make creating design systems a breeze.
 
 <h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3><br />
 
-[![Version](https://img.shields.io/badge/version-0.0.61-1fb2a6.svg?style=for-the-badge&color=1fb2a6)](https://stormsoftware.com/projects/shell-shock/)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![Semantic-Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/shell-shock/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
+[![Version](https://img.shields.io/badge/version-0.0.61-1fb2a6.svg?style=for-the-badge&color=1fb2a6)](https://stormsoftware.com/projects/razorwind/)&nbsp;[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![Semantic-Release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/razorwind/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -39,7 +39,7 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 <!-- prettier-ignore-end -->
 
 <div align="center">
-<b>Be sure to ⭐ this repository on <a href="https://github.com/storm-software/shell-shock" target="_blank">GitHub</a> so you can keep up to date on any daily progress!</b>
+<b>Be sure to ⭐ this repository on <a href="https://github.com/storm-software/razorwind" target="_blank">GitHub</a> so you can keep up to date on any daily progress!</b>
 </div>
 
 <br />
@@ -49,23 +49,23 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Nx Plugin
+# Razorwind - Nx Plugin
 
-**Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
+An [Nx](https://nx.dev/) plugin for Razorwind.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @shell-shock/nx
+pnpm add -D @razorwind/nx
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @shell-shock/nx
+npm install -D @razorwind/nx
 ```
 
 </details>
@@ -74,7 +74,7 @@ npm install -D @shell-shock/nx
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @shell-shock/nx
+yarn add -D @razorwind/nx
 ```
 
 </details>
@@ -106,14 +106,14 @@ maintainable.
 
 ## Roadmap
 
-See the [open issues](https://github.com/storm-software/shell-shock/issues) for
+See the [open issues](https://github.com/storm-software/razorwind/issues) for
 a list of proposed features (and known issues).
 
-- [Top Feature Requests](https://github.com/storm-software/shell-shock/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
+- [Top Feature Requests](https://github.com/storm-software/razorwind/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/storm-software/shell-shock/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
+- [Top Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
   (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/storm-software/shell-shock/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+- [Newest Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -123,7 +123,7 @@ a list of proposed features (and known issues).
 Reach out to the maintainer at one of the following places:
 
 - [Contact](https://stormsoftware.com/contact)
-- [GitHub discussions](https://github.com/storm-software/shell-shock/discussions)
+- [GitHub discussions](https://github.com/storm-software/razorwind/discussions)
 - <support@stormsoftware.com>
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -167,7 +167,7 @@ Please try to create bug reports that are:
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 You can use
-[markdownlint-cli](https://github.com/storm-software/shell-shock/markdownlint-cli)
+[markdownlint-cli](https://github.com/storm-software/razorwind/markdownlint-cli)
 to check for common markdown style inconsistency.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
@@ -183,7 +183,7 @@ Thanks goes to these wonderful people
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/shell-shock/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/shell-shock/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/shell-shock/commits?author=sullivanpj" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://stormsoftware.com"><img src="https://avatars.githubusercontent.com/u/149802440?v=4?s=100" width="100px;" alt="Stormie"/><br /><sub><b>Stormie</b></sub></a><br /><a href="#maintenance-stormie-bot" title="Maintenance">🚧</a></td>
     </tr>
