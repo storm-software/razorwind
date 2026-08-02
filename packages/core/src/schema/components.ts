@@ -35,7 +35,7 @@ export const componentFileSchema = z.object({
       "font",
       "item"
     ])
-    .default("component"),
+    .optional(),
   content: z.string().optional(),
   target: z
     .string()
@@ -50,7 +50,7 @@ export type ComponentFile = z.infer<typeof componentFileSchema>;
 export const componentSchema = z.object({
   name: z.string(),
   title: z.string(),
-  type: z.enum(["block", "component", "ui", "page"]).optional(),
+  type: z.enum(["block", "component", "ui", "page"]).default("component"),
   category: z.string().optional(),
   description: z.string().optional(),
   tags: z.array(z.string()).optional(),

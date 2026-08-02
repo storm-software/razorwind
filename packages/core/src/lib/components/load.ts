@@ -22,7 +22,11 @@ import { isDirectory } from "@stryke/fs/is-file";
 import { readJsonFile } from "@stryke/fs/json";
 import { listFiles } from "@stryke/fs/list-files";
 import { appendPath } from "@stryke/path/append";
-import { findFolderName } from "@stryke/path/file-path-fns";
+import {
+  findFileExtensionSafe,
+  findFileName,
+  findFolderName
+} from "@stryke/path/file-path-fns";
 import { joinPaths } from "@stryke/path/join";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -262,16 +266,26 @@ async function loadComponentFromDirectory(
   return {
     ...parsed.data,
     files: await Promise.all(
-      (parsed.data.files ?? (await listFiles(directory)))
+      (
+        parsed.data.files ??
+        (await listFiles(directory)).filter(
+          file => findFileName(file, { withExtension: false }) === "index"
+        )
+      )
         ?.filter(Boolean)
         ?.map(async file =>
           typeof file === "string"
             ? {
-                type: "component",
+                type: /[tj]sx$/.test(findFileExtensionSafe(file))
+                  ? "component"
+                  : "file",
                 path: file,
                 content: await readFile(appendPath(file, directory), "utf8")
               }
             : {
+                type: /[tj]sx$/.test(findFileExtensionSafe(file.path))
+                  ? "component"
+                  : "file",
                 ...file,
                 content: file.content
                   ? file.content
@@ -288,10 +302,8 @@ async function loadComponentFromDirectory(
 /**
  * Load components from `componentsPath` directories.
  *
- * For each configured path that is a directory, every direct child directory
- * is inspected for:
- * 1. `package.json` — npm fields and/or a `razorwind` object (including
- *    `componentFileSchema` file entries)
+ * For each configured path that is a directory, every direct child directory is inspected for:
+ * 1. `package.json` — npm fields and/or a `razorwind` object (including `componentFileSchema` file entries)
  * 2. `component.json` — component metadata or `componentFileSchema` values
  *
  * When both resolve values, `component.json` overlays `package.json`.
