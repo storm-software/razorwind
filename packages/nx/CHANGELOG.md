@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.15) (08/02/2026)
+
+### Miscellaneous
+
+- **nx:** Update `README.md` file to include correct project name ([036e82b](https://github.com/storm-software/razorwind/commit/036e82b))
+
 ## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.14) (08/02/2026)
 
 ### Bug Fixes
