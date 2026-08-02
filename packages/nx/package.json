@@ -122,14 +122,15 @@
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "dependencies": {
-    "c12": "catalog:",
     "@nx/devkit": "catalog:",
     "@power-plant/core": "catalog:",
     "@razorwind/core": "workspace:*",
+    "@storm-software/workspace-tools": "catalog:",
     "@stryke/hash": "catalog:",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
+    "c12": "catalog:",
     "defu": "catalog:",
     "jiti": "catalog:",
     "untyped": "catalog:"
