@@ -1,12 +1,12 @@
 {
-  "name": "@razorwind/storybook",
-  "version": "0.0.13",
+  "name": "@razorwind/css",
+  "version": "0.0.1",
   "type": "module",
-  "description": "Razorwind plugin that creates Storybook MDX token doc blocks from Razorwind design tokens.",
+  "description": "Razorwind CSS plugin that can create CSS files from design tokens or read a CSS file and return the design tokens.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/razorwind.git",
-    "directory": "packages/storybook"
+    "directory": "packages/css"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -18,35 +18,10 @@
     "email": "contact@stormsoftware.com",
     "url": "https://stormsoftware.com"
   },
-  "maintainers": [
-    {
-      "name": "Storm Software",
-      "email": "contact@stormsoftware.com",
-      "url": "https://stormsoftware.com"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "Storm Software",
-      "email": "contact@stormsoftware.com",
-      "url": "https://stormsoftware.com"
-    }
-  ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
   "license": "Apache-2.0",
   "private": false,
   "files": ["dist"],
-  "keywords": [
-    "storybook",
-    "razorwind",
-    "design-tokens",
-    "dtcg",
-    "power-plant-generator",
-    "storm-software"
-  ],
+  "keywords": ["css", "razorwind", "design-tokens", "dtcg", "storm-software"],
   "exports": {
     ".": {
       "require": {
@@ -62,18 +37,32 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./generate": {
+    "./extract": {
       "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
+        "types": "./dist/extract.d.cts",
+        "default": "./dist/extract.cjs"
       },
       "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
       },
       "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/generate.d.cts",
+        "default": "./dist/generate.cjs"
+      },
+      "import": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      },
+      "default": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
       }
     },
     "./package.json": "./package.json"
@@ -86,23 +75,12 @@
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
     "@razorwind/core": "workspace:*",
-    "@stryke/type-checks": "catalog:"
-  },
-  "peerDependencies": {
-    "@storybook/addon-docs": ">=8",
-    "react": ">=18",
-    "storybook": ">=8"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/addon-docs": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "storybook": {
-      "optional": true
-    }
+    "@razorwind/style-dictionary": "workspace:*",
+    "@stryke/fs": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
+    "fast-glob": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",

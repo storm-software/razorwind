@@ -19,6 +19,9 @@
       "path": "./packages/storybook"
     },
     {
+      "path": "./packages/css"
+    },
+    {
       "path": "./packages/design-md"
     },
     {

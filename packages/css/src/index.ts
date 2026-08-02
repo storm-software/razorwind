@@ -16,21 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import { defineConfig } from "powerlines/config";
-
-export default defineConfig({
-  input: ["src/index.ts"],
-  platform: "node",
-  output: {
-    format: ["cjs", "esm"]
-  },
-  resolve: {
-    skipNodeModulesBundle: true
-  },
-  plugins: [
-    tsdown({
-      exports: false
-    })
-  ]
-});
+export * as extract from "./extract";
+export * as generate from "./generate";

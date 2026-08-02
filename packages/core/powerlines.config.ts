@@ -24,6 +24,7 @@ export default defineConfig({
     "src/index.ts",
     "src/plugin.ts",
     "src/schema/index.ts",
+    "src/lib/tokens/index.ts",
     "src/utils/index.ts"
   ],
   platform: "node",

@@ -11,17 +11,17 @@ catalog:
   "@nx/vite": 23.1.0
   "@nx/vitest": 23.1.0
   "@nx/workspace": 23.1.0
-  "@power-plant/core": ^0.0.61
+  "@power-plant/core": ^0.0.63
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/style-dictionary": ^0.0.46
-  "@power-plant/schema": ^0.0.59
-  "@power-plant/terrazzo": ^0.0.47
-  "@power-plant/utils": ^0.0.47
-  "@powerlines/nx": ^0.13.219
-  "@powerlines/plugin-untyped": ^0.2.595
-  "@powerlines/tsconfig": ^0.4.226
-  "@powerlines/tsdoc": ^0.2.174
-  "@powerlines/plugin-tsdown": ^0.1.581
+  "@power-plant/style-dictionary": ^0.0.48
+  "@power-plant/schema": ^0.0.61
+  "@power-plant/terrazzo": ^0.0.49
+  "@power-plant/utils": ^0.0.49
+  "@powerlines/nx": ^0.13.220
+  "@powerlines/plugin-untyped": ^0.2.596
+  "@powerlines/tsconfig": ^0.4.227
+  "@powerlines/tsdoc": ^0.2.175
+  "@powerlines/plugin-tsdown": ^0.1.582
   "@shell-shock/eslint-plugin": ^0.0.86
   "@shell-shock/preset-cli": ^0.9.34
   "@shell-shock/core": ^0.17.22
@@ -79,7 +79,7 @@ catalog:
   lightningcss: ^1.33.0
   log4brains: ^1.1.0
   nx: 23.1.0
-  powerlines: ^0.47.180
+  powerlines: ^0.47.181
   prettier: ^3.9.6
   rimraf: ^6.1.3
   shadcn: ^4.16.1
@@ -104,6 +104,7 @@ overrides:
   "@razorwind/tools-scripts": workspace:*
   "@razorwind/tools-cspell": workspace:*
   "@razorwind/core": workspace:*
+  "@razorwind/css": workspace:*
   "@razorwind/cli": workspace:*
   "@razorwind/docgen": workspace:*
   "@razorwind/storybook": workspace:*

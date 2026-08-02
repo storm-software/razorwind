@@ -143,6 +143,7 @@ export function resolveTokenSets(
 
   if (allThemes) {
     const themeTokens = tokens as Record<string, Tokens>;
+
     return keys.map(id => ({
       id,
       tokens: themeTokens[id]!

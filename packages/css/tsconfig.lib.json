@@ -5,7 +5,10 @@
     "rootDir": ".",
     "outDir": "./out-tsc"
   },
-  "references": [],
+  "references": [
+    { "path": "../style-dictionary/tsconfig.lib.json" },
+    { "path": "../core/tsconfig.lib.json" }
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.js",
@@ -18,8 +21,7 @@
     "types/*.d.ts",
     "package.json",
     "powerlines.config.ts",
-    "powerlines.d.ts",
-    "tests/schema/tokens.test.ts"
+    "powerlines.d.ts"
   ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

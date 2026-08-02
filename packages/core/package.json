@@ -54,6 +54,20 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./lib/tokens": {
+      "require": {
+        "types": "./dist/lib/tokens/index.d.cts",
+        "default": "./dist/lib/tokens/index.cjs"
+      },
+      "import": {
+        "types": "./dist/lib/tokens/index.d.mts",
+        "default": "./dist/lib/tokens/index.mjs"
+      },
+      "default": {
+        "types": "./dist/lib/tokens/index.d.mts",
+        "default": "./dist/lib/tokens/index.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./plugin": {
       "require": {

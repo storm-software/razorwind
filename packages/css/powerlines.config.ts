@@ -20,7 +20,7 @@ import tsdown from "@powerlines/plugin-tsdown";
 import { defineConfig } from "powerlines/config";
 
 export default defineConfig({
-  input: ["src/index.ts"],
+  input: ["src/index.ts", "src/generate.ts", "src/extract.ts"],
   platform: "node",
   output: {
     format: ["cjs", "esm"]
@@ -28,9 +28,5 @@ export default defineConfig({
   resolve: {
     skipNodeModulesBundle: true
   },
-  plugins: [
-    tsdown({
-      exports: false
-    })
-  ]
+  plugins: [tsdown()]
 });

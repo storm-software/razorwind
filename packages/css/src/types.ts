@@ -16,21 +16,28 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import { defineConfig } from "powerlines/config";
+/**
+ * Options for the Razorwind CSS generate plugin.
+ */
+export interface CssGeneratePluginOptions {
+  /**
+   * Output file path (relative to the execution cwd).
+   *
+   * @defaultValue "src/styles.css"
+   */
+  outputPath?: string;
+}
 
-export default defineConfig({
-  input: ["src/index.ts"],
-  platform: "node",
-  output: {
-    format: ["cjs", "esm"]
-  },
-  resolve: {
-    skipNodeModulesBundle: true
-  },
-  plugins: [
-    tsdown({
-      exports: false
-    })
-  ]
-});
+/**
+ * Options for the Razorwind CSS extract plugin.
+ */
+export interface CssExtractPluginOptions {
+  /**
+   * Path to the CSS file to parse for custom-property tokens
+   * (relative to the execution cwd, or absolute). When omitted, common
+   * workspace CSS entry candidates are checked (`src/styles.css`, …).
+   *
+   * @defaultValue "src/styles.css"
+   */
+  cssPath?: string | null;
+}

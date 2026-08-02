@@ -28,5 +28,9 @@ export default defineConfig({
   resolve: {
     skipNodeModulesBundle: true
   },
-  plugins: [tsdown()]
+  plugins: [
+    tsdown({
+      exports: false
+    })
+  ]
 });

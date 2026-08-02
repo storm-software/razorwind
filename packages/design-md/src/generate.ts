@@ -194,7 +194,9 @@ function applyGenerateOptions(
   return {
     ...document,
     ...(options.name !== undefined && { name: options.name }),
-    ...(options.description !== undefined && { description: options.description }),
+    ...(options.description !== undefined && {
+      description: options.description
+    }),
     ...(options.version !== undefined && { version: options.version })
   };
 }

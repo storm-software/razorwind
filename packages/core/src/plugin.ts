@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { isFunction } from "@stryke/type-checks/is-function";
 import type { Plugin } from "./types/plugin";
 
 export type * from "./types/plugin";
@@ -63,11 +64,26 @@ export type * from "./types/plugin";
  * ```
  */
 export function definePlugin<TOptions>(
-  factory: (options?: TOptions) => Plugin
+  factory: (options: TOptions) => Plugin,
+  overrides?: Partial<Plugin>
 ): (options?: TOptions) => Plugin;
-export function definePlugin(plugin: Plugin): Plugin;
+export function definePlugin(
+  plugin: Plugin,
+  overrides?: Partial<Plugin>
+): Plugin;
 export function definePlugin<TOptions>(
-  pluginOrFactory: Plugin | ((options?: TOptions) => Plugin)
+  pluginOrFactory: Plugin | ((options: TOptions) => Plugin),
+  overrides?: Partial<Plugin>
 ): Plugin | ((options?: TOptions) => Plugin) {
-  return pluginOrFactory;
+  if (isFunction(pluginOrFactory)) {
+    return (options?: TOptions) => ({
+      ...pluginOrFactory(options as TOptions),
+      ...overrides
+    });
+  }
+
+  return {
+    ...pluginOrFactory,
+    ...overrides
+  };
 }

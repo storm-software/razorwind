@@ -16,21 +16,25 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import { defineConfig } from "powerlines/config";
+import { definePlugin } from "@razorwind/core/plugin";
+import styleDictionary from "@razorwind/style-dictionary/generate";
+import type { CssGeneratePluginOptions } from "./types";
 
-export default defineConfig({
-  input: ["src/index.ts"],
-  platform: "node",
-  output: {
-    format: ["cjs", "esm"]
-  },
-  resolve: {
-    skipNodeModulesBundle: true
-  },
-  plugins: [
-    tsdown({
-      exports: false
-    })
-  ]
-});
+export default definePlugin(
+  (options?: CssGeneratePluginOptions) =>
+    styleDictionary({
+      platforms: {
+        css: {
+          transformGroup: "css",
+          files: [
+            {
+              destination: options?.outputPath || "src/styles.css"
+            }
+          ]
+        }
+      }
+    }),
+  {
+    name: "css:generate"
+  }
+);
