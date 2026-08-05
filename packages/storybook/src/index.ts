@@ -22,14 +22,20 @@ import type { StorybookPluginOptions } from "./types";
 
 export { flattenTokens, resolveTokenSets } from "./flatten";
 export { formatTokenValue, toCssVar } from "./format";
-export { generateTokenDocs } from "./generate";
-export type { FlatToken, StorybookPluginOptions } from "./types";
+export { generateTokenDocs, renderThemeFile } from "./generate";
+export type {
+  FlatToken,
+  GenerateStorybookTheme,
+  StorybookPluginOptions,
+  StorybookTheme
+} from "./types";
 
 /**
  * Razorwind plugin that turns design tokens into Storybook MDX doc blocks
- * (`ColorPalette`, `Typeset`, `TokenTable`).
+ * (`ColorPalette`, `Typeset`, `TokenTable`) and optional UI themes.
  *
  * @see https://storybook.js.org/docs/writing-docs/doc-blocks
+ * @see https://storybook.js.org/docs/configure/user-interface/theming
  * @see https://github.com/unpunnyfuns/swatchbook/tree/main/packages/addon
  *
  * @example
@@ -38,7 +44,15 @@ export type { FlatToken, StorybookPluginOptions } from "./types";
  * import storybook from "@razorwind/storybook";
  *
  * export default defineConfig({
- *   plugins: [storybook]
+ *   plugins: [
+ *     storybook({
+ *       generateTheme: tokens => ({
+ *         base: "light",
+ *         colorPrimary: tokens.find(t => t.path === "color.primary")?.cssValue,
+ *         brandTitle: "My Design System"
+ *       })
+ *     })
+ *   ]
  * });
  * ```
  */

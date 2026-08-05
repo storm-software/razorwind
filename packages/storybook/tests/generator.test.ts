@@ -112,7 +112,7 @@ describe("storybook plugin", () => {
   });
 
   it("generates Storybook token doc blocks from the schema", async () => {
-    const plugin = storybook({ outDir: "docs/tokens" });
+    const plugin = storybook({ outputPath: "docs/tokens" });
     const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual(
@@ -145,5 +145,31 @@ describe("storybook plugin", () => {
     expect(documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content).toContain(
       "TokenTableBlock"
     );
+  });
+
+  it("writes a Storybook theme when generateTheme is provided", () => {
+    const documents = generateTokenDocs(spec, {
+      outputPath: "out",
+      generateTheme: tokens => ({
+        base: "light",
+        colorPrimary: tokens.find(token => token.path === "color.primary")
+          ?.cssValue,
+        fontBase: tokens.find(token => token.path === "font.family.sans")
+          ?.cssValue,
+        brandTitle: "Razorwind"
+      })
+    });
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain('from "storybook/theming"');
+    expect(theme).toContain("export default create({");
+    expect(theme).toContain('base: "light"');
+    expect(theme).toContain('colorPrimary: "#0066cc"');
+    expect(theme).toContain("brandTitle: \"Razorwind\"");
+  });
+
+  it("skips theme.ts when generateTheme is omitted", () => {
+    const documents = generateTokenDocs(spec, { outputPath: "out" });
+    expect(documents["out/theme.ts"]).toBeUndefined();
   });
 });

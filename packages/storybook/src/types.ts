@@ -19,6 +19,73 @@
 import type { TokenType } from "@power-plant/dtcg-schema";
 
 /**
+ * A flattened design token ready for documentation rendering.
+ */
+export interface FlatToken {
+  /** Dot-separated token path (e.g. `color.primary`). */
+  path: string;
+  /** DTCG `$type`, when known. */
+  type?: TokenType | string;
+  /** Raw `$value` from the token document. */
+  value: unknown;
+  /** CSS-friendly string form of {@link value}. */
+  cssValue: string;
+  /** Stable CSS custom property name for this path. */
+  cssVar: string;
+  /** Optional DTCG `$description`. */
+  description?: string;
+  /** Theme / set id when tokens are a `Record<string, Tokens>`. */
+  theme?: string;
+}
+
+/**
+ * Storybook theme variables passed to `create()` from `storybook/theming`.
+ *
+ * @see https://storybook.js.org/docs/configure/user-interface/theming
+ */
+export interface StorybookTheme {
+  /** Required baseline palette (`light` or `dark`). */
+  base: "light" | "dark";
+  colorPrimary?: string;
+  colorSecondary?: string;
+  appBg?: string;
+  appContentBg?: string;
+  appHoverBg?: string;
+  appPreviewBg?: string;
+  appBorderColor?: string;
+  appBorderRadius?: number;
+  fontBase?: string;
+  fontCode?: string;
+  textColor?: string;
+  textInverseColor?: string;
+  textMutedColor?: string;
+  barTextColor?: string;
+  barHoverColor?: string;
+  barSelectedColor?: string;
+  barBg?: string;
+  buttonBg?: string;
+  buttonBorder?: string;
+  booleanBg?: string;
+  booleanSelectedBg?: string;
+  inputBg?: string;
+  inputBorder?: string;
+  inputTextColor?: string;
+  inputBorderRadius?: number;
+  brandTitle?: string;
+  brandUrl?: string;
+  brandImage?: string;
+  brandTarget?: string;
+  gridCellSize?: number;
+}
+
+/**
+ * Map flattened design tokens to a Storybook theme object.
+ *
+ * @see https://storybook.js.org/docs/configure/user-interface/theming
+ */
+export type GenerateStorybookTheme = (tokens: FlatToken[]) => StorybookTheme;
+
+/**
  * Options for the Razorwind Storybook token docs generator.
  */
 export interface StorybookPluginOptions {
@@ -62,24 +129,14 @@ export interface StorybookPluginOptions {
    * @defaultValue `2`
    */
   colorGroupBy?: number;
-}
 
-/**
- * A flattened design token ready for documentation rendering.
- */
-export interface FlatToken {
-  /** Dot-separated token path (e.g. `color.primary`). */
-  path: string;
-  /** DTCG `$type`, when known. */
-  type?: TokenType | string;
-  /** Raw `$value` from the token document. */
-  value: unknown;
-  /** CSS-friendly string form of {@link value}. */
-  cssValue: string;
-  /** Stable CSS custom property name for this path. */
-  cssVar: string;
-  /** Optional DTCG `$description`. */
-  description?: string;
-  /** Theme / set id when tokens are a `Record<string, Tokens>`. */
-  theme?: string;
+  /**
+   * Map extracted token values to a Storybook UI theme.
+   *
+   * When provided, the result is written to `{outputPath}/theme.ts` as a
+   * `create()` call from `storybook/theming`.
+   *
+   * @see https://storybook.js.org/docs/configure/user-interface/theming
+   */
+  generateTheme?: GenerateStorybookTheme;
 }
