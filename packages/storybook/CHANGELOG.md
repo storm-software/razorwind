@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.20) (08/05/2026)
+
+### Features
+
+- **storybook:** Added `generateTheme` option to Storybook plugin ([5b5253d](https://github.com/storm-software/razorwind/commit/5b5253d))
+
 ## [0.0.19](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.19) (08/05/2026)
 
 ### Updated Dependencies
