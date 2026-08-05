@@ -439,6 +439,7 @@ overrides:
   '@razorwind/tailwindcss': workspace:*
   '@razorwind/shadcn': workspace:*
   '@razorwind/tamagui': workspace:*
+  '@razorwind/vsce': workspace:*
   cookie: '>=0.7.0'
   debug: '>=4.4.0'
   follow-redirects: '>=1.15.9'
@@ -1022,6 +1023,28 @@ importers:
       tamagui:
         specifier: '>=1.120.0'
         version: 2.6.3(react-dom@19.2.8(react@19.2.8))(react-native@0.86.0(@babel/core@8.0.1)(@react-native/metro-config@0.86.1(@babel/core@8.0.1))(@types/react@17.0.4)(react@19.2.8))(react@19.2.8)
+    devDependencies:
+      '@powerlines/plugin-tsdown':
+        specifier: 'catalog:'
+        version: 0.1.586(befdc0484fe2747eefaba4af24b084ba)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.5
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/vsce:
+    dependencies:
+      '@power-plant/core':
+        specifier: 'catalog:'
+        version: 0.0.67(@nx/jest@23.0.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/dtcg-schema':
+        specifier: 'catalog:'
+        version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
+      '@razorwind/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'

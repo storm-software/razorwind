@@ -14,6 +14,7 @@
           "packages/style-dictionary",
           "packages/tailwindcss",
           "packages/tamagui",
+          "packages/vsce",
           "packages/nx"
         ],
         "projectsRelationship": "independent"

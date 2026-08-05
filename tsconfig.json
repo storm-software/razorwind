@@ -40,6 +40,9 @@
       "path": "./packages/tamagui"
     },
     {
+      "path": "./packages/vsce"
+    },
+    {
       "path": "./packages/nx"
     },
     {

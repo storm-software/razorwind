@@ -31,6 +31,12 @@
       "skillPath": "plugins/javascript-typescript/skills/typescript-advanced-types/SKILL.md",
       "computedHash": "8cbf2bf600f392d7260e476e3202932a876e2281cda3b15a8b6a5a43f383252d"
     },
+    "vscode-extension-guide": {
+      "source": "aktsmm/agent-skills",
+      "sourceType": "github",
+      "skillPath": "vscode-extension-guide/SKILL.md",
+      "computedHash": "1f3c2e41c299a07a68edaee8c7504c9f05e119a4a913ab36d1a78069bd7d317c"
+    },
     "zod": {
       "source": "pproenca/dot-skills",
       "sourceType": "github",

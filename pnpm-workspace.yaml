@@ -114,6 +114,7 @@ overrides:
   "@razorwind/tailwindcss": workspace:*
   "@razorwind/shadcn": workspace:*
   "@razorwind/tamagui": workspace:*
+  "@razorwind/vsce": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"
