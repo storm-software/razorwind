@@ -14,6 +14,15 @@
 The mode to use when running Razorwind generate
 
 
+## `configFile`
+- **Type**: `string`
+
+> Razorwind Config File
+
+
+The path to the Razorwind config file to use when running generate. If not provided, the default config file will be used.
+
+
 ## `targetName`
 - **Type**: `string`
 

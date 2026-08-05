@@ -42,9 +42,12 @@ const DEFAULT_OUT_OF_SYNC_MESSAGE =
 
 function resolveConfigFileToken(
   configFile: string,
+  workspaceRoot: string,
   projectRoot: string
 ): string {
-  return configFile.replaceAll("{projectRoot}", projectRoot);
+  return configFile
+    .replaceAll("{workspaceRoot}", workspaceRoot)
+    .replaceAll("{projectRoot}", projectRoot);
 }
 
 function findDefaultConfigFile(
@@ -134,58 +137,92 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
   const outOfSyncDetails: string[] = [];
   const processedConfigFiles = new Set<string>();
 
-  for (const project of Object.values(projectGraph.nodes)) {
-    const projectRoot = project.data.root;
-    const generateTarget =
-      project.data.targets?.[targetName] ??
-      Object.values(project.data.targets ?? {}).find(
-        target => target.executor === GENERATE_EXECUTOR
-      );
-
-    let configFile: string | undefined;
-    let mode = defaultMode;
-    let componentsPath: string | string[] | undefined;
-    let tokensPath: string | string[] | undefined;
-
-    if (generateTarget?.executor === GENERATE_EXECUTOR) {
-      const targetMode =
-        generateTarget.configurations?.[
-          generateTarget.defaultConfiguration ?? "production"
-        ]?.mode ?? generateTarget.options?.mode;
-
-      mode =
-        (targetMode as "development" | "production" | undefined) ?? defaultMode;
-      componentsPath = generateTarget.options?.componentsPath;
-      tokensPath = generateTarget.options?.tokensPath;
-
-      const configured = generateTarget.options?.configFile
-        ? resolveConfigFileToken(
-            generateTarget.options.configFile as string,
-            projectRoot
-          )
-        : undefined;
-
-      configFile =
-        configured && tree.exists(configured)
-          ? configured
-          : findDefaultConfigFile(tree, projectRoot);
-    } else {
-      configFile = findDefaultConfigFile(tree, projectRoot);
+  if (generatorOptions.configFile) {
+    const configFile = resolveConfigFileToken(
+      generatorOptions.configFile,
+      tree.root,
+      tree.root
+    );
+    if (tree.exists(configFile)) {
+      processedConfigFiles.add(configFile);
     }
-
-    if (!configFile || processedConfigFiles.has(configFile)) {
-      continue;
-    }
-
-    processedConfigFiles.add(configFile);
 
     const changed = await generateForProject(tree, {
       configFile,
-      mode,
-      componentsPath,
-      tokensPath
+      mode: defaultMode,
+      componentsPath: undefined,
+      tokensPath: undefined
     });
     outOfSyncDetails.push(...changed);
+  } else {
+    const workspaceConfigFile = findDefaultConfigFile(tree, tree.root);
+    if (workspaceConfigFile && tree.exists(workspaceConfigFile)) {
+      processedConfigFiles.add(workspaceConfigFile);
+
+      const changed = await generateForProject(tree, {
+        configFile: workspaceConfigFile,
+        mode: defaultMode,
+        componentsPath: undefined,
+        tokensPath: undefined
+      });
+      outOfSyncDetails.push(...changed);
+    }
+
+    for (const project of Object.values(projectGraph.nodes)) {
+      const projectRoot = project.data.root;
+      const generateTarget =
+        project.data.targets?.[targetName] ??
+        Object.values(project.data.targets ?? {}).find(
+          target => target.executor === GENERATE_EXECUTOR
+        );
+
+      let configFile: string | undefined;
+      let mode = defaultMode;
+      let componentsPath: string | string[] | undefined;
+      let tokensPath: string | string[] | undefined;
+
+      if (generateTarget?.executor === GENERATE_EXECUTOR) {
+        const targetMode =
+          generateTarget.configurations?.[
+            generateTarget.defaultConfiguration ?? "production"
+          ]?.mode ?? generateTarget.options?.mode;
+
+        mode =
+          (targetMode as "development" | "production" | undefined) ??
+          defaultMode;
+        componentsPath = generateTarget.options?.componentsPath;
+        tokensPath = generateTarget.options?.tokensPath;
+
+        const configured = generateTarget.options?.configFile
+          ? resolveConfigFileToken(
+              generateTarget.options.configFile as string,
+              tree.root,
+              projectRoot
+            )
+          : undefined;
+
+        configFile =
+          configured && tree.exists(configured)
+            ? configured
+            : findDefaultConfigFile(tree, projectRoot);
+      } else {
+        configFile = findDefaultConfigFile(tree, projectRoot);
+      }
+
+      if (!configFile || processedConfigFiles.has(configFile)) {
+        continue;
+      }
+
+      processedConfigFiles.add(configFile);
+
+      const changed = await generateForProject(tree, {
+        configFile,
+        mode,
+        componentsPath,
+        tokensPath
+      });
+      outOfSyncDetails.push(...changed);
+    }
   }
 
   return {

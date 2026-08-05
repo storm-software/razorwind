@@ -15,6 +15,12 @@
       "id": "#mode",
       "default": "production"
     },
+    "configFile": {
+      "title": "Razorwind Config File",
+      "type": "string",
+      "description": "The path to the Razorwind config file to use when running generate. If not provided, the default config file will be used.",
+      "id": "#configFile"
+    },
     "targetName": {
       "title": "Target Name",
       "type": "string",

@@ -35,6 +35,14 @@ export default defineUntypedSchema({
     },
     $default: "production"
   },
+  configFile: {
+    $schema: {
+      title: "Razorwind Config File",
+      type: "string",
+      description:
+        "The path to the Razorwind config file to use when running generate. If not provided, the default config file will be used."
+    }
+  },
   targetName: {
     $schema: {
       title: "Target Name",
