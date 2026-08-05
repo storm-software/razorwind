@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.22) (08/05/2026)
+
+### Features
+
+- **color-variants:** Added the Color Variants plugin package ([5f22aea](https://github.com/storm-software/razorwind/commit/5f22aea))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.25**
+
 ## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.21) (08/05/2026)
 
 ### Miscellaneous

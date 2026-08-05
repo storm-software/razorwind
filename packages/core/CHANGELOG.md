@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/core%400.0.25) (08/05/2026)
+
+### Features
+
+- **color-variants:** Added the Color Variants plugin package ([5f22aea](https://github.com/storm-software/razorwind/commit/5f22aea))
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/core%400.0.23) (08/05/2026)
 
 ### Bug Fixes
