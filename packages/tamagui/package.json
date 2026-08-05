@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/tamagui",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "type": "module",
   "description": "Razorwind plugin that creates Tamagui theme tokens from Razorwind design tokens.",
   "repository": {

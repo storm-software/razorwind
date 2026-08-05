@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.20) (08/05/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.24**
+
 ## [0.0.19](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.19) (08/05/2026)
 
 ### Updated Dependencies

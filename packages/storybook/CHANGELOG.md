@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.21) (08/05/2026)
+
+### Miscellaneous
+
+- **storybook:** Update Storybook theme generation to allow record of themes ([0247d66](https://github.com/storm-software/razorwind/commit/0247d66))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.24**
+
 ## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.20) (08/05/2026)
 
 ### Features
