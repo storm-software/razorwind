@@ -16,12 +16,12 @@
 
  ------------------------------------------------------------------- */
 
-import type { Schema } from "@razorwind/core/schema";
+import type { Schema, Tokens } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
 import { flattenTokens } from "../src/flatten";
 import { formatTokenValue, toCssVar } from "../src/format";
 import { generateTokenDocs } from "../src/generate";
-import storybook from "../src/index";
+import storybook, { type StorybookPluginOptions, type StorybookTheme } from "../src/index";
 
 const tokens = {
   color: {
@@ -150,15 +150,13 @@ describe("storybook plugin", () => {
   it("writes a Storybook theme when generateTheme is provided", () => {
     const documents = generateTokenDocs(spec, {
       outputPath: "out",
-      generateTheme: tokens => ({
+      generateTheme: (tokens: Schema["tokens"]) : StorybookTheme => ({
         base: "light",
-        colorPrimary: tokens.find(token => token.path === "color.primary")
-          ?.cssValue,
-        fontBase: tokens.find(token => token.path === "font.family.sans")
-          ?.cssValue,
+        colorPrimary: (tokens.color as Record<string, Tokens>)?.primary?.$value as string,
+        fontBase: (tokens.font as Record<string, Tokens>)?.family?.sans as string,
         brandTitle: "Razorwind"
       })
-    });
+    }) satisfies StorybookPluginOptions;
 
     const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
     expect(theme).toContain('from "storybook/theming"');

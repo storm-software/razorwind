@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type { TokenType } from "@power-plant/dtcg-schema";
+import type { Tokens, TokenType } from "@power-plant/dtcg-schema";
 
 /**
  * A flattened design token ready for documentation rendering.
@@ -78,12 +78,16 @@ export interface StorybookTheme {
   gridCellSize?: number;
 }
 
+export type StorybookThemeResult = StorybookTheme | Record<string, StorybookTheme>;
+
 /**
  * Map flattened design tokens to a Storybook theme object.
  *
  * @see https://storybook.js.org/docs/configure/user-interface/theming
  */
-export type GenerateStorybookTheme = (tokens: FlatToken[]) => StorybookTheme;
+export type GenerateStorybookTheme = (
+  tokens: Tokens | Record<string, Tokens>
+) => StorybookThemeResult;
 
 /**
  * Options for the Razorwind Storybook token docs generator.

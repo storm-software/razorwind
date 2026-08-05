@@ -484,12 +484,22 @@ export function generateTokenDocs(
   );
 
   if (options.generateTheme) {
-    const theme = options.generateTheme(flat);
-    documents[join(outputPath, "theme.ts")] = document(
-      join(outputPath, "theme.ts"),
-      renderThemeFile(theme),
-      "typescript"
-    );
+    const theme = options.generateTheme(spec.tokens);
+    if (typeof theme === "object" && theme !== null) {
+      for (const [key, value] of Object.entries(theme)) {
+        documents[join(outputPath, `theme-${key}.ts`)] = document(
+          join(outputPath, `theme-${key}.ts`),
+          renderThemeFile(value),
+          "typescript"
+        );
+      }
+    } else {
+      documents[join(outputPath, "theme.ts")] = document(
+        join(outputPath, "theme.ts"),
+        renderThemeFile(theme),
+        "typescript"
+      );
+    }
   }
 
   return documents;
