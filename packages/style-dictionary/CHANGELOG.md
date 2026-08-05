@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.12) (08/05/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.26**
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.11) (08/05/2026)
 
 ### Updated Dependencies

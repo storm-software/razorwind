@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.21) (08/05/2026)
+
+### Features
+
+- **nx:** Added `configFile` option to sync generator ([830dc18](https://github.com/storm-software/razorwind/commit/830dc18))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.26**
+
 ## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.20) (08/05/2026)
 
 ### Updated Dependencies
