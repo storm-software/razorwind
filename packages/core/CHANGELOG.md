@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/core%400.0.23) (08/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invalid imports from `@stryke/env` package ([6e67e42](https://github.com/storm-software/razorwind/commit/6e67e42))
+
 ## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/core%400.0.22) (08/02/2026)
 
 ### Miscellaneous
