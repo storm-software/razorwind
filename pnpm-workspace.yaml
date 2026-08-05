@@ -26,36 +26,36 @@ catalog:
   "@shell-shock/preset-cli": ^0.9.34
   "@shell-shock/core": ^0.17.22
   "@shell-shock/nx": ^0.0.95
-  "@storm-software/config": ^1.138.47
-  "@storm-software/config-tools": ^1.190.110
-  "@storm-software/cspell": ^0.46.178
-  "@storm-software/eslint-config-react": ^0.0.66
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.73
-  "@storm-software/git-tools": ^2.131.118
-  "@storm-software/linting-tools": ^1.134.40
-  "@storm-software/markdownlint": ^0.30.266
-  "@storm-software/pnpm-tools": ^0.7.121
-  "@storm-software/prettier": ^0.59.163
-  "@storm-software/testing-tools": ^1.119.263
-  "@storm-software/tsconfig": ^0.48.177
-  "@storm-software/untyped": ^0.24.252
-  "@storm-software/workspace-tools": ^1.296.90
-  "@stryke/convert": ^0.7.30
-  "@stryke/date": ^0.0.11
-  "@stryke/env": ^0.20.117
-  "@stryke/fs": ^0.33.100
-  "@stryke/hash": ^0.13.53
-  "@stryke/helpers": ^0.10.39
-  "@stryke/http": ^0.12.90
-  "@stryke/json": ^0.15.23
-  "@stryke/path": ^0.29.26
-  "@stryke/resolve": ^0.0.15
-  "@stryke/string-format": ^0.17.41
-  "@stryke/type-checks": ^0.6.32
-  "@stryke/types": ^0.12.27
-  "@stryke/unique-id": ^0.3.111
-  "@stryke/url": ^0.4.50
-  "@stryke/zod": ^0.3.45
+  "@storm-software/config": ^1.138.48
+  "@storm-software/config-tools": ^1.190.111
+  "@storm-software/cspell": ^0.46.179
+  "@storm-software/eslint-config-react": ^0.0.67
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.74
+  "@storm-software/git-tools": ^2.131.119
+  "@storm-software/linting-tools": ^1.134.41
+  "@storm-software/markdownlint": ^0.30.267
+  "@storm-software/pnpm-tools": ^0.7.122
+  "@storm-software/prettier": ^0.59.164
+  "@storm-software/testing-tools": ^1.119.264
+  "@storm-software/tsconfig": ^0.48.178
+  "@storm-software/untyped": ^0.24.253
+  "@storm-software/workspace-tools": ^1.296.91
+  "@stryke/convert": ^0.7.32
+  "@stryke/date": ^0.0.13
+  "@stryke/env": ^0.20.119
+  "@stryke/fs": ^0.33.102
+  "@stryke/hash": ^0.13.55
+  "@stryke/helpers": ^0.10.41
+  "@stryke/http": ^0.12.92
+  "@stryke/json": ^0.15.25
+  "@stryke/path": ^0.29.28
+  "@stryke/resolve": ^0.0.17
+  "@stryke/string-format": ^0.17.43
+  "@stryke/type-checks": ^0.6.34
+  "@stryke/types": ^0.12.29
+  "@stryke/unique-id": ^0.3.113
+  "@stryke/url": ^0.4.52
+  "@stryke/zod": ^0.3.47
   "@swc-node/register": ^1.11.1
   "@swc/core": ^1.15.41
   "@swc/helpers": ^0.5.23
@@ -105,6 +105,7 @@ overrides:
   "@razorwind/tools-cspell": workspace:*
   "@razorwind/core": workspace:*
   "@razorwind/css": workspace:*
+  "@razorwind/color-variants": workspace:*
   "@razorwind/cli": workspace:*
   "@razorwind/docgen": workspace:*
   "@razorwind/storybook": workspace:*

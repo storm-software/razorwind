@@ -13,6 +13,9 @@ bunshi
 oklch
 smol
 dtcg
+basenames
+achromatopsia
+achromatomaly
 
 # Ignore in Regex
 ommands

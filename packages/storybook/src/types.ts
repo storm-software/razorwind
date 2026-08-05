@@ -78,7 +78,8 @@ export interface StorybookTheme {
   gridCellSize?: number;
 }
 
-export type StorybookThemeResult = StorybookTheme | Record<string, StorybookTheme>;
+export type StorybookThemeResult =
+  StorybookTheme | Record<string, StorybookTheme>;
 
 /**
  * Map flattened design tokens to a Storybook theme object.

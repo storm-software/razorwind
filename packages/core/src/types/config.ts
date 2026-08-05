@@ -62,6 +62,20 @@ export interface Options {
    * - `dimmed`
    * - `high-contrast`
    * - `hc`
+   * - `highContrast`
+   * - `protanopia`
+   * - `deuteranopia`
+   * - `tritanopia`
+   * - `achromatopsia`
+   * - `achromatomaly`
+   * - `monochrome`
+   * - `monochromatic`
+   * - `grayscale`
+   * - `greyscale`
+   * - `bw`
+   * - `black-and-white`
+   * - `black-white`
+   * - `blackWhite`
    * - `default`
    * - `base`
    * - `theme`

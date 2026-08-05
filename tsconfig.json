@@ -22,6 +22,9 @@
       "path": "./packages/css"
     },
     {
+      "path": "./packages/color-variants"
+    },
+    {
       "path": "./packages/design-md"
     },
     {

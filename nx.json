@@ -6,6 +6,7 @@
         "projects": [
           "packages/core",
           "packages/css",
+          "packages/color-variants",
           "packages/design-md",
           "packages/docgen",
           "packages/shadcn",
