@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { getEnvPaths } from "@stryke/env";
+import { getEnvPaths } from "@stryke/env/get-env-paths";
 import { findFilePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replacePath } from "@stryke/path/replace";

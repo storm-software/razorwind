@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Tokens } from "@power-plant/dtcg-schema";
-import type { EnvPaths } from "@stryke/env";
+import type { EnvPaths } from "@stryke/env/get-env-paths";
 import type { RequiredKeys } from "@stryke/types/base";
 import type { Components } from "../schema/components";
 import type { Plugin } from "./plugin";
