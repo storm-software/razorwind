@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.24) (08/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up logic to searching for conifguration files ([f30e3f0](https://github.com/storm-software/razorwind/commit/f30e3f0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.29**
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.23) (08/06/2026)
 
 ### Updated Dependencies

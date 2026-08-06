@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/css%400.0.12) (08/06/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.29**
+- Updated **style-dictionary** to **v0.0.15**
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/css%400.0.11) (08/06/2026)
 
 ### Updated Dependencies

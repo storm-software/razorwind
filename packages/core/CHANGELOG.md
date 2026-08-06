@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/core%400.0.29) (08/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up logic to searching for conifguration files ([f30e3f0](https://github.com/storm-software/razorwind/commit/f30e3f0))
+
 ## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/core%400.0.27) (08/06/2026)
 
 ### Features
