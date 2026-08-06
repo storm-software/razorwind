@@ -46,6 +46,9 @@
       "path": "./packages/shiki"
     },
     {
+      "path": "./packages/sandpack"
+    },
+    {
       "path": "./packages/cursor"
     },
     {

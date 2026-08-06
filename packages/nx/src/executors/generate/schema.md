@@ -6,7 +6,6 @@
 
 ## `configFile`
 - **Type**: `string`
-- **Default**: `"{projectRoot}/razorwind.config.ts"`
 
 
 The path to the configuration file

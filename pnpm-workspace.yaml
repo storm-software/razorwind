@@ -117,6 +117,7 @@ overrides:
   "@razorwind/tamagui": workspace:*
   "@razorwind/vsce": workspace:*
   "@razorwind/shiki": workspace:*
+  "@razorwind/sandpack": workspace:*
   "@razorwind/cursor": workspace:*
   "@razorwind/zed": workspace:*
   "@razorwind/zsh": workspace:*
