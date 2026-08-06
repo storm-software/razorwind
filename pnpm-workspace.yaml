@@ -29,6 +29,7 @@ catalog:
   "@storm-software/config": ^1.138.50
   "@storm-software/config-tools": ^1.190.113
   "@storm-software/cspell": ^0.46.181
+  "@storm-software/eslint-plugin-pnpm": "^0.0.74"
   "@storm-software/eslint-config-react": ^0.0.69
   "@storm-software/eslint-plugin-tsdoc": ^0.0.76
   "@storm-software/git-tools": ^2.131.121
@@ -117,6 +118,7 @@ overrides:
   "@razorwind/vsce": workspace:*
   "@razorwind/shiki": workspace:*
   "@razorwind/cursor": workspace:*
+  "@razorwind/zsh": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"

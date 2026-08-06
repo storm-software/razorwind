@@ -18,6 +18,8 @@ achromatopsia
 achromatomaly
 shiki
 vsix
+zsh
+ohmyzsh
 
 # Ignore in Regex
 ommands

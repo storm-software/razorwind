@@ -53,6 +53,9 @@
     },
     {
       "path": "./packages/style-dictionary"
+    },
+    {
+      "path": "./packages/zsh"
     }
   ],
   "files": []
