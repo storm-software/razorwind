@@ -16,6 +16,8 @@ dtcg
 basenames
 achromatopsia
 achromatomaly
+shiki
+vsix
 
 # Ignore in Regex
 ommands
