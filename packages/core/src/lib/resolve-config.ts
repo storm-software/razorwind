@@ -53,25 +53,80 @@ export async function resolveConfig(
       ? replacePath(options.configFile, cwd)
       : options.configFile && existsSync(options.configFile)
         ? options.configFile
-        : existsSync(joinPaths(cwd, `razorwind.${options.mode}.config.ts`))
-          ? joinPaths(cwd, `razorwind.${options.mode}.config.ts`)
-          : existsSync(joinPaths(cwd, `razorwind.${options.mode}.config.js`))
-            ? joinPaths(cwd, `razorwind.${options.mode}.config.js`)
-            : existsSync(joinPaths(cwd, `razorwind.${options.mode}.config.mts`))
-              ? joinPaths(cwd, `razorwind.${options.mode}.config.mts`)
-              : existsSync(
-                    joinPaths(cwd, `razorwind.${options.mode}.config.mjs`)
-                  )
-                ? joinPaths(cwd, `razorwind.${options.mode}.config.mjs`)
-                : existsSync(joinPaths(cwd, `razorwind.config.ts`))
-                  ? joinPaths(cwd, `razorwind.config.ts`)
-                  : existsSync(joinPaths(cwd, `razorwind.config.js`))
-                    ? joinPaths(cwd, `razorwind.config.js`)
-                    : existsSync(joinPaths(cwd, `razorwind.config.mts`))
-                      ? joinPaths(cwd, `razorwind.config.mts`)
-                      : existsSync(joinPaths(cwd, `razorwind.config.mjs`))
-                        ? joinPaths(cwd, `razorwind.config.mjs`)
-                        : undefined;
+        : existsSync(joinPaths(cwd, `razorwind.${options.mode}.ts`))
+          ? joinPaths(cwd, `razorwind.${options.mode}.ts`)
+          : existsSync(joinPaths(cwd, `razorwind.${options.mode}.js`))
+            ? joinPaths(cwd, `razorwind.${options.mode}.js`)
+            : existsSync(joinPaths(cwd, `razorwind.${options.mode}.mts`))
+              ? joinPaths(cwd, `razorwind.${options.mode}.mts`)
+              : existsSync(joinPaths(cwd, `razorwind.${options.mode}.mjs`))
+                ? joinPaths(cwd, `razorwind.${options.mode}.mjs`)
+                : existsSync(joinPaths(cwd, `razorwind.${options.mode}.cjs`))
+                  ? joinPaths(cwd, `razorwind.${options.mode}.cjs`)
+                  : existsSync(
+                        joinPaths(cwd, `razorwind.${options.mode}.cts`)
+                      )
+                    ? joinPaths(cwd, `razorwind.${options.mode}.cts`)
+                    : existsSync(
+                          joinPaths(
+                            cwd,
+                            `razorwind.${options.mode}.json`
+                          )
+                        )
+                      ? joinPaths(cwd, `razorwind.${options.mode}.json`)
+                      : existsSync(
+                            joinPaths(
+                              cwd,
+                              `razorwind.${options.mode}.yaml`
+                            )
+                          )
+                        ? joinPaths(
+                            cwd,
+                            `razorwind.${options.mode}.yaml`
+                          )
+                        : existsSync(
+                              joinPaths(
+                                cwd,
+                                `razorwind.${options.mode}.yml`
+                              )
+                            )
+                          ? joinPaths(
+                              cwd,
+                              `razorwind.${options.mode}.yml`
+                            )
+                          : existsSync(joinPaths(cwd, `razorwind.config.ts`))
+                            ? joinPaths(cwd, `razorwind.config.ts`)
+                            : existsSync(joinPaths(cwd, `razorwind.config.js`))
+                              ? joinPaths(cwd, `razorwind.config.js`)
+                              : existsSync(
+                                    joinPaths(cwd, `razorwind.config.mts`)
+                                  )
+                                ? joinPaths(cwd, `razorwind.config.mts`)
+                                : existsSync(
+                                      joinPaths(cwd, `razorwind.config.mjs`)
+                                    )
+                                  ? joinPaths(cwd, `razorwind.config.mjs`)
+                                  : existsSync(
+                                      joinPaths(cwd, `razorwind.config.cjs`)
+                                  )
+                                ? joinPaths(cwd, `razorwind.config.cjs`)
+                                : existsSync(
+                                      joinPaths(cwd, `razorwind.config.cts`)
+                                    )
+                                  ? joinPaths(cwd, `razorwind.config.cts`)
+                                  : existsSync(
+                                        joinPaths(cwd, `razorwind.config.json`)
+                                      )
+                                    ? joinPaths(cwd, `razorwind.config.json`)
+                                    : existsSync(
+                                          joinPaths(cwd, `razorwind.config.yaml`)
+                                        )
+                                      ? joinPaths(cwd, `razorwind.config.yaml`)
+                                      : existsSync(
+                                            joinPaths(cwd, `razorwind.config.yml`)
+                                          )
+                                            ? joinPaths(cwd, `razorwind.config.yml`)
+                                            : undefined;
 
   const envPaths = getEnvPaths({
     orgId: "storm-software",

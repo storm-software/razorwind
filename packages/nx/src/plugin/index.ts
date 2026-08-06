@@ -43,6 +43,7 @@ import {
   getPackageManagerCommand
 } from "nx/src/utils/package-manager.js";
 import { GENERATE_EXECUTOR } from "../helpers/constants";
+import type { PackageJson as PackageJsonPkgTypes } from "pkg-types";
 
 export interface NxPluginOptions {
   /**
@@ -155,7 +156,7 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
           const packageJson: PackageJson = JSON.parse(packageJsonContent);
           const projectConfig = getProjectConfigFromProjectRoot(
             projectRoot,
-            packageJson as PackageJsonNx
+            packageJson as PackageJsonPkgTypes
           );
           if (!projectConfig) {
             if (options?.verboseOutput) {

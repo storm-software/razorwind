@@ -28,8 +28,7 @@ export default defineUntypedSchema({
     properties: {
       configFile: {
         type: "string",
-        description: "The path to the configuration file",
-        default: "{projectRoot}/razorwind.config.ts"
+        description: "The path to the configuration file"
       },
       mode: {
         type: "string",

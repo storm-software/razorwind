@@ -13,34 +13,34 @@ catalog:
   "@nx/workspace": 23.1.0
   "@power-plant/core": ^0.0.75
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/schema": ^0.0.73
+  "@power-plant/schema": ^0.0.74
   "@power-plant/style-dictionary": ^0.0.60
   "@power-plant/terrazzo": ^0.0.61
   "@power-plant/utils": ^0.0.61
   "@powerlines/nx": ^0.13.227
-  "@powerlines/plugin-untyped": ^0.2.602
-  "@powerlines/tsconfig": ^0.4.233
-  "@powerlines/tsdoc": ^0.2.181
+  "@powerlines/plugin-untyped": ^0.2.603
+  "@powerlines/tsconfig": ^0.4.234
+  "@powerlines/tsdoc": ^0.2.182
   "@powerlines/plugin-tsdown": ^0.1.589
   "@shell-shock/eslint-plugin": ^0.0.86
   "@shell-shock/preset-cli": ^0.9.34
   "@shell-shock/core": ^0.17.22
   "@shell-shock/nx": ^0.0.95
-  "@storm-software/config": ^1.138.50
-  "@storm-software/config-tools": ^1.190.113
-  "@storm-software/cspell": ^0.46.181
-  "@storm-software/eslint-plugin-pnpm": "^0.0.74"
-  "@storm-software/eslint-config-react": ^0.0.69
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.76
-  "@storm-software/git-tools": ^2.131.121
-  "@storm-software/linting-tools": ^1.134.43
-  "@storm-software/markdownlint": ^0.30.269
-  "@storm-software/pnpm-tools": ^0.7.124
-  "@storm-software/prettier": ^0.59.166
-  "@storm-software/testing-tools": ^1.119.266
-  "@storm-software/tsconfig": ^0.48.180
-  "@storm-software/untyped": ^0.24.255
-  "@storm-software/workspace-tools": ^1.296.93
+  "@storm-software/config": ^1.138.51
+  "@storm-software/config-tools": ^1.190.114
+  "@storm-software/cspell": ^0.46.182
+  "@storm-software/eslint-plugin-pnpm": ^0.0.77
+  "@storm-software/eslint-config-react": ^0.0.70
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.77
+  "@storm-software/git-tools": ^2.131.122
+  "@storm-software/linting-tools": ^1.134.44
+  "@storm-software/markdownlint": ^0.30.270
+  "@storm-software/pnpm-tools": ^0.7.125
+  "@storm-software/prettier": ^0.59.167
+  "@storm-software/testing-tools": ^1.119.267
+  "@storm-software/tsconfig": ^0.48.181
+  "@storm-software/untyped": ^0.24.256
+  "@storm-software/workspace-tools": ^1.296.94
   "@stryke/convert": ^0.7.33
   "@stryke/date": ^0.0.14
   "@stryke/env": ^0.20.120

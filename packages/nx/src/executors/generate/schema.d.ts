@@ -5,32 +5,32 @@
 export interface GenerateExecutorSchema {
  /**
   * The path to the configuration file
-  * 
+  *
   * @default "{projectRoot}/razorwind.config.ts"
  */
  configFile: string,
 
  /**
   * The mode to use
-  * 
+  *
   * @default "production"
-  * 
+  *
   * @enum development,production
  */
  mode: string,
 
  /**
   * The path to a directory containing component directories or files, or an array of paths
-  * 
-  * 
+  *
+  *
   * @oneOf [object Object],[object Object]
  */
  componentsPath?: string | string[],
 
  /**
   * The path to the tokens.json file, or an array of paths
-  * 
-  * 
+  *
+  *
   * @oneOf [object Object],[object Object]
  */
  tokensPath?: string | string[],

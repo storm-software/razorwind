@@ -27,6 +27,18 @@ export interface Options {
   /**
    * The directory or file containing a Razorwind configuration file.
    *
+   * @reamarks
+   * If not provided, the application will look for a configuration file in the following order:
+   * - `razorwind.config.ts`
+   * - `razorwind.config.js`
+   * - `razorwind.config.mts`
+   * - `razorwind.config.mjs`
+   * - `razorwind.config.cjs`
+   * - `razorwind.config.cts`
+   * - `razorwind.config.json`
+   * - `razorwind.config.yaml`
+   * - `razorwind.config.yml`
+   *
    * @defaultValue "razorwind.config.ts"
    */
   configFile?: string;
