@@ -71,7 +71,17 @@ const spec = {
       type: "ui",
       description: "Displays a button or a component that looks like one.",
       dependencies: { "@radix-ui/react-slot": "*" },
-      files: [{ path: "registry/ui/button.tsx", type: "ui" }]
+      files: [{ path: "registry/ui/button.tsx", type: "ui" }],
+      usage: [
+        {
+          name: "default",
+          title: "Default",
+          description: "A primary button.",
+          path: "usage/default.tsx",
+          language: "tsx",
+          content: 'export default function Default() {\n  return <Button>Click</Button>;\n}'
+        }
+      ]
     },
     "login-form": {
       name: "login-form",
@@ -259,6 +269,11 @@ describe("docgen generate plugin", () => {
     expect(ui).toContain("Displays a button or a component");
     expect(ui).toContain("`@radix-ui/react-slot`");
     expect(ui).toContain("`registry/ui/button.tsx`");
+    expect(ui).toContain("### Usage");
+    expect(ui).toContain("#### Default");
+    expect(ui).toContain("A primary button.");
+    expect(ui).toContain("```tsx");
+    expect(ui).toContain("<Button>Click</Button>");
 
     const components = documents["docs/design-system/registry/components.mdx"]
       ?.chunks?.[0]?.content;

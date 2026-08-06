@@ -38,12 +38,29 @@ import type { Schema } from "../../schema";
 import type {
   Component,
   ComponentFile,
-  Components
+  Components,
+  ComponentUsage
 } from "../../schema/components";
-import { componentFileSchema, componentSchema } from "../../schema/components";
+import {
+  componentFileSchema,
+  componentSchema,
+  componentUsageSchema
+} from "../../schema/components";
 import type { Config } from "../../types/config";
 
 const componentPartialSchema = componentSchema.partial();
+
+const USAGE_LANGUAGES = new Set([
+  "tsx",
+  "jsx",
+  "ts",
+  "js",
+  "mdx",
+  "md",
+  "css",
+  "html",
+  "txt"
+]);
 
 /** Overlay merge: arrays from the left source replace (do not concat). */
 const defuOverlay = createDefu((object, key, value) => {
@@ -85,6 +102,22 @@ function normalizeRepository(value: unknown): string | undefined {
   return undefined;
 }
 
+function usageLanguageFromExtension(
+  extension: string
+): ComponentUsage["language"] | undefined {
+  const normalized = extension.toLowerCase();
+  if (USAGE_LANGUAGES.has(normalized)) {
+    return normalized as ComponentUsage["language"];
+  }
+
+  return undefined;
+}
+
+function isUsageSourceFile(path: string): boolean {
+  const extension = findFileExtensionSafe(path)?.toLowerCase();
+  return Boolean(extension && USAGE_LANGUAGES.has(extension));
+}
+
 function parseComponentFiles(value: unknown): ComponentFile[] | undefined {
   if (!value) {
     return undefined;
@@ -110,12 +143,52 @@ function parseComponentFiles(value: unknown): ComponentFile[] | undefined {
   return files.length > 0 ? files : undefined;
 }
 
+function parseComponentUsage(value: unknown): ComponentUsage[] | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const single = componentUsageSchema.safeParse(value);
+  if (single.success) {
+    return [single.data];
+  }
+
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  const usage: ComponentUsage[] = [];
+  for (const entry of value) {
+    if (isSetString(entry)) {
+      const name = findFileName(entry, { withExtension: false }) || entry;
+      const parsed = componentUsageSchema.safeParse({ name, path: entry });
+      if (parsed.success) {
+        usage.push(parsed.data);
+      }
+      continue;
+    }
+
+    const parsed = componentUsageSchema.safeParse(entry);
+    if (parsed.success) {
+      usage.push(parsed.data);
+    }
+  }
+
+  return usage.length > 0 ? usage : undefined;
+}
+
 function parseComponentPartial(value: unknown): Partial<Component> | undefined {
   if (!isSetObject(value)) {
     return undefined;
   }
 
-  const parsed = componentPartialSchema.safeParse(value);
+  // Parse `files` / `usage` separately so string shorthand and file-shaped
+  // entries do not fail the partial component parse.
+  const { files: _files, usage: _usage, ...rest } = value as Record<
+    string,
+    unknown
+  >;
+  const parsed = componentPartialSchema.safeParse(rest);
   if (!parsed.success) {
     return undefined;
   }
@@ -184,6 +257,7 @@ async function extractFromPackageJson(
   const razorwind = pkg.razorwind;
   let fromRazorwind: Partial<Component> | undefined;
   let razorwindFiles: ComponentFile[] | undefined;
+  let razorwindUsage: ComponentUsage[] | undefined;
 
   if (isComponentFileShape(razorwind)) {
     razorwindFiles = parseComponentFiles(razorwind);
@@ -192,12 +266,18 @@ async function extractFromPackageJson(
     if ("files" in razorwind) {
       razorwindFiles = parseComponentFiles(razorwind.files);
     }
+    if ("usage" in razorwind) {
+      razorwindUsage = parseComponentUsage(razorwind.usage);
+    }
   }
 
   const merged: Partial<Component> = defuOverlay(fromRazorwind ?? {}, fromNpm);
 
   if (razorwindFiles?.length) {
     merged.files = razorwindFiles;
+  }
+  if (razorwindUsage?.length) {
+    merged.usage = razorwindUsage;
   }
 
   return Object.keys(merged).length > 0 ? merged : undefined;
@@ -229,7 +309,139 @@ async function extractFromComponentJson(
     }
   }
 
-  return parseComponentPartial(data);
+  if (!isSetObject(data)) {
+    return undefined;
+  }
+
+  const partial = parseComponentPartial(data) ?? {};
+  const files = "files" in data ? parseComponentFiles(data.files) : undefined;
+  const usage = "usage" in data ? parseComponentUsage(data.usage) : undefined;
+
+  if (files?.length) {
+    partial.files = files;
+  }
+  if (usage?.length) {
+    partial.usage = usage;
+  }
+
+  return Object.keys(partial).length > 0 ? partial : undefined;
+}
+
+/** List direct child usage source filenames under a component `usage/` folder. */
+async function listUsageSourceFiles(directory: string): Promise<string[]> {
+  try {
+    const entries = await readdir(directory, { withFileTypes: true });
+    return entries
+      .filter(
+        entry =>
+          entry.isFile() &&
+          !entry.name.startsWith(".") &&
+          isUsageSourceFile(entry.name)
+      )
+      .map(entry => entry.name)
+      .toSorted((a, b) => a.localeCompare(b));
+  } catch {
+    return [];
+  }
+}
+
+async function resolveComponentUsage(
+  directory: string,
+  usage: ComponentUsage[] | undefined
+): Promise<ComponentUsage[] | undefined> {
+  if (usage?.length) {
+    return Promise.all(
+      usage.map(async entry => {
+        const absolute = appendPath(entry.path, directory);
+        const extension = findFileExtensionSafe(entry.path) ?? "";
+        const language =
+          entry.language ?? usageLanguageFromExtension(extension);
+        const name =
+          entry.name ||
+          findFileName(entry.path, { withExtension: false }) ||
+          entry.path;
+        const content =
+          entry.content !== undefined
+            ? entry.content
+            : existsSync(absolute)
+              ? await readFile(absolute, "utf8")
+              : undefined;
+
+        return {
+          ...entry,
+          name,
+          path: absolute,
+          ...(language ? { language } : {}),
+          ...(content !== undefined ? { content } : {})
+        };
+      })
+    );
+  }
+
+  const usageDirectory = joinPaths(directory, "usage");
+  if (!existsSync(usageDirectory) || !isDirectory(usageDirectory)) {
+    return undefined;
+  }
+
+  const discovered = await listUsageSourceFiles(usageDirectory);
+  if (discovered.length === 0) {
+    return undefined;
+  }
+
+  return Promise.all(
+    discovered.map(async file => {
+      const absolute = joinPaths(usageDirectory, file);
+      const extension = findFileExtensionSafe(file) ?? "";
+      const language = usageLanguageFromExtension(extension);
+      const name = findFileName(file, { withExtension: false }) || file;
+
+      return {
+        name,
+        title: titleCase(name),
+        path: absolute,
+        content: await readFile(absolute, "utf8"),
+        ...(language ? { language } : {})
+      } satisfies ComponentUsage;
+    })
+  );
+}
+
+async function resolveComponentFiles(
+  directory: string,
+  files: ComponentFile[] | string[] | undefined
+): Promise<ComponentFile[]> {
+  const sources =
+    files ??
+    (await listFiles(directory)).filter(file => {
+      const base = findFileName(file, { withExtension: false });
+      // Skip usage assets; they are loaded separately under `usage`
+      return base === "index";
+    });
+
+  return Promise.all(
+    sources.filter(Boolean).map(async file =>
+      typeof file === "string"
+        ? {
+            type: /[tj]sx$/.test(findFileExtensionSafe(file))
+              ? ("component" as const)
+              : ("file" as const),
+            path: file,
+            content: await readFile(appendPath(file, directory), "utf8")
+          }
+        : {
+            type: /[tj]sx$/.test(findFileExtensionSafe(file.path))
+              ? ("component" as const)
+              : ("file" as const),
+            ...file,
+            content: file.content
+              ? file.content
+              : file.path
+                ? await readFile(appendPath(file.path, directory), "utf8")
+                : undefined,
+            path: appendPath(file.path, directory)
+          }
+    )
+  );
 }
 
 async function loadComponentFromDirectory(
@@ -263,39 +475,12 @@ async function loadComponentFromDirectory(
     return undefined;
   }
 
+  const usage = await resolveComponentUsage(directory, parsed.data.usage);
+
   return {
     ...parsed.data,
-    files: await Promise.all(
-      (
-        parsed.data.files ??
-        (await listFiles(directory)).filter(
-          file => findFileName(file, { withExtension: false }) === "index"
-        )
-      )
-        ?.filter(Boolean)
-        ?.map(async file =>
-          typeof file === "string"
-            ? {
-                type: /[tj]sx$/.test(findFileExtensionSafe(file))
-                  ? "component"
-                  : "file",
-                path: file,
-                content: await readFile(appendPath(file, directory), "utf8")
-              }
-            : {
-                type: /[tj]sx$/.test(findFileExtensionSafe(file.path))
-                  ? "component"
-                  : "file",
-                ...file,
-                content: file.content
-                  ? file.content
-                  : file.path
-                    ? await readFile(appendPath(file.path, directory), "utf8")
-                    : undefined,
-                path: appendPath(file.path, directory)
-              }
-        )
-    )
+    files: await resolveComponentFiles(directory, parsed.data.files),
+    ...(usage?.length ? { usage } : {})
   };
 }
 
@@ -305,6 +490,7 @@ async function loadComponentFromDirectory(
  * For each configured path that is a directory, every direct child directory is inspected for:
  * 1. `package.json` — npm fields and/or a `razorwind` object (including `componentFileSchema` file entries)
  * 2. `component.json` — component metadata or `componentFileSchema` values
+ * 3. `usage/` — optional example source files (also declareable via `usage` in metadata)
  *
  * When both resolve values, `component.json` overlays `package.json`.
  */

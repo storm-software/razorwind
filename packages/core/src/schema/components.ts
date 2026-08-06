@@ -47,6 +47,34 @@ export const componentFileSchema = z.object({
 
 export type ComponentFile = z.infer<typeof componentFileSchema>;
 
+/**
+ * An example of how a component should be used.
+ *
+ * Loaded from a component directory's `usage/` folder, or declared under
+ * `usage` in `component.json` / `package.json` `razorwind`. Consumed by
+ * documentation and Storybook plugins.
+ */
+export const componentUsageSchema = z.object({
+  name: z
+    .string()
+    .optional()
+    .describe(
+      "Stable usage example id. Defaults to the source filename without extension."
+    ),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  path: z.string(),
+  content: z.string().optional(),
+  language: z
+    .enum(["tsx", "jsx", "ts", "js", "mdx", "md", "css", "html", "txt"])
+    .optional()
+    .describe(
+      "Source language for syntax highlighting. Inferred from the file extension when omitted."
+    )
+});
+
+export type ComponentUsage = z.infer<typeof componentUsageSchema>;
+
 export const componentSchema = z.object({
   name: z.string(),
   title: z.string(),
@@ -62,7 +90,13 @@ export const componentSchema = z.object({
   dependencies: z.record(z.string(), z.string()).optional(),
   devDependencies: z.record(z.string(), z.string()).optional(),
   registryDependencies: z.record(z.string(), z.string()).optional(),
-  files: z.array(componentFileSchema).optional()
+  files: z.array(componentFileSchema).optional(),
+  usage: z
+    .array(componentUsageSchema)
+    .optional()
+    .describe(
+      "Example usage snippets for this component. Prefer a `usage/` directory of source files; entries may also be declared in metadata."
+    )
 });
 
 export type Component = z.infer<typeof componentSchema>;

@@ -20,9 +20,11 @@ export {
   componentFileSchema,
   componentSchema,
   componentsSchema,
+  componentUsageSchema,
   type Component,
   type ComponentFile,
-  type Components
+  type Components,
+  type ComponentUsage
 } from "./components";
 export {
   iconFileSchema,

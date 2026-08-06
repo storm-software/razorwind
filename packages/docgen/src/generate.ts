@@ -355,6 +355,58 @@ function renderRegistryItemFiles(item: Record<string, unknown>): string {
   );
 }
 
+function languageFromPath(path: string): string {
+  const extension = path.split(".").pop()?.toLowerCase();
+  if (!extension) {
+    return "tsx";
+  }
+
+  if (extension === "md") {
+    return "markdown";
+  }
+
+  return extension;
+}
+
+function renderRegistryItemUsage(item: Record<string, unknown>): string {
+  const usage = Array.isArray(item.usage) ? item.usage : [];
+
+  const blocks = usage
+    .map(entry => {
+      if (!isObject(entry)) {
+        return undefined;
+      }
+
+      const path = readString(entry, "path");
+      const content = readString(entry, "content");
+      if (!content) {
+        return undefined;
+      }
+
+      const name =
+        readString(entry, "name") ??
+        (path
+          ? (path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "example")
+          : "example");
+      const title = readString(entry, "title") ?? titleCase(name);
+      const description = readString(entry, "description");
+      const language =
+        readString(entry, "language") ??
+        (path ? languageFromPath(path) : "tsx");
+
+      const sections = [`#### ${title}`];
+      if (description) {
+        sections.push(description);
+      }
+      sections.push(`\`\`\`${language}\n${content.trimEnd()}\n\`\`\``);
+
+      return sections.join("\n\n");
+    })
+    .filter((block): block is string => block !== undefined);
+
+  return blocks.join("\n\n");
+}
+
 function renderRegistryItem(item: Record<string, unknown>): string {
   const name = readString(item, "name") ?? "unknown";
   const title = readString(item, "title") ?? titleCase(name);
@@ -402,6 +454,11 @@ function renderRegistryItem(item: Record<string, unknown>): string {
   const files = renderRegistryItemFiles(item);
   if (files) {
     sections.push("### Files", files);
+  }
+
+  const usage = renderRegistryItemUsage(item);
+  if (usage) {
+    sections.push("### Usage", usage);
   }
 
   return sections.join("\n\n");
