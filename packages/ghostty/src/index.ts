@@ -21,68 +21,76 @@ import { definePlugin } from "@razorwind/core/plugin";
 import { flattenTokens, resolveTokenSets } from "./flatten";
 import { formatTokenValue, toCssVar } from "./format";
 import {
-  generateZshTheme,
+  generateGhosttyTheme,
   normalizeThemes,
+  renderGhosttyTheme,
   renderInstallMd,
-  renderZshTheme,
-  toZshFg
+  toGhosttyColor
 } from "./generate";
 import type {
   FlatToken,
-  GenerateZshTheme,
-  ZshPluginOptions,
-  ZshTheme,
-  ZshThemeColors
+  GenerateGhosttyTheme,
+  GhosttyPalette,
+  GhosttyPaletteIndex,
+  GhosttyPluginOptions,
+  GhosttyTheme
 } from "./types";
 
 export {
   flattenTokens,
   formatTokenValue,
-  generateZshTheme,
+  generateGhosttyTheme,
   normalizeThemes,
+  renderGhosttyTheme,
   renderInstallMd,
-  renderZshTheme,
   resolveTokenSets,
   toCssVar,
-  toZshFg
+  toGhosttyColor
 };
 export type {
   FlatToken,
-  GenerateZshTheme,
-  ZshPluginOptions,
-  ZshTheme,
-  ZshThemeColors
+  GenerateGhosttyTheme,
+  GhosttyPalette,
+  GhosttyPaletteIndex,
+  GhosttyPluginOptions,
+  GhosttyTheme
 };
 
 /**
- * Razorwind plugin that turns design tokens into Oh My Zsh `*.zsh-theme` files.
+ * Razorwind plugin that turns design tokens into Ghostty terminal theme files.
  *
- * @remarks
- * Provide {@link ZshPluginOptions.mapTheme} to map extracted tokens to one or more theme documents. Generated output includes `INSTALL.md` with Oh My Zsh activation steps.
+ * Provide {@link GhosttyPluginOptions.mapTheme} to map extracted tokens to one
+ * or more theme documents. Generated output includes `INSTALL.md` with Ghostty
+ * activation steps.
  *
- * @see https://draculatheme.com/zsh
+ * @see https://draculatheme.com/ghostty
+ * @see https://ghostty.org/docs/features/theme
  *
  * @example
  * ```ts
  * import { defineConfig } from "@razorwind/core";
- * import zsh, { flattenTokens } from "@razorwind/zsh";
+ * import ghostty, { flattenTokens } from "@razorwind/ghostty";
  *
  * export default defineConfig({
  *   plugins: [
- *     zsh({
+ *     ghostty({
  *       mapTheme: tokens => {
  *         const flat = flattenTokens(tokens);
  *         const color = (path: string) =>
- *           flat.find(t => t.path === path)?.cssValue ?? "#50fa7b";
+ *           flat.find(t => t.path === path)?.cssValue ?? "#282a36";
  *
  *         return {
  *           name: "my-theme",
- *           colors: {
- *             success: color("color.success"),
- *             error: color("color.error"),
- *             directory: color("color.primary"),
- *             git: color("color.accent"),
- *             context: color("color.secondary")
+ *           background: color("color.bg"),
+ *           foreground: color("color.fg"),
+ *           cursorColor: color("color.fg"),
+ *           cursorText: color("color.bg"),
+ *           selectionBackground: color("color.selection"),
+ *           selectionForeground: color("color.fg"),
+ *           palette: {
+ *             0: color("color.ansi.black"),
+ *             1: color("color.ansi.red"),
+ *             2: color("color.ansi.green")
  *           }
  *         };
  *       }
@@ -91,12 +99,12 @@ export type {
  * });
  * ```
  */
-export default definePlugin((options?: ZshPluginOptions) => ({
-  name: "zsh",
+export default definePlugin((options?: GhosttyPluginOptions) => ({
+  name: "ghostty",
   generate: async spec => {
     if (!options) {
-      throw new Error("@razorwind/zsh requires options: { mapTheme }");
+      throw new Error("@razorwind/ghostty requires options: { mapTheme }");
     }
-    return generateZshTheme(spec, options);
+    return generateGhosttyTheme(spec, options);
   }
 }));

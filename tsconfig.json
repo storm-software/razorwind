@@ -56,6 +56,9 @@
     },
     {
       "path": "./packages/zsh"
+    },
+    {
+      "path": "./packages/ghostty"
     }
   ],
   "files": []

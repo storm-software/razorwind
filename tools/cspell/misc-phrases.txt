@@ -20,6 +20,7 @@ shiki
 vsix
 zsh
 ohmyzsh
+ghostty
 
 # Ignore in Regex
 ommands

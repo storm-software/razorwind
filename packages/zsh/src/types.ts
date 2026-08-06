@@ -87,53 +87,70 @@ export interface ZshTheme {
    * Prefer lowercase with hyphens (e.g. `my-theme`).
    */
   name: string;
-  /** Human-readable label for INSTALL.md. Defaults to {@link name}. */
+
+  /**
+   * Human-readable label for INSTALL.md. Defaults to {@link name}.
+   */
   displayName?: string;
-  /** Prompt segment colors. Unset keys fall back to Dracula-inspired defaults. */
+
+  /**
+   * Prompt segment colors. Unset keys fall back to Dracula-inspired defaults.
+   */
   colors?: ZshThemeColors;
+
   /**
    * Arrow / prompt marker.
    *
    * @defaultValue `"➜ "`
    */
   arrowIcon?: string;
+
   /**
    * Full left `PROMPT` override. When set, segment builders are skipped
    * (git prompt vars still emit unless you clear them).
    */
   prompt?: string;
-  /** Optional right prompt (`RPROMPT`). */
+
+  /**
+   * Optional right prompt (`RPROMPT`).
+   */
   rprompt?: string;
+
   /**
    * Show git status via Oh My Zsh `git_prompt_info`.
    *
    * @defaultValue `true`
    */
   displayGit?: boolean;
+
   /**
    * Show the time segment.
    *
    * @defaultValue `false`
    */
   displayTime?: boolean;
+
   /**
    * Show username (and host when SSH / root).
    *
    * @defaultValue `false`
    */
   displayContext?: boolean;
+
   /**
    * Use `%~` (full path under home) instead of `%c` (tail only).
    *
    * @defaultValue `false`
    */
   displayFullCwd?: boolean;
+
   /**
    * Put the arrow / command input on a new line.
    *
    * @defaultValue `false`
    */
   displayNewLine?: boolean;
+
   /**
    * When {@link displayFullCwd} is on, trim to this many path segments
    * (`%N~`). `0` = no trim.
@@ -141,21 +158,37 @@ export interface ZshTheme {
    * @defaultValue `0`
    */
   dirTrim?: number;
+
   /**
    * `strftime`-style time format for `%D{...}`.
    *
    * @defaultValue `"%-H:%M"`
    */
   timeFormat?: string;
-  /** Override `ZSH_THEME_GIT_PROMPT_PREFIX`. */
+
+  /**
+   * Override `ZSH_THEME_GIT_PROMPT_PREFIX`.
+   */
   gitPromptPrefix?: string;
-  /** Override `ZSH_THEME_GIT_PROMPT_SUFFIX`. */
+
+  /**
+   * Override `ZSH_THEME_GIT_PROMPT_SUFFIX`.
+   */
   gitPromptSuffix?: string;
-  /** Override `ZSH_THEME_GIT_PROMPT_CLEAN`. */
+
+  /**
+   * Override `ZSH_THEME_GIT_PROMPT_CLEAN`.
+   */
   gitPromptClean?: string;
-  /** Override `ZSH_THEME_GIT_PROMPT_DIRTY`. */
+
+  /**
+   * Override `ZSH_THEME_GIT_PROMPT_DIRTY`.
+   */
   gitPromptDirty?: string;
-  /** Extra shell appended after the generated theme body. */
+
+  /**
+   * Extra shell appended after the generated theme body.
+   */
   extra?: string;
 }
 

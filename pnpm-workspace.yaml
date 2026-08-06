@@ -119,6 +119,7 @@ overrides:
   "@razorwind/shiki": workspace:*
   "@razorwind/cursor": workspace:*
   "@razorwind/zsh": workspace:*
+  "@razorwind/ghostty": workspace:*
   cookie: ">=0.7.0"
   debug: ">=4.4.0"
   follow-redirects: ">=1.15.9"
