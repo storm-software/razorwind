@@ -15,6 +15,7 @@
           "packages/tailwindcss",
           "packages/tamagui",
           "packages/vsce",
+          "packages/cursor",
           "packages/nx"
         ],
         "projectsRelationship": "independent"

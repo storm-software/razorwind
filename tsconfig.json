@@ -43,6 +43,12 @@
       "path": "./packages/vsce"
     },
     {
+      "path": "./packages/shiki"
+    },
+    {
+      "path": "./packages/cursor"
+    },
+    {
       "path": "./packages/nx"
     },
     {
