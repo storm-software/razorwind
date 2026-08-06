@@ -19,7 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject } from "@razorwind/core/utils";
+import { createDocument, isObject, titleCase } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
@@ -32,14 +32,6 @@ function frontmatter(fields: Record<string, string>): string {
   );
 
   return `---\n${lines.join("\n")}\n---`;
-}
-
-function titleCase(value: string): string {
-  return value
-    .split(/[._-]/)
-    .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
 }
 
 /** Top-level path segment used to group tokens into pages. */

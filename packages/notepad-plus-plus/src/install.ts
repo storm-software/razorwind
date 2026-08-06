@@ -18,14 +18,7 @@
  ------------------------------------------------------------------- */
 
 import type { NotepadPlusPlusTheme } from "./types";
-
-function titleCase(value: string): string {
-  return value
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
+import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/utils";
 
 /**
  * Build Notepad++ INSTALL.md for generated `*.xml` theme files.
@@ -98,5 +91,5 @@ If tab text or backgrounds look wrong, check:
 }
 
 export function themeDisplayName(theme: NotepadPlusPlusTheme): string {
-  return theme.displayName ?? titleCase(theme.name);
+  return resolveThemeDisplayName(theme);
 }

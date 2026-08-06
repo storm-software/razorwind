@@ -18,7 +18,7 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject } from "@razorwind/core/utils";
+import { createDocument, isObject, slugifyThemeName, titleCase } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd } from "./install";
 import {
@@ -48,22 +48,6 @@ function document(
     PLUGIN_META,
     language
   );
-}
-
-function titleCase(value: string): string {
-  return value
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function slugifyThemeName(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, "-")
-    .replaceAll(/^-+|-+$/g, "");
 }
 
 function toUiTheme(type: VsCodeTheme["type"]): UiTheme {

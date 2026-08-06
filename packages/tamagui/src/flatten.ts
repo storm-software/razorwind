@@ -18,7 +18,7 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
-import { isObject } from "@razorwind/core/utils";
+import { isObject, resolveTokenSets, type TokenSet } from "@razorwind/core/utils";
 import { formatTokenValue, toTamaguiValue } from "./format";
 import type {
   FlatToken,
@@ -26,9 +26,8 @@ import type {
   TamaguiTokenCategory
 } from "./types";
 
-/** Theme-like basename patterns used to split multi-theme token records. */
-const THEME_BASENAME_PATTERN =
-  /^(?:light|dark|dim|high-contrast|hc|default|base|theme)(?:[._-].+)?$/i;
+export type { TokenSet };
+export { resolveTokenSets };
 
 const CATEGORY_PREFIXES: Array<{
   prefix: RegExp;
@@ -196,39 +195,6 @@ function walkTokens(
     }
     walkTokens(child, [...path, key], type, theme, out);
   }
-}
-
-export interface TokenSet {
-  id: string;
-  tokens: Tokens;
-}
-
-/**
- * Split `Schema.tokens` into one or more named token sets.
- *
- * A record whose keys all look like themes (`light`, `dark`, …) is treated as
- * multi-theme input; otherwise the whole document is a single set.
- */
-export function resolveTokenSets(
-  tokens: Tokens | Record<string, Tokens>
-): TokenSet[] {
-  if (!isObject(tokens)) {
-    return [];
-  }
-
-  const keys = Object.keys(tokens).filter(key => !key.startsWith("$"));
-  const allThemes =
-    keys.length > 0 && keys.every(key => THEME_BASENAME_PATTERN.test(key));
-
-  if (allThemes) {
-    const themeTokens = tokens as Record<string, Tokens>;
-    return keys.map(id => ({
-      id,
-      tokens: themeTokens[id]!
-    }));
-  }
-
-  return [{ id: "default", tokens }];
 }
 
 /**

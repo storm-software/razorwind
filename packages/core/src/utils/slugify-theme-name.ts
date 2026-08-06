@@ -16,32 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-import type { Tokens } from "@razorwind/core/schema";
-import {
-  flattenTokens as flattenTokensBase,
-  resolveTokenSets,
-  toCssVar,
-  type TokenSet
-} from "@razorwind/core/utils";
-import type { FlatToken, StorybookPluginOptions } from "./types";
-
-export type { TokenSet };
-export { resolveTokenSets };
-
 /**
- * Flatten DTCG token trees into documentation rows.
+ * Convert a theme name into a filesystem-safe slug.
+ *
+ * @example
+ * slugifyThemeName("My Dark Theme") // "my-dark-theme"
  */
-export function flattenTokens(
-  tokens: Tokens | Record<string, Tokens>,
-  options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes"> = {}
-): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
-
-  return flattenTokensBase<FlatToken>(tokens, {
-    includeTypes: options.includeTypes,
-    enrichToken: base => ({
-      ...base,
-      cssVar: toCssVar(base.path, cssVarPrefix)
-    })
-  });
+export function slugifyThemeName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "");
 }

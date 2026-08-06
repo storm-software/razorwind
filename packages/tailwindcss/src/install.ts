@@ -47,7 +47,7 @@ import "./${options.cssPath}";
 
 2. Ensure your build uses Tailwind v4 (Vite plugin, PostCSS, or CLI).
 
-3. Use generated theme tokens as utilities or arbitrary values, e.g. \`bg-primary\` when \`--color-primary\` is defined in `@theme`.
+3. Use generated theme tokens as utilities or arbitrary values, e.g. \`bg-primary\` when \`--color-primary\` is defined in \`@theme\`\.
 
 ## Regenerate
 

@@ -16,32 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import type { Tokens } from "@razorwind/core/schema";
-import {
-  flattenTokens as flattenTokensBase,
-  resolveTokenSets,
-  toCssVar,
-  type TokenSet
-} from "@razorwind/core/utils";
-import type { FlatToken, StorybookPluginOptions } from "./types";
-
-export type { TokenSet };
-export { resolveTokenSets };
+import { titleCase as strykeTitleCase } from "@stryke/string-format/title-case";
 
 /**
- * Flatten DTCG token trees into documentation rows.
+ * Convert a slug or identifier into title case for display labels.
+ *
+ * @example
+ * titleCase("my-dark-theme") // "My Dark Theme"
+ * titleCase("darkHighContrast") // "Dark High Contrast"
  */
-export function flattenTokens(
-  tokens: Tokens | Record<string, Tokens>,
-  options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes"> = {}
-): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
-
-  return flattenTokensBase<FlatToken>(tokens, {
-    includeTypes: options.includeTypes,
-    enrichToken: base => ({
-      ...base,
-      cssVar: toCssVar(base.path, cssVarPrefix)
-    })
-  });
+export function titleCase(value: string): string {
+  return strykeTitleCase(value);
 }

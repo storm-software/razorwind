@@ -16,32 +16,18 @@
 
  ------------------------------------------------------------------- */
 
-import type { Tokens } from "@razorwind/core/schema";
-import {
-  flattenTokens as flattenTokensBase,
-  resolveTokenSets,
-  toCssVar,
-  type TokenSet
-} from "@razorwind/core/utils";
-import type { FlatToken, StorybookPluginOptions } from "./types";
+import { titleCase } from "./title-case";
 
-export type { TokenSet };
-export { resolveTokenSets };
+/** Theme-like object with optional human-readable label. */
+export interface ThemeNamed {
+  name: string;
+  displayName?: string;
+}
 
 /**
- * Flatten DTCG token trees into documentation rows.
+ * Resolve a theme display label, title-casing {@link ThemeNamed.name} when
+ * {@link ThemeNamed.displayName} is omitted.
  */
-export function flattenTokens(
-  tokens: Tokens | Record<string, Tokens>,
-  options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes"> = {}
-): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
-
-  return flattenTokensBase<FlatToken>(tokens, {
-    includeTypes: options.includeTypes,
-    enrichToken: base => ({
-      ...base,
-      cssVar: toCssVar(base.path, cssVarPrefix)
-    })
-  });
+export function themeDisplayName(theme: ThemeNamed): string {
+  return theme.displayName ?? titleCase(theme.name);
 }

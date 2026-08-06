@@ -18,14 +18,7 @@
  ------------------------------------------------------------------- */
 
 import type { ZshTheme } from "./types";
-
-function titleCase(value: string): string {
-  return value
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
+import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/utils";
 
 /**
  * Build Oh My Zsh INSTALL.md for generated `*.zsh-theme` files.
@@ -106,5 +99,5 @@ source ~/.zshrc
  * Title-case a theme name for display when \`displayName\` is omitted.
  */
 export function themeDisplayName(theme: ZshTheme): string {
-  return theme.displayName ?? titleCase(theme.name);
+  return resolveThemeDisplayName(theme);
 }

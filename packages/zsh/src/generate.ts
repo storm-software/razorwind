@@ -19,7 +19,7 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject } from "@razorwind/core/utils";
+import { createDocument, isObject, slugifyThemeName } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type { ZshPluginOptions, ZshTheme, ZshThemeColors } from "./types";
@@ -51,14 +51,6 @@ function document(
     PLUGIN_META,
     language
   );
-}
-
-function slugifyThemeName(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, "-")
-    .replaceAll(/^-+|-+$/g, "");
 }
 
 function isZshTheme(value: unknown): value is ZshTheme {
