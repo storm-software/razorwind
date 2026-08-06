@@ -445,6 +445,7 @@ overrides:
   '@razorwind/vsce': workspace:*
   '@razorwind/shiki': workspace:*
   '@razorwind/cursor': workspace:*
+  '@razorwind/zed': workspace:*
   '@razorwind/zsh': workspace:*
   '@razorwind/ghostty': workspace:*
   '@razorwind/notepad-plus-plus': workspace:*
@@ -1134,6 +1135,28 @@ importers:
         version: 6.0.3
 
   packages/vsce:
+    dependencies:
+      '@power-plant/core':
+        specifier: 'catalog:'
+        version: 0.0.75(@nx/jest@23.0.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@power-plant/dtcg-schema':
+        specifier: 'catalog:'
+        version: 0.0.1(@nx/jest@23.0.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))
+      '@razorwind/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@powerlines/plugin-tsdown':
+        specifier: 'catalog:'
+        version: 0.1.589(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.4.3))(@nx/jest@23.0.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.1)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(rolldown@1.2.2)(rollup@4.62.4)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.7)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.2.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.1)(tsx@4.23.7)(yaml@2.9.0))(zod@4.4.3)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.5
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/zed:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'

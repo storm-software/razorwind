@@ -118,6 +118,7 @@ overrides:
   "@razorwind/vsce": workspace:*
   "@razorwind/shiki": workspace:*
   "@razorwind/cursor": workspace:*
+  "@razorwind/zed": workspace:*
   "@razorwind/zsh": workspace:*
   "@razorwind/ghostty": workspace:*
   "@razorwind/notepad-plus-plus": workspace:*

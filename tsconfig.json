@@ -49,6 +49,9 @@
       "path": "./packages/cursor"
     },
     {
+      "path": "./packages/zed"
+    },
+    {
       "path": "./packages/nx"
     },
     {
