@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.23) (08/06/2026)
+
+### Features
+
+- **core:** Added `icons` to schema extraction ([60abe97](https://github.com/storm-software/razorwind/commit/60abe97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.27**
+
 ## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.22) (08/05/2026)
 
 ### Updated Dependencies

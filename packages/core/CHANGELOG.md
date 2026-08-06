@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/core%400.0.27) (08/06/2026)
+
+### Features
+
+- **core:** Added `usage` to `components` schema ([de1b320](https://github.com/storm-software/razorwind/commit/de1b320))
+- **core:** Added `icons` to schema extraction ([60abe97](https://github.com/storm-software/razorwind/commit/60abe97))
+
 ## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/core%400.0.25) (08/05/2026)
 
 ### Features

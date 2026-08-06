@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.13) (08/06/2026)
+
+### Features
+
+- **core:** Added `icons` to schema extraction ([60abe97](https://github.com/storm-software/razorwind/commit/60abe97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.27**
+
 ## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.12) (08/05/2026)
 
 ### Updated Dependencies

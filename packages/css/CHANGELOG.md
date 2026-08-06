@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/css%400.0.10) (08/06/2026)
+
+### Features
+
+- **core:** Added `icons` to schema extraction ([60abe97](https://github.com/storm-software/razorwind/commit/60abe97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.27**
+- Updated **style-dictionary** to **v0.0.13**
+
 ## [0.0.9](https://github.com/storm-software/razorwind/releases/tag/css%400.0.9) (08/05/2026)
 
 ### Updated Dependencies

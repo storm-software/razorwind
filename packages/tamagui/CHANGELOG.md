@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.15) (08/06/2026)
+
+### Features
+
+- **core:** Added `icons` to schema extraction ([60abe97](https://github.com/storm-software/razorwind/commit/60abe97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.27**
+
 ## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.14) (08/05/2026)
 
 ### Updated Dependencies
