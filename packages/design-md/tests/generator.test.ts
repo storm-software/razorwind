@@ -173,7 +173,10 @@ describe("design-md plugins", () => {
     });
     const documents = await plugin.generate!(spec, {} as never);
 
-    expect(Object.keys(documents)).toEqual(["docs/DESIGN.md"]);
+    expect(Object.keys(documents)).toEqual([
+      "docs/DESIGN.md",
+      "docs/INSTALL.md"
+    ]);
 
     const content = documents["docs/DESIGN.md"]?.chunks?.[0]?.content;
     expect(content).toContain("name: Heritage");
@@ -184,6 +187,7 @@ describe("design-md plugins", () => {
   it("generateDesignMd mirrors the plugin generate output", () => {
     const documents = generateDesignMd(spec);
     expect(documents["DESIGN.md"]?.chunks?.[0]?.content).toContain("colors:");
+    expect(documents["INSTALL.md"]).toBeDefined();
   });
 });
 

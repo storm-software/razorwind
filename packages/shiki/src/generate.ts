@@ -20,6 +20,7 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, isObject } from "@razorwind/core/utils";
 import { join } from "node:path";
+import { renderInstallMd, themeDisplayName } from "./install";
 import type { ShikiPluginOptions, ShikiTheme } from "./types";
 
 const PLUGIN_META = { name: "razorwind-shiki" } as const;
@@ -146,6 +147,8 @@ export function renderThemeJson(theme: ShikiTheme): string {
   return `${JSON.stringify(payload, null, 2)}\n`;
 }
 
+export { renderInstallMd };
+
 /**
  * Generate Shiki theme JSON files from a Razorwind schema.
  *
@@ -169,6 +172,11 @@ export function generateShikiTheme(
 
   const documents: GeneratorFunctionResult<Schema, ShikiPluginOptions> = {};
   const usedSlugs = new Set<string>();
+  const themeMeta: Array<{
+    name: string;
+    displayName: string;
+    fileName: string;
+  }> = [];
 
   for (const theme of themes) {
     let fileName = `${slugifyThemeName(theme.name)}.json`;
@@ -183,7 +191,17 @@ export function generateShikiTheme(
 
     const themePath = join(outputPath, fileName);
     documents[themePath] = document(themePath, renderThemeJson(theme), "json");
+    themeMeta.push({
+      name: theme.name,
+      displayName: themeDisplayName(theme),
+      fileName
+    });
   }
+
+  const installBody =
+    options.installGuide ?? renderInstallMd({ themes: themeMeta });
+  const installPath = join(outputPath, "INSTALL.md");
+  documents[installPath] = document(installPath, installBody, "markdown");
 
   return documents;
 }

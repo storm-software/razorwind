@@ -27,6 +27,8 @@ import type {
 } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path/join";
+import { dirname, join } from "node:path";
+import { renderInstallMd } from "./install";
 import type { ShadcnGeneratePluginOptions } from "./types";
 
 export type { ShadcnGeneratePluginOptions } from "./types";
@@ -210,6 +212,8 @@ export function renderRegistryJson(
   return document;
 }
 
+export { renderInstallMd };
+
 async function resolveOutFile(
   options: ShadcnGeneratePluginOptions
 ): Promise<string> {
@@ -236,6 +240,13 @@ export async function generateRegistryJson(
 
   const outFile = await resolveOutFile(options);
   const content = `${JSON.stringify(renderRegistryJson(spec.components, options), null, 2)}\n`;
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({
+      configFile: outFile,
+      name: options.name
+    });
+  const installPath = join(dirname(outFile), "INSTALL.md");
 
   return {
     [outFile]: createDocument<Schema, ShadcnGeneratePluginOptions>(
@@ -243,6 +254,12 @@ export async function generateRegistryJson(
       content,
       { name: "shadcn:generate" },
       "json"
+    ),
+    [installPath]: createDocument<Schema, ShadcnGeneratePluginOptions>(
+      installPath,
+      installBody,
+      { name: "shadcn:generate" },
+      "markdown"
     )
   };
 }

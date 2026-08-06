@@ -176,12 +176,7 @@ export function renderPackageReadme(options: {
 
 ${options.description}
 
-## Installation
-
-1. Open the Extensions view (\`Cmd+Shift+X\` / \`Ctrl+Shift+X\`)
-2. Search for **${options.displayName}**
-3. Click **Install**
-4. Open the Command Palette (\`Cmd+Shift+P\` / \`Ctrl+Shift+P\`) → **Color Theme** → select a theme
+See **INSTALL.md** for VS Code extension install steps (VSIX or Extension Development Host).
 
 ## Themes
 
@@ -203,6 +198,7 @@ tests/**
 *.vsix
 artifacts/**
 README.md.bak
+INSTALL.md
 .DS_Store
 `;
 }

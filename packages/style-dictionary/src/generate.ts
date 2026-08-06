@@ -20,9 +20,10 @@ import type { GeneratedDocument } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
-import { isAbsolute, resolve } from "node:path";
+import { isAbsolute, dirname, join, resolve } from "node:path";
 import StyleDictionary from "style-dictionary";
 import type { DesignTokens } from "style-dictionary/types";
+import { renderInstallMd } from "./install";
 import type { StyleDictionaryPluginOptions } from "./types";
 
 function stringifyOutput(value: unknown): string {
@@ -70,6 +71,17 @@ function resolveTokens(tokens: Schema["tokens"]): DesignTokens {
   return tokens as DesignTokens;
 }
 
+function defaultInstallPath(outputPaths: string[]): string {
+  const first = outputPaths[0];
+  if (!first) {
+    return "INSTALL.md";
+  }
+  const parent = dirname(first);
+  return parent === "." ? "INSTALL.md" : join(parent, "INSTALL.md");
+}
+
+export { renderInstallMd };
+
 /**
  * Run Style Dictionary `formatAllPlatforms()` against Razorwind schema tokens.
  *
@@ -111,6 +123,20 @@ export async function generateStyleDictionary(
         { name: platform }
       );
     }
+  }
+
+  if (Object.keys(documents).length > 0) {
+    const outputPaths = Object.keys(documents).sort();
+    const installPath =
+      options.installPath ?? defaultInstallPath(outputPaths);
+    const installBody =
+      options.installGuide ?? renderInstallMd({ files: outputPaths });
+    documents[installPath] = createDocument<Schema, StyleDictionaryPluginOptions>(
+      installPath,
+      installBody,
+      { name: "razorwind-style-dictionary" },
+      "markdown"
+    );
   }
 
   return documents;

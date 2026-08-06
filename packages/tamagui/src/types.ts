@@ -73,6 +73,12 @@ export interface TamaguiPluginOptions {
    * @defaultValue `true`
    */
   includeTypeAugmentation?: boolean;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, Tamagui wiring
+   * steps are generated for the output config file.
+   */
+  installGuide?: string;
 }
 
 /**

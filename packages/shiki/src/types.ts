@@ -124,4 +124,10 @@ export interface ShikiPluginOptions {
    * Does not filter what {@link mapTheme} receives.
    */
   includeTypes?: TokenType[];
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, Shiki load-theme
+   * steps are generated from contributed themes.
+   */
+  installGuide?: string;
 }

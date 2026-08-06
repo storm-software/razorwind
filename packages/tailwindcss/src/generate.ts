@@ -25,7 +25,9 @@ import {
   formatTokenValue,
   isObject
 } from "@razorwind/core/utils";
+import { dirname, join } from "node:path";
 import { detectTailwindWorkspace } from "./extract";
+import { renderInstallMd } from "./install";
 import type { FlatThemeToken, TailwindGeneratePluginOptions } from "./types";
 
 export type { FlatThemeToken, TailwindGeneratePluginOptions } from "./types";
@@ -238,6 +240,8 @@ export function renderTailwindCss(
   return `${parts.join("\n").trimEnd()}\n`;
 }
 
+export { renderInstallMd };
+
 async function resolveOutFile(
   options: TailwindGeneratePluginOptions
 ): Promise<string> {
@@ -275,6 +279,12 @@ export async function generateTailwindCss(
 
   const outFile = await resolveOutFile(options);
   const content = renderTailwindCss(flat, options);
+  const includeImport = options.includeImport !== false;
+
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({ cssPath: outFile, includeImport });
+  const installPath = join(dirname(outFile), "INSTALL.md");
 
   return {
     [outFile]: createDocument<Schema, TailwindGeneratePluginOptions>(
@@ -282,6 +292,12 @@ export async function generateTailwindCss(
       content,
       { name: "razorwind-tailwindcss" },
       "css"
+    ),
+    [installPath]: createDocument<Schema, TailwindGeneratePluginOptions>(
+      installPath,
+      installBody,
+      { name: "razorwind-tailwindcss" },
+      "markdown"
     )
   };
 }

@@ -16,17 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-import type { Component, Components, ComponentUsage } from "@razorwind/core/schema";
+import type {
+  Component,
+  Components,
+  ComponentUsage
+} from "@razorwind/core/schema";
 import { isObject } from "@razorwind/core/utils";
+import { titleCase } from "@stryke/string-format/title-case";
 import type { SandpackFiles, SandpackUsage } from "./types";
-
-function titleCase(value: string): string {
-  return value
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
 
 function extensionFromLanguage(
   language: ComponentUsage["language"] | undefined,
@@ -75,10 +72,7 @@ function appPathForUsage(usage: ComponentUsage): string {
   return `/App.${ext}`;
 }
 
-function sandpackPathFromComponentFile(
-  path: string,
-  target?: string
-): string {
+function sandpackPathFromComponentFile(path: string, target?: string): string {
   const raw = (target ?? path).replaceAll("\\", "/");
   const withoutPlaceholders = raw
     .replace(/^@components\//, "/")
@@ -133,7 +127,10 @@ export function usageToSandpackFiles(
 function usageDemoName(component: Component, usage: ComponentUsage): string {
   const usageId =
     usage.name ??
-    usage.path.split("/").pop()?.replace(/\.[^.]+$/, "") ??
+    usage.path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "") ??
     "default";
   return `${component.name}-${usageId}`;
 }

@@ -59,6 +59,12 @@ export interface DesignMdGeneratePluginOptions {
    * generated from the extracted tokens.
    */
   overview?: string;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, DESIGN.md wiring
+   * steps are generated for the output file.
+   */
+  installGuide?: string;
 }
 
 /**

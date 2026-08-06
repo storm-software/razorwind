@@ -238,9 +238,12 @@ describe("shiki plugin", () => {
     });
 
     const documents = await plugin.generate!(spec, {} as never);
-    const paths = Object.keys(documents);
+    const paths = Object.keys(documents).sort();
 
-    expect(paths).toEqual(["out/shiki/demo-theme.json"]);
+    expect(paths).toEqual([
+      "out/shiki/INSTALL.md",
+      "out/shiki/demo-theme.json"
+    ]);
 
     const theme = JSON.parse(
       documents["out/shiki/demo-theme.json"]!.chunks![0]!.content
@@ -266,6 +269,7 @@ describe("shiki plugin", () => {
     });
 
     expect(documents["shiki-themes/demo-dark.json"]).toBeDefined();
+    expect(documents["shiki-themes/INSTALL.md"]).toBeDefined();
     const theme = JSON.parse(
       documents["shiki-themes/demo-dark.json"]!.chunks![0]!.content
     );
@@ -295,6 +299,7 @@ describe("shiki plugin", () => {
     );
 
     expect(Object.keys(documents).sort()).toEqual([
+      "shiki-themes/INSTALL.md",
       "shiki-themes/demo-dark.json",
       "shiki-themes/demo-light.json"
     ]);

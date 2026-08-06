@@ -67,6 +67,12 @@ export interface DocgenGeneratePluginOptions {
    * @defaultValue `false`
    */
   skipIcons?: boolean;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, doc site wiring
+   * steps are generated for the output directory.
+   */
+  installGuide?: string;
 }
 
 /**

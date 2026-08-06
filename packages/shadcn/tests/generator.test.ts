@@ -224,7 +224,10 @@ describe("shadcn generate plugin", () => {
     });
     const documents = await plugin.generate!(spec, {} as never);
 
-    expect(Object.keys(documents)).toEqual(["out/registry.json"]);
+    expect(Object.keys(documents)).toEqual([
+      "out/registry.json",
+      "out/INSTALL.md"
+    ]);
     const content = documents["out/registry.json"]?.chunks?.[0]?.content;
     expect(content).toContain(`"name": "acme"`);
     expect(content).toContain(`"type": "registry:ui"`);
@@ -240,6 +243,7 @@ describe("shadcn generate plugin", () => {
     const content = documents["registry.json"]?.chunks?.[0]?.content;
     expect(content).toContain(`"homepage": "https://acme.com"`);
     expect(content).toContain(`"name": "card"`);
+    expect(documents["INSTALL.md"]).toBeDefined();
   });
 
   it("returns empty when schema has no components", async () => {

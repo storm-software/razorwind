@@ -137,7 +137,10 @@ describe("tailwindcss generate plugin", () => {
     const plugin = generate({ cssPath: "src/theme.css" });
     const documents = await plugin.generate!(spec, {} as never);
 
-    expect(Object.keys(documents)).toEqual(["src/theme.css"]);
+    expect(Object.keys(documents)).toEqual([
+      "src/theme.css",
+      "src/INSTALL.md"
+    ]);
     const css = documents["src/theme.css"]?.chunks?.[0]?.content;
     expect(css).toContain(`@import "tailwindcss";`);
     expect(css).toContain("--color-primary: #0066cc;");
@@ -154,5 +157,6 @@ describe("tailwindcss generate plugin", () => {
     expect(css).not.toContain(`@import "tailwindcss";`);
     expect(css).toContain("@theme {");
     expect(css).toContain("--color-secondary: #663399;");
+    expect(documents["out/INSTALL.md"]).toBeDefined();
   });
 });

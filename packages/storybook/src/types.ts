@@ -151,4 +151,10 @@ export interface StorybookPluginOptions {
    * @defaultValue `false`
    */
   skipIcons?: boolean;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, Storybook wiring
+   * steps are generated for the output directory.
+   */
+  installGuide?: string;
 }

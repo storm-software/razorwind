@@ -22,6 +22,7 @@ import { formatTokenValue, toCssVar } from "./format";
 import {
   generateVsceExtension,
   normalizeThemes,
+  renderInstallMd,
   renderPackageJson,
   renderThemeJson
 } from "./generate";
@@ -38,6 +39,7 @@ export {
   formatTokenValue,
   generateVsceExtension,
   normalizeThemes,
+  renderInstallMd,
   renderPackageJson,
   renderThemeJson,
   resolveTokenSets,

@@ -22,6 +22,7 @@ import { createDocument } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./flatten";
 import { escapeString, toLiteral } from "./format";
+import { renderInstallMd } from "./install";
 import type {
   FlatToken,
   StorybookPluginOptions,
@@ -496,6 +497,8 @@ function document(
   );
 }
 
+export { renderInstallMd };
+
 /**
  * Generate Storybook MDX / React token doc blocks from a Razorwind schema.
  */
@@ -604,6 +607,20 @@ export function generateTokenDocs(
       );
     }
   }
+
+  const themeFiles = Object.keys(documents)
+    .filter(path => path.startsWith(join(outputPath, "theme")))
+    .map(path => path.slice(outputPath.length + 1));
+
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({
+      outputPath,
+      titlePrefix: options.titlePrefix,
+      themeFiles: themeFiles.length > 0 ? themeFiles : undefined
+    });
+  const installPath = join(outputPath, "INSTALL.md");
+  documents[installPath] = document(installPath, installBody, "markdown");
 
   return documents;
 }

@@ -140,7 +140,8 @@ describe("storybook plugin", () => {
         "docs/tokens/Colors.mdx",
         "docs/tokens/Typography.mdx",
         "docs/tokens/Icons.mdx",
-        "docs/tokens/tokens.json"
+        "docs/tokens/tokens.json",
+        "docs/tokens/INSTALL.md"
       ])
     );
 

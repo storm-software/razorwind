@@ -240,7 +240,8 @@ describe("docgen generate plugin", () => {
         "docs/design-system/registry/pages.mdx",
         "docs/design-system/registry/blocks.mdx",
         "docs/design-system/icons.mdx",
-        "docs/design-system/tokens.json"
+        "docs/design-system/tokens.json",
+        "docs/design-system/INSTALL.md"
       ])
     );
 

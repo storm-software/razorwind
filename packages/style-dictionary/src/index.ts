@@ -20,7 +20,7 @@ import { definePlugin } from "@razorwind/core/plugin";
 import { generateStyleDictionary } from "./generate";
 import type { StyleDictionaryPluginOptions } from "./types";
 
-export { generateStyleDictionary } from "./generate";
+export { generateStyleDictionary, renderInstallMd } from "./generate";
 export type { PlatformConfig, StyleDictionaryPluginOptions } from "./types";
 
 /**

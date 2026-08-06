@@ -20,6 +20,7 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, isObject } from "@razorwind/core/utils";
 import { join } from "node:path";
+import { renderInstallMd } from "./install";
 import {
   renderBuildVsCodePackageScript,
   renderPackageReadme,
@@ -258,6 +259,8 @@ export function renderPackageJson(
   return `${JSON.stringify(manifest, null, 2)}\n`;
 }
 
+export { renderInstallMd };
+
 /**
  * Generate a publishable VS Code theme extension package from a Razorwind schema.
  */
@@ -303,7 +306,8 @@ export function generateVsceExtension(
   );
 
   const themeLabels = themes.map(theme => ({
-    label: theme.displayName ?? theme.name
+    label: theme.displayName ?? theme.name,
+    path: `./themes/${slugifyThemeName(theme.name)}.json`
   }));
   const readmeBody =
     options.readme ??
@@ -316,6 +320,17 @@ export function generateVsceExtension(
 
   const readmePath = join(outputPath, "README.md");
   documents[readmePath] = document(readmePath, readmeBody, "markdown");
+
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({
+      displayName,
+      extensionName,
+      themes: themeLabels,
+      includeScripts
+    });
+  const installPath = join(outputPath, "INSTALL.md");
+  documents[installPath] = document(installPath, installBody, "markdown");
 
   if (includeScripts) {
     const shimPath = join(outputPath, "scripts", "vsixPackageShim.ts");

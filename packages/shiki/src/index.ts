@@ -22,8 +22,10 @@ import { formatTokenValue, toCssVar } from "./format";
 import {
   generateShikiTheme,
   normalizeThemes,
+  renderInstallMd,
   renderThemeJson
 } from "./generate";
+import { themeDisplayName } from "./install";
 import type {
   FlatToken,
   GenerateShikiTheme,
@@ -37,8 +39,10 @@ export {
   formatTokenValue,
   generateShikiTheme,
   normalizeThemes,
+  renderInstallMd,
   renderThemeJson,
   resolveTokenSets,
+  themeDisplayName,
   toCssVar
 };
 export type {

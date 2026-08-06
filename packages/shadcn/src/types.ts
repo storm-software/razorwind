@@ -57,4 +57,10 @@ export interface ShadcnGeneratePluginOptions {
    * Registry `homepage` field written into `registry.json`.
    */
   homepage?: string;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, shadcn registry
+   * wiring steps are generated for the output file.
+   */
+  installGuide?: string;
 }

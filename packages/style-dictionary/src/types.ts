@@ -40,7 +40,20 @@ import type { Config, PlatformConfig } from "style-dictionary/types";
  * }
  * ```
  */
-export type StyleDictionaryPluginOptions = Omit<Config, "tokens">;
+export type StyleDictionaryPluginOptions = Omit<Config, "tokens"> & {
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, platform output
+   * wiring steps are generated from emitted file paths.
+   */
+  installGuide?: string;
+
+  /**
+   * Path for generated `INSTALL.md` relative to cwd.
+   *
+   * @defaultValue parent directory of the first emitted file, or `"INSTALL.md"`
+   */
+  installPath?: string;
+};
 
 /** Re-export for consumers configuring {@link StyleDictionaryPluginOptions.platforms}. */
 export type { PlatformConfig };

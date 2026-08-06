@@ -23,6 +23,7 @@ import { createDocument, isObject } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
+import { renderInstallMd } from "./install";
 import type { DocgenGeneratePluginOptions, FlatToken } from "./types";
 
 function frontmatter(fields: Record<string, string>): string {
@@ -618,6 +619,8 @@ export function renderRegistryItemsMdx(page: RegistryItemPage): string {
   return `${sections.join("\n\n")}\n`;
 }
 
+export { renderInstallMd };
+
 function document(
   path: string,
   content: string,
@@ -694,6 +697,15 @@ export function generateDocs(
     `${JSON.stringify(flat, null, 2)}\n`,
     "json"
   );
+
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({
+      outDir,
+      title
+    });
+  const installPath = join(outDir, "INSTALL.md");
+  documents[installPath] = document(installPath, installBody, "markdown");
 
   return documents;
 }

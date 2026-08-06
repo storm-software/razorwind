@@ -20,7 +20,9 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { isObject } from "@stryke/type-checks/is-object";
+import { dirname, join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
+import { renderInstallMd } from "./install";
 import {
   formatTokenValue,
   toTitleCase,
@@ -490,6 +492,8 @@ export function renderDesignMd(
   return `${renderFrontMatter(document)}\n${renderBody(document, options)}`;
 }
 
+export { renderInstallMd };
+
 /**
  * Generate a DESIGN.md design-system specification file from a Razorwind
  * schema.
@@ -501,14 +505,35 @@ export function generateDesignMd(
   options: DesignMdGeneratePluginOptions = {}
 ): GeneratorFunctionResult<Schema, DesignMdGeneratePluginOptions> {
   const document = applyGenerateOptions(extractDesignMd(spec), options);
+  const outputPath = options.outputPath ?? "DESIGN.md";
+  const content = renderDesignMd(document, options);
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({
+      outputPath,
+      name: options.name ?? document.name
+    });
+  const installPath = join(dirname(outputPath), "INSTALL.md");
 
   return {
-    [options.outputPath ?? "DESIGN.md"]: {
-      path: options.outputPath ?? "DESIGN.md",
+    [outputPath]: {
+      path: outputPath,
       language: "markdown",
       chunks: [
         {
-          content: renderDesignMd(document, options),
+          content,
+          meta: {
+            name: "razorwind-design-md"
+          }
+        }
+      ]
+    },
+    [installPath]: {
+      path: installPath,
+      language: "markdown",
+      chunks: [
+        {
+          content: installBody,
           meta: {
             name: "razorwind-design-md"
           }

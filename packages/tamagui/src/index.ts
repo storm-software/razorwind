@@ -30,6 +30,7 @@ export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
   collectColorScales,
   generateTamaguiConfig,
+  renderInstallMd,
   renderTamaguiConfig
 } from "./generate";
 export type {

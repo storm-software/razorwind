@@ -75,7 +75,10 @@ describe("style-dictionary plugin", () => {
     } as never);
 
     expect(Object.keys(documents)).toEqual(
-      expect.arrayContaining(["build/css/variables.css"])
+      expect.arrayContaining([
+        "build/css/variables.css",
+        "build/css/INSTALL.md"
+      ])
     );
 
     const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
@@ -102,5 +105,6 @@ describe("style-dictionary plugin", () => {
     expect(
       documents["build/scss/_variables.scss"]?.chunks?.[0]?.content
     ).toContain("$color-primary");
+    expect(documents["build/scss/INSTALL.md"]).toBeDefined();
   });
 });

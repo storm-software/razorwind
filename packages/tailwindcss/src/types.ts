@@ -52,6 +52,12 @@ export interface TailwindGeneratePluginOptions {
    * @defaultValue true
    */
   includeImport?: boolean;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, Tailwind CSS
+   * wiring steps are generated for the output file.
+   */
+  installGuide?: string;
 }
 
 /**

@@ -142,7 +142,10 @@ describe("tamagui plugin", () => {
     const plugin = tamagui({ outFile: "src/tamagui.config.ts" });
     const documents = await plugin.generate!(spec, {} as never);
 
-    expect(Object.keys(documents)).toEqual(["src/tamagui.config.ts"]);
+    expect(Object.keys(documents)).toEqual([
+      "src/tamagui.config.ts",
+      "src/INSTALL.md"
+    ]);
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
     expect(content).toContain(
       `import { createV5Theme, defaultConfig } from "@tamagui/config/v5"`
@@ -179,6 +182,7 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("defaultConfig");
     expect(content).not.toContain("animations");
     expect(content).toContain("createTokens({");
+    expect(documents["out/INSTALL.md"]).toBeDefined();
   });
 
   it("renderTamaguiConfig can omit type augmentation", () => {

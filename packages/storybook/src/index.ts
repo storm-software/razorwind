@@ -22,7 +22,7 @@ import type { StorybookPluginOptions } from "./types";
 
 export { flattenTokens, resolveTokenSets } from "./flatten";
 export { formatTokenValue, toCssVar } from "./format";
-export { generateTokenDocs, renderThemeFile } from "./generate";
+export { generateTokenDocs, renderInstallMd, renderThemeFile } from "./generate";
 export type {
   FlatToken,
   GenerateStorybookTheme,

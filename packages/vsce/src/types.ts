@@ -219,4 +219,10 @@ export interface VscePluginOptions {
    * (shallow merge; `contributes.themes` / `scripts` from the plugin win).
    */
   packageJson?: Record<string, unknown>;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, VS Code extension
+   * install steps are generated from contributed themes.
+   */
+  installGuide?: string;
 }

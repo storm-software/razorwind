@@ -226,6 +226,7 @@ describe("vsce plugin", () => {
       expect.arrayContaining([
         "out/vscode/package.json",
         "out/vscode/README.md",
+        "out/vscode/INSTALL.md",
         "out/vscode/.vscodeignore",
         "out/vscode/themes/demo-theme-dark.json",
         "out/vscode/scripts/vsixPackageShim.ts",
@@ -271,6 +272,7 @@ describe("vsce plugin", () => {
     });
 
     expect(documents["vscode-extension/themes/demo-dark.json"]).toBeDefined();
+    expect(documents["vscode-extension/INSTALL.md"]).toBeDefined();
     expect(documents["vscode-extension/scripts/publishVsce.ts"]).toBeUndefined();
     expect(
       JSON.parse(documents["vscode-extension/package.json"]!.chunks![0]!.content)

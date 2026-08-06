@@ -19,7 +19,9 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
+import { dirname, join } from "node:path";
 import { flattenTokens } from "./flatten";
+import { renderInstallMd } from "./install";
 import { toLiteral } from "./format";
 import type {
   FlatToken,
@@ -467,6 +469,8 @@ export function renderTamaguiConfig(
   return lines.join("\n");
 }
 
+export { renderInstallMd };
+
 /**
  * Generate a Tamagui v5 config file from a Razorwind schema.
  */
@@ -485,6 +489,9 @@ export function generateTamaguiConfig(
 
   const outFile = options.outFile ?? "tamagui.config.ts";
   const content = renderTamaguiConfig(flat, options);
+  const installBody =
+    options.installGuide ?? renderInstallMd({ outFile });
+  const installPath = join(dirname(outFile), "INSTALL.md");
 
   return {
     [outFile]: createDocument<Schema, TamaguiPluginOptions>(
@@ -492,6 +499,12 @@ export function generateTamaguiConfig(
       content,
       { name: "razorwind-tamagui" },
       "typescript"
+    ),
+    [installPath]: createDocument<Schema, TamaguiPluginOptions>(
+      installPath,
+      installBody,
+      { name: "razorwind-tamagui" },
+      "markdown"
     )
   };
 }
