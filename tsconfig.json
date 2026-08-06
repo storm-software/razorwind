@@ -59,6 +59,9 @@
     },
     {
       "path": "./packages/ghostty"
+    },
+    {
+      "path": "./packages/notepad-plus-plus"
     }
   ],
   "files": []

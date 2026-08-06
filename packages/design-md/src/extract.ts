@@ -18,8 +18,7 @@
 
 import { useExecution } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
-import { normalizeTokenTree } from "@razorwind/core/tokens";
-import { isObject } from "@razorwind/core/utils";
+import { normalizeTokenTree } from "@razorwind/core";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
 import { joinPaths } from "@stryke/path/join";
@@ -27,6 +26,7 @@ import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import type { DesignTokens } from "style-dictionary/types";
 import { parse as parseYaml } from "yaml";
 import type { DesignMdExtractPluginOptions } from "./types";
+import { isObject } from "@stryke/type-checks/is-object";
 
 /**
  * Basename pattern for DESIGN.md spec files
@@ -161,7 +161,7 @@ function toTypographyGroup(section: Record<string, unknown>): DesignTokens {
     } else if (isObject(raw)) {
       group[name] = {
         $type: "typography",
-        $value: toTypographyValue(raw)
+        $value: toTypographyValue(raw as Record<string, unknown>)
       };
     }
   }
@@ -188,7 +188,7 @@ function toComponentsGroup(section: Record<string, unknown>): DesignTokens {
         $value: isTokenReference(raw)
           ? raw.trim()
           : type === "typography" && isObject(raw)
-            ? toTypographyValue(raw)
+            ? toTypographyValue(raw as Record<string, unknown>)
             : toDimensionValue(raw)
       };
     }
@@ -226,7 +226,7 @@ export function extractDesignMdFrontMatter(
     );
   }
 
-  return isObject(parsed) ? parsed : undefined;
+  return isObject(parsed) ? parsed as Record<string, unknown> : undefined;
 }
 
 /**
@@ -254,17 +254,17 @@ export function designMdToTokens(
 
     switch (section) {
       case "colors":
-        tokens[section] = toScaleGroup(value, "color");
+        tokens[section] = toScaleGroup(value as Record<string, unknown>, "color");
         break;
       case "typography":
-        tokens[section] = toTypographyGroup(value);
+        tokens[section] = toTypographyGroup(value as Record<string, unknown>);
         break;
       case "rounded":
       case "spacing":
-        tokens[section] = toScaleGroup(value, "dimension", true);
+        tokens[section] = toScaleGroup(value as Record<string, unknown>, "dimension", true);
         break;
       case "components":
-        tokens[section] = toComponentsGroup(value);
+        tokens[section] = toComponentsGroup(value as Record<string, unknown>);
         break;
       default:
         // Custom extension keys stay: accept as a generic token group and let

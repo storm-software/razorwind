@@ -21,6 +21,7 @@ vsix
 zsh
 ohmyzsh
 ghostty
+notepadplusplus
 
 # Ignore in Regex
 ommands

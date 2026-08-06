@@ -19,7 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { isObject } from "@razorwind/core/utils";
+import { isObject } from "@stryke/type-checks/is-object";
 import { flattenTokens } from "./lib/flatten";
 import {
   formatTokenValue,
@@ -163,7 +163,7 @@ function extractTypographyValue(
   }
 
   for (const property of TYPOGRAPHY_SUB_PROPERTIES) {
-    const raw = value[property];
+    const raw = value[property as keyof typeof value];
     if (raw === undefined || raw === null) {
       continue;
     }
