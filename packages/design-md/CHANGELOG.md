@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.24) (08/06/2026)
+
+### Features
+
+- **notepad-plus-plus:** Added the Nodepad++ theme plugin package ([a07e633](https://github.com/storm-software/razorwind/commit/a07e633))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.28**
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.23) (08/06/2026)
 
 ### Features
