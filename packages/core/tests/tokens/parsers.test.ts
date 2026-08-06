@@ -44,6 +44,7 @@ function testConfig(cwd: string): Config {
   return {
     cwd,
     componentsPath: cwd,
+    iconsPath: cwd,
     plugins: [],
     envPaths: {
       data: "",

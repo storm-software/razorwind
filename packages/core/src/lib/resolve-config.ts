@@ -154,6 +154,7 @@ export async function resolveConfig(
     isSetObject(homeConfig?.config) ? { ...homeConfig.config } : {},
     {
       componentsPath: cwd,
+      iconsPath: joinPaths(cwd, "assets/icons"),
       plugins: []
     }
   );
@@ -167,6 +168,18 @@ export async function resolveConfig(
     config.componentsPath = findFilePath(config.componentsPath);
   } else {
     config.componentsPath = cwd;
+  }
+
+  if (Array.isArray(config.iconsPath)) {
+    const paths = config.iconsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.iconsPath =
+      paths.length > 0 ? paths : joinPaths(cwd, "assets/icons");
+  } else if (isSetString(config.iconsPath)) {
+    config.iconsPath = findFilePath(config.iconsPath);
+  } else {
+    config.iconsPath = joinPaths(cwd, "assets/icons");
   }
 
   if (!Array.isArray(config.plugins)) {

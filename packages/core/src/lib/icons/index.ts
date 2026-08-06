@@ -16,7 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./components";
-export * from "./icons";
-export * from "./resolve-config";
-export * from "./tokens";
+export * from "./load";

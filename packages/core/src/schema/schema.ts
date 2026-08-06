@@ -21,6 +21,8 @@ import { tokensSchema } from "@power-plant/dtcg-schema";
 import z from "zod";
 import type { Components } from "./components";
 import { componentsSchema } from "./components";
+import type { Icons } from "./icons";
+import { iconsSchema } from "./icons";
 
 const tokensFieldSchema = z.union([
   tokensSchema,
@@ -29,10 +31,12 @@ const tokensFieldSchema = z.union([
 
 export interface Schema {
   components: Components;
+  icons: Icons;
   tokens: Tokens | Record<string, Tokens>;
 }
 
 export const schema: z.ZodType<Schema> = z.object({
   tokens: tokensFieldSchema,
-  components: componentsSchema
+  components: componentsSchema,
+  icons: iconsSchema
 });

@@ -61,6 +61,7 @@ const multiThemeTokens = {
 
 const spec = {
   components: {},
+  icons: {},
   tokens
 } as Schema;
 

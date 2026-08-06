@@ -144,4 +144,11 @@ export interface StorybookPluginOptions {
    * @see https://storybook.js.org/docs/configure/user-interface/theming
    */
   generateTheme?: GenerateStorybookTheme;
+
+  /**
+   * Skip generating icon documentation pages.
+   *
+   * @defaultValue `false`
+   */
+  skipIcons?: boolean;
 }

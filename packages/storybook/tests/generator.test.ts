@@ -60,6 +60,20 @@ const tokens = {
 
 const spec = {
   components: {},
+  icons: {
+    home: {
+      name: "home",
+      title: "Home",
+      files: [
+        {
+          path: "assets/icons/home.svg",
+          type: "svg",
+          content:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>'
+        }
+      ]
+    }
+  },
   tokens
 } as Schema;
 
@@ -120,10 +134,12 @@ describe("storybook plugin", () => {
         "docs/tokens/blocks/ColorPalette.tsx",
         "docs/tokens/blocks/Typeset.tsx",
         "docs/tokens/blocks/TokenTable.tsx",
+        "docs/tokens/blocks/IconGallery.tsx",
         "docs/tokens/blocks/index.ts",
         "docs/tokens/Tokens.mdx",
         "docs/tokens/Colors.mdx",
         "docs/tokens/Typography.mdx",
+        "docs/tokens/Icons.mdx",
         "docs/tokens/tokens.json"
       ])
     );
@@ -138,6 +154,15 @@ describe("storybook plugin", () => {
     const overview = documents["docs/tokens/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("<ColorPaletteBlock />");
     expect(overview).toContain("<TokenTableBlock />");
+
+    const icons = documents["docs/tokens/blocks/IconGallery.tsx"]?.chunks?.[0]
+      ?.content;
+    expect(icons).toContain("IconGallery");
+    expect(icons).toContain("IconItem");
+    expect(icons).toContain("home");
+    expect(documents["docs/tokens/Icons.mdx"]?.chunks?.[0]?.content).toContain(
+      "<IconGalleryBlock />"
+    );
   });
 
   it("generateTokenDocs mirrors the plugin generate output", () => {

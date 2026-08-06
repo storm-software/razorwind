@@ -60,6 +60,13 @@ export interface DocgenGeneratePluginOptions {
    * @defaultValue `false`
    */
   skipRegistry?: boolean;
+
+  /**
+   * Skip generating icon documentation pages.
+   *
+   * @defaultValue `false`
+   */
+  skipIcons?: boolean;
 }
 
 /**

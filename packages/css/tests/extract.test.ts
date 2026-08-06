@@ -153,7 +153,7 @@ describe("css extract plugin", () => {
     };
 
     const result = await plugin.extract!(
-      { tokens: existing, components: {} },
+      { tokens: existing, components: {}, icons: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),

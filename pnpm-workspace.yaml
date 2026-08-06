@@ -11,35 +11,35 @@ catalog:
   "@nx/vite": 23.1.0
   "@nx/vitest": 23.1.0
   "@nx/workspace": 23.1.0
-  "@power-plant/core": ^0.0.70
+  "@power-plant/core": ^0.0.72
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/style-dictionary": ^0.0.55
-  "@power-plant/schema": ^0.0.68
-  "@power-plant/terrazzo": ^0.0.56
-  "@power-plant/utils": ^0.0.56
-  "@powerlines/nx": ^0.13.225
-  "@powerlines/plugin-untyped": ^0.2.601
-  "@powerlines/tsconfig": ^0.4.232
-  "@powerlines/tsdoc": ^0.2.180
-  "@powerlines/plugin-tsdown": ^0.1.587
+  "@power-plant/style-dictionary": ^0.0.57
+  "@power-plant/schema": ^0.0.70
+  "@power-plant/terrazzo": ^0.0.58
+  "@power-plant/utils": ^0.0.58
+  "@powerlines/nx": ^0.13.226
+  "@powerlines/plugin-untyped": ^0.2.602
+  "@powerlines/tsconfig": ^0.4.233
+  "@powerlines/tsdoc": ^0.2.181
+  "@powerlines/plugin-tsdown": ^0.1.588
   "@shell-shock/eslint-plugin": ^0.0.86
   "@shell-shock/preset-cli": ^0.9.34
   "@shell-shock/core": ^0.17.22
   "@shell-shock/nx": ^0.0.95
-  "@storm-software/config": ^1.138.49
-  "@storm-software/config-tools": ^1.190.112
-  "@storm-software/cspell": ^0.46.180
-  "@storm-software/eslint-config-react": ^0.0.68
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.75
-  "@storm-software/git-tools": ^2.131.120
-  "@storm-software/linting-tools": ^1.134.42
-  "@storm-software/markdownlint": ^0.30.268
-  "@storm-software/pnpm-tools": ^0.7.123
-  "@storm-software/prettier": ^0.59.165
-  "@storm-software/testing-tools": ^1.119.265
-  "@storm-software/tsconfig": ^0.48.179
-  "@storm-software/untyped": ^0.24.254
-  "@storm-software/workspace-tools": ^1.296.92
+  "@storm-software/config": ^1.138.50
+  "@storm-software/config-tools": ^1.190.113
+  "@storm-software/cspell": ^0.46.181
+  "@storm-software/eslint-config-react": ^0.0.69
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.76
+  "@storm-software/git-tools": ^2.131.121
+  "@storm-software/linting-tools": ^1.134.43
+  "@storm-software/markdownlint": ^0.30.269
+  "@storm-software/pnpm-tools": ^0.7.124
+  "@storm-software/prettier": ^0.59.166
+  "@storm-software/testing-tools": ^1.119.266
+  "@storm-software/tsconfig": ^0.48.180
+  "@storm-software/untyped": ^0.24.255
+  "@storm-software/workspace-tools": ^1.296.93
   "@stryke/convert": ^0.7.33
   "@stryke/date": ^0.0.14
   "@stryke/env": ^0.20.120
@@ -79,7 +79,7 @@ catalog:
   lightningcss: ^1.33.0
   log4brains: ^1.1.0
   nx: 23.1.0
-  powerlines: ^0.47.186
+  powerlines: ^0.47.187
   prettier: ^3.9.6
   rimraf: ^6.1.3
   shadcn: ^4.16.1

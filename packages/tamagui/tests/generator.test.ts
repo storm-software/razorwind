@@ -76,6 +76,7 @@ const tokens = {
 
 const spec = {
   components: {},
+  icons: {},
   tokens
 } as Schema;
 

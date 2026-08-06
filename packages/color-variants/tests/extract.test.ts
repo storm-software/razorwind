@@ -169,7 +169,7 @@ describe("color-variants extract plugin", () => {
   it("expands schema tokens during extract", async () => {
     const plugin = extract({ variants: ["dimmed"] });
     const result = await plugin.extract!(
-      { tokens: baseTokens, components: {} } as Schema,
+      { tokens: baseTokens, components: {}, icons: {} } as Schema,
       configFor(plugin)
     );
 

@@ -153,8 +153,15 @@ export function renderIndexMdx(input: {
   groups: Map<string, FlatToken[]>;
   hasComponents: boolean;
   componentPages?: { slug: string; title: string; count: number }[];
+  iconCount?: number;
 }): string {
-  const { title, groups, hasComponents, componentPages = [] } = input;
+  const {
+    title,
+    groups,
+    hasComponents,
+    componentPages = [],
+    iconCount = 0
+  } = input;
 
   const totalTokens = [...groups.values()].reduce(
     (sum, tokens) => sum + tokens.length,
@@ -172,7 +179,7 @@ export function renderIndexMdx(input: {
   const sections: string[] = [
     frontmatter({
       title,
-      description: `Generated reference documentation for the ${title} design tokens and components.`
+      description: `Generated reference documentation for the ${title} design tokens, components, and icons.`
     }),
     `# ${title}`,
     `This documentation is generated from the design system specification. It covers ${totalTokens} design token${totalTokens === 1 ? "" : "s"} across ${groups.size} group${groups.size === 1 ? "" : "s"}.`,
@@ -191,6 +198,13 @@ export function renderIndexMdx(input: {
       componentLinks.length > 0
         ? componentLinks.join("\n")
         : "_No components found._"
+    );
+  }
+
+  if (iconCount > 0) {
+    sections.push(
+      "## Icons",
+      `- [Icons](./icons.mdx) — ${iconCount} icon${iconCount === 1 ? "" : "s"}`
     );
   }
 
@@ -394,6 +408,136 @@ function renderRegistryItem(item: Record<string, unknown>): string {
 }
 
 /**
+ * Extract documented icons from `schema.icons`.
+ */
+export function extractIcons(icons: unknown): Record<string, unknown>[] {
+  if (!isObject(icons)) {
+    return [];
+  }
+
+  return Object.values(icons)
+    .filter(isObject)
+    .toSorted((a, b) =>
+      (readString(a, "name") ?? "").localeCompare(readString(b, "name") ?? "")
+    );
+}
+
+function renderIconFiles(item: Record<string, unknown>): string {
+  const files = Array.isArray(item.files) ? item.files : [];
+
+  const rows = files
+    .map(file => {
+      if (typeof file === "string") {
+        return `| \`${escapeTableCell(file)}\` | — | — | — |`;
+      }
+
+      if (!isObject(file)) {
+        return undefined;
+      }
+
+      const path = readString(file, "path");
+      if (!path) {
+        return undefined;
+      }
+
+      const type = readString(file, "type");
+      const theme = readString(file, "theme");
+      const target = readString(file, "target");
+
+      return `| \`${escapeTableCell(path)}\` | ${type ? `\`${escapeTableCell(type)}\`` : "—"} | ${theme ? `\`${escapeTableCell(theme)}\`` : "—"} | ${target ? `\`${escapeTableCell(target)}\`` : "—"} |`;
+    })
+    .filter((row): row is string => row !== undefined);
+
+  if (rows.length === 0) {
+    return "";
+  }
+
+  return [
+    "| Path | Type | Theme | Target |",
+    "| --- | --- | --- | --- |",
+    ...rows
+  ].join("\n");
+}
+
+function renderIconPreview(item: Record<string, unknown>): string {
+  const files = Array.isArray(item.files) ? item.files : [];
+  const svg = files.find(
+    file =>
+      isObject(file) &&
+      readString(file, "type") === "svg" &&
+      typeof file.content === "string"
+  );
+
+  if (!isObject(svg) || typeof svg.content !== "string") {
+    return "";
+  }
+
+  return [
+    "### Preview",
+    `<div style={{ display: "inline-flex", width: "2rem", height: "2rem" }} dangerouslySetInnerHTML={{ __html: ${JSON.stringify(svg.content)} }} />`
+  ].join("\n\n");
+}
+
+function renderIcon(item: Record<string, unknown>): string {
+  const name = readString(item, "name") ?? "unknown";
+  const title = readString(item, "title") ?? titleCase(name);
+  const description = readString(item, "description");
+  const category = readString(item, "category");
+  const tags = readStringArray(item, "tags");
+  const aliases = readStringArray(item, "aliases");
+
+  const sections: string[] = [`## ${title}`];
+
+  if (description) {
+    sections.push(description);
+  }
+
+  const meta = [
+    `- **Name:** \`${name}\``,
+    ...(category ? [`- **Category:** \`${category}\``] : []),
+    ...(tags.length > 0
+      ? [`- **Tags:** ${tags.map(entry => `\`${entry}\``).join(", ")}`]
+      : []),
+    ...(aliases.length > 0
+      ? [`- **Aliases:** ${aliases.map(entry => `\`${entry}\``).join(", ")}`]
+      : [])
+  ];
+  sections.push(meta.join("\n"));
+
+  const preview = renderIconPreview(item);
+  if (preview) {
+    sections.push(preview);
+  }
+
+  const files = renderIconFiles(item);
+  if (files) {
+    sections.push("### Files", files);
+  }
+
+  return sections.join("\n\n");
+}
+
+/**
+ * Render an MDX documentation page for all icons.
+ */
+export function renderIconsMdx(icons: Record<string, unknown>[]): string {
+  const sections: string[] = [
+    frontmatter({
+      title: "Icons",
+      description: "Icons available in the Razorwind design system."
+    }),
+    `# Icons`,
+    `${icons.length} icon${icons.length === 1 ? "" : "s"} in the design system.`
+  ];
+
+  for (const icon of icons) {
+    sections.push(renderIcon(icon));
+  }
+
+  return `${sections.join("\n\n")}\n`;
+}
+
+/**
  * Render an MDX documentation page for all components of a single type.
  */
 export function renderRegistryItemsMdx(page: RegistryItemPage): string {
@@ -434,7 +578,8 @@ function document(
  * Generate MDX documentation pages from a Razorwind schema.
  *
  * Produces an index page, one page per top-level token group, component
- * pages grouped by type, and a flattened `tokens.json` manifest.
+ * pages grouped by type, icon documentation, and a flattened `tokens.json`
+ * manifest.
  */
 export function generateDocs(
   spec: Schema,
@@ -449,6 +594,7 @@ export function generateDocs(
     ? []
     : extractRegistryItems(spec.components);
   const hasComponents = itemPages.length > 0;
+  const icons = options.skipIcons ? [] : extractIcons(spec.icons);
 
   const documents: GeneratorFunctionResult<
     Schema,
@@ -464,7 +610,8 @@ export function generateDocs(
           slug: page.slug,
           title: page.title,
           count: page.items.length
-        }))
+        })),
+        iconCount: icons.length
       }),
       "mdx"
     )
@@ -478,6 +625,11 @@ export function generateDocs(
   for (const page of itemPages) {
     const path = join(outDir, "registry", `${page.slug}.mdx`);
     documents[path] = document(path, renderRegistryItemsMdx(page), "mdx");
+  }
+
+  if (icons.length > 0) {
+    const path = join(outDir, "icons.mdx");
+    documents[path] = document(path, renderIconsMdx(icons), "mdx");
   }
 
   documents[join(outDir, "tokens.json")] = document(

@@ -20,6 +20,7 @@ import type { Tokens } from "@power-plant/dtcg-schema";
 import type { EnvPaths } from "@stryke/env/get-env-paths";
 import type { RequiredKeys } from "@stryke/types/base";
 import type { Components } from "../schema/components";
+import type { Icons } from "../schema/icons";
 import type { Plugin } from "./plugin";
 
 export interface Options {
@@ -34,6 +35,13 @@ export interface Options {
    * The path(s) to directories containing component directories or files.
    */
   componentsPath?: string | string[];
+
+  /**
+   * The path(s) to directories containing icon assets or icon directories.
+   *
+   * @defaultValue "assets/icons"
+   */
+  iconsPath?: string | string[];
 
   /**
    * The directory(ies) or file(s) containing the tokens.
@@ -105,6 +113,7 @@ export interface UserConfig extends Options {
   tags?: string[];
   tokens?: Tokens | Record<string, Tokens>;
   components?: Components;
+  icons?: Icons;
   plugins?: Plugin[];
 }
 
@@ -128,7 +137,10 @@ export type UserConfigExport =
   | UserConfigFnPromise
   | UserConfigFn;
 
-export type Config = RequiredKeys<UserConfig, "componentsPath" | "plugins"> & {
+export type Config = RequiredKeys<
+  UserConfig,
+  "componentsPath" | "iconsPath" | "plugins"
+> & {
   cwd: string;
   envPaths: EnvPaths & {
     home: string;

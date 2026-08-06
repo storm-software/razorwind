@@ -106,6 +106,43 @@ const spec = {
       title: "use-mobile"
     }
   },
+  icons: {
+    home: {
+      name: "home",
+      title: "Home",
+      category: "navigation",
+      tags: ["house", "nav"],
+      description: "Navigate to the home screen.",
+      files: [
+        {
+          path: "assets/icons/light/home.svg",
+          type: "svg",
+          theme: "light",
+          content:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>'
+        },
+        {
+          path: "assets/icons/dark/home.svg",
+          type: "svg",
+          theme: "dark",
+          content:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z" fill="#fff"/></svg>'
+        }
+      ]
+    },
+    settings: {
+      name: "settings",
+      title: "Settings",
+      files: [
+        {
+          path: "assets/icons/settings.svg",
+          type: "svg",
+          content:
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>'
+        }
+      ]
+    }
+  },
   tokens
 } satisfies Schema;
 
@@ -192,6 +229,7 @@ describe("docgen generate plugin", () => {
         "docs/design-system/registry/components.mdx",
         "docs/design-system/registry/pages.mdx",
         "docs/design-system/registry/blocks.mdx",
+        "docs/design-system/icons.mdx",
         "docs/design-system/tokens.json"
       ])
     );
@@ -201,6 +239,7 @@ describe("docgen generate plugin", () => {
     expect(index).toContain("# Design System");
     expect(index).toContain("./tokens/color.mdx");
     expect(index).toContain("./registry/ui.mdx");
+    expect(index).toContain("./icons.mdx");
     expect(index).not.toContain("./registry.mdx");
 
     const colors = documents["docs/design-system/tokens/color.mdx"]?.chunks?.[0]
@@ -234,6 +273,14 @@ describe("docgen generate plugin", () => {
 
     // hooks have no dedicated page
     expect(documents["docs/design-system/registry/hooks.mdx"]).toBeUndefined();
+
+    const icons = documents["docs/design-system/icons.mdx"]?.chunks?.[0]
+      ?.content;
+    expect(icons).toContain("# Icons");
+    expect(icons).toContain("## Home");
+    expect(icons).toContain("`navigation`");
+    expect(icons).toContain("assets/icons/light/home.svg");
+    expect(icons).toContain("### Preview");
   });
 
   it("skips the registry page when requested", () => {
@@ -249,6 +296,19 @@ describe("docgen generate plugin", () => {
     );
     expect(documents["out/index.mdx"]?.chunks?.[0]?.content).not.toContain(
       "./registry/"
+    );
+    expect(documents["out/icons.mdx"]).toBeDefined();
+  });
+
+  it("skips icons when requested", () => {
+    const documents = generateDocs(spec, {
+      outDir: "out",
+      skipIcons: true
+    });
+
+    expect(documents["out/icons.mdx"]).toBeUndefined();
+    expect(documents["out/index.mdx"]?.chunks?.[0]?.content).not.toContain(
+      "./icons.mdx"
     );
   });
 

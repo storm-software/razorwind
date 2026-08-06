@@ -53,6 +53,7 @@ const tokens = {
 
 const spec = {
   components: {},
+  icons: {},
   tokens
 } as Schema;
 
@@ -105,7 +106,7 @@ describe("tailwindcss extract plugin", () => {
     };
 
     const result = await plugin.extract!(
-      { tokens: existing, components: {} },
+      { tokens: existing, components: {}, icons: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),

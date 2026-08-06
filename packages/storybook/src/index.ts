@@ -32,7 +32,7 @@ export type {
 
 /**
  * Razorwind plugin that turns design tokens into Storybook MDX doc blocks
- * (`ColorPalette`, `Typeset`, `TokenTable`) and optional UI themes.
+ * (`ColorPalette`, `Typeset`, `TokenTable`, `IconGallery`) and optional UI themes.
  *
  * @see https://storybook.js.org/docs/writing-docs/doc-blocks
  * @see https://storybook.js.org/docs/configure/user-interface/theming

@@ -365,8 +365,94 @@ import { TypesetBlock } from "./blocks/Typeset";
 `;
 }
 
+function readString(
+  item: Record<string, unknown>,
+  key: string
+): string | undefined {
+  const value = item[key];
+
+  return typeof value === "string" ? value : undefined;
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Build a React IconGallery doc block from schema icons.
+ *
+ * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-icongallery
+ */
+export function renderIconGalleryBlock(icons: unknown): string {
+  const items = isObject(icons)
+    ? Object.values(icons)
+        .filter(isObject)
+        .toSorted((a, b) =>
+          (readString(a, "name") ?? "").localeCompare(readString(b, "name") ?? "")
+        )
+    : [];
+
+  const entries = items
+    .map(icon => {
+      const name = readString(icon, "name") ?? "unknown";
+      const files = Array.isArray(icon.files) ? icon.files : [];
+      const svg = files.find(
+        file =>
+          isObject(file) &&
+          readString(file, "type") === "svg" &&
+          typeof file.content === "string"
+      );
+
+      const preview =
+        isObject(svg) && typeof svg.content === "string"
+          ? `<span
+          style={{ display: "inline-flex", width: 24, height: 24 }}
+          dangerouslySetInnerHTML={{ __html: ${toLiteral(svg.content)} }}
+        />`
+          : `<code>${escapeString(name)}</code>`;
+
+      return `    <IconItem name={${toLiteral(name)}}>
+      ${preview}
+    </IconItem>`;
+    })
+    .join("\n");
+
+  return `import { IconGallery, IconItem } from "@storybook/addon-docs/blocks";
+
+/**
+ * Icons rendered with Storybook's IconGallery doc block.
+ *
+ * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-icongallery
+ */
+export function IconGalleryBlock() {
+  return (
+    <IconGallery>
+${entries || "      {/* No icons */}"}
+    </IconGallery>
+  );
+}
+`;
+}
+
+export function renderIconsMdx(
+  options: Pick<StorybookPluginOptions, "titlePrefix"> = {}
+): string {
+  const titlePrefix = options.titlePrefix ?? "Design Tokens";
+
+  return `import { Meta } from "@storybook/addon-docs/blocks";
+import { IconGalleryBlock } from "./blocks/IconGallery";
+
+<Meta title="${escapeString(titlePrefix)}/Icons" />
+
+# Icons
+
+<IconGalleryBlock />
+`;
+}
+
 export function renderBlocksIndex(): string {
   return `export { ColorPaletteBlock } from "./ColorPalette";
+export { IconGalleryBlock } from "./IconGallery";
 export { TokenTableBlock } from "./TokenTable";
 export type { TokenTableBlockProps, TokenTableRow } from "./TokenTable";
 export { TypesetBlock } from "./Typeset";
@@ -428,6 +514,10 @@ export function generateTokenDocs(
       (token.type === "dimension" &&
         /(?:font|type|text).*size|size.*(?:font|type|text)/i.test(token.path))
   );
+  const hasIcons =
+    !options.skipIcons &&
+    isObject(spec.icons) &&
+    Object.keys(spec.icons).length > 0;
 
   const documents: GeneratorFunctionResult<Schema, StorybookPluginOptions> = {
     [join(outputPath, "blocks/ColorPalette.tsx")]: document(
@@ -443,6 +533,11 @@ export function generateTokenDocs(
     [join(outputPath, "blocks/TokenTable.tsx")]: document(
       join(outputPath, "blocks/TokenTable.tsx"),
       renderTokenTableBlock(flat),
+      "tsx"
+    ),
+    [join(outputPath, "blocks/IconGallery.tsx")]: document(
+      join(outputPath, "blocks/IconGallery.tsx"),
+      renderIconGalleryBlock(options.skipIcons ? {} : spec.icons),
       "tsx"
     ),
     [join(outputPath, "blocks/index.ts")]: document(
@@ -473,6 +568,14 @@ export function generateTokenDocs(
     documents[join(outputPath, "Typography.mdx")] = document(
       join(outputPath, "Typography.mdx"),
       renderTypographyMdx(options),
+      "mdx"
+    );
+  }
+
+  if (hasIcons) {
+    documents[join(outputPath, "Icons.mdx")] = document(
+      join(outputPath, "Icons.mdx"),
+      renderIconsMdx(options),
       "mdx"
     );
   }

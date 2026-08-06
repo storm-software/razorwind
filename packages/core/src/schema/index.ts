@@ -24,5 +24,13 @@ export {
   type ComponentFile,
   type Components
 } from "./components";
+export {
+  iconFileSchema,
+  iconSchema,
+  iconsSchema,
+  type Icon,
+  type IconFile,
+  type Icons
+} from "./icons";
 export { schema, type Schema } from "./schema";
 export { tokenSchema, tokensSchema, type Token, type Tokens } from "./tokens";
