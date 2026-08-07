@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.30](https://github.com/storm-software/razorwind/releases/tag/core%400.0.30) (08/07/2026)
+
+### Source Code Improvements
+
+- **monorepo:** Reduce duplicate logic across the plugin packages ([ebd1be3](https://github.com/storm-software/razorwind/commit/ebd1be3))
+
 ## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/core%400.0.29) (08/06/2026)
 
 ### Miscellaneous

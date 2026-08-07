@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.25) (08/07/2026)
+
+### Bug Fixes
+
+- **nx:** Resolve issue specifying `inputs` in Nx plugin ([354d0b1](https://github.com/storm-software/razorwind/commit/354d0b1))
+
+### Features
+
+- **sandpack:** Added the Sandpack theme and usage generator plugin package ([e668580](https://github.com/storm-software/razorwind/commit/e668580))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.30**
+
 ## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.24) (08/06/2026)
 
 ### Miscellaneous
