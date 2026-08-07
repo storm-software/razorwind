@@ -141,20 +141,20 @@ export async function resolveConfig(
 
   let resolvedConfig: Partial<UserConfig> = {};
   if (resolvedFilePath) {
-    const resolved = await jiti.import<{ default: UserConfigExport }>(
-      jiti.esmResolve(resolvedFilePath)
+    const resolved = await jiti.import<UserConfig>(
+      resolvedFilePath, { default: true }
     );
-    if (resolved?.default) {
+    if (resolved) {
       let config = {};
-      if (isFunction(resolved.default)) {
+      if (isFunction(resolved)) {
         config = await Promise.resolve(
-          resolved.default({ cwd, mode: options.mode ?? "development" })
+          resolved({ cwd, mode: options.mode ?? "development" })
         );
       } else if (
-        isSetObject(resolved.default) ||
-        Array.isArray(resolved.default)
+        isSetObject(resolved) ||
+        Array.isArray(resolved)
       ) {
-        config = resolved.default;
+        config = resolved;
       }
 
       if (isSetObject(config) || Array.isArray(config)) {
