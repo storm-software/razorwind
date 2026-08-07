@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Cursor
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/cursor%400.0.12) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.37**
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/cursor%400.0.11) (08/07/2026)
 
 ### Updated Dependencies

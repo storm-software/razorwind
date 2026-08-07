@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.32) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.37**
+
 ## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.31) (08/07/2026)
 
 ### Updated Dependencies

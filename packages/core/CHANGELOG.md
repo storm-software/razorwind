@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/core%400.0.37) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
 ## [0.0.36](https://github.com/storm-software/razorwind/releases/tag/core%400.0.36) (08/07/2026)
 
 ### Bug Fixes

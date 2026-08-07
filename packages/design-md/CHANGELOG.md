@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.33](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.33) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.37**
+
 ## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.32) (08/07/2026)
 
 ### Updated Dependencies

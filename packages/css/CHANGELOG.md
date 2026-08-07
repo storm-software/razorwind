@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/css%400.0.20) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.37**
+- Updated **style-dictionary** to **v0.0.23**
+
 ## [0.0.19](https://github.com/storm-software/razorwind/releases/tag/css%400.0.19) (08/07/2026)
 
 ### Updated Dependencies

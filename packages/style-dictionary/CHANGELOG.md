@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.23) (08/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `project.json` files to include required `dependsOn` targets ([724fc76](https://github.com/storm-software/razorwind/commit/724fc76))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.37**
+
 ## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.22) (08/07/2026)
 
 ### Updated Dependencies
