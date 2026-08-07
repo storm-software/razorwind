@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/core%400.0.34) (08/07/2026)
+
+### Features
+
+- **core:** Added meta fields to design system schema ([20da4bd](https://github.com/storm-software/razorwind/commit/20da4bd))
+
 ## [0.0.30](https://github.com/storm-software/razorwind/releases/tag/core%400.0.30) (08/07/2026)
 
 ### Source Code Improvements

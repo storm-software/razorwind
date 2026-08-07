@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/shiki",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "description": "Razorwind plugin that generates Shiki / TextMate themes from design tokens.",
   "repository": {

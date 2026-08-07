@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vsce
 
+## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.11) (08/07/2026)
+
+### Features
+
+- **core:** Added meta fields to design system schema ([20da4bd](https://github.com/storm-software/razorwind/commit/20da4bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.34**
+
 ## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.10) (08/07/2026)
 
 ### Updated Dependencies
