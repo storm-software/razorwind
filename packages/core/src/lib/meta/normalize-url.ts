@@ -19,10 +19,22 @@
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 
+export function hasUrl(value: unknown): boolean {
+  if (isSetString(value)) {
+    return true;
+  }
+
+  if (isSetObject(value) && "url" in value && isSetString((value as { url?: unknown }).url)) {
+    return true;
+  }
+
+  return false;
+}
+
 /**
- * Normalize npm `repository` field (string or `{ url }`) to a URL string.
+ * Normalize a URL string or object with a `url` property to a URL string.
  */
-export function normalizeRepository(value: unknown): string | undefined {
+export function normalizeUrl(value: unknown): string | undefined {
   if (isSetString(value)) {
     return value;
   }

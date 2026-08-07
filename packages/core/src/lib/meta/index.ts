@@ -23,4 +23,4 @@ export {
   schemaMetaFromPackageJson,
   type SchemaMeta
 } from "./load";
-export { normalizeRepository } from "./normalize-repository";
+export { normalizeUrl as normalizeRepository } from "./normalize-url";

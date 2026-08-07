@@ -24,7 +24,8 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Schema } from "../../schema";
 import type { UserConfig } from "../../types/config";
-import { normalizeRepository } from "./normalize-repository";
+import { hasUrl, normalizeUrl } from "./normalize-url";
+import { titleCase } from "@stryke/string-format/title-case";
 
 /** Design-system identity fields mirrored on {@link Schema}. */
 export type SchemaMeta = Pick<
@@ -59,7 +60,7 @@ export function schemaMetaFromPackageJson(
     fromNpm.homepage = pkg.homepage;
   }
 
-  const repository = normalizeRepository(pkg.repository);
+  const repository = normalizeUrl(pkg.repository);
   if (repository) {
     fromNpm.repository = repository;
   }
@@ -79,25 +80,48 @@ export function schemaMetaFromPackageJson(
     const description = pickStringField(razorwindRecord, "description");
     const homepage = pickStringField(razorwindRecord, "homepage");
     const logo = pickStringField(razorwindRecord, "logo");
-    const repositoryField = normalizeRepository(razorwindRecord.repository);
+    const repositoryField = normalizeUrl(razorwindRecord.repository);
 
     if (name) {
       fromRazorwind.name = name;
+    } else if (isSetString(pkg.name)) {
+      fromRazorwind.name = pkg.name;
     }
+
     if (title) {
       fromRazorwind.title = title;
+    } else if (isSetString(fromRazorwind.name)) {
+      fromRazorwind.title = titleCase(fromRazorwind.name);
     }
+
     if (description) {
       fromRazorwind.description = description;
+    } else if (isSetString(pkg.description)) {
+      fromRazorwind.description = pkg.description;
     }
+
     if (homepage) {
       fromRazorwind.homepage = homepage;
+    } else if (hasUrl(pkg.homepage)) {
+      fromRazorwind.homepage = normalizeUrl(pkg.homepage);
+    } else if (hasUrl(pkg.author)) {
+      fromRazorwind.homepage = normalizeUrl(pkg.author);
+    } else if (pkg.maintainers && Array.isArray(pkg.maintainers) && pkg.maintainers.length > 0 && hasUrl(pkg.maintainers[0])) {
+      fromRazorwind.homepage = normalizeUrl(pkg.maintainers[0]);
+    } else if (pkg.contributors && Array.isArray(pkg.contributors) && pkg.contributors.length > 0 && hasUrl(pkg.contributors[0])) {
+      fromRazorwind.homepage = normalizeUrl(pkg.contributors[0]);
+    } else if (hasUrl(pkg.bugs)) {
+      fromRazorwind.homepage = normalizeUrl(pkg.bugs);
     }
+
     if (logo) {
       fromRazorwind.logo = logo;
     }
+
     if (repositoryField) {
       fromRazorwind.repository = repositoryField;
+    } else if (hasUrl(pkg.repository)) {
+      fromRazorwind.repository = normalizeUrl(pkg.repository);
     }
   }
 

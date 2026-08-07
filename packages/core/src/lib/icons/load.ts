@@ -38,7 +38,7 @@ import type { Icon, IconFile, Icons } from "../../schema/icons";
 import { iconFileSchema, iconSchema } from "../../schema/icons";
 import type { Config } from "../../types/config";
 import { THEME_BASENAME_PATTERN } from "../tokens/constants";
-import { normalizeRepository } from "../meta/normalize-repository";
+import { normalizeUrl } from "../meta/normalize-url";
 
 const iconPartialSchema = iconSchema.partial();
 
@@ -202,7 +202,7 @@ async function extractFromPackageJson(
     fromNpm.homepage = pkg.homepage;
   }
 
-  const repository = normalizeRepository(pkg.repository);
+  const repository = normalizeUrl(pkg.repository);
   if (repository) {
     fromNpm.repository = repository;
   }

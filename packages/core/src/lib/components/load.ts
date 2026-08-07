@@ -47,7 +47,7 @@ import {
   componentUsageSchema
 } from "../../schema/components";
 import type { Config } from "../../types/config";
-import { normalizeRepository } from "../meta/normalize-repository";
+import { normalizeUrl } from "../meta/normalize-url";
 
 const componentPartialSchema = componentSchema.partial();
 
@@ -221,7 +221,7 @@ async function extractFromPackageJson(
     fromNpm.homepage = pkg.homepage;
   }
 
-  const repository = normalizeRepository(pkg.repository);
+  const repository = normalizeUrl(pkg.repository);
   if (repository) {
     fromNpm.repository = repository;
   }
