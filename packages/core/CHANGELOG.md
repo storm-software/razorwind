@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.36](https://github.com/storm-software/razorwind/releases/tag/core%400.0.36) (08/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue extracting configuration file ([f5098a3](https://github.com/storm-software/razorwind/commit/f5098a3))
+
 ## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/core%400.0.35) (08/07/2026)
 
 ### Miscellaneous
