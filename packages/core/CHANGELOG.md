@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/core%400.0.38) (08/07/2026)
+
+### Bug Fixes
+
+- **core:** Include `style-dictionary` in bundled output ([8d25b03](https://github.com/storm-software/razorwind/commit/8d25b03))
+
 ## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/core%400.0.37) (08/07/2026)
 
 ### Miscellaneous

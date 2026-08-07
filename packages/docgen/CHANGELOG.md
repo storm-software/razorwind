@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.34) (08/07/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.38**
+
 ## [0.0.33](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.33) (08/07/2026)
 
 ### Miscellaneous
