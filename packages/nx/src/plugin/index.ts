@@ -42,8 +42,8 @@ import {
   detectPackageManager,
   getPackageManagerCommand
 } from "nx/src/utils/package-manager.js";
-import { GENERATE_EXECUTOR } from "../helpers/constants";
 import type { PackageJson as PackageJsonPkgTypes } from "pkg-types";
+import { GENERATE_EXECUTOR } from "../helpers/constants";
 
 export interface NxPluginOptions {
   /**
@@ -196,13 +196,17 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
 
           targets[targetName] = defu(targets[targetName], {
             inputs: [
-              configFile,
-              ...((isSetString(options?.componentsPath)
-                ? [options.componentsPath]
-                : options?.componentsPath) ?? []),
-              ...((isSetString(options?.tokensPath)
-                ? [options.tokensPath]
-                : options?.tokensPath) ?? [])
+              joinPaths("{workspaceRoot}", configFile),
+              ...(
+                (isSetString(options?.componentsPath)
+                  ? [options.componentsPath]
+                  : options?.componentsPath) ?? []
+              ).map(path => joinPaths("{workspaceRoot}", path)),
+              ...(
+                (isSetString(options?.tokensPath)
+                  ? [options.tokensPath]
+                  : options?.tokensPath) ?? []
+              ).map(path => joinPaths("{workspaceRoot}", path))
             ],
             executor: GENERATE_EXECUTOR,
             dependsOn: [`^${targetName}`],
