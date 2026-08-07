@@ -17,30 +17,30 @@ catalog:
   "@power-plant/style-dictionary": ^0.0.66
   "@power-plant/terrazzo": ^0.0.67
   "@power-plant/utils": ^0.0.67
-  "@powerlines/nx": ^0.13.228
-  "@powerlines/plugin-untyped": ^0.2.604
-  "@powerlines/tsconfig": ^0.4.235
-  "@powerlines/tsdoc": ^0.2.183
-  "@powerlines/plugin-tsdown": ^0.1.590
+  "@powerlines/nx": ^0.13.229
+  "@powerlines/plugin-untyped": ^0.2.605
+  "@powerlines/tsconfig": ^0.4.236
+  "@powerlines/tsdoc": ^0.2.184
+  "@powerlines/plugin-tsdown": ^0.1.591
   "@shell-shock/eslint-plugin": ^0.0.86
   "@shell-shock/preset-cli": ^0.9.34
   "@shell-shock/core": ^0.17.22
   "@shell-shock/nx": ^0.0.95
-  "@storm-software/config": ^1.138.51
-  "@storm-software/config-tools": ^1.190.114
-  "@storm-software/cspell": ^0.46.182
-  "@storm-software/eslint-plugin-pnpm": ^0.0.77
-  "@storm-software/eslint-config-react": ^0.0.70
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.77
-  "@storm-software/git-tools": ^2.131.122
-  "@storm-software/linting-tools": ^1.134.44
-  "@storm-software/markdownlint": ^0.30.270
-  "@storm-software/pnpm-tools": ^0.7.125
-  "@storm-software/prettier": ^0.59.167
-  "@storm-software/testing-tools": ^1.119.267
-  "@storm-software/tsconfig": ^0.48.181
-  "@storm-software/untyped": ^0.24.256
-  "@storm-software/workspace-tools": ^1.296.94
+  "@storm-software/config": ^1.138.52
+  "@storm-software/config-tools": ^1.190.115
+  "@storm-software/cspell": ^0.46.183
+  "@storm-software/eslint-plugin-pnpm": ^0.0.78
+  "@storm-software/eslint-config-react": ^0.0.71
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.78
+  "@storm-software/git-tools": ^2.131.123
+  "@storm-software/linting-tools": ^1.134.45
+  "@storm-software/markdownlint": ^0.30.271
+  "@storm-software/pnpm-tools": ^0.7.126
+  "@storm-software/prettier": ^0.59.168
+  "@storm-software/testing-tools": ^1.119.268
+  "@storm-software/tsconfig": ^0.48.182
+  "@storm-software/untyped": ^0.24.257
+  "@storm-software/workspace-tools": ^1.296.95
   "@stryke/convert": ^0.7.33
   "@stryke/date": ^0.0.14
   "@stryke/env": ^0.20.120
@@ -80,7 +80,7 @@ catalog:
   lightningcss: ^1.33.0
   log4brains: ^1.1.0
   nx: 23.1.0
-  powerlines: ^0.47.189
+  powerlines: ^0.47.190
   prettier: ^3.9.6
   rimraf: ^6.1.3
   shadcn: ^4.16.1
