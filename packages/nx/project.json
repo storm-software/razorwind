@@ -6,10 +6,17 @@
   "targets": {
     "build-base": {
       "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{options.outputPath}"],
+      "inputs": [
+        "typescript",
+        "^production"
+      ],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "options": {
         "configFile": "packages/nx/powerlines.base.ts",
         "outputPath": "packages/nx/dist"
@@ -17,10 +24,17 @@
     },
     "build-plugin": {
       "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{options.outputPath}"],
+      "inputs": [
+        "typescript",
+        "^production"
+      ],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "options": {
         "configFile": "packages/nx/powerlines.plugin.ts",
         "outputPath": "packages/nx/dist"
@@ -28,10 +42,19 @@
     },
     "build": {
       "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{projectRoot}/dist", "{workspaceRoot}/dist/packages/nx"],
+      "inputs": [
+        "typescript",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/dist",
+        "{workspaceRoot}/dist/packages/nx"
+      ],
       "executor": "nx:run-commands",
-      "dependsOn": ["build-base", "build-plugin"],
+      "dependsOn": [
+        "build-base",
+        "build-plugin"
+      ],
       "options": {
         "commands": [
           "pnpm copyfiles LICENSE dist/packages/nx",
@@ -43,8 +66,14 @@
       }
     },
     "nx-release-publish": {
-      "executor": "@storm-software/workspace-tools:npm-publish"
+      "executor": "@storm-software/workspace-tools:npm-publish",
+      "dependsOn": [
+        "build",
+        "^nx-release-publish"
+      ]
     }
   },
-  "tags": ["platform:node"]
+  "tags": [
+    "platform:node"
+  ]
 }
