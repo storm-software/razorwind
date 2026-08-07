@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/zed",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "description": "Razorwind Zed theme extension plugin that creates Zed theme extensions from design tokens.",
   "repository": {

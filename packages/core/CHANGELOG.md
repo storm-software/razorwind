@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/core%400.0.35) (08/07/2026)
+
+### Miscellaneous
+
+- **core:** Improve the logic to extract meta configuration values ([124aaf8](https://github.com/storm-software/razorwind/commit/124aaf8))
+
 ## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/core%400.0.34) (08/07/2026)
 
 ### Features
