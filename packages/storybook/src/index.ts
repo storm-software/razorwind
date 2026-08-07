@@ -46,7 +46,7 @@ export type {
  * export default defineConfig({
  *   plugins: [
  *     storybook({
- *       generateTheme: tokens => ({
+ *       mapTheme: tokens => ({
  *         base: "light",
  *         colorPrimary: tokens.find(t => t.path === "color.primary")?.cssValue,
  *         brandTitle: "My Design System"

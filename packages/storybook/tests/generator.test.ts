@@ -173,10 +173,10 @@ describe("storybook plugin", () => {
     );
   });
 
-  it("writes a Storybook theme when generateTheme is provided", () => {
+  it("writes a Storybook theme when mapTheme is provided", () => {
     const documents = generateTokenDocs(spec, {
       outputPath: "out",
-      generateTheme: (tokens: Schema["tokens"]) : StorybookTheme => ({
+      mapTheme: (tokens: Schema["tokens"]) : StorybookTheme => ({
         base: "light",
         colorPrimary: (tokens.color as Record<string, Tokens>)?.primary?.$value as string,
         fontBase: (tokens.font as Record<string, Tokens>)?.family?.sans as string,
@@ -192,7 +192,7 @@ describe("storybook plugin", () => {
     expect(theme).toContain("brandTitle: \"Razorwind\"");
   });
 
-  it("skips theme.ts when generateTheme is omitted", () => {
+  it("skips theme.ts when mapTheme is omitted", () => {
     const documents = generateTokenDocs(spec, { outputPath: "out" });
     expect(documents["out/theme.ts"]).toBeUndefined();
   });

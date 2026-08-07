@@ -589,8 +589,8 @@ export function generateTokenDocs(
     "json"
   );
 
-  if (options.generateTheme) {
-    const theme = options.generateTheme(spec.tokens);
+  if (options.mapTheme) {
+    const theme = options.mapTheme(spec.tokens);
     if (typeof theme === "object" && theme !== null) {
       for (const [key, value] of Object.entries(theme)) {
         documents[join(outputPath, `theme-${key}.ts`)] = document(
