@@ -32,6 +32,7 @@ export default defineConfig({
     format: ["cjs", "esm"]
   },
   resolve: {
+    noExternal: ["style-dictionary"],
     skipNodeModulesBundle: true
   },
   plugins: [tsdown()]
