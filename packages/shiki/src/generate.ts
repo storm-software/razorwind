@@ -18,7 +18,7 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, slugifyThemeName } from "@razorwind/core/utils";
+import { createDocument, isObject, resolveSchemaIdentity, slugifyThemeName } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type { ShikiPluginOptions, ShikiTheme } from "./types";
@@ -191,7 +191,11 @@ export function generateShikiTheme(
   }
 
   const installBody =
-    options.installGuide ?? renderInstallMd({ themes: themeMeta });
+    options.installGuide ??
+    renderInstallMd({
+      themes: themeMeta,
+      title: resolveSchemaIdentity(spec).title
+    });
   const installPath = join(outputPath, "INSTALL.md");
   documents[installPath] = document(installPath, installBody, "markdown");
 

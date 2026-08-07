@@ -19,7 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, titleCase } from "@razorwind/core/utils";
+import { createDocument, isObject, resolveSchemaIdentity, titleCase } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
@@ -111,7 +111,11 @@ export function renderTokenTable(tokens: FlatToken[]): string {
 /**
  * Render an MDX documentation page for a single token group.
  */
-export function renderGroupMdx(group: string, tokens: FlatToken[]): string {
+export function renderGroupMdx(
+  group: string,
+  tokens: FlatToken[],
+  systemTitle = "design system"
+): string {
   const title = titleCase(group);
   const themes = [
     ...new Set(tokens.map(token => token.theme).filter(Boolean))
@@ -120,7 +124,7 @@ export function renderGroupMdx(group: string, tokens: FlatToken[]): string {
   const sections: string[] = [
     frontmatter({
       title,
-      description: `${title} design tokens for the Razorwind design system.`
+      description: `${title} design tokens for the ${systemTitle}.`
     }),
     `# ${title}`,
     `${tokens.length} token${tokens.length === 1 ? "" : "s"} in the \`${group}\` group.`
@@ -570,11 +574,14 @@ function renderIcon(item: Record<string, unknown>): string {
 /**
  * Render an MDX documentation page for all icons.
  */
-export function renderIconsMdx(icons: Record<string, unknown>[]): string {
+export function renderIconsMdx(
+  icons: Record<string, unknown>[],
+  systemTitle = "design system"
+): string {
   const sections: string[] = [
     frontmatter({
       title: "Icons",
-      description: "Icons available in the Razorwind design system."
+      description: `Icons available in the ${systemTitle}.`
     }),
     `# Icons`,
     `${icons.length} icon${icons.length === 1 ? "" : "s"} in the design system.`
@@ -590,11 +597,14 @@ export function renderIconsMdx(icons: Record<string, unknown>[]): string {
 /**
  * Render an MDX documentation page for all components of a single type.
  */
-export function renderRegistryItemsMdx(page: RegistryItemPage): string {
+export function renderRegistryItemsMdx(
+  page: RegistryItemPage,
+  systemTitle = "component registry"
+): string {
   const sections: string[] = [
     frontmatter({
       title: page.title,
-      description: `${page.title} available in the Razorwind component registry.`
+      description: `${page.title} available in the ${systemTitle}.`
     }),
     `# ${page.title}`,
     `${page.items.length} \`${page.type}\` item${page.items.length === 1 ? "" : "s"} in the component registry.`
@@ -638,7 +648,9 @@ export function generateDocs(
   options: DocgenGeneratePluginOptions = {}
 ): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions> {
   const outDir = options.outDir ?? "docs/design-system";
-  const title = options.title ?? "Design System";
+  const identity = resolveSchemaIdentity(spec, { title: options.title });
+  const title = identity.title ?? "Design System";
+  const systemTitle = identity.title ?? "design system";
 
   const flat = flattenTokens(spec.tokens, options);
   const groups = groupTokens(flat);
@@ -671,17 +683,29 @@ export function generateDocs(
 
   for (const [group, tokens] of groups) {
     const path = join(outDir, "tokens", `${toSlug(group)}.mdx`);
-    documents[path] = document(path, renderGroupMdx(group, tokens), "mdx");
+    documents[path] = document(
+      path,
+      renderGroupMdx(group, tokens, systemTitle),
+      "mdx"
+    );
   }
 
   for (const page of itemPages) {
     const path = join(outDir, "registry", `${page.slug}.mdx`);
-    documents[path] = document(path, renderRegistryItemsMdx(page), "mdx");
+    documents[path] = document(
+      path,
+      renderRegistryItemsMdx(page, systemTitle),
+      "mdx"
+    );
   }
 
   if (icons.length > 0) {
     const path = join(outDir, "icons.mdx");
-    documents[path] = document(path, renderIconsMdx(icons), "mdx");
+    documents[path] = document(
+      path,
+      renderIconsMdx(icons, systemTitle),
+      "mdx"
+    );
   }
 
   documents[join(outDir, "tokens.json")] = document(

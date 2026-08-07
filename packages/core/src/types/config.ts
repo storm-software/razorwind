@@ -122,6 +122,8 @@ export interface UserConfig extends Options {
   license?: string;
   repository?: string;
   homepage?: string;
+  /** Path or URL to the design-system logo / brand image. */
+  logo?: string;
   tags?: string[];
   tokens?: Tokens | Record<string, Tokens>;
   components?: Components;

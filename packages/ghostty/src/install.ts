@@ -28,12 +28,13 @@ import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/uti
  */
 export function renderInstallMd(options: {
   themes: Array<{ name: string; displayName: string; fileName: string }>;
+  /** Design-system / package title from Schema when multiple themes. */
+  title?: string;
 }): string {
   const primary = options.themes[0]!;
   const displayName =
-    options.themes.length === 1
-      ? primary.displayName
-      : "Ghostty Themes";
+    options.title ??
+    (options.themes.length === 1 ? primary.displayName : "Ghostty Themes");
 
   const fileList = options.themes
     .map(

@@ -18,7 +18,7 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument } from "@razorwind/core/utils";
+import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./flatten";
 import { escapeString, toLiteral } from "./format";
@@ -460,6 +460,29 @@ export { TypesetBlock } from "./Typeset";
 `;
 }
 
+function isStorybookTheme(value: unknown): value is StorybookTheme {
+  if (!isObject(value)) {
+    return false;
+  }
+
+  return value.base === "light" || value.base === "dark";
+}
+
+/**
+ * Fill Storybook brand fields from Schema identity when the mapped theme omits them.
+ */
+export function applyBrandDefaults(
+  theme: StorybookTheme,
+  identity: { title?: string; homepage?: string; logo?: string }
+): StorybookTheme {
+  return {
+    ...theme,
+    brandTitle: theme.brandTitle ?? identity.title,
+    brandUrl: theme.brandUrl ?? identity.homepage,
+    brandImage: theme.brandImage ?? identity.logo
+  };
+}
+
 /**
  * Serialize a Storybook theme object as a `storybook/theming` `create()` module.
  *
@@ -507,6 +530,10 @@ export function generateTokenDocs(
   options: StorybookPluginOptions = {}
 ): GeneratorFunctionResult<Schema, StorybookPluginOptions> {
   const outputPath = options.outputPath ?? "storybook/tokens";
+  const identity = resolveSchemaIdentity(spec);
+  const titlePrefix =
+    options.titlePrefix ?? identity.title ?? "Design Tokens";
+  const docsOptions = { ...options, titlePrefix };
   const flat = flattenTokens(spec.tokens, options);
   const hasColors = flat.some(token => token.type === "color");
   const hasTypography = flat.some(
@@ -525,12 +552,12 @@ export function generateTokenDocs(
   const documents: GeneratorFunctionResult<Schema, StorybookPluginOptions> = {
     [join(outputPath, "blocks/ColorPalette.tsx")]: document(
       join(outputPath, "blocks/ColorPalette.tsx"),
-      renderColorPaletteBlock(flat, options),
+      renderColorPaletteBlock(flat, docsOptions),
       "tsx"
     ),
     [join(outputPath, "blocks/Typeset.tsx")]: document(
       join(outputPath, "blocks/Typeset.tsx"),
-      renderTypesetBlock(flat, options),
+      renderTypesetBlock(flat, docsOptions),
       "tsx"
     ),
     [join(outputPath, "blocks/TokenTable.tsx")]: document(
@@ -551,7 +578,7 @@ export function generateTokenDocs(
     [join(outputPath, "Tokens.mdx")]: document(
       join(outputPath, "Tokens.mdx"),
       renderTokensMdx({
-        titlePrefix: options.titlePrefix,
+        titlePrefix,
         hasColors,
         hasTypography
       }),
@@ -562,7 +589,7 @@ export function generateTokenDocs(
   if (hasColors) {
     documents[join(outputPath, "Colors.mdx")] = document(
       join(outputPath, "Colors.mdx"),
-      renderColorsMdx(options),
+      renderColorsMdx(docsOptions),
       "mdx"
     );
   }
@@ -570,7 +597,7 @@ export function generateTokenDocs(
   if (hasTypography) {
     documents[join(outputPath, "Typography.mdx")] = document(
       join(outputPath, "Typography.mdx"),
-      renderTypographyMdx(options),
+      renderTypographyMdx(docsOptions),
       "mdx"
     );
   }
@@ -578,7 +605,7 @@ export function generateTokenDocs(
   if (hasIcons) {
     documents[join(outputPath, "Icons.mdx")] = document(
       join(outputPath, "Icons.mdx"),
-      renderIconsMdx(options),
+      renderIconsMdx(docsOptions),
       "mdx"
     );
   }
@@ -591,20 +618,23 @@ export function generateTokenDocs(
 
   if (options.mapTheme) {
     const theme = options.mapTheme(spec.tokens);
-    if (typeof theme === "object" && theme !== null) {
+    if (isStorybookTheme(theme)) {
+      documents[join(outputPath, "theme.ts")] = document(
+        join(outputPath, "theme.ts"),
+        renderThemeFile(applyBrandDefaults(theme, identity)),
+        "typescript"
+      );
+    } else if (isObject(theme)) {
       for (const [key, value] of Object.entries(theme)) {
+        if (!isStorybookTheme(value)) {
+          continue;
+        }
         documents[join(outputPath, `theme-${key}.ts`)] = document(
           join(outputPath, `theme-${key}.ts`),
-          renderThemeFile(value),
+          renderThemeFile(applyBrandDefaults(value, identity)),
           "typescript"
         );
       }
-    } else {
-      documents[join(outputPath, "theme.ts")] = document(
-        join(outputPath, "theme.ts"),
-        renderThemeFile(theme),
-        "typescript"
-      );
     }
   }
 
@@ -616,7 +646,7 @@ export function generateTokenDocs(
     options.installGuide ??
     renderInstallMd({
       outputPath,
-      titlePrefix: options.titlePrefix,
+      titlePrefix,
       themeFiles: themeFiles.length > 0 ? themeFiles : undefined
     });
   const installPath = join(outputPath, "INSTALL.md");

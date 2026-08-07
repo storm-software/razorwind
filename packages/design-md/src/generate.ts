@@ -19,6 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
+import { resolveSchemaIdentity } from "@razorwind/core/utils";
 import { isObject } from "@stryke/type-checks/is-object";
 import { dirname, join } from "node:path";
 import { flattenTokens } from "./lib/flatten";
@@ -214,8 +215,13 @@ function applyGenerateOptions(
 export function extractDesignMd(spec: Schema): DesignMdDocument {
   const flat = selectPrimaryTheme(flattenTokens(spec.tokens));
   const byPath = new Map(flat.map(token => [token.path, token]));
+  const identity = resolveSchemaIdentity(spec);
 
   const document: DesignMdDocument = {
+    ...(identity.title || identity.name
+      ? { name: identity.title ?? identity.name }
+      : {}),
+    ...(identity.description ? { description: identity.description } : {}),
     colors: {},
     colorDescriptions: {},
     typography: {},

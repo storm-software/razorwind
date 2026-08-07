@@ -38,6 +38,7 @@ import type { Icon, IconFile, Icons } from "../../schema/icons";
 import { iconFileSchema, iconSchema } from "../../schema/icons";
 import type { Config } from "../../types/config";
 import { THEME_BASENAME_PATTERN } from "../tokens/constants";
+import { normalizeRepository } from "../meta/normalize-repository";
 
 const iconPartialSchema = iconSchema.partial();
 
@@ -71,22 +72,6 @@ function normalizeIconsPaths(iconsPath: string | string[] | undefined): string[]
   }
 
   return isSetString(iconsPath) ? [iconsPath] : [];
-}
-
-function normalizeRepository(value: unknown): string | undefined {
-  if (isSetString(value)) {
-    return value;
-  }
-
-  if (
-    isSetObject(value) &&
-    "url" in value &&
-    isSetString((value as { url?: unknown }).url)
-  ) {
-    return (value as { url: string }).url;
-  }
-
-  return undefined;
 }
 
 function iconTypeFromExtension(

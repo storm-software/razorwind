@@ -25,7 +25,7 @@ import type {
   Components,
   Schema
 } from "@razorwind/core/schema";
-import { createDocument } from "@razorwind/core/utils";
+import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path/join";
 import { dirname, join } from "node:path";
 import { renderInstallMd } from "./install";
@@ -238,13 +238,22 @@ export async function generateRegistryJson(
     return {};
   }
 
+  const identity = resolveSchemaIdentity(spec, {
+    name: options.name,
+    homepage: options.homepage
+  });
+  const registryOptions = {
+    name: options.name ?? identity.name,
+    homepage: options.homepage ?? identity.homepage
+  };
+
   const outFile = await resolveOutFile(options);
-  const content = `${JSON.stringify(renderRegistryJson(spec.components, options), null, 2)}\n`;
+  const content = `${JSON.stringify(renderRegistryJson(spec.components, registryOptions), null, 2)}\n`;
   const installBody =
     options.installGuide ??
     renderInstallMd({
       configFile: outFile,
-      name: options.name
+      name: registryOptions.name
     });
   const installPath = join(dirname(outFile), "INSTALL.md");
 

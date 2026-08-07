@@ -7,7 +7,7 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
- Website:                  https://stormsoftware.com
+    10| Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
@@ -16,8 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./components";
-export * from "./icons";
-export * from "./meta";
-export * from "./resolve-config";
-export * from "./tokens";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
+
+/**
+ * Normalize npm `repository` field (string or `{ url }`) to a URL string.
+ */
+export function normalizeRepository(value: unknown): string | undefined {
+  if (isSetString(value)) {
+    return value;
+  }
+
+  if (
+    isSetObject(value) &&
+    "url" in value &&
+    isSetString((value as { url?: unknown }).url)
+  ) {
+    return (value as { url: string }).url;
+  }
+
+  return undefined;
+}

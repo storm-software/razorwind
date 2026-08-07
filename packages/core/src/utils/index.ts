@@ -38,6 +38,11 @@ export {
 export { titleCase } from "./title-case";
 export { themeDisplayName, type ThemeNamed } from "./theme-display-name";
 export { slugifyThemeName } from "./slugify-theme-name";
+export {
+  resolveSchemaIdentity,
+  type SchemaIdentity,
+  type SchemaIdentityOverrides
+} from "./schema-identity";
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 

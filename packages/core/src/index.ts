@@ -27,6 +27,7 @@ import StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
 import { loadComponents } from "./lib/components";
 import { loadIcons } from "./lib/icons";
+import { resolveSchemaMeta } from "./lib/meta";
 import { resolveConfig } from "./lib/resolve-config";
 import { loadTokens, registerRazorwindHooks } from "./lib/tokens";
 import type { Schema, Tokens } from "./schema";
@@ -78,7 +79,10 @@ export const generator = defineGenerator<Schema, Options, any>({
       tokens = await loadTokens(context);
     }
 
+    const meta = await resolveSchemaMeta(context.cwd, context.options);
+
     let spec: Schema = {
+      ...meta,
       tokens: tokens ?? {},
       components: defu(
         context.options.components ?? {},

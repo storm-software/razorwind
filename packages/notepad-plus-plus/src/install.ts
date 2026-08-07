@@ -27,12 +27,15 @@ import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/uti
  */
 export function renderInstallMd(options: {
   themes: Array<{ name: string; displayName: string; fileName: string }>;
+  /** Design-system / package title from Schema when multiple themes. */
+  title?: string;
 }): string {
   const primary = options.themes[0]!;
   const displayName =
-    options.themes.length === 1
+    options.title ??
+    (options.themes.length === 1
       ? primary.displayName
-      : "Notepad++ Themes";
+      : "Notepad++ Themes");
 
   const fileList = options.themes
     .map(theme => `- \`${theme.fileName}\` — ${theme.displayName}`)

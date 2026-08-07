@@ -47,6 +47,7 @@ import {
   componentUsageSchema
 } from "../../schema/components";
 import type { Config } from "../../types/config";
+import { normalizeRepository } from "../meta/normalize-repository";
 
 const componentPartialSchema = componentSchema.partial();
 
@@ -84,22 +85,6 @@ function normalizeComponentsPaths(
   }
 
   return isSetString(componentsPath) ? [componentsPath] : [];
-}
-
-function normalizeRepository(value: unknown): string | undefined {
-  if (isSetString(value)) {
-    return value;
-  }
-
-  if (
-    isSetObject(value) &&
-    "url" in value &&
-    isSetString((value as { url?: unknown }).url)
-  ) {
-    return (value as { url: string }).url;
-  }
-
-  return undefined;
 }
 
 function usageLanguageFromExtension(

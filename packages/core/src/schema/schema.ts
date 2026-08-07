@@ -30,12 +30,24 @@ const tokensFieldSchema = z.union([
 ]);
 
 export interface Schema {
+  name?: string;
+  title?: string;
+  repository?: string;
+  homepage?: string;
+  description?: string;
+  logo?: string;
   components: Components;
   icons: Icons;
   tokens: Tokens | Record<string, Tokens>;
 }
 
 export const schema: z.ZodType<Schema> = z.object({
+  name: z.string().optional(),
+  title: z.string().optional(),
+  repository: z.string().optional(),
+  homepage: z.string().optional(),
+  description: z.string().optional(),
+  logo: z.string().optional(),
   tokens: tokensFieldSchema,
   components: componentsSchema,
   icons: iconsSchema
