@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/core%400.0.39) (08/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update base dependencies, add Orca ADE setup, and update `release` workflow ([4ea3774](https://github.com/storm-software/razorwind/commit/4ea3774))
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/core%400.0.38) (08/07/2026)
 
 ### Bug Fixes
