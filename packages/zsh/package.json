@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/zsh",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "description": "Razorwind plugin that generates Oh My Zsh themes from design tokens.",
   "repository": {
