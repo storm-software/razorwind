@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.39) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with reading glob patterned token paths ([f997247](https://github.com/storm-software/razorwind/commit/f997247))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.43**
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.38) (08/13/2026)
 
 ### Updated Dependencies

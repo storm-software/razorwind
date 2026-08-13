@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/core%400.0.43) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with reading glob patterned token paths ([f997247](https://github.com/storm-software/razorwind/commit/f997247))
+
 ## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/core%400.0.42) (08/13/2026)
 
 ### Bug Fixes
