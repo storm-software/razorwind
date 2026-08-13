@@ -632,12 +632,14 @@ export function generateTamaguiConfig(
       outputPath,
       content,
       { name: "razorwind-tamagui" },
+      undefined,
       "typescript"
     ),
     [installPath]: createDocument<Schema, TamaguiPluginOptions>(
       installPath,
       installBody,
       { name: "razorwind-tamagui" },
+      undefined,
       "markdown"
     )
   };

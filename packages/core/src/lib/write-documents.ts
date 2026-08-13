@@ -7,7 +7,7 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-    10| Website:                  https://stormsoftware.com
+ Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact

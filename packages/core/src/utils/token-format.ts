@@ -101,13 +101,88 @@ export function formatDimensionValue(value: unknown): string | undefined {
   return undefined;
 }
 
+function isShadowLayer(value: unknown): value is Record<string, unknown> {
+  return isObject(value) && "offsetX" in value && "offsetY" in value;
+}
+
+function formatShadowLayer(layer: Record<string, unknown>): string {
+  const offsetX = formatDimensionValue(layer.offsetX) ?? "0";
+  const offsetY = formatDimensionValue(layer.offsetY) ?? "0";
+  const blur = formatDimensionValue(layer.blur);
+  const spread =
+    layer.spread === undefined ? undefined : formatDimensionValue(layer.spread);
+  const color = formatColorValue(layer.color);
+  const parts = [
+    layer.inset === true ? "inset" : undefined,
+    offsetX,
+    offsetY,
+    blur,
+    spread,
+    color
+  ].filter((part): part is string => part != null && part !== "");
+
+  return parts.join(" ");
+}
+
+/**
+ * Convert a DTCG shadow `$value` (one layer or a list of layers) into a
+ * CSS `box-shadow` string.
+ */
+export function formatShadowValue(value: unknown): string | undefined {
+  if (Array.isArray(value)) {
+    if (value.length === 0 || !value.every(isShadowLayer)) {
+      return undefined;
+    }
+
+    return formatCssAliasReferences(value.map(formatShadowLayer).join(", "));
+  }
+
+  if (!isShadowLayer(value)) {
+    return undefined;
+  }
+
+  return formatCssAliasReferences(formatShadowLayer(value));
+}
+
+/** DTCG alias (`{color.neutral.800}`), rewritten to `var(--…)` on emit. */
+const DTCG_ALIAS_RE = /\{([^{}]+)\}/g;
+
+/**
+ * Convert a DTCG token path into a Tailwind `@theme` custom property.
+ *
+ * `color.primary` → `--color-primary`; a trailing `DEFAULT` leaf is stripped
+ * (`radius.DEFAULT` → `--radius`).
+ */
+export function toThemeCssVar(path: string): string {
+  const segments = path
+    .split(".")
+    .filter(Boolean)
+    .filter(
+      (segment, index, all) =>
+        !(segment === "DEFAULT" && index === all.length - 1)
+    );
+
+  return `--${segments.join("-")}`;
+}
+
+/**
+ * Rewrite DTCG aliases in a CSS value to `var(--…)` references so reused
+ * tokens point at sibling custom properties instead of leaving `{path}` text.
+ */
+export function formatCssAliasReferences(value: string): string {
+  return value.replace(
+    DTCG_ALIAS_RE,
+    (_, tokenPath: string) => `var(${toThemeCssVar(tokenPath.trim())})`
+  );
+}
+
 /**
  * Convert a DTCG `$value` into a CSS-friendly string, dispatching on `type`
  * (or, when `type` is omitted, on the shape of `value`).
  */
 export function formatTokenValue(value: unknown, type?: string): string {
   if (typeof value === "string") {
-    return value;
+    return formatCssAliasReferences(value);
   }
 
   if (typeof value === "number" || typeof value === "boolean") {
@@ -136,8 +211,19 @@ export function formatTokenValue(value: unknown, type?: string): string {
     return `cubic-bezier(${value.join(", ")})`;
   }
 
+  if (
+    type === "shadow" ||
+    isShadowLayer(value) ||
+    (Array.isArray(value) && value.some(isShadowLayer))
+  ) {
+    const shadow = formatShadowValue(value);
+    if (shadow) {
+      return shadow;
+    }
+  }
+
   if (Array.isArray(value)) {
-    return value.map(String).join(", ");
+    return value.map(item => formatTokenValue(item)).join(", ");
   }
 
   if (isObject(value)) {

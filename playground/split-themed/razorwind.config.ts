@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import colorVariants from "@razorwind/color-variants/extract";
 import { defineConfig } from "@razorwind/core";
 import type { Tokens } from "@razorwind/core/schema";
 import { flattenTokens } from "@razorwind/core/utils";
@@ -45,13 +46,14 @@ function cssValue(
 
 export default defineConfig({
   name: "razorwind-theme",
-  title: "Razorwind Theme",
+  title: "Razorwind Playground",
   description:
     "Fixture design tokens used to exercise Razorwind generator plugins.",
   verbose: true,
   splitThemes: true,
   tokensPath: join(root, "tokens/**/*.json"),
   plugins: [
+    colorVariants(),
     css({
       outputPath: join(generated, "styles.css")
     }),
@@ -73,14 +75,10 @@ export default defineConfig({
       }
     }),
     designMd({
-      outputPath: join(generated, "DESIGN.md"),
-      name: "Razorwind Playground",
-      description:
-        "Fixture design tokens used to exercise Razorwind generator plugins."
+      outputPath: join(generated, "DESIGN.md")
     }),
     docgen({
-      outputPath: join(generated, "docs"),
-      title: "Razorwind Playground"
+      outputPath: join(generated, "docs")
     }),
     storybook({
       outputPath: join(generated, "storybook"),
@@ -90,8 +88,7 @@ export default defineConfig({
         appBg: cssValue(tokens, "color.bg", "#0d0d12"),
         textColor: cssValue(tokens, "color.fg", "#e8e8ed"),
         textMutedColor: cssValue(tokens, "color.muted", "#6a6a7a"),
-        appBorderColor: cssValue(tokens, "color.border", "#2a2a38"),
-        brandTitle: "Razorwind Playground"
+        appBorderColor: cssValue(tokens, "color.border", "#2a2a38")
       })
     }),
     shiki({

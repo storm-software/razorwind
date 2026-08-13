@@ -23,8 +23,10 @@ import {
   createDocument,
   isObject,
   resolveSchemaIdentity,
+  slugifyThemeName,
   titleCase
 } from "@razorwind/core/utils";
+import { joinPaths } from "@stryke/path";
 import { join } from "node:path";
 import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
@@ -750,18 +752,23 @@ export function renderRegistryItemsMdx(
 
 export { renderInstallMd };
 
-function document(
-  path: string,
-  content: string,
-  language?: string
-): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions>[string] {
-  return createDocument<Schema, DocgenGeneratePluginOptions>(
-    path,
-    content,
-    { name: "docgen" },
-    language
-  );
-}
+const getCreateDocument =
+  (outputPath: string) =>
+  (
+    file: string,
+    content: string,
+    language?: string
+  ): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions>[string] => {
+    return createDocument<Schema, DocgenGeneratePluginOptions>(
+      joinPaths(outputPath, file),
+      content,
+      { name: "docgen" },
+      (_: string, theme: string) => {
+        return joinPaths(outputPath, slugifyThemeName(theme), file);
+      },
+      language
+    );
+  };
 
 /**
  * Generate MDX documentation pages from a Razorwind schema.
@@ -788,12 +795,14 @@ export function generateDocs(
   const icons = options.skipIcons ? [] : extractIcons(spec.icons);
   const fonts = options.skipFonts ? [] : extractFonts(spec.fonts);
 
+  const createDoc = getCreateDocument(outputPath);
+
   const documents: GeneratorFunctionResult<
     Schema,
     DocgenGeneratePluginOptions
   > = {
-    [join(outputPath, "index.mdx")]: document(
-      join(outputPath, "index.mdx"),
+    [join(outputPath, "index.mdx")]: createDoc(
+      "index.mdx",
       renderIndexMdx({
         title,
         groups,
@@ -811,8 +820,8 @@ export function generateDocs(
   };
 
   for (const [group, tokens] of groups) {
-    const path = join(outputPath, "tokens", `${toSlug(group)}.mdx`);
-    documents[path] = document(
+    const path = joinPaths("tokens", `${toSlug(group)}.mdx`);
+    documents[joinPaths(outputPath, path)] = createDoc(
       path,
       renderGroupMdx(group, tokens, systemTitle),
       "mdx"
@@ -820,8 +829,8 @@ export function generateDocs(
   }
 
   for (const page of itemPages) {
-    const path = join(outputPath, "registry", `${page.slug}.mdx`);
-    documents[path] = document(
+    const path = joinPaths("registry", `${page.slug}.mdx`);
+    documents[joinPaths(outputPath, path)] = createDoc(
       path,
       renderRegistryItemsMdx(page, systemTitle),
       "mdx"
@@ -829,17 +838,25 @@ export function generateDocs(
   }
 
   if (icons.length > 0) {
-    const path = join(outputPath, "icons.mdx");
-    documents[path] = document(path, renderIconsMdx(icons, systemTitle), "mdx");
+    const path = "icons.mdx";
+    documents[joinPaths(outputPath, path)] = createDoc(
+      path,
+      renderIconsMdx(icons, systemTitle),
+      "mdx"
+    );
   }
 
   if (fonts.length > 0) {
-    const path = join(outputPath, "fonts.mdx");
-    documents[path] = document(path, renderFontsMdx(fonts, systemTitle), "mdx");
+    const path = "fonts.mdx";
+    documents[joinPaths(outputPath, path)] = createDoc(
+      path,
+      renderFontsMdx(fonts, systemTitle),
+      "mdx"
+    );
   }
 
-  documents[join(outputPath, "tokens.json")] = document(
-    join(outputPath, "tokens.json"),
+  documents[joinPaths(outputPath, "tokens.json")] = createDoc(
+    "tokens.json",
     `${JSON.stringify(flat, null, 2)}\n`,
     "json"
   );
@@ -850,8 +867,12 @@ export function generateDocs(
       outputPath,
       title
     });
-  const installPath = join(outputPath, "INSTALL.md");
-  documents[installPath] = document(installPath, installBody, "markdown");
+  const installPath = "INSTALL.md";
+  documents[joinPaths(outputPath, installPath)] = createDoc(
+    installPath,
+    installBody,
+    "markdown"
+  );
 
   return documents;
 }

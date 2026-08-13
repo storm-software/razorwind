@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { ShikiTheme } from "./types";
 import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/utils";
+import type { ShikiTheme } from "./types";
 
 /**
  * Build Shiki INSTALL.md for generated theme JSON files.

@@ -29,7 +29,8 @@ import type { Fonts, Schema, Tokens } from "@razorwind/core/schema";
 import {
   createDocument,
   formatTokenValue,
-  isObject
+  isObject,
+  toThemeCssVar
 } from "@razorwind/core/utils";
 import { dirname, join } from "node:path";
 import { detectTailwindWorkspace } from "./extract";
@@ -37,6 +38,7 @@ import { renderInstallMd } from "./install";
 import type { FlatThemeToken, TailwindGeneratePluginOptions } from "./types";
 
 export type { FlatThemeToken, TailwindGeneratePluginOptions } from "./types";
+export { toThemeCssVar };
 
 /** Theme-like basename patterns used to split multi-theme token records. */
 const THEME_BASENAME_PATTERN =
@@ -75,23 +77,6 @@ function readValue(node: Record<string, unknown>): unknown {
     return node.ref;
   }
   return undefined;
-}
-
-/**
- * Convert a DTCG token path into a Tailwind `@theme` custom property.
- * Mirrors {@link nestFlatTokens}: `color.primary` → `--color-primary`,
- * and strips a trailing `DEFAULT` leaf (`radius.DEFAULT` → `--radius`).
- */
-export function toThemeCssVar(path: string): string {
-  const segments = path
-    .split(".")
-    .filter(Boolean)
-    .filter(
-      (segment, index, all) =>
-        !(segment === "DEFAULT" && index === all.length - 1)
-    );
-
-  return `--${segments.join("-")}`;
 }
 
 function walkTokens(

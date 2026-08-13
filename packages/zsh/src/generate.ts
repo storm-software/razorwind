@@ -7,7 +7,6 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-
  Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
@@ -17,9 +16,15 @@
 
  ------------------------------------------------------------------- */
 
+/* eslint-disable no-template-curly-in-string */
+
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, slugifyThemeName } from "@razorwind/core/utils";
+import {
+  createDocument,
+  isObject,
+  slugifyThemeName
+} from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type { ZshPluginOptions, ZshTheme, ZshThemeColors } from "./types";
@@ -49,6 +54,7 @@ function document(
     path,
     content,
     PLUGIN_META,
+    undefined,
     language
   );
 }
@@ -175,13 +181,10 @@ export function renderZshTheme(theme: ZshTheme): string {
   const gitClean = toZshFg(colors.gitClean);
   const gitDirty = toZshFg(colors.gitDirty);
 
-  const gitPrefix =
-    theme.gitPromptPrefix ?? `%F{${git}}%B(`;
+  const gitPrefix = theme.gitPromptPrefix ?? `%F{${git}}%B(`;
   const gitSuffix = theme.gitPromptSuffix ?? "%f%b";
-  const gitCleanStr =
-    theme.gitPromptClean ?? `) %F{${gitClean}}%B✓ `;
-  const gitDirtyStr =
-    theme.gitPromptDirty ?? `) %F{${gitDirty}}%B✗ `;
+  const gitCleanStr = theme.gitPromptClean ?? `) %F{${gitClean}}%B✓ `;
+  const gitDirtyStr = theme.gitPromptDirty ?? `) %F{${gitDirty}}%B✗ `;
 
   const lines: string[] = [
     "# -*- mode: sh; -*-",

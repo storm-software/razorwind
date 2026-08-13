@@ -83,4 +83,24 @@ describe("flattenTokens / resolveTokenSets", () => {
     expect(flat).toHaveLength(1);
     expect(flat[0]?.type).toBe("color");
   });
+
+  it("emits CSS var() for DTCG aliases", () => {
+    const aliased = {
+      color: {
+        brand: { $type: "color", $value: "#0066cc" },
+        accent: { $type: "color", $value: "{color.brand}" }
+      },
+      radius: {
+        DEFAULT: { $type: "dimension", $value: "4px" },
+        card: { $type: "dimension", $value: "{radius.DEFAULT}" }
+      }
+    };
+    const flat = flattenTokens(aliased);
+    expect(flat.find(token => token.path === "color.accent")?.cssValue).toBe(
+      "var(--color-brand)"
+    );
+    expect(flat.find(token => token.path === "radius.card")?.cssValue).toBe(
+      "var(--radius)"
+    );
+  });
 });

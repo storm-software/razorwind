@@ -128,6 +128,27 @@ describe("inferValue", () => {
       }
     });
   });
+
+  it("canonicalizes $type size aliases to dimension", () => {
+    const result = normalizeTokenTree({
+      size: {
+        sm: {
+          $type: "size",
+          $value: "8px"
+        }
+      }
+    });
+
+    expect(result).toMatchObject({
+      size: {
+        $type: "dimension",
+        sm: {
+          $type: "dimension",
+          $value: { value: 8, unit: "px" }
+        }
+      }
+    });
+  });
 });
 
 describe("parseCssCustomProperties", () => {

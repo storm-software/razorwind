@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import { kebabCase } from "@stryke/string-format/kebab-case";
+
 /**
  * Convert a theme name into a filesystem-safe slug.
  *
@@ -23,9 +25,5 @@
  * slugifyThemeName("My Dark Theme") // "my-dark-theme"
  */
 export function slugifyThemeName(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, "-")
-    .replaceAll(/^-+|-+$/g, "");
+  return kebabCase(name);
 }

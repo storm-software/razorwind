@@ -100,6 +100,7 @@ function usageLanguageFromExtension(
 
 function isUsageSourceFile(path: string): boolean {
   const extension = findFileExtensionSafe(path)?.toLowerCase();
+
   return Boolean(extension && USAGE_LANGUAGES.has(extension));
 }
 
@@ -169,10 +170,11 @@ function parseComponentPartial(value: unknown): Partial<Component> | undefined {
 
   // Parse `files` / `usage` separately so string shorthand and file-shaped
   // entries do not fail the partial component parse.
-  const { files: _files, usage: _usage, ...rest } = value as Record<
-    string,
-    unknown
-  >;
+  const {
+    files: _files,
+    usage: _usage,
+    ...rest
+  } = value as Record<string, unknown>;
   const parsed = componentPartialSchema.safeParse(rest);
   if (!parsed.success) {
     return undefined;
@@ -316,6 +318,7 @@ async function extractFromComponentJson(
 async function listUsageSourceFiles(directory: string): Promise<string[]> {
   try {
     const entries = await readdir(directory, { withFileTypes: true });
+
     return entries
       .filter(
         entry =>
@@ -346,11 +349,8 @@ async function resolveComponentUsage(
           findFileName(entry.path, { withExtension: false }) ||
           entry.path;
         const content =
-          entry.content !== undefined
-            ? entry.content
-            : existsSync(absolute)
-              ? await readFile(absolute, "utf8")
-              : undefined;
+          entry.content ??
+          (existsSync(absolute) ? await readFile(absolute, "utf8") : undefined);
 
         return {
           ...entry,
@@ -399,6 +399,7 @@ async function resolveComponentFiles(
     files ??
     (await listFiles(directory)).filter(file => {
       const base = findFileName(file, { withExtension: false });
+
       // Skip usage assets; they are loaded separately under `usage`
       return base === "index";
     });

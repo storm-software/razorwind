@@ -90,6 +90,72 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
     expect(css).toContain("--spacing-sm: 0.5rem;");
     expect(css).toContain("--radius: 4px;");
   });
+
+  it("assigns reused tokens as CSS var() references", () => {
+    const aliased = {
+      color: {
+        $type: "color",
+        brand: { $value: "#0066cc" },
+        accent: { $value: "{color.brand}" },
+        border: {
+          disabled: { $value: "{color.neutral.800}" }
+        },
+        neutral: {
+          800: { $value: "#35373a" }
+        }
+      }
+    } satisfies Schema["tokens"];
+
+    const css = renderTailwindCss(flattenThemeTokens(aliased));
+    expect(css).toContain("--color-accent: var(--color-brand);");
+    expect(css).toContain(
+      "--color-border-disabled: var(--color-neutral-800);"
+    );
+    expect(css).toContain("--color-neutral-800: #35373a;");
+    expect(css).not.toContain("{color.");
+  });
+
+  it("formats multi-layer shadows as CSS box-shadow", () => {
+    const shadowed = {
+      shadow: {
+        $type: "shadow",
+        lg: {
+          $value: [
+            {
+              color: {
+                colorSpace: "srgb",
+                components: [0, 0, 0],
+                alpha: 0.1,
+                hex: "#000000"
+              },
+              offsetX: { value: 0, unit: "px" },
+              offsetY: { value: 10, unit: "px" },
+              blur: { value: 15, unit: "px" },
+              spread: { value: -3, unit: "px" }
+            },
+            {
+              color: {
+                colorSpace: "srgb",
+                components: [0, 0, 0],
+                alpha: 0.1,
+                hex: "#000000"
+              },
+              offsetX: { value: 0, unit: "px" },
+              offsetY: { value: 4, unit: "px" },
+              blur: { value: 6, unit: "px" },
+              spread: { value: -4, unit: "px" }
+            }
+          ]
+        }
+      }
+    } satisfies Schema["tokens"];
+
+    const css = renderTailwindCss(flattenThemeTokens(shadowed));
+    expect(css).toContain(
+      "--shadow-lg: 0px 10px 15px -3px #0000001a, 0px 4px 6px -4px #0000001a;"
+    );
+    expect(css).not.toContain("[object Object]");
+  });
 });
 
 describe("tailwindcss extract plugin", () => {

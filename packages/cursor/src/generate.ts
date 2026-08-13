@@ -18,13 +18,13 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
+import type { SchemaIdentity } from "@razorwind/core/utils";
 import {
   createDocument,
   isObject,
   resolveSchemaIdentity,
   slugifyThemeName,
-  titleCase,
-  type SchemaIdentity
+  titleCase
 } from "@razorwind/core/utils";
 import { join } from "node:path";
 import {
@@ -51,6 +51,7 @@ function document(
     path,
     content,
     PLUGIN_META,
+    undefined,
     language
   );
 }
@@ -220,8 +221,7 @@ export function renderPackageJson(
       label: theme.displayName ?? theme.name,
       uiTheme: toUiTheme(theme.type),
       path:
-        themePaths?.[index] ??
-        `./themes/${slugifyThemeName(theme.name)}.json`
+        themePaths?.[index] ?? `./themes/${slugifyThemeName(theme.name)}.json`
     }))
   };
 

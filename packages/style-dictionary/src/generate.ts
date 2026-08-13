@@ -17,7 +17,10 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratedDocument } from "@power-plant/core";
-import { styleDictionaryLogOptions } from "@razorwind/core/lib/tokens";
+import {
+  normalizeTokenTree,
+  styleDictionaryLogOptions
+} from "@razorwind/core/lib/tokens";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
@@ -69,7 +72,7 @@ function resolveTokens(tokens: Schema["tokens"]): DesignTokens {
     return {};
   }
 
-  return tokens as DesignTokens;
+  return normalizeTokenTree(tokens) as DesignTokens;
 }
 
 function defaultInstallPath(outputPaths: string[]): string {
@@ -142,6 +145,7 @@ export async function generateStyleDictionary(
       installPath,
       installBody,
       { name: "razorwind-style-dictionary" },
+      undefined,
       "markdown"
     );
   }

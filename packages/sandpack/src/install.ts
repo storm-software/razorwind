@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { SandpackTheme } from "./types";
 import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/utils";
+import type { SandpackTheme } from "./types";
 
 /**
  * Build Sandpack INSTALL.md for generated theme and usage files.
@@ -52,6 +52,7 @@ export function renderInstallMd(options: {
             const label = usage.component
               ? `${usage.displayName} (\`${usage.component}\`)`
               : usage.displayName;
+
             return `- \`usage/${usage.fileName}\` — ${label}`;
           })
           .join("\n")

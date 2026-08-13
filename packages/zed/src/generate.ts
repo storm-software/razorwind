@@ -18,13 +18,13 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
+import type { SchemaIdentity } from "@razorwind/core/utils";
 import {
   createDocument,
   isObject,
   resolveSchemaIdentity,
   slugifyThemeName,
-  titleCase,
-  type SchemaIdentity
+  titleCase
 } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, renderPackageReadme } from "./scripts";
@@ -43,6 +43,7 @@ function document(
     path,
     content,
     PLUGIN_META,
+    undefined,
     language
   );
 }

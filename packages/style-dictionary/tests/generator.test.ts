@@ -174,4 +174,42 @@ describe("style-dictionary plugin", () => {
     expect(css).toContain("--color-transparent");
     expect(css).toContain("--ease-in");
   });
+
+  it("formats $type size tokens as CSS dimensions", async () => {
+    const documents = await generateStyleDictionary(
+      {
+        ...spec,
+        tokens: {
+          size: {
+            none: { $type: "size", $value: "0px" },
+            sm: { $type: "size", $value: "8px" },
+            md: {
+              $type: "size",
+              $value: { value: 20, unit: "px" }
+            }
+          }
+        }
+      } as Schema,
+      {
+        platforms: {
+          css: {
+            transformGroup: "css",
+            buildPath: "build/css/",
+            files: [
+              {
+                destination: "variables.css",
+                format: "css/variables"
+              }
+            ]
+          }
+        }
+      }
+    );
+
+    const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
+    expect(css).toContain("--size-none: 0px;");
+    expect(css).toContain("--size-sm: 8px;");
+    expect(css).toContain("--size-md: 20px;");
+    expect(css).not.toContain("[object Object]");
+  });
 });

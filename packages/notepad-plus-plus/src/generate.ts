@@ -7,7 +7,6 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-
  Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
@@ -33,11 +32,11 @@ import {
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type {
+  NotepadPlusPlusPluginOptions,
+  NotepadPlusPlusTheme,
   NppLexerStyle,
   NppWidgetStyle,
-  NppWordsStyle,
-  NotepadPlusPlusPluginOptions,
-  NotepadPlusPlusTheme
+  NppWordsStyle
 } from "./types";
 
 const PLUGIN_META = { name: "razorwind-notepad-plus-plus" } as const;
@@ -52,6 +51,7 @@ function document(
     path,
     content,
     PLUGIN_META,
+    undefined,
     language
   );
 }
@@ -151,12 +151,12 @@ export function toNppColor(color: string): string {
   const trimmed = color.trim();
   if (trimmed.startsWith("#")) {
     const hex = trimmed.slice(1);
-    if (!/^[0-9a-fA-F]{6}$/.test(hex)) {
+    if (!/^[0-9a-f]{6}$/i.test(hex)) {
       throw new TypeError(`Invalid Notepad++ color: ${color}`);
     }
     return hex.toUpperCase();
   }
-  if (/^[0-9a-fA-F]{6}$/.test(trimmed)) {
+  if (/^[0-9a-f]{6}$/i.test(trimmed)) {
     return trimmed.toUpperCase();
   }
   throw new TypeError(`Invalid Notepad++ color: ${color}`);
@@ -202,6 +202,7 @@ function renderWordsStyle(style: NppWordsStyle, indent: string): string {
     colorStyle: style.colorStyle,
     keywordClass: style.keywordClass
   });
+
   return `${indent}<WordsStyle${attrs} />`;
 }
 
@@ -230,6 +231,7 @@ function renderWidgetStyle(style: NppWidgetStyle, indent: string): string {
     fontSize: style.fontSize ?? "",
     colorStyle: style.colorStyle
   });
+
   return `${indent}<WidgetStyle${attrs}></WidgetStyle>`;
 }
 
@@ -291,7 +293,9 @@ function renderStructuredBody(theme: NotepadPlusPlusTheme): string {
  * Format matches [Dracula for Notepad++](https://draculatheme.com/notepad-plus-plus)
  * and the [Notepad++ theme manual](https://npp-user-manual.org/docs/themes/).
  */
-export function renderNotepadPlusPlusTheme(theme: NotepadPlusPlusTheme): string {
+export function renderNotepadPlusPlusTheme(
+  theme: NotepadPlusPlusTheme
+): string {
   if (theme.xml) {
     return theme.xml.endsWith("\n") ? theme.xml : `${theme.xml}\n`;
   }
@@ -306,7 +310,7 @@ export function renderNotepadPlusPlusTheme(theme: NotepadPlusPlusTheme): string 
     XML_DECLARATION,
     "",
     "<NotepadPlus>",
-    ...renderThemeComments(theme, "    "),
+    ...renderThemeComments(theme),
     renderStructuredBody(theme),
     "</NotepadPlus>",
     ""

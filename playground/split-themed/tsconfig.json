@@ -11,6 +11,9 @@
   },
   "references": [
     {
+      "path": "../../packages/color-variants"
+    },
+    {
       "path": "../../packages/tailwindcss"
     },
     {

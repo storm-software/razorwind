@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { isObject, isTokenLeaf } from "../../utils";
-import { TYPE_PATH_HINTS } from "./constants";
+import { TYPE_PATH_HINTS, canonicalizeTokenType } from "./constants";
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 const RGB_COLOR_RE =
@@ -377,6 +377,10 @@ function normalizeTokenNode(
     delete next.ref;
   }
 
+  if (typeof next.$type === "string") {
+    next.$type = canonicalizeTokenType(next.$type);
+  }
+
   if ("$value" in next) {
     const inferred = inferValue(next.$value, path);
     next.$value = inferred.value;
@@ -419,7 +423,9 @@ export function normalizeTokenTree(
   }
 
   // Promote group `$type` from path when children look uniformly typed.
-  if (!("$type" in output)) {
+  if (typeof output.$type === "string") {
+    output.$type = canonicalizeTokenType(output.$type);
+  } else if (!("$type" in output)) {
     const groupType = inferTypeFromPath(path);
     if (groupType && path.length > 0) {
       output.$type = groupType;

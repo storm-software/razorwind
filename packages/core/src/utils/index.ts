@@ -47,8 +47,11 @@ export {
 export { titleCase } from "./title-case";
 export {
   formatColorValue,
+  formatCssAliasReferences,
   formatDimensionValue,
-  formatTokenValue
+  formatShadowValue,
+  formatTokenValue,
+  toThemeCssVar
 } from "./token-format";
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
@@ -76,16 +79,21 @@ export function createDocument<TSchema, TOptions extends object>(
   path: string,
   content: string,
   meta: { name: string },
+  appendTheme?: false | ((path: string, theme: string) => string),
   language?: string
 ): GeneratorFunctionResult<TSchema, TOptions>[string] {
   return {
     path,
     language,
-    chunks: [
-      {
-        content,
-        meta
-      }
-    ]
+    meta: {
+      ...meta,
+      data:
+        appendTheme !== false
+          ? {
+              appendTheme
+            }
+          : undefined
+    },
+    chunks: [{ content, meta }]
   };
 }

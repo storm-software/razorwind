@@ -7,7 +7,6 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-
  Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
@@ -17,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { NotepadPlusPlusTheme } from "./types";
 import { themeDisplayName as resolveThemeDisplayName } from "@razorwind/core/utils";
+import type { NotepadPlusPlusTheme } from "./types";
 
 /**
  * Build Notepad++ INSTALL.md for generated `*.xml` theme files.
@@ -33,9 +32,7 @@ export function renderInstallMd(options: {
   const primary = options.themes[0]!;
   const displayName =
     options.title ??
-    (options.themes.length === 1
-      ? primary.displayName
-      : "Notepad++ Themes");
+    (options.themes.length === 1 ? primary.displayName : "Notepad++ Themes");
 
   const fileList = options.themes
     .map(theme => `- \`${theme.fileName}\` — ${theme.displayName}`)

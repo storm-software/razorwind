@@ -69,6 +69,7 @@ async function applyFontsToCssDocuments(
       existing?.path || cssPath,
       combined,
       { name: "css:generate" },
+      undefined,
       "css"
     )
   };

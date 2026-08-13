@@ -21,8 +21,10 @@ export {
   THEME_BASENAME_PATTERN,
   TOKEN_DIRECTORY_GLOB,
   TOKEN_FILE_EXTENSIONS,
+  TYPE_ALIASES,
   TYPE_PATH_HINTS,
   TOKEN_PARSER_NAMES as WINDIE_PARSERS,
+  canonicalizeTokenType,
   type RazorwindParserName
 } from "./constants";
 export { parseCssCustomProperties } from "./css";

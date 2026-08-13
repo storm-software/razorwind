@@ -7,7 +7,6 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-
  Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
@@ -54,6 +53,7 @@ function document(
     path,
     content,
     PLUGIN_META,
+    undefined,
     language
   );
 }
@@ -144,7 +144,7 @@ export function toGhosttyColor(color: string): string {
   if (trimmed.startsWith("#")) {
     return trimmed.toLowerCase();
   }
-  if (/^[0-9a-fA-F]{6}$/.test(trimmed)) {
+  if (/^[0-9a-f]{6}$/i.test(trimmed)) {
     return `#${trimmed.toLowerCase()}`;
   }
   return trimmed;

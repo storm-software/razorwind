@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@power-plant/core": "catalog:",
+    "@razorwind/color-variants": "workspace:*",
     "@razorwind/core": "workspace:*",
     "@razorwind/css": "workspace:*",
     "@razorwind/design-md": "workspace:*",

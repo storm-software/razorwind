@@ -18,25 +18,35 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, resolveSchemaIdentity, slugifyThemeName } from "@razorwind/core/utils";
-import { join } from "node:path";
+import {
+  createDocument,
+  isObject,
+  resolveSchemaIdentity,
+  slugifyThemeName
+} from "@razorwind/core/utils";
+import { joinPaths } from "@stryke/path/join";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type { ShikiPluginOptions, ShikiTheme } from "./types";
 
 const PLUGIN_META = { name: "razorwind-shiki" } as const;
 
-function document(
-  path: string,
-  content: string,
-  language?: string
-): GeneratorFunctionResult<Schema, ShikiPluginOptions>[string] {
-  return createDocument<Schema, ShikiPluginOptions>(
-    path,
-    content,
-    PLUGIN_META,
-    language
-  );
-}
+const getCreateDocument =
+  (outputPath: string) =>
+  (
+    file: string,
+    content: string,
+    language?: string
+  ): GeneratorFunctionResult<Schema, ShikiPluginOptions>[string] => {
+    return createDocument<Schema, ShikiPluginOptions>(
+      joinPaths(outputPath, file),
+      content,
+      PLUGIN_META,
+      (_: string, theme: string) => {
+        return joinPaths(outputPath, slugifyThemeName(theme), file);
+      },
+      language
+    );
+  };
 
 function isShikiTheme(value: unknown): value is ShikiTheme {
   return (
@@ -162,6 +172,8 @@ export function generateShikiTheme(
     throw new Error("@razorwind/shiki mapTheme() returned no themes");
   }
 
+  const createDoc = getCreateDocument(outputPath);
+
   const documents: GeneratorFunctionResult<Schema, ShikiPluginOptions> = {};
   const usedSlugs = new Set<string>();
   const themeMeta: Array<{
@@ -181,8 +193,11 @@ export function generateShikiTheme(
     }
     usedSlugs.add(fileName);
 
-    const themePath = join(outputPath, fileName);
-    documents[themePath] = document(themePath, renderThemeJson(theme), "json");
+    documents[joinPaths(outputPath, fileName)] = createDoc(
+      fileName,
+      renderThemeJson(theme),
+      "json"
+    );
     themeMeta.push({
       name: theme.name,
       displayName: themeDisplayName(theme),
@@ -190,14 +205,16 @@ export function generateShikiTheme(
     });
   }
 
-  const installBody =
+  const installPath = "INSTALL.md";
+  documents[joinPaths(outputPath, installPath)] = createDoc(
+    installPath,
     options.installGuide ??
-    renderInstallMd({
-      themes: themeMeta,
-      title: resolveSchemaIdentity(spec).title
-    });
-  const installPath = join(outputPath, "INSTALL.md");
-  documents[installPath] = document(installPath, installBody, "markdown");
+      renderInstallMd({
+        themes: themeMeta,
+        title: resolveSchemaIdentity(spec).title
+      }),
+    "markdown"
+  );
 
   return documents;
 }

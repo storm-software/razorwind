@@ -141,3 +141,47 @@ export const TYPE_PATH_HINTS: Record<string, string> = {
   easing: "cubicBezier",
   ease: "cubicBezier"
 };
+
+/**
+ * Non-DTCG `$type` aliases rewritten to canonical types during normalize.
+ * Distinct from {@link TYPE_PATH_HINTS}: path hints must not remap valid DTCG
+ * types such as `border` or `transition`.
+ */
+export const TYPE_ALIASES: Record<string, string> = {
+  size: "dimension",
+  sizes: "dimension",
+  sizing: "dimension",
+  space: "dimension",
+  spacing: "dimension",
+  radii: "dimension",
+  rounded: "dimension",
+  colour: "color",
+  colours: "color",
+  colors: "color",
+  fontweight: "fontWeight",
+  "font-weight": "fontWeight",
+  fontfamily: "fontFamily",
+  "font-family": "fontFamily",
+  typeface: "fontFamily",
+  cubicbezier: "cubicBezier",
+  easing: "cubicBezier",
+  ease: "cubicBezier",
+  opacities: "number",
+  zindex: "number",
+  "z-index": "number",
+  lineheight: "number",
+  "line-height": "number",
+  letterspacing: "dimension",
+  "letter-spacing": "dimension",
+  shadows: "shadow",
+  elevation: "shadow",
+  gradients: "gradient",
+  durations: "duration",
+  time: "duration",
+  delay: "duration"
+};
+
+/** Map a token `$type` alias onto its canonical DTCG type. */
+export function canonicalizeTokenType(type: string): string {
+  return TYPE_ALIASES[type.toLowerCase()] ?? type;
+}
