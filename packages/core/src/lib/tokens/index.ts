@@ -41,12 +41,14 @@ export {
 } from "./load";
 export {
   RAZORWIND_INFER_PREPROCESSOR,
+  getExtractionHooks,
   getRazorwindParserHooks,
   getRazorwindPreprocessorHooks,
   razorwindInferPreprocessor,
   TOKEN_PARSER_NAMES as razorwindParsers,
   registerRazorwindHooks,
   registerRazorwindParsers,
+  type ExtractionHooks,
   type StyleDictionaryRegisterTarget
 } from "./parsers";
 export {

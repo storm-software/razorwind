@@ -23,13 +23,13 @@ import type {
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
 import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import { defu } from "defu";
-import StyleDictionary from "style-dictionary";
+import type StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
 import { loadComponents } from "./lib/components";
 import { loadIcons } from "./lib/icons";
 import { resolveSchemaMeta } from "./lib/meta";
 import { resolveConfig } from "./lib/resolve-config";
-import { loadTokens, registerRazorwindHooks } from "./lib/tokens";
+import { loadTokens } from "./lib/tokens";
 import type { Schema, Tokens } from "./schema";
 import { schema } from "./schema";
 import type { Config, Options } from "./types/config";
@@ -71,8 +71,6 @@ export const generator = defineGenerator<Schema, Options, any>({
       );
     }
 
-    registerRazorwindHooks(context.options.plugins, StyleDictionary);
-
     let tokens: Tokens | Record<string, Tokens> | undefined =
       context.options.tokens;
     if (!tokens || isEmptyObject(tokens)) {
@@ -88,10 +86,7 @@ export const generator = defineGenerator<Schema, Options, any>({
         context.options.components ?? {},
         (await loadComponents(context)) ?? {}
       ),
-      icons: defu(
-        context.options.icons ?? {},
-        (await loadIcons(context)) ?? {}
-      )
+      icons: defu(context.options.icons ?? {}, (await loadIcons(context)) ?? {})
     };
 
     for (const plugin of context.options.plugins.filter(

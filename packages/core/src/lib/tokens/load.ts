@@ -23,19 +23,38 @@ import { importModule } from "@stryke/fs/resolve";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import fg from "fast-glob";
 import { basename } from "node:path";
-import StyleDictionary from "style-dictionary";
+import StyleDictionaryModule from "style-dictionary";
 import type { Config as StyleDictionaryConfig } from "style-dictionary/types";
 import type { Schema } from "../../schema";
 import type { Config } from "../../types/config";
-import { TOKEN_PARSER_NAMES } from "./constants";
-import {
-  getRazorwindParserHooks,
-  getRazorwindPreprocessorHooks,
-  RAZORWIND_INFER_PREPROCESSOR,
-  registerRazorwindHooks
-} from "./parsers";
+import { getExtractionHooks } from "./parsers";
 import type { ResolveTokensPathOptions } from "./resolve-path";
 import { resolveTokensSource, themeKeyFromPath } from "./resolve-path";
+
+type StyleDictionaryCtor = typeof StyleDictionaryModule;
+
+function resolveStyleDictionaryCtor(mod: unknown): StyleDictionaryCtor {
+  let current: unknown = mod;
+  const seen = new Set<unknown>();
+
+  while (current != null && !seen.has(current)) {
+    seen.add(current);
+    if (typeof current === "function") {
+      return current as StyleDictionaryCtor;
+    }
+    if (typeof current === "object" && "default" in current) {
+      current = current.default;
+      continue;
+    }
+    break;
+  }
+
+  throw new TypeError(
+    "style-dictionary did not export a constructable StyleDictionary class."
+  );
+}
+
+const StyleDictionary = resolveStyleDictionaryCtor(StyleDictionaryModule);
 
 export interface LoadTokensOptions extends ResolveTokensPathOptions {
   /**
@@ -47,10 +66,6 @@ export interface LoadTokensOptions extends ResolveTokensPathOptions {
 }
 
 export type LoadedTokens = Tokens | Record<string, Tokens>;
-
-function ensureHooksRegistered(config: Config): void {
-  registerRazorwindHooks(config.plugins, StyleDictionary);
-}
 
 function isEmptyTokens(tokens: unknown): boolean {
   if (!tokens || typeof tokens !== "object") {
@@ -81,24 +96,27 @@ async function loadStyleDictionaryConfig(
 async function createDictionary(
   config: Config,
   styleDictionaryConfig: StyleDictionaryConfig
-): Promise<StyleDictionary> {
-  ensureHooksRegistered(config);
+): Promise<StyleDictionaryModule> {
+  const extraction = getExtractionHooks(config.plugins);
 
   const sd = new StyleDictionary({
     ...styleDictionaryConfig,
-    parsers: [...TOKEN_PARSER_NAMES, ...(styleDictionaryConfig.parsers ?? [])],
+    parsers: [
+      ...extraction.parserNames,
+      ...(styleDictionaryConfig.parsers ?? [])
+    ],
     preprocessors: [
-      RAZORWIND_INFER_PREPROCESSOR,
+      ...extraction.preprocessorNames,
       ...(styleDictionaryConfig.preprocessors ?? [])
     ],
     hooks: {
       ...styleDictionaryConfig.hooks,
       parsers: {
-        ...getRazorwindParserHooks(),
+        ...extraction.parsers,
         ...styleDictionaryConfig.hooks?.parsers
       },
       preprocessors: {
-        ...getRazorwindPreprocessorHooks(),
+        ...extraction.preprocessors,
         ...styleDictionaryConfig.hooks?.preprocessors
       }
     },

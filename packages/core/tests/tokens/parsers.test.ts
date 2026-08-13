@@ -19,12 +19,18 @@
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import type { PreprocessedTokens } from "style-dictionary/types";
 import { afterEach, describe, expect, it } from "vitest";
 import type { Config } from "../../src/types/config";
 import { parseCssCustomProperties } from "../../src/lib/tokens/css";
 import { inferValue, normalizeTokenTree } from "../../src/lib/tokens/infer";
 import { loadTokens } from "../../src/lib/tokens/load";
-import { TOKEN_PARSERS } from "../../src/lib/tokens/parsers";
+import {
+  getExtractionHooks,
+  registerRazorwindHooks,
+  TOKEN_PARSERS,
+  type StyleDictionaryRegisterTarget
+} from "../../src/lib/tokens/parsers";
 import { resolveTokensSource } from "../../src/lib/tokens/resolve-path";
 
 const tempDirs: string[] = [];
@@ -55,6 +61,16 @@ function testConfig(cwd: string): Config {
       home: ""
     }
   };
+}
+
+function testContext(cwd: string, overrides: Partial<Config> = {}) {
+  return {
+    cwd,
+    options: {
+      ...testConfig(cwd),
+      ...overrides
+    }
+  } as Parameters<typeof loadTokens>[0];
 }
 
 describe("inferValue", () => {
@@ -174,6 +190,67 @@ color:
   });
 });
 
+describe("getExtractionHooks", () => {
+  it("includes built-in parsers and plugin parser names", () => {
+    const hooks = getExtractionHooks([
+      {
+        name: "custom",
+        parsers: [
+          {
+            name: "custom-foo",
+            pattern: /\.foo$/i,
+            parser: (contents: string) => JSON.parse(contents)
+          }
+        ],
+        preprocessors: [
+          (dictionary: PreprocessedTokens) => dictionary
+        ]
+      }
+    ]);
+
+    expect(hooks.parserNames).toEqual([
+      "razorwind-json",
+      "razorwind-yaml",
+      "razorwind-toml",
+      "razorwind-css",
+      "custom-foo"
+    ]);
+    expect(hooks.parsers["custom-foo"]).toBeDefined();
+    expect(hooks.preprocessorNames).toEqual([
+      "razorwind-infer",
+      "custom-preprocessor-0"
+    ]);
+  });
+});
+
+describe("registerRazorwindHooks", () => {
+  it("does not throw when the target has no registerParser", () => {
+    expect(() =>
+      registerRazorwindHooks([], {} as StyleDictionaryRegisterTarget)
+    ).not.toThrow();
+    expect(() =>
+      registerRazorwindHooks([], { default: class {} } as never)
+    ).not.toThrow();
+  });
+
+  it("registers parsers when registerParser is present", () => {
+    const registered: string[] = [];
+    registerRazorwindHooks([], {
+      registerParser: parser => {
+        registered.push(parser.name);
+      },
+      registerPreprocessor: () => undefined
+    });
+
+    expect(registered).toEqual([
+      "razorwind-json",
+      "razorwind-yaml",
+      "razorwind-toml",
+      "razorwind-css"
+    ]);
+  });
+});
+
 describe("resolveTokensSource + loadTokens", () => {
   it("resolves explicit tokensPath file", async () => {
     const dir = await makeTempDir();
@@ -190,10 +267,31 @@ describe("resolveTokensSource + loadTokens", () => {
     expect(resolved.origin).toBe("tokensPath");
     expect(resolved.source).toEqual([file]);
 
-    const tokens = await loadTokens(testConfig(dir), {
-      cwd: dir,
-      tokensPath: file
+    const tokens = await loadTokens(testContext(dir, { tokensPath: file }));
+    expect(tokens).toMatchObject({
+      color: {
+        accent: {
+          $type: "color",
+          $value: { hex: "#abcdef" }
+        }
+      }
     });
+  });
+
+  it("loads yaml tokens through Style Dictionary", async () => {
+    const dir = await makeTempDir();
+    const file = join(dir, "tokens.yaml");
+    await writeFile(
+      file,
+      `
+color:
+  accent:
+    value: "#abcdef"
+`,
+      "utf8"
+    );
+
+    const tokens = await loadTokens(testContext(dir, { tokensPath: file }));
     expect(tokens).toMatchObject({
       color: {
         accent: {
@@ -245,7 +343,7 @@ describe("resolveTokensSource + loadTokens", () => {
     const resolved = resolveTokensSource({ cwd: dir });
     expect(resolved.origin).toBe("default");
 
-    const tokens = await loadTokens(testConfig(dir), { cwd: dir });
+    const tokens = await loadTokens(testContext(dir));
     expect(tokens).toMatchObject({
       spacing: {
         md: {
@@ -256,7 +354,7 @@ describe("resolveTokensSource + loadTokens", () => {
     });
   });
 
-  it("falls back to CSS custom properties", async () => {
+  it("loads CSS custom properties through Style Dictionary", async () => {
     const dir = await makeTempDir();
     const cssPath = join(dir, "globals.css");
     await writeFile(
@@ -265,10 +363,7 @@ describe("resolveTokensSource + loadTokens", () => {
       "utf8"
     );
 
-    const tokens = await loadTokens(testConfig(dir), {
-      cwd: dir,
-      fallbackPaths: [cssPath]
-    });
+    const tokens = await loadTokens(testContext(dir, { tokensPath: cssPath }));
 
     expect(tokens).toMatchObject({
       color: {
@@ -292,10 +387,7 @@ describe("resolveTokensSource + loadTokens", () => {
       "utf8"
     );
 
-    const tokens = await loadTokens(testConfig(dir), {
-      cwd: dir,
-      tokensPath: tokensDir
-    });
+    const tokens = await loadTokens(testContext(dir, { tokensPath: tokensDir }));
     expect(tokens).toMatchObject({
       color: {
         brand: {

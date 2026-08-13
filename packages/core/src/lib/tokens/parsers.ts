@@ -37,11 +37,19 @@ export const RAZORWIND_INFER_PREPROCESSOR = "razorwind-infer";
 
 /** Target capable of registering Style Dictionary extraction hooks. */
 export interface StyleDictionaryRegisterTarget {
-  registerParser: (parser: Parser) => unknown;
-  registerPreprocessor: (preprocessor: {
+  registerParser?: (parser: Parser) => unknown;
+  registerPreprocessor?: (preprocessor: {
     name: string;
-    preprocessor: typeof razorwindInferPreprocessor;
+    preprocessor: NonNullable<Hooks["preprocessors"]>[string];
   }) => unknown;
+}
+
+/** Inline Style Dictionary v5 extraction hooks plus the names that apply them. */
+export interface ExtractionHooks {
+  parsers: NonNullable<Hooks["parsers"]>;
+  preprocessors: NonNullable<Hooks["preprocessors"]>;
+  parserNames: string[];
+  preprocessorNames: string[];
 }
 
 function asDesignTokens(data: unknown): DesignTokens {
@@ -142,8 +150,63 @@ export function getRazorwindPreprocessorHooks(): NonNullable<
 }
 
 /**
+ * Collect Razorwind + plugin parsers/preprocessors for Style Dictionary v5
+ * inline `hooks` (and the name lists that apply them).
+ *
+ * @see https://styledictionary.com/reference/hooks/parsers/
+ */
+export function getExtractionHooks(plugins: Plugin[] = []): ExtractionHooks {
+  const parsers: NonNullable<Hooks["parsers"]> = {
+    ...getRazorwindParserHooks()
+  };
+  const preprocessors: NonNullable<Hooks["preprocessors"]> = {
+    ...getRazorwindPreprocessorHooks()
+  };
+  const parserNames: string[] = [...TOKEN_PARSER_NAMES];
+  const preprocessorNames: string[] = [RAZORWIND_INFER_PREPROCESSOR];
+
+  let parserIndex = 0;
+  let preprocessorIndex = 0;
+
+  for (const plugin of plugins) {
+    for (const parser of plugin.parsers ?? []) {
+      const name = parser.name ?? `${plugin.name}-parser-${parserIndex}`;
+      parsers[name] = {
+        pattern: parser.pattern,
+        parser: ({ contents }) => parser.parser(contents)
+      };
+      parserNames.push(name);
+      parserIndex++;
+    }
+
+    for (const preprocessor of plugin.preprocessors ?? []) {
+      const named = isFunction(preprocessor)
+        ? {
+            name: `${plugin.name}-preprocessor-${preprocessorIndex}`,
+            preprocessor
+          }
+        : {
+            name:
+              preprocessor.name ??
+              `${plugin.name}-preprocessor-${preprocessorIndex}`,
+            preprocessor: preprocessor.preprocessor
+          };
+      preprocessors[named.name] = named.preprocessor;
+      preprocessorNames.push(named.name);
+      preprocessorIndex++;
+    }
+  }
+
+  return { parsers, preprocessors, parserNames, preprocessorNames };
+}
+
+/**
  * Register Razorwind parsers + infer preprocessor on Style Dictionary,
  * then register any extraction hooks contributed by plugins.
+ *
+ * When `target.registerParser` is missing (CJS/ESM interop or bundled
+ * statics), registration is skipped — callers should apply
+ * {@link getExtractionHooks} inline on the Style Dictionary config.
  *
  * Platform generation hooks (transforms, formats, …) are registered by
  * `@razorwind/style-dictionary` during generate.
@@ -153,45 +216,22 @@ export function getRazorwindPreprocessorHooks(): NonNullable<
 export function registerRazorwindHooks(
   plugins: Plugin[] = [],
   target: StyleDictionaryRegisterTarget = StyleDictionary
-) {
-  for (const parser of TOKEN_PARSERS) {
-    target.registerParser(parser);
-  }
-  target.registerPreprocessor({
-    name: RAZORWIND_INFER_PREPROCESSOR,
-    preprocessor: razorwindInferPreprocessor
-  });
+): ExtractionHooks {
+  const hooks = getExtractionHooks(plugins);
 
-  let parserIndex = 0;
-  let preprocessorIndex = 0;
-
-  for (const plugin of plugins) {
-    for (const parser of plugin.parsers ?? []) {
-      target.registerParser({
-        name: parser.name ?? `${plugin.name}-parser-${parserIndex}`,
-        pattern: parser.pattern,
-        parser: ({ contents }) => parser.parser(contents)
-      });
-      parserIndex++;
-    }
-
-    for (const preprocessor of plugin.preprocessors ?? []) {
-      target.registerPreprocessor(
-        isFunction(preprocessor)
-          ? {
-              name: `${plugin.name}-preprocessor-${preprocessorIndex}`,
-              preprocessor
-            }
-          : {
-              name:
-                preprocessor.name ??
-                `${plugin.name}-preprocessor-${preprocessorIndex}`,
-              preprocessor: preprocessor.preprocessor
-            }
-      );
-      preprocessorIndex++;
+  if (typeof target.registerParser === "function") {
+    for (const [name, parser] of Object.entries(hooks.parsers)) {
+      target.registerParser({ name, ...parser });
     }
   }
+
+  if (typeof target.registerPreprocessor === "function") {
+    for (const [name, preprocessor] of Object.entries(hooks.preprocessors)) {
+      target.registerPreprocessor({ name, preprocessor });
+    }
+  }
+
+  return hooks;
 }
 
 /**
