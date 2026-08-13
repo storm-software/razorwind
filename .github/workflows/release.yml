@@ -22,7 +22,7 @@ env:
 
 jobs:
   start:
-    name: "Send in process notification"
+    name: "Send in release notification"
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -39,7 +39,7 @@ jobs:
           subtitle: "Deployment for ${{ github.repository }} has started - #${{
             github.run_number }}"
           description:
-            "Deployment for ${{ github.repository }} is currently in process -
+            "Deployment for ${{ github.repository }} is currently in release -
             #${{ github.run_number }}. Click here to view the changes associated
             with this deployment: ${{ github.event.pull_request.html_url ||
             github.event.head_commit.url }} "
@@ -50,7 +50,7 @@ jobs:
           telegram-chat: ${{ secrets.STORM_BOT_TELEGRAM_NOTIFICATION_CHAT }}
           discord-webhook: ${{ secrets.STORM_BOT_DISCORD_WEBHOOK}}
 
-  process:
+  release:
     name: "Release"
     if: always() && !cancelled() && !contains(needs.*.result, 'failure') &&
       github.event.pull_request.draft == false
@@ -89,7 +89,7 @@ jobs:
 
   success:
     needs:
-      - process
+      - release
     if: ${{ success() }}
     name: Send success notification
     runs-on: ubuntu-latest
@@ -117,7 +117,7 @@ jobs:
 
   failure:
     needs:
-      - process
+      - release
     if: ${{ failure() }}
     name: Send failure notification
     runs-on: ubuntu-latest
@@ -144,7 +144,7 @@ jobs:
 
   cancelled:
     needs:
-      - process
+      - release
     if: ${{ cancelled() }}
     name: Send cancelled notification
     runs-on: ubuntu-latest
