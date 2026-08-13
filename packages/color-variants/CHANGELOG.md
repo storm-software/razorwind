@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Color Variants
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.24) (08/13/2026)
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.23) (08/13/2026)
 
 ### Updated Dependencies

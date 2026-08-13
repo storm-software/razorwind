@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/core%400.0.47) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolved issue applying `verbose` option ([9475762](https://github.com/storm-software/razorwind/commit/9475762))
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
 ## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/core%400.0.46) (08/13/2026)
 
 ### Miscellaneous

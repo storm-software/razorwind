@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.33](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.33) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolved issue applying `verbose` option ([9475762](https://github.com/storm-software/razorwind/commit/9475762))
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+
 ## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.32) (08/13/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.30](https://github.com/storm-software/razorwind/releases/tag/css%400.0.30) (08/13/2026)
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+- Updated **style-dictionary** to **v0.0.33**
+
 ## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/css%400.0.29) (08/13/2026)
 
 ### Miscellaneous

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.35) (08/13/2026)
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+
 ## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.34) (08/13/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shiki
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.21) (08/13/2026)
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+
 ## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.20) (08/13/2026)
 
 ### Updated Dependencies

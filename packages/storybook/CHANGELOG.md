@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.44) (08/13/2026)
+
+### Features
+
+- **core:** Added `fonts` to the schema ([90deca2](https://github.com/storm-software/razorwind/commit/90deca2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.47**
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.43) (08/13/2026)
 
 ### Updated Dependencies
