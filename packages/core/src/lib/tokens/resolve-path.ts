@@ -109,11 +109,43 @@ function normalizeTokensPaths(
   return isSetString(tokensPath) ? [tokensPath] : [];
 }
 
+const GLOB_METACHAR_PATTERN = /[*?[\]{}]/;
+
+function isGlobPattern(target: string): boolean {
+  return GLOB_METACHAR_PATTERN.test(target);
+}
+
+function globStaticPrefix(globPath: string): string | undefined {
+  const index = globPath.search(/[*?[{]/);
+  if (index <= 0) {
+    return undefined;
+  }
+
+  const prefix = globPath.slice(0, index).replace(/[/\\]+$/, "");
+
+  return prefix.length > 0 ? prefix : undefined;
+}
+
 function resolveSingleTokensPath(
   cwd: string,
   tokensPath: string
 ): ResolvedSingleTokensPath {
   const absolute = toAbsolute(cwd, tokensPath);
+
+  if (isGlobPattern(tokensPath)) {
+    const staticPrefix = globStaticPrefix(absolute);
+    if (staticPrefix && !existsSync(staticPrefix)) {
+      throw new Error(
+        `tokensPath "${tokensPath}" does not exist (resolved: ${absolute}).`
+      );
+    }
+
+    return {
+      resolvedPath: absolute,
+      source: [absolute],
+      isStyleDictionaryConfig: false
+    };
+  }
 
   if (!existsSync(absolute)) {
     throw new Error(

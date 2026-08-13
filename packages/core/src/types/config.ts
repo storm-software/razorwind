@@ -27,7 +27,7 @@ export interface Options {
   /**
    * The directory or file containing a Razorwind configuration file.
    *
-   * @reamarks
+   * @remarks
    * If not provided, the application will look for a configuration file in the following order:
    * - `razorwind.config.ts`
    * - `razorwind.config.js`
@@ -56,7 +56,10 @@ export interface Options {
   iconsPath?: string | string[];
 
   /**
-   * The directory(ies) or file(s) containing the tokens.
+   * Token source path(s): file, directory, Style Dictionary config, or glob.
+   *
+   * Directories are expanded to `**\/*.{json,yaml,...}`. Globs (e.g.
+   * `src/tokens/**\/*.json`) are passed through to Style Dictionary as-is.
    *
    * @see https://styledictionary.com/info/tokens/
    *

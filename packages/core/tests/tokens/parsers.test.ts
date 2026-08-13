@@ -397,4 +397,38 @@ color:
       }
     });
   });
+
+  it("resolves explicit tokensPath glob", async () => {
+    const dir = await makeTempDir();
+    const tokensDir = join(dir, "packages", "theme", "src", "tokens");
+    await mkdir(tokensDir, { recursive: true });
+    await writeFile(
+      join(tokensDir, "light.tokens.json"),
+      JSON.stringify({
+        color: { primary: { value: "#111111" } }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      join(tokensDir, "dark.tokens.json"),
+      JSON.stringify({
+        color: { primary: { value: "#eeeeee" } }
+      }),
+      "utf8"
+    );
+
+    const globPath = "packages/theme/src/tokens/**/*.json";
+    const resolved = resolveTokensSource({ cwd: dir, tokensPath: globPath });
+    expect(resolved.origin).toBe("tokensPath");
+    expect(resolved.source).toEqual([join(dir, globPath)]);
+
+    const tokens = await loadTokens(testContext(dir, { tokensPath: globPath }));
+    expect(tokens).toMatchObject({
+      color: {
+        primary: {
+          $type: "color"
+        }
+      }
+    });
+  });
 });
