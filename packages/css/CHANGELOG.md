@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/css%400.0.29) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Added a playground package to monorepo ([13fd65f](https://github.com/storm-software/razorwind/commit/13fd65f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.46**
+- Updated **style-dictionary** to **v0.0.32**
+
 ## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/css%400.0.28) (08/13/2026)
 
 ### Updated Dependencies

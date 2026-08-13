@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/ghostty",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "type": "module",
   "description": "Razorwind plugin that generates Ghostty terminal themes from design tokens.",
   "repository": {

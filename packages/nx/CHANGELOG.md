@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.41) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Added a playground package to monorepo ([13fd65f](https://github.com/storm-software/razorwind/commit/13fd65f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.46**
+
 ## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.40) (08/13/2026)
 
 ### Features

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/core%400.0.46) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Added a playground package to monorepo ([13fd65f](https://github.com/storm-software/razorwind/commit/13fd65f))
+
 ## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/core%400.0.45) (08/13/2026)
 
 ### Features
