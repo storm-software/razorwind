@@ -2,6 +2,7 @@ packages:
   - tools/*
   - packages/*
   - docs/*
+  - playground/*
 catalog:
   "@ls-lint/ls-lint": ^2.3.1
   "@nx/devkit": 23.1.0

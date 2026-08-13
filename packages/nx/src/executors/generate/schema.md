@@ -33,3 +33,11 @@ The path to a directory containing component directories or files, or an array o
 The path to the tokens.json file, or an array of paths
 
 
+## `verbose`
+- **Type**: `boolean`
+- **Default**: `false`
+
+
+Enable Style Dictionary verbose logging (`log.verbosity: "verbose"`)
+
+

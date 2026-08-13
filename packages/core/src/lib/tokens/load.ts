@@ -68,7 +68,7 @@ export interface LoadTokensOptions extends ResolveTokensPathOptions {
 
 export type LoadedTokens = Tokens | Record<string, Tokens>;
 
-function isEmptyTokens(tokens: unknown): boolean {
+export function isEmptyTokens(tokens: unknown): boolean {
   if (!tokens || typeof tokens !== "object") {
     return true;
   }

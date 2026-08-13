@@ -16,9 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./components";
-export * from "./icons";
-export * from "./meta";
-export * from "./resolve-config";
-export * from "./tokens";
-export * from "./write-documents";
+import { execute } from "@power-plant/core";
+import { generator } from "@razorwind/core";
+import { dirname } from "node:path";
+import { chdir } from "node:process";
+import { fileURLToPath } from "node:url";
+
+const cwd = dirname(fileURLToPath(import.meta.url));
+chdir(cwd);
+const development =
+  process.argv.includes("--development") ||
+  process.env.NX_TASK_TARGET_CONFIGURATION === "development";
+
+await execute(generator, {
+  configFile: "razorwind.config.ts",
+  tokensPath: "tokens.json",
+  mode: development ? "development" : "production",
+  verbose: process.argv.includes("--verbose")
+});

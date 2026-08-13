@@ -19,7 +19,7 @@
 import { useExecution } from "@power-plant/core";
 import type { Tokens } from "@power-plant/dtcg-schema";
 import { definePlugin } from "@razorwind/core/plugin";
-import { nestFlatTokens } from "@razorwind/core/tokens";
+import { nestFlatTokens } from "@razorwind/core/lib/tokens";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
 import { appendPath } from "@stryke/path/append";

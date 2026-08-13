@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "noEmit": true,
+    "rootDir": ".",
+    "resolveJsonModule": true
+  },
+  "include": ["razorwind.config.ts", "generate.mjs", "tokens.json"],
+  "exclude": ["generated", "out-tsc"],
+  "references": [
+    {
+      "path": "../../packages/tailwindcss"
+    },
+    {
+      "path": "../../packages/style-dictionary"
+    },
+    {
+      "path": "../../packages/storybook"
+    },
+    {
+      "path": "../../packages/shiki"
+    },
+    {
+      "path": "../../packages/docgen"
+    },
+    {
+      "path": "../../packages/design-md"
+    },
+    {
+      "path": "../../packages/css"
+    },
+    {
+      "path": "../../packages/core"
+    }
+  ]
+}

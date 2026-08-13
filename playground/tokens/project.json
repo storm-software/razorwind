@@ -1,0 +1,43 @@
+{
+  "name": "playground-tokens",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "playground/tokens",
+  "targets": {
+    "generate": {
+      "cache": false,
+      "inputs": [
+        "{projectRoot}/razorwind.config.ts",
+        "{projectRoot}/tokens.json",
+        "{projectRoot}/generate.mjs"
+      ],
+      "outputs": ["{projectRoot}/generated"],
+      "dependsOn": ["^build"],
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "production",
+      "options": {
+        "command": "node ./generate.mjs",
+        "cwd": "{projectRoot}"
+      },
+      "configurations": {
+        "production": {
+          "command": "node ./generate.mjs"
+        },
+        "development": {
+          "command": "node ./generate.mjs --development"
+        }
+      }
+    }
+  },
+  "implicitDependencies": [
+    "core",
+    "css",
+    "design-md",
+    "docgen",
+    "shiki",
+    "storybook",
+    "style-dictionary",
+    "tailwindcss"
+  ],
+  "tags": ["type:playground", "platform:node"]
+}

@@ -28,7 +28,8 @@ export default definePlugin(
           transformGroup: "css",
           files: [
             {
-              destination: options?.outputPath || "src/styles.css"
+              destination: options?.outputPath || "src/styles.css",
+              format: "css/variables"
             }
           ]
         }

@@ -28,12 +28,34 @@ import { defu } from "defu";
 import { createJiti } from "jiti";
 import { existsSync } from "node:fs";
 import os from "node:os";
+import { isAbsolute, resolve } from "node:path";
 import type {
   Config,
   Options,
   UserConfig,
   UserConfigExport
 } from "../types/config";
+import type { Plugin } from "../types/plugin";
+
+/**
+ * Keep the first plugin for each {@link Plugin.name}.
+ *
+ * `defu` concatenates plugin arrays when the same config is loaded via jiti
+ * and c12, which would otherwise run every generator twice.
+ */
+export function uniquePlugins(plugins: Plugin[]): Plugin[] {
+  const seen = new Set<string>();
+  return plugins.filter(plugin => {
+    if (!plugin?.name) {
+      return true;
+    }
+    if (seen.has(plugin.name)) {
+      return false;
+    }
+    seen.add(plugin.name);
+    return true;
+  });
+}
 
 const homeDir = os.homedir();
 
@@ -141,9 +163,12 @@ export async function resolveConfig(
 
   let resolvedConfig: Partial<UserConfig> = {};
   if (resolvedFilePath) {
-    const resolved = await jiti.import<UserConfig>(
-      resolvedFilePath, { default: true }
-    );
+    const configModulePath = isAbsolute(resolvedFilePath)
+      ? resolvedFilePath
+      : resolve(cwd, resolvedFilePath);
+    const resolved = await jiti.import<UserConfig>(configModulePath, {
+      default: true
+    });
     if (resolved) {
       let config = {};
       if (isFunction(resolved)) {
@@ -192,6 +217,29 @@ export async function resolveConfig(
     })
   ]);
 
+  const workspaceLayer: Record<string, unknown> = isSetObject(
+    workspaceConfig?.config
+  )
+    ? { ...workspaceConfig.config }
+    : {};
+  const loadedConfigPath = resolvedFilePath
+    ? isAbsolute(resolvedFilePath)
+      ? resolvedFilePath
+      : resolve(cwd, resolvedFilePath)
+    : undefined;
+  const workspaceConfigFile =
+    typeof (workspaceConfig as { configFile?: unknown } | undefined)
+      ?.configFile === "string"
+      ? (workspaceConfig as { configFile: string }).configFile
+      : undefined;
+  if (
+    loadedConfigPath &&
+    workspaceConfigFile &&
+    resolve(cwd, workspaceConfigFile) === loadedConfigPath
+  ) {
+    delete workspaceLayer.plugins;
+  }
+
   const config = defu(
     {
       cwd,
@@ -202,7 +250,7 @@ export async function resolveConfig(
     },
     options,
     resolvedConfig,
-    isSetObject(workspaceConfig?.config) ? { ...workspaceConfig.config } : {},
+    workspaceLayer,
     isSetObject(environmentConfig?.config)
       ? { ...environmentConfig.config }
       : {},
@@ -237,9 +285,10 @@ export async function resolveConfig(
     config.iconsPath = joinPaths(cwd, "assets/icons");
   }
 
-  if (!Array.isArray(config.plugins)) {
-    config.plugins = [];
-  }
+  const plugins = uniquePlugins(
+    Array.isArray(config.plugins) ? (config.plugins as Plugin[]) : []
+  );
+  (config as Config).plugins = plugins;
 
-  return config;
+  return config as Config;
 }

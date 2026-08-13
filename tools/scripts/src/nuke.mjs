@@ -71,6 +71,17 @@ try {
     );
   }
 
+  proc = $`rm -rf ./playground/*/node_modules`.timeout(`${5 * 60}s`);
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `An error occurred while removing node modules from the monorepo's playground packages: \n\n${result.message}\n`
+    );
+  }
+
   proc = $`rm -rf ./tools/*/node_modules`.timeout(`${5 * 60}s`);
   proc.stdout.on("data", data => {
     echo`${data}`;

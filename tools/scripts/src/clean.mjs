@@ -48,7 +48,7 @@ try {
   }
 
   proc =
-    $`rm -rf ./playground/*/dist ./playground/*/playground ./playground/*/out-tsc ./playground/*/.powerlines ./playground/*/powerlines.d.ts ./playground/*/.shell-shock ./playground/*/shell-shock.d.ts ./packages/*/dist ./packages/*/packages ./packages/*/out-tsc ./tools/*/dist ./tools/*/out-tsc`.timeout(
+    $`rm -rf ./playground/*/dist ./playground/*/playground ./playground/*/generated ./playground/*/out-tsc ./playground/*/.powerlines ./playground/*/powerlines.d.ts ./playground/*/.shell-shock ./playground/*/shell-shock.d.ts ./packages/*/dist ./packages/*/packages ./packages/*/out-tsc ./tools/*/dist ./tools/*/out-tsc`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {

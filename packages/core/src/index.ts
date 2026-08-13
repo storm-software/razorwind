@@ -21,7 +21,6 @@ import type {
   GeneratorFunctionResult
 } from "@power-plant/core";
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
-import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
 import { defu } from "defu";
 import type StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
@@ -29,7 +28,8 @@ import { loadComponents } from "./lib/components";
 import { loadIcons } from "./lib/icons";
 import { resolveSchemaMeta } from "./lib/meta";
 import { resolveConfig } from "./lib/resolve-config";
-import { loadTokens } from "./lib/tokens";
+import { isEmptyTokens, loadTokens } from "./lib/tokens";
+import { writeGeneratedDocuments } from "./lib/write-documents";
 import type { Schema, Tokens } from "./schema";
 import { schema } from "./schema";
 import type { Config, Options } from "./types/config";
@@ -73,7 +73,7 @@ export const generator = defineGenerator<Schema, Options, any>({
 
     let tokens: Tokens | Record<string, Tokens> | undefined =
       context.options.tokens;
-    if (!tokens || isEmptyObject(tokens)) {
+    if (!tokens || isEmptyTokens(tokens)) {
       tokens = await loadTokens(context);
     }
 
@@ -95,7 +95,7 @@ export const generator = defineGenerator<Schema, Options, any>({
       spec = await plugin.extract!(spec, context.options);
     }
 
-    if (!spec.tokens || isEmptyObject(spec.tokens)) {
+    if (!spec.tokens || isEmptyTokens(spec.tokens)) {
       throw new Error(
         "Unable to load design tokens for the current workspace. Please ensure that Razorwind is configured correctly and that the tokens are available."
       );
@@ -108,6 +108,11 @@ export const generator = defineGenerator<Schema, Options, any>({
     }
 
     return spec;
+  },
+  output: async (_spec, _options, documents) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+    const context = useExecution<Schema, Config>();
+    await writeGeneratedDocuments(documents, context.cwd);
   },
   generator: async (
     spec
