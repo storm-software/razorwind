@@ -56,7 +56,7 @@ export default defineUntypedSchema({
       verbose: {
         type: "boolean",
         description:
-          "Enable Style Dictionary verbose logging (`log.verbosity: \"verbose\"`)",
+          'Enable Style Dictionary verbose logging (`log.verbosity: "verbose"`)',
         default: false
       }
     },

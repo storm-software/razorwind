@@ -1,0 +1,623 @@
+{
+  "color": {
+    "black": {
+      "$type": "color",
+      "$value": "#0C0C0D",
+      "$description": "A almost black color"
+    },
+    "white": {
+      "$type": "color",
+      "$value": "#FFFFFF",
+      "$description": "A completely white color"
+    },
+    "surface": {
+      "$description": "The surface color palette - used for background colors",
+      "1": {
+        "$type": "color",
+        "$value": "#1A1C1F",
+        "$description": "The lowest level surface of the palette - used for the background of the page"
+      },
+      "2": {
+        "$type": "color",
+        "$value": "#1C1E21",
+        "$description": "The second level surface of the palette"
+      },
+      "3": {
+        "$type": "color",
+        "$value": "#1E2023",
+        "$description": "The third level surface of the palette"
+      },
+      "4": {
+        "$type": "color",
+        "$value": "#202225",
+        "$description": "The fourth level surface of the palette"
+      },
+      "5": {
+        "$type": "color",
+        "$value": "#222427",
+        "$description": "The fifth level surface of the palette"
+      },
+      "6": {
+        "$type": "color",
+        "$value": "#242629",
+        "$description": "The sixth level surface of the palette"
+      }
+    },
+    "neutral": {
+      "$description": "The neutral color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#F4F4F4",
+        "$description": "A warm off-white gray color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#D8D9D9",
+        "$description": "A light cool gray color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#BDBEBF",
+        "$description": "A mid cool gray color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#A2A3A4",
+        "$description": "A dull charcoal gray color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#878889",
+        "$description": "A dark charcoal gray color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#6C6D6F",
+        "$description": "A near-black cool gray color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#505254",
+        "$description": "A deep slate gray color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#35373A",
+        "$description": "A very dark slate gray color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#1A1C1F",
+        "$description": "An almost-black cool gray color"
+      }
+    },
+    "brand": {
+      "$description": "The brand color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#B1F4C9",
+        "$description": "A pale mint brand teal color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#93F0BE",
+        "$description": "A light aqua brand teal color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#76ECB9",
+        "$description": "A soft seafoam brand teal color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#58E8B9",
+        "$description": "A muted turquoise brand teal color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#3BE4BE",
+        "$description": "A bright brand teal color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#36DEC0",
+        "$description": "A rich brand teal color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#2DC7B1",
+        "$description": "A deep brand teal color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#219D91",
+        "$description": "A dark brand teal color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#13605C",
+        "$description": "A very dark brand teal color"
+      }
+    },
+    "red": {
+      "$description": "The red color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#E3A7CA",
+        "$description": "A pale pinkish rose color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#D985AE",
+        "$description": "A light dusty rose color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#CF648D",
+        "$description": "A soft magenta-rose color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#C44367",
+        "$description": "A muted crimson rose color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#BA223C",
+        "$description": "A vivid crimson red color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#B61E32",
+        "$description": "A rich blood red color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#A31824",
+        "$description": "A deep brick red color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#811116",
+        "$description": "A dark burgundy red color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#4F0909",
+        "$description": "A very dark maroon red color"
+      }
+    },
+    "orange": {
+      "$description": "The orange color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#FAB3B9",
+        "$description": "A pale peachy pink color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#F89A97",
+        "$description": "A light coral orange color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#F68B7B",
+        "$description": "A soft salmon orange color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#F4825E",
+        "$description": "A muted warm orange color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#F27E42",
+        "$description": "A bright amber orange color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#EC803C",
+        "$description": "A rich tangerine orange color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#D37732",
+        "$description": "A deep burnt orange color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#A76225",
+        "$description": "A dark rust orange color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#663E15",
+        "$description": "A very dark brownish orange color"
+      }
+    },
+    "yellow": {
+      "$description": "The yellow color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#FAD5C7",
+        "$description": "A pale peach cream color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#F8CDB3",
+        "$description": "A light apricot cream color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#F7C99E",
+        "$description": "A soft sandy yellow color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#F5C889",
+        "$description": "A muted golden yellow color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#F3CC74",
+        "$description": "A bright warm gold color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#ECCB6D",
+        "$description": "A rich honey gold color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#D3B95F",
+        "$description": "A deep ochre yellow color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#A69548",
+        "$description": "A dark olive gold color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#655D2B",
+        "$description": "A very dark moss gold color"
+      }
+    },
+    "lime": {
+      "$description": "The lime color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#DADA9E",
+        "$description": "A pale chartreuse yellow-green color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#C4CC7A",
+        "$description": "A light yellow-green color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#A9BF56",
+        "$description": "A soft grassy lime color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#89B131",
+        "$description": "A muted leaf lime color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#65A30D",
+        "$description": "A vivid sap green color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#5BA00A",
+        "$description": "A rich forest lime color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#4B8F06",
+        "$description": "A deep olive green color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#367203",
+        "$description": "A dark moss green color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#1E4601",
+        "$description": "A very dark pine green color"
+      }
+    },
+    "green": {
+      "$description": "The green color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#B9E2B8",
+        "$description": "A pale mint green color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#9DD7A2",
+        "$description": "A light seafoam green color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#82CC90",
+        "$description": "A soft spring green color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#68C181",
+        "$description": "A muted jade green color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#4DB676",
+        "$description": "A medium emerald green color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#48B176",
+        "$description": "A rich emerald green color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#3E9E6C",
+        "$description": "A deep teal-green color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#2F7C57",
+        "$description": "A dark forest green color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#1C4C37",
+        "$description": "A very dark pine green color"
+      }
+    },
+    "teal": {
+      "$description": "The teal color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#B2EFC7",
+        "$description": "A pale mint teal color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#95EABA",
+        "$description": "A light aqua teal color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#78E4B3",
+        "$description": "A soft seafoam teal color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#5BDEB0",
+        "$description": "A muted turquoise teal color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#3ED8B2",
+        "$description": "A bright turquoise teal color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#39D3B3",
+        "$description": "A rich aqua teal color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#30BDA6",
+        "$description": "A deep teal green color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#239587",
+        "$description": "A dark sea teal color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#145B55",
+        "$description": "A very dark ocean teal color"
+      }
+    },
+    "cyan": {
+      "$description": "The cyan color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#B7FDE9",
+        "$description": "A pale icy cyan color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#9CFCEB",
+        "$description": "A light aqua cyan color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#81FBF2",
+        "$description": "A soft bright cyan color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#66F5FA",
+        "$description": "A muted sky cyan color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#4BE1F9",
+        "$description": "A bright electric cyan color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#45D4F3",
+        "$description": "A rich sky cyan color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#3AB6D9",
+        "$description": "A deep azure cyan color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#2B8AA9",
+        "$description": "A dark ocean cyan color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#195066",
+        "$description": "A very dark steel cyan color"
+      }
+    },
+    "blue": {
+      "$description": "The blue color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#A7FBF3",
+        "$description": "A pale icy aqua blue color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#87F9FA",
+        "$description": "A light sky aqua color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#66E8F8",
+        "$description": "A soft sky blue color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#45D1F7",
+        "$description": "A muted bright blue color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#24B3F5",
+        "$description": "A vivid azure blue color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#1FA5F0",
+        "$description": "A rich sky blue color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#188BD7",
+        "$description": "A deep cerulean blue color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#1066A9",
+        "$description": "A dark navy blue color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#083A66",
+        "$description": "A very dark midnight blue color"
+      }
+    },
+    "purple": {
+      "$description": "The purple color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#D0EBFC",
+        "$description": "A pale periwinkle blue color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#BEDDFB",
+        "$description": "A light lavender blue color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#ACCCFA",
+        "$description": "A soft periwinkle color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#9BB7F9",
+        "$description": "A muted soft indigo color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#899FF8",
+        "$description": "A bright periwinkle indigo color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#8293F1",
+        "$description": "A rich soft indigo color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#717DD6",
+        "$description": "A deep slate indigo color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#575DA8",
+        "$description": "A dark muted indigo color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#333566",
+        "$description": "A very dark navy indigo color"
+      }
+    },
+    "pink": {
+      "$description": "The pink color palette",
+      "100": {
+        "$type": "color",
+        "$value": "#EBC2F5",
+        "$description": "A pale lavender pink color"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#EBABF1",
+        "$description": "A light orchid pink color"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#ED95EC",
+        "$description": "A soft magenta pink color"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#EA7EDD",
+        "$description": "A muted bright pink color"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#E667CA",
+        "$description": "A vivid hot pink color"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#E061BE",
+        "$description": "A rich magenta pink color"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#C854A4",
+        "$description": "A deep fuchsia pink color"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#9D407D",
+        "$description": "A dark berry pink color"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#602549",
+        "$description": "A very dark plum pink color"
+      }
+    }
+  }
+}

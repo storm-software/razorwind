@@ -1,0 +1,38 @@
+{
+  "name": "@razorwind-playground/multi-themed",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Playground package with DTCG test tokens for running Razorwind generators.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "playground/multi-themed"
+  },
+  "homepage": "https://stormsoftware.com",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "exports": {
+    "./tokens/*.json": "./tokens/*.json",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@razorwind/css": "workspace:*",
+    "@razorwind/design-md": "workspace:*",
+    "@razorwind/docgen": "workspace:*",
+    "@razorwind/shiki": "workspace:*",
+    "@razorwind/storybook": "workspace:*",
+    "@razorwind/style-dictionary": "workspace:*",
+    "@razorwind/tailwindcss": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  }
+}

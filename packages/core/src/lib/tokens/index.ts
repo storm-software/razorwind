@@ -34,9 +34,9 @@ export {
   type InferredTokenType
 } from "./infer";
 export {
+  isEmptyTokens,
   loadTokens,
   loadTokensOrThrow,
-  isEmptyTokens,
   type LoadTokensOptions,
   type LoadedTokens
 } from "./load";

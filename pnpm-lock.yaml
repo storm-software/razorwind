@@ -1199,6 +1199,43 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  playground/multi-themed:
+    dependencies:
+      '@power-plant/core':
+        specifier: 'catalog:'
+        version: 0.0.90(@nx/jest@23.1.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@razorwind/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@razorwind/css':
+        specifier: workspace:*
+        version: link:../../packages/css
+      '@razorwind/design-md':
+        specifier: workspace:*
+        version: link:../../packages/design-md
+      '@razorwind/docgen':
+        specifier: workspace:*
+        version: link:../../packages/docgen
+      '@razorwind/shiki':
+        specifier: workspace:*
+        version: link:../../packages/shiki
+      '@razorwind/storybook':
+        specifier: workspace:*
+        version: link:../../packages/storybook
+      '@razorwind/style-dictionary':
+        specifier: workspace:*
+        version: link:../../packages/style-dictionary
+      '@razorwind/tailwindcss':
+        specifier: workspace:*
+        version: link:../../packages/tailwindcss
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.5
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   playground/tokens:
     dependencies:
       '@power-plant/core':

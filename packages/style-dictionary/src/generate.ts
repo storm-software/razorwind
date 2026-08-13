@@ -21,7 +21,7 @@ import { styleDictionaryLogOptions } from "@razorwind/core/lib/tokens";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
-import { isAbsolute, dirname, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import StyleDictionary from "style-dictionary";
 import type { DesignTokens } from "style-dictionary/types";
 import { renderInstallMd } from "./install";
@@ -78,6 +78,7 @@ function defaultInstallPath(outputPaths: string[]): string {
     return "INSTALL.md";
   }
   const parent = dirname(first);
+
   return parent === "." ? "INSTALL.md" : join(parent, "INSTALL.md");
 }
 
@@ -131,11 +132,13 @@ export async function generateStyleDictionary(
 
   if (Object.keys(documents).length > 0) {
     const outputPaths = Object.keys(documents).sort();
-    const installPath =
-      options.installPath ?? defaultInstallPath(outputPaths);
+    const installPath = options.installPath ?? defaultInstallPath(outputPaths);
     const installBody =
       options.installGuide ?? renderInstallMd({ files: outputPaths });
-    documents[installPath] = createDocument<Schema, StyleDictionaryPluginOptions>(
+    documents[installPath] = createDocument<
+      Schema,
+      StyleDictionaryPluginOptions
+    >(
       installPath,
       installBody,
       { name: "razorwind-style-dictionary" },

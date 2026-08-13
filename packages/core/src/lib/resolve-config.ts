@@ -29,12 +29,7 @@ import { createJiti } from "jiti";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import { isAbsolute, resolve } from "node:path";
-import type {
-  Config,
-  Options,
-  UserConfig,
-  UserConfigExport
-} from "../types/config";
+import type { Config, Options, UserConfig } from "../types/config";
 import type { Plugin } from "../types/plugin";
 
 /**
@@ -45,6 +40,7 @@ import type { Plugin } from "../types/plugin";
  */
 export function uniquePlugins(plugins: Plugin[]): Plugin[] {
   const seen = new Set<string>();
+
   return plugins.filter(plugin => {
     if (!plugin?.name) {
       return true;
@@ -85,37 +81,20 @@ export async function resolveConfig(
                 ? joinPaths(cwd, `razorwind.${options.mode}.mjs`)
                 : existsSync(joinPaths(cwd, `razorwind.${options.mode}.cjs`))
                   ? joinPaths(cwd, `razorwind.${options.mode}.cjs`)
-                  : existsSync(
-                        joinPaths(cwd, `razorwind.${options.mode}.cts`)
-                      )
+                  : existsSync(joinPaths(cwd, `razorwind.${options.mode}.cts`))
                     ? joinPaths(cwd, `razorwind.${options.mode}.cts`)
                     : existsSync(
-                          joinPaths(
-                            cwd,
-                            `razorwind.${options.mode}.json`
-                          )
+                          joinPaths(cwd, `razorwind.${options.mode}.json`)
                         )
                       ? joinPaths(cwd, `razorwind.${options.mode}.json`)
                       : existsSync(
-                            joinPaths(
-                              cwd,
-                              `razorwind.${options.mode}.yaml`
-                            )
+                            joinPaths(cwd, `razorwind.${options.mode}.yaml`)
                           )
-                        ? joinPaths(
-                            cwd,
-                            `razorwind.${options.mode}.yaml`
-                          )
+                        ? joinPaths(cwd, `razorwind.${options.mode}.yaml`)
                         : existsSync(
-                              joinPaths(
-                                cwd,
-                                `razorwind.${options.mode}.yml`
-                              )
+                              joinPaths(cwd, `razorwind.${options.mode}.yml`)
                             )
-                          ? joinPaths(
-                              cwd,
-                              `razorwind.${options.mode}.yml`
-                            )
+                          ? joinPaths(cwd, `razorwind.${options.mode}.yml`)
                           : existsSync(joinPaths(cwd, `razorwind.config.ts`))
                             ? joinPaths(cwd, `razorwind.config.ts`)
                             : existsSync(joinPaths(cwd, `razorwind.config.js`))
@@ -129,25 +108,43 @@ export async function resolveConfig(
                                     )
                                   ? joinPaths(cwd, `razorwind.config.mjs`)
                                   : existsSync(
-                                      joinPaths(cwd, `razorwind.config.cjs`)
-                                  )
-                                ? joinPaths(cwd, `razorwind.config.cjs`)
-                                : existsSync(
-                                      joinPaths(cwd, `razorwind.config.cts`)
-                                    )
-                                  ? joinPaths(cwd, `razorwind.config.cts`)
-                                  : existsSync(
-                                        joinPaths(cwd, `razorwind.config.json`)
+                                        joinPaths(cwd, `razorwind.config.cjs`)
                                       )
-                                    ? joinPaths(cwd, `razorwind.config.json`)
+                                    ? joinPaths(cwd, `razorwind.config.cjs`)
                                     : existsSync(
-                                          joinPaths(cwd, `razorwind.config.yaml`)
+                                          joinPaths(cwd, `razorwind.config.cts`)
                                         )
-                                      ? joinPaths(cwd, `razorwind.config.yaml`)
+                                      ? joinPaths(cwd, `razorwind.config.cts`)
                                       : existsSync(
-                                            joinPaths(cwd, `razorwind.config.yml`)
+                                            joinPaths(
+                                              cwd,
+                                              `razorwind.config.json`
+                                            )
                                           )
-                                            ? joinPaths(cwd, `razorwind.config.yml`)
+                                        ? joinPaths(
+                                            cwd,
+                                            `razorwind.config.json`
+                                          )
+                                        : existsSync(
+                                              joinPaths(
+                                                cwd,
+                                                `razorwind.config.yaml`
+                                              )
+                                            )
+                                          ? joinPaths(
+                                              cwd,
+                                              `razorwind.config.yaml`
+                                            )
+                                          : existsSync(
+                                                joinPaths(
+                                                  cwd,
+                                                  `razorwind.config.yml`
+                                                )
+                                              )
+                                            ? joinPaths(
+                                                cwd,
+                                                `razorwind.config.yml`
+                                              )
                                             : undefined;
 
   const envPaths = getEnvPaths({
@@ -175,10 +172,7 @@ export async function resolveConfig(
         config = await Promise.resolve(
           resolved({ cwd, mode: options.mode ?? "development" })
         );
-      } else if (
-        isSetObject(resolved) ||
-        Array.isArray(resolved)
-      ) {
+      } else if (isSetObject(resolved) || Array.isArray(resolved)) {
         config = resolved;
       }
 
@@ -286,9 +280,15 @@ export async function resolveConfig(
   }
 
   const plugins = uniquePlugins(
-    Array.isArray(config.plugins) ? (config.plugins as Plugin[]) : []
+    Array.isArray(config.plugins) ? config.plugins : []
   );
   (config as Config).plugins = plugins;
 
-  return config as Config;
+  // `defu` treats `verbose: false` from execute options as an override. Only
+  // `verbose: true` should force logging on; a false/omitted CLI flag must not
+  // disable `verbose: true` from the config file.
+  (config as Config).verbose =
+    options.verbose === true || resolvedConfig.verbose === true;
+
+  return config;
 }
