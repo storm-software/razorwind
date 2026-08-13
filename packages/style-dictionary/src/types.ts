@@ -42,6 +42,19 @@ import type { Config, PlatformConfig } from "style-dictionary/types";
  */
 export type StyleDictionaryPluginOptions = Omit<Config, "tokens"> & {
   /**
+   * When true, Style Dictionary runs with `log.verbosity: "verbose"`.
+   *
+   * Overrides `log.verbosity` on this config, matching the Style Dictionary
+   * CLI `--verbose` flag. When omitted or false, config `log.verbosity` (or
+   * Style Dictionary defaults) still apply.
+   *
+   * @see https://styledictionary.com/reference/logging/
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+
+  /**
    * Override body for generated `INSTALL.md`. When omitted, platform output
    * wiring steps are generated from emitted file paths.
    */

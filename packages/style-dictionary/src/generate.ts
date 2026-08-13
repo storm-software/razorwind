@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratedDocument } from "@power-plant/core";
+import { styleDictionaryLogOptions } from "@razorwind/core/lib/tokens";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
@@ -93,20 +94,23 @@ export async function generateStyleDictionary(
   options: StyleDictionaryPluginOptions = {},
   cwd = process.cwd()
 ): Promise<Record<string, GeneratedDocument>> {
-  const { source, include, usesDtcg, platforms, ...rest } = options;
+  const { source, include, usesDtcg, platforms, verbose, ...rest } = options;
 
   if (!platforms || Object.keys(platforms).length === 0) {
     return {};
   }
 
-  const sd = new StyleDictionary({
-    ...rest,
-    source: resolveGlobs(source, cwd),
-    include: resolveGlobs(include, cwd),
-    tokens: resolveTokens(spec.tokens),
-    platforms,
-    usesDtcg: usesDtcg ?? true
-  });
+  const sd = new StyleDictionary(
+    {
+      ...rest,
+      source: resolveGlobs(source, cwd),
+      include: resolveGlobs(include, cwd),
+      tokens: resolveTokens(spec.tokens),
+      platforms,
+      usesDtcg: usesDtcg ?? true
+    },
+    styleDictionaryLogOptions(verbose)
+  );
 
   const formatted = (await sd.formatAllPlatforms()) as Record<
     string,

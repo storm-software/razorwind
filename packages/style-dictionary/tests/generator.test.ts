@@ -107,4 +107,26 @@ describe("style-dictionary plugin", () => {
     ).toContain("$color-primary");
     expect(documents["build/scss/INSTALL.md"]).toBeDefined();
   });
+
+  it("generateStyleDictionary still formats when verbose is true", async () => {
+    const documents = await generateStyleDictionary(spec, {
+      verbose: true,
+      platforms: {
+        css: {
+          transformGroup: "css",
+          buildPath: "build/css/",
+          files: [
+            {
+              destination: "variables.css",
+              format: "css/variables"
+            }
+          ]
+        }
+      }
+    });
+
+    expect(
+      documents["build/css/variables.css"]?.chunks?.[0]?.content
+    ).toContain("--color-primary");
+  });
 });

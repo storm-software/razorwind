@@ -27,6 +27,7 @@ import StyleDictionaryModule from "style-dictionary";
 import type { Config as StyleDictionaryConfig } from "style-dictionary/types";
 import type { Schema } from "../../schema";
 import type { Config } from "../../types/config";
+import { styleDictionaryLogOptions } from "./logging";
 import { getExtractionHooks } from "./parsers";
 import type { ResolveTokensPathOptions } from "./resolve-path";
 import { resolveTokensSource, themeKeyFromPath } from "./resolve-path";
@@ -99,30 +100,33 @@ async function createDictionary(
 ): Promise<StyleDictionaryModule> {
   const extraction = getExtractionHooks(config.plugins);
 
-  const sd = new StyleDictionary({
-    ...styleDictionaryConfig,
-    parsers: [
-      ...extraction.parserNames,
-      ...(styleDictionaryConfig.parsers ?? [])
-    ],
-    preprocessors: [
-      ...extraction.preprocessorNames,
-      ...(styleDictionaryConfig.preprocessors ?? [])
-    ],
-    hooks: {
-      ...styleDictionaryConfig.hooks,
-      parsers: {
-        ...extraction.parsers,
-        ...styleDictionaryConfig.hooks?.parsers
+  const sd = new StyleDictionary(
+    {
+      ...styleDictionaryConfig,
+      parsers: [
+        ...extraction.parserNames,
+        ...(styleDictionaryConfig.parsers ?? [])
+      ],
+      preprocessors: [
+        ...extraction.preprocessorNames,
+        ...(styleDictionaryConfig.preprocessors ?? [])
+      ],
+      hooks: {
+        ...styleDictionaryConfig.hooks,
+        parsers: {
+          ...extraction.parsers,
+          ...styleDictionaryConfig.hooks?.parsers
+        },
+        preprocessors: {
+          ...extraction.preprocessors,
+          ...styleDictionaryConfig.hooks?.preprocessors
+        }
       },
-      preprocessors: {
-        ...extraction.preprocessors,
-        ...styleDictionaryConfig.hooks?.preprocessors
-      }
+      usesDtcg: styleDictionaryConfig.usesDtcg ?? true,
+      platforms: styleDictionaryConfig.platforms ?? {}
     },
-    usesDtcg: styleDictionaryConfig.usesDtcg ?? true,
-    platforms: styleDictionaryConfig.platforms ?? {}
-  });
+    styleDictionaryLogOptions(config.verbose)
+  );
 
   await sd.hasInitialized;
   return sd;

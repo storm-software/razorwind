@@ -18,6 +18,7 @@
 
 import type { ExecutorContext } from "@nx/devkit";
 import { execute } from "@power-plant/core";
+import type { Options } from "@razorwind/core";
 import { generator } from "@razorwind/core";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import type { GenerateExecutorSchema } from "./schema";
@@ -43,10 +44,13 @@ async function executorFn(
     );
   }
 
+  const verbose = options.verbose === true ? true : context.isVerbose;
+
   await execute(generator, {
     ...options,
-    mode: options.mode as "development" | "production"
-  });
+    mode: options.mode as "development" | "production",
+    verbose
+  } as Options);
 
   return {
     success: true

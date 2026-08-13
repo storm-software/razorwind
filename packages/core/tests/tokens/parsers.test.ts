@@ -19,6 +19,7 @@
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import type StyleDictionary from "style-dictionary";
 import type { PreprocessedTokens } from "style-dictionary/types";
 import { afterEach, describe, expect, it } from "vitest";
 import type { Config } from "../../src/types/config";
@@ -70,7 +71,7 @@ function testContext(cwd: string, overrides: Partial<Config> = {}) {
       ...testConfig(cwd),
       ...overrides
     }
-  } as Parameters<typeof loadTokens>[0];
+  } as Parameters<typeof loadTokens>[0] & { sd?: StyleDictionary };
 }
 
 describe("inferValue", () => {
@@ -430,5 +431,61 @@ color:
         }
       }
     });
+  });
+
+  it("applies Style Dictionary verbose logging when verbose is true", async () => {
+    const dir = await makeTempDir();
+    const tokensFile = join(dir, "tokens.json");
+    await writeFile(
+      tokensFile,
+      JSON.stringify({
+        color: { accent: { value: "#abcdef" } }
+      }),
+      "utf8"
+    );
+    const configPath = join(dir, "style-dictionary.config.mjs");
+    await writeFile(
+      configPath,
+      `export default { source: ${JSON.stringify([tokensFile])}, platforms: {} };\n`,
+      "utf8"
+    );
+
+    const context = testContext(dir, {
+      tokensPath: configPath,
+      verbose: true
+    });
+    const tokens = await loadTokens(context);
+
+    expect(tokens).toMatchObject({
+      color: {
+        accent: {
+          $type: "color"
+        }
+      }
+    });
+    expect(context.sd.log.verbosity).toBe("verbose");
+  });
+
+  it("keeps Style Dictionary default verbosity when verbose is omitted", async () => {
+    const dir = await makeTempDir();
+    const tokensFile = join(dir, "tokens.json");
+    await writeFile(
+      tokensFile,
+      JSON.stringify({
+        color: { accent: { value: "#abcdef" } }
+      }),
+      "utf8"
+    );
+    const configPath = join(dir, "style-dictionary.config.mjs");
+    await writeFile(
+      configPath,
+      `export default { source: ${JSON.stringify([tokensFile])}, platforms: {} };\n`,
+      "utf8"
+    );
+
+    const context = testContext(dir, { tokensPath: configPath });
+    await loadTokens(context);
+
+    expect(context.sd.log.verbosity).toBe("default");
   });
 });

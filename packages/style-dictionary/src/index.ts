@@ -60,5 +60,12 @@ export type { PlatformConfig, StyleDictionaryPluginOptions } from "./types";
 export default definePlugin((options?: StyleDictionaryPluginOptions) => ({
   name: "style-dictionary",
   generate: async (spec, config) =>
-    generateStyleDictionary(spec, options ?? {}, config.cwd)
+    generateStyleDictionary(
+      spec,
+      {
+        ...options,
+        verbose: options?.verbose ?? config.verbose
+      },
+      config.cwd
+    )
 }));

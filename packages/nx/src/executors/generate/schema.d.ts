@@ -33,5 +33,12 @@ export interface GenerateExecutorSchema {
   * @oneOf [object Object],[object Object]
  */
  tokensPath?: string | string[],
+
+ /**
+  * Enable Style Dictionary verbose logging (`log.verbosity: "verbose"`)
+  * 
+  * @default false
+ */
+ verbose?: boolean,
 }
 

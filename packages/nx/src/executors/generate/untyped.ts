@@ -52,6 +52,12 @@ export default defineUntypedSchema({
         ],
         tsType: "string | string[]",
         description: "The path to the tokens.json file, or an array of paths"
+      },
+      verbose: {
+        type: "boolean",
+        description:
+          "Enable Style Dictionary verbose logging (`log.verbosity: \"verbose\"`)",
+        default: false
       }
     },
     additionalProperties: false

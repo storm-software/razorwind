@@ -39,6 +39,7 @@ export {
   type LoadTokensOptions,
   type LoadedTokens
 } from "./load";
+export { styleDictionaryLogOptions } from "./logging";
 export {
   RAZORWIND_INFER_PREPROCESSOR,
   getExtractionHooks,

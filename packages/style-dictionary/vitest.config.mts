@@ -13,6 +13,7 @@ export default defineConfig(() => ({
     alias: {
       "@razorwind/core/plugin": resolve(coreSrc, "plugin.ts"),
       "@razorwind/core/schema": resolve(coreSrc, "schema/index.ts"),
+      "@razorwind/core/lib/tokens": resolve(coreSrc, "lib/tokens/index.ts"),
       "@razorwind/core/tokens": resolve(coreSrc, "lib/tokens/index.ts"),
       "@razorwind/core/utils": resolve(coreSrc, "utils/index.ts"),
       "@razorwind/core": resolve(coreSrc, "index.ts")

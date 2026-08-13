@@ -75,6 +75,19 @@ export interface Options {
   mode?: "development" | "test" | "production";
 
   /**
+   * When true, Style Dictionary runs with `log.verbosity: "verbose"`.
+   *
+   * Overrides `log.verbosity` on a Style Dictionary config, matching the
+   * Style Dictionary CLI `--verbose` flag. When omitted or false, config
+   * `log.verbosity` (or Style Dictionary defaults) still apply.
+   *
+   * @see https://styledictionary.com/reference/logging/
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+
+  /**
    * Whether to split multi-file token sources into a record keyed by theme.
    *
    * @remarks
