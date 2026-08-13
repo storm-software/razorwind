@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/core%400.0.49) (08/13/2026)
+
+### Miscellaneous
+
+- **core:** Update to better handle split themed output ([09d0e59](https://github.com/storm-software/razorwind/commit/09d0e59))
+
+### Bug Fixes
+
+- **core:** Update theme splitting logic to no longer generate duplicate `base` themes ([84f80a3](https://github.com/storm-software/razorwind/commit/84f80a3))
+
 ## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/core%400.0.48) (08/13/2026)
 
 ### Bug Fixes

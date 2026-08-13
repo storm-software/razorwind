@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Notepad Plus Plus
 
+## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.23) (08/13/2026)
+
+### Miscellaneous
+
+- **core:** Update to better handle split themed output ([09d0e59](https://github.com/storm-software/razorwind/commit/09d0e59))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.49**
+
 ## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.22) (08/13/2026)
 
 ### Updated Dependencies

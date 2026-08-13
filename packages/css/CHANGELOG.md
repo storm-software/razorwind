@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/css%400.0.32) (08/13/2026)
+
+### Miscellaneous
+
+- **core:** Update to better handle split themed output ([09d0e59](https://github.com/storm-software/razorwind/commit/09d0e59))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.49**
+- Updated **style-dictionary** to **v0.0.35**
+
 ## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/css%400.0.31) (08/13/2026)
 
 ### Bug Fixes

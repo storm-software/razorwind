@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Color Variants
 
+## [0.0.26](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.26) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Update theme splitting logic to no longer generate duplicate `base` themes ([84f80a3](https://github.com/storm-software/razorwind/commit/84f80a3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.49**
+
 ## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.25) (08/13/2026)
 
 ### Updated Dependencies

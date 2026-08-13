@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/style-dictionary",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "type": "module",
   "description": "Razorwind plugin that uses Style Dictionary to generate code from Razorwind design tokens.",
   "repository": {

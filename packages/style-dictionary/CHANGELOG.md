@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.35) (08/13/2026)
+
+### Miscellaneous
+
+- **core:** Update to better handle split themed output ([09d0e59](https://github.com/storm-software/razorwind/commit/09d0e59))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.49**
+
 ## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.34) (08/13/2026)
 
 ### Bug Fixes
