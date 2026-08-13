@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/core%400.0.42) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue bundling Style Dictionary hooks ([be86e95](https://github.com/storm-software/razorwind/commit/be86e95))
+
 ## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/core%400.0.41) (08/13/2026)
 
 ### Miscellaneous
