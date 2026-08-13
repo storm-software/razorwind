@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/core%400.0.45) (08/13/2026)
+
+### Features
+
+- **core:** Added `verbose` option to provide verbose Style Dictionary extraction ([032b623](https://github.com/storm-software/razorwind/commit/032b623))
+
 ## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/core%400.0.44) (08/13/2026)
 
 ### Bug Fixes
