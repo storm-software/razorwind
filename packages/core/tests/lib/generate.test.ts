@@ -72,6 +72,34 @@ describe("themesForGeneration", () => {
 
     expect(themes.map(theme => theme.id).sort()).toEqual(["dark", "light"]);
   });
+
+  it("skips color-variant expansions of shared base", () => {
+    const themes = themesForGeneration({
+      base: baseTokens,
+      baseDimmed: baseTokens,
+      baseHighContrast: baseTokens,
+      light: lightTokens,
+      lightDimmed: lightTokens,
+      dark: darkTokens,
+      darkDimmed: darkTokens
+    });
+
+    expect(themes.map(theme => theme.id).sort()).toEqual([
+      "dark",
+      "darkDimmed",
+      "light",
+      "lightDimmed"
+    ]);
+  });
+
+  it("still splits when only one real theme remains after stripping base", () => {
+    const themes = themesForGeneration({
+      base: baseTokens,
+      light: lightTokens
+    });
+
+    expect(themes.map(theme => theme.id)).toEqual(["light"]);
+  });
 });
 
 describe("generatePluginDocuments", () => {
@@ -139,6 +167,34 @@ describe("generatePluginDocuments", () => {
     ]);
     expect(documents["tokens-dark.css"]?.path).toBe("tokens-dark.css");
     expect(documents["tokens-light.css"]?.path).toBe("tokens-light.css");
+  });
+
+  it("does not emit documents for shared base or its variants", async () => {
+    const plugin: Plugin = {
+      name: "css",
+      generate: spec => ({
+        "tokens.css": {
+          path: "tokens.css",
+          chunks: [{ content: spec.theme ?? "" }]
+        }
+      })
+    };
+
+    const documents = await generatePluginDocuments(
+      testSpec({
+        base: baseTokens,
+        baseDimmed: baseTokens,
+        baseHighContrast: baseTokens,
+        light: lightTokens,
+        dark: darkTokens
+      }),
+      testConfig([plugin])
+    );
+
+    expect(Object.keys(documents).sort()).toEqual([
+      "tokens-dark.css",
+      "tokens-light.css"
+    ]);
   });
 
   it("merges shared base tokens into each theme pass", async () => {

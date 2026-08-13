@@ -19,6 +19,7 @@
 import { describe, expect, it } from "vitest";
 import {
   flattenTokens,
+  isSharedThemeId,
   resolveTokenSets,
   titleCase,
   themeDisplayName
@@ -40,6 +41,24 @@ describe("themeDisplayName", () => {
 
   it("title-cases name when displayName omitted", () => {
     expect(themeDisplayName({ name: "my-theme" })).toBe("My Theme");
+  });
+});
+
+describe("isSharedThemeId", () => {
+  it("matches base and its color-variant expansions", () => {
+    expect(isSharedThemeId("base")).toBe(true);
+    expect(isSharedThemeId("baseDimmed")).toBe(true);
+    expect(isSharedThemeId("baseHighContrast")).toBe(true);
+    expect(isSharedThemeId("base-dimmed")).toBe(true);
+    expect(isSharedThemeId("Base")).toBe(true);
+  });
+
+  it("does not match real themes", () => {
+    expect(isSharedThemeId("light")).toBe(false);
+    expect(isSharedThemeId("dark")).toBe(false);
+    expect(isSharedThemeId("darkDimmed")).toBe(false);
+    expect(isSharedThemeId("light-high-contrast")).toBe(false);
+    expect(isSharedThemeId("default")).toBe(false);
   });
 });
 

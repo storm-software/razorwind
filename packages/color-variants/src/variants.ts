@@ -29,6 +29,13 @@ import { VARIANT_DESCRIPTIONS } from "./types";
 const THEME_BASENAME_PATTERN =
   /^(?:light|dark|dim|dimmed|high-contrast|hc|protanopia|deuteranopia|tritanopia|achromatopsia|achromatomaly|monochrome|monochromatic|grayscale|greyscale|bw|black-and-white|black-white|blackWhite|default|base|theme)(?:[._-].+)?$/i;
 
+/** Shared primitive set (`base`) and color-variant expansions (`baseDimmed`, …). */
+const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
+
+function isSharedThemeId(id: string): boolean {
+  return SHARED_THEME_PATTERN.test(id);
+}
+
 function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
 }
@@ -170,6 +177,7 @@ export function withVariantDescription(
  * plus one entry per requested color variant.
  *
  * - Multi-theme input `{ dark, light }` → `{ dark, light, darkDimmed, … }`
+ * - Shared `base` keys are kept but not expanded (`baseDimmed` is omitted)
  * - Single token tree → `{ default, dimmed, highContrast, … }`
  */
 export function expandColorVariants(
@@ -181,6 +189,9 @@ export function expandColorVariants(
   if (isTokensRecord(tokens)) {
     for (const [key, set] of Object.entries(tokens)) {
       result[key] = set;
+      if (isSharedThemeId(key)) {
+        continue;
+      }
       for (const variant of variants) {
         const variantKey = appendVariantKey(key, variant);
         result[variantKey] = withVariantDescription(

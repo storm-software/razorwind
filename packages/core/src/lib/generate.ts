@@ -21,7 +21,11 @@ import { defu } from "defu";
 import type { Schema, Tokens } from "../schema";
 import type { Config } from "../types/config";
 import type { TokenSet } from "../utils/flatten-tokens";
-import { resolveTokenSets } from "../utils/flatten-tokens";
+import {
+  isSharedThemeId,
+  resolveTokenSets,
+  SHARED_THEME_ID
+} from "../utils/flatten-tokens";
 import { mergeTokenTrees } from "../utils/merge-tokens";
 import {
   applyThemeToDocuments,
@@ -40,28 +44,34 @@ export interface GenerationRun {
 }
 
 /**
- * Shared primitive set produced by token loading. Already merged into each
- * real theme, so it is not generated as its own output pass.
- */
-const SHARED_THEME_ID = "base";
-
-/**
  * Theme sets that should each receive a dedicated generator pass.
  *
- * Returns an empty array when tokens are a single tree (or only one real
- * theme), so callers run plugins once against the original spec.
+ * Skips the shared `base` primitive set and color-variant expansions of it
+ * (`baseDimmed`, `base-high-contrast`, …). Those tokens are already merged
+ * into each real theme.
+ *
+ * Returns an empty array when tokens are a single tree (or only one named
+ * theme with nothing stripped), so callers run plugins once against the
+ * original spec.
  */
 export function themesForGeneration(tokens: Schema["tokens"]): TokenSet[] {
-  const sets = resolveTokenSets(tokens).filter(
-    set => set.id !== SHARED_THEME_ID
-  );
+  const all = resolveTokenSets(tokens);
+  const themes = all.filter(set => !isSharedThemeId(set.id));
 
-  return sets.length > 1 ? sets : [];
+  if (themes.length === 0) {
+    return [];
+  }
+
+  if (themes.length === 1 && all.length === 1) {
+    return [];
+  }
+
+  return themes;
 }
 
 function tokensForTheme(sets: TokenSet[], theme: TokenSet): Tokens {
   const base = sets.find(set => set.id === SHARED_THEME_ID);
-  if (!base || theme.id === SHARED_THEME_ID) {
+  if (!base || isSharedThemeId(theme.id)) {
     return theme.tokens;
   }
 
@@ -103,6 +113,7 @@ async function runPluginGenerators(
  * When {@link Schema.tokens} is a multi-theme record, each theme is generated
  * separately: titles gain ` (<Theme>)`, and output file paths gain
  * `-<theme>` before the extension (`tokens.css` → `tokens-dark.css`).
+ * Shared `base` files (and `base*` color-variant expansions) are omitted.
  */
 export async function generatePluginDocuments(
   spec: Schema,

@@ -157,6 +157,22 @@ describe("expandColorVariants", () => {
     expect(result.dark).toBe(baseTokens);
     expect(result.darkDimmed?.$description).toMatch(/Dimmed/i);
   });
+
+  it("keeps shared base without expanding variant keys", () => {
+    const input = { base: baseTokens, dark: baseTokens, light: baseTokens };
+    const result = expandColorVariants(input, ["dimmed", "high-contrast"]);
+
+    expect(Object.keys(result).sort()).toEqual([
+      "base",
+      "dark",
+      "darkDimmed",
+      "darkHighContrast",
+      "light",
+      "lightDimmed",
+      "lightHighContrast"
+    ]);
+    expect(result.base).toBe(baseTokens);
+  });
 });
 
 describe("color-variants extract plugin", () => {

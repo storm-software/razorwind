@@ -57,6 +57,22 @@ export const TOKEN_SET_THEME_PATTERN =
   /^(?:light|dark|dim|dimmed|high-contrast|hc|protanopia|deuteranopia|tritanopia|achromatopsia|achromatomaly|monochrome|monochromatic|grayscale|greyscale|bw|black-and-white|black-white|blackWhite|default|base|theme)(?:[A-Z]\w*|[._-].+)?$/i;
 
 /**
+ * Shared primitive set produced by token loading. Already merged into each
+ * real theme, so it is not generated as its own output pass.
+ */
+export const SHARED_THEME_ID = "base";
+
+const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
+
+/**
+ * True when `id` is the shared primitive set (`base`) or a color-variant
+ * expansion of it (`baseDimmed`, `base-high-contrast`, …).
+ */
+export function isSharedThemeId(id: string): boolean {
+  return SHARED_THEME_PATTERN.test(id);
+}
+
+/**
  * True when `node` is a DTCG token leaf rather than a nested group.
  */
 export function isTokenLeaf(node: Record<string, unknown>): boolean {

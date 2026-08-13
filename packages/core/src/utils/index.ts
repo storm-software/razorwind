@@ -24,8 +24,10 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 
 export {
   flattenTokens,
+  isSharedThemeId,
   isTokenLeaf,
   resolveTokenSets,
+  SHARED_THEME_ID,
   TOKEN_SET_THEME_PATTERN,
   type BaseFlatToken,
   type FlattenTokensOptions,
