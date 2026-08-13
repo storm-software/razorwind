@@ -29,7 +29,7 @@ const development =
 
 await execute(generator, {
   configFile: "razorwind.config.ts",
-  tokensPath: "tokens/*.json",
+  tokensPath: "tokens/**/*.json",
   mode: development ? "development" : "production",
   ...(process.argv.includes("--verbose") ? { verbose: true } : {})
 });

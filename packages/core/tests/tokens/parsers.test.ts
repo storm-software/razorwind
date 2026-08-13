@@ -434,6 +434,89 @@ color:
     });
   });
 
+  it("splits theme-named files and resolves refs from unthemed sources", async () => {
+    const dir = await makeTempDir();
+    const tokensDir = join(dir, "tokens");
+    await mkdir(join(tokensDir, "primitives"), { recursive: true });
+    await mkdir(join(tokensDir, "semantic"), { recursive: true });
+    await writeFile(
+      join(tokensDir, "primitives", "tokens.json"),
+      JSON.stringify({
+        color: {
+          transparent: { $type: "color", $value: "#FFFFFF00" }
+        }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      join(tokensDir, "primitives", "light.tokens.json"),
+      JSON.stringify({
+        color: {
+          brand: { $type: "color", $value: "#111111" }
+        }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      join(tokensDir, "primitives", "dark.tokens.json"),
+      JSON.stringify({
+        color: {
+          brand: { $type: "color", $value: "#eeeeee" }
+        }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      join(tokensDir, "semantic", "light.tokens.json"),
+      JSON.stringify({
+        color: {
+          accent: { $type: "color", $value: "{color.brand}" },
+          overlay: { $type: "color", $value: "{color.transparent}" }
+        }
+      }),
+      "utf8"
+    );
+    await writeFile(
+      join(tokensDir, "semantic", "dark.tokens.json"),
+      JSON.stringify({
+        color: {
+          accent: { $type: "color", $value: "{color.brand}" },
+          overlay: { $type: "color", $value: "{color.transparent}" }
+        }
+      }),
+      "utf8"
+    );
+
+    const tokens = await loadTokens(
+      testContext(dir, {
+        tokensPath: "tokens/**/*.json",
+        splitThemes: true
+      })
+    );
+
+    expect(tokens).toMatchObject({
+      base: {
+        color: {
+          transparent: { $type: "color" }
+        }
+      },
+      light: {
+        color: {
+          brand: { $type: "color" },
+          accent: { $type: "color" },
+          overlay: { $type: "color" }
+        }
+      },
+      dark: {
+        color: {
+          brand: { $type: "color" },
+          accent: { $type: "color" },
+          overlay: { $type: "color" }
+        }
+      }
+    });
+  });
+
   it("applies Style Dictionary verbose logging when verbose is true", async () => {
     const dir = await makeTempDir();
     const tokensFile = join(dir, "tokens.json");

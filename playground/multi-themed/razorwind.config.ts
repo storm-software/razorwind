@@ -49,7 +49,7 @@ export default defineConfig({
   description:
     "Fixture multi-themed design tokens used to exercise Razorwind generator plugins.",
   verbose: true,
-  tokensPath: join(root, "tokens/*.json"),
+  tokensPath: join(root, "tokens/**/*.json"),
   plugins: [
     css({
       outputPath: join(generated, "styles.css")

@@ -126,7 +126,7 @@ export interface Options {
    *
    * The basename is optionally followed by a suffix separated by `.`, `_`, or `-` (for example `light.json`, `dark-mode.tokens.json`, `theme.custom.yaml`).
    *
-   * Files that match are grouped under that theme key. Non-theme files are merged into a shared `base` entry when at least two distinct themes are detected. If fewer than two themes are found, all sources are merged into a single {@link Tokens} object instead of a record.
+   * Files that match are grouped under that theme key. Non-theme files are merged into a shared `base` entry when at least two distinct themes are detected, and are also included when resolving each theme so references into shared primitives succeed. If fewer than two themes are found, all sources are merged into a single {@link Tokens} object instead of a record.
    *
    * When `false`, every source file is merged into one flat {@link Tokens} object regardless of filename.
    *

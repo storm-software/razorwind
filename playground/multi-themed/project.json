@@ -8,7 +8,7 @@
       "cache": false,
       "inputs": [
         "{projectRoot}/razorwind.config.ts",
-        "{projectRoot}/tokens/*.json",
+        "{projectRoot}/tokens/**/*.json",
         "{projectRoot}/generate.mjs"
       ],
       "outputs": ["{projectRoot}/generated"],
