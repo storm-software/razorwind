@@ -69,6 +69,7 @@
       "executor": "@storm-software/workspace-tools:npm-publish",
       "dependsOn": [
         "build",
+        "prepare-publish-manifest",
         "^nx-release-publish"
       ]
     }

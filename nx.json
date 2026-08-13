@@ -23,7 +23,24 @@
           "packages/notepad-plus-plus",
           "packages/nx"
         ],
-        "projectsRelationship": "independent"
+        "projectsRelationship": "independent",
+        "version": {
+          "manifestRootsToUpdate": [
+            "{projectRoot}",
+            {
+              "path": "dist/{projectRoot}",
+              "preserveLocalDependencyProtocols": false
+            }
+          ]
+        }
+      }
+    }
+  },
+  "targetDefaults": {
+    "nx-release-publish": {
+      "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"],
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
       }
     }
   },
@@ -40,7 +57,8 @@
     "@storm-software/workspace-tools/plugins/typescript",
     "@storm-software/workspace-tools/plugins/typescript/untyped",
     "@storm-software/workspace-tools/plugins/typescript/tsdown",
-    "@powerlines/nx/plugin"
+    "@powerlines/nx/plugin",
+    "./tools/nx/prepare-publish-manifest.plugin.mjs"
   ],
   "sync": {
     "applyChanges": true,
