@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.29) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update package to use latest Powerlines plugin structure ([44d5384](https://github.com/storm-software/razorwind/commit/44d5384))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.41**
+
 ## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.28) (08/10/2026)
 
 ### Updated Dependencies

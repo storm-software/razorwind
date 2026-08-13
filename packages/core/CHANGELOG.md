@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/core%400.0.41) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update package to use latest Powerlines plugin structure ([44d5384](https://github.com/storm-software/razorwind/commit/44d5384))
+
 ## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/core%400.0.39) (08/10/2026)
 
 ### Miscellaneous

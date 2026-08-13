@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Notepad Plus Plus
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.15) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update package to use latest Powerlines plugin structure ([44d5384](https://github.com/storm-software/razorwind/commit/44d5384))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.41**
+
 ## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.14) (08/10/2026)
 
 ### Updated Dependencies

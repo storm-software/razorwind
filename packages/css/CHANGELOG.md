@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/css%400.0.24) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update package to use latest Powerlines plugin structure ([44d5384](https://github.com/storm-software/razorwind/commit/44d5384))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.41**
+- Updated **style-dictionary** to **v0.0.27**
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/css%400.0.23) (08/10/2026)
 
 ### Updated Dependencies

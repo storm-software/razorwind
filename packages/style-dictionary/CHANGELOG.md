@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.27) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update package to use latest Powerlines plugin structure ([44d5384](https://github.com/storm-software/razorwind/commit/44d5384))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.41**
+
 ## [0.0.26](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.26) (08/10/2026)
 
 ### Updated Dependencies
