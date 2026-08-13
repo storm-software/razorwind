@@ -16,10 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import { useExecution } from "@power-plant/core";
 import type { Tokens } from "@power-plant/dtcg-schema";
-import { definePlugin } from "@razorwind/core/plugin";
+import { mergeFonts, parseCssFonts } from "@razorwind/core/lib/fonts";
 import { nestFlatTokens } from "@razorwind/core/lib/tokens";
+import { definePlugin } from "@razorwind/core/plugin";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
 import { appendPath } from "@stryke/path/append";
@@ -257,31 +257,37 @@ export async function extractTailwindTokens(
  */
 export default definePlugin((options?: TailwindExtractPluginOptions) => ({
   name: "tailwindcss:extract",
-  extract: async spec => {
-    if (spec.tokens && Object.keys(spec.tokens).length > 0) {
-      return spec;
-    }
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
-    const { cwd } = useExecution();
+  extract: async (spec, config) => {
+    const cwd = config.cwd;
 
     const workspace = await detectTailwindWorkspace(cwd, options?.cssPath);
-    if (!workspace.configured || workspace.version !== "v4") {
-      return spec;
+    let next = spec;
+
+    if (!spec.tokens || Object.keys(spec.tokens).length === 0) {
+      if (workspace.configured && workspace.version === "v4") {
+        const tokens = await extractTailwindTokens({
+          cwd,
+          cssPath: options?.cssPath
+            ? appendPath(options.cssPath, cwd)
+            : workspace.cssFile,
+          omitDefaults: options?.omitDefaults
+        });
+
+        if (tokens && Object.keys(tokens).length > 0) {
+          next = { ...next, tokens };
+        }
+      }
     }
 
-    const tokens = await extractTailwindTokens({
-      cwd,
-      cssPath: options?.cssPath
-        ? appendPath(options.cssPath, cwd)
-        : workspace.cssFile,
-      omitDefaults: options?.omitDefaults
-    });
-
-    if (!tokens || Object.keys(tokens).length === 0) {
-      return spec;
+    const entry = resolveTailwindCssEntry(cwd, [
+      options?.cssPath,
+      workspace.cssFile
+    ]);
+    if (entry) {
+      const fonts = parseCssFonts(await readFile(entry));
+      next = { ...next, fonts: mergeFonts(next.fonts, fonts) };
     }
 
-    return { ...spec, tokens };
+    return next;
   }
 }));

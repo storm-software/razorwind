@@ -18,8 +18,14 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { useExecution } from "@power-plant/core";
+import {
+  copyFontFiles,
+  cssFontFamily,
+  renderGoogleFontImports,
+  renderLocalFontFaces
+} from "@razorwind/core/lib/fonts";
 import { definePlugin } from "@razorwind/core/plugin";
-import type { Schema, Tokens } from "@razorwind/core/schema";
+import type { Fonts, Schema, Tokens } from "@razorwind/core/schema";
 import {
   createDocument,
   formatTokenValue,
@@ -215,22 +221,71 @@ ${lines.join("\n")}
 `;
 }
 
+function applyFontRoleVars(
+  tokens: FlatThemeToken[],
+  fonts: Fonts | undefined
+): FlatThemeToken[] {
+  if (!fonts) {
+    return tokens;
+  }
+
+  const existing = new Set(
+    tokens.filter(token => !token.theme).map(token => token.cssVar)
+  );
+  const extra: FlatThemeToken[] = [];
+
+  for (const font of Object.values(fonts)) {
+    if (!font.role) {
+      continue;
+    }
+
+    const cssVar = `--font-${font.role}`;
+    if (existing.has(cssVar)) {
+      continue;
+    }
+
+    const cssValue = cssFontFamily(font);
+    extra.push({
+      path: `font.${font.role}`,
+      type: "fontFamily",
+      value: cssValue,
+      cssValue,
+      cssVar
+    });
+    existing.add(cssVar);
+  }
+
+  return extra.length > 0 ? [...tokens, ...extra] : tokens;
+}
+
 /**
  * Render a Tailwind v4 CSS entry from flattened theme tokens.
  */
 export function renderTailwindCss(
   tokens: FlatThemeToken[],
-  options: Pick<TailwindGeneratePluginOptions, "includeImport"> = {}
+  options: Pick<TailwindGeneratePluginOptions, "includeImport"> & {
+    fonts?: Fonts;
+  } = {}
 ): string {
   const includeImport = options.includeImport !== false;
-  const primary = tokens.filter(
+  const fonts = options.fonts;
+  const withFonts = applyFontRoleVars(tokens, fonts);
+  const primary = withFonts.filter(
     token => !token.theme || PRIMARY_THEME_IDS.has(token.theme.toLowerCase())
   );
-  const dark = tokens.filter(token => token.theme?.toLowerCase() === "dark");
+  const dark = withFonts.filter(token => token.theme?.toLowerCase() === "dark");
 
   const parts: string[] = [];
+  const googleImports = fonts ? renderGoogleFontImports(fonts) : "";
+  if (googleImports) {
+    parts.push(`${googleImports}\n`);
+  }
   if (includeImport) {
     parts.push(`@import "tailwindcss";\n`);
+  }
+  const faces = fonts ? renderLocalFontFaces(fonts) : "";
+  if (faces) {
+    parts.push(`${faces}\n`);
   }
   parts.push(renderThemeBlock(primary));
   if (dark.length > 0) {
@@ -278,8 +333,15 @@ export async function generateTailwindCss(
   }
 
   const outFile = await resolveOutFile(options);
-  const content = renderTailwindCss(flat, options);
+  const content = renderTailwindCss(flat, {
+    ...options,
+    fonts: spec.fonts
+  });
   const includeImport = options.includeImport !== false;
+
+  if (spec.fonts) {
+    await copyFontFiles(spec.fonts, join(dirname(outFile), "fonts"));
+  }
 
   const installBody =
     options.installGuide ??

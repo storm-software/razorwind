@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { useExecution } from "@power-plant/core";
-import { parseCssCustomProperties } from "@razorwind/core";
+import { mergeFonts, parseCssFonts } from "@razorwind/core/lib/fonts";
+import { parseCssCustomProperties } from "@razorwind/core/lib/tokens";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Tokens } from "@razorwind/core/schema";
 import { existsSync } from "@stryke/fs/exists";
@@ -125,23 +125,27 @@ export default definePlugin((options?: CssExtractPluginOptions) => ({
       parser: (contents: string): Tokens => parseCssTokens(contents)
     }
   ],
-  extract: async spec => {
-    if (hasTokens(spec.tokens)) {
-      return spec;
+  extract: async (spec, config) => {
+    const cwd = config.cwd;
+    const path = resolveCssPath(cwd, options?.cssPath);
+    let next = spec;
+
+    if (!hasTokens(spec.tokens)) {
+      const tokens = await extractCssTokens({
+        cwd,
+        cssPath: options?.cssPath
+      });
+
+      if (hasTokens(tokens)) {
+        next = { ...next, tokens };
+      }
     }
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
-    const { cwd } = useExecution();
-
-    const tokens = await extractCssTokens({
-      cwd,
-      cssPath: options?.cssPath
-    });
-
-    if (!hasTokens(tokens)) {
-      return spec;
+    if (path) {
+      const fonts = parseCssFonts(await readFile(path));
+      next = { ...next, fonts: mergeFonts(next.fonts, fonts) };
     }
 
-    return { ...spec, tokens };
+    return next;
   }
 }));

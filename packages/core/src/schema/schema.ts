@@ -21,6 +21,8 @@ import { tokensSchema } from "@power-plant/dtcg-schema";
 import z from "zod";
 import type { Components } from "./components";
 import { componentsSchema } from "./components";
+import type { Fonts } from "./fonts";
+import { fontsSchema } from "./fonts";
 import type { Icons } from "./icons";
 import { iconsSchema } from "./icons";
 
@@ -38,6 +40,7 @@ export interface Schema {
   logo?: string;
   components: Components;
   icons: Icons;
+  fonts: Fonts;
   tokens: Tokens | Record<string, Tokens>;
 }
 
@@ -50,5 +53,6 @@ export const schema: z.ZodType<Schema> = z.object({
   logo: z.string().optional(),
   tokens: tokensFieldSchema,
   components: componentsSchema,
-  icons: iconsSchema
+  icons: iconsSchema,
+  fonts: fontsSchema
 });

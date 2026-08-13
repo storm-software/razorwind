@@ -26,6 +26,20 @@ The mode to use
 The path to a directory containing component directories or files, or an array of paths
 
 
+## `iconsPath`
+- **Type**: `string | string[]`
+
+
+The path to a directory containing icon assets or icon directories, or an array of paths
+
+
+## `fontsPath`
+- **Type**: `string | string[]`
+
+
+The path to a directory containing font files or font directories, or an array of paths
+
+
 ## `tokensPath`
 - **Type**: `string | string[]`
 

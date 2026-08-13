@@ -55,7 +55,7 @@ const components = {
 const spec = {
   tokens: {},
   components,
-  icons: {}
+  icons: {}, fonts: {}
 } as Schema;
 
 describe("shadcn extract plugin", () => {
@@ -68,7 +68,7 @@ describe("shadcn extract plugin", () => {
   it("fills schema.components from registry when missing", async () => {
     const plugin = extract({ configFile: process.cwd() });
     const result = await plugin.extract!(
-      { tokens: {}, components: {}, icons: {} },
+      { tokens: {}, components: {}, icons: {}, fonts: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
@@ -99,7 +99,7 @@ describe("shadcn extract plugin", () => {
     };
 
     const result = await plugin.extract!(
-      { tokens: {}, components: existing, icons: {} },
+      { tokens: {}, components: existing, icons: {}, fonts: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
@@ -248,7 +248,7 @@ describe("shadcn generate plugin", () => {
 
   it("returns empty when schema has no components", async () => {
     const documents = await generateRegistryJson(
-      { tokens: {}, components: {}, icons: {} },
+      { tokens: {}, components: {}, icons: {}, fonts: {} },
       { configFile: "registry.json" }
     );
     expect(documents).toEqual({});

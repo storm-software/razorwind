@@ -60,7 +60,8 @@ describe("iconsSchema", () => {
           name: "home",
           title: "Home"
         }
-      }
+      },
+      fonts: {}
     });
 
     expect(result.success).toBe(true);

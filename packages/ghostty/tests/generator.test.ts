@@ -83,7 +83,7 @@ const multiThemeTokens = {
 
 const spec = {
   components: {},
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 
@@ -321,6 +321,27 @@ describe("ghostty plugin", () => {
     const theme = documents["ghostty-themes/dracula"]!.chunks![0]!.content;
     expect(theme).toContain("Dracula");
     expect(theme).toContain("background = #282a36");
+  });
+
+  it("fills font-family from spec.fonts when mapTheme omits it", () => {
+    const documents = generateGhosttyTheme(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans"
+          }
+        }
+      },
+      { mapTheme: mapDraculaTheme }
+    );
+
+    const theme = documents["ghostty-themes/dracula"]!.chunks![0]!.content;
+    expect(theme).toContain("font-family = Inter");
   });
 
   it("emits one file per mapped theme", () => {

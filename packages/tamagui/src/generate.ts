@@ -17,9 +17,10 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import type { Schema } from "@razorwind/core/schema";
+import { cssFontFamily, fontFamilyName } from "@razorwind/core/lib/fonts";
+import type { Font, Fonts, LocalFont, Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { flattenTokens } from "./flatten";
 import { renderInstallMd } from "./install";
 import { toLiteral } from "./format";
@@ -281,6 +282,104 @@ function renderChildrenThemes(
   return `{\n${blocks.join(",\n")}\n  }`;
 }
 
+function tamaguiFontKey(font: Font): string {
+  switch (font.role) {
+    case "heading":
+    case "display": {
+      return "heading";
+    }
+    case "mono":
+    case "code": {
+      return "mono";
+    }
+    case "sans":
+    case "body":
+    case "serif": {
+      return "body";
+    }
+    default: {
+      return font.name.replaceAll(/[^A-Z0-9_]/gi, "") || "body";
+    }
+  }
+}
+
+function assignTamaguiFonts(fonts: Fonts): Map<string, Font> {
+  const assigned = new Map<string, Font>();
+
+  for (const font of Object.values(fonts)) {
+    const key = tamaguiFontKey(font);
+    const existing = assigned.get(key);
+    if (!existing || (font.role === key && existing.role !== key)) {
+      assigned.set(key, font);
+    }
+  }
+
+  return assigned;
+}
+
+function renderFaceLiteral(font: LocalFont): string | undefined {
+  const byWeight = new Map<string, { normal?: string; italic?: string }>();
+
+  for (const file of font.files) {
+    const weight = String(file.weight ?? 400);
+    const stem = basename(file.path).replace(/\.[^.]+$/, "");
+    const entry = byWeight.get(weight) ?? {};
+    if (file.style === "italic" || file.style === "oblique") {
+      entry.italic = stem;
+    } else {
+      entry.normal = stem;
+    }
+    byWeight.set(weight, entry);
+  }
+
+  if (byWeight.size === 0) {
+    return undefined;
+  }
+
+  const lines = [...byWeight.entries()]
+    .toSorted(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+    .map(([weight, faces]) => {
+      const parts: string[] = [];
+      if (faces.normal) {
+        parts.push(`normal: ${toLiteral(faces.normal)}`);
+      }
+      if (faces.italic) {
+        parts.push(`italic: ${toLiteral(faces.italic)}`);
+      }
+      return `    ${weight}: { ${parts.join(", ")} }`;
+    });
+
+  return `{\n${lines.join(",\n")}\n  }`;
+}
+
+function renderCreateFont(font: Font, varName: string): string {
+  const face =
+    font.source === "local" ? renderFaceLiteral(font) : undefined;
+  const lines = [
+    `const ${varName} = createFont({`,
+    `  family: isWeb ? ${toLiteral(cssFontFamily(font))} : ${toLiteral(fontFamilyName(font))},`,
+    `  size: {`,
+    `    1: 12,`,
+    `    2: 14,`,
+    `    3: 16,`,
+    `    4: 18,`,
+    `    5: 20,`,
+    `    6: 24,`,
+    `    7: 28,`,
+    `    8: 32,`,
+    `    9: 40,`,
+    `    10: 48`,
+    `  }${face ? "," : ""}`
+  ];
+
+  if (face) {
+    lines.push(`  face: ${face}`);
+  }
+
+  lines.push(`});`);
+  return lines.join("\n");
+}
+
 /**
  * Render a Tamagui v5 config module from flattened design tokens.
  *
@@ -288,7 +387,8 @@ function renderChildrenThemes(
  */
 export function renderTamaguiConfig(
   tokens: FlatToken[],
-  options: TamaguiPluginOptions = {}
+  options: TamaguiPluginOptions = {},
+  fonts?: Fonts
 ): string {
   const useDefaultConfig = options.useDefaultConfig !== false;
   const animations = options.animations ?? "css";
@@ -375,6 +475,10 @@ export function renderTamaguiConfig(
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
+  const assignedFonts = fonts ? assignTamaguiFonts(fonts) : new Map<string, Font>();
+  if (assignedFonts.size > 0) {
+    tamaguiImports.push("createFont", "isWeb");
+  }
   imports.push(`import { ${tamaguiImports.join(", ")} } from "tamagui";`);
 
   const lines: string[] = [
@@ -403,6 +507,17 @@ export function renderTamaguiConfig(
       : `createV5Theme()`;
 
   lines.push(`const themes = ${themeCall};`, "");
+
+  const fontVarNames = new Map<string, string>();
+  if (assignedFonts.size > 0) {
+    let index = 0;
+    for (const [key, font] of assignedFonts) {
+      const varName = `${key}Font`.replaceAll(/[^A-Z0-9_]/gi, "") || `font${index}`;
+      fontVarNames.set(key, varName);
+      lines.push(renderCreateFont(font, varName), "");
+      index += 1;
+    }
+  }
 
   const configParts: string[] = [];
   if (useDefaultConfig) {
@@ -445,6 +560,22 @@ export function renderTamaguiConfig(
   }
   configParts.push("  themes");
 
+  if (fontVarNames.size > 0) {
+    const fontLines = [...fontVarNames.entries()].map(
+      ([key, varName]) => `    ${key}: ${varName}`
+    );
+    if (useDefaultConfig) {
+      configParts.push(`  fonts: {
+    ...defaultConfig.fonts,
+${fontLines.join(",\n")}
+  }`);
+    } else {
+      configParts.push(`  fonts: {
+${fontLines.join(",\n")}
+  }`);
+    }
+  }
+
   lines.push(
     `export const config = createTamagui({`,
     configParts.join(",\n"),
@@ -478,17 +609,19 @@ export function generateTamaguiConfig(
   spec: Schema,
   options: TamaguiPluginOptions = {}
 ): GeneratorFunctionResult<Schema, TamaguiPluginOptions> {
-  if (!spec.tokens || Object.keys(spec.tokens).length === 0) {
+  const hasTokens = spec.tokens && Object.keys(spec.tokens).length > 0;
+  const hasFonts = spec.fonts && Object.keys(spec.fonts).length > 0;
+  if (!hasTokens && !hasFonts) {
     return {};
   }
 
-  const flat = flattenTokens(spec.tokens, options);
-  if (flat.length === 0) {
+  const flat = hasTokens ? flattenTokens(spec.tokens, options) : [];
+  if (flat.length === 0 && !hasFonts) {
     return {};
   }
 
   const outFile = options.outFile ?? "tamagui.config.ts";
-  const content = renderTamaguiConfig(flat, options);
+  const content = renderTamaguiConfig(flat, options, spec.fonts);
   const installBody =
     options.installGuide ?? renderInstallMd({ outFile });
   const installPath = join(dirname(outFile), "INSTALL.md");

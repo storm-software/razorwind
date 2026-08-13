@@ -76,6 +76,7 @@ describe("componentSchema usage", () => {
     const result = schema.safeParse({
       tokens: {},
       icons: {},
+      fonts: {},
       components: {
         button: {
           name: "button",

@@ -7,7 +7,7 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-     Website:                  https://stormsoftware.com
+    Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
@@ -18,141 +18,72 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import extract from "../src/extract";
-import generate, {
-  flattenThemeTokens,
-  generateTailwindCss,
-  renderTailwindCss,
-  toThemeCssVar
-} from "../src/generate";
-
-const tokens = {
-  color: {
-    $type: "color",
-    primary: {
-      $value: {
-        colorSpace: "srgb",
-        components: [0, 0.4, 0.8],
-        hex: "#0066cc"
-      }
-    },
-    secondary: {
-      $value: "#663399"
-    }
-  },
-  spacing: {
-    $type: "dimension",
-    sm: { $value: { value: 0.5, unit: "rem" } }
-  },
-  radius: {
-    $type: "dimension",
-    DEFAULT: { $value: { value: 4, unit: "px" } },
-    lg: { $value: { value: 12, unit: "px" } }
-  }
-} satisfies Schema["tokens"];
+import generate from "../src/generate";
 
 const spec = {
   components: {},
   icons: {},
-  tokens
+  fonts: {},
+  tokens: {
+    color: {
+      $type: "color",
+      primary: {
+        $value: "#0066cc",
+        $description: "Brand primary"
+      }
+    }
+  }
 } as Schema;
 
-describe("toThemeCssVar", () => {
-  it("maps token paths onto Tailwind theme custom properties", () => {
-    expect(toThemeCssVar("color.primary")).toBe("--color-primary");
-    expect(toThemeCssVar("radius.DEFAULT")).toBe("--radius");
-    expect(toThemeCssVar("radius.lg")).toBe("--radius-lg");
-  });
-});
+function cssContent(
+  documents: Record<string, { chunks?: Array<{ content?: string }> }>,
+  path: string
+): string {
+  return documents[path]?.chunks?.[0]?.content ?? "";
+}
 
-describe("flattenThemeTokens / renderTailwindCss", () => {
-  it("flattens DTCG tokens into @theme rows", () => {
-    const flat = flattenThemeTokens(spec.tokens);
-    expect(flat.map(token => token.cssVar)).toEqual(
-      expect.arrayContaining([
-        "--color-primary",
-        "--color-secondary",
-        "--spacing-sm",
-        "--radius",
-        "--radius-lg"
-      ])
-    );
-    expect(flat.find(token => token.path === "color.primary")?.cssValue).toBe(
-      "#0066cc"
-    );
-  });
-
-  it("renders a Tailwind v4 CSS entry", () => {
-    const css = renderTailwindCss(flattenThemeTokens(spec.tokens));
-    expect(css).toContain(`@import "tailwindcss";`);
-    expect(css).toContain("@theme {");
-    expect(css).toContain("--color-primary: #0066cc;");
-    expect(css).toContain("--spacing-sm: 0.5rem;");
-    expect(css).toContain("--radius: 4px;");
-  });
-});
-
-describe("tailwindcss extract plugin", () => {
+describe("css generate plugin", () => {
   it("is a Razorwind Plugin", () => {
-    const plugin = extract({});
-    expect(plugin.name).toBe("tailwindcss:extract");
-    expect(typeof plugin.extract).toBe("function");
-  });
-
-  it("leaves existing tokens untouched", async () => {
-    const plugin = extract({});
-    const existing = {
-      color: { primary: { $type: "color", $value: "#000" } }
-    };
-
-    const result = await plugin.extract!(
-      { tokens: existing, components: {}, icons: {} },
-      {
-        cwd: process.cwd(),
-        registryPath: process.cwd(),
-        plugins: [plugin],
-        envPaths: {
-          data: "",
-          config: "",
-          cache: "",
-          log: "",
-          temp: "",
-          home: ""
-        }
-      } as never
-    );
-
-    expect(result.tokens).toBe(existing);
-  });
-});
-
-describe("tailwindcss generate plugin", () => {
-  it("is a Razorwind Plugin", () => {
-    const plugin = generate({ cssPath: "src/theme.css" });
-    expect(plugin.name).toBe("tailwindcss:generate");
+    const plugin = generate({});
+    expect(plugin.name).toBe("css:generate");
     expect(typeof plugin.generate).toBe("function");
   });
 
-  it("generates Tailwind CSS from schema tokens", async () => {
-    const plugin = generate({ cssPath: "src/theme.css" });
-    const documents = await plugin.generate!(spec, {} as never);
+  it("emits CSS custom properties from tokens", async () => {
+    const plugin = generate({ outputPath: "src/styles.css" });
+    const documents = await plugin.generate!(spec, {
+      cwd: process.cwd()
+    } as never);
 
-    expect(Object.keys(documents)).toEqual(["src/theme.css"]);
-    const css = documents["src/theme.css"]?.chunks?.[0]?.content;
-    expect(css).toContain(`@import "tailwindcss";`);
-    expect(css).toContain("--color-primary: #0066cc;");
-    expect(css).toContain("--radius-lg: 12px;");
+    const css = cssContent(documents, "src/styles.css");
+    expect(css).toContain("--color-primary");
+    expect(css).toContain("#0066cc");
   });
 
-  it("generateTailwindCss mirrors the plugin generate output", async () => {
-    const documents = await generateTailwindCss(spec, {
-      cssPath: "out/app.css",
-      includeImport: false
-    });
+  it("prepends Google Fonts @import when spec.fonts is set", async () => {
+    const plugin = generate({ outputPath: "src/styles.css" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans",
+            weights: [400, 700],
+            display: "swap"
+          }
+        }
+      },
+      { cwd: process.cwd() } as never
+    );
 
-    const css = documents["out/app.css"]?.chunks?.[0]?.content;
-    expect(css).not.toContain(`@import "tailwindcss";`);
-    expect(css).toContain("@theme {");
-    expect(css).toContain("--color-secondary: #663399;");
+    const css = cssContent(documents, "src/styles.css");
+    expect(css).toContain(
+      '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");'
+    );
+    expect(css).toContain("--color-primary");
   });
 });

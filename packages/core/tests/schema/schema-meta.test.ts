@@ -35,7 +35,8 @@ describe("schema metadata fields", () => {
       logo: "assets/logo.svg",
       tokens: {},
       icons: {},
-      components: {}
+      components: {},
+      fonts: {}
     });
 
     expect(result.success).toBe(true);
@@ -49,7 +50,8 @@ describe("schema metadata fields", () => {
     const result = schema.safeParse({
       tokens: {},
       icons: {},
-      components: {}
+      components: {},
+      fonts: {}
     });
 
     expect(result.success).toBe(true);

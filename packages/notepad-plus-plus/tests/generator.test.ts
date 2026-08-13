@@ -83,7 +83,7 @@ const multiThemeTokens = {
 
 const spec = {
   components: {},
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 
@@ -377,6 +377,28 @@ describe("notepad-plus-plus plugin", () => {
       documents["notepad-plus-plus-themes/dracula.xml"]!.chunks![0]!.content;
     expect(theme).toContain("Dracula");
     expect(theme).toContain("<LexerType name=\"cpp\"");
+  });
+
+  it("fills fontName from spec.fonts when styles omit it", () => {
+    const documents = generateNotepadPlusPlusTheme(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans"
+          }
+        }
+      },
+      { mapTheme: mapDraculaTheme }
+    );
+
+    const theme =
+      documents["notepad-plus-plus-themes/dracula.xml"]!.chunks![0]!.content;
+    expect(theme).toContain('fontName="Inter"');
   });
 
   it("emits one file per mapped theme", () => {

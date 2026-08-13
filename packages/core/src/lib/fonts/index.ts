@@ -16,25 +16,29 @@
 
  ------------------------------------------------------------------- */
 
-import { plugin as tsdown } from "@powerlines/plugin-tsdown";
-import { defineConfig } from "powerlines/config";
-
-export default defineConfig({
-  input: [
-    "src/index.ts",
-    "src/plugin.ts",
-    "src/schema/index.ts",
-    "src/lib/tokens/index.ts",
-    "src/lib/fonts/index.ts",
-    "src/utils/index.ts"
-  ],
-  platform: "node",
-  output: {
-    format: ["cjs", "esm"]
-  },
-  resolve: {
-    noExternal: ["style-dictionary"],
-    skipNodeModulesBundle: true
-  },
-  plugins: [tsdown()]
-});
+export {
+  FONT_EXTENSIONS,
+  FONT_FORMAT_FROM_EXTENSION,
+  GENERIC_FALLBACK_FROM_ROLE,
+  MONO_ROLES,
+  SANS_ROLES,
+  WEIGHT_FROM_SUFFIX
+} from "./constants";
+export { copyFontFiles } from "./copy";
+export {
+  cssFontFamily,
+  fontFamilyName,
+  prependFontCss,
+  renderFontCss,
+  renderGoogleFontImports,
+  renderLocalFontFaces,
+  toGoogleFontsCssUrl,
+  type RenderFontCssOptions
+} from "./css";
+export { loadFonts, parseFontFilename, type ParsedFontFilename } from "./load";
+export {
+  isEmptyFonts,
+  mergeFonts,
+  parseCssFonts,
+  pickFontByRole
+} from "./parse";

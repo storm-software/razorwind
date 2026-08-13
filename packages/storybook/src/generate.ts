@@ -17,7 +17,13 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import type { Schema } from "@razorwind/core/schema";
+import {
+  cssFontFamily,
+  MONO_ROLES,
+  pickFontByRole,
+  SANS_ROLES
+} from "@razorwind/core/lib/fonts";
+import type { Fonts, Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { flattenTokens } from "./flatten";
@@ -122,7 +128,7 @@ ${items || "      {/* No color tokens */}"}
  */
 export function renderTypesetBlock(
   tokens: FlatToken[],
-  options: Pick<StorybookPluginOptions, "sampleText"> = {}
+  options: Pick<StorybookPluginOptions, "sampleText"> & { fonts?: Fonts } = {}
 ): string {
   const sampleText = options.sampleText ?? DEFAULT_SAMPLE_TEXT;
   const fontSizes = tokens
@@ -138,7 +144,9 @@ export function renderTypesetBlock(
     });
 
   const uniqueSizes = [...new Set(fontSizes)];
+  const fromFonts = pickFontByRole(options.fonts, SANS_ROLES);
   const fontFamily =
+    (fromFonts ? cssFontFamily(fromFonts) : undefined) ??
     tokens.find(token => token.type === "fontFamily")?.cssValue ??
     "system-ui, sans-serif";
   const fontWeightToken = tokens.find(token => token.type === "fontWeight");
@@ -473,13 +481,19 @@ function isStorybookTheme(value: unknown): value is StorybookTheme {
  */
 export function applyBrandDefaults(
   theme: StorybookTheme,
-  identity: { title?: string; homepage?: string; logo?: string }
+  identity: { title?: string; homepage?: string; logo?: string },
+  fonts?: Fonts
 ): StorybookTheme {
+  const sans = pickFontByRole(fonts, SANS_ROLES);
+  const mono = pickFontByRole(fonts, MONO_ROLES);
+
   return {
     ...theme,
     brandTitle: theme.brandTitle ?? identity.title,
     brandUrl: theme.brandUrl ?? identity.homepage,
-    brandImage: theme.brandImage ?? identity.logo
+    brandImage: theme.brandImage ?? identity.logo,
+    fontBase: theme.fontBase ?? (sans ? cssFontFamily(sans) : undefined),
+    fontCode: theme.fontCode ?? (mono ? cssFontFamily(mono) : undefined)
   };
 }
 
@@ -536,14 +550,16 @@ export function generateTokenDocs(
   const docsOptions = { ...options, titlePrefix };
   const flat = flattenTokens(spec.tokens, options);
   const hasColors = flat.some(token => token.type === "color");
-  const hasTypography = flat.some(
-    token =>
-      token.type === "fontFamily" ||
-      token.type === "fontWeight" ||
-      token.type === "typography" ||
-      (token.type === "dimension" &&
-        /(?:font|type|text).*size|size.*(?:font|type|text)/i.test(token.path))
-  );
+  const hasTypography =
+    (spec.fonts && Object.keys(spec.fonts).length > 0) ||
+    flat.some(
+      token =>
+        token.type === "fontFamily" ||
+        token.type === "fontWeight" ||
+        token.type === "typography" ||
+        (token.type === "dimension" &&
+          /(?:font|type|text).*size|size.*(?:font|type|text)/i.test(token.path))
+    );
   const hasIcons =
     !options.skipIcons &&
     isObject(spec.icons) &&
@@ -557,7 +573,7 @@ export function generateTokenDocs(
     ),
     [join(outputPath, "blocks/Typeset.tsx")]: document(
       join(outputPath, "blocks/Typeset.tsx"),
-      renderTypesetBlock(flat, docsOptions),
+      renderTypesetBlock(flat, { ...docsOptions, fonts: spec.fonts }),
       "tsx"
     ),
     [join(outputPath, "blocks/TokenTable.tsx")]: document(
@@ -621,7 +637,7 @@ export function generateTokenDocs(
     if (isStorybookTheme(theme)) {
       documents[join(outputPath, "theme.ts")] = document(
         join(outputPath, "theme.ts"),
-        renderThemeFile(applyBrandDefaults(theme, identity)),
+        renderThemeFile(applyBrandDefaults(theme, identity, spec.fonts)),
         "typescript"
       );
     } else if (isObject(theme)) {
@@ -631,7 +647,7 @@ export function generateTokenDocs(
         }
         documents[join(outputPath, `theme-${key}.ts`)] = document(
           join(outputPath, `theme-${key}.ts`),
-          renderThemeFile(applyBrandDefaults(value, identity)),
+          renderThemeFile(applyBrandDefaults(value, identity, spec.fonts)),
           "typescript"
         );
       }

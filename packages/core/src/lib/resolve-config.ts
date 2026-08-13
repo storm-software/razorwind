@@ -252,6 +252,7 @@ export async function resolveConfig(
     {
       componentsPath: cwd,
       iconsPath: joinPaths(cwd, "assets/icons"),
+      fontsPath: joinPaths(cwd, "assets/fonts"),
       plugins: []
     }
   );
@@ -277,6 +278,18 @@ export async function resolveConfig(
     config.iconsPath = findFilePath(config.iconsPath);
   } else {
     config.iconsPath = joinPaths(cwd, "assets/icons");
+  }
+
+  if (Array.isArray(config.fontsPath)) {
+    const paths = config.fontsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.fontsPath =
+      paths.length > 0 ? paths : joinPaths(cwd, "assets/fonts");
+  } else if (isSetString(config.fontsPath)) {
+    config.fontsPath = findFilePath(config.fontsPath);
+  } else {
+    config.fontsPath = joinPaths(cwd, "assets/fonts");
   }
 
   const plugins = uniquePlugins(

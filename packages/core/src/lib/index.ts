@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 export * from "./components";
+export * from "./fonts";
 export * from "./icons";
 export * from "./meta";
 export * from "./resolve-config";

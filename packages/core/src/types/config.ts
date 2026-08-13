@@ -20,6 +20,7 @@ import type { Tokens } from "@power-plant/dtcg-schema";
 import type { EnvPaths } from "@stryke/env/get-env-paths";
 import type { RequiredKeys } from "@stryke/types/base";
 import type { Components } from "../schema/components";
+import type { Fonts } from "../schema/fonts";
 import type { Icons } from "../schema/icons";
 import type { Plugin } from "./plugin";
 
@@ -54,6 +55,13 @@ export interface Options {
    * @defaultValue "assets/icons"
    */
   iconsPath?: string | string[];
+
+  /**
+   * The path(s) to directories containing font files or font directories.
+   *
+   * @defaultValue "assets/fonts"
+   */
+  fontsPath?: string | string[];
 
   /**
    * Token source path(s): file, directory, Style Dictionary config, or glob.
@@ -144,6 +152,7 @@ export interface UserConfig extends Options {
   tokens?: Tokens | Record<string, Tokens>;
   components?: Components;
   icons?: Icons;
+  fonts?: Fonts;
   plugins?: Plugin[];
 }
 
@@ -169,7 +178,7 @@ export type UserConfigExport =
 
 export type Config = RequiredKeys<
   UserConfig,
-  "componentsPath" | "iconsPath" | "plugins"
+  "componentsPath" | "iconsPath" | "fontsPath" | "plugins"
 > & {
   cwd: string;
   envPaths: EnvPaths & {

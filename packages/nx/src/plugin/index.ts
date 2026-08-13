@@ -59,6 +59,16 @@ export interface NxPluginOptions {
   componentsPath?: string | string[];
 
   /**
+   * The path to a directory containing icon assets or icon directories, or an array of paths.
+   */
+  iconsPath?: string | string[];
+
+  /**
+   * The path to a directory containing font files or font directories, or an array of paths.
+   */
+  fontsPath?: string | string[];
+
+  /**
    * The path to the tokens.json file, or an array of paths.
    */
   tokensPath?: string | string[];
@@ -203,6 +213,16 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
                   : options?.componentsPath) ?? []
               ).map(path => joinPaths("{workspaceRoot}", path)),
               ...(
+                (isSetString(options?.iconsPath)
+                  ? [options.iconsPath]
+                  : options?.iconsPath) ?? []
+              ).map(path => joinPaths("{workspaceRoot}", path)),
+              ...(
+                (isSetString(options?.fontsPath)
+                  ? [options.fontsPath]
+                  : options?.fontsPath) ?? []
+              ).map(path => joinPaths("{workspaceRoot}", path)),
+              ...(
                 (isSetString(options?.tokensPath)
                   ? [options.tokensPath]
                   : options?.tokensPath) ?? []
@@ -214,6 +234,8 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
             options: {
               configFile,
               componentsPath: options?.componentsPath,
+              iconsPath: options?.iconsPath,
+              fontsPath: options?.fontsPath,
               tokensPath: options?.tokensPath
             },
             configurations: {

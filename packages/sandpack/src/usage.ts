@@ -21,8 +21,7 @@ import type {
   Components,
   ComponentUsage
 } from "@razorwind/core/schema";
-import { isObject } from "@razorwind/core/utils";
-import { titleCase } from "@stryke/string-format/title-case";
+import { isObject, titleCase } from "@razorwind/core/utils";
 import type { SandpackFiles, SandpackUsage } from "./types";
 
 function extensionFromLanguage(

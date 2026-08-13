@@ -93,6 +93,8 @@ async function generateForProject(
     configFile: string;
     mode: "development" | "production";
     componentsPath?: string | string[];
+    iconsPath?: string | string[];
+    fontsPath?: string | string[];
     tokensPath?: string | string[];
   }
 ): Promise<string[]> {
@@ -104,6 +106,8 @@ async function generateForProject(
     configFile: options.configFile,
     mode: options.mode,
     componentsPath: options.componentsPath,
+    iconsPath: options.iconsPath,
+    fontsPath: options.fontsPath,
     tokensPath: options.tokensPath,
     cwd: tree.root,
     output: noop
@@ -151,6 +155,8 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
       configFile,
       mode: defaultMode,
       componentsPath: undefined,
+      iconsPath: undefined,
+      fontsPath: undefined,
       tokensPath: undefined
     });
     outOfSyncDetails.push(...changed);
@@ -163,6 +169,8 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
         configFile: workspaceConfigFile,
         mode: defaultMode,
         componentsPath: undefined,
+        iconsPath: undefined,
+        fontsPath: undefined,
         tokensPath: undefined
       });
       outOfSyncDetails.push(...changed);
@@ -179,6 +187,8 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
       let configFile: string | undefined;
       let mode = defaultMode;
       let componentsPath: string | string[] | undefined;
+      let iconsPath: string | string[] | undefined;
+      let fontsPath: string | string[] | undefined;
       let tokensPath: string | string[] | undefined;
 
       if (generateTarget?.executor === GENERATE_EXECUTOR) {
@@ -191,6 +201,8 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
           (targetMode as "development" | "production" | undefined) ??
           defaultMode;
         componentsPath = generateTarget.options?.componentsPath;
+        iconsPath = generateTarget.options?.iconsPath;
+        fontsPath = generateTarget.options?.fontsPath;
         tokensPath = generateTarget.options?.tokensPath;
 
         const configured = generateTarget.options?.configFile
@@ -219,6 +231,8 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
         configFile,
         mode,
         componentsPath,
+        iconsPath,
+        fontsPath,
         tokensPath
       });
       outOfSyncDetails.push(...changed);

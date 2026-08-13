@@ -53,7 +53,7 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 
@@ -106,7 +106,7 @@ describe("tailwindcss extract plugin", () => {
     };
 
     const result = await plugin.extract!(
-      { tokens: existing, components: {}, icons: {} },
+      { tokens: existing, components: {}, icons: {}, fonts: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
@@ -158,5 +158,34 @@ describe("tailwindcss generate plugin", () => {
     expect(css).toContain("@theme {");
     expect(css).toContain("--color-secondary: #663399;");
     expect(documents["out/INSTALL.md"]).toBeDefined();
+  });
+
+  it("emits Google Fonts imports and --font-role theme vars", async () => {
+    const documents = await generateTailwindCss(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans",
+            weights: [400, 700],
+            display: "swap"
+          }
+        }
+      },
+      { cssPath: "out/app.css", includeImport: true }
+    );
+
+    const css = documents["out/app.css"]?.chunks?.[0]?.content;
+    expect(css).toContain(
+      '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");'
+    );
+    expect(css).toContain("--font-sans:");
+    expect(css.indexOf("@import url(")).toBeLessThan(
+      css?.indexOf('@import "tailwindcss"') ?? -1
+    );
   });
 });

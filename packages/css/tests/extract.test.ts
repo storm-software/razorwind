@@ -153,7 +153,7 @@ describe("css extract plugin", () => {
     };
 
     const result = await plugin.extract!(
-      { tokens: existing, components: {}, icons: {} },
+      { tokens: existing, components: {}, icons: {}, fonts: {} },
       {
         cwd: process.cwd(),
         registryPath: process.cwd(),
@@ -170,6 +170,38 @@ describe("css extract plugin", () => {
     );
 
     expect(result.tokens).toBe(existing);
+  });
+
+  it("merges Google Fonts imports into spec.fonts", async () => {
+    const dir = await makeCssFixture(`
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+
+:root {
+  --color-primary: #0066cc;
+}
+`);
+    const plugin = extract({ cssPath: "src/styles.css" });
+    const result = await plugin.extract!(
+      { tokens: {}, components: {}, icons: {}, fonts: {} },
+      {
+        cwd: dir,
+        plugins: [plugin],
+        envPaths: {
+          data: "",
+          config: "",
+          cache: "",
+          log: "",
+          temp: "",
+          home: ""
+        }
+      } as never
+    );
+
+    expect(result.fonts?.inter).toMatchObject({
+      source: "google",
+      family: "Inter",
+      weights: [400, 700]
+    });
   });
 
   it("parses CSS contents through the css parser hook", () => {

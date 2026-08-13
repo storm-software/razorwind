@@ -37,7 +37,7 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 

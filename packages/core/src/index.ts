@@ -25,6 +25,7 @@ import { defu } from "defu";
 import type StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
 import { loadComponents } from "./lib/components";
+import { loadFonts } from "./lib/fonts";
 import { loadIcons } from "./lib/icons";
 import { resolveSchemaMeta } from "./lib/meta";
 import { resolveConfig } from "./lib/resolve-config";
@@ -55,7 +56,7 @@ export const generator = defineGenerator<Schema, Options, any>({
     name: "razorwind",
     title: "Razorwind",
     description:
-      "A generator that uses Razorwind to generate design system code from design tokens, components, and icons.",
+      "A generator that uses Razorwind to generate design system code from design tokens, components, icons, and fonts.",
     version: packageJson.version,
     tags: ["razorwind", "dtcg"]
   },
@@ -86,7 +87,11 @@ export const generator = defineGenerator<Schema, Options, any>({
         context.options.components ?? {},
         (await loadComponents(context)) ?? {}
       ),
-      icons: defu(context.options.icons ?? {}, (await loadIcons(context)) ?? {})
+      icons: defu(
+        context.options.icons ?? {},
+        (await loadIcons(context)) ?? {}
+      ),
+      fonts: defu(context.options.fonts ?? {}, (await loadFonts(context)) ?? {})
     };
 
     for (const plugin of context.options.plugins.filter(

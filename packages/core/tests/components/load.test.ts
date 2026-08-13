@@ -81,7 +81,7 @@ describe("loadComponents usage", () => {
   it("resolves declared usage paths from component.json", async () => {
     const root = await createFixture();
     const componentDir = join(root, "card");
-    await mkdir(componentDir, { recursive: true });
+    await mkdir(join(componentDir, "examples"), { recursive: true });
     await writeFile(
       join(componentDir, "examples", "basic.tsx"),
       "export const Basic = () => <Card />;\n",

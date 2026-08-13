@@ -74,6 +74,7 @@ const spec = {
       ]
     }
   },
+  fonts: {},
   tokens
 } as Schema;
 
@@ -176,9 +177,12 @@ describe("storybook plugin", () => {
   it("writes a Storybook theme when mapTheme is provided", () => {
     const documents = generateTokenDocs(spec, {
       outputPath: "out",
-      mapTheme: (tokens: Schema["tokens"]) : StorybookTheme => ({
+      mapTheme: (tokens: Schema["tokens"]): StorybookTheme => ({
         base: "light",
-        colorPrimary: (tokens.color as Record<string, Tokens>)?.primary?.$value as string,
+        colorPrimary: (
+          (tokens.color as Record<string, { $value?: { hex?: string } }>)
+            ?.primary?.$value?.hex
+        ) as string,
         fontBase: (tokens.font as Record<string, Tokens>)?.family?.sans as string,
         brandTitle: "Razorwind"
       })
@@ -190,6 +194,41 @@ describe("storybook plugin", () => {
     expect(theme).toContain('base: "light"');
     expect(theme).toContain('colorPrimary: "#0066cc"');
     expect(theme).toContain("brandTitle: \"Razorwind\"");
+  });
+
+  it("uses spec.fonts for Typeset and theme fontBase when mapTheme omits them", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans"
+          },
+          mono: {
+            name: "mono",
+            title: "JetBrains Mono",
+            source: "google",
+            family: "JetBrains Mono",
+            role: "mono"
+          }
+        }
+      },
+      {
+        outputPath: "out",
+        mapTheme: () => ({ base: "dark" })
+      }
+    );
+
+    const typeset = documents["out/blocks/Typeset.tsx"]?.chunks?.[0]?.content;
+    expect(typeset).toContain("Inter");
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain("fontBase:");
+    expect(theme).toContain("fontCode:");
+    expect(theme).toContain("JetBrains Mono");
   });
 
   it("skips theme.ts when mapTheme is omitted", () => {

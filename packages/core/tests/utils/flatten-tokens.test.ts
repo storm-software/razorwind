@@ -22,7 +22,7 @@ import {
   resolveTokenSets,
   titleCase,
   themeDisplayName
-} from "../src/utils";
+} from "../../src/utils";
 
 describe("titleCase", () => {
   it("title-cases slug separators", () => {

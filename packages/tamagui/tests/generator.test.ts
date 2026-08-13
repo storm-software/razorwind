@@ -76,7 +76,7 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 
@@ -190,5 +190,27 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
     expect(content).not.toContain("declare module");
+  });
+
+  it("emits createFont from spec.fonts", () => {
+    const content = renderTamaguiConfig(
+      flattenTokens(spec.tokens),
+      { useDefaultConfig: false, animations: false },
+      {
+        inter: {
+          name: "inter",
+          title: "Inter",
+          source: "google",
+          family: "Inter",
+          role: "sans"
+        }
+      }
+    );
+
+    expect(content).toContain("createFont");
+    expect(content).toContain("isWeb");
+    expect(content).toContain("bodyFont");
+    expect(content).toContain("fonts: {");
+    expect(content).toContain("body: bodyFont");
   });
 });

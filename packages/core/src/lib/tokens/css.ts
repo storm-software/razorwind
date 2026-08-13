@@ -32,7 +32,17 @@ export function parseCssCustomProperties(
   const flat: Record<string, unknown> = {};
 
   // Strip comments so property regex does not match inside them.
-  const withoutComments = contents.replace(/\/\*[\s\S]*?\*\//g, "");
+  const withoutComments = contents
+    .split("\t")
+    .join("    ")
+    .replace(/\s*\{\s*/g, " {\n    ")
+    .replace(/;\s*/g, ";\n    ")
+    .replace(/,\s*/g, ", ")
+    .replace(/ *\}\s*/g, "}\n")
+    .replace(/\}\s*(.+)/g, "}\n$1")
+    .replace(/\n {4}([^:]+):\s*/g, "\n    $1: ")
+    .replace(/([a-z0-9-)])\}/gi, "$1;\n}")
+    .replace(/\/\*[\s\S]*?\*\//g, "");
 
   for (const match of withoutComments.matchAll(CUSTOM_PROPERTY_RE)) {
     const name = match[1];

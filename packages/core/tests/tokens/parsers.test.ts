@@ -52,6 +52,7 @@ function testConfig(cwd: string): Config {
     cwd,
     componentsPath: cwd,
     iconsPath: cwd,
+    fontsPath: cwd,
     plugins: [],
     envPaths: {
       data: "",

@@ -45,6 +45,24 @@ export default defineUntypedSchema({
         description:
           "The path to a directory containing component directories or files, or an array of paths"
       },
+      iconsPath: {
+        oneOf: [
+          { type: "string" },
+          { type: "array", items: { type: "string" } }
+        ],
+        tsType: "string | string[]",
+        description:
+          "The path to a directory containing icon assets or icon directories, or an array of paths"
+      },
+      fontsPath: {
+        oneOf: [
+          { type: "string" },
+          { type: "array", items: { type: "string" } }
+        ],
+        tsType: "string | string[]",
+        description:
+          "The path to a directory containing font files or font directories, or an array of paths"
+      },
       tokensPath: {
         oneOf: [
           { type: "string" },

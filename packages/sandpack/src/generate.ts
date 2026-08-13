@@ -17,7 +17,13 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import type { Schema } from "@razorwind/core/schema";
+import {
+  fontFamilyName,
+  MONO_ROLES,
+  pickFontByRole,
+  SANS_ROLES
+} from "@razorwind/core/lib/fonts";
+import type { Fonts, Schema } from "@razorwind/core/schema";
 import { createDocument, isObject } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
@@ -174,6 +180,34 @@ function assertOptions(
   }
 }
 
+function applyFontDefaults(
+  theme: SandpackTheme,
+  fonts: Fonts | undefined
+): SandpackTheme {
+  if (!fonts || Object.keys(fonts).length === 0) {
+    return theme;
+  }
+
+  const sans = pickFontByRole(fonts, SANS_ROLES);
+  const mono = pickFontByRole(fonts, MONO_ROLES);
+  const body = theme.font?.body ?? (sans ? fontFamilyName(sans) : undefined);
+  const monoFamily =
+    theme.font?.mono ?? (mono ? fontFamilyName(mono) : undefined);
+
+  if (!body && !monoFamily && !theme.font) {
+    return theme;
+  }
+
+  return {
+    ...theme,
+    font: {
+      ...theme.font,
+      ...(body ? { body } : {}),
+      ...(monoFamily ? { mono: monoFamily } : {})
+    }
+  };
+}
+
 /**
  * Serialize a Sandpack theme document for `themes/*.json`.
  *
@@ -252,7 +286,9 @@ export function generateSandpackTheme(
   assertOptions(options);
 
   const outputPath = options.outputPath ?? "sandpack";
-  const themes = normalizeThemes(options.mapTheme(spec.tokens));
+  const themes = normalizeThemes(options.mapTheme(spec.tokens)).map(theme =>
+    applyFontDefaults(theme, spec.fonts)
+  );
 
   if (themes.length === 0) {
     throw new Error("@razorwind/sandpack mapTheme() returned no themes");

@@ -18,8 +18,18 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import {
+  fontFamilyName,
+  pickFontByRole,
+  SANS_ROLES
+} from "@razorwind/core/lib/fonts";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, resolveSchemaIdentity, slugifyThemeName } from "@razorwind/core/utils";
+import {
+  createDocument,
+  isObject,
+  resolveSchemaIdentity,
+  slugifyThemeName
+} from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type {
@@ -102,6 +112,28 @@ function assertOptions(
   if (!options.mapTheme) {
     throw new Error("@razorwind/ghostty requires options.mapTheme");
   }
+}
+
+function applyFontDefaults(
+  theme: GhosttyTheme,
+  fonts: Schema["fonts"] | undefined
+): GhosttyTheme {
+  if (theme.config?.["font-family"]) {
+    return theme;
+  }
+
+  const sans = pickFontByRole(fonts, SANS_ROLES);
+  if (!sans) {
+    return theme;
+  }
+
+  return {
+    ...theme,
+    config: {
+      ...theme.config,
+      "font-family": fontFamilyName(sans)
+    }
+  };
 }
 
 /**
@@ -244,7 +276,9 @@ export function generateGhosttyTheme(
   assertOptions(options);
 
   const outputPath = options.outputPath ?? "ghostty-themes";
-  const themes = normalizeThemes(options.mapTheme(spec.tokens));
+  const themes = normalizeThemes(options.mapTheme(spec.tokens)).map(theme =>
+    applyFontDefaults(theme, spec.fonts)
+  );
 
   if (themes.length === 0) {
     throw new Error("@razorwind/ghostty mapTheme() returned no themes");

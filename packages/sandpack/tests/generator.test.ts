@@ -96,7 +96,7 @@ export default function App() {
 
 const spec = {
   components,
-  icons: {},
+  icons: {}, fonts: {},
   tokens
 } as Schema;
 
@@ -325,6 +325,36 @@ describe("sandpack plugin", () => {
     expect(
       Object.keys(documents).some(path => path.includes("/usage/"))
     ).toBe(false);
+  });
+
+  it("fills theme.font from spec.fonts when mapTheme omits font", () => {
+    const documents = generateSandpackTheme(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans"
+          },
+          mono: {
+            name: "mono",
+            title: "JetBrains Mono",
+            source: "google",
+            family: "JetBrains Mono",
+            role: "mono"
+          }
+        }
+      },
+      { mapTheme: mapDarkTheme, includeUsage: false }
+    );
+
+    const json = documents["sandpack/themes/demo-dark.json"]?.chunks?.[0]
+      ?.content;
+    expect(json).toContain('"body": "Inter"');
+    expect(json).toContain('"mono": "JetBrains Mono"');
   });
 
   it("emits one theme file per mapped theme", () => {

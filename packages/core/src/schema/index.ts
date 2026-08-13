@@ -19,13 +19,31 @@
 export {
   componentFileSchema,
   componentSchema,
-  componentsSchema,
   componentUsageSchema,
+  componentsSchema,
   type Component,
   type ComponentFile,
-  type Components,
-  type ComponentUsage
+  type ComponentUsage,
+  type Components
 } from "./components";
+export {
+  fontDisplaySchema,
+  fontFileFormatSchema,
+  fontFileSchema,
+  fontRoleSchema,
+  fontSchema,
+  fontsSchema,
+  googleFontSchema,
+  localFontSchema,
+  type Font,
+  type FontDisplay,
+  type FontFile,
+  type FontFileFormat,
+  type FontRole,
+  type Fonts,
+  type GoogleFont,
+  type LocalFont
+} from "./fonts";
 export {
   iconFileSchema,
   iconSchema,

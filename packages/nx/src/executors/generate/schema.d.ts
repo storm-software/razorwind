@@ -27,6 +27,22 @@ export interface GenerateExecutorSchema {
  componentsPath?: string | string[],
 
  /**
+  * The path to a directory containing icon assets or icon directories, or an array of paths
+  * 
+  * 
+  * @oneOf [object Object],[object Object]
+ */
+ iconsPath?: string | string[],
+
+ /**
+  * The path to a directory containing font files or font directories, or an array of paths
+  * 
+  * 
+  * @oneOf [object Object],[object Object]
+ */
+ fontsPath?: string | string[],
+
+ /**
   * The path to the tokens.json file, or an array of paths
   * 
   * 

@@ -19,11 +19,16 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, resolveSchemaIdentity, titleCase } from "@razorwind/core/utils";
+import {
+  createDocument,
+  isObject,
+  resolveSchemaIdentity,
+  titleCase
+} from "@razorwind/core/utils";
 import { join } from "node:path";
+import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
-import { renderInstallMd } from "./install";
 import type { DocgenGeneratePluginOptions, FlatToken } from "./types";
 
 function frontmatter(fields: Record<string, string>): string {
@@ -151,13 +156,15 @@ export function renderIndexMdx(input: {
   hasComponents: boolean;
   componentPages?: { slug: string; title: string; count: number }[];
   iconCount?: number;
+  fontCount?: number;
 }): string {
   const {
     title,
     groups,
     hasComponents,
     componentPages = [],
-    iconCount = 0
+    iconCount = 0,
+    fontCount = 0
   } = input;
 
   const totalTokens = [...groups.values()].reduce(
@@ -176,7 +183,7 @@ export function renderIndexMdx(input: {
   const sections: string[] = [
     frontmatter({
       title,
-      description: `Generated reference documentation for the ${title} design tokens, components, and icons.`
+      description: `Generated reference documentation for the ${title} design tokens, components, icons, and fonts.`
     }),
     `# ${title}`,
     `This documentation is generated from the design system specification. It covers ${totalTokens} design token${totalTokens === 1 ? "" : "s"} across ${groups.size} group${groups.size === 1 ? "" : "s"}.`,
@@ -202,6 +209,13 @@ export function renderIndexMdx(input: {
     sections.push(
       "## Icons",
       `- [Icons](./icons.mdx) — ${iconCount} icon${iconCount === 1 ? "" : "s"}`
+    );
+  }
+
+  if (fontCount > 0) {
+    sections.push(
+      "## Fonts",
+      `- [Fonts](./fonts.mdx) — ${fontCount} font${fontCount === 1 ? "" : "s"}`
     );
   }
 
@@ -383,7 +397,10 @@ function renderRegistryItemUsage(item: Record<string, unknown>): string {
       const name =
         readString(entry, "name") ??
         (path
-          ? (path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "example")
+          ? (path
+              .split("/")
+              .pop()
+              ?.replace(/\.[^.]+$/, "") ?? "example")
           : "example");
       const title = readString(entry, "title") ?? titleCase(name);
       const description = readString(entry, "description");
@@ -595,6 +612,116 @@ export function renderIconsMdx(
 }
 
 /**
+ * Extract documented fonts from `schema.fonts`.
+ */
+export function extractFonts(fonts: unknown): Record<string, unknown>[] {
+  if (!isObject(fonts)) {
+    return [];
+  }
+
+  return Object.values(fonts)
+    .filter(isObject)
+    .toSorted((a, b) =>
+      (readString(a, "name") ?? "").localeCompare(readString(b, "name") ?? "")
+    );
+}
+
+function renderFontFiles(item: Record<string, unknown>): string {
+  const files = Array.isArray(item.files) ? item.files : [];
+
+  const rows = files
+    .map(file => {
+      if (!isObject(file)) {
+        return undefined;
+      }
+
+      const path = readString(file, "path");
+      if (!path) {
+        return undefined;
+      }
+
+      const format = readString(file, "format");
+      const weight =
+        typeof file.weight === "number" || typeof file.weight === "string"
+          ? String(file.weight)
+          : undefined;
+      const style = readString(file, "style");
+
+      return `| \`${escapeTableCell(path)}\` | ${format ? `\`${escapeTableCell(format)}\`` : "—"} | ${weight ? `\`${escapeTableCell(weight)}\`` : "—"} | ${style ? `\`${escapeTableCell(style)}\`` : "—"} |`;
+    })
+    .filter((row): row is string => row !== undefined);
+
+  if (rows.length === 0) {
+    return "";
+  }
+
+  return [
+    "| Path | Format | Weight | Style |",
+    "| --- | --- | --- | --- |",
+    ...rows
+  ].join("\n");
+}
+
+function renderFont(item: Record<string, unknown>): string {
+  const name = readString(item, "name") ?? "unknown";
+  const title = readString(item, "title") ?? titleCase(name);
+  const description = readString(item, "description");
+  const source = readString(item, "source") ?? "local";
+  const family = readString(item, "family");
+  const role = readString(item, "role");
+  const tags = readStringArray(item, "tags");
+
+  const sections: string[] = [`## ${title}`];
+
+  if (description) {
+    sections.push(description);
+  }
+
+  const meta = [
+    `- **Name:** \`${name}\``,
+    `- **Source:** \`${source}\``,
+    ...(family ? [`- **Family:** \`${family}\``] : []),
+    ...(role ? [`- **Role:** \`${role}\``] : []),
+    ...(tags.length > 0
+      ? [`- **Tags:** ${tags.map(entry => `\`${entry}\``).join(", ")}`]
+      : [])
+  ];
+  sections.push(meta.join("\n"));
+
+  if (source === "local") {
+    const files = renderFontFiles(item);
+    if (files) {
+      sections.push("### Files", files);
+    }
+  }
+
+  return sections.join("\n\n");
+}
+
+/**
+ * Render an MDX documentation page for all fonts.
+ */
+export function renderFontsMdx(
+  fonts: Record<string, unknown>[],
+  systemTitle = "design system"
+): string {
+  const sections: string[] = [
+    frontmatter({
+      title: "Fonts",
+      description: `Fonts available in the ${systemTitle}.`
+    }),
+    `# Fonts`,
+    `${fonts.length} font${fonts.length === 1 ? "" : "s"} in the design system.`
+  ];
+
+  for (const font of fonts) {
+    sections.push(renderFont(font));
+  }
+
+  return `${sections.join("\n\n")}\n`;
+}
+
+/**
  * Render an MDX documentation page for all components of a single type.
  */
 export function renderRegistryItemsMdx(
@@ -659,6 +786,7 @@ export function generateDocs(
     : extractRegistryItems(spec.components);
   const hasComponents = itemPages.length > 0;
   const icons = options.skipIcons ? [] : extractIcons(spec.icons);
+  const fonts = options.skipFonts ? [] : extractFonts(spec.fonts);
 
   const documents: GeneratorFunctionResult<
     Schema,
@@ -675,7 +803,8 @@ export function generateDocs(
           title: page.title,
           count: page.items.length
         })),
-        iconCount: icons.length
+        iconCount: icons.length,
+        fontCount: fonts.length
       }),
       "mdx"
     )
@@ -701,11 +830,12 @@ export function generateDocs(
 
   if (icons.length > 0) {
     const path = join(outDir, "icons.mdx");
-    documents[path] = document(
-      path,
-      renderIconsMdx(icons, systemTitle),
-      "mdx"
-    );
+    documents[path] = document(path, renderIconsMdx(icons, systemTitle), "mdx");
+  }
+
+  if (fonts.length > 0) {
+    const path = join(outDir, "fonts.mdx");
+    documents[path] = document(path, renderFontsMdx(fonts, systemTitle), "mdx");
   }
 
   documents[join(outDir, "tokens.json")] = document(

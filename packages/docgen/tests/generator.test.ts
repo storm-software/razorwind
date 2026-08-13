@@ -153,6 +153,7 @@ const spec = {
       ]
     }
   },
+  fonts: {},
   tokens
 } satisfies Schema;
 
@@ -325,6 +326,54 @@ describe("docgen generate plugin", () => {
     expect(documents["out/icons.mdx"]).toBeUndefined();
     expect(documents["out/index.mdx"]?.chunks?.[0]?.content).not.toContain(
       "./icons.mdx"
+    );
+  });
+
+  it("writes a fonts page from spec.fonts", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans"
+          }
+        }
+      },
+      { outDir: "out" }
+    );
+
+    expect(documents["out/fonts.mdx"]).toBeDefined();
+    const fonts = documents["out/fonts.mdx"]?.chunks?.[0]?.content;
+    expect(fonts).toContain("Inter");
+    expect(fonts).toContain("`google`");
+    expect(documents["out/index.mdx"]?.chunks?.[0]?.content).toContain(
+      "./fonts.mdx"
+    );
+  });
+
+  it("skips fonts when requested", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter"
+          }
+        }
+      },
+      { outDir: "out", skipFonts: true }
+    );
+
+    expect(documents["out/fonts.mdx"]).toBeUndefined();
+    expect(documents["out/index.mdx"]?.chunks?.[0]?.content).not.toContain(
+      "./fonts.mdx"
     );
   });
 

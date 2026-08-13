@@ -70,4 +70,37 @@ describe("resolveConfig", () => {
 
     expect(config.verbose).toBe(false);
   });
+
+  it("includes a resolved fontsPath on the config", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default { plugins: [] };\n`,
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts"
+    });
+
+    expect(config.fontsPath).toEqual(expect.any(String));
+    expect(String(config.fontsPath).startsWith(dir)).toBe(true);
+  });
+
+  it("keeps an array fontsPath after resolution", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default { plugins: [] };\n`,
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts",
+      fontsPath: ["fonts-a", "fonts-b"]
+    });
+
+    expect(config.fontsPath).toEqual(expect.any(Array));
+    expect(config.fontsPath).toHaveLength(2);
+  });
 });

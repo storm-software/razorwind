@@ -69,6 +69,13 @@ export interface DocgenGeneratePluginOptions {
   skipIcons?: boolean;
 
   /**
+   * Skip generating font documentation pages.
+   *
+   * @defaultValue `false`
+   */
+  skipFonts?: boolean;
+
+  /**
    * Override body for generated `INSTALL.md`. When omitted, doc site wiring
    * steps are generated for the output directory.
    */

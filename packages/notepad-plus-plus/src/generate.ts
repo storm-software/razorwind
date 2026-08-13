@@ -18,8 +18,18 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import {
+  fontFamilyName,
+  pickFontByRole,
+  SANS_ROLES
+} from "@razorwind/core/lib/fonts";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, isObject, resolveSchemaIdentity, slugifyThemeName } from "@razorwind/core/utils";
+import {
+  createDocument,
+  isObject,
+  resolveSchemaIdentity,
+  slugifyThemeName
+} from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd, themeDisplayName } from "./install";
 import type {
@@ -100,6 +110,36 @@ function assertOptions(
   if (!options.mapTheme) {
     throw new Error("@razorwind/notepad-plus-plus requires options.mapTheme");
   }
+}
+
+function applyFontDefaults(
+  theme: NotepadPlusPlusTheme,
+  fonts: Schema["fonts"] | undefined
+): NotepadPlusPlusTheme {
+  if (theme.xml) {
+    return theme;
+  }
+
+  const sans = pickFontByRole(fonts, SANS_ROLES);
+  const fontName = sans ? fontFamilyName(sans) : undefined;
+  if (!fontName) {
+    return theme;
+  }
+
+  return {
+    ...theme,
+    lexerStyles: theme.lexerStyles?.map(lexer => ({
+      ...lexer,
+      wordsStyles: lexer.wordsStyles.map(style => ({
+        ...style,
+        fontName: style.fontName || fontName
+      }))
+    })),
+    globalStyles: theme.globalStyles?.map(style => ({
+      ...style,
+      fontName: style.fontName || fontName
+    }))
+  };
 }
 
 /**
@@ -284,7 +324,9 @@ export function generateNotepadPlusPlusTheme(
   assertOptions(options);
 
   const outputPath = options.outputPath ?? "notepad-plus-plus-themes";
-  const themes = normalizeThemes(options.mapTheme(spec.tokens));
+  const themes = normalizeThemes(options.mapTheme(spec.tokens)).map(theme =>
+    applyFontDefaults(theme, spec.fonts)
+  );
 
   if (themes.length === 0) {
     throw new Error(

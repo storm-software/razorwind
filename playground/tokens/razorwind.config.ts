@@ -49,6 +49,19 @@ export default defineConfig({
   description:
     "Fixture design tokens used to exercise Razorwind generator plugins.",
   tokensPath: join(root, "tokens.json"),
+  fonts: {
+    inter: {
+      name: "inter",
+      title: "Inter",
+      source: "google",
+      family: "Inter",
+      role: "sans",
+      weights: [400, 700],
+      styles: ["normal", "italic"],
+      subsets: ["latin"],
+      display: "swap"
+    }
+  },
   plugins: [
     css({
       outputPath: join(generated, "styles.css")
