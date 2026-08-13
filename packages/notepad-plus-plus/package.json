@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/notepad-plus-plus",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "type": "module",
   "description": "Razorwind plugin that generates Notepad++ themes from design tokens.",
   "repository": {

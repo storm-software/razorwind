@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.36](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.36) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Improve logic to better handle split and multi-themed ([fc0e09e](https://github.com/storm-software/razorwind/commit/fc0e09e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.48**
+
 ## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.35) (08/13/2026)
 
 ### Features

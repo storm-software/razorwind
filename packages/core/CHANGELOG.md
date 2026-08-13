@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/core%400.0.48) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Improve logic to better handle split and multi-themed ([fc0e09e](https://github.com/storm-software/razorwind/commit/fc0e09e))
+- **core:** Resolve issue specifying multiple themes ([817a5b1](https://github.com/storm-software/razorwind/commit/817a5b1))
+
 ## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/core%400.0.47) (08/13/2026)
 
 ### Bug Fixes

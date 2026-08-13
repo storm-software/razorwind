@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.44) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Improve logic to better handle split and multi-themed ([fc0e09e](https://github.com/storm-software/razorwind/commit/fc0e09e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.48**
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.43) (08/13/2026)
 
 ### Features
