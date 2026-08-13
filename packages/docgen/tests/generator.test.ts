@@ -227,7 +227,7 @@ describe("docgen generate plugin", () => {
   });
 
   it("generates MDX documentation from the schema", async () => {
-    const plugin = generate({ outDir: "docs/design-system" });
+    const plugin = generate({ outputPath: "docs/design-system" });
     const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual(
@@ -302,7 +302,7 @@ describe("docgen generate plugin", () => {
 
   it("skips the registry page when requested", () => {
     const documents = generateDocs(spec, {
-      outDir: "out",
+      outputPath: "out",
       skipRegistry: true
     });
 
@@ -319,7 +319,7 @@ describe("docgen generate plugin", () => {
 
   it("skips icons when requested", () => {
     const documents = generateDocs(spec, {
-      outDir: "out",
+      outputPath: "out",
       skipIcons: true
     });
 
@@ -343,7 +343,7 @@ describe("docgen generate plugin", () => {
           }
         }
       },
-      { outDir: "out" }
+      { outputPath: "out" }
     );
 
     expect(documents["out/fonts.mdx"]).toBeDefined();
@@ -368,7 +368,7 @@ describe("docgen generate plugin", () => {
           }
         }
       },
-      { outDir: "out", skipFonts: true }
+      { outputPath: "out", skipFonts: true }
     );
 
     expect(documents["out/fonts.mdx"]).toBeUndefined();
@@ -378,9 +378,9 @@ describe("docgen generate plugin", () => {
   });
 
   it("generateDocs mirrors the plugin generate output", async () => {
-    const plugin = generate({ outDir: "out" });
+    const plugin = generate({ outputPath: "out" });
     const fromPlugin = await plugin.generate!(spec, {} as never);
-    const fromHelper = generateDocs(spec, { outDir: "out" });
+    const fromHelper = generateDocs(spec, { outputPath: "out" });
 
     expect(fromPlugin["out/tokens.json"]?.chunks?.[0]?.content).toEqual(
       fromHelper["out/tokens.json"]?.chunks?.[0]?.content

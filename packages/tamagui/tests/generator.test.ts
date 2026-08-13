@@ -139,7 +139,7 @@ describe("tamagui plugin", () => {
   });
 
   it("generates a Tamagui v5 config from schema tokens", async () => {
-    const plugin = tamagui({ outFile: "src/tamagui.config.ts" });
+    const plugin = tamagui({ outputPath: "src/tamagui.config.ts" });
     const documents = await plugin.generate!(spec, {} as never);
 
     expect(Object.keys(documents)).toEqual([
@@ -170,7 +170,7 @@ describe("tamagui plugin", () => {
 
   it("generateTamaguiConfig mirrors the plugin generate output", () => {
     const documents = generateTamaguiConfig(spec, {
-      outFile: "out/tamagui.config.ts",
+      outputPath: "out/tamagui.config.ts",
       animations: false,
       useDefaultConfig: false
     });

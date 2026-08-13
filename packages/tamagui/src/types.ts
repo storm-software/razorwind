@@ -41,7 +41,7 @@ export interface TamaguiPluginOptions {
    *
    * @defaultValue `"tamagui.config.ts"`
    */
-  outFile?: string;
+  outputPath?: string;
 
   /**
    * Animation driver import from `@tamagui/config/v5-*`.

@@ -16,28 +16,22 @@
 
  ------------------------------------------------------------------- */
 
-import type {
-  GeneratedDocument,
-  GeneratorFunctionResult
-} from "@power-plant/core";
+import type { GeneratorFunctionResult } from "@power-plant/core";
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
-import { defu } from "defu";
 import type StyleDictionary from "style-dictionary";
 import packageJson from "../package.json" with { type: "json" };
-import { loadComponents } from "./lib/components";
-import { loadFonts } from "./lib/fonts";
-import { loadIcons } from "./lib/icons";
-import { resolveSchemaMeta } from "./lib/meta";
-import { resolveConfig } from "./lib/resolve-config";
-import { isEmptyTokens, loadTokens } from "./lib/tokens";
+import type { GenerationRun } from "./lib/generate";
+import { generateAllPluginDocuments } from "./lib/generate";
+import { prepareGenerationRuns } from "./lib/prepare";
 import { writeGeneratedDocuments } from "./lib/write-documents";
-import type { Schema, Tokens } from "./schema";
+import type { Schema } from "./schema";
 import { schema } from "./schema";
 import type { Config, Options } from "./types/config";
 
 declare module "@power-plant/core" {
   interface Context {
     sd: StyleDictionary;
+    generationRuns?: GenerationRun[];
   }
 }
 
@@ -50,6 +44,8 @@ export type * from "./types";
  *
  * Orchestrates configured {@link Plugin}s: extraction hooks, then
  * `extract` → `validate` on input, then `generate`.
+ *
+ * Array `defineConfig([...])` exports run that pipeline once per item.
  */
 export const generator = defineGenerator<Schema, Options, any>({
   meta: {
@@ -64,55 +60,16 @@ export const generator = defineGenerator<Schema, Options, any>({
   input: async (options: Options): Promise<Schema> => {
     // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
     const context = useExecution<Schema, Config>();
-    context.options = await resolveConfig(context.cwd, options);
-
-    if (context.options.plugins.length === 0) {
-      throw new Error(
-        "Razorwind will not generate any code - no plugins configured. Please add at least one plugin to the configuration."
-      );
+    const runs = await prepareGenerationRuns(context, options);
+    const first = runs[0];
+    if (!first) {
+      throw new Error("Unable to resolve Razorwind configuration.");
     }
 
-    let tokens: Tokens | Record<string, Tokens> | undefined =
-      context.options.tokens;
-    if (!tokens || isEmptyTokens(tokens)) {
-      tokens = await loadTokens(context);
-    }
+    context.generationRuns = runs;
+    context.options = first.config;
 
-    const meta = await resolveSchemaMeta(context.cwd, context.options);
-
-    let spec: Schema = {
-      ...meta,
-      tokens: tokens ?? {},
-      components: defu(
-        context.options.components ?? {},
-        (await loadComponents(context)) ?? {}
-      ),
-      icons: defu(
-        context.options.icons ?? {},
-        (await loadIcons(context)) ?? {}
-      ),
-      fonts: defu(context.options.fonts ?? {}, (await loadFonts(context)) ?? {})
-    };
-
-    for (const plugin of context.options.plugins.filter(
-      plugin => plugin.extract
-    )) {
-      spec = await plugin.extract!(spec, context.options);
-    }
-
-    if (!spec.tokens || isEmptyTokens(spec.tokens)) {
-      throw new Error(
-        "Unable to load design tokens for the current workspace. Please ensure that Razorwind is configured correctly and that the tokens are available."
-      );
-    }
-
-    for (const plugin of context.options.plugins.filter(
-      plugin => plugin.validate
-    )) {
-      await plugin.validate!(spec, context.options);
-    }
-
-    return spec;
+    return first.spec;
   },
   output: async (_spec, _options, documents) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
@@ -124,15 +81,11 @@ export const generator = defineGenerator<Schema, Options, any>({
   ): Promise<GeneratorFunctionResult<Schema, Options>> => {
     // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
     const context = useExecution<Schema, Config>();
+    const runs =
+      context.generationRuns && context.generationRuns.length > 0
+        ? context.generationRuns
+        : [{ spec, config: context.options }];
 
-    let documents: Record<string, GeneratedDocument> = {};
-    for (const plugin of context.options.plugins.filter(
-      plugin => plugin.generate
-    )) {
-      const generated = await plugin.generate!(spec, context.options);
-      documents = defu(generated, documents);
-    }
-
-    return documents;
+    return generateAllPluginDocuments(runs);
   }
 });

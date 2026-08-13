@@ -1,0 +1,629 @@
+{
+  "color": {
+    "$description": "The light theme colors",
+    "foreground": {
+      "$description": "The foreground colors for the light theme",
+      "default": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$description": "The default foreground color for the light theme"
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "{color.brand.600}",
+        "$description": "The accent foreground color for the light theme"
+      },
+      "accent-subtle": {
+        "$type": "color",
+        "$value": "{color.brand.700}",
+        "$description": "The accent subtle foreground color for the light theme"
+      },
+      "accent-emphasis": {
+        "$type": "color",
+        "$value": "{color.brand.800}",
+        "$description": "The accent emphasis foreground color for the light theme"
+      },
+      "emphasis": {
+        "$type": "color",
+        "$value": "{color.black}",
+        "$description": "The emphasis foreground color for the light theme"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.neutral.400}",
+        "$description": "The subtle foreground color for the light theme"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.neutral.400}",
+        "$description": "The muted foreground color for the light theme"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.neutral.100}",
+        "$description": "The inverse foreground color for the light theme"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.neutral.300}",
+        "$description": "The disabled foreground color for the light theme"
+      },
+      "on-emphasis": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "The on emphasis foreground color for the light theme"
+      },
+      "on-inverse": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "The on inverse foreground color for the light theme"
+      },
+      "black": {
+        "$type": "color",
+        "$value": "{color.black}",
+        "$description": "The black foreground color for the light theme"
+      },
+      "white": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "The white foreground color for the light theme"
+      },
+      "neutral": {
+        "$type": "color",
+        "$value": "{color.neutral.500}",
+        "$description": "The neutral foreground color for the light theme"
+      },
+      "neutral-subtle": {
+        "$type": "color",
+        "$value": "{color.neutral.400}",
+        "$description": "The neutral subtle foreground color for the light theme"
+      },
+      "neutral-emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.700}",
+        "$description": "The neutral emphasis foreground color for the light theme"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{color.red.600}",
+        "$description": "The danger foreground color for the light theme"
+      },
+      "danger-subtle": {
+        "$type": "color",
+        "$value": "{color.red.500}",
+        "$description": "The danger subtle foreground color for the light theme"
+      },
+      "danger-emphasis": {
+        "$type": "color",
+        "$value": "{color.red.700}",
+        "$description": "The danger emphasis foreground color for the light theme"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.yellow.700}",
+        "$description": "The warning foreground color for the light theme"
+      },
+      "warning-subtle": {
+        "$type": "color",
+        "$value": "{color.yellow.600}",
+        "$description": "The warning subtle foreground color for the light theme"
+      },
+      "warning-emphasis": {
+        "$type": "color",
+        "$value": "{color.yellow.800}",
+        "$description": "The warning emphasis foreground color for the light theme"
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{color.green.600}",
+        "$description": "The success foreground color for the light theme"
+      },
+      "success-subtle": {
+        "$type": "color",
+        "$value": "{color.green.500}",
+        "$description": "The success subtle foreground color for the light theme"
+      },
+      "success-emphasis": {
+        "$type": "color",
+        "$value": "{color.green.700}",
+        "$description": "The success emphasis foreground color for the light theme"
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{color.cyan.600}",
+        "$description": "The info foreground color for the light theme"
+      },
+      "info-subtle": {
+        "$type": "color",
+        "$value": "{color.cyan.500}",
+        "$description": "The info subtle foreground color for the light theme"
+      },
+      "info-emphasis": {
+        "$type": "color",
+        "$value": "{color.cyan.700}",
+        "$description": "The info emphasis foreground color for the light theme"
+      },
+      "discovery": {
+        "$type": "color",
+        "$value": "{color.purple.600}",
+        "$description": "The discovery foreground color for the light theme"
+      },
+      "discovery-subtle": {
+        "$type": "color",
+        "$value": "{color.purple.500}",
+        "$description": "The discovery subtle foreground color for the light theme"
+      },
+      "discovery-emphasis": {
+        "$type": "color",
+        "$value": "{color.purple.700}",
+        "$description": "The discovery emphasis foreground color for the light theme"
+      },
+      "link": {
+        "$type": "color",
+        "$value": "{color.blue.600}",
+        "$description": "The link foreground color for the light theme"
+      }
+    },
+    "background": {
+      "$description": "The background colors for the light theme",
+      "default": {
+        "$type": "color",
+        "$value": "{color.surface.1}",
+        "$description": "The default background color for the light theme"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.surface.2}",
+        "$description": "The subtle background color for the light theme"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.surface.2}",
+        "$description": "The muted background color for the light theme"
+      },
+      "inset": {
+        "$type": "color",
+        "$value": "{color.surface.2}",
+        "$description": "The inset background color for the light theme"
+      },
+      "emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$description": "The emphasis background color for the light theme"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$description": "The inverse background color for the light theme"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.surface.3}",
+        "$description": "The disabled background color for the light theme"
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "{color.transparent}",
+        "$description": "The transparent background color for the light theme"
+      },
+      "black": {
+        "$type": "color",
+        "$value": "{color.black}",
+        "$description": "The black background color for the light theme"
+      },
+      "white": {
+        "$type": "color",
+        "$value": "{color.white}",
+        "$description": "The white background color for the light theme"
+      },
+      "accent-emphasis": {
+        "$type": "color",
+        "$value": "{color.brand.600}",
+        "$description": "The accent emphasis background color for the light theme"
+      },
+      "accent-subtle": {
+        "$type": "color",
+        "$value": "{color.brand.100}",
+        "$description": "The accent subtle background color for the light theme"
+      },
+      "neutral-emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.500}",
+        "$description": "The neutral emphasis background color for the light theme"
+      },
+      "neutral-subtle": {
+        "$type": "color",
+        "$value": "{color.neutral.100}",
+        "$description": "The neutral subtle background color for the light theme"
+      },
+      "danger-emphasis": {
+        "$type": "color",
+        "$value": "{color.red.600}",
+        "$description": "The danger emphasis background color for the light theme"
+      },
+      "danger-subtle": {
+        "$type": "color",
+        "$value": "{color.red.100}",
+        "$description": "The danger subtle background color for the light theme"
+      },
+      "warning-emphasis": {
+        "$type": "color",
+        "$value": "{color.yellow.600}",
+        "$description": "The warning emphasis background color for the light theme"
+      },
+      "warning-subtle": {
+        "$type": "color",
+        "$value": "{color.yellow.100}",
+        "$description": "The warning subtle background color for the light theme"
+      },
+      "success-emphasis": {
+        "$type": "color",
+        "$value": "{color.green.600}",
+        "$description": "The success emphasis background color for the light theme"
+      },
+      "success-subtle": {
+        "$type": "color",
+        "$value": "{color.green.100}",
+        "$description": "The success subtle background color for the light theme"
+      },
+      "info-emphasis": {
+        "$type": "color",
+        "$value": "{color.cyan.600}",
+        "$description": "The info emphasis background color for the light theme"
+      },
+      "info-subtle": {
+        "$type": "color",
+        "$value": "{color.cyan.100}",
+        "$description": "The info subtle background color for the light theme"
+      },
+      "discovery-emphasis": {
+        "$type": "color",
+        "$value": "{color.purple.600}",
+        "$description": "The discovery emphasis background color for the light theme"
+      },
+      "discovery-subtle": {
+        "$type": "color",
+        "$value": "{color.purple.100}",
+        "$description": "The discovery subtle background color for the light theme"
+      }
+    },
+    "border": {
+      "$description": "The border colors for the light theme",
+      "default": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$description": "The default border color for the light theme"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$description": "The subtle border color for the light theme"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$description": "The muted border color for the light theme"
+      },
+      "emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.400}",
+        "$description": "The emphasis border color for the light theme"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$description": "The inverse border color for the light theme"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$description": "The disabled border color for the light theme"
+      },
+      "translucent": {
+        "$type": "color",
+        "$value": "#1A1C1F26",
+        "$description": "The translucent border color for the light theme"
+      },
+      "transparent": {
+        "$type": "color",
+        "$value": "{color.transparent}",
+        "$description": "The transparent border color for the light theme"
+      },
+      "accent-emphasis": {
+        "$type": "color",
+        "$value": "{color.brand.600}",
+        "$description": "The accent emphasis border color for the light theme"
+      },
+      "accent-subtle": {
+        "$type": "color",
+        "$value": "{color.brand.300}",
+        "$description": "The accent subtle border color for the light theme"
+      },
+      "neutral-emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.500}",
+        "$description": "The neutral emphasis border color for the light theme"
+      },
+      "neutral-subtle": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$description": "The neutral subtle border color for the light theme"
+      },
+      "danger-emphasis": {
+        "$type": "color",
+        "$value": "{color.red.600}",
+        "$description": "The danger emphasis border color for the light theme"
+      },
+      "danger-subtle": {
+        "$type": "color",
+        "$value": "{color.red.300}",
+        "$description": "The danger subtle border color for the light theme"
+      },
+      "warning-emphasis": {
+        "$type": "color",
+        "$value": "{color.yellow.600}",
+        "$description": "The warning emphasis border color for the light theme"
+      },
+      "warning-subtle": {
+        "$type": "color",
+        "$value": "{color.yellow.300}",
+        "$description": "The warning subtle border color for the light theme"
+      },
+      "success-emphasis": {
+        "$type": "color",
+        "$value": "{color.green.600}",
+        "$description": "The success emphasis border color for the light theme"
+      },
+      "success-subtle": {
+        "$type": "color",
+        "$value": "{color.green.300}",
+        "$description": "The success subtle border color for the light theme"
+      },
+      "info-emphasis": {
+        "$type": "color",
+        "$value": "{color.cyan.600}",
+        "$description": "The info emphasis border color for the light theme"
+      },
+      "info-subtle": {
+        "$type": "color",
+        "$value": "{color.cyan.300}",
+        "$description": "The info subtle border color for the light theme"
+      },
+      "discovery-emphasis": {
+        "$type": "color",
+        "$value": "{color.purple.600}",
+        "$description": "The discovery emphasis border color for the light theme"
+      },
+      "discovery-subtle": {
+        "$type": "color",
+        "$value": "{color.purple.300}",
+        "$description": "The discovery subtle border color for the light theme"
+      }
+    },
+    "outline": {
+      "$description": "The focus colors for the light theme",
+      "default": {
+        "$type": "color",
+        "$value": "{color.transparent}",
+        "$description": "The default outline color for the light theme"
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{color.border.accent-emphasis}",
+        "$description": "The focus outline color for the light theme"
+      }
+    },
+    "overlay": {
+      "$description": "The overlay colors for the light theme",
+      "background": {
+        "$type": "color",
+        "$value": "{color.background.default}",
+        "$description": "The overlay background color for the light theme"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.default}",
+        "$description": "The overlay border color for the light theme"
+      },
+      "backdrop": {
+        "$type": "color",
+        "$value": "#1A1C1F66",
+        "$description": "The overlay backdrop background color for the light theme"
+      }
+    },
+    "shadow": {
+      "$description": "The shadow tokens for the light theme",
+      "resting": {
+        "xsmall": {
+          "$type": "shadow",
+          "$value": "{shadow.2xs}",
+          "$description": "The xsmall resting shadow for the light theme"
+        },
+        "small": {
+          "$type": "shadow",
+          "$value": "{shadow.xs}",
+          "$description": "The small resting shadow for the light theme"
+        },
+        "medium": {
+          "$type": "shadow",
+          "$value": "{shadow.sm}",
+          "$description": "The medium resting shadow for the light theme"
+        }
+      },
+      "floating": {
+        "small": {
+          "$type": "shadow",
+          "$value": "{shadow.md}",
+          "$description": "The small floating shadow for the light theme"
+        },
+        "medium": {
+          "$type": "shadow",
+          "$value": "{shadow.lg}",
+          "$description": "The medium floating shadow for the light theme"
+        },
+        "large": {
+          "$type": "shadow",
+          "$value": "{shadow.xl}",
+          "$description": "The large floating shadow for the light theme"
+        },
+        "xlarge": {
+          "$type": "shadow",
+          "$value": "{shadow.2xl}",
+          "$description": "The xlarge floating shadow for the light theme"
+        }
+      },
+      "inset": {
+        "$type": "shadow",
+        "$value": "{inset-shadow.xs}",
+        "$description": "The inset shadow for the light theme"
+      }
+    },
+    "data": {
+      "$description": "The data visualization colors for the light theme",
+      "neutral": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.neutral.500}",
+          "$description": "The neutral data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.neutral.100}",
+          "$description": "The neutral data visualization muted color for the light theme"
+        }
+      },
+      "brand": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.brand.600}",
+          "$description": "The brand data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.brand.100}",
+          "$description": "The brand data visualization muted color for the light theme"
+        }
+      },
+      "red": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.red.600}",
+          "$description": "The red data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.red.100}",
+          "$description": "The red data visualization muted color for the light theme"
+        }
+      },
+      "orange": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.orange.600}",
+          "$description": "The orange data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.orange.100}",
+          "$description": "The orange data visualization muted color for the light theme"
+        }
+      },
+      "yellow": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.yellow.600}",
+          "$description": "The yellow data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.yellow.100}",
+          "$description": "The yellow data visualization muted color for the light theme"
+        }
+      },
+      "lime": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.lime.600}",
+          "$description": "The lime data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.lime.100}",
+          "$description": "The lime data visualization muted color for the light theme"
+        }
+      },
+      "green": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.green.600}",
+          "$description": "The green data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.green.100}",
+          "$description": "The green data visualization muted color for the light theme"
+        }
+      },
+      "teal": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.teal.600}",
+          "$description": "The teal data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.teal.100}",
+          "$description": "The teal data visualization muted color for the light theme"
+        }
+      },
+      "cyan": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.cyan.600}",
+          "$description": "The cyan data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.cyan.100}",
+          "$description": "The cyan data visualization muted color for the light theme"
+        }
+      },
+      "blue": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.blue.600}",
+          "$description": "The blue data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.blue.100}",
+          "$description": "The blue data visualization muted color for the light theme"
+        }
+      },
+      "purple": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.purple.600}",
+          "$description": "The purple data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.purple.100}",
+          "$description": "The purple data visualization muted color for the light theme"
+        }
+      },
+      "pink": {
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.pink.600}",
+          "$description": "The pink data visualization emphasis color for the light theme"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.pink.100}",
+          "$description": "The pink data visualization muted color for the light theme"
+        }
+      }
+    }
+  }
+}

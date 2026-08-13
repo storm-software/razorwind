@@ -7,7 +7,7 @@
  free for commercial and private use. For more information, please visit
  our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
 
-    10| Website:                  https://stormsoftware.com
+ Website:                  https://stormsoftware.com
  Repository:               https://github.com/storm-software/razorwind
  Documentation:            https://docs.stormsoftware.com/projects/razorwind
  Contact:                  https://stormsoftware.com/contact
@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Schema } from "../schema";
+import { applyThemeToTitle } from "./theme-output";
 import { titleCase } from "./title-case";
 
 /** Design-system identity resolved for generated artifacts. */
@@ -46,6 +47,7 @@ export interface SchemaIdentityOverrides {
 
 function unscopedName(name: string): string {
   const slash = name.lastIndexOf("/");
+
   return slash >= 0 ? name.slice(slash + 1) : name;
 }
 
@@ -53,20 +55,29 @@ function unscopedName(name: string): string {
  * Resolve design-system identity for generators.
  *
  * Precedence: plugin overrides → {@link Schema} fields → title-cased name.
+ * When {@link Schema.theme} is set, titles gain a ` (<Theme>)` suffix.
  */
 export function resolveSchemaIdentity(
   spec: Pick<
     Schema,
-    "name" | "title" | "description" | "repository" | "homepage" | "logo"
+    | "name"
+    | "title"
+    | "description"
+    | "repository"
+    | "homepage"
+    | "logo"
+    | "theme"
   >,
   overrides: SchemaIdentityOverrides = {}
 ): SchemaIdentity {
   const name = overrides.name ?? spec.name;
-  const title =
+  const title = applyThemeToTitle(
     overrides.displayName ??
-    overrides.title ??
-    spec.title ??
-    (name ? titleCase(unscopedName(name)) : undefined);
+      overrides.title ??
+      spec.title ??
+      (name ? titleCase(unscopedName(name)) : undefined),
+    spec.theme
+  );
   const description = overrides.description ?? spec.description;
   const repository = overrides.repository ?? spec.repository;
   const homepage = overrides.homepage ?? spec.homepage;

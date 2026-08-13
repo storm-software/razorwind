@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { isObject } from "../../utils";
+import { isObject, isTokenLeaf } from "../../utils";
 import { TYPE_PATH_HINTS } from "./constants";
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
@@ -118,10 +118,6 @@ function cssVarToReference(varName: string): string {
   const segments = varName.replace(/^--/, "").split("-").filter(Boolean);
 
   return `{${segments.join(".")}}`;
-}
-
-function isTokenLeaf(node: Record<string, unknown>): boolean {
-  return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
 }
 
 /**

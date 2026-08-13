@@ -38,6 +38,11 @@ export interface Schema {
   homepage?: string;
   description?: string;
   logo?: string;
+  /**
+   * Active theme id when generating a single theme from a multi-theme token
+   * record. Generators append this to titles and output file names.
+   */
+  theme?: string;
   components: Components;
   icons: Icons;
   fonts: Fonts;
@@ -51,6 +56,7 @@ export const schema: z.ZodType<Schema> = z.object({
   homepage: z.string().optional(),
   description: z.string().optional(),
   logo: z.string().optional(),
+  theme: z.string().optional(),
   tokens: tokensFieldSchema,
   components: componentsSchema,
   icons: iconsSchema,

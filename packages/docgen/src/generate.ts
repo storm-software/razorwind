@@ -774,7 +774,7 @@ export function generateDocs(
   spec: Schema,
   options: DocgenGeneratePluginOptions = {}
 ): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions> {
-  const outDir = options.outDir ?? "docs/design-system";
+  const outputPath = options.outputPath ?? "docs/design-system";
   const identity = resolveSchemaIdentity(spec, { title: options.title });
   const title = identity.title ?? "Design System";
   const systemTitle = identity.title ?? "design system";
@@ -792,8 +792,8 @@ export function generateDocs(
     Schema,
     DocgenGeneratePluginOptions
   > = {
-    [join(outDir, "index.mdx")]: document(
-      join(outDir, "index.mdx"),
+    [join(outputPath, "index.mdx")]: document(
+      join(outputPath, "index.mdx"),
       renderIndexMdx({
         title,
         groups,
@@ -811,7 +811,7 @@ export function generateDocs(
   };
 
   for (const [group, tokens] of groups) {
-    const path = join(outDir, "tokens", `${toSlug(group)}.mdx`);
+    const path = join(outputPath, "tokens", `${toSlug(group)}.mdx`);
     documents[path] = document(
       path,
       renderGroupMdx(group, tokens, systemTitle),
@@ -820,7 +820,7 @@ export function generateDocs(
   }
 
   for (const page of itemPages) {
-    const path = join(outDir, "registry", `${page.slug}.mdx`);
+    const path = join(outputPath, "registry", `${page.slug}.mdx`);
     documents[path] = document(
       path,
       renderRegistryItemsMdx(page, systemTitle),
@@ -829,17 +829,17 @@ export function generateDocs(
   }
 
   if (icons.length > 0) {
-    const path = join(outDir, "icons.mdx");
+    const path = join(outputPath, "icons.mdx");
     documents[path] = document(path, renderIconsMdx(icons, systemTitle), "mdx");
   }
 
   if (fonts.length > 0) {
-    const path = join(outDir, "fonts.mdx");
+    const path = join(outputPath, "fonts.mdx");
     documents[path] = document(path, renderFontsMdx(fonts, systemTitle), "mdx");
   }
 
-  documents[join(outDir, "tokens.json")] = document(
-    join(outDir, "tokens.json"),
+  documents[join(outputPath, "tokens.json")] = document(
+    join(outputPath, "tokens.json"),
     `${JSON.stringify(flat, null, 2)}\n`,
     "json"
   );
@@ -847,10 +847,10 @@ export function generateDocs(
   const installBody =
     options.installGuide ??
     renderInstallMd({
-      outDir,
+      outputPath,
       title
     });
-  const installPath = join(outDir, "INSTALL.md");
+  const installPath = join(outputPath, "INSTALL.md");
   documents[installPath] = document(installPath, installBody, "markdown");
 
   return documents;

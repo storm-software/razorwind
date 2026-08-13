@@ -32,7 +32,7 @@ export interface DocgenGeneratePluginOptions {
    *
    * @defaultValue `"docs/design-system"`
    */
-  outDir?: string;
+  outputPath?: string;
 
   /**
    * Title used on the generated documentation index page.

@@ -20,7 +20,10 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolveConfig } from "../../src/lib/resolve-config";
+import {
+  resolveConfig,
+  resolveConfigs
+} from "../../src/lib/resolve-config";
 
 describe("resolveConfig", () => {
   it("preserves verbose from config when execute options pass verbose false", async () => {
@@ -102,5 +105,105 @@ describe("resolveConfig", () => {
 
     expect(config.fontsPath).toEqual(expect.any(Array));
     expect(config.fontsPath).toHaveLength(2);
+  });
+
+  it("resolves an array config into two independent configs", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default [
+  { name: "dark", tokensPath: "dark.json", verbose: true, plugins: [{ name: "css" }] },
+  { name: "light", tokensPath: "light.json", plugins: [{ name: "md" }] }
+];
+`,
+      "utf8"
+    );
+
+    const configs = await resolveConfigs(dir, {
+      configFile: "razorwind.config.ts",
+      verbose: false
+    });
+
+    expect(configs).toHaveLength(2);
+    expect(configs[0]?.name).toBe("dark");
+    expect(configs[0]?.tokensPath).toBe("dark.json");
+    expect(configs[0]?.verbose).toBe(true);
+    expect(configs[0]?.plugins.map(plugin => plugin.name)).toEqual(["css"]);
+    expect(configs[1]?.name).toBe("light");
+    expect(configs[1]?.tokensPath).toBe("light.json");
+    expect(configs[1]?.verbose).toBe(false);
+    expect(configs[1]?.plugins.map(plugin => plugin.name)).toEqual(["md"]);
+  });
+
+  it("does not let execute tokensPath override per-item tokensPath", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default [
+  { name: "dark", tokensPath: ["tokens.json", "dark.tokens.json"], plugins: [{ name: "css" }] },
+  { name: "light", tokensPath: ["tokens.json", "light.tokens.json"], plugins: [{ name: "css" }] }
+];
+`,
+      "utf8"
+    );
+
+    const configs = await resolveConfigs(dir, {
+      configFile: "razorwind.config.ts",
+      tokensPath: "tokens/**/*.json"
+    });
+
+    expect(configs[0]?.tokensPath).toEqual(["tokens.json", "dark.tokens.json"]);
+    expect(configs[1]?.tokensPath).toEqual(["tokens.json", "light.tokens.json"]);
+  });
+
+  it("returns the first array item from resolveConfig", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default [
+  { name: "dark", plugins: [{ name: "css" }] },
+  { name: "light", plugins: [{ name: "md" }] }
+];
+`,
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts"
+    });
+
+    expect(config.name).toBe("dark");
+  });
+
+  it("resolves a function that returns an array of configs", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default () => [
+  { name: "dark", plugins: [{ name: "css" }] },
+  { name: "light", plugins: [{ name: "md" }] }
+];
+`,
+      "utf8"
+    );
+
+    const configs = await resolveConfigs(dir, {
+      configFile: "razorwind.config.ts"
+    });
+
+    expect(configs.map(config => config.name)).toEqual(["dark", "light"]);
+  });
+
+  it("throws when the config array is empty", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default [];\n`,
+      "utf8"
+    );
+
+    await expect(
+      resolveConfigs(dir, { configFile: "razorwind.config.ts" })
+    ).rejects.toThrow("Razorwind config array is empty");
   });
 });

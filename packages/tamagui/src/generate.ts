@@ -22,8 +22,8 @@ import type { Font, Fonts, LocalFont, Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { basename, dirname, join } from "node:path";
 import { flattenTokens } from "./flatten";
-import { renderInstallMd } from "./install";
 import { toLiteral } from "./format";
+import { renderInstallMd } from "./install";
 import type {
   FlatToken,
   TamaguiAnimationDriver,
@@ -297,8 +297,9 @@ function tamaguiFontKey(font: Font): string {
     case "serif": {
       return "body";
     }
+    case undefined:
     default: {
-      return font.name.replaceAll(/[^A-Z0-9_]/gi, "") || "body";
+      return font.name?.replaceAll(/\W/g, "") || "body";
     }
   }
 }
@@ -353,8 +354,7 @@ function renderFaceLiteral(font: LocalFont): string | undefined {
 }
 
 function renderCreateFont(font: Font, varName: string): string {
-  const face =
-    font.source === "local" ? renderFaceLiteral(font) : undefined;
+  const face = font.source === "local" ? renderFaceLiteral(font) : undefined;
   const lines = [
     `const ${varName} = createFont({`,
     `  family: isWeb ? ${toLiteral(cssFontFamily(font))} : ${toLiteral(fontFamilyName(font))},`,
@@ -475,7 +475,9 @@ export function renderTamaguiConfig(
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
-  const assignedFonts = fonts ? assignTamaguiFonts(fonts) : new Map<string, Font>();
+  const assignedFonts = fonts
+    ? assignTamaguiFonts(fonts)
+    : new Map<string, Font>();
   if (assignedFonts.size > 0) {
     tamaguiImports.push("createFont", "isWeb");
   }
@@ -512,7 +514,7 @@ export function renderTamaguiConfig(
   if (assignedFonts.size > 0) {
     let index = 0;
     for (const [key, font] of assignedFonts) {
-      const varName = `${key}Font`.replaceAll(/[^A-Z0-9_]/gi, "") || `font${index}`;
+      const varName = `${key}Font`.replaceAll(/\W/g, "") || `font${index}`;
       fontVarNames.set(key, varName);
       lines.push(renderCreateFont(font, varName), "");
       index += 1;
@@ -620,15 +622,14 @@ export function generateTamaguiConfig(
     return {};
   }
 
-  const outFile = options.outFile ?? "tamagui.config.ts";
+  const outputPath = options.outputPath ?? "tamagui.config.ts";
   const content = renderTamaguiConfig(flat, options, spec.fonts);
-  const installBody =
-    options.installGuide ?? renderInstallMd({ outFile });
-  const installPath = join(dirname(outFile), "INSTALL.md");
+  const installBody = options.installGuide ?? renderInstallMd({ outputPath });
+  const installPath = join(dirname(outputPath), "INSTALL.md");
 
   return {
-    [outFile]: createDocument<Schema, TamaguiPluginOptions>(
-      outFile,
+    [outputPath]: createDocument<Schema, TamaguiPluginOptions>(
+      outputPath,
       content,
       { name: "razorwind-tamagui" },
       "typescript"

@@ -1,0 +1,870 @@
+{
+  "color": {
+    "button": {
+      "$description": "The button colors for the dark theme",
+      "default": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.default}",
+            "$description": "The default button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.subtle}",
+            "$description": "The hover button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.emphasis}",
+            "$description": "The active button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.default}",
+            "$description": "The default button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.subtle}",
+            "$description": "The hover button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.emphasis}",
+            "$description": "The active button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.default}",
+            "$description": "The default button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.subtle}",
+            "$description": "The hover button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.emphasis}",
+            "$description": "The active button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.disabled}",
+            "$description": "The disabled button border color for the dark theme"
+          }
+        }
+      },
+      "invisible": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.default}",
+            "$description": "The default invisible button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.default}",
+            "$description": "The hover invisible button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.emphasis}",
+            "$description": "The active invisible button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled invisible button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.transparent}",
+            "$description": "The default invisible button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.neutral-subtle}",
+            "$description": "The hover invisible button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.neutral-subtle}",
+            "$description": "The active invisible button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.transparent}",
+            "$description": "The disabled invisible button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.transparent}",
+            "$description": "The default invisible button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.transparent}",
+            "$description": "The hover invisible button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.transparent}",
+            "$description": "The active invisible button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.transparent}",
+            "$description": "The disabled invisible button border color for the dark theme"
+          }
+        }
+      },
+      "primary": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.on-emphasis}",
+            "$description": "The default primary button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.on-emphasis}",
+            "$description": "The hover primary button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.on-emphasis}",
+            "$description": "The active primary button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.on-emphasis}",
+            "$description": "The disabled primary button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.accent-emphasis}",
+            "$description": "The default primary button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.accent-emphasis}",
+            "$description": "The hover primary button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.accent-emphasis}",
+            "$description": "The active primary button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled primary button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.accent-emphasis}",
+            "$description": "The default primary button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.accent-emphasis}",
+            "$description": "The hover primary button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.accent-emphasis}",
+            "$description": "The active primary button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.disabled}",
+            "$description": "The disabled primary button border color for the dark theme"
+          }
+        }
+      },
+      "accent": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.accent}",
+            "$description": "The default accent button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.accent-subtle}",
+            "$description": "The hover accent button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.accent-emphasis}",
+            "$description": "The active accent button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled accent button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.accent-subtle}",
+            "$description": "The default accent button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.accent-subtle}",
+            "$description": "The hover accent button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.accent-emphasis}",
+            "$description": "The active accent button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled accent button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.accent-subtle}",
+            "$description": "The default accent button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.accent-subtle}",
+            "$description": "The hover accent button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.accent-emphasis}",
+            "$description": "The active accent button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.accent-subtle}",
+            "$description": "The disabled accent button border color for the dark theme"
+          }
+        }
+      },
+      "neutral": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.neutral}",
+            "$description": "The default neutral button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.neutral-subtle}",
+            "$description": "The hover neutral button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.neutral-emphasis}",
+            "$description": "The active neutral button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled neutral button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.neutral-subtle}",
+            "$description": "The default neutral button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.neutral-subtle}",
+            "$description": "The hover neutral button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.neutral-emphasis}",
+            "$description": "The active neutral button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled neutral button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.neutral-subtle}",
+            "$description": "The default neutral button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.neutral-subtle}",
+            "$description": "The hover neutral button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.neutral-emphasis}",
+            "$description": "The active neutral button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.neutral-subtle}",
+            "$description": "The disabled neutral button border color for the dark theme"
+          }
+        }
+      },
+      "danger": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.danger}",
+            "$description": "The default danger button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.danger-subtle}",
+            "$description": "The hover danger button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.danger-emphasis}",
+            "$description": "The active danger button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled danger button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.danger-subtle}",
+            "$description": "The default danger button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.danger-subtle}",
+            "$description": "The hover danger button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.danger-emphasis}",
+            "$description": "The active danger button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled danger button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.danger-subtle}",
+            "$description": "The default danger button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.danger-subtle}",
+            "$description": "The hover danger button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.danger-emphasis}",
+            "$description": "The active danger button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.danger-subtle}",
+            "$description": "The disabled danger button border color for the dark theme"
+          }
+        }
+      },
+      "warning": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.warning}",
+            "$description": "The default warning button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.warning-subtle}",
+            "$description": "The hover warning button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.warning-emphasis}",
+            "$description": "The active warning button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled warning button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.warning-subtle}",
+            "$description": "The default warning button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.warning-subtle}",
+            "$description": "The hover warning button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.warning-emphasis}",
+            "$description": "The active warning button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled warning button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.warning-subtle}",
+            "$description": "The default warning button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.warning-subtle}",
+            "$description": "The hover warning button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.warning-emphasis}",
+            "$description": "The active warning button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.warning-subtle}",
+            "$description": "The disabled warning button border color for the dark theme"
+          }
+        }
+      },
+      "success": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.success}",
+            "$description": "The default success button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.success-subtle}",
+            "$description": "The hover success button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.success-emphasis}",
+            "$description": "The active success button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled success button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.success-subtle}",
+            "$description": "The default success button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.success-subtle}",
+            "$description": "The hover success button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.success-emphasis}",
+            "$description": "The active success button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled success button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.success-subtle}",
+            "$description": "The default success button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.success-subtle}",
+            "$description": "The hover success button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.success-emphasis}",
+            "$description": "The active success button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.success-subtle}",
+            "$description": "The disabled success button border color for the dark theme"
+          }
+        }
+      },
+      "info": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.info}",
+            "$description": "The default info button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.info-subtle}",
+            "$description": "The hover info button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.info-emphasis}",
+            "$description": "The active info button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled info button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.info-subtle}",
+            "$description": "The default info button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.info-subtle}",
+            "$description": "The hover info button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.info-emphasis}",
+            "$description": "The active info button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled info button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.info-subtle}",
+            "$description": "The default info button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.info-subtle}",
+            "$description": "The hover info button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.info-emphasis}",
+            "$description": "The active info button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.info-subtle}",
+            "$description": "The disabled info button border color for the dark theme"
+          }
+        }
+      },
+      "discovery": {
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.foreground.discovery}",
+            "$description": "The default discovery button foreground color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.foreground.discovery-subtle}",
+            "$description": "The hover discovery button foreground color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.foreground.discovery-emphasis}",
+            "$description": "The active discovery button foreground color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.foreground.disabled}",
+            "$description": "The disabled discovery button foreground color for the dark theme"
+          }
+        },
+        "background": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.background.discovery-subtle}",
+            "$description": "The default discovery button background color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.background.discovery-subtle}",
+            "$description": "The hover discovery button background color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.background.discovery-emphasis}",
+            "$description": "The active discovery button background color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.background.disabled}",
+            "$description": "The disabled discovery button background color for the dark theme"
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.border.discovery-subtle}",
+            "$description": "The default discovery button border color for the dark theme"
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.border.discovery-subtle}",
+            "$description": "The hover discovery button border color for the dark theme"
+          },
+          "active": {
+            "$type": "color",
+            "$value": "{color.border.discovery-emphasis}",
+            "$description": "The active discovery button border color for the dark theme"
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{color.border.discovery-subtle}",
+            "$description": "The disabled discovery button border color for the dark theme"
+          }
+        }
+      }
+    },
+    "control": {
+      "$description": "The control colors for the dark theme",
+      "foreground": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.foreground.default}",
+          "$description": "The default control foreground color for the dark theme"
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.foreground.disabled}",
+          "$description": "The disabled control foreground color for the dark theme"
+        },
+        "placeholder": {
+          "$type": "color",
+          "$value": "{color.foreground.muted}",
+          "$description": "The placeholder control foreground color for the dark theme"
+        },
+        "danger": {
+          "$type": "color",
+          "$value": "{color.foreground.danger}",
+          "$description": "The danger control foreground color for the dark theme"
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "{color.foreground.warning}",
+          "$description": "The warning control foreground color for the dark theme"
+        },
+        "success": {
+          "$type": "color",
+          "$value": "{color.foreground.success}",
+          "$description": "The success control foreground color for the dark theme"
+        },
+        "info": {
+          "$type": "color",
+          "$value": "{color.foreground.info}",
+          "$description": "The info control foreground color for the dark theme"
+        },
+        "discovery": {
+          "$type": "color",
+          "$value": "{color.foreground.discovery}",
+          "$description": "The discovery control foreground color for the dark theme"
+        }
+      },
+      "background": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.background.subtle}",
+          "$description": "The default control background color for the dark theme"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.background.muted}",
+          "$description": "The hover control background color for the dark theme"
+        },
+        "active": {
+          "$type": "color",
+          "$value": "{color.background.emphasis}",
+          "$description": "The active control background color for the dark theme"
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.background.disabled}",
+          "$description": "The disabled control background color for the dark theme"
+        },
+        "selected": {
+          "$type": "color",
+          "$value": "{color.background.subtle}",
+          "$description": "The selected control background color for the dark theme"
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.border.default}",
+          "$description": "The default control border color for the dark theme"
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.border.disabled}",
+          "$description": "The disabled control border color for the dark theme"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.border.muted}",
+          "$description": "The hover control border color for the dark theme"
+        },
+        "active": {
+          "$type": "color",
+          "$value": "{color.border.emphasis}",
+          "$description": "The active control border color for the dark theme"
+        },
+        "selected": {
+          "$type": "color",
+          "$value": "{color.border.accent-emphasis}",
+          "$description": "The selected control border color for the dark theme"
+        },
+        "danger": {
+          "$type": "color",
+          "$value": "{color.border.danger-emphasis}",
+          "$description": "The danger control border color for the dark theme"
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "{color.border.warning-emphasis}",
+          "$description": "The warning control border color for the dark theme"
+        },
+        "success": {
+          "$type": "color",
+          "$value": "{color.border.success-emphasis}",
+          "$description": "The success control border color for the dark theme"
+        },
+        "info": {
+          "$type": "color",
+          "$value": "{color.border.info-emphasis}",
+          "$description": "The info control border color for the dark theme"
+        },
+        "discovery": {
+          "$type": "color",
+          "$value": "{color.border.discovery-emphasis}",
+          "$description": "The discovery control border color for the dark theme"
+        }
+      }
+    },
+    "checkbox": {
+      "$description": "The checkbox colors for the dark theme",
+      "foreground": {
+        "checked": {
+          "$type": "color",
+          "$value": "{color.foreground.on-emphasis}",
+          "$description": "The default checked control foreground color for the dark theme"
+        },
+        "checked-disabled": {
+          "$type": "color",
+          "$value": "{color.foreground.on-emphasis}",
+          "$description": "The disabled checked control foreground color for the dark theme"
+        }
+      },
+      "background": {
+        "checked": {
+          "$type": "color",
+          "$value": "{color.background.accent-emphasis}",
+          "$description": "The default checked control background color for the dark theme"
+        },
+        "checked-hover": {
+          "$type": "color",
+          "$value": "{color.background.accent-emphasis}",
+          "$description": "The hover checked control background color for the dark theme"
+        },
+        "checked-active": {
+          "$type": "color",
+          "$value": "{color.background.accent-emphasis}",
+          "$description": "The active checked control background color for the dark theme"
+        },
+        "checked-disabled": {
+          "$type": "color",
+          "$value": "{color.background.disabled}",
+          "$description": "The disabled checked control background color for the dark theme"
+        }
+      },
+      "border": {
+        "checked": {
+          "$type": "color",
+          "$value": "{color.border.accent-emphasis}",
+          "$description": "The default checked control border color for the dark theme"
+        },
+        "checked-hover": {
+          "$type": "color",
+          "$value": "{color.border.accent-emphasis}",
+          "$description": "The hover checked control border color for the dark theme"
+        },
+        "checked-active": {
+          "$type": "color",
+          "$value": "{color.border.accent-emphasis}",
+          "$description": "The active checked control border color for the dark theme"
+        },
+        "checked-disabled": {
+          "$type": "color",
+          "$value": "{color.border.disabled}",
+          "$description": "The disabled checked control border color for the dark theme"
+        }
+      }
+    }
+  }
+}

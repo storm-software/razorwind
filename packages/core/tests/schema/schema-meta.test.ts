@@ -125,4 +125,13 @@ describe("resolveSchemaIdentity", () => {
       "Cool Kit"
     );
   });
+
+  it("appends a title-cased theme label when theme is set", () => {
+    expect(
+      resolveSchemaIdentity(
+        { title: "My Theme", theme: "dark" },
+        { title: "Override Title" }
+      ).title
+    ).toBe("Override Title (Dark)");
+  });
 });

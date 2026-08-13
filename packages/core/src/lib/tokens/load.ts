@@ -195,10 +195,7 @@ async function loadSplitByTheme(
   for (const [theme, themeFiles] of themed) {
     // Include unthemed sources so theme files can resolve refs into shared
     // primitives (e.g. `{color.transparent}`, `{shadow.sm}`).
-    result[theme] = await loadFromSources(config, [
-      ...unThemed,
-      ...themeFiles
-    ]);
+    result[theme] = await loadFromSources(config, [...unThemed, ...themeFiles]);
   }
 
   return result;

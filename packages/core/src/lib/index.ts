@@ -18,8 +18,10 @@
 
 export * from "./components";
 export * from "./fonts";
+export * from "./generate";
 export * from "./icons";
 export * from "./meta";
+export * from "./prepare";
 export * from "./resolve-config";
 export * from "./tokens";
 export * from "./write-documents";

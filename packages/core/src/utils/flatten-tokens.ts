@@ -56,7 +56,10 @@ export interface TokenSet {
 export const TOKEN_SET_THEME_PATTERN =
   /^(?:light|dark|dim|dimmed|high-contrast|hc|protanopia|deuteranopia|tritanopia|achromatopsia|achromatomaly|monochrome|monochromatic|grayscale|greyscale|bw|black-and-white|black-white|blackWhite|default|base|theme)(?:[A-Z]\w*|[._-].+)?$/i;
 
-function isTokenLeaf(node: Record<string, unknown>): boolean {
+/**
+ * True when `node` is a DTCG token leaf rather than a nested group.
+ */
+export function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
 }
 

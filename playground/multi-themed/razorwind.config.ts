@@ -31,6 +31,8 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const generated = join(root, "generated");
+const generatedDark = join(generated, "dark");
+const generatedLight = join(generated, "light");
 
 function cssValue(
   tokens: Tokens | Record<string, Tokens>,
@@ -43,90 +45,185 @@ function cssValue(
   );
 }
 
-export default defineConfig({
-  name: "razorwind-multi-themed",
-  title: "Razorwind Multi-Themed",
-  description:
-    "Fixture multi-themed design tokens used to exercise Razorwind generator plugins.",
-  verbose: true,
-  tokensPath: join(root, "tokens/**/*.json"),
-  plugins: [
-    css({
-      outputPath: join(generated, "styles.css")
-    }),
-    tailwindcss({
-      cssPath: join(generated, "app.css")
-    }),
-    styleDictionary({
-      platforms: {
-        css: {
-          transformGroup: "css",
-          buildPath: `${join(generated, "style-dictionary")}/`,
-          files: [
+export default defineConfig([
+  {
+    name: "razorwind-multi-themed-dark",
+    title: "Razorwind Multi-Themed Dark",
+    description:
+      "Fixture multi-themed design tokens used to exercise Razorwind generator plugins for the dark theme.",
+    verbose: true,
+    tokensPath: [
+      join(root, "tokens/**/tokens.json"),
+      join(root, "tokens/**/dark.tokens.json")
+    ],
+    plugins: [
+      css({
+        outputPath: join(generatedDark, "styles.css")
+      }),
+      tailwindcss({
+        cssPath: join(generatedDark, "app.css")
+      }),
+      styleDictionary({
+        platforms: {
+          css: {
+            transformGroup: "css",
+            buildPath: `${join(generatedDark, "style-dictionary")}/`,
+            files: [
+              {
+                destination: "variables.css",
+                format: "css/variables"
+              }
+            ]
+          }
+        }
+      }),
+      designMd({
+        outputPath: join(generatedDark, "DESIGN.md"),
+        name: "Razorwind Playground Dark",
+        description:
+          "Fixture design tokens used to exercise Razorwind generator plugins."
+      }),
+      docgen({
+        outputPath: join(generatedDark, "docs"),
+        title: "Razorwind Playground Dark"
+      }),
+      storybook({
+        outputPath: join(generatedDark, "storybook"),
+        mapTheme: tokens => ({
+          base: "dark",
+          colorPrimary: cssValue(tokens, "color.primary", "#0066cc"),
+          colorSecondary: cssValue(tokens, "color.secondary", "#663399"),
+          appBg: cssValue(tokens, "color.bg", "#0d0d12"),
+          textColor: cssValue(tokens, "color.fg", "#e8e8ed"),
+          textMutedColor: cssValue(tokens, "color.muted", "#6a6a7a"),
+          appBorderColor: cssValue(tokens, "color.border", "#2a2a38"),
+          brandTitle: "Razorwind Playground Dark"
+        })
+      }),
+      shiki({
+        outputPath: join(generatedDark, "shiki-themes"),
+        mapTheme: tokens => ({
+          name: "razorwind-playground-dark",
+          displayName: "Razorwind Playground Dark",
+          type: "dark",
+          bg: cssValue(tokens, "color.bg", "#0d0d12"),
+          fg: cssValue(tokens, "color.fg", "#e8e8ed"),
+          colors: {
+            "editor.background": cssValue(tokens, "color.bg", "#0d0d12"),
+            "editor.foreground": cssValue(tokens, "color.fg", "#e8e8ed")
+          },
+          settings: [
             {
-              destination: "variables.css",
-              format: "css/variables"
+              scope: ["comment"],
+              settings: {
+                foreground: cssValue(tokens, "color.muted", "#6a6a7a")
+              }
+            },
+            {
+              scope: ["string"],
+              settings: {
+                foreground: cssValue(tokens, "color.accent", "#0066cc")
+              }
+            },
+            {
+              scope: ["keyword"],
+              settings: {
+                foreground: cssValue(tokens, "color.secondary", "#663399")
+              }
             }
           ]
-        }
-      }
-    }),
-    designMd({
-      outputPath: join(generated, "DESIGN.md"),
-      name: "Razorwind Playground",
-      description:
-        "Fixture design tokens used to exercise Razorwind generator plugins."
-    }),
-    docgen({
-      outDir: join(generated, "docs"),
-      title: "Razorwind Playground"
-    }),
-    storybook({
-      outputPath: join(generated, "storybook"),
-      mapTheme: tokens => ({
-        base: "dark",
-        colorPrimary: cssValue(tokens, "color.primary", "#0066cc"),
-        colorSecondary: cssValue(tokens, "color.secondary", "#663399"),
-        appBg: cssValue(tokens, "color.bg", "#0d0d12"),
-        textColor: cssValue(tokens, "color.fg", "#e8e8ed"),
-        textMutedColor: cssValue(tokens, "color.muted", "#6a6a7a"),
-        appBorderColor: cssValue(tokens, "color.border", "#2a2a38"),
-        brandTitle: "Razorwind Playground"
+        })
       })
-    }),
-    shiki({
-      outputPath: join(generated, "shiki-themes"),
-      mapTheme: tokens => ({
-        name: "razorwind-playground",
-        displayName: "Razorwind Playground",
-        type: "dark",
-        bg: cssValue(tokens, "color.bg", "#0d0d12"),
-        fg: cssValue(tokens, "color.fg", "#e8e8ed"),
-        colors: {
-          "editor.background": cssValue(tokens, "color.bg", "#0d0d12"),
-          "editor.foreground": cssValue(tokens, "color.fg", "#e8e8ed")
-        },
-        settings: [
-          {
-            scope: ["comment"],
-            settings: {
-              foreground: cssValue(tokens, "color.muted", "#6a6a7a")
-            }
-          },
-          {
-            scope: ["string"],
-            settings: {
-              foreground: cssValue(tokens, "color.accent", "#0066cc")
-            }
-          },
-          {
-            scope: ["keyword"],
-            settings: {
-              foreground: cssValue(tokens, "color.secondary", "#663399")
-            }
+    ]
+  },
+  {
+    name: "razorwind-multi-themed-light",
+    title: "Razorwind Multi-Themed Light",
+    description:
+      "Fixture multi-themed design tokens used to exercise Razorwind generator plugins for the light theme.",
+    verbose: true,
+    tokensPath: [
+      join(root, "tokens/**/tokens.json"),
+      join(root, "tokens/**/light.tokens.json")
+    ],
+    plugins: [
+      css({
+        outputPath: join(generatedLight, "styles.css")
+      }),
+      tailwindcss({
+        cssPath: join(generatedLight, "app.css")
+      }),
+      styleDictionary({
+        platforms: {
+          css: {
+            transformGroup: "css",
+            buildPath: `${join(generatedLight, "style-dictionary")}/`,
+            files: [
+              {
+                destination: "variables.css",
+                format: "css/variables"
+              }
+            ]
           }
-        ]
+        }
+      }),
+      designMd({
+        outputPath: join(generatedLight, "DESIGN.md"),
+        name: "Razorwind Playground Light",
+        description:
+          "Fixture design tokens used to exercise Razorwind generator plugins."
+      }),
+      docgen({
+        outputPath: join(generatedLight, "docs"),
+        title: "Razorwind Playground Light"
+      }),
+      storybook({
+        outputPath: join(generatedLight, "storybook"),
+        mapTheme: tokens => ({
+          base: "light",
+          colorPrimary: cssValue(tokens, "color.primary", "#0066cc"),
+          colorSecondary: cssValue(tokens, "color.secondary", "#663399"),
+          appBg: cssValue(tokens, "color.bg", "#0d0d12"),
+          textColor: cssValue(tokens, "color.fg", "#e8e8ed"),
+          textMutedColor: cssValue(tokens, "color.muted", "#6a6a7a"),
+          appBorderColor: cssValue(tokens, "color.border", "#2a2a38"),
+          brandTitle: "Razorwind Playground Light"
+        })
+      }),
+      shiki({
+        outputPath: join(generatedLight, "shiki-themes"),
+        mapTheme: tokens => ({
+          name: "razorwind-playground-light",
+          displayName: "Razorwind Playground Light",
+          type: "light",
+          bg: cssValue(tokens, "color.bg", "#0d0d12"),
+          fg: cssValue(tokens, "color.fg", "#e8e8ed"),
+          colors: {
+            "editor.background": cssValue(tokens, "color.bg", "#0d0d12"),
+            "editor.foreground": cssValue(tokens, "color.fg", "#e8e8ed")
+          },
+          settings: [
+            {
+              scope: ["comment"],
+              settings: {
+                foreground: cssValue(tokens, "color.muted", "#6a6a7a")
+              }
+            },
+            {
+              scope: ["string"],
+              settings: {
+                foreground: cssValue(tokens, "color.accent", "#0066cc")
+              }
+            },
+            {
+              scope: ["keyword"],
+              settings: {
+                foreground: cssValue(tokens, "color.secondary", "#663399")
+              }
+            }
+          ]
+        })
       })
-    })
-  ]
-});
+    ]
+  }
+]);

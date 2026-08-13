@@ -129,4 +129,49 @@ describe("style-dictionary plugin", () => {
       documents["build/css/variables.css"]?.chunks?.[0]?.content
     ).toContain("--color-primary");
   });
+
+  it("formats inferred-style color objects and cubicBezier arrays", async () => {
+    const documents = await generateStyleDictionary(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            transparent: {
+              $type: "color",
+              $value: {
+                colorSpace: "srgb",
+                components: [1, 1, 1],
+                alpha: 0,
+                hex: "#ffffff"
+              }
+            }
+          },
+          ease: {
+            in: {
+              $type: "cubicBezier",
+              $value: [0.4, 0, 1, 1]
+            }
+          }
+        }
+      } as Schema,
+      {
+        platforms: {
+          css: {
+            transformGroup: "css",
+            buildPath: "build/css/",
+            files: [
+              {
+                destination: "variables.css",
+                format: "css/variables"
+              }
+            ]
+          }
+        }
+      }
+    );
+
+    const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
+    expect(css).toContain("--color-transparent");
+    expect(css).toContain("--ease-in");
+  });
 });

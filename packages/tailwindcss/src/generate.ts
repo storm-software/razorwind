@@ -297,7 +297,7 @@ export function renderTailwindCss(
 
 export { renderInstallMd };
 
-async function resolveOutFile(
+async function resolveoutputPath(
   options: TailwindGeneratePluginOptions
 ): Promise<string> {
   if (options.cssPath) {
@@ -332,7 +332,7 @@ export async function generateTailwindCss(
     return {};
   }
 
-  const outFile = await resolveOutFile(options);
+  const outputPath = await resolveoutputPath(options);
   const content = renderTailwindCss(flat, {
     ...options,
     fonts: spec.fonts
@@ -340,17 +340,17 @@ export async function generateTailwindCss(
   const includeImport = options.includeImport !== false;
 
   if (spec.fonts) {
-    await copyFontFiles(spec.fonts, join(dirname(outFile), "fonts"));
+    await copyFontFiles(spec.fonts, join(dirname(outputPath), "fonts"));
   }
 
   const installBody =
     options.installGuide ??
-    renderInstallMd({ cssPath: outFile, includeImport });
-  const installPath = join(dirname(outFile), "INSTALL.md");
+    renderInstallMd({ cssPath: outputPath, includeImport });
+  const installPath = join(dirname(outputPath), "INSTALL.md");
 
   return {
-    [outFile]: createDocument<Schema, TailwindGeneratePluginOptions>(
-      outFile,
+    [outputPath]: createDocument<Schema, TailwindGeneratePluginOptions>(
+      outputPath,
       content,
       { name: "razorwind-tailwindcss" },
       "css"

@@ -214,7 +214,7 @@ export function renderRegistryJson(
 
 export { renderInstallMd };
 
-async function resolveOutFile(
+async function resolveoutputPath(
   options: ShadcnGeneratePluginOptions
 ): Promise<string> {
   if (options.configFile) {
@@ -247,19 +247,19 @@ export async function generateRegistryJson(
     homepage: options.homepage ?? identity.homepage
   };
 
-  const outFile = await resolveOutFile(options);
+  const outputPath = await resolveoutputPath(options);
   const content = `${JSON.stringify(renderRegistryJson(spec.components, registryOptions), null, 2)}\n`;
   const installBody =
     options.installGuide ??
     renderInstallMd({
-      configFile: outFile,
+      configFile: outputPath,
       name: registryOptions.name
     });
-  const installPath = join(dirname(outFile), "INSTALL.md");
+  const installPath = join(dirname(outputPath), "INSTALL.md");
 
   return {
-    [outFile]: createDocument<Schema, ShadcnGeneratePluginOptions>(
-      outFile,
+    [outputPath]: createDocument<Schema, ShadcnGeneratePluginOptions>(
+      outputPath,
       content,
       { name: "shadcn:generate" },
       "json"

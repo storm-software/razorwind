@@ -23,26 +23,33 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 }
 
 export {
-  formatColorValue,
-  formatDimensionValue,
-  formatTokenValue
-} from "./token-format";
-export {
   flattenTokens,
+  isTokenLeaf,
   resolveTokenSets,
   TOKEN_SET_THEME_PATTERN,
   type BaseFlatToken,
   type FlattenTokensOptions,
   type TokenSet
 } from "./flatten-tokens";
-export { titleCase } from "./title-case";
-export { themeDisplayName, type ThemeNamed } from "./theme-display-name";
-export { slugifyThemeName } from "./slugify-theme-name";
+export { mergeTokenTrees } from "./merge-tokens";
 export {
   resolveSchemaIdentity,
   type SchemaIdentity,
   type SchemaIdentityOverrides
 } from "./schema-identity";
+export { slugifyThemeName } from "./slugify-theme-name";
+export { themeDisplayName, type ThemeNamed } from "./theme-display-name";
+export {
+  appendThemeToFilePath,
+  applyThemeToDocuments,
+  applyThemeToTitle
+} from "./theme-output";
+export { titleCase } from "./title-case";
+export {
+  formatColorValue,
+  formatDimensionValue,
+  formatTokenValue
+} from "./token-format";
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 

@@ -397,7 +397,9 @@ export function renderIconGalleryBlock(icons: unknown): string {
     ? Object.values(icons)
         .filter(isObject)
         .toSorted((a, b) =>
-          (readString(a, "name") ?? "").localeCompare(readString(b, "name") ?? "")
+          (readString(a, "name") ?? "").localeCompare(
+            readString(b, "name") ?? ""
+          )
         )
     : [];
 
@@ -488,6 +490,7 @@ export function applyBrandDefaults(
   const mono = pickFontByRole(fonts, MONO_ROLES);
 
   return {
+    brandTarget: "_blank",
     ...theme,
     brandTitle: theme.brandTitle ?? identity.title,
     brandUrl: theme.brandUrl ?? identity.homepage,
@@ -545,8 +548,7 @@ export function generateTokenDocs(
 ): GeneratorFunctionResult<Schema, StorybookPluginOptions> {
   const outputPath = options.outputPath ?? "storybook/tokens";
   const identity = resolveSchemaIdentity(spec);
-  const titlePrefix =
-    options.titlePrefix ?? identity.title ?? "Design Tokens";
+  const titlePrefix = options.titlePrefix ?? identity.title ?? "Design Tokens";
   const docsOptions = { ...options, titlePrefix };
   const flat = flattenTokens(spec.tokens, options);
   const hasColors = flat.some(token => token.type === "color");

@@ -94,7 +94,7 @@ export default defineConfig({
 
 | Option        | Default                     | Description                                              |
 | ------------- | --------------------------- | -------------------------------------------------------- |
-| `outFile`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
+| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
 | `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
 | `description` | —                           | Short description written to the YAML front matter       |
 | `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |

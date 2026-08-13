@@ -30,7 +30,9 @@ export type * from "./types/config";
 export type * from "./types/plugin";
 
 /**
- * Type helper to make it easier to use `razorwind.config.ts` files. Accepts a direct {@link UserConfig} object, or a function that returns it. The function receives a {@link ConfigParams} object.
+ * Type helper to make it easier to use `razorwind.config.ts` files. Accepts a
+ * {@link UserConfig} object, an array of those objects, or a function that
+ * returns either. Array items are independent generation runs.
  *
  * @example
  * ```ts
@@ -40,13 +42,11 @@ export type * from "./types/plugin";
  *   // Your configuration here
  * });
  *
- * // Or with a function
- * export default defineConfig((env) => {
- *   console.log(`Running command: ${env.command} in mode: ${env.mode}`);
- *   return {
- *     // Your configuration here
- *   };
- * });
+ * // Separate runs (e.g. dark vs light token sources and output paths)
+ * export default defineConfig([
+ *   { name: "dark", tokensPath: "tokens/dark.json", plugins: [css()] },
+ *   { name: "light", tokensPath: "tokens/light.json", plugins: [css()] }
+ * ]);
  * ```
  */
 export function defineConfig(config: UserConfig): UserConfig;

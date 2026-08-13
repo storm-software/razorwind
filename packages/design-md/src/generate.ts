@@ -22,8 +22,8 @@ import type { Schema } from "@razorwind/core/schema";
 import { resolveSchemaIdentity } from "@razorwind/core/utils";
 import { isObject } from "@stryke/type-checks/is-object";
 import { dirname, join } from "node:path";
-import { flattenTokens } from "./lib/flatten";
 import { renderInstallMd } from "./install";
+import { flattenTokens } from "./lib/flatten";
 import {
   formatTokenValue,
   toTitleCase,
@@ -353,7 +353,10 @@ function renderFrontMatter(document: DesignMdDocument): string {
 
   if (document.version) {
     lines.push(`version: ${toYamlScalar(document.version)}`);
+  } else {
+    lines.push(`version: alpha`);
   }
+
   lines.push(`name: ${toYamlScalar(document.name)}`);
   if (document.description) {
     lines.push(`description: ${toYamlScalar(document.description)}`);

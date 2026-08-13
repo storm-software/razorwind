@@ -29,7 +29,12 @@ import { createJiti } from "jiti";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import { isAbsolute, resolve } from "node:path";
-import type { Config, Options, UserConfig } from "../types/config";
+import type {
+  Config,
+  Options,
+  UserConfig,
+  UserConfigFn
+} from "../types/config";
 import type { Plugin } from "../types/plugin";
 
 /**
@@ -55,17 +60,143 @@ export function uniquePlugins(plugins: Plugin[]): Plugin[] {
 
 const homeDir = os.homedir();
 
+function toUserConfigs(value: unknown): UserConfig[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(item => isSetObject(item));
+}
+
+function asConfigLayer(value: unknown): Record<string, unknown> {
+  if (Array.isArray(value) || !isSetObject(value)) {
+    return {};
+  }
+
+  return { ...value };
+}
+
+const CONFIG_OWNED_OPTION_KEYS = [
+  "tokensPath",
+  "componentsPath",
+  "iconsPath",
+  "fontsPath"
+] as const;
+
+/**
+ * Execute/CLI options fill gaps. Fields already set on a config item stay
+ * on that item — otherwise a single `tokensPath` glob from `execute()` would
+ * replace every array-config run and merge all theme files together.
+ */
+function executeOptionsForUserConfig(
+  options: Options,
+  userConfig: Partial<UserConfig>
+): Options {
+  const next: Options = { ...options };
+
+  for (const key of CONFIG_OWNED_OPTION_KEYS) {
+    if (userConfig[key] != null) {
+      delete next[key];
+    }
+  }
+
+  return next;
+}
+
+interface SharedConfigLayers {
+  envPaths: Config["envPaths"];
+  workspaceLayer: Record<string, unknown>;
+  environmentLayer: Record<string, unknown>;
+  homeLayer: Record<string, unknown>;
+}
+
+function finalizeConfig(
+  cwd: string,
+  options: Options,
+  userConfig: Partial<UserConfig>,
+  layers: SharedConfigLayers
+): Config {
+  const config = defu(
+    {
+      cwd,
+      envPaths: layers.envPaths
+    },
+    executeOptionsForUserConfig(options, userConfig),
+    userConfig,
+    layers.workspaceLayer,
+    layers.environmentLayer,
+    layers.homeLayer,
+    {
+      componentsPath: cwd,
+      iconsPath: joinPaths(cwd, "assets/icons"),
+      fontsPath: joinPaths(cwd, "assets/fonts"),
+      plugins: []
+    }
+  );
+
+  if (Array.isArray(config.componentsPath)) {
+    const paths = config.componentsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.componentsPath = paths.length > 0 ? paths : cwd;
+  } else if (isSetString(config.componentsPath)) {
+    config.componentsPath = findFilePath(config.componentsPath);
+  } else {
+    config.componentsPath = cwd;
+  }
+
+  if (Array.isArray(config.iconsPath)) {
+    const paths = config.iconsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.iconsPath =
+      paths.length > 0 ? paths : joinPaths(cwd, "assets/icons");
+  } else if (isSetString(config.iconsPath)) {
+    config.iconsPath = findFilePath(config.iconsPath);
+  } else {
+    config.iconsPath = joinPaths(cwd, "assets/icons");
+  }
+
+  if (Array.isArray(config.fontsPath)) {
+    const paths = config.fontsPath
+      .filter(isSetString)
+      .map(path => findFilePath(path));
+    config.fontsPath =
+      paths.length > 0 ? paths : joinPaths(cwd, "assets/fonts");
+  } else if (isSetString(config.fontsPath)) {
+    config.fontsPath = findFilePath(config.fontsPath);
+  } else {
+    config.fontsPath = joinPaths(cwd, "assets/fonts");
+  }
+
+  const plugins = uniquePlugins(
+    Array.isArray(config.plugins) ? config.plugins : []
+  );
+  (config as Config).plugins = plugins;
+
+  // `defu` treats `verbose: false` from execute options as an override. Only
+  // `verbose: true` should force logging on; a false/omitted CLI flag must not
+  // disable `verbose: true` from the config file.
+  (config as Config).verbose =
+    options.verbose === true || userConfig.verbose === true;
+
+  return config;
+}
+
 /**
  * Loads the user configuration file for the project.
  *
+ * Array exports (`defineConfig([...])`) resolve to one {@link Config} per
+ * item. Each item is a separate generation run.
+ *
  * @param cwd - The current working directory.
  * @param options - The options for the configuration.
- * @returns The resolved configuration.
+ * @returns Resolved configurations, one per exported config object.
  */
-export async function resolveConfig(
+export async function resolveConfigs(
   cwd: string,
   options: Options
-): Promise<Config> {
+): Promise<Config[]> {
   const resolvedFilePath =
     options.configFile && existsSync(replacePath(options.configFile, cwd))
       ? replacePath(options.configFile, cwd)
@@ -158,29 +289,44 @@ export async function resolveConfig(
   };
   const jiti = createJiti(cwd, jitiOptions);
 
-  let resolvedConfig: Partial<UserConfig> = {};
+  let userConfigs: Partial<UserConfig>[] = [{}];
   if (resolvedFilePath) {
     const configModulePath = isAbsolute(resolvedFilePath)
       ? resolvedFilePath
       : resolve(cwd, resolvedFilePath);
-    const resolved = await jiti.import<UserConfig>(configModulePath, {
+    const resolved = await jiti.import<
+      UserConfig | UserConfig[] | UserConfigFn
+    >(configModulePath, {
       default: true
     });
     if (resolved) {
-      let config = {};
+      let loaded: unknown = resolved;
       if (isFunction(resolved)) {
-        config = await Promise.resolve(
+        loaded = await Promise.resolve(
           resolved({ cwd, mode: options.mode ?? "development" })
         );
-      } else if (isSetObject(resolved) || Array.isArray(resolved)) {
-        config = resolved;
+      } else {
+        loaded = await Promise.resolve(resolved);
       }
 
-      if (isSetObject(config) || Array.isArray(config)) {
-        resolvedConfig = {
+      if (Array.isArray(loaded)) {
+        const items = toUserConfigs(loaded);
+        if (items.length === 0) {
+          throw new Error(
+            "Razorwind config array is empty. Provide at least one configuration object."
+          );
+        }
+        userConfigs = items.map(config => ({
           ...config,
           configFile: resolvedFilePath
-        };
+        }));
+      } else if (isSetObject(loaded)) {
+        userConfigs = [
+          {
+            ...(loaded as UserConfig),
+            configFile: resolvedFilePath
+          }
+        ];
       }
     }
   }
@@ -211,11 +357,7 @@ export async function resolveConfig(
     })
   ]);
 
-  const workspaceLayer: Record<string, unknown> = isSetObject(
-    workspaceConfig?.config
-  )
-    ? { ...workspaceConfig.config }
-    : {};
+  const workspaceLayer = asConfigLayer(workspaceConfig?.config);
   const loadedConfigPath = resolvedFilePath
     ? isAbsolute(resolvedFilePath)
       ? resolvedFilePath
@@ -234,74 +376,40 @@ export async function resolveConfig(
     delete workspaceLayer.plugins;
   }
 
-  const config = defu(
-    {
-      cwd,
-      envPaths: {
-        ...envPaths,
-        home: homeDir
-      }
+  const sharedLayers = {
+    envPaths: {
+      ...envPaths,
+      home: homeDir
     },
-    options,
-    resolvedConfig,
     workspaceLayer,
-    isSetObject(environmentConfig?.config)
-      ? { ...environmentConfig.config }
-      : {},
-    isSetObject(homeConfig?.config) ? { ...homeConfig.config } : {},
-    {
-      componentsPath: cwd,
-      iconsPath: joinPaths(cwd, "assets/icons"),
-      fontsPath: joinPaths(cwd, "assets/fonts"),
-      plugins: []
-    }
+    environmentLayer: asConfigLayer(environmentConfig?.config),
+    homeLayer: asConfigLayer(homeConfig?.config)
+  };
+
+  return userConfigs.map(userConfig =>
+    finalizeConfig(cwd, options, userConfig, sharedLayers)
   );
+}
 
-  if (Array.isArray(config.componentsPath)) {
-    const paths = config.componentsPath
-      .filter(isSetString)
-      .map(path => findFilePath(path));
-    config.componentsPath = paths.length > 0 ? paths : cwd;
-  } else if (isSetString(config.componentsPath)) {
-    config.componentsPath = findFilePath(config.componentsPath);
-  } else {
-    config.componentsPath = cwd;
+/**
+ * Loads the user configuration file for the project.
+ *
+ * When the file exports an array of configs, this returns the first resolved
+ * {@link Config}. Use {@link resolveConfigs} to run every array item.
+ *
+ * @param cwd - The current working directory.
+ * @param options - The options for the configuration.
+ * @returns The first resolved configuration.
+ */
+export async function resolveConfig(
+  cwd: string,
+  options: Options
+): Promise<Config> {
+  const configs = await resolveConfigs(cwd, options);
+  const config = configs[0];
+  if (!config) {
+    throw new Error("Unable to resolve Razorwind configuration.");
   }
-
-  if (Array.isArray(config.iconsPath)) {
-    const paths = config.iconsPath
-      .filter(isSetString)
-      .map(path => findFilePath(path));
-    config.iconsPath =
-      paths.length > 0 ? paths : joinPaths(cwd, "assets/icons");
-  } else if (isSetString(config.iconsPath)) {
-    config.iconsPath = findFilePath(config.iconsPath);
-  } else {
-    config.iconsPath = joinPaths(cwd, "assets/icons");
-  }
-
-  if (Array.isArray(config.fontsPath)) {
-    const paths = config.fontsPath
-      .filter(isSetString)
-      .map(path => findFilePath(path));
-    config.fontsPath =
-      paths.length > 0 ? paths : joinPaths(cwd, "assets/fonts");
-  } else if (isSetString(config.fontsPath)) {
-    config.fontsPath = findFilePath(config.fontsPath);
-  } else {
-    config.fontsPath = joinPaths(cwd, "assets/fonts");
-  }
-
-  const plugins = uniquePlugins(
-    Array.isArray(config.plugins) ? config.plugins : []
-  );
-  (config as Config).plugins = plugins;
-
-  // `defu` treats `verbose: false` from execute options as an override. Only
-  // `verbose: true` should force logging on; a false/omitted CLI flag must not
-  // disable `verbose: true` from the config file.
-  (config as Config).verbose =
-    options.verbose === true || resolvedConfig.verbose === true;
 
   return config;
 }

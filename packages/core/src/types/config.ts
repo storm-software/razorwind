@@ -168,6 +168,11 @@ export type UserConfigFnPromise = (
 export type UserConfigFn = (
   params: UserConfigParams
 ) => UserConfig | UserConfig[] | Promise<UserConfig | UserConfig[]>;
+/**
+ * Config file export. An array of {@link UserConfig} objects is treated as
+ * independent generation runs (load tokens, extract, validate, generate
+ * for each item).
+ */
 export type UserConfigExport =
   | UserConfig
   | UserConfig[]

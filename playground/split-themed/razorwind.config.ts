@@ -44,24 +44,13 @@ function cssValue(
 }
 
 export default defineConfig({
-  name: "razorwind-playground",
-  title: "Razorwind Playground",
+  name: "razorwind-theme",
+  title: "Razorwind Theme",
   description:
     "Fixture design tokens used to exercise Razorwind generator plugins.",
-  tokensPath: join(root, "tokens.json"),
-  fonts: {
-    inter: {
-      name: "inter",
-      title: "Inter",
-      source: "google",
-      family: "Inter",
-      role: "sans",
-      weights: [400, 700],
-      styles: ["normal", "italic"],
-      subsets: ["latin"],
-      display: "swap"
-    }
-  },
+  verbose: true,
+  splitThemes: true,
+  tokensPath: join(root, "tokens/**/*.json"),
   plugins: [
     css({
       outputPath: join(generated, "styles.css")
@@ -96,7 +85,6 @@ export default defineConfig({
     storybook({
       outputPath: join(generated, "storybook"),
       mapTheme: tokens => ({
-        base: "dark",
         colorPrimary: cssValue(tokens, "color.primary", "#0066cc"),
         colorSecondary: cssValue(tokens, "color.secondary", "#663399"),
         appBg: cssValue(tokens, "color.bg", "#0d0d12"),
