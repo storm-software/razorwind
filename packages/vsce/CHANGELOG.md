@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vsce
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.21) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue updating the `package.json` dependencies prior to publishing ([7ecfe7c](https://github.com/storm-software/razorwind/commit/7ecfe7c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.44**
+
 ## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.20) (08/13/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.32) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue updating the `package.json` dependencies prior to publishing ([7ecfe7c](https://github.com/storm-software/razorwind/commit/7ecfe7c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.44**
+
 ## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.31) (08/13/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/core%400.0.44) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue updating the `package.json` dependencies prior to publishing ([7ecfe7c](https://github.com/storm-software/razorwind/commit/7ecfe7c))
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/core%400.0.43) (08/13/2026)
 
 ### Bug Fixes
