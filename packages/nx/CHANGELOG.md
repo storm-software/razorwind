@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.46) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+
 ## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.45) (08/13/2026)
 
 ### Updated Dependencies

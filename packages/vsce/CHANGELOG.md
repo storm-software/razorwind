@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vsce
 
+## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.28) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+
 ## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.27) (08/13/2026)
 
 ### Updated Dependencies

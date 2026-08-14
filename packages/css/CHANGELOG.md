@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/css%400.0.34) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+- Updated **style-dictionary** to **v0.0.37**
+
 ## [0.0.33](https://github.com/storm-software/razorwind/releases/tag/css%400.0.33) (08/13/2026)
 
 ### Updated Dependencies

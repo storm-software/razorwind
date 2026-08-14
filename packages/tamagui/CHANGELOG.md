@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.39) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.38) (08/13/2026)
 
 ### Updated Dependencies

@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/color-variants",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "type": "module",
   "description": "Razorwind color variants plugin that can create color variants from design tokens.",
   "repository": {

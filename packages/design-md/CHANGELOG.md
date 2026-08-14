@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.47) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+
 ## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.46) (08/13/2026)
 
 ### Updated Dependencies

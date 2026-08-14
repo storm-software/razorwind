@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/cursor",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "type": "module",
   "description": "Razorwind Cursor theme extension plugin that creates VSIX themes from design tokens.",
   "repository": {

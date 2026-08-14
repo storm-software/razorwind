@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.37) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.51**
+
 ## [0.0.36](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.36) (08/13/2026)
 
 ### Updated Dependencies

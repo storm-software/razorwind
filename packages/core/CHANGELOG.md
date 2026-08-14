@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/core%400.0.51) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with invalid tamagui token names ([a3242e0](https://github.com/storm-software/razorwind/commit/a3242e0))
+
 ## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/core%400.0.50) (08/13/2026)
 
 ### Bug Fixes
