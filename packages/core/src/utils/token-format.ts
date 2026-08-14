@@ -22,13 +22,37 @@ function isObject(value: unknown): value is Record<string, unknown> {
   return isObjectFn(value);
 }
 
+const FUNCTIONAL_COLOR_RE = /^(?:oklch|oklab|hsl|hsla|rgb|rgba)\(/i;
+
+/**
+ * Trim stray closing parens from CSS functional color notation
+ * (e.g. `oklch(0.3 0.06 184))` → `oklch(0.3 0.06 184)`).
+ */
+export function normalizeFunctionalColorString(value: string): string {
+  const trimmed = value.trim();
+  if (!FUNCTIONAL_COLOR_RE.test(trimmed)) {
+    return trimmed;
+  }
+
+  let normalized = trimmed;
+  while (
+    normalized.endsWith(")") &&
+    (normalized.match(/\(/g)?.length ?? 0) <
+      (normalized.match(/\)/g)?.length ?? 0)
+  ) {
+    normalized = normalized.slice(0, -1);
+  }
+
+  return normalized;
+}
+
 /**
  * Convert a DTCG color `$value` (string, hex/alpha object, or
  * colorSpace/components object) into a CSS-friendly color string.
  */
 export function formatColorValue(value: unknown): string | undefined {
   if (typeof value === "string") {
-    return value;
+    return normalizeFunctionalColorString(value);
   }
 
   if (!isObject(value)) {
@@ -182,7 +206,7 @@ export function formatCssAliasReferences(value: string): string {
  */
 export function formatTokenValue(value: unknown, type?: string): string {
   if (typeof value === "string") {
-    return formatCssAliasReferences(value);
+    return formatCssAliasReferences(normalizeFunctionalColorString(value));
   }
 
   if (typeof value === "number" || typeof value === "boolean") {

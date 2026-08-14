@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { isObject, isTokenLeaf } from "../../utils";
+import { normalizeFunctionalColorString } from "../../utils/token-format";
 import { TYPE_PATH_HINTS, canonicalizeTokenType } from "./constants";
 
 const HEX_COLOR_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
@@ -164,7 +165,9 @@ export function inferValue(
       return { value: hexToColorValue(trimmed), type: "color" };
     }
 
-    const rgb = trimmed.match(RGB_COLOR_RE);
+    const colorString = normalizeFunctionalColorString(trimmed);
+
+    const rgb = colorString.match(RGB_COLOR_RE);
     if (rgb) {
       const components: [number, number, number] = [
         parsePercentOrNumber(rgb[1]!),
@@ -187,7 +190,7 @@ export function inferValue(
       };
     }
 
-    const hsl = trimmed.match(HSL_COLOR_RE);
+    const hsl = colorString.match(HSL_COLOR_RE);
     if (hsl) {
       return {
         value: {
@@ -209,7 +212,7 @@ export function inferValue(
       };
     }
 
-    const oklch = trimmed.match(OKLCH_COLOR_RE);
+    const oklch = colorString.match(OKLCH_COLOR_RE);
     if (oklch) {
       const toComp = (part: string) =>
         part === "none"
@@ -298,7 +301,7 @@ export function inferValue(
     if (pathType === "color" && !trimmed.startsWith("{")) {
       // Leave unknown color strings typed only if path strongly suggests color;
       // hex/rgb already handled above.
-      return { value: trimmed, type: undefined };
+      return { value: colorString, type: undefined };
     }
 
     return { value: trimmed, type: pathType };

@@ -20,6 +20,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatCssAliasReferences,
   formatTokenValue,
+  normalizeFunctionalColorString,
   toThemeCssVar
 } from "../../src/utils";
 
@@ -52,6 +53,15 @@ describe("formatCssAliasReferences / formatTokenValue", () => {
     expect(formatTokenValue("0 1px {color.shadow}")).toBe(
       "0 1px var(--color-shadow)"
     );
+  });
+
+  it("normalizes oklch strings with stray closing parens", () => {
+    expect(
+      normalizeFunctionalColorString("oklch(0.301 0.066 184.397587))")
+    ).toBe("oklch(0.301 0.066 184.397587)");
+    expect(
+      formatTokenValue("oklch(0.301 0.066 184.397587))", "color")
+    ).toBe("oklch(0.301 0.066 184.397587)");
   });
 });
 

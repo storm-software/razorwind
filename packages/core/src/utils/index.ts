@@ -53,6 +53,7 @@ export {
   formatDimensionValue,
   formatShadowValue,
   formatTokenValue,
+  normalizeFunctionalColorString,
   toThemeCssVar
 } from "./token-format";
 

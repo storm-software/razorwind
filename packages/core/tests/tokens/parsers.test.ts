@@ -103,6 +103,20 @@ describe("inferValue", () => {
     });
   });
 
+  it("normalizes oklch colors with stray closing parens", () => {
+    const result = inferValue("oklch(0.301 0.066 184.397587))", [
+      "color",
+      "brand",
+      "2"
+    ]);
+
+    expect(result.type).toBe("color");
+    expect(result.value).toEqual({
+      colorSpace: "oklch",
+      components: [0.301, 0.066, 184.397587]
+    });
+  });
+
   it("normalizes legacy Style Dictionary keys", () => {
     const result = normalizeTokenTree({
       color: {

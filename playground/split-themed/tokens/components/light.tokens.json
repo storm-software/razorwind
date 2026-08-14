@@ -2,704 +2,629 @@
   "color": {
     "button": {
       "$description": "The button colors for the light theme",
-      "default": {
-        "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.default}",
-            "$description": "The default button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.subtle}",
-            "$description": "The hover button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.emphasis}",
-            "$description": "The active button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled button foreground color for the light theme"
-          }
-        },
-        "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.default}",
-            "$description": "The default button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.subtle}",
-            "$description": "The hover button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.emphasis}",
-            "$description": "The active button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled button background color for the light theme"
-          }
-        },
-        "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.default}",
-            "$description": "The default button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.subtle}",
-            "$description": "The hover button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.emphasis}",
-            "$description": "The active button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.disabled}",
-            "$description": "The disabled button border color for the light theme"
-          }
-        }
-      },
-      "invisible": {
-        "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.default}",
-            "$description": "The default invisible button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.default}",
-            "$description": "The hover invisible button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.emphasis}",
-            "$description": "The active invisible button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled invisible button foreground color for the light theme"
-          }
-        },
-        "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.transparent}",
-            "$description": "The default invisible button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.neutral-subtle}",
-            "$description": "The hover invisible button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.neutral-subtle}",
-            "$description": "The active invisible button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.transparent}",
-            "$description": "The disabled invisible button background color for the light theme"
-          }
-        },
-        "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.transparent}",
-            "$description": "The default invisible button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.transparent}",
-            "$description": "The hover invisible button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.transparent}",
-            "$description": "The active invisible button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.transparent}",
-            "$description": "The disabled invisible button border color for the light theme"
-          }
-        }
-      },
       "primary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.on-emphasis}",
-            "$description": "The default primary button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.on-emphasis}",
-            "$description": "The hover primary button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.on-emphasis}",
-            "$description": "The active primary button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.on-emphasis}",
-            "$description": "The disabled primary button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.on-primary}",
+          "$description": "The primary button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.accent-emphasis}",
-            "$description": "The default primary button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.accent-emphasis}",
-            "$description": "The hover primary button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.accent-emphasis}",
-            "$description": "The active primary button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled primary button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.primary}",
+          "$description": "The primary button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.accent-emphasis}",
-            "$description": "The default primary button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.accent-emphasis}",
-            "$description": "The hover primary button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.accent-emphasis}",
-            "$description": "The active primary button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.disabled}",
-            "$description": "The disabled primary button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.primary}",
+          "$description": "The primary button variant's border color for the light theme"
         }
       },
-      "accent": {
+      "secondary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.accent}",
-            "$description": "The default accent button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.accent-subtle}",
-            "$description": "The hover accent button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.accent-emphasis}",
-            "$description": "The active accent button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled accent button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.on-secondary}",
+          "$description": "The secondary button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.accent-subtle}",
-            "$description": "The default accent button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.accent-subtle}",
-            "$description": "The hover accent button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.accent-emphasis}",
-            "$description": "The active accent button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled accent button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.secondary}",
+          "$description": "The secondary button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.accent-subtle}",
-            "$description": "The default accent button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.accent-subtle}",
-            "$description": "The hover accent button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.accent-emphasis}",
-            "$description": "The active accent button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.accent-subtle}",
-            "$description": "The disabled accent button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The secondary button variant's border color for the light theme"
         }
       },
-      "neutral": {
+      "tertiary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.neutral}",
-            "$description": "The default neutral button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.neutral-subtle}",
-            "$description": "The hover neutral button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.neutral-emphasis}",
-            "$description": "The active neutral button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled neutral button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.on-tertiary}",
+          "$description": "The tertiary button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.neutral-subtle}",
-            "$description": "The default neutral button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.neutral-subtle}",
-            "$description": "The hover neutral button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.neutral-emphasis}",
-            "$description": "The active neutral button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled neutral button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.tertiary}",
+          "$description": "The tertiary button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.neutral-subtle}",
-            "$description": "The default neutral button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.neutral-subtle}",
-            "$description": "The hover neutral button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.neutral-emphasis}",
-            "$description": "The active neutral button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.neutral-subtle}",
-            "$description": "The disabled neutral button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.tertiary}",
+          "$description": "The tertiary button variant's border color for the light theme"
         }
       },
-      "danger": {
+      "outlined": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.danger}",
-            "$description": "The default danger button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.danger-subtle}",
-            "$description": "The hover danger button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.danger-emphasis}",
-            "$description": "The active danger button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled danger button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.primary}",
+          "$description": "The outlined button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.danger-subtle}",
-            "$description": "The default danger button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.danger-subtle}",
-            "$description": "The hover danger button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.danger-emphasis}",
-            "$description": "The active danger button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled danger button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.danger-subtle}",
-            "$description": "The default danger button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.danger-subtle}",
-            "$description": "The hover danger button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.danger-emphasis}",
-            "$description": "The active danger button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.danger-subtle}",
-            "$description": "The disabled danger button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.primary}",
+          "$description": "The outlined button variant's border color for the light theme"
         }
       },
-      "warning": {
+      "ghost": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.warning}",
-            "$description": "The default warning button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.warning-subtle}",
-            "$description": "The hover warning button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.warning-emphasis}",
-            "$description": "The active warning button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled warning button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.primary}",
+          "$description": "The ghost button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.warning-subtle}",
-            "$description": "The default warning button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.warning-subtle}",
-            "$description": "The hover warning button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.warning-emphasis}",
-            "$description": "The active warning button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled warning button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.warning-subtle}",
-            "$description": "The default warning button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.warning-subtle}",
-            "$description": "The hover warning button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.warning-emphasis}",
-            "$description": "The active warning button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.warning-subtle}",
-            "$description": "The disabled warning button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost button variant's border color for the light theme"
         }
       },
-      "success": {
+      "accent-primary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.success}",
-            "$description": "The default success button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.success-subtle}",
-            "$description": "The hover success button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.success-emphasis}",
-            "$description": "The active success button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled success button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.on-accent}",
+          "$description": "The primary accent button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.success-subtle}",
-            "$description": "The default success button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.success-subtle}",
-            "$description": "The hover success button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.success-emphasis}",
-            "$description": "The active success button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled success button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.accent}",
+          "$description": "The primary accent button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.success-subtle}",
-            "$description": "The default success button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.success-subtle}",
-            "$description": "The hover success button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.success-emphasis}",
-            "$description": "The active success button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.success-subtle}",
-            "$description": "The disabled success button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.accent}",
+          "$description": "The primary accent button variant's border color for the light theme"
         }
       },
-      "info": {
+      "accent-secondary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.info}",
-            "$description": "The default info button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.info-subtle}",
-            "$description": "The hover info button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.info-emphasis}",
-            "$description": "The active info button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled info button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.accent}",
+          "$description": "The secondary accent button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.info-subtle}",
-            "$description": "The default info button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.info-subtle}",
-            "$description": "The hover info button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.info-emphasis}",
-            "$description": "The active info button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled info button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.accent}",
+          "$description": "The secondary accent button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.info-subtle}",
-            "$description": "The default info button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.info-subtle}",
-            "$description": "The hover info button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.info-emphasis}",
-            "$description": "The active info button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.info-subtle}",
-            "$description": "The disabled info button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.accent}",
+          "$description": "The secondary accent button variant's border color for the light theme"
         }
       },
-      "discovery": {
+      "accent-tertiary": {
         "foreground": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.foreground.discovery}",
-            "$description": "The default discovery button foreground color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.foreground.discovery-subtle}",
-            "$description": "The hover discovery button foreground color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.foreground.discovery-emphasis}",
-            "$description": "The active discovery button foreground color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.foreground.disabled}",
-            "$description": "The disabled discovery button foreground color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.foreground.accent}",
+          "$description": "The tertiary accent button variant's foreground color for the light theme"
         },
         "background": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.background.discovery-subtle}",
-            "$description": "The default discovery button background color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.background.discovery-subtle}",
-            "$description": "The hover discovery button background color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.background.discovery-emphasis}",
-            "$description": "The active discovery button background color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.background.disabled}",
-            "$description": "The disabled discovery button background color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary accent button variant's background color for the light theme"
         },
         "border": {
-          "default": {
-            "$type": "color",
-            "$value": "{color.border.discovery-subtle}",
-            "$description": "The default discovery button border color for the light theme"
-          },
-          "hover": {
-            "$type": "color",
-            "$value": "{color.border.discovery-subtle}",
-            "$description": "The hover discovery button border color for the light theme"
-          },
-          "active": {
-            "$type": "color",
-            "$value": "{color.border.discovery-emphasis}",
-            "$description": "The active discovery button border color for the light theme"
-          },
-          "disabled": {
-            "$type": "color",
-            "$value": "{color.border.discovery-subtle}",
-            "$description": "The disabled discovery button border color for the light theme"
-          }
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary accent button variant's border color for the light theme"
+        }
+      },
+      "accent-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.accent}",
+          "$description": "The outlined accent button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined accent button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.accent}",
+          "$description": "The outlined accent button variant's border color for the light theme"
+        }
+      },
+      "accent-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.accent}",
+          "$description": "The ghost accent button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost accent button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost accent button variant's border color for the light theme"
+        }
+      },
+      "danger-primary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.on-danger}",
+          "$description": "The primary danger button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.danger}",
+          "$description": "The primary danger button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.danger}",
+          "$description": "The primary danger button variant's border color for the light theme"
+        }
+      },
+      "danger-secondary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.danger}",
+          "$description": "The secondary danger button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.danger}",
+          "$description": "The secondary danger button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.danger}",
+          "$description": "The secondary danger button variant's border color for the light theme"
+        }
+      },
+      "danger-tertiary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.danger}",
+          "$description": "The tertiary danger button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary danger button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary danger button variant's border color for the light theme"
+        }
+      },
+      "danger-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.danger}",
+          "$description": "The outlined danger button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined danger button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.danger}",
+          "$description": "The outlined danger button variant's border color for the light theme"
+        }
+      },
+      "danger-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.danger}",
+          "$description": "The ghost danger button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost danger button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost danger button variant's border color for the light theme"
+        }
+      },
+      "warning-primary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.on-warning}",
+          "$description": "The primary warning button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.warning}",
+          "$description": "The primary warning button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.warning}",
+          "$description": "The primary warning button variant's border color for the light theme"
+        }
+      },
+      "warning-secondary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.warning}",
+          "$description": "The secondary warning button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.warning}",
+          "$description": "The secondary warning button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.warning}",
+          "$description": "The secondary warning button variant's border color for the light theme"
+        }
+      },
+      "warning-tertiary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.warning}",
+          "$description": "The tertiary warning button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary warning button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary warning button variant's border color for the light theme"
+        }
+      },
+      "warning-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.warning}",
+          "$description": "The outlined warning button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined warning button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.warning}",
+          "$description": "The outlined warning button variant's border color for the light theme"
+        }
+      },
+      "warning-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.warning}",
+          "$description": "The ghost warning button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost warning button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost warning button variant's border color for the light theme"
+        }
+      },
+      "success-primary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.on-success}",
+          "$description": "The primary success button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.success}",
+          "$description": "The primary success button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.success}",
+          "$description": "The primary success button variant's border color for the light theme"
+        }
+      },
+      "success-secondary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.success}",
+          "$description": "The secondary success button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.success}",
+          "$description": "The secondary success button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.success}",
+          "$description": "The secondary success button variant's border color for the light theme"
+        }
+      },
+      "success-tertiary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.success}",
+          "$description": "The tertiary success button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary success button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary success button variant's border color for the light theme"
+        }
+      },
+      "success-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.success}",
+          "$description": "The outlined success button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined success button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.success}",
+          "$description": "The outlined success button variant's border color for the light theme"
+        }
+      },
+      "success-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.success}",
+          "$description": "The ghost success button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost success button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost success button variant's border color for the light theme"
+        }
+      },
+      "info-primary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.on-info}",
+          "$description": "The primary info button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.info}",
+          "$description": "The primary info button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.info}",
+          "$description": "The primary info button variant's border color for the light theme"
+        }
+      },
+      "info-secondary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.info}",
+          "$description": "The secondary info button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.info}",
+          "$description": "The secondary info button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.info}",
+          "$description": "The secondary info button variant's border color for the light theme"
+        }
+      },
+      "info-tertiary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.info}",
+          "$description": "The tertiary info button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary info button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary info button variant's border color for the light theme"
+        }
+      },
+      "info-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.info}",
+          "$description": "The outlined info button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined info button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.info}",
+          "$description": "The outlined info button variant's border color for the light theme"
+        }
+      },
+      "info-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.info}",
+          "$description": "The ghost info button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost info button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost info button variant's border color for the light theme"
+        }
+      },
+      "discovery-primary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.on-discovery}",
+          "$description": "The primary discovery button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.discovery}",
+          "$description": "The primary discovery button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.discovery}",
+          "$description": "The primary discovery button variant's border color for the light theme"
+        }
+      },
+      "discovery-secondary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.discovery}",
+          "$description": "The secondary discovery button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.discovery}",
+          "$description": "The secondary discovery button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.discovery}",
+          "$description": "The secondary discovery button variant's border color for the light theme"
+        }
+      },
+      "discovery-tertiary": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.discovery}",
+          "$description": "The tertiary discovery button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.background.elevated}",
+          "$description": "The tertiary discovery button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.secondary}",
+          "$description": "The tertiary discovery button variant's border color for the light theme"
+        }
+      },
+      "discovery-outlined": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.discovery}",
+          "$description": "The outlined discovery button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The outlined discovery button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.border.discovery}",
+          "$description": "The outlined discovery button variant's border color for the light theme"
+        }
+      },
+      "discovery-ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.foreground.discovery}",
+          "$description": "The ghost discovery button variant's foreground color for the light theme"
+        },
+        "background": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost discovery button variant's background color for the light theme"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{color.transparent}",
+          "$description": "The ghost discovery button variant's border color for the light theme"
         }
       }
     },
     "control": {
       "$description": "The control colors for the light theme",
       "foreground": {
-        "default": {
+        "rest": {
           "$type": "color",
-          "$value": "{color.foreground.default}",
+          "$value": "{color.foreground.primary}",
           "$description": "The default control foreground color for the light theme"
         },
         "disabled": {
           "$type": "color",
-          "$value": "{color.foreground.disabled}",
+          "$value": "{color.foreground.secondary}",
           "$description": "The disabled control foreground color for the light theme"
         },
         "placeholder": {
           "$type": "color",
-          "$value": "{color.foreground.muted}",
+          "$value": "{color.foreground.secondary}",
           "$description": "The placeholder control foreground color for the light theme"
+        },
+        "selected": {
+          "$type": "color",
+          "$value": "{color.foreground.on-primary}",
+          "$description": "The selected control foreground color for the light theme"
+        },
+        "required": {
+          "$type": "color",
+          "$value": "{color.red.800}",
+          "$description": "The required control foreground color for the light theme"
         },
         "danger": {
           "$type": "color",
@@ -728,141 +653,82 @@
         }
       },
       "background": {
-        "default": {
+        "rest": {
           "$type": "color",
-          "$value": "{color.background.subtle}",
+          "$value": "{color.background.elevated}",
           "$description": "The default control background color for the light theme"
         },
         "hover": {
           "$type": "color",
-          "$value": "{color.background.muted}",
+          "$value": "{color.background.elevated}",
           "$description": "The hover control background color for the light theme"
         },
-        "active": {
+        "focused": {
           "$type": "color",
-          "$value": "{color.background.emphasis}",
-          "$description": "The active control background color for the light theme"
+          "$value": "{color.background.floating}",
+          "$description": "The focused control background color for the light theme"
         },
         "disabled": {
           "$type": "color",
-          "$value": "{color.background.disabled}",
+          "$value": "{color.background.elevated}",
           "$description": "The disabled control background color for the light theme"
         },
         "selected": {
           "$type": "color",
-          "$value": "{color.background.subtle}",
+          "$value": "{color.background.primary}",
           "$description": "The selected control background color for the light theme"
         }
       },
       "border": {
-        "default": {
+        "rest": {
           "$type": "color",
-          "$value": "{color.border.default}",
+          "$value": "{color.border.primary}",
           "$description": "The default control border color for the light theme"
         },
         "disabled": {
           "$type": "color",
-          "$value": "{color.border.disabled}",
+          "$value": "{color.border.secondary}",
           "$description": "The disabled control border color for the light theme"
         },
         "hover": {
           "$type": "color",
-          "$value": "{color.border.muted}",
+          "$value": "{color.border.secondary}",
           "$description": "The hover control border color for the light theme"
         },
-        "active": {
+        "focused": {
           "$type": "color",
-          "$value": "{color.border.emphasis}",
-          "$description": "The active control border color for the light theme"
+          "$value": "{color.border.tertiary}",
+          "$description": "The focused control border color for the light theme"
         },
         "selected": {
           "$type": "color",
-          "$value": "{color.border.accent-emphasis}",
+          "$value": "{color.border.accent}",
           "$description": "The selected control border color for the light theme"
         },
         "danger": {
           "$type": "color",
-          "$value": "{color.border.danger-emphasis}",
+          "$value": "{color.border.danger}",
           "$description": "The danger control border color for the light theme"
         },
         "warning": {
           "$type": "color",
-          "$value": "{color.border.warning-emphasis}",
+          "$value": "{color.border.warning}",
           "$description": "The warning control border color for the light theme"
         },
         "success": {
           "$type": "color",
-          "$value": "{color.border.success-emphasis}",
+          "$value": "{color.border.success}",
           "$description": "The success control border color for the light theme"
         },
         "info": {
           "$type": "color",
-          "$value": "{color.border.info-emphasis}",
+          "$value": "{color.border.info}",
           "$description": "The info control border color for the light theme"
         },
         "discovery": {
           "$type": "color",
-          "$value": "{color.border.discovery-emphasis}",
+          "$value": "{color.border.discovery}",
           "$description": "The discovery control border color for the light theme"
-        }
-      }
-    },
-    "checkbox": {
-      "$description": "The checkbox colors for the light theme",
-      "foreground": {
-        "checked": {
-          "$type": "color",
-          "$value": "{color.foreground.on-emphasis}",
-          "$description": "The default checked control foreground color for the light theme"
-        },
-        "checked-disabled": {
-          "$type": "color",
-          "$value": "{color.foreground.on-emphasis}",
-          "$description": "The disabled checked control foreground color for the light theme"
-        }
-      },
-      "background": {
-        "checked": {
-          "$type": "color",
-          "$value": "{color.background.accent-emphasis}",
-          "$description": "The default checked control background color for the light theme"
-        },
-        "checked-hover": {
-          "$type": "color",
-          "$value": "{color.background.accent-emphasis}",
-          "$description": "The hover checked control background color for the light theme"
-        },
-        "checked-active": {
-          "$type": "color",
-          "$value": "{color.background.accent-emphasis}",
-          "$description": "The active checked control background color for the light theme"
-        },
-        "checked-disabled": {
-          "$type": "color",
-          "$value": "{color.background.disabled}",
-          "$description": "The disabled checked control background color for the light theme"
-        }
-      },
-      "border": {
-        "checked": {
-          "$type": "color",
-          "$value": "{color.border.accent-emphasis}",
-          "$description": "The default checked control border color for the light theme"
-        },
-        "checked-hover": {
-          "$type": "color",
-          "$value": "{color.border.accent-emphasis}",
-          "$description": "The hover checked control border color for the light theme"
-        },
-        "checked-active": {
-          "$type": "color",
-          "$value": "{color.border.accent-emphasis}",
-          "$description": "The active checked control border color for the light theme"
-        },
-        "checked-disabled": {
-          "$type": "color",
-          "$value": "{color.border.disabled}",
-          "$description": "The disabled checked control border color for the light theme"
         }
       }
     }
