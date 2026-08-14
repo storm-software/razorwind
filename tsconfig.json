@@ -74,6 +74,9 @@
     },
     {
       "path": "./packages/chrome"
+    },
+    {
+      "path": "./packages/thunderbird"
     }
   ],
   "files": []
