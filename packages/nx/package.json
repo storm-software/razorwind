@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/nx",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "A Nx plugin to support Razorwind development in Nx monorepos.",
   "repository": {
     "type": "github",

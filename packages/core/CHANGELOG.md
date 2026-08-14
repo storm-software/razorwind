@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/core%400.0.50) (08/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue handling oklch color variables ([b87b375](https://github.com/storm-software/razorwind/commit/b87b375))
+
 ## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/core%400.0.49) (08/13/2026)
 
 ### Miscellaneous

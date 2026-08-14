@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Ghostty
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/ghostty%400.0.24) (08/13/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.50**
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/ghostty%400.0.23) (08/13/2026)
 
 ### Miscellaneous
