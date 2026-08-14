@@ -30,16 +30,48 @@ import type {
 export { resolveTokenSets };
 export type { TokenSet };
 
+/**
+ * `inset-shadow` must not match the space `inset` prefix (`\b` is true between
+ * `t` and `-`). Shadow families map onto separate Tamagui custom token
+ * categories so they can be used as `boxShadow` / `textShadow` / `filter`.
+ *
+ * @see https://tamagui.dev/docs/core/tokens
+ * @see https://tamagui.dev/docs/intro/styles
+ */
+const FONT_SIZE_PATH_PATTERN = /^(?:font-size|fontSize)(?:\.|$)/i;
+const FONT_WEIGHT_PATH_PATTERN = /^(?:font-weight|fontWeight)(?:\.|$)/i;
+const BOX_SHADOW_PATH_PATTERN = /^shadow(?:\.|$)/i;
+const INSET_SHADOW_PATH_PATTERN = /^inset-shadow(?:\.|$)/i;
+const DROP_SHADOW_PATH_PATTERN = /^drop-shadow(?:\.|$)/i;
+const TEXT_SHADOW_PATH_PATTERN = /^text-shadow(?:\.|$)/i;
+const BLUR_PATH_PATTERN = /^(?:blur|blur-?radius)(?:\.|$)/i;
+
+const CSS_STRING_CATEGORIES = new Set<TamaguiTokenCategory>([
+  "color",
+  "shadow",
+  "insetShadow",
+  "dropShadow",
+  "textShadow"
+]);
+
 const CATEGORY_PREFIXES: Array<{
   prefix: RegExp;
   category: TamaguiTokenCategory;
 }> = [
-  { prefix: /^(?:color|colours?|palette)\b/i, category: "color" },
-  { prefix: /^(?:space|spacing|gap|inset)\b/i, category: "space" },
-  { prefix: /^(?:size|sizing)\b/i, category: "size" },
-  { prefix: /^(?:radius|rounded|radii)\b/i, category: "radius" },
+  { prefix: /^(?:color|colours?|palette)(?:\.|$)/i, category: "color" },
+  { prefix: FONT_SIZE_PATH_PATTERN, category: "fontSize" },
+  { prefix: FONT_WEIGHT_PATH_PATTERN, category: "fontWeight" },
+  { prefix: DROP_SHADOW_PATH_PATTERN, category: "dropShadow" },
+  { prefix: INSET_SHADOW_PATH_PATTERN, category: "insetShadow" },
+  { prefix: TEXT_SHADOW_PATH_PATTERN, category: "textShadow" },
+  { prefix: BOX_SHADOW_PATH_PATTERN, category: "shadow" },
+  { prefix: BLUR_PATH_PATTERN, category: "blur" },
+  { prefix: /^(?:space|spacing|gap)(?:\.|$)/i, category: "space" },
+  { prefix: /^inset(?:\.|$)/i, category: "space" },
+  { prefix: /^(?:size|sizing)(?:\.|$)/i, category: "size" },
+  { prefix: /^(?:radius|rounded|radii)(?:\.|$)/i, category: "radius" },
   // eslint-disable-next-line regexp/no-dupe-disjunctions
-  { prefix: /^(?:z-?index|zindex|elevation)\b/i, category: "zIndex" }
+  { prefix: /^(?:z-?index|zindex|elevation)(?:\.|$)/i, category: "zIndex" }
 ];
 
 function isTokenLeaf(node: Record<string, unknown>): boolean {
@@ -128,8 +160,30 @@ export function resolveTokenCategory(
     return "color";
   }
 
+  if (type === "shadow") {
+    if (INSET_SHADOW_PATH_PATTERN.test(path)) {
+      return "insetShadow";
+    }
+    if (DROP_SHADOW_PATH_PATTERN.test(path)) {
+      return "dropShadow";
+    }
+    if (TEXT_SHADOW_PATH_PATTERN.test(path)) {
+      return "textShadow";
+    }
+    return "shadow";
+  }
+
   if (type === "dimension") {
-    if (/space|spacing|gap|inset/i.test(path)) {
+    if (FONT_SIZE_PATH_PATTERN.test(path)) {
+      return "fontSize";
+    }
+    if (BLUR_PATH_PATTERN.test(path)) {
+      return "blur";
+    }
+    if (/(?:^|\.)(?:space|spacing|gap)(?:\.|$)/i.test(path)) {
+      return "space";
+    }
+    if (/(?:^|\.)inset(?:\.|$)/i.test(path)) {
       return "space";
     }
     if (/radius|rounded/i.test(path)) {
@@ -138,13 +192,20 @@ export function resolveTokenCategory(
     if (/z-?index|elevation/i.test(path)) {
       return "zIndex";
     }
-    if (/size|sizing|width|height/i.test(path)) {
+    if (/(?:^|\.)(?:size|sizing)(?:\.|$)/i.test(path)) {
+      return "size";
+    }
+    if (/(?:^|\.)(?:width|height)(?:\.|$)/i.test(path)) {
       return "size";
     }
   }
 
   if (type === "number" && /z-?index|elevation/i.test(path)) {
     return "zIndex";
+  }
+
+  if (type === "fontWeight" || FONT_WEIGHT_PATH_PATTERN.test(path)) {
+    return "fontWeight";
   }
 
   return undefined;
@@ -189,7 +250,7 @@ export function toTokenKey(path: string): string {
   if (
     first &&
     // eslint-disable-next-line regexp/no-dupe-disjunctions
-    /^(?:color|colours?|palette|space|spacing|gap|inset|size|sizing|radius|rounded|radii|z-?index|zindex|elevation)$/i.test(
+    /^(?:color|colours?|palette|space|spacing|gap|inset|shadow|inset-shadow|drop-shadow|text-shadow|font-size|fontSize|font-weight|fontWeight|size|sizing|radius|rounded|radii|z-?index|zindex|elevation|blur)$/i.test(
       first
     )
   ) {
@@ -231,7 +292,10 @@ function walkTokens(
       (palette || type === "palette" ? "color" : undefined);
     const cssValue = formatTokenValue(value, type);
     const tamaguiValue =
-      category === "color" || type === "color" || type === "palette"
+      (category && CSS_STRING_CATEGORIES.has(category)) ||
+      type === "color" ||
+      type === "palette" ||
+      type === "shadow"
         ? cssValue
         : toTamaguiValue(value, type);
 

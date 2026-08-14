@@ -2,330 +2,330 @@
   "color": {
     "$description": "The light theme colors",
     "foreground": {
-      "$description": "The foreground colors for the dark theme",
+      "$description": "The foreground colors for the light theme",
       "primary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The primary foreground color for the dark theme"
+        "$description": "The primary foreground color for the light theme"
       },
       "secondary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.8}",
-        "$description": "The secondary foreground color for the dark theme"
+        "$description": "The secondary foreground color for the light theme"
       },
       "tertiary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.9}",
-        "$description": "The tertiary foreground color for the dark theme"
+        "$description": "The tertiary foreground color for the light theme"
       },
       "accent": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "danger": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.red.7}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "warning": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.yellow.4}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "success": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.green.6}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "info": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.sky.3}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "discovery": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.purple.7}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       },
       "link": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.blue.7}",
-        "$description": "The link foreground color for the dark theme"
+        "$description": "The link foreground color for the light theme"
       },
       "on-primary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.9}",
-        "$description": "The primary foreground color for the dark theme"
+        "$description": "The primary foreground color for the light theme"
       },
       "on-secondary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The secondary foreground color for the dark theme"
+        "$description": "The secondary foreground color for the light theme"
       },
       "on-tertiary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The tertiary foreground color for the dark theme"
+        "$description": "The tertiary foreground color for the light theme"
       },
       "on-accent": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "on-danger": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "on-warning": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.9}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "on-success": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "on-info": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "on-discovery": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       }
     },
     "background": {
-      "$description": "The background colors for the dark theme",
+      "$description": "The background colors for the light theme",
       "page": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.surface.1}",
-        "$description": "The page background color for the dark theme"
+        "$description": "The page background color for the light theme"
       },
       "elevated": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.surface.2}",
-        "$description": "The elevated background color for the dark theme"
+        "$description": "The elevated background color for the light theme"
       },
       "floating": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.surface.3}",
-        "$description": "The floating background color for the dark theme"
+        "$description": "The floating background color for the light theme"
       },
       "primary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.1}",
-        "$description": "The primary foreground color for the dark theme"
+        "$description": "The primary foreground color for the light theme"
       },
       "secondary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.8}",
-        "$description": "The secondary foreground color for the dark theme"
+        "$description": "The secondary foreground color for the light theme"
       },
       "tertiary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.9}",
-        "$description": "The tertiary foreground color for the dark theme"
+        "$description": "The tertiary foreground color for the light theme"
       },
       "link": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.blue.7}",
-        "$description": "The link foreground color for the dark theme"
+        "$description": "The link foreground color for the light theme"
       },
       "accent": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "danger": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.red.7}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "warning": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.yellow.4}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "success": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.green.6}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "info": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.sky.3}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "discovery": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.purple.7}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       },
       "accent-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.brand.2}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "danger-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.red.9}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "warning-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.yellow.9}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "success-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.green.9}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "info-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.sky.9}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "discovery-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.purple.9}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       }
     },
     "border": {
-      "$description": "The border colors for the dark theme",
+      "$description": "The border colors for the light theme",
       "primary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.7}",
-        "$description": "The primary foreground color for the dark theme"
+        "$description": "The primary foreground color for the light theme"
       },
       "secondary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.8}",
-        "$description": "The secondary foreground color for the dark theme"
+        "$description": "The secondary foreground color for the light theme"
       },
       "tertiary": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.base.9}",
-        "$description": "The tertiary foreground color for the dark theme"
+        "$description": "The tertiary foreground color for the light theme"
       },
       "accent": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "danger": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.red.7}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "warning": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.yellow.4}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "success": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.green.6}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "info": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.sky.3}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "discovery": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.purple.7}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       },
       "accent-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.brand.2}",
-        "$description": "The accent foreground color for the dark theme"
+        "$description": "The accent foreground color for the light theme"
       },
       "danger-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.red.9}",
-        "$description": "The danger foreground color for the dark theme"
+        "$description": "The danger foreground color for the light theme"
       },
       "warning-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.yellow.9}",
-        "$description": "The warning foreground color for the dark theme"
+        "$description": "The warning foreground color for the light theme"
       },
       "success-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.green.9}",
-        "$description": "The success foreground color for the dark theme"
+        "$description": "The success foreground color for the light theme"
       },
       "info-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.sky.9}",
-        "$description": "The info foreground color for the dark theme"
+        "$description": "The info foreground color for the light theme"
       },
       "discovery-subtle": {
         "$type": "color",
         "colorSpace": "display-p3",
         "$value": "{color.purple.9}",
-        "$description": "The discovery foreground color for the dark theme"
+        "$description": "The discovery foreground color for the light theme"
       }
     },
     "overlay": {
@@ -537,6 +537,262 @@
           "$value": "{color.pink.1}",
           "$description": "The pink data visualization subtle color for the light theme"
         }
+      }
+    }
+  },
+  "border": {
+    "primary": {
+      "$description": "The primary border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.primary}"
+      }
+    },
+    "primary-subtle": {
+      "$description": "The primary subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.primary}"
+      }
+    },
+    "secondary": {
+      "$description": "The secondary border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.secondary}"
+      }
+    },
+    "secondary-subtle": {
+      "$description": "The secondary subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.secondary}"
+      }
+    },
+    "tertiary": {
+      "$description": "The tertiary border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.tertiary}"
+      }
+    },
+    "tertiary-subtle": {
+      "$description": "The tertiary subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.tertiary}"
+      }
+    },
+    "accent": {
+      "$description": "The accent border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.accent}"
+      }
+    },
+    "accent-subtle": {
+      "$description": "The accent subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.accent}"
+      }
+    },
+    "danger": {
+      "$description": "The danger border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.danger}"
+      }
+    },
+    "danger-subtle": {
+      "$description": "The danger subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.danger}"
+      }
+    },
+    "warning": {
+      "$description": "The warning border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.warning}"
+      }
+    },
+    "warning-subtle": {
+      "$description": "The warning subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.warning}"
+      }
+    },
+    "success": {
+      "$description": "The success border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.success}"
+      }
+    },
+    "success-subtle": {
+      "$description": "The success subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.success}"
+      }
+    },
+    "info": {
+      "$description": "The info border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.info}"
+      }
+    },
+    "info-subtle": {
+      "$description": "The info subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.info}"
+      }
+    },
+    "discovery": {
+      "$description": "The discovery border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.discovery}"
+      }
+    },
+    "discovery-subtle": {
+      "$description": "The discovery subtle border variant for the light theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.discovery}"
+      }
+    }
+  },
+  "typography": {
+    "display-lg": {
+      "$type": "typography",
+      "$description": "The display large typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 48,
+        "lineHeight": 56
+      }
+    },
+    "display-md": {
+      "$type": "typography",
+      "$description": "The display medium typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 32,
+        "lineHeight": 40
+      }
+    },
+    "display-sm": {
+      "$type": "typography",
+      "$description": "The display small typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 24,
+        "lineHeight": 32
+      }
+    },
+    "title-lg": {
+      "$type": "typography",
+      "$description": "The title large typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "title-md": {
+      "$type": "typography",
+      "$description": "The title medium typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "title-sm": {
+      "$type": "typography",
+      "$description": "The title small typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "body": {
+      "$type": "typography",
+      "$description": "The body typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "caption": {
+      "$type": "typography",
+      "$description": "The caption typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 10,
+        "lineHeight": 14
+      }
+    },
+    "code": {
+      "$type": "typography",
+      "$description": "The code typography variant for the light theme",
+      "$value": {
+        "fontFamily": "Space Mono",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "lineHeight": 24
       }
     }
   }

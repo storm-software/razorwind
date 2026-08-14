@@ -30,7 +30,19 @@ export type TamaguiAnimationDriver =
  * Tamagui `createTokens` category keys we emit from DTCG tokens.
  */
 export type TamaguiTokenCategory =
-  "color" | "space" | "size" | "radius" | "zIndex";
+  | "color"
+  | "space"
+  | "size"
+  | "radius"
+  | "zIndex"
+  | "blur"
+  | "fontSize"
+  | "shadow"
+  | "insetShadow"
+  | "dropShadow"
+  | "textShadow"
+  | "fontWeight"
+  | "boxShadow";
 
 /**
  * Options for the Razorwind Tamagui config generator.

@@ -25,6 +25,7 @@ export { formatTokenValue, toCssVar } from "./format";
 export {
   applyBrandDefaults,
   generateTokenDocs,
+  normalizeThemes,
   renderInstallMd,
   renderThemeFile
 } from "./generate";
@@ -32,12 +33,18 @@ export type {
   FlatToken,
   GenerateStorybookTheme,
   StorybookPluginOptions,
-  StorybookTheme
+  StorybookTheme,
+  StorybookThemePartial,
+  StorybookThemeResult
 } from "./types";
 
 /**
  * Razorwind plugin that turns design tokens into Storybook MDX doc blocks
  * (`ColorPalette`, `Typeset`, `TokenTable`, `IconGallery`) and optional UI themes.
+ *
+ * Light and dark token sets are emitted as a single `theme.ts`: one theme is
+ * `export default create({…})`; multiple themes are a record keyed by name
+ * (`{ light: create({…}), dark: create({…}) }`).
  *
  * @see https://storybook.js.org/docs/writing-docs/doc-blocks
  * @see https://storybook.js.org/docs/configure/user-interface/theming
@@ -63,5 +70,6 @@ export type {
  */
 export default definePlugin((options?: StorybookPluginOptions) => ({
   name: "storybook",
+  themeGeneration: "combined",
   generate: async spec => generateTokenDocs(spec, options ?? {})
 }));

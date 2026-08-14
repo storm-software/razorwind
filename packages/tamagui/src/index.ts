@@ -28,6 +28,13 @@ export {
   toCamelCaseKey,
   toTokenKey
 } from "./flatten";
+export {
+  collectTamaguiFonts,
+  fontVarName,
+  tamaguiFontKeyFromRole,
+  typographyFontKey,
+  type TamaguiFontDef
+} from "./fonts";
 export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
   collectColorScales,
@@ -46,7 +53,7 @@ export type {
 
 /**
  * Razorwind plugin that turns design tokens into a Tamagui v5 config
- * (`createTamagui` + `createTokens` + `createV5Theme`).
+ * (`createTamagui` + `createTokens` + `createV5Theme` + `createFont`).
  *
  * Light and dark token sets are emitted as a single config: `createV5Theme`
  * receives both `lightPalette` / `darkPalette` and `childrenThemes` with
@@ -55,7 +62,12 @@ export type {
  * set `lightPalette` / `darkPalette` (`color1`–`color12`). Light palettes are
  * ordered lightest-first; dark palettes darkest-first.
  *
+ * Typography tokens (`$type: "typography"`) and font-family tokens each emit
+ * a Tamagui `createFont` entry. Names with a `_` suffix (or a nested language
+ * segment) become FontLanguage variants (`body_cn`).
+ *
  * @see https://tamagui.dev/docs/core/config-v5
+ * @see https://tamagui.dev/docs/core/font-language#font-tokens
  *
  * @example
  * ```ts

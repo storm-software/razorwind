@@ -25,28 +25,50 @@ export function renderInstallMd(options: {
   outputPath: string;
   titlePrefix?: string;
   themeFiles?: string[];
+  themeNames?: string[];
 }): string {
   const titlePrefix = options.titlePrefix ?? "Design Tokens";
-  const themeSection =
-    options.themeFiles && options.themeFiles.length > 0
+  const themeFile = options.themeFiles?.[0];
+  const themeNames = options.themeNames ?? [];
+  const themeSection = themeFile
+    ? themeNames.length > 1
       ? `
 ## Storybook UI theme
 
-Generated theme module(s):
+Generated theme module:
 
-${options.themeFiles.map(file => `- \`${file}\``).join("\n")}
+- \`${themeFile}\` — record of \`create()\` themes keyed by name (${themeNames
+          .map(name => `\`${name}\``)
+          .join(", ")})
 
 Wire into \`.storybook/preview.ts\`:
 
 \`\`\`ts
-import theme from "../${options.themeFiles[0]}";
+import themes from "../${themeFile}";
+
+export const parameters = {
+  docs: { theme: themes[${JSON.stringify(themeNames[0])}] }
+};
+\`\`\`
+`
+      : `
+## Storybook UI theme
+
+Generated theme module(s):
+
+- \`${themeFile}\`
+
+Wire into \`.storybook/preview.ts\`:
+
+\`\`\`ts
+import theme from "../${themeFile}";
 
 export const parameters = {
   docs: { theme }
 };
 \`\`\`
 `
-      : "";
+    : "";
 
   return `# Installing Storybook Token Docs
 

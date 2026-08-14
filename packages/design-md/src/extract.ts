@@ -17,16 +17,16 @@
  ------------------------------------------------------------------- */
 
 import { useExecution } from "@power-plant/core";
-import { definePlugin } from "@razorwind/core/plugin";
 import { normalizeTokenTree } from "@razorwind/core";
+import { definePlugin } from "@razorwind/core/plugin";
 import { existsSync } from "@stryke/fs/exists";
 import { readFile } from "@stryke/fs/read-file";
 import { joinPaths } from "@stryke/path/join";
 import { isEmptyObject } from "@stryke/type-checks/is-empty-object";
+import { isObject } from "@stryke/type-checks/is-object";
 import type { DesignTokens } from "style-dictionary/types";
 import { parse as parseYaml } from "yaml";
 import type { DesignMdExtractPluginOptions } from "./types";
-import { isObject } from "@stryke/type-checks/is-object";
 
 /**
  * Basename pattern for DESIGN.md spec files
@@ -226,7 +226,7 @@ export function extractDesignMdFrontMatter(
     );
   }
 
-  return isObject(parsed) ? parsed as Record<string, unknown> : undefined;
+  return isObject(parsed) ? (parsed as Record<string, unknown>) : undefined;
 }
 
 /**
@@ -254,14 +254,21 @@ export function designMdToTokens(
 
     switch (section) {
       case "colors":
-        tokens[section] = toScaleGroup(value as Record<string, unknown>, "color");
+        tokens[section] = toScaleGroup(
+          value as Record<string, unknown>,
+          "color"
+        );
         break;
       case "typography":
         tokens[section] = toTypographyGroup(value as Record<string, unknown>);
         break;
       case "rounded":
       case "spacing":
-        tokens[section] = toScaleGroup(value as Record<string, unknown>, "dimension", true);
+        tokens[section] = toScaleGroup(
+          value as Record<string, unknown>,
+          "dimension",
+          true
+        );
         break;
       case "components":
         tokens[section] = toComponentsGroup(value as Record<string, unknown>);

@@ -20,7 +20,11 @@ import type { Schema, Tokens } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
 import { flattenTokens } from "../src/flatten";
 import { formatTokenValue, toCssVar } from "../src/format";
-import { generateTokenDocs } from "../src/generate";
+import {
+  generateTokenDocs,
+  normalizeThemes,
+  renderThemeFile
+} from "../src/generate";
 import storybook, { type StorybookPluginOptions, type StorybookTheme } from "../src/index";
 
 const tokens = {
@@ -123,6 +127,9 @@ describe("storybook plugin", () => {
   it("is a Razorwind Plugin", () => {
     const plugin = storybook({});
     expect(plugin.name).toBe("storybook");
+    expect(plugin).toEqual(
+      expect.objectContaining({ themeGeneration: "combined" })
+    );
     expect(typeof plugin.generate).toBe("function");
   });
 
@@ -234,5 +241,112 @@ describe("storybook plugin", () => {
   it("skips theme.ts when mapTheme is omitted", () => {
     const documents = generateTokenDocs(spec, { outputPath: "out" });
     expect(documents["out/theme.ts"]).toBeUndefined();
+  });
+
+  it("writes a single theme.ts combining named mapTheme results", () => {
+    const documents = generateTokenDocs(spec, {
+      outputPath: "out",
+      mapTheme: () => ({
+        light: { base: "light", colorPrimary: "#ffffff" },
+        dark: { base: "dark", colorPrimary: "#111111" }
+      })
+    });
+
+    expect(documents["out/theme.ts"]).toBeDefined();
+    expect(documents["out/theme-light.ts"]).toBeUndefined();
+    expect(documents["out/theme-dark.ts"]).toBeUndefined();
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain('from "storybook/theming"');
+    expect(theme).toContain("export default {");
+    expect(theme).toContain("light: create({");
+    expect(theme).toContain("dark: create({");
+    expect(theme).toContain('base: "light"');
+    expect(theme).toContain('base: "dark"');
+    expect(theme).toContain('colorPrimary: "#ffffff"');
+    expect(theme).toContain('colorPrimary: "#111111"');
+
+    const install = documents["out/INSTALL.md"]?.chunks?.[0]?.content;
+    expect(install).toContain("`theme.ts`");
+    expect(install).not.toContain("theme-light.ts");
+    expect(install).toContain('themes["light"]');
+  });
+
+  it("maps each token set into one combined theme.ts record", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          light: {
+            color: {
+              $type: "color",
+              primary: { $value: "#eeeeee" }
+            }
+          },
+          dark: {
+            color: {
+              $type: "color",
+              primary: { $value: "#111111" }
+            }
+          }
+        }
+      } as Schema,
+      {
+        outputPath: "out",
+        mapTheme: input => ({
+          colorPrimary: flattenTokens(input).find(
+            token => token.path === "color.primary"
+          )?.cssValue
+        })
+      }
+    );
+
+    expect(documents["out/theme.ts"]).toBeDefined();
+    expect(documents["out/theme-light.ts"]).toBeUndefined();
+    expect(documents["out/theme-dark.ts"]).toBeUndefined();
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain("export default {");
+    expect(theme).toContain("light: create({");
+    expect(theme).toContain("dark: create({");
+    expect(theme).toContain('base: "light"');
+    expect(theme).toContain('base: "dark"');
+    expect(theme).toContain('colorPrimary: "#eeeeee"');
+    expect(theme).toContain('colorPrimary: "#111111"');
+  });
+
+  it("quotes non-identifier theme names in the combined record", () => {
+    const content = renderThemeFile({
+      light: { base: "light", colorPrimary: "#fff" },
+      "high-contrast": { base: "dark", colorPrimary: "#000" }
+    });
+
+    expect(content).toContain("light: create({");
+    expect(content).toContain('"high-contrast": create({');
+  });
+});
+
+describe("normalizeThemes", () => {
+  it("keeps a mapTheme record as one named record", () => {
+    const themes = normalizeThemes(
+      {
+        light: { colorPrimary: "#fff" },
+        dark: { colorPrimary: "#000" }
+      },
+      spec,
+      { title: "Demo" },
+      () => ({ base: "light" })
+    );
+
+    expect(Object.keys(themes)).toEqual(["light", "dark"]);
+    expect(themes.light?.base).toBe("light");
+    expect(themes.dark?.base).toBe("dark");
+    expect(themes.light?.brandTitle).toBe("Demo");
+  });
+
+  it("returns empty when mapTheme output is not a theme", () => {
+    expect(
+      normalizeThemes("nope", spec, {}, () => ({ base: "light" }))
+    ).toEqual({});
   });
 });

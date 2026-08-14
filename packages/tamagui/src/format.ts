@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { isObject } from "@razorwind/core/utils";
+import { formatTokenValue, isObject } from "@razorwind/core/utils";
 
 export { formatTokenValue, toCssVar } from "@razorwind/core/utils";
 
@@ -99,8 +99,5 @@ export function toTamaguiValue(value: unknown, type?: string): string | number {
     return value;
   }
 
-  // Colors and other complex values should already be stringified via
-  // formatTokenValue before reaching createTokens color entries.
-  void type;
-  return String(value);
+  return formatTokenValue(value, type);
 }

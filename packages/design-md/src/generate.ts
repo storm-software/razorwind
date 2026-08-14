@@ -232,25 +232,26 @@ export function extractDesignMd(spec: Schema): DesignMdDocument {
 
   /** DTCG token path → DESIGN.md `section.token` reference target. */
   const refTargets = new Map<string, string>();
-
   const componentTokens: FlatToken[] = [];
 
   for (const token of flat) {
     const segments = token.path.split(".");
-
     if (segments[0] && COMPONENT_PATTERN.test(segments[0])) {
       componentTokens.push(token);
       continue;
     }
 
-    if (token.type === "color") {
+    if (token.type === "color" && !token.palette) {
       const name = toTokenName(token.path, COLOR_PREFIXES);
       const resolved = resolveAlias(token, byPath);
-      document.colors[name] = resolved.cssValue;
-      if (token.description) {
-        document.colorDescriptions[name] = token.description;
+      if (!resolved.palette) {
+        document.colors[name] = resolved.cssValue;
+        if (token.description) {
+          document.colorDescriptions[name] = token.description;
+        }
+
+        refTargets.set(token.path, `colors.${name}`);
       }
-      refTargets.set(token.path, `colors.${name}`);
       continue;
     }
 

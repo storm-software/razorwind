@@ -55,7 +55,15 @@ export function App() {
 }
 \`\`\`
 
-3. Use token props such as \`color="$primary"\` or \`padding="$sm"\` per your generated token map.
+3. Use generated tokens with Tamagui style props
+   ([styles](https://tamagui.dev/docs/intro/styles), [tokens](https://tamagui.dev/docs/core/tokens)):
+
+- \`color="$primary"\` / \`padding="$sm"\` / \`borderRadius="$md"\`
+- \`fontFamily="$body"\` / \`fontSize="$true"\` / \`fontWeight="$bold"\`
+- Language variants: \`<FontLanguage body="cn">\` when a \`body_cn\` font is generated
+- \`boxShadow="$shadow.sm"\` / \`boxShadow="$insetShadow.xs"\`
+- \`textShadow="$textShadow.sm"\`
+- \`filter="$dropShadow.sm"\`
 
 ## Regenerate
 

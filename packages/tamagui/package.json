@@ -86,7 +86,8 @@
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
     "@razorwind/core": "workspace:*",
-    "@stryke/type-checks": "catalog:"
+    "@stryke/type-checks": "catalog:",
+    "@stryke/string-format": "catalog:"
   },
   "peerDependencies": {
     "@tamagui/config": ">=1.120.0",

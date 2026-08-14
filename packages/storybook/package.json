@@ -107,6 +107,7 @@
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",
+    "@stryke/types": "catalog:",
     "@types/node": "catalog:",
     "typescript": "^6.0.3"
   },

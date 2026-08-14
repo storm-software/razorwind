@@ -1036,6 +1036,9 @@ importers:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
         version: 0.1.612(65f101e470737fbf8e36556367be58d0)
+      '@stryke/types':
+        specifier: 'catalog:'
+        version: 0.12.36
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.5
@@ -1122,6 +1125,9 @@ importers:
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
+      '@stryke/string-format':
+        specifier: 'catalog:'
+        version: 0.17.50(@nx/jest@23.1.1(@babel/traverse@7.29.8)(@types/node@25.9.5)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.5)(babel-plugin-macros@3.1.0))
       '@stryke/type-checks':
         specifier: 'catalog:'
         version: 0.6.41

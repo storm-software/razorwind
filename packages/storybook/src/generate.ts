@@ -24,20 +24,24 @@ import {
   SANS_ROLES
 } from "@razorwind/core/lib/fonts";
 import type { Fonts, Schema } from "@razorwind/core/schema";
+import type { TokenSet } from "@razorwind/core/utils";
 import {
   createDocument,
+  isSharedThemeId,
+  mergeTokenTrees,
   resolveSchemaIdentity,
-  slugifyThemeName
+  SHARED_THEME_ID
 } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path/join";
-import { join } from "node:path";
-import { flattenTokens } from "./flatten";
+import type { PartialKeys } from "@stryke/types/base";
+import { flattenTokens, resolveTokenSets } from "./flatten";
 import { escapeString, toLiteral } from "./format";
 import { renderInstallMd } from "./install";
 import type {
   FlatToken,
   StorybookPluginOptions,
-  StorybookTheme
+  StorybookTheme,
+  StorybookThemePartial
 } from "./types";
 
 const DEFAULT_SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog";
@@ -475,6 +479,40 @@ export { TypesetBlock } from "./Typeset";
 `;
 }
 
+const STORYBOOK_THEME_KEYS = new Set<string>([
+  "base",
+  "colorPrimary",
+  "colorSecondary",
+  "appBg",
+  "appContentBg",
+  "appHoverBg",
+  "appPreviewBg",
+  "appBorderColor",
+  "appBorderRadius",
+  "fontBase",
+  "fontCode",
+  "textColor",
+  "textInverseColor",
+  "textMutedColor",
+  "barTextColor",
+  "barHoverColor",
+  "barSelectedColor",
+  "barBg",
+  "buttonBg",
+  "buttonBorder",
+  "booleanBg",
+  "booleanSelectedBg",
+  "inputBg",
+  "inputBorder",
+  "inputTextColor",
+  "inputBorderRadius",
+  "brandTitle",
+  "brandUrl",
+  "brandImage",
+  "brandTarget",
+  "gridCellSize"
+]);
+
 function isStorybookTheme(value: unknown): value is StorybookTheme {
   if (!isObject(value)) {
     return false;
@@ -483,11 +521,78 @@ function isStorybookTheme(value: unknown): value is StorybookTheme {
   return value.base === "light" || value.base === "dark";
 }
 
+function isThemePartial(value: unknown): value is StorybookThemePartial {
+  if (!isObject(value)) {
+    return false;
+  }
+
+  if (isStorybookTheme(value)) {
+    return true;
+  }
+
+  return Object.keys(value).some(key => STORYBOOK_THEME_KEYS.has(key));
+}
+
+function isThemeRecord(
+  value: unknown
+): value is Record<string, StorybookThemePartial> {
+  if (!isObject(value) || isThemePartial(value)) {
+    return false;
+  }
+
+  const values = Object.values(value);
+
+  return values.length > 0 && values.every(isThemePartial);
+}
+
+function inferThemeBase(
+  name: string,
+  theme: StorybookThemePartial,
+  specTheme?: string
+): "light" | "dark" {
+  if (theme.base === "light" || theme.base === "dark") {
+    return theme.base;
+  }
+
+  const haystack = `${name} ${specTheme ?? ""}`.toLowerCase();
+
+  return haystack.includes("light") ? "light" : "dark";
+}
+
+function toPropertyKey(name: string): string {
+  return /^[a-z_$][\w$]*$/i.test(name) ? name : toLiteral(name);
+}
+
+function tokensForThemeSet(sets: TokenSet[], theme: TokenSet) {
+  const base = sets.find(set => set.id === SHARED_THEME_ID);
+  if (!base || isSharedThemeId(theme.id)) {
+    return theme.tokens;
+  }
+
+  return mergeTokenTrees(theme.tokens, base.tokens);
+}
+
+function applyMappedTheme(
+  name: string,
+  theme: StorybookThemePartial,
+  identity: { title?: string; homepage?: string; logo?: string },
+  fonts: Fonts | undefined,
+  specTheme?: string
+): StorybookTheme {
+  return applyBrandDefaults(
+    inferThemeBase(name, theme, specTheme),
+    theme,
+    identity,
+    fonts
+  );
+}
+
 /**
  * Fill Storybook brand fields from Schema identity when the mapped theme omits them.
  */
 export function applyBrandDefaults(
-  theme: StorybookTheme,
+  base: "light" | "dark",
+  theme: PartialKeys<StorybookTheme, "base">,
   identity: { title?: string; homepage?: string; logo?: string },
   fonts?: Fonts
 ): StorybookTheme {
@@ -496,6 +601,7 @@ export function applyBrandDefaults(
 
   return {
     brandTarget: "_blank",
+    base: base || "light",
     ...theme,
     brandTitle: theme.brandTitle ?? identity.title,
     brandUrl: theme.brandUrl ?? identity.homepage,
@@ -505,17 +611,16 @@ export function applyBrandDefaults(
   };
 }
 
-/**
- * Serialize a Storybook theme object as a `storybook/theming` `create()` module.
- *
- * @see https://storybook.js.org/docs/configure/user-interface/theming
- */
-export function renderThemeFile(theme: StorybookTheme): string {
+function renderCreateCall(theme: StorybookTheme, indent = ""): string {
   const entries = Object.entries(theme)
     .filter(([, value]) => value !== undefined)
-    .map(([key, value]) => `  ${key}: ${toLiteral(value)}`)
+    .map(([key, value]) => `${indent}  ${key}: ${toLiteral(value)}`)
     .join(",\n");
 
+  return `create({\n${entries}\n${indent}})`;
+}
+
+function renderSingleThemeFile(theme: StorybookTheme): string {
   return `import { create } from "storybook/theming";
 
 /**
@@ -523,10 +628,118 @@ export function renderThemeFile(theme: StorybookTheme): string {
  *
  * @see https://storybook.js.org/docs/configure/user-interface/theming
  */
-export default create({
-${entries}
-});
+export default ${renderCreateCall(theme)};
 `;
+}
+
+function renderThemeRecordFile(themes: Record<string, StorybookTheme>): string {
+  const entries = Object.entries(themes)
+    .map(
+      ([name, theme]) =>
+        `  ${toPropertyKey(name)}: ${renderCreateCall(theme, "  ")}`
+    )
+    .join(",\n");
+
+  return `import { create } from "storybook/theming";
+
+/**
+ * Storybook UI themes generated by \`@razorwind/storybook\`.
+ *
+ * @see https://storybook.js.org/docs/configure/user-interface/theming
+ */
+export default {
+${entries}
+};
+`;
+}
+
+/**
+ * Serialize Storybook theme(s) as a `storybook/theming` `create()` module.
+ *
+ * A single theme becomes `export default create({…})`. Multiple named themes
+ * become a record: `{ light: create({…}), dark: create({…}) }`.
+ *
+ * @see https://storybook.js.org/docs/configure/user-interface/theming
+ */
+export function renderThemeFile(
+  theme: StorybookTheme | Record<string, StorybookTheme>
+): string {
+  if (isStorybookTheme(theme)) {
+    return renderSingleThemeFile(theme);
+  }
+
+  const entries = Object.entries(theme);
+  if (entries.length !== 1) {
+    return renderThemeRecordFile(theme);
+  }
+
+  const [, single] = entries[0] ?? [];
+  if (!single) {
+    return renderThemeRecordFile(theme);
+  }
+
+  return renderSingleThemeFile(single);
+}
+
+/**
+ * Normalize {@link StorybookPluginOptions.mapTheme} results into a named
+ * theme record. Multi-theme token sets are mapped per theme when `mapTheme`
+ * returns a single theme object.
+ */
+export function normalizeThemes(
+  mapped: unknown,
+  spec: Pick<Schema, "tokens" | "theme" | "fonts">,
+  identity: { title?: string; homepage?: string; logo?: string },
+  mapTheme: NonNullable<StorybookPluginOptions["mapTheme"]>
+): Record<string, StorybookTheme> {
+  const apply = (name: string, theme: StorybookThemePartial): StorybookTheme =>
+    applyMappedTheme(name, theme, identity, spec.fonts, spec.theme);
+
+  if (isThemeRecord(mapped)) {
+    return Object.fromEntries(
+      Object.entries(mapped).map(([name, theme]) => [name, apply(name, theme)])
+    );
+  }
+
+  const sets = resolveTokenSets(spec.tokens);
+  const themes = sets.filter(set => !isSharedThemeId(set.id));
+
+  if (themes.length > 1) {
+    const result: Record<string, StorybookTheme> = {};
+
+    for (const set of themes) {
+      const perTheme = mapTheme(tokensForThemeSet(sets, set));
+      if (isThemeRecord(perTheme)) {
+        const match = perTheme[set.id];
+        if (match) {
+          result[set.id] = apply(set.id, match);
+          continue;
+        }
+
+        for (const [name, theme] of Object.entries(perTheme)) {
+          result[name] = apply(name, theme);
+        }
+        continue;
+      }
+
+      if (isThemePartial(perTheme)) {
+        result[set.id] = apply(set.id, perTheme);
+      }
+    }
+
+    return result;
+  }
+
+  if (isThemePartial(mapped)) {
+    const name =
+      themes[0] && themes[0].id !== "default"
+        ? themes[0].id
+        : (spec.theme ?? "default");
+
+    return { [name]: apply(name, mapped) };
+  }
+
+  return {};
 }
 
 const getCreateDocument =
@@ -540,9 +753,7 @@ const getCreateDocument =
       joinPaths(outputPath, file),
       content,
       { name: "razorwind-storybook" },
-      (_: string, theme: string) => {
-        return joinPaths(outputPath, slugifyThemeName(theme), file);
-      },
+      false,
       language
     );
   };
@@ -646,31 +857,25 @@ export function generateTokenDocs(
     "json"
   );
 
+  let themeNames: string[] | undefined;
+
   if (options.mapTheme) {
-    const theme = options.mapTheme(spec.tokens);
-    if (isStorybookTheme(theme)) {
+    const themes = normalizeThemes(
+      options.mapTheme(spec.tokens),
+      spec,
+      identity,
+      options.mapTheme
+    );
+
+    if (Object.keys(themes).length > 0) {
+      themeNames = Object.keys(themes);
       documents[joinPaths(outputPath, "theme.ts")] = createDoc(
         "theme.ts",
-        renderThemeFile(applyBrandDefaults(theme, identity, spec.fonts)),
+        renderThemeFile(themes),
         "typescript"
       );
-    } else if (isObject(theme)) {
-      for (const [key, value] of Object.entries(theme)) {
-        if (!isStorybookTheme(value)) {
-          continue;
-        }
-        documents[joinPaths(outputPath, `theme-${key}.ts`)] = createDoc(
-          `theme-${key}.ts`,
-          renderThemeFile(applyBrandDefaults(value, identity, spec.fonts)),
-          "typescript"
-        );
-      }
     }
   }
-
-  const themeFiles = Object.keys(documents)
-    .filter(path => path.startsWith(join(outputPath, "theme")))
-    .map(path => path.slice(outputPath.length + 1));
 
   const installPath = "INSTALL.md";
   documents[joinPaths(outputPath, installPath)] = createDoc(
@@ -679,7 +884,8 @@ export function generateTokenDocs(
       renderInstallMd({
         outputPath,
         titlePrefix,
-        themeFiles: themeFiles.length > 0 ? themeFiles : undefined
+        themeFiles: themeNames ? ["theme.ts"] : undefined,
+        themeNames
       }),
     "markdown"
   );

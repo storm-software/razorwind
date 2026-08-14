@@ -539,5 +539,261 @@
         }
       }
     }
+  },
+  "border": {
+    "primary": {
+      "$description": "The primary border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.primary}"
+      }
+    },
+    "primary-subtle": {
+      "$description": "The primary subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.primary}"
+      }
+    },
+    "secondary": {
+      "$description": "The secondary border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.secondary}"
+      }
+    },
+    "secondary-subtle": {
+      "$description": "The secondary subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.secondary}"
+      }
+    },
+    "tertiary": {
+      "$description": "The tertiary border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.tertiary}"
+      }
+    },
+    "tertiary-subtle": {
+      "$description": "The tertiary subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.tertiary}"
+      }
+    },
+    "accent": {
+      "$description": "The accent border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.accent}"
+      }
+    },
+    "accent-subtle": {
+      "$description": "The accent subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.accent}"
+      }
+    },
+    "danger": {
+      "$description": "The danger border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.danger}"
+      }
+    },
+    "danger-subtle": {
+      "$description": "The danger subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.danger}"
+      }
+    },
+    "warning": {
+      "$description": "The warning border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.warning}"
+      }
+    },
+    "warning-subtle": {
+      "$description": "The warning subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.warning}"
+      }
+    },
+    "success": {
+      "$description": "The success border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.success}"
+      }
+    },
+    "success-subtle": {
+      "$description": "The success subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.success}"
+      }
+    },
+    "info": {
+      "$description": "The info border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.info}"
+      }
+    },
+    "info-subtle": {
+      "$description": "The info subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.info}"
+      }
+    },
+    "discovery": {
+      "$description": "The discovery border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 2, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.discovery}"
+      }
+    },
+    "discovery-subtle": {
+      "$description": "The discovery subtle border variant for the dark theme",
+      "$type": "border",
+      "$value": {
+        "width": { "value": 1, "unit": "px" },
+        "style": "solid",
+        "color": "{color.border.discovery}"
+      }
+    }
+  },
+  "typography": {
+    "display-lg": {
+      "$type": "typography",
+      "$description": "The display large typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 48,
+        "lineHeight": 56
+      }
+    },
+    "display-md": {
+      "$type": "typography",
+      "$description": "The display medium typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 32,
+        "lineHeight": 40
+      }
+    },
+    "display-sm": {
+      "$type": "typography",
+      "$description": "The display small typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Permanent Marker",
+        "fontWeight": 400,
+        "fontSize": 24,
+        "lineHeight": 32
+      }
+    },
+    "title-lg": {
+      "$type": "typography",
+      "$description": "The title large typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "title-md": {
+      "$type": "typography",
+      "$description": "The title medium typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "title-sm": {
+      "$type": "typography",
+      "$description": "The title small typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "body": {
+      "$type": "typography",
+      "$description": "The body typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 16,
+        "lineHeight": 24
+      }
+    },
+    "caption": {
+      "$type": "typography",
+      "$description": "The caption typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Grotesk",
+        "fontWeight": 300,
+        "fontSize": 10,
+        "lineHeight": 14
+      }
+    },
+    "code": {
+      "$type": "typography",
+      "$description": "The code typography variant for the dark theme",
+      "$value": {
+        "fontFamily": "Space Mono",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "lineHeight": 24
+      }
+    }
   }
 }

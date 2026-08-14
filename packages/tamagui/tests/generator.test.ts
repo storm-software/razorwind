@@ -108,12 +108,44 @@ describe("format helpers", () => {
     expect(toTamaguiValue({ value: 8, unit: "px" }, "dimension")).toBe(8);
     expect(toTamaguiValue({ value: 0.5, unit: "rem" }, "dimension")).toBe(8);
   });
+
+  it("formats shadow objects as CSS box-shadow strings", () => {
+    expect(
+      toTamaguiValue(
+        {
+          color: { hex: "#000000", alpha: 0.05 },
+          offsetX: { value: 0, unit: "px" },
+          offsetY: { value: 1, unit: "px" },
+          blur: { value: 0, unit: "px" },
+          spread: { value: 0, unit: "px" },
+          inset: true
+        },
+        "shadow"
+      )
+    ).toBe("inset 0px 1px 0px 0px #0000000d");
+  });
 });
 
 describe("flattenTokens", () => {
   it("maps paths onto Tamagui categories and keys", () => {
     expect(resolveTokenCategory("color.primary", "color")).toBe("color");
     expect(resolveTokenCategory("spacing.sm", "dimension")).toBe("space");
+    expect(resolveTokenCategory("inset.sm", "dimension")).toBe("space");
+    expect(resolveTokenCategory("font-size.sm", "dimension")).toBe("fontSize");
+    expect(resolveTokenCategory("font-weight.bold", "fontWeight")).toBe(
+      "fontWeight"
+    );
+    expect(resolveTokenCategory("size.sm", "dimension")).toBe("size");
+    expect(resolveTokenCategory("inset-shadow.xs", "shadow")).toBe(
+      "insetShadow"
+    );
+    expect(resolveTokenCategory("drop-shadow.sm", "shadow")).toBe("dropShadow");
+    expect(resolveTokenCategory("text-shadow.md", "shadow")).toBe("textShadow");
+    expect(resolveTokenCategory("shadow.2xs", "shadow")).toBe("shadow");
+    expect(toTokenKey("font-size.sm")).toBe("sm");
+    expect(toTokenKey("font-weight.bold")).toBe("bold");
+    expect(toTokenKey("inset-shadow.2xs")).toBe("2xs");
+    expect(toTokenKey("drop-shadow.lg")).toBe("lg");
     expect(toTokenKey("radius.DEFAULT")).toBe("true");
     expect(toTokenKey("color.blue1")).toBe("blue1");
     expect(toTokenKey("color.blue.1")).toBe("blue1");
@@ -178,28 +210,30 @@ describe("tamagui plugin", () => {
     ]);
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
     expect(content).toContain(
-      `import { createV5Theme, defaultConfig } from "@tamagui/config/v5"`
+      `import { createV5Theme, defaultConfig, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
     );
     expect(content).toContain(
       `import { animations } from "@tamagui/config/v5-css"`
     );
-    expect(content).toContain(
-      `import { createTamagui, createTokens } from "tamagui"`
-    );
+    expect(content).toContain(`from "@tamagui/core"`);
+    expect(content).toContain("createTamagui");
+    expect(content).toContain("createTokens");
     expect(content).toContain("createTokens({");
     expect(content).toContain("primary: \"#0066cc\"");
     expect(content).toContain("backgroundAccent:");
     expect(content).toContain("backgroundAccentSubtle:");
     expect(content).not.toContain("backgroundaccent");
     expect(content).not.toContain("backgroundaccent-subtle");
+    expect(content).not.toContain('"colorSpace"');
     expect(content).toContain("sm: 8");
     expect(content).toContain("true: 4");
     expect(content).toContain("createV5Theme({");
     expect(content).toContain("childrenThemes:");
     expect(content).toContain("blue:");
     expect(content).toContain("getTheme:");
+    expect(content).toContain("...theme");
     expect(content).toContain("export const config = createTamagui({");
-    expect(content).toContain("declare module \"tamagui\"");
+    expect(content).toContain("declare module \"@tamagui/core\"");
   });
 
   it("generateTamaguiConfig mirrors the plugin generate output", () => {
@@ -210,9 +244,8 @@ describe("tamagui plugin", () => {
     });
 
     const content = documents["out/tamagui.config.ts"]?.chunks?.[0]?.content;
-    expect(content).toContain(
-      `import { createV5Theme } from "@tamagui/config/v5"`
-    );
+    expect(content).toContain(`from "@tamagui/config/v5"`);
+    expect(content).toContain("createV5Theme");
     expect(content).not.toContain("defaultConfig");
     expect(content).not.toContain("animations");
     expect(content).toContain("createTokens({");
@@ -246,6 +279,167 @@ describe("tamagui plugin", () => {
     expect(content).toContain("bodyFont");
     expect(content).toContain("fonts: {");
     expect(content).toContain("body: bodyFont");
+  });
+
+  it("emits createFont from typography tokens", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        font: {
+          $type: "fontFamily",
+          sans: { $value: ["Inter", "system-ui", "sans-serif"] },
+          mono: { $value: ["JetBrains Mono", "ui-monospace", "monospace"] }
+        },
+        fontWeight: {
+          $type: "fontWeight",
+          regular: { $value: 400 },
+          bold: { $value: 700 }
+        },
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "{font.sans}",
+              fontSize: { value: 1, unit: "rem" },
+              fontWeight: "{fontWeight.regular}",
+              lineHeight: 1.5,
+              letterSpacing: { value: 0, unit: "px" }
+            }
+          },
+          heading: {
+            $value: {
+              fontFamily: "{font.sans}",
+              fontSize: { value: 1.5, unit: "rem" },
+              fontWeight: "{fontWeight.bold}",
+              lineHeight: 1.25,
+              letterSpacing: { value: -0.02, unit: "rem" }
+            }
+          },
+          body_cn: {
+            $value: {
+              fontFamily: "Noto Sans SC, sans-serif",
+              fontSize: { value: 1, unit: "rem" },
+              fontWeight: 400,
+              lineHeight: 1.5
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const flat = flattenTokens(spec.tokens);
+    expect(flat.find(token => token.path === "typography.body")?.type).toBe(
+      "typography"
+    );
+    expect(flat.find(token => token.path === "fontWeight.bold")?.category).toBe(
+      "fontWeight"
+    );
+
+    const content = renderTamaguiConfig(flat, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("createFont");
+    expect(content).toContain("const bodyFont = createFont({");
+    expect(content).toContain("const headingFont = createFont({");
+    expect(content).toContain("const body_cnFont = createFont({");
+    expect(content).toContain("body: bodyFont");
+    expect(content).toContain("heading: headingFont");
+    expect(content).toContain("body_cn: body_cnFont");
+    expect(content).toContain("mono: monoFont");
+    expect(content).toContain("Inter, system-ui, sans-serif");
+    expect(content).toContain("Noto Sans SC, sans-serif");
+    expect(content).toContain("JetBrains Mono, ui-monospace, monospace");
+    expect(content).toContain("true: 16");
+    expect(content).toContain("true: 24");
+    expect(content).toContain('true: "400"');
+    expect(content).toContain('true: "700"');
+    expect(content).toContain("true: -0.32");
+    expect(content).not.toContain('"fontFamily"');
+    expect(content).not.toContain("[object Object]");
+  });
+
+  it("maps nested typography language segments onto FontLanguage keys", () => {
+    const nested = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        typography: {
+          $type: "typography",
+          body: {
+            cn: {
+              $value: {
+                fontFamily: "Inter-CN",
+                fontSize: { value: 16, unit: "px" }
+              }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(flattenTokens(nested.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("const body_cnFont = createFont({");
+    expect(content).toContain("body_cn: body_cnFont");
+    expect(content).toContain("Inter-CN");
+  });
+
+  it("merges spec.fonts face data into typography createFont output", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Inter",
+              fontSize: { value: 16, unit: "px" },
+              fontWeight: 400
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(
+      flattenTokens(spec.tokens),
+      {
+        useDefaultConfig: false,
+        animations: false,
+        includeTypeAugmentation: false
+      },
+      {
+        inter: {
+          name: "inter",
+          title: "Inter",
+          source: "local",
+          family: "Inter",
+          role: "sans",
+          files: [
+            { path: "fonts/Inter-Regular.ttf", weight: 400, style: "normal" },
+            { path: "fonts/Inter-Italic.ttf", weight: 400, style: "italic" }
+          ]
+        }
+      }
+    );
+
+    expect(content).toContain("const bodyFont = createFont({");
+    expect(content).toContain("face:");
+    expect(content).toContain('400: { normal: "Inter-Regular", italic: "Inter-Italic" }');
+    expect(content).toContain("true: 16");
+    expect(content).toContain('true: "400"');
   });
 
   it("emits one createV5Theme config with both light and dark palettes", () => {
@@ -501,5 +695,206 @@ describe("tamagui plugin", () => {
     expect(content).toMatch(
       /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?red1:\s*"#1a0000"/
     );
+  });
+
+  it("maps getTheme semantic aliases onto the Tamagui theme object", () => {
+    function nestedScale(
+      hex: (step: number) => string,
+      steps = 6
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { palette: true };
+      for (let step = 1; step <= steps; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#f${step}f${step}f${step}`),
+            blue: nestedScale(step => `#0000f${step}`),
+            primary: { $value: "{color.blue.6}" },
+            background: { $value: "{color.base.1}" },
+            accent: { $value: "#00ccaa" }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#1${step}1${step}1${step}`),
+            blue: nestedScale(step => `#0000a${step}`),
+            primary: { $value: "{color.blue.6}" },
+            background: { $value: "{color.base.1}" },
+            accent: { $value: "#00aa88" }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const getTheme = content.slice(content.indexOf("getTheme:"));
+    expect(getTheme).toContain("...theme");
+    expect(getTheme).toContain("background: theme.color1");
+    expect(getTheme).toContain("primary: theme.blue6");
+    expect(getTheme).toContain('accent: "#00ccaa"');
+    expect(getTheme).toContain('accent: "#00aa88"');
+    expect(getTheme).not.toContain("var(--");
+    expect(getTheme).not.toContain("{color.");
+  });
+
+  it("emits CSS color strings and box-shadow strings in createTokens", () => {
+    const insetLayer = {
+      color: {
+        colorSpace: "srgb",
+        components: [0, 0, 0],
+        alpha: 0.05,
+        hex: "#000000"
+      },
+      offsetX: { value: 0, unit: "px" },
+      offsetY: { value: 1, unit: "px" },
+      blur: { value: 1, unit: "px" },
+      spread: { value: 0, unit: "px" },
+      inset: true
+    };
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            brand: {
+              palette: true,
+              1: { $value: "#00ccaa" },
+              2: { $value: "#006655" }
+            },
+            primary: {
+              $value: {
+                colorSpace: "srgb",
+                components: [0, 0.4, 0.8],
+                hex: "#0066cc"
+              }
+            }
+          },
+          "inset-shadow": {
+            xs: { $type: "shadow", $value: insetLayer }
+          },
+          shadow: {
+            sm: {
+              $type: "shadow",
+              $value: { ...insetLayer, inset: false, offsetY: { value: 2, unit: "px" } }
+            }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            brand: {
+              palette: true,
+              1: { $value: "#00aa88" },
+              2: { $value: "#003322" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const flat = flattenTokens(spec.tokens);
+    expect(
+      flat.find(token => token.path === "inset-shadow.xs")?.category
+    ).toBe("insetShadow");
+    expect(flat.find(token => token.path === "inset-shadow.xs")?.tokenKey).toBe(
+      "xs"
+    );
+    expect(flat.find(token => token.path === "inset-shadow.xs")?.tamaguiValue).toBe(
+      "inset 0px 1px 1px 0px #0000000d"
+    );
+
+    const content = renderTamaguiConfig(flat, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("color: {");
+    expect(content).toContain('primary: "#0066cc"');
+    expect(content).toContain('light_brand1: "#00ccaa"');
+    expect(content).toContain('dark_brand1: "#00aa88"');
+    expect(content).not.toContain("colorSpace");
+    expect(content).toContain("shadow: {");
+    expect(content).toContain("insetShadow: {");
+    expect(content).toContain("xs:");
+    expect(content).toContain("inset 0px 1px 1px 0px #0000000d");
+    expect(content).not.toContain("insetShadowXs:");
+    expect(content).not.toContain("[object Object]");
+    expect(content).not.toMatch(/space:\s*\{[^}]*insetShadow/s);
+  });
+
+  it("emits fontSize, dropShadow, and textShadow as createTokens categories", () => {
+    const shadowLayer = {
+      color: {
+        colorSpace: "srgb",
+        components: [0, 0, 0],
+        alpha: 0.15,
+        hex: "#000000"
+      },
+      offsetX: { value: 0, unit: "px" },
+      offsetY: { value: 1, unit: "px" },
+      blur: { value: 2, unit: "px" },
+      spread: { value: 0, unit: "px" }
+    };
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        size: {
+          $type: "dimension",
+          sm: { $value: { value: 8, unit: "px" } }
+        },
+        "font-size": {
+          $type: "dimension",
+          sm: { $value: { value: 0.875, unit: "rem" } },
+          base: { $value: { value: 1, unit: "rem" } }
+        },
+        "drop-shadow": {
+          sm: { $type: "shadow", $value: shadowLayer }
+        },
+        "text-shadow": {
+          xs: { $type: "shadow", $value: shadowLayer }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("fontSize: {");
+    expect(content).toContain("sm: px(14)");
+    expect(content).toContain("base: px(16)");
+    expect(content).not.toContain("fontSizeSm:");
+    expect(content).toMatch(/size:\s*\{[^}]*sm:\s*8/s);
+    expect(content).toContain("dropShadow: {");
+    expect(content).toContain("drop-shadow(0px 1px 2px #00000026)");
+    expect(content).toContain("textShadow: {");
+    expect(content).not.toContain("dropShadowSm:");
+    expect(content).not.toContain("textShadowXs:");
   });
 });

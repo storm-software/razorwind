@@ -83,6 +83,8 @@ export interface FlatToken {
   description?: string;
   /** Theme / set id when tokens are a `Record<string, Tokens>`. */
   theme?: string;
+  /** Whether the token is part of a palette primitive. */
+  palette?: boolean;
 }
 
 /**

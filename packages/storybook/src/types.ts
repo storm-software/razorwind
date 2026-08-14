@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Tokens, TokenType } from "@power-plant/dtcg-schema";
+import type { PartialKeys } from "@stryke/types/base";
 
 /**
  * A flattened design token ready for documentation rendering.
@@ -78,8 +79,10 @@ export interface StorybookTheme {
   gridCellSize?: number;
 }
 
+export type StorybookThemePartial = PartialKeys<StorybookTheme, "base">;
+
 export type StorybookThemeResult =
-  StorybookTheme | Record<string, StorybookTheme>;
+  StorybookThemePartial | Record<string, StorybookThemePartial>;
 
 /**
  * Map flattened design tokens to a Storybook theme object.
@@ -138,8 +141,10 @@ export interface StorybookPluginOptions {
   /**
    * Map extracted token values to a Storybook UI theme.
    *
-   * When provided, the result is written to `{outputPath}/theme.ts` as a
-   * `create()` call from `storybook/theming`.
+   * When provided, all mapped themes are written to a single
+   * `{outputPath}/theme.ts`. One theme becomes `export default create({…})`;
+   * multiple themes become a record keyed by theme name
+   * (`{ light: create({…}), dark: create({…}) }`).
    *
    * @see https://storybook.js.org/docs/configure/user-interface/theming
    */

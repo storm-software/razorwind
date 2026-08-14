@@ -17,11 +17,11 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import { cssFontFamily, fontFamilyName } from "@razorwind/core/lib/fonts";
-import type { Font, Fonts, LocalFont, Schema } from "@razorwind/core/schema";
-import { createDocument } from "@razorwind/core/utils";
-import { basename, dirname, join } from "node:path";
+import type { Fonts, Schema } from "@razorwind/core/schema";
+import { createDocument, toThemeCssVar } from "@razorwind/core/utils";
+import { dirname, join } from "node:path";
 import { flattenTokens, toCamelCaseKey } from "./flatten";
+import { collectTamaguiFonts, fontVarName, renderCreateFont } from "./fonts";
 import { toLiteral } from "./format";
 import { renderInstallMd } from "./install";
 import type {
@@ -94,22 +94,164 @@ function tokensForScheme(
   return [...byPath.values()];
 }
 
+/** Custom token categories that need Tamagui's `px()` helper (not size/space/radius). */
+const PX_TOKEN_CATEGORIES = new Set<TamaguiTokenCategory>(["fontSize", "blur"]);
+
+/** Categories emitted on `createTokens` after `color`. */
+const CREATE_TOKEN_CATEGORIES = [
+  "space",
+  "size",
+  "radius",
+  "zIndex",
+  "blur",
+  "fontSize",
+  "shadow",
+  "insetShadow",
+  "dropShadow",
+  "textShadow",
+  "boxShadow",
+  "fontWeight"
+] as const satisfies readonly TamaguiTokenCategory[];
+
+function isPxExpression(value: string): boolean {
+  return /^px\(-?\d/.test(value);
+}
+
+function bucketTokenKey(token: FlatToken): string {
+  if (
+    token.category === "radius" &&
+    token.tokenKey?.startsWith("borderRadius")
+  ) {
+    const stripped = token.tokenKey.replace(/^borderRadius/, "");
+
+    return stripped ? toCamelCaseKey([stripped]) : token.tokenKey;
+  }
+
+  return token.tokenKey ?? "";
+}
+
+function bucketTokenValue(token: FlatToken): string | number {
+  if (
+    token.category &&
+    PX_TOKEN_CATEGORIES.has(token.category) &&
+    typeof token.tamaguiValue === "number"
+  ) {
+    return `px(${token.tamaguiValue})`;
+  }
+
+  if (
+    token.category === "dropShadow" &&
+    typeof token.tamaguiValue === "string"
+  ) {
+    return toDropShadowFilter(token.tamaguiValue);
+  }
+
+  return token.tamaguiValue;
+}
+
+/**
+ * Tamagui `filter` expects a CSS filter list. Tailwind drop-shadow tokens are
+ * stored as box-shadow layers — wrap them as `drop-shadow(x y blur color)`.
+ */
+function toDropShadowFilter(cssBoxShadow: string): string {
+  if (cssBoxShadow.includes("drop-shadow(")) {
+    return cssBoxShadow;
+  }
+
+  return cssBoxShadow
+    .split(",")
+    .map(layer => layer.trim())
+    .filter(Boolean)
+    .map(layer => {
+      const parts = layer.replace(/^inset\s+/i, "").split(/\s+/);
+      if (parts.length >= 5) {
+        const [x, y, blur] = parts;
+        const color = parts.slice(4).join(" ");
+
+        return `drop-shadow(${x} ${y} ${blur} ${color})`;
+      }
+
+      return `drop-shadow(${layer.replace(/^inset\s+/i, "")})`;
+    })
+    .join(" ");
+}
+
 function buildCategoryBuckets(
   tokens: FlatToken[]
 ): Partial<Record<TamaguiTokenCategory, TokenBucket>> {
   const buckets: Partial<Record<TamaguiTokenCategory, TokenBucket>> = {};
 
   for (const token of tokens) {
-    if (!token.category || !token.tokenKey) {
+    if (!token.category || token.category === "color" || !token.tokenKey) {
+      continue;
+    }
+
+    const key = bucketTokenKey(token);
+    if (!key) {
       continue;
     }
 
     const bucket = buckets[token.category] ?? {};
-    bucket[token.tokenKey] = token.tamaguiValue;
+    bucket[key] = bucketTokenValue(token);
     buckets[token.category] = bucket;
   }
 
   return buckets;
+}
+
+/**
+ * Color entries for `createTokens({ color })` — CSS strings, not DTCG objects.
+ *
+ * Palette scales are prefixed by theme (`light_base1`, `dark_blue6`) so light
+ * and dark can coexist. Semantic colors from the light scheme use `tokenKey`.
+ *
+ * @see https://tamagui.dev/docs/core/tokens
+ */
+function colorBucketForCreateTokens(
+  lightColorTokens: FlatToken[],
+  darkColorTokens: FlatToken[]
+): TokenBucket {
+  const bucket: TokenBucket = {};
+
+  const put = (key: string, token: FlatToken): void => {
+    const value = token.cssValue;
+    if (
+      typeof value !== "string" ||
+      value.length === 0 ||
+      isCssVarOrAlias(value) ||
+      value === "[object Object]"
+    ) {
+      return;
+    }
+
+    bucket[key] = value;
+  };
+
+  const paletteKey = (token: FlatToken): string => {
+    const stem = token.path.replace(/^color\./i, "").replaceAll(".", "");
+
+    return token.theme ? `${token.theme}_${stem}` : stem;
+  };
+
+  for (const token of lightColorTokens) {
+    if (!token.tokenKey) {
+      continue;
+    }
+    if (token.palette) {
+      put(paletteKey(token), token);
+    } else {
+      put(token.tokenKey, token);
+    }
+  }
+
+  for (const token of darkColorTokens) {
+    if (!token.tokenKey || !token.palette) {
+      continue;
+    }
+    put(paletteKey(token), token);
+  }
+
+  return bucket;
 }
 
 function renderObjectLiteral(
@@ -126,12 +268,158 @@ function renderObjectLiteral(
   }
 
   const lines = entries.map(([key, value]) => {
-    const safeKey = /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key);
+    const rendered =
+      typeof value === "string" && isPxExpression(value)
+        ? value
+        : toLiteral(value);
 
-    return `${pad}${safeKey}: ${toLiteral(value)}`;
+    return `${pad}${
+      /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key)
+    }: ${rendered}`;
   });
 
   return `{\n${lines.join(",\n")}\n${" ".repeat(Math.max(indent - 2, 0))}}`;
+}
+
+/**
+ * Render a `getTheme` return object that spreads Tamagui's generated `theme`
+ * and overlays semantic keys. Values are TypeScript expressions — typically
+ * `theme.color1` / `theme.blue6` rather than CSS `var()` strings.
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder#gettheme
+ */
+function renderThemeObjectLiteral(
+  values: Record<string, string>,
+  indent = 2
+): string {
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+  const entries = Object.entries(values).toSorted(([a], [b]) =>
+    a.localeCompare(b, undefined, { numeric: true })
+  );
+
+  if (entries.length === 0) {
+    return `{\n${pad}...theme\n${close}}`;
+  }
+
+  const lines = entries.map(([key, expression]) => {
+    return `${pad}${
+      /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key)
+    }: ${expression}`;
+  });
+
+  return `{\n${pad}...theme,\n${lines.join(",\n")}\n${close}}`;
+}
+
+const DTCG_ALIAS_PATTERN = /^\{([^{}]+)\}$/;
+const CSS_VAR_PATTERN = /^var\((--[^),\s]+)(?:\s*,[^)]*)?\)$/;
+
+function readAliasPath(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const match = DTCG_ALIAS_PATTERN.exec(value.trim());
+
+  return match?.[1]?.trim();
+}
+
+function readCssVarName(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const match = CSS_VAR_PATTERN.exec(value.trim());
+
+  return match?.[1];
+}
+
+function isCssVarOrAlias(value: unknown): boolean {
+  return readAliasPath(value) != null || readCssVarName(value) != null;
+}
+
+/**
+ * Follow DTCG aliases (`{color.base.1}`) and CSS `var(--…)` references to the
+ * terminal token in the same scheme.
+ */
+function resolveAliasChain(
+  token: FlatToken,
+  byPath: Map<string, FlatToken>,
+  byCssVar: Map<string, FlatToken>
+): FlatToken {
+  let current = token;
+  const seen = new Set<string>();
+
+  for (let depth = 0; depth < 8; depth++) {
+    if (seen.has(current.path)) {
+      return current;
+    }
+    seen.add(current.path);
+
+    const aliasPath = readAliasPath(current.value);
+    if (aliasPath) {
+      const next = byPath.get(aliasPath);
+      if (!next || next.path === current.path) {
+        return current;
+      }
+      current = next;
+      continue;
+    }
+
+    const cssVar =
+      readCssVarName(current.value) ??
+      readCssVarName(current.cssValue) ??
+      readCssVarName(current.tamaguiValue);
+    if (cssVar) {
+      const next = byCssVar.get(cssVar);
+      if (!next || next.path === current.path) {
+        return current;
+      }
+      current = next;
+      continue;
+    }
+
+    return current;
+  }
+
+  return current;
+}
+
+function themePropertyAccess(property: string): string {
+  return /^[A-Z_$][\w$]*$/i.test(property)
+    ? `theme.${property}`
+    : `theme[${toLiteral(property)}]`;
+}
+
+/**
+ * Map a resolved color token onto a Tamagui `theme` object key.
+ *
+ * Base palettes (`lightPalette` / `darkPalette`) become `color1`–`color12`.
+ * Children palettes become named keys (`blue6`, `red7`, …) that `createV5Theme`
+ * spreads onto the generated theme extras.
+ */
+function themePropertyForToken(
+  token: FlatToken,
+  basePaletteName: string | undefined,
+  scales: Record<string, Record<string, string>>
+): string | undefined {
+  const parsed = parseScaleToken(token);
+  if (!parsed) {
+    return undefined;
+  }
+
+  if (
+    basePaletteName &&
+    parsed.name.toLowerCase() === basePaletteName.toLowerCase()
+  ) {
+    return `color${parsed.step}`;
+  }
+
+  if (scales[parsed.name]) {
+    return `${parsed.name}${parsed.step}`;
+  }
+
+  return undefined;
 }
 
 /**
@@ -484,7 +772,7 @@ function paletteFromScale(
 function pickBasePalette(
   scales: Record<string, Record<string, string>>,
   scheme: ColorScheme
-): string[] | undefined {
+): { name: string; palette: string[] } | undefined {
   const byLower = new Map(
     Object.entries(scales).map(([name, scale]) => [
       name.toLowerCase(),
@@ -500,7 +788,7 @@ function pickBasePalette(
 
     const palette = paletteFromScale(match.scale, match.name, scheme);
     if (palette) {
-      return palette;
+      return { name: match.name, palette };
     }
   }
 
@@ -510,29 +798,48 @@ function pickBasePalette(
 function resolveBasePalettes(tokens: FlatToken[]): {
   lightPalette?: string[];
   darkPalette?: string[];
+  lightBaseName?: string;
+  darkBaseName?: string;
 } {
   const colors = tokens.filter(
     token => token.category === "color" || token.palette
   );
   const lightScales = collectColorScales(tokensForScheme(colors, "light"));
   const darkScales = collectColorScales(tokensForScheme(colors, "dark"));
+  const light = pickBasePalette(lightScales, "light");
+  const dark = pickBasePalette(darkScales, "dark");
 
   return {
-    lightPalette: pickBasePalette(lightScales, "light"),
-    darkPalette: pickBasePalette(darkScales, "dark")
+    lightPalette: light?.palette,
+    darkPalette: dark?.palette,
+    lightBaseName: light?.name,
+    darkBaseName: dark?.name
   };
 }
 
-function semanticColorsForTheme(tokens: FlatToken[]): Record<string, string> {
+/**
+ * Semantic color extras for `createV5Theme({ getTheme })`.
+ *
+ * Palette aliases become `theme.colorN` / `theme.blueN` accesses on the object
+ * Tamagui passes into `getTheme`. Direct hex colors stay as string literals.
+ * CSS `var()` strings are never emitted — they are not valid Tamagui theme
+ * values.
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder#gettheme
+ */
+function semanticColorsForTheme(
+  tokens: FlatToken[],
+  basePaletteName: string | undefined
+): Record<string, string> {
   const scales = collectColorScales(tokens);
+  const byPath = new Map(tokens.map(token => [token.path, token]));
+  const byCssVar = new Map(
+    tokens.map(token => [toThemeCssVar(token.path), token])
+  );
   const semantic: Record<string, string> = {};
 
   for (const token of tokens) {
-    if (
-      token.category !== "color" ||
-      !token.tokenKey ||
-      typeof token.tamaguiValue !== "string"
-    ) {
+    if (token.category !== "color" || !token.tokenKey) {
       continue;
     }
 
@@ -547,7 +854,20 @@ function semanticColorsForTheme(tokens: FlatToken[]): Record<string, string> {
       }
     }
 
-    semantic[token.tokenKey] = token.tamaguiValue;
+    const resolved = resolveAliasChain(token, byPath, byCssVar);
+    const property = themePropertyForToken(resolved, basePaletteName, scales);
+    if (property) {
+      semantic[token.tokenKey] = themePropertyAccess(property);
+      continue;
+    }
+
+    const literal = resolved.tamaguiValue;
+    if (isCssVarOrAlias(literal) || isCssVarOrAlias(resolved.cssValue)) {
+      continue;
+    }
+    if (typeof literal === "string" || typeof literal === "number") {
+      semantic[token.tokenKey] = toLiteral(literal);
+    }
   }
 
   return semantic;
@@ -595,110 +915,14 @@ function renderChildrenThemes(
   return `{\n${blocks.join(",\n")}\n  }`;
 }
 
-function tamaguiFontKey(font: Font): string {
-  switch (font.role) {
-    case "heading":
-    case "display": {
-      return "heading";
-    }
-    case "mono":
-    case "code": {
-      return "mono";
-    }
-    case "sans":
-    case "body":
-    case "serif": {
-      return "body";
-    }
-    case undefined:
-    default: {
-      return font.name?.replaceAll(/\W/g, "") || "body";
-    }
-  }
-}
-
-function assignTamaguiFonts(fonts: Fonts): Map<string, Font> {
-  const assigned = new Map<string, Font>();
-
-  for (const font of Object.values(fonts)) {
-    const key = tamaguiFontKey(font);
-    const existing = assigned.get(key);
-    if (!existing || (font.role === key && existing.role !== key)) {
-      assigned.set(key, font);
-    }
-  }
-
-  return assigned;
-}
-
-function renderFaceLiteral(font: LocalFont): string | undefined {
-  const byWeight = new Map<string, { normal?: string; italic?: string }>();
-
-  for (const file of font.files) {
-    const weight = String(file.weight ?? 400);
-    const stem = basename(file.path).replace(/\.[^.]+$/, "");
-    const entry = byWeight.get(weight) ?? {};
-    if (file.style === "italic" || file.style === "oblique") {
-      entry.italic = stem;
-    } else {
-      entry.normal = stem;
-    }
-    byWeight.set(weight, entry);
-  }
-
-  if (byWeight.size === 0) {
-    return undefined;
-  }
-
-  const lines = [...byWeight.entries()]
-    .toSorted(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
-    .map(([weight, faces]) => {
-      const parts: string[] = [];
-      if (faces.normal) {
-        parts.push(`normal: ${toLiteral(faces.normal)}`);
-      }
-      if (faces.italic) {
-        parts.push(`italic: ${toLiteral(faces.italic)}`);
-      }
-      return `    ${weight}: { ${parts.join(", ")} }`;
-    });
-
-  return `{\n${lines.join(",\n")}\n  }`;
-}
-
-function renderCreateFont(font: Font, varName: string): string {
-  const face = font.source === "local" ? renderFaceLiteral(font) : undefined;
-  const lines = [
-    `const ${varName} = createFont({`,
-    `  family: isWeb ? ${toLiteral(cssFontFamily(font))} : ${toLiteral(fontFamilyName(font))},`,
-    `  size: {`,
-    `    1: 12,`,
-    `    2: 14,`,
-    `    3: 16,`,
-    `    4: 18,`,
-    `    5: 20,`,
-    `    6: 24,`,
-    `    7: 28,`,
-    `    8: 32,`,
-    `    9: 40,`,
-    `    10: 48`,
-    `  }${face ? "," : ""}`
-  ];
-
-  if (face) {
-    lines.push(`  face: ${face}`);
-  }
-
-  lines.push(`});`);
-  return lines.join("\n");
-}
-
 /**
  * Render a Tamagui v5 config module from flattened design tokens.
  *
  * Light and dark token sets are combined into one `createV5Theme` call.
+ * Typography and font-family tokens are emitted as `createFont` entries.
  *
  * @see https://tamagui.dev/docs/core/config-v5
+ * @see https://tamagui.dev/docs/core/font-language#font-tokens
  */
 export function renderTamaguiConfig(
   tokens: FlatToken[],
@@ -709,9 +933,6 @@ export function renderTamaguiConfig(
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
 
-  const primary = tokensForScheme(tokens, "light");
-  const buckets = buildCategoryBuckets(primary);
-
   const colorTokens = tokens.filter(token => token.category === "color");
   const lightColorTokens = tokensForScheme(colorTokens, "light");
   const darkColorTokens = tokensForScheme(colorTokens, "dark");
@@ -720,25 +941,27 @@ export function renderTamaguiConfig(
   const darkScales = collectColorScales(
     darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens
   );
-  const { lightPalette, darkPalette } = resolveBasePalettes(tokens);
+  const { lightPalette, darkPalette, lightBaseName, darkBaseName } =
+    resolveBasePalettes(tokens);
   const childrenThemes = renderChildrenThemes(lightScales, darkScales);
 
-  const lightSemantic = semanticColorsForTheme(lightColorTokens);
+  const lightSemantic = semanticColorsForTheme(lightColorTokens, lightBaseName);
   const darkSemantic = semanticColorsForTheme(
-    darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens
+    darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens,
+    darkColorTokens.length > 0 ? darkBaseName : lightBaseName
   );
-  const hasSemantic =
-    Object.keys(lightSemantic).length > 0 ||
-    Object.keys(darkSemantic).length > 0;
 
+  const buckets = buildCategoryBuckets(tokensForScheme(tokens, "light"));
+  const colorBucket = colorBucketForCreateTokens(
+    lightColorTokens,
+    darkColorTokens
+  );
   const createTokensArgs: string[] = [];
-  for (const category of [
-    "color",
-    "space",
-    "size",
-    "radius",
-    "zIndex"
-  ] as const) {
+  if (Object.keys(colorBucket).length > 0) {
+    createTokensArgs.push(`  color: ${renderObjectLiteral(colorBucket, 4)}`);
+  }
+
+  for (const category of CREATE_TOKEN_CATEGORIES) {
     const bucket = buckets[category];
     if (bucket && Object.keys(bucket).length > 0) {
       createTokensArgs.push(`  ${category}: ${renderObjectLiteral(bucket, 4)}`);
@@ -758,22 +981,26 @@ export function renderTamaguiConfig(
     themeOptions.push(`  childrenThemes: ${childrenThemes}`);
   }
 
-  if (hasSemantic) {
-    themeOptions.push(`  getTheme: ({ scheme }) => {
-    const semantic = scheme === "dark"
-      ? ${renderObjectLiteral(darkSemantic, 8)}
-      : ${renderObjectLiteral(lightSemantic, 8)};
-    return semantic;
+  if (
+    Object.keys(lightSemantic).length > 0 ||
+    Object.keys(darkSemantic).length > 0
+  ) {
+    themeOptions.push(`  getTheme: ({ theme, scheme }: Parameters<CreateV5ThemeOptions["getTheme"]>[0]) => {
+    return scheme === "dark"
+      ? ${renderThemeObjectLiteral(darkSemantic, 8)}
+      : ${renderThemeObjectLiteral(lightSemantic, 8)};
   }`);
   }
 
-  const imports: string[] = [];
+  const imports: string[] = ["import { isWeb } from '@tamagui/constants';"];
   if (useDefaultConfig) {
     imports.push(
-      `import { createV5Theme, defaultConfig } from "@tamagui/config/v5";`
+      `import { createV5Theme, defaultConfig, type CreateV5ThemeOptions } from "@tamagui/config/v5";`
     );
   } else {
-    imports.push(`import { createV5Theme } from "@tamagui/config/v5";`);
+    imports.push(
+      `import { createV5Theme, type CreateV5ThemeOptions } from "@tamagui/config/v5";`
+    );
   }
 
   if (animations !== false) {
@@ -782,22 +1009,25 @@ export function renderTamaguiConfig(
     );
   }
 
-  const tamaguiImports = ["createTamagui"];
+  const tamaguiImports = ["createTamagui", "px"];
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
-  const assignedFonts = fonts
-    ? assignTamaguiFonts(fonts)
-    : new Map<string, Font>();
-  if (assignedFonts.size > 0) {
-    tamaguiImports.push("createFont", "isWeb");
+  const assignedFonts = collectTamaguiFonts(
+    tokensForScheme(tokens, "light"),
+    fonts
+  );
+  if (assignedFonts.length > 0) {
+    tamaguiImports.push("createFont");
   }
-  imports.push(`import { ${tamaguiImports.join(", ")} } from "tamagui";`);
+  imports.push(`import { ${tamaguiImports.join(", ")} } from "@tamagui/core";`);
 
   const lines: string[] = [
     "/* eslint-disable */",
+    "",
     "/*",
-    " * Generated by @razorwind/tamagui — do not edit by hand.",
+    " * Generated by @razorwind/tamagui — Do not edit by hand.",
+    ` * `,
     " * @see https://tamagui.dev/docs/core/config-v5",
     " */",
     "",
@@ -822,13 +1052,11 @@ export function renderTamaguiConfig(
   lines.push(`const themes = ${themeCall};`, "");
 
   const fontVarNames = new Map<string, string>();
-  if (assignedFonts.size > 0) {
-    let index = 0;
-    for (const [key, font] of assignedFonts) {
-      const varName = `${key}Font`.replaceAll(/\W/g, "") || `font${index}`;
-      fontVarNames.set(key, varName);
+  if (assignedFonts.length > 0) {
+    for (const [index, font] of assignedFonts.entries()) {
+      const varName = fontVarName(font.key, index);
+      fontVarNames.set(font.key, varName);
       lines.push(renderCreateFont(font, varName), "");
-      index += 1;
     }
   }
 
@@ -874,9 +1102,11 @@ export function renderTamaguiConfig(
   configParts.push("  themes");
 
   if (fontVarNames.size > 0) {
-    const fontLines = [...fontVarNames.entries()].map(
-      ([key, varName]) => `    ${key}: ${varName}`
-    );
+    const fontLines = [...fontVarNames.entries()].map(([key, varName]) => {
+      const renderedKey = /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key);
+
+      return `    ${renderedKey}: ${varName}`;
+    });
     if (useDefaultConfig) {
       configParts.push(`  fonts: {
     ...defaultConfig.fonts,
@@ -900,7 +1130,7 @@ ${fontLines.join(",\n")}
 
   if (includeTypeAugmentation) {
     lines.push(
-      `declare module "tamagui" {`,
+      `declare module "@tamagui/core" {`,
       `  // eslint-disable-next-line @typescript-eslint/no-empty-object-type`,
       `  interface TamaguiCustomConfig extends AppConfig {}`,
       `}`,
