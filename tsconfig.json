@@ -71,6 +71,9 @@
     },
     {
       "path": "./packages/vivaldi"
+    },
+    {
+      "path": "./packages/chrome"
     }
   ],
   "files": []

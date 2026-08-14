@@ -87,6 +87,11 @@ export interface TamaguiPluginOptions {
   defaultFont?: string;
 
   /**
+   * A module to import config from to include in the generated config.
+   */
+  importConfig?: string;
+
+  /**
    * When true, spread `defaultConfig` from `@tamagui/config/v5` and merge
    * generated tokens/themes on top. When false, emit a minimal config from
    * Razorwind tokens only.

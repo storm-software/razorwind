@@ -1098,7 +1098,6 @@ export function renderTamaguiConfig(
   const themeInterfaceLines = renderThemeInterface(appThemeKeys, {
     specName: spec.name
   });
-  const themeType = themeInterfaceLines ? "AppTheme" : "Record<string, string>";
 
   const buckets = buildCategoryBuckets(tokensForScheme(tokens, "light"));
   const colorBucket = colorBucketForCreateTokens(
@@ -1134,7 +1133,7 @@ export function renderTamaguiConfig(
     Object.keys(lightSemantic).length > 0 ||
     Object.keys(darkSemantic).length > 0
   ) {
-    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: ${themeType}; scheme: "light" | "dark" }) => {
+    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: any; scheme: "light" | "dark" }) => {
     return scheme === "dark"
       ? ${renderThemeObjectLiteral(darkSemantic, 8)}
       : ${renderThemeObjectLiteral(lightSemantic, 8)};
@@ -1156,6 +1155,10 @@ export function renderTamaguiConfig(
     imports.push(
       `import { animations } from "${ANIMATION_IMPORTS[animations]}";`
     );
+  }
+
+  if (options.importConfig) {
+    imports.push(`import userConfig from "${options.importConfig}";`);
   }
 
   const tamaguiImports = ["createTamagui", "px"];
@@ -1274,13 +1277,6 @@ ${fontLines.join(",\n")}
     configParts.push(`  media: ${toLiteral(options.media)}`);
   }
 
-  configParts.push(`    selectionStyles(theme: ${themeType}) {
-    return {
-      backgroundColor: theme.color.background.primary,
-      color: theme.color.text.primary
-    };
-  } `);
-
   if (options.defaultFont) {
     configParts.push(`  defaultFont: ${toLiteral(options.defaultFont)}`);
   }
@@ -1295,6 +1291,7 @@ ${fontLines.join(",\n")}
  */
 export const config = createTamagui({`,
     configParts.join(",\n"),
+    options.importConfig ? `, ...userConfig ` : "",
     `});`,
     "",
     `export type AppConfig = typeof config;`,
