@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.49) (08/14/2026)
+
+### Features
+
+- **tamagui:** Updated tamagui plugin to generate complete application config ([7f9eaab](https://github.com/storm-software/razorwind/commit/7f9eaab))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.52**
+
 ## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.48) (08/14/2026)
 
 ### Bug Fixes

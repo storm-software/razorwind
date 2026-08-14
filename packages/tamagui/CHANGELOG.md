@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.41) (08/14/2026)
+
+### Features
+
+- **tamagui:** Updated tamagui plugin to generate complete application config ([7f9eaab](https://github.com/storm-software/razorwind/commit/7f9eaab))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.52**
+
 ## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.40) (08/14/2026)
 
 ### Bug Fixes

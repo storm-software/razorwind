@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/design-md",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "type": "module",
   "description": "Razorwind DESIGN.md plugin that can create a DESIGN.md design-system specification file from design tokens or read a DESIGN.md file and return the design-system specification.",
   "repository": {
