@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.40) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with generated token input ([df1f495](https://github.com/storm-software/razorwind/commit/df1f495))
+
 ## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.39) (08/14/2026)
 
 ### Bug Fixes

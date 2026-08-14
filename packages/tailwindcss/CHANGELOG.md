@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.48) (08/14/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with generated token input ([df1f495](https://github.com/storm-software/razorwind/commit/df1f495))
+
 ## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.47) (08/14/2026)
 
 ### Bug Fixes
