@@ -19,6 +19,7 @@
 import { cssFontFamily, fontFamilyName } from "@razorwind/core/lib/fonts";
 import type { Font, Fonts, LocalFont } from "@razorwind/core/schema";
 import { isObject } from "@razorwind/core/utils";
+import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { basename } from "node:path";
 import { toLiteral, toTamaguiValue } from "./format";
 import type { FlatToken } from "./types";
@@ -729,9 +730,12 @@ export function collectTamaguiFonts(
     );
   }
 
-  return [...defs.values()]
-    .map(ensureSize)
-    .toSorted((a, b) => a.key.localeCompare(b.key));
+  return getUniqueBy(
+    [...defs.values()]
+      .map(ensureSize)
+      .toSorted((a, b) => a.key.localeCompare(b.key)),
+    font => font.key
+  );
 }
 
 function renderScaleKey(key: string): string {
@@ -785,8 +789,13 @@ export function renderCreateFont(
   font: TamaguiFontDef,
   varName: string
 ): string {
+  const webFamily = toLiteral(font.webFamily);
+  const nativeFamily = toLiteral(font.nativeFamily);
+
   const fields = [
-    `  family: isWeb ? ${toLiteral(font.webFamily)} : ${toLiteral(font.nativeFamily)}`,
+    webFamily !== nativeFamily
+      ? `  family: isWeb ? ${webFamily} : ${nativeFamily}`
+      : `  family: ${webFamily}`,
     `  size: ${renderScale(font.size)}`
   ];
 

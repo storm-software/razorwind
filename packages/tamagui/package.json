@@ -87,6 +87,7 @@
     "@power-plant/dtcg-schema": "catalog:",
     "@razorwind/core": "workspace:*",
     "@stryke/type-checks": "catalog:",
+    "@stryke/helpers": "catalog:",
     "@stryke/string-format": "catalog:"
   },
   "peerDependencies": {

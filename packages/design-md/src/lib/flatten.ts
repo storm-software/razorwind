@@ -18,15 +18,15 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
+import type { TokenSet } from "@razorwind/core/utils";
 import {
   flattenTokens as flattenTokensBase,
-  resolveTokenSets,
-  type TokenSet
+  resolveTokenSets
 } from "@razorwind/core/utils";
 import type { FlatToken } from "../types";
 
-export type { TokenSet };
 export { resolveTokenSets };
+export type { TokenSet };
 
 /**
  * Flatten DTCG token trees into extraction rows.

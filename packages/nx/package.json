@@ -126,13 +126,17 @@
     "@power-plant/core": "catalog:",
     "@razorwind/core": "workspace:*",
     "@storm-software/workspace-tools": "catalog:",
+    "@stryke/env": "catalog:",
     "@stryke/hash": "catalog:",
+    "@stryke/fs": "catalog:",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
+    "@stryke/types": "catalog:",
     "@stryke/type-checks": "catalog:",
     "c12": "catalog:",
     "defu": "catalog:",
     "jiti": "catalog:",
+    "pkg-types": "catalog:",
     "untyped": "catalog:"
   },
   "devDependencies": {

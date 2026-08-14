@@ -26,6 +26,7 @@ import type {
   Schema
 } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
+import { existsSync } from "@stryke/fs/exists";
 import { joinPaths } from "@stryke/path/join";
 import { dirname, join } from "node:path";
 import { renderInstallMd } from "./install";
@@ -109,7 +110,9 @@ function toRegistryItemType(
   }
 }
 
-function toRegistryFileType(type: ComponentFile["type"]): RegistryFileType {
+function toRegistryFileType(
+  type: NonNullable<ComponentFile["type"]>
+): RegistryFileType {
   return `registry:${type}`;
 }
 
@@ -121,13 +124,13 @@ function mapFiles(
   }
 
   return files.map(file => {
-    const type = toRegistryFileType(file.type);
+    const type = toRegistryFileType(file.type!);
     const entry: RegistryFileLike = {
       path: file.path,
       type
     };
 
-    if (file.content) {
+    if (file.content && !existsSync(file.path)) {
       entry.content = file.content;
     }
 
@@ -262,12 +265,14 @@ export async function generateRegistryJson(
       outputPath,
       content,
       { name: "shadcn:generate" },
+      undefined,
       "json"
     ),
     [installPath]: createDocument<Schema, ShadcnGeneratePluginOptions>(
       installPath,
       installBody,
       { name: "shadcn:generate" },
+      undefined,
       "markdown"
     )
   };
@@ -288,5 +293,6 @@ export async function generateRegistryJson(
  */
 export default definePlugin((options?: ShadcnGeneratePluginOptions) => ({
   name: "shadcn:generate",
+  themeGeneration: "combined",
   generate: async spec => generateRegistryJson(spec, options ?? {})
 }));

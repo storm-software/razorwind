@@ -16,15 +16,16 @@ catalog:
   "@power-plant/dtcg-schema": ^0.0.1
   "@power-plant/schema": ^0.0.88
   "@power-plant/utils": ^0.0.76
+  "@powerlines/plugin-env": ^0.16.420
   "@powerlines/nx": ^0.13.251
   "@powerlines/plugin-untyped": ^0.2.627
   "@powerlines/tsconfig": ^0.4.255
   "@powerlines/tsdoc": ^0.2.203
   "@powerlines/plugin-tsdown": ^0.1.612
-  "@shell-shock/eslint-plugin": ^0.0.87
-  "@shell-shock/preset-cli": ^0.9.35
-  "@shell-shock/core": ^0.17.23
-  "@shell-shock/nx": ^0.0.96
+  "@shell-shock/eslint-plugin": ^0.0.88
+  "@shell-shock/preset-cli": ^0.9.36
+  "@shell-shock/core": ^0.17.24
+  "@shell-shock/nx": ^0.0.97
   "@storm-software/config": ^1.138.69
   "@storm-software/config-tools": ^1.190.133
   "@storm-software/cspell": ^0.46.200
@@ -42,6 +43,7 @@ catalog:
   "@stryke/env": ^0.20.127
   "@stryke/fs": ^0.33.110
   "@stryke/hash": ^0.13.63
+  "@stryke/helpers": ^0.10.48
   "@stryke/path": ^0.29.35
   "@stryke/string-format": ^0.17.50
   "@stryke/type-checks": ^0.6.41
@@ -63,6 +65,7 @@ catalog:
   lefthook: ^2.1.10
   log4brains: ^1.1.0
   nx: 23.1.0
+  pkg-types: ^2.3.1
   prettier: ^3.9.6
   rimraf: ^6.1.3
   shadcn: ^4.17.0
@@ -78,7 +81,7 @@ catalog:
   zod: ^4.4.3
   zx: ^8.8.5
   powerlines: ^0.47.211
-  '@storm-software/tsdoc': ^0.13.285
+  "@storm-software/tsdoc": ^0.13.285
 overrides:
   "@emnapi/core": 1.11.2
   "@emnapi/runtime": 1.11.2

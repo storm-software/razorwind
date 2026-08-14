@@ -104,6 +104,34 @@ function isPaletteMetadataKey(key: string, value: unknown): boolean {
   );
 }
 
+function isTruthyPrimitiveFlag(value: unknown): boolean {
+  return value === true || value === "true" || value === 1;
+}
+
+/**
+ * True when a DTCG group is explicitly a primitive.
+ *
+ * Accepts `primitive: true`, `$primitive: true`, or `$type: "primitive"`.
+ */
+function isPrimitiveGroup(node: Record<string, unknown>): boolean {
+  if (
+    isTruthyPrimitiveFlag(node.primitive) ||
+    isTruthyPrimitiveFlag(node.$primitive)
+  ) {
+    return true;
+  }
+  return readType(node) === "primitive";
+}
+
+function isPrimitiveMetadataKey(key: string, value: unknown): boolean {
+  return (
+    (key === "primitive" || key === "$primitive") &&
+    (typeof value === "boolean" ||
+      typeof value === "number" ||
+      typeof value === "string")
+  );
+}
+
 function readDescription(node: Record<string, unknown>): string | undefined {
   if (typeof node.$description === "string") {
     return node.$description;
@@ -250,7 +278,7 @@ export function toTokenKey(path: string): string {
   if (
     first &&
     // eslint-disable-next-line regexp/no-dupe-disjunctions
-    /^(?:color|colours?|palette|space|spacing|gap|inset|shadow|inset-shadow|drop-shadow|text-shadow|font-size|fontSize|font-weight|fontWeight|size|sizing|radius|rounded|radii|z-?index|zindex|elevation|blur)$/i.test(
+    /^(?:color|colours?|palette|primitive|space|spacing|gap|inset|shadow|inset-shadow|drop-shadow|text-shadow|font-size|fontSize|font-weight|fontWeight|size|sizing|radius|rounded|radii|z-?index|zindex|elevation|blur)$/i.test(
       first
     )
   ) {
@@ -274,14 +302,15 @@ function walkTokens(
   path: string[],
   inheritedType: string | undefined,
   theme: string | undefined,
-  inPalette: boolean,
+  primitive: boolean,
   out: FlatToken[]
 ): void {
   if (!isObject(node)) {
     return;
   }
 
-  const palette = inPalette || isPaletteGroup(node);
+  const isPrimitive =
+    primitive || isPrimitiveGroup(node) || isPaletteGroup(node);
   const type = readType(node, inheritedType);
 
   if (isTokenLeaf(node)) {
@@ -289,19 +318,22 @@ function walkTokens(
     const tokenPath = path.join(".");
     const category =
       resolveTokenCategory(tokenPath, type) ??
-      (palette || type === "palette" ? "color" : undefined);
+      (isPrimitive || type === "primitive" || type === "palette"
+        ? "color"
+        : undefined);
     const cssValue = formatTokenValue(value, type);
     const tamaguiValue =
       (category && CSS_STRING_CATEGORIES.has(category)) ||
       type === "color" ||
       type === "palette" ||
+      type === "primitive" ||
       type === "shadow"
         ? cssValue
         : toTamaguiValue(value, type);
 
     out.push({
       path: tokenPath,
-      type: type === "palette" ? "color" : type,
+      type: type === "palette" || type === "primitive" ? "color" : type,
       value,
       cssValue,
       tamaguiValue,
@@ -309,19 +341,23 @@ function walkTokens(
       tokenKey: category ? toTokenKey(tokenPath) : undefined,
       description: readDescription(node),
       theme,
-      palette: palette || undefined
+      primitive: isPrimitive
     });
     return;
   }
 
   for (const [key, child] of Object.entries(node)) {
-    if (key.startsWith("$") && key !== "$palette") {
+    if (key.startsWith("$") && key !== "$palette" && key !== "$primitive") {
       continue;
     }
     if (isPaletteMetadataKey(key, child)) {
       continue;
     }
-    walkTokens(child, [...path, key], type, theme, palette, out);
+    if (isPrimitiveMetadataKey(key, child)) {
+      continue;
+    }
+
+    walkTokens(child, [...path, key], type, theme, isPrimitive, out);
   }
 }
 

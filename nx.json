@@ -58,6 +58,7 @@
     "@storm-software/workspace-tools/plugins/typescript/untyped",
     "@storm-software/workspace-tools/plugins/typescript/tsdown",
     "@powerlines/nx/plugin",
+    "@shell-shock/nx/plugin",
     "./tools/nx/prepare-publish-manifest.plugin.mjs"
   ],
   "sync": {

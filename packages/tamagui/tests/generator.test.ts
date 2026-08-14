@@ -527,7 +527,7 @@ describe("tamagui plugin", () => {
       hex: (step: number) => string,
       steps = 9
     ): Record<string, unknown> {
-      const scale: Record<string, unknown> = { palette: true };
+      const scale: Record<string, unknown> = { primitive: true };
       for (let step = 1; step <= steps; step++) {
         scale[String(step)] = { $value: hex(step) };
       }
@@ -561,9 +561,9 @@ describe("tamagui plugin", () => {
     } as Schema;
 
     const flat = flattenTokens(spec.tokens);
-    expect(flat.find(token => token.path === "color.red.1")?.palette).toBe(true);
-    expect(flat.find(token => token.path === "color.base.9")?.palette).toBe(true);
-    expect(flat.find(token => token.path === "color.brand.1")?.palette).toBeUndefined();
+    expect(flat.find(token => token.path === "color.red.1")?.primitive).toBe(true);
+    expect(flat.find(token => token.path === "color.base.9")?.primitive).toBe(true);
+    expect(flat.find(token => token.path === "color.brand.1")?.primitive).toBeUndefined();
     expect(
       isPaletteGroup({ palette: true, 1: { $value: "#fff" } })
     ).toBe(true);
@@ -591,7 +591,7 @@ describe("tamagui plugin", () => {
     function nestedScale(
       hex: (step: number) => string
     ): Record<string, unknown> {
-      const scale: Record<string, unknown> = { palette: true };
+      const scale: Record<string, unknown> = { primitive: true };
       for (let step = 1; step <= 4; step++) {
         scale[String(step)] = { $value: hex(step) };
       }
@@ -652,7 +652,7 @@ describe("tamagui plugin", () => {
     ).toEqual(["#ffffff", "#888888", "#000000"]);
 
     function nestedScale(colors: string[]): Record<string, unknown> {
-      const scale: Record<string, unknown> = { palette: true };
+      const scale: Record<string, unknown> = { primitive: true };
       for (const [index, color] of colors.entries()) {
         scale[String(index + 1)] = { $value: color };
       }
@@ -702,7 +702,7 @@ describe("tamagui plugin", () => {
       hex: (step: number) => string,
       steps = 6
     ): Record<string, unknown> {
-      const scale: Record<string, unknown> = { palette: true };
+      const scale: Record<string, unknown> = { primitive: true };
       for (let step = 1; step <= steps; step++) {
         scale[String(step)] = { $value: hex(step) };
       }
@@ -737,7 +737,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -751,6 +751,26 @@ describe("tamagui plugin", () => {
     expect(getTheme).toContain('accent: "#00aa88"');
     expect(getTheme).not.toContain("var(--");
     expect(getTheme).not.toContain("{color.");
+    expect(content).toContain("export interface AppTheme {");
+    expect(content).toContain("primary: string;");
+    expect(content).toContain("background: string;");
+    expect(content).toContain("accent: string;");
+    expect(content).toContain("blue6: string;");
+    expect(content).toContain("theme: AppTheme");
+  });
+
+  it("emits AppTheme from token-derived palettes, scales, and semantics", () => {
+    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).not.toContain("V5Theme");
+    expect(content).toContain("export interface AppTheme {");
+    expect(content).toContain("backgroundAccent: string;");
+    expect(content).toContain("blue1: string;");
+    expect(content).not.toContain("gray1: string;");
+    expect(content).toContain("selectionStyles(theme: AppTheme)");
   });
 
   it("emits CSS color strings and box-shadow strings in createTokens", () => {
@@ -777,7 +797,7 @@ describe("tamagui plugin", () => {
           color: {
             $type: "color",
             brand: {
-              palette: true,
+              primitive: true,
               1: { $value: "#00ccaa" },
               2: { $value: "#006655" }
             },
@@ -803,7 +823,7 @@ describe("tamagui plugin", () => {
           color: {
             $type: "color",
             brand: {
-              palette: true,
+              primitive: true,
               1: { $value: "#00aa88" },
               2: { $value: "#003322" }
             }

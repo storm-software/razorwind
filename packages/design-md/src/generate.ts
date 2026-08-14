@@ -234,17 +234,17 @@ export function extractDesignMd(spec: Schema): DesignMdDocument {
   const refTargets = new Map<string, string>();
   const componentTokens: FlatToken[] = [];
 
-  for (const token of flat) {
+  for (const token of flat.filter(token => !token.primitive)) {
     const segments = token.path.split(".");
     if (segments[0] && COMPONENT_PATTERN.test(segments[0])) {
       componentTokens.push(token);
       continue;
     }
 
-    if (token.type === "color" && !token.palette) {
+    if (token.type === "color" && !token.primitive) {
       const name = toTokenName(token.path, COLOR_PREFIXES);
       const resolved = resolveAlias(token, byPath);
-      if (!resolved.palette) {
+      if (!resolved.primitive) {
         document.colors[name] = resolved.cssValue;
         if (token.description) {
           document.colorDescriptions[name] = token.description;
@@ -330,7 +330,6 @@ function renderYamlRecord(
   }
 
   lines.push(`${key}:`);
-
   for (const [name, value] of entries) {
     if (value !== null && typeof value === "object") {
       lines.push(`  ${name}:`);
@@ -570,6 +569,7 @@ export function generateDesignMd(
  */
 export default definePlugin((options?: DesignMdGeneratePluginOptions) => ({
   name: "design-md:generate",
+  themeGeneration: "combined",
   generate: async spec => {
     return generateDesignMd(spec, options ?? {});
   }

@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
-import type { Fonts, Schema } from "@razorwind/core/schema";
+import type { Schema } from "@razorwind/core/schema";
 import { createDocument, toThemeCssVar } from "@razorwind/core/utils";
 import { dirname, join } from "node:path";
 import { flattenTokens, toCamelCaseKey } from "./flatten";
@@ -237,7 +237,7 @@ function colorBucketForCreateTokens(
     if (!token.tokenKey) {
       continue;
     }
-    if (token.palette) {
+    if (token.primitive) {
       put(paletteKey(token), token);
     } else {
       put(token.tokenKey, token);
@@ -245,7 +245,7 @@ function colorBucketForCreateTokens(
   }
 
   for (const token of darkColorTokens) {
-    if (!token.tokenKey || !token.palette) {
+    if (!token.tokenKey || !token.primitive) {
       continue;
     }
     put(paletteKey(token), token);
@@ -518,7 +518,7 @@ export function collectColorScales(
   const indicated: Record<string, Record<string, string>> = {};
 
   for (const token of colorTokens) {
-    if (!token.palette || typeof token.tamaguiValue !== "string") {
+    if (!token.primitive || typeof token.tamaguiValue !== "string") {
       continue;
     }
 
@@ -802,7 +802,7 @@ function resolveBasePalettes(tokens: FlatToken[]): {
   darkBaseName?: string;
 } {
   const colors = tokens.filter(
-    token => token.category === "color" || token.palette
+    token => token.category === "color" || token.primitive
   );
   const lightScales = collectColorScales(tokensForScheme(colors, "light"));
   const darkScales = collectColorScales(tokensForScheme(colors, "dark"));
@@ -844,7 +844,7 @@ function semanticColorsForTheme(
     }
 
     // Skip palette / stepped scale keys — those go to childrenThemes / palettes.
-    if (token.palette) {
+    if (token.primitive) {
       continue;
     }
     if (/^[A-Z]+\d{1,3}$/i.test(token.tokenKey)) {
@@ -915,6 +915,142 @@ function renderChildrenThemes(
   return `{\n${blocks.join(",\n")}\n  }`;
 }
 
+function collectReferencedThemeKeys(
+  semantics: Record<string, string>[]
+): string[] {
+  const keys = new Set<string>();
+
+  for (const semantic of semantics) {
+    for (const expression of Object.values(semantic)) {
+      for (const match of expression.matchAll(/theme\.([A-Z_$][\w$]*)/gi)) {
+        if (match[1]) {
+          keys.add(match[1]);
+        }
+      }
+
+      for (const match of expression.matchAll(/theme\[(['"])(.+?)\1\]/g)) {
+        keys.add(match[2]!);
+      }
+    }
+  }
+
+  return [...keys];
+}
+
+function collectChildrenThemeKeys(
+  lightScales: Record<string, Record<string, string>>,
+  darkScales: Record<string, Record<string, string>>
+): string[] {
+  const keys = new Set<string>();
+
+  for (const scales of [lightScales, darkScales]) {
+    for (const scale of Object.values(scales)) {
+      for (const key of Object.keys(scale)) {
+        keys.add(key);
+      }
+    }
+  }
+
+  return [...keys];
+}
+
+function collectBasePaletteThemeKeys(
+  lightPalette?: string[],
+  darkPalette?: string[]
+): string[] {
+  const paletteLength = Math.max(
+    lightPalette?.length ?? 0,
+    darkPalette?.length ?? 0
+  );
+  if (paletteLength === 0) {
+    return [];
+  }
+
+  const keys: string[] = [];
+  for (
+    let step = 1;
+    step <= Math.min(paletteLength, TAMAGUI_PALETTE_LENGTH);
+    step++
+  ) {
+    keys.push(`color${step}`);
+  }
+
+  return keys;
+}
+
+/**
+ * Collect theme keys from flattened token output — palettes, child scales, and
+ * semantic aliases that `createV5Theme({ getTheme })` maps onto the theme object.
+ */
+function collectAppThemeKeys(options: {
+  lightSemantic: Record<string, string>;
+  darkSemantic: Record<string, string>;
+  lightScales: Record<string, Record<string, string>>;
+  darkScales: Record<string, Record<string, string>>;
+  lightPalette?: string[];
+  darkPalette?: string[];
+}): string[] {
+  const keys = new Set<string>();
+
+  for (const key of Object.keys(options.lightSemantic)) {
+    keys.add(key);
+  }
+  for (const key of Object.keys(options.darkSemantic)) {
+    keys.add(key);
+  }
+  for (const key of collectReferencedThemeKeys([
+    options.lightSemantic,
+    options.darkSemantic
+  ])) {
+    keys.add(key);
+  }
+  for (const key of collectChildrenThemeKeys(
+    options.lightScales,
+    options.darkScales
+  )) {
+    keys.add(key);
+  }
+  for (const key of collectBasePaletteThemeKeys(
+    options.lightPalette,
+    options.darkPalette
+  )) {
+    keys.add(key);
+  }
+
+  return [...keys].toSorted((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true })
+  );
+}
+
+function renderThemeInterfaceProperty(key: string): string {
+  const renderedKey = /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key);
+
+  return `  ${renderedKey}: string;`;
+}
+
+function renderThemeInterface(
+  keys: string[],
+  options: { specName?: string }
+): string[] | undefined {
+  if (keys.length === 0) {
+    return undefined;
+  }
+
+  return [
+    "/**",
+    ` * Theme values available on \`useTheme()\` and \`$\` style props for the ${options.specName || "design system"}.`,
+    " *",
+    " * Derived from design tokens mapped by \`createV5Theme\` and \`getTheme\`.",
+    " *",
+    " * @see https://tamagui.dev/docs/guides/theme-builder#gettheme",
+    " */",
+    "export interface AppTheme {",
+    ...keys.map(renderThemeInterfaceProperty),
+    "}",
+    ""
+  ];
+}
+
 /**
  * Render a Tamagui v5 config module from flattened design tokens.
  *
@@ -925,10 +1061,11 @@ function renderChildrenThemes(
  * @see https://tamagui.dev/docs/core/font-language#font-tokens
  */
 export function renderTamaguiConfig(
+  spec: Schema,
   tokens: FlatToken[],
-  options: TamaguiPluginOptions = {},
-  fonts?: Fonts
+  options: TamaguiPluginOptions = {}
 ): string {
+  const fonts = spec.fonts ?? {};
   const useDefaultConfig = options.useDefaultConfig !== false;
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
@@ -950,6 +1087,18 @@ export function renderTamaguiConfig(
     darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens,
     darkColorTokens.length > 0 ? darkBaseName : lightBaseName
   );
+  const appThemeKeys = collectAppThemeKeys({
+    lightSemantic,
+    darkSemantic,
+    lightScales,
+    darkScales,
+    lightPalette,
+    darkPalette
+  });
+  const themeInterfaceLines = renderThemeInterface(appThemeKeys, {
+    specName: spec.name
+  });
+  const themeType = themeInterfaceLines ? "AppTheme" : "Record<string, string>";
 
   const buckets = buildCategoryBuckets(tokensForScheme(tokens, "light"));
   const colorBucket = colorBucketForCreateTokens(
@@ -985,7 +1134,7 @@ export function renderTamaguiConfig(
     Object.keys(lightSemantic).length > 0 ||
     Object.keys(darkSemantic).length > 0
   ) {
-    themeOptions.push(`  getTheme: ({ theme, scheme }: Parameters<CreateV5ThemeOptions["getTheme"]>[0]) => {
+    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: ${themeType}; scheme: "light" | "dark" }) => {
     return scheme === "dark"
       ? ${renderThemeObjectLiteral(darkSemantic, 8)}
       : ${renderThemeObjectLiteral(lightSemantic, 8)};
@@ -1074,10 +1223,6 @@ export function renderTamaguiConfig(
       configParts.push(`  tokens: {
     ...defaultConfig.tokens,
     ...tokens,
-    color: {
-      ...defaultConfig.tokens.color,
-      ...tokens.color
-    },
     space: {
       ...defaultConfig.tokens.space,
       ...tokens.space
@@ -1119,8 +1264,36 @@ ${fontLines.join(",\n")}
     }
   }
 
+  if (options.shorthands) {
+    configParts.push(
+      `  shorthands: ${renderObjectLiteral(options.shorthands, 4)}`
+    );
+  }
+
+  if (options.media) {
+    configParts.push(`  media: ${toLiteral(options.media)}`);
+  }
+
+  configParts.push(`    selectionStyles(theme: ${themeType}) {
+    return {
+      backgroundColor: theme.color.background.primary,
+      color: theme.color.text.primary
+    };
+  } `);
+
+  if (options.defaultFont) {
+    configParts.push(`  defaultFont: ${toLiteral(options.defaultFont)}`);
+  }
+
   lines.push(
-    `export const config = createTamagui({`,
+    "",
+    ...(themeInterfaceLines ?? []),
+    `/**
+ * The Tamagui v5 config for the ${spec.name || "design system"}.
+ *
+ * @see https://tamagui.dev/docs/core/config-v5
+ */
+export const config = createTamagui({`,
     configParts.join(",\n"),
     `});`,
     "",
@@ -1164,7 +1337,7 @@ export function generateTamaguiConfig(
   }
 
   const outputPath = options.outputPath ?? "tamagui.config.ts";
-  const content = renderTamaguiConfig(flat, options, spec.fonts);
+  const content = renderTamaguiConfig(spec, flat, options);
   const installBody = options.installGuide ?? renderInstallMd({ outputPath });
   const installPath = join(dirname(outputPath), "INSTALL.md");
 

@@ -43,6 +43,7 @@
   "dependencies": {
     "@shell-shock/core": "catalog:",
     "@shell-shock/preset-cli": "catalog:",
+    "@powerlines/plugin-env": "catalog:",
     "@razorwind/core": "workspace:*"
   },
   "devDependencies": {
@@ -51,5 +52,22 @@
   },
   "publishConfig": { "access": "public" },
   "types": "./dist/index.d.cts",
-  "bin": { "razorwind": "./dist/bin.mjs" }
+  "bin": { "razorwind": "./dist/bin.mjs" },
+  "exports": {
+    "./bin": "./dist/bin.mjs",
+    "./clean": "./dist/clean.mjs",
+    "./completions-bash-config": "./dist/completions-bash-config.mjs",
+    "./completions-bash-script": "./dist/completions-bash-script.mjs",
+    "./completions-fish-config": "./dist/completions-fish-config.mjs",
+    "./completions-fish-script": "./dist/completions-fish-script.mjs",
+    "./completions-powershell-config": "./dist/completions-powershell-config.mjs",
+    "./completions-powershell-script": "./dist/completions-powershell-script.mjs",
+    "./completions-zsh-config": "./dist/completions-zsh-config.mjs",
+    "./completions-zsh-script": "./dist/completions-zsh-script.mjs",
+    "./gc": "./dist/gc.mjs",
+    "./generate": "./dist/generate.mjs",
+    "./help": "./dist/help.mjs",
+    "./package.json": "./package.json",
+    "./update": "./dist/update.mjs"
+  }
 }

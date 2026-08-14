@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { TokenType } from "@power-plant/dtcg-schema";
+import type { CreateTamaguiProps } from "tamagui";
 
 /**
  * Animation driver entry imported from `@tamagui/config/v5-*`.
@@ -65,6 +66,25 @@ export interface TamaguiPluginOptions {
    * @defaultValue `"css"`
    */
   animations?: TamaguiAnimationDriver;
+
+  /**
+   * Shorthands to include in the generated config.
+   *
+   * @defaultValue `{}`
+   */
+  shorthands?: Record<string, string | number>;
+
+  /**
+   * Media queries to include in the generated config.
+   *
+   * @defaultValue `{}`
+   */
+  media?: CreateTamaguiProps["media"];
+
+  /**
+   * Default font family to include in the generated config.
+   */
+  defaultFont?: string;
 
   /**
    * When true, spread `defaultConfig` from `@tamagui/config/v5` and merge
@@ -119,9 +139,7 @@ export interface FlatToken {
   /** Theme / set id when tokens are a `Record<string, Tokens>`. */
   theme?: string;
   /**
-   * True when an ancestor group is marked as a palette (`palette: true` or
-   * `$type: "palette"`). Those scales feed Tamagui `childrenThemes` /
-   * `lightPalette` / `darkPalette`.
+   * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed Tamagui `childrenThemes` / `lightPalette` / `darkPalette`.
    */
-  palette?: boolean;
+  primitive?: boolean;
 }
