@@ -29,6 +29,7 @@
           "packages/zsh",
           "packages/ghostty",
           "packages/notepad-plus-plus",
+          "packages/vivaldi",
           "packages/nx"
         ],
         "projectsRelationship": "independent",

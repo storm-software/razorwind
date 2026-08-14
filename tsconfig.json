@@ -68,6 +68,9 @@
     },
     {
       "path": "./packages/notepad-plus-plus"
+    },
+    {
+      "path": "./packages/vivaldi"
     }
   ],
   "files": []
