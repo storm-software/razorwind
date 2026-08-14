@@ -31,7 +31,9 @@ import type {
   TamaguiTokenCategory
 } from "./types";
 
-const PRIMARY_THEME_IDS = new Set(["default", "base", "light", "theme"]);
+const LIGHT_THEME_IDS = new Set(["default", "light", "theme"]);
+/** Matches core `isSharedThemeId` (`base`, `baseDimmed`, …). */
+const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
 const PALETTE_SCALE_NAMES = new Set([
   "gray",
   "grey",
@@ -54,30 +56,44 @@ const ANIMATION_IMPORTS: Record<
 };
 
 type TokenBucket = Record<string, string | number>;
+type ColorScheme = "light" | "dark";
 
-function pickPrimaryTheme(tokens: FlatToken[]): FlatToken[] {
-  const themes = new Set(
-    tokens.map(token => token.theme).filter((theme): theme is string => !!theme)
-  );
+function isLightThemeId(id: string): boolean {
+  return LIGHT_THEME_IDS.has(id);
+}
 
-  if (themes.size === 0) {
-    return tokens;
-  }
+function isDarkThemeId(id: string): boolean {
+  return id === "dark";
+}
 
-  for (const id of PRIMARY_THEME_IDS) {
-    const match = tokens.filter(token => token.theme?.toLowerCase() === id);
-    if (match.length > 0) {
-      return match;
+/**
+ * Merge shared tokens and tokens with no theme id into the light or dark scheme.
+ *
+ * Appearance variants (`lightDimmed`, `darkHighContrast`, …) are ignored —
+ * Tamagui `createV5Theme` only has `light` and `dark` palettes.
+ */
+function tokensForScheme(
+  tokens: FlatToken[],
+  scheme: ColorScheme
+): FlatToken[] {
+  const byPath = new Map<string, FlatToken>();
+  const match = scheme === "dark" ? isDarkThemeId : isLightThemeId;
+
+  for (const token of tokens) {
+    const id = token.theme?.toLowerCase();
+    if (!id || SHARED_THEME_PATTERN.test(id)) {
+      byPath.set(token.path, token);
     }
   }
 
-  const first = [...themes][0];
+  for (const token of tokens) {
+    const id = token.theme?.toLowerCase();
+    if (id && match(id)) {
+      byPath.set(token.path, token);
+    }
+  }
 
-  return tokens.filter(token => token.theme === first);
-}
-
-function tokensByTheme(tokens: FlatToken[], themeId: string): FlatToken[] {
-  return tokens.filter(token => token.theme?.toLowerCase() === themeId);
+  return [...byPath.values()];
 }
 
 function buildCategoryBuckets(
@@ -139,7 +155,6 @@ export function collectColorScales(
   }
 
   const scalePattern = /^([A-Z]+)(\d{1,2})$/i;
-
   for (const [key, value] of keyed) {
     const match = scalePattern.exec(key);
     if (!match) {
@@ -181,16 +196,9 @@ function resolveBasePalettes(tokens: FlatToken[]): {
   lightPalette?: string[];
   darkPalette?: string[];
 } {
-  const lightColors = pickPrimaryTheme(
-    tokens.filter(token => token.category === "color")
-  );
-  const darkColors = tokensByTheme(
-    tokens.filter(token => token.category === "color"),
-    "dark"
-  );
-
-  const lightScales = collectColorScales(lightColors);
-  const darkScales = collectColorScales(darkColors);
+  const colors = tokens.filter(token => token.category === "color");
+  const lightScales = collectColorScales(tokensForScheme(colors, "light"));
+  const darkScales = collectColorScales(tokensForScheme(colors, "dark"));
 
   let lightPalette: string[] | undefined;
   let darkPalette: string[] | undefined;
@@ -257,7 +265,6 @@ function renderChildrenThemes(
   }
 
   const blocks: string[] = [];
-
   for (const name of [...names].toSorted((a, b) => a.localeCompare(b))) {
     if (PALETTE_SCALE_NAMES.has(name.toLowerCase())) {
       continue;
@@ -383,6 +390,8 @@ function renderCreateFont(font: Font, varName: string): string {
 /**
  * Render a Tamagui v5 config module from flattened design tokens.
  *
+ * Light and dark token sets are combined into one `createV5Theme` call.
+ *
  * @see https://tamagui.dev/docs/core/config-v5
  */
 export function renderTamaguiConfig(
@@ -394,16 +403,12 @@ export function renderTamaguiConfig(
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
 
-  const primary = pickPrimaryTheme(tokens);
+  const primary = tokensForScheme(tokens, "light");
   const buckets = buildCategoryBuckets(primary);
 
-  const lightColorTokens = pickPrimaryTheme(
-    tokens.filter(token => token.category === "color")
-  );
-  const darkColorTokens = tokensByTheme(
-    tokens.filter(token => token.category === "color"),
-    "dark"
-  );
+  const colorTokens = tokens.filter(token => token.category === "color");
+  const lightColorTokens = tokensForScheme(colorTokens, "light");
+  const darkColorTokens = tokensForScheme(colorTokens, "dark");
 
   const lightScales = collectColorScales(lightColorTokens);
   const darkScales = collectColorScales(
@@ -632,14 +637,14 @@ export function generateTamaguiConfig(
       outputPath,
       content,
       { name: "razorwind-tamagui" },
-      undefined,
+      false,
       "typescript"
     ),
     [installPath]: createDocument<Schema, TamaguiPluginOptions>(
       installPath,
       installBody,
       { name: "razorwind-tamagui" },
-      undefined,
+      false,
       "markdown"
     )
   };

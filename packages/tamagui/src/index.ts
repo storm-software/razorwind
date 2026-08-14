@@ -24,6 +24,7 @@ export {
   flattenTokens,
   resolveTokenCategory,
   resolveTokenSets,
+  toCamelCaseKey,
   toTokenKey
 } from "./flatten";
 export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
@@ -44,6 +45,10 @@ export type {
  * Razorwind plugin that turns design tokens into a Tamagui v5 config
  * (`createTamagui` + `createTokens` + `createV5Theme`).
  *
+ * Light and dark token sets are emitted as a single config: `createV5Theme`
+ * receives both `lightPalette` / `darkPalette` and `childrenThemes` with
+ * `{ light, dark }` palettes.
+ *
  * @see https://tamagui.dev/docs/core/config-v5
  *
  * @example
@@ -58,5 +63,6 @@ export type {
  */
 export default definePlugin((options?: TamaguiPluginOptions) => ({
   name: "tamagui",
+  themeGeneration: "combined",
   generate: async spec => generateTamaguiConfig(spec, options ?? {})
 }));

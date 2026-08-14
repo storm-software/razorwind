@@ -91,6 +91,19 @@ export interface Plugin {
   extract?: (spec: Schema, config: Config) => MaybePromise<Schema>;
 
   /**
+   * How this plugin's {@link generate} hook is invoked for multi-theme token
+   * records.
+   *
+   * - `"split"` (default) — once per theme, with output paths suffixed
+   *   (`tamagui.config.ts` → `tamagui-light.config.ts`).
+   * - `"combined"` — once against the full token record. Use for targets that
+   *   encode light and dark in a single artifact (Tamagui `createV5Theme`).
+   *
+   * @defaultValue `"split"`
+   */
+  themeGeneration?: "split" | "combined";
+
+  /**
    * Generate the design system code from the design tokens.
    *
    * @param spec - The schema of the design tokens.

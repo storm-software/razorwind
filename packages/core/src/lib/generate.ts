@@ -20,6 +20,7 @@ import type { GeneratedDocument } from "@power-plant/core";
 import { defu } from "defu";
 import type { Schema, Tokens } from "../schema";
 import type { Config } from "../types/config";
+import type { Plugin } from "../types/plugin";
 import type { TokenSet } from "../utils/flatten-tokens";
 import {
   isSharedThemeId,
@@ -95,16 +96,21 @@ function configForTheme(config: Config, theme: TokenSet): Config {
 
 async function runPluginGenerators(
   spec: Schema,
-  config: Config
+  config: Config,
+  plugins = config.plugins.filter(plugin => plugin.generate)
 ): Promise<Record<string, GeneratedDocument>> {
   let documents: Record<string, GeneratedDocument> = {};
 
-  for (const plugin of config.plugins.filter(plugin => plugin.generate)) {
+  for (const plugin of plugins) {
     const generated = await plugin.generate!(spec, config);
     documents = defu(generated, documents);
   }
 
   return documents;
+}
+
+function isCombinedPlugin(plugin: Plugin): boolean {
+  return plugin.themeGeneration === "combined";
 }
 
 /**
@@ -114,24 +120,43 @@ async function runPluginGenerators(
  * separately: titles gain ` (<Theme>)`, and output file paths gain
  * `-<theme>` before the extension (`tokens.css` → `tokens-dark.css`).
  * Shared `base` files (and `base*` color-variant expansions) are omitted.
+ *
+ * Plugins with {@link Plugin.themeGeneration} `"combined"` skip that split and
+ * run once against the full token record (light and dark together).
  */
 export async function generatePluginDocuments(
   spec: Schema,
   config: Config
 ): Promise<Record<string, GeneratedDocument>> {
+  const generators = config.plugins.filter(plugin => plugin.generate);
+  const combined = generators.filter(isCombinedPlugin);
+  const split = generators.filter(plugin => !isCombinedPlugin(plugin));
+
+  let documents: Record<string, GeneratedDocument> = {};
+
+  if (combined.length > 0) {
+    documents = defu(
+      await runPluginGenerators(spec, config, combined),
+      documents
+    );
+  }
+
   const sets = resolveTokenSets(spec.tokens);
   const themes = themesForGeneration(spec.tokens);
 
-  if (themes.length === 0) {
-    return runPluginGenerators(spec, config);
+  if (split.length === 0) {
+    return documents;
   }
 
-  let documents: Record<string, GeneratedDocument> = {};
+  if (themes.length === 0) {
+    return defu(await runPluginGenerators(spec, config, split), documents);
+  }
 
   for (const theme of themes) {
     const generated = await runPluginGenerators(
       specForTheme(spec, theme, sets),
-      configForTheme(config, theme)
+      configForTheme(config, theme),
+      split
     );
     documents = defu(applyThemeToDocuments(generated, theme.id), documents);
   }

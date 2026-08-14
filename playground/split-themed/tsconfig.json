@@ -17,6 +17,9 @@
       "path": "../../packages/tailwindcss"
     },
     {
+      "path": "../../packages/tamagui"
+    },
+    {
       "path": "../../packages/style-dictionary"
     },
     {

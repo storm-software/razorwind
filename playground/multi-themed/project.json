@@ -3,6 +3,17 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "playground/multi-themed",
+  "tags": ["type:playground", "platform:node"],
+  "implicitDependencies": [
+    "core",
+    "css",
+    "design-md",
+    "docgen",
+    "shiki",
+    "storybook",
+    "style-dictionary",
+    "tailwindcss"
+  ],
   "targets": {
     "generate": {
       "cache": false,
@@ -28,16 +39,5 @@
         }
       }
     }
-  },
-  "implicitDependencies": [
-    "core",
-    "css",
-    "design-md",
-    "docgen",
-    "shiki",
-    "storybook",
-    "style-dictionary",
-    "tailwindcss"
-  ],
-  "tags": ["type:playground", "platform:node"]
+  }
 }

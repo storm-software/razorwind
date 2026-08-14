@@ -1,5 +1,13 @@
 {
   "extends": "@storm-software/workspace-tools/config/recommended.json",
+  "targetDefaults": {
+    "nx-release-publish": {
+      "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"],
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  },
   "release": {
     "groups": {
       "packages": {
@@ -33,14 +41,6 @@
             }
           ]
         }
-      }
-    }
-  },
-  "targetDefaults": {
-    "nx-release-publish": {
-      "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"],
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
       }
     }
   },

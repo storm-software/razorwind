@@ -91,11 +91,11 @@ export function createDocument<TSchema, TOptions extends object>(
     meta: {
       ...meta,
       data:
-        appendTheme !== false
-          ? {
+        appendTheme === undefined
+          ? undefined
+          : {
               appendTheme
             }
-          : undefined
     },
     chunks: [{ content, meta }]
   };

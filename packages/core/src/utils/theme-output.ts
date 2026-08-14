@@ -74,11 +74,13 @@ export function applyThemeToDocuments(
   const result: Record<string, GeneratedDocument> = {};
 
   for (const [key, document] of Object.entries(documents)) {
+    const custom = document?.meta?.data?.appendTheme;
     const appendTheme = (
-      document?.meta?.data?.appendTheme &&
-      typeof document.meta.data.appendTheme === "function"
-        ? document.meta.data.appendTheme
-        : appendThemeToFilePath
+      custom === false
+        ? false
+        : typeof custom === "function"
+          ? custom
+          : appendThemeToFilePath
     ) as false | ((path: string, theme: string) => string);
 
     const nextKey =

@@ -71,4 +71,20 @@ describe("applyThemeToDocuments", () => {
     expect(Object.keys(documents)).toEqual(["tokens-dark.css"]);
     expect(documents["tokens-dark.css"]?.path).toBe("tokens-dark.css");
   });
+
+  it("leaves paths unchanged when appendTheme is false", () => {
+    const documents = applyThemeToDocuments(
+      {
+        "tamagui.config.ts": {
+          path: "tamagui.config.ts",
+          meta: { data: { appendTheme: false } },
+          chunks: [{ content: "export {}" }]
+        }
+      },
+      "dark"
+    );
+
+    expect(Object.keys(documents)).toEqual(["tamagui.config.ts"]);
+    expect(documents["tamagui.config.ts"]?.path).toBe("tamagui.config.ts");
+  });
 });

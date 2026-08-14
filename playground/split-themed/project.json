@@ -3,6 +3,19 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "playground/split-themed",
+  "tags": ["type:playground", "platform:node"],
+  "implicitDependencies": [
+    "core",
+    "color-variants",
+    "css",
+    "design-md",
+    "docgen",
+    "shiki",
+    "storybook",
+    "style-dictionary",
+    "tamagui",
+    "tailwindcss"
+  ],
   "targets": {
     "generate": {
       "cache": false,
@@ -28,17 +41,5 @@
         }
       }
     }
-  },
-  "implicitDependencies": [
-    "core",
-    "color-variants",
-    "css",
-    "design-md",
-    "docgen",
-    "shiki",
-    "storybook",
-    "style-dictionary",
-    "tailwindcss"
-  ],
-  "tags": ["type:playground", "platform:node"]
+  }
 }

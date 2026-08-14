@@ -18,7 +18,8 @@
 
 import type { TokenType } from "@power-plant/dtcg-schema";
 import type { Tokens } from "@razorwind/core/schema";
-import { isObject, resolveTokenSets, type TokenSet } from "@razorwind/core/utils";
+import type { TokenSet } from "@razorwind/core/utils";
+import { isObject, resolveTokenSets } from "@razorwind/core/utils";
 import { formatTokenValue, toTamaguiValue } from "./format";
 import type {
   FlatToken,
@@ -26,8 +27,8 @@ import type {
   TamaguiTokenCategory
 } from "./types";
 
-export type { TokenSet };
 export { resolveTokenSets };
+export type { TokenSet };
 
 const CATEGORY_PREFIXES: Array<{
   prefix: RegExp;
@@ -124,10 +125,36 @@ export function resolveTokenCategory(
 }
 
 /**
+ * Join path/kebab segments into a camelCase Tamagui token key.
+ *
+ * `background` + `accent-subtle` → `backgroundAccentSubtle`.
+ * Numeric steps stay attached (`blue` + `1` → `blue1`).
+ */
+export function toCamelCaseKey(parts: string[]): string {
+  return parts
+    .flatMap(part => part.split(/[-_\s]+/))
+    .filter(Boolean)
+    .map((part, index) => {
+      if (/^\d/.test(part)) {
+        return part;
+      }
+
+      const lower = part.toLowerCase();
+      if (index === 0) {
+        return lower;
+      }
+
+      return `${lower.charAt(0).toUpperCase()}${lower.slice(1)}`;
+    })
+    .join("");
+}
+
+/**
  * Derive the Tamagui token key from a DTCG path (strip category prefix).
  *
  * `radius.DEFAULT` → `true` (Tamagui default token convention).
  * `color.blue.1` → `blue1`.
+ * `color.background.accent-subtle` → `backgroundAccentSubtle`.
  */
 export function toTokenKey(path: string): string {
   const segments = path.split(".").filter(Boolean);
@@ -143,13 +170,16 @@ export function toTokenKey(path: string): string {
     segments.shift();
   }
 
-  const leaf = segments.join("") || path.split(".").at(-1) || path;
-  // eslint-disable-next-line regexp/no-dupe-disjunctions
-  if (/^(?:DEFAULT|default)$/i.test(leaf)) {
+  const remaining = segments.length > 0 ? segments : path.split(".").slice(-1);
+  if (
+    remaining.length === 1 &&
+    // eslint-disable-next-line regexp/no-dupe-disjunctions
+    /^(?:DEFAULT|default)$/i.test(remaining[0] ?? "")
+  ) {
     return "true";
   }
 
-  return leaf;
+  return toCamelCaseKey(remaining);
 }
 
 function walkTokens(

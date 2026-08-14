@@ -30,7 +30,8 @@
     "@razorwind/shiki": "workspace:*",
     "@razorwind/storybook": "workspace:*",
     "@razorwind/style-dictionary": "workspace:*",
-    "@razorwind/tailwindcss": "workspace:*"
+    "@razorwind/tailwindcss": "workspace:*",
+    "@razorwind/tamagui": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

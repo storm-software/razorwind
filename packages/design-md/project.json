@@ -3,11 +3,11 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "packages/design-md/src",
+  "tags": ["platform:node"],
   "targets": {
     "nx-release-publish": {
       "executor": "@storm-software/workspace-tools:npm-publish",
       "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"]
     }
-  },
-  "tags": ["platform:node"]
+  }
 }

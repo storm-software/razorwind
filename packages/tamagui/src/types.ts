@@ -39,6 +39,9 @@ export interface TamaguiPluginOptions {
   /**
    * Output path written relative to the execution cwd.
    *
+   * Light and dark schemes are always written to this single file — Tamagui
+   * `createV5Theme` encodes both palettes in one config.
+   *
    * @defaultValue `"tamagui.config.ts"`
    */
   outputPath?: string;

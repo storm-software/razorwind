@@ -169,6 +169,56 @@ describe("generatePluginDocuments", () => {
     expect(documents["tokens-light.css"]?.path).toBe("tokens-light.css");
   });
 
+  it("invokes combined plugins once with the full token record", async () => {
+    const specs: Schema[] = [];
+    const combined: Plugin = {
+      name: "tamagui",
+      themeGeneration: "combined",
+      generate: spec => {
+        specs.push(spec);
+        return {
+          "tamagui.config.ts": {
+            path: "tamagui.config.ts",
+            chunks: [{ content: JSON.stringify(Object.keys(spec.tokens ?? {})) }]
+          }
+        };
+      }
+    };
+    const split: Plugin = {
+      name: "css",
+      generate: spec => ({
+        "tokens.css": {
+          path: "tokens.css",
+          chunks: [{ content: spec.theme ?? "" }]
+        }
+      })
+    };
+
+    const documents = await generatePluginDocuments(
+      testSpec({
+        base: baseTokens,
+        light: lightTokens,
+        dark: darkTokens
+      }),
+      testConfig([combined, split])
+    );
+
+    expect(specs).toHaveLength(1);
+    expect(specs[0]?.theme).toBeUndefined();
+    expect(Object.keys(specs[0]?.tokens ?? {}).sort()).toEqual([
+      "base",
+      "dark",
+      "light"
+    ]);
+
+    expect(Object.keys(documents).sort()).toEqual([
+      "tamagui.config.ts",
+      "tokens-dark.css",
+      "tokens-light.css"
+    ]);
+    expect(documents["tamagui.config.ts"]?.path).toBe("tamagui.config.ts");
+  });
+
   it("does not emit documents for shared base or its variants", async () => {
     const plugin: Plugin = {
       name: "css",

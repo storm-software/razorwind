@@ -27,6 +27,7 @@ import shiki from "@razorwind/shiki";
 import storybook from "@razorwind/storybook";
 import styleDictionary from "@razorwind/style-dictionary";
 import tailwindcss from "@razorwind/tailwindcss/generate";
+import tamagui from "@razorwind/tamagui/generate";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -59,6 +60,9 @@ export default defineConfig({
     }),
     tailwindcss({
       cssPath: join(generated, "app.css")
+    }),
+    tamagui({
+      outputPath: join(generated, "tamagui.config.ts")
     }),
     styleDictionary({
       platforms: {
