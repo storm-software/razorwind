@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Zed
 
+## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/zed%400.0.28) (08/14/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.54**
+
 ## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/zed%400.0.27) (08/14/2026)
 
 ### Updated Dependencies

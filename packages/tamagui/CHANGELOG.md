@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.43) (08/14/2026)
+
+### Features
+
+- **chrome:** Initial check-in of the Google Chrome theme plugin generator ([5bee5d0](https://github.com/storm-software/razorwind/commit/5bee5d0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.54**
+
 ## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.42) (08/14/2026)
 
 ### Miscellaneous
