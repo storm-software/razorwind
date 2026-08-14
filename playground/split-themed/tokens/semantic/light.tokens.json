@@ -5,97 +5,116 @@
       "$description": "The foreground colors for the dark theme",
       "primary": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The primary foreground color for the dark theme"
       },
       "secondary": {
         "$type": "color",
-        "$value": "{color.neutral.800}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.8}",
         "$description": "The secondary foreground color for the dark theme"
       },
       "tertiary": {
         "$type": "color",
-        "$value": "{color.neutral.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.9}",
         "$description": "The tertiary foreground color for the dark theme"
       },
       "accent": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
         "$description": "The accent foreground color for the dark theme"
       },
       "danger": {
         "$type": "color",
-        "$value": "{color.red.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.red.7}",
         "$description": "The danger foreground color for the dark theme"
       },
       "warning": {
         "$type": "color",
-        "$value": "{color.yellow.400}",
+        "colorSpace": "display-p3",
+        "$value": "{color.yellow.4}",
         "$description": "The warning foreground color for the dark theme"
       },
       "success": {
         "$type": "color",
-        "$value": "{color.green.600}",
+        "colorSpace": "display-p3",
+        "$value": "{color.green.6}",
         "$description": "The success foreground color for the dark theme"
       },
       "info": {
         "$type": "color",
-        "$value": "{color.sky.300}",
+        "colorSpace": "display-p3",
+        "$value": "{color.sky.3}",
         "$description": "The info foreground color for the dark theme"
       },
       "discovery": {
         "$type": "color",
-        "$value": "{color.purple.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.purple.7}",
         "$description": "The discovery foreground color for the dark theme"
       },
       "link": {
         "$type": "color",
-        "$value": "{color.blue.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.blue.7}",
         "$description": "The link foreground color for the dark theme"
       },
       "on-primary": {
         "$type": "color",
-        "$value": "{color.neutral.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.9}",
         "$description": "The primary foreground color for the dark theme"
       },
       "on-secondary": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The secondary foreground color for the dark theme"
       },
       "on-tertiary": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The tertiary foreground color for the dark theme"
       },
       "on-accent": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The accent foreground color for the dark theme"
       },
       "on-danger": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The danger foreground color for the dark theme"
       },
       "on-warning": {
         "$type": "color",
-        "$value": "{color.neutral.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.9}",
         "$description": "The warning foreground color for the dark theme"
       },
       "on-success": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The success foreground color for the dark theme"
       },
       "on-info": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The info foreground color for the dark theme"
       },
       "on-discovery": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The discovery foreground color for the dark theme"
       }
     },
@@ -103,97 +122,116 @@
       "$description": "The background colors for the dark theme",
       "page": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.surface.1}",
         "$description": "The page background color for the dark theme"
       },
       "elevated": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.surface.2}",
         "$description": "The elevated background color for the dark theme"
       },
       "floating": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.surface.3}",
         "$description": "The floating background color for the dark theme"
       },
       "primary": {
         "$type": "color",
-        "$value": "{color.neutral.100}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.1}",
         "$description": "The primary foreground color for the dark theme"
       },
       "secondary": {
         "$type": "color",
-        "$value": "{color.neutral.800}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.8}",
         "$description": "The secondary foreground color for the dark theme"
       },
       "tertiary": {
         "$type": "color",
-        "$value": "{color.neutral.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.9}",
         "$description": "The tertiary foreground color for the dark theme"
       },
       "link": {
         "$type": "color",
-        "$value": "{color.blue.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.blue.7}",
         "$description": "The link foreground color for the dark theme"
       },
       "accent": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
         "$description": "The accent foreground color for the dark theme"
       },
       "danger": {
         "$type": "color",
-        "$value": "{color.red.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.red.7}",
         "$description": "The danger foreground color for the dark theme"
       },
       "warning": {
         "$type": "color",
-        "$value": "{color.yellow.400}",
+        "colorSpace": "display-p3",
+        "$value": "{color.yellow.4}",
         "$description": "The warning foreground color for the dark theme"
       },
       "success": {
         "$type": "color",
-        "$value": "{color.green.600}",
+        "colorSpace": "display-p3",
+        "$value": "{color.green.6}",
         "$description": "The success foreground color for the dark theme"
       },
       "info": {
         "$type": "color",
-        "$value": "{color.sky.300}",
+        "colorSpace": "display-p3",
+        "$value": "{color.sky.3}",
         "$description": "The info foreground color for the dark theme"
       },
       "discovery": {
         "$type": "color",
-        "$value": "{color.purple.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.purple.7}",
         "$description": "The discovery foreground color for the dark theme"
       },
       "accent-subtle": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.brand.2}",
         "$description": "The accent foreground color for the dark theme"
       },
       "danger-subtle": {
         "$type": "color",
-        "$value": "{color.red.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.red.9}",
         "$description": "The danger foreground color for the dark theme"
       },
       "warning-subtle": {
         "$type": "color",
-        "$value": "{color.yellow.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.yellow.9}",
         "$description": "The warning foreground color for the dark theme"
       },
       "success-subtle": {
         "$type": "color",
-        "$value": "{color.green.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.green.9}",
         "$description": "The success foreground color for the dark theme"
       },
       "info-subtle": {
         "$type": "color",
-        "$value": "{color.sky.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.sky.9}",
         "$description": "The info foreground color for the dark theme"
       },
       "discovery-subtle": {
         "$type": "color",
-        "$value": "{color.purple.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.purple.9}",
         "$description": "The discovery foreground color for the dark theme"
       }
     },
@@ -201,77 +239,92 @@
       "$description": "The border colors for the dark theme",
       "primary": {
         "$type": "color",
-        "$value": "{color.neutral.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.7}",
         "$description": "The primary foreground color for the dark theme"
       },
       "secondary": {
         "$type": "color",
-        "$value": "{color.neutral.800}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.8}",
         "$description": "The secondary foreground color for the dark theme"
       },
       "tertiary": {
         "$type": "color",
-        "$value": "{color.neutral.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.base.9}",
         "$description": "The tertiary foreground color for the dark theme"
       },
       "accent": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.brand.1}",
         "$description": "The accent foreground color for the dark theme"
       },
       "danger": {
         "$type": "color",
-        "$value": "{color.red.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.red.7}",
         "$description": "The danger foreground color for the dark theme"
       },
       "warning": {
         "$type": "color",
-        "$value": "{color.yellow.400}",
+        "colorSpace": "display-p3",
+        "$value": "{color.yellow.4}",
         "$description": "The warning foreground color for the dark theme"
       },
       "success": {
         "$type": "color",
-        "$value": "{color.green.600}",
+        "colorSpace": "display-p3",
+        "$value": "{color.green.6}",
         "$description": "The success foreground color for the dark theme"
       },
       "info": {
         "$type": "color",
-        "$value": "{color.sky.300}",
+        "colorSpace": "display-p3",
+        "$value": "{color.sky.3}",
         "$description": "The info foreground color for the dark theme"
       },
       "discovery": {
         "$type": "color",
-        "$value": "{color.purple.700}",
+        "colorSpace": "display-p3",
+        "$value": "{color.purple.7}",
         "$description": "The discovery foreground color for the dark theme"
       },
       "accent-subtle": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.brand.2}",
         "$description": "The accent foreground color for the dark theme"
       },
       "danger-subtle": {
         "$type": "color",
-        "$value": "{color.red.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.red.9}",
         "$description": "The danger foreground color for the dark theme"
       },
       "warning-subtle": {
         "$type": "color",
-        "$value": "{color.yellow.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.yellow.9}",
         "$description": "The warning foreground color for the dark theme"
       },
       "success-subtle": {
         "$type": "color",
-        "$value": "{color.green.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.green.9}",
         "$description": "The success foreground color for the dark theme"
       },
       "info-subtle": {
         "$type": "color",
-        "$value": "{color.sky.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.sky.9}",
         "$description": "The info foreground color for the dark theme"
       },
       "discovery-subtle": {
         "$type": "color",
-        "$value": "{color.purple.900}",
+        "colorSpace": "display-p3",
+        "$value": "{color.purple.9}",
         "$description": "The discovery foreground color for the dark theme"
       }
     },
@@ -279,16 +332,19 @@
       "$description": "The overlay colors for the light theme",
       "background": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.background.floating}",
         "$description": "The overlay background color for the light theme"
       },
       "border": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "{color.border.primary}",
         "$description": "The overlay border color for the light theme"
       },
       "backdrop": {
         "$type": "color",
+        "colorSpace": "display-p3",
         "$value": "#1A1C1F66",
         "$description": "The overlay backdrop background color for the light theme"
       }
@@ -342,26 +398,30 @@
     },
     "data": {
       "$description": "The data visualization colors for the light theme",
-      "neutral": {
+      "base": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.neutral.500}",
-          "$description": "The neutral data visualization emphasis color for the light theme"
+          "colorSpace": "display-p3",
+          "$value": "{color.base.5}",
+          "$description": "The base data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.neutral.100}",
-          "$description": "The neutral data visualization subtle color for the light theme"
+          "colorSpace": "display-p3",
+          "$value": "{color.base.1}",
+          "$description": "The base data visualization subtle color for the light theme"
         }
       },
       "brand": {
         "emphasis": {
           "$type": "color",
+          "colorSpace": "display-p3",
           "$value": "{color.brand.1}",
           "$description": "The brand data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
+          "colorSpace": "display-p3",
           "$value": "{color.brand.2}",
           "$description": "The brand data visualization subtle color for the light theme"
         }
@@ -369,96 +429,112 @@
       "red": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.red.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.red.6}",
           "$description": "The red data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.red.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.red.1}",
           "$description": "The red data visualization subtle color for the light theme"
         }
       },
       "orange": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.orange.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.orange.6}",
           "$description": "The orange data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.orange.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.orange.1}",
           "$description": "The orange data visualization subtle color for the light theme"
         }
       },
       "yellow": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.yellow.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.yellow.6}",
           "$description": "The yellow data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.yellow.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.yellow.1}",
           "$description": "The yellow data visualization subtle color for the light theme"
         }
       },
       "green": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.green.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.green.6}",
           "$description": "The green data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.green.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.green.1}",
           "$description": "The green data visualization subtle color for the light theme"
         }
       },
       "sky": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.sky.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.sky.6}",
           "$description": "The sky blue data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.sky.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.sky.1}",
           "$description": "The sky blue data visualization subtle color for the light theme"
         }
       },
       "blue": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.blue.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.blue.6}",
           "$description": "The blue data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.blue.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.blue.1}",
           "$description": "The blue data visualization subtle color for the light theme"
         }
       },
       "purple": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.purple.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.purple.6}",
           "$description": "The purple data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.purple.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.purple.1}",
           "$description": "The purple data visualization subtle color for the light theme"
         }
       },
       "pink": {
         "emphasis": {
           "$type": "color",
-          "$value": "{color.pink.600}",
+          "colorSpace": "display-p3",
+          "$value": "{color.pink.6}",
           "$description": "The pink data visualization emphasis color for the light theme"
         },
         "subtle": {
           "$type": "color",
-          "$value": "{color.pink.100}",
+          "colorSpace": "display-p3",
+          "$value": "{color.pink.1}",
           "$description": "The pink data visualization subtle color for the light theme"
         }
       }

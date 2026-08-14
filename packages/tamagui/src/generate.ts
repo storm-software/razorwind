@@ -21,7 +21,7 @@ import { cssFontFamily, fontFamilyName } from "@razorwind/core/lib/fonts";
 import type { Font, Fonts, LocalFont, Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
 import { basename, dirname, join } from "node:path";
-import { flattenTokens } from "./flatten";
+import { flattenTokens, toCamelCaseKey } from "./flatten";
 import { toLiteral } from "./format";
 import { renderInstallMd } from "./install";
 import type {
@@ -34,16 +34,14 @@ import type {
 const LIGHT_THEME_IDS = new Set(["default", "light", "theme"]);
 /** Matches core `isSharedThemeId` (`base`, `baseDimmed`, …). */
 const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
-const PALETTE_SCALE_NAMES = new Set([
-  "gray",
-  "grey",
-  "neutral",
-  "slate",
-  "zinc",
-  "stone",
-  "palette",
-  "base"
-]);
+/**
+ * Palette names that map onto Tamagui v5 `lightPalette` / `darkPalette`
+ * (`color1`–`color12` on the base theme).
+ *
+ * @see https://tamagui.dev/docs/core/config-v5#base-colors-color1-12
+ */
+const BASE_PALETTE_NAMES = ["base", "gray", "grey", "neutral"] as const;
+const TAMAGUI_PALETTE_LENGTH = 12;
 
 const ANIMATION_IMPORTS: Record<
   Exclude<TamaguiAnimationDriver, false>,
@@ -120,7 +118,7 @@ function renderObjectLiteral(
 ): string {
   const pad = " ".repeat(indent);
   const entries = Object.entries(values).toSorted(([a], [b]) =>
-    a.localeCompare(b)
+    a.localeCompare(b, undefined, { numeric: true })
   );
 
   if (entries.length === 0) {
@@ -137,39 +135,82 @@ function renderObjectLiteral(
 }
 
 /**
- * Detect 1–12 (or 0–11) stepped color scales for `createV5Theme` childrenThemes.
+ * Normalize a palette step number.
  *
- * Accepts keys like `blue1`…`blue12` or nested paths already flattened to those keys.
+ * Accepts 1–12 directly, or 100–900 (mapped to 1–9).
  */
-export function collectColorScales(
+function normalizePaletteStep(raw: number): number | undefined {
+  if (raw >= 1 && raw <= 12) {
+    return raw;
+  }
+  if (raw >= 100 && raw <= 900 && raw % 100 === 0) {
+    return raw / 100;
+  }
+  return undefined;
+}
+
+function parseScaleToken(
+  token: FlatToken
+): { name: string; step: number } | undefined {
+  const segments = token.path.split(".").filter(Boolean);
+  const leaf = segments.at(-1);
+  if (leaf && /^\d+$/.test(leaf)) {
+    const step = normalizePaletteStep(Number(leaf));
+    const rawName = segments.at(-2);
+    if (
+      step != null &&
+      rawName &&
+      !/^(?:color|colours?|palette)$/i.test(rawName)
+    ) {
+      return { name: toCamelCaseKey([rawName]), step };
+    }
+  }
+
+  if (!token.tokenKey) {
+    return undefined;
+  }
+
+  const match = /^([A-Z]+)(\d{1,3})$/i.exec(token.tokenKey);
+  if (!match) {
+    return undefined;
+  }
+
+  const [, name = "", stepRaw = ""] = match;
+  const step = normalizePaletteStep(Number(stepRaw));
+  if (step == null) {
+    return undefined;
+  }
+
+  return { name, step };
+}
+
+function addScaleStep(
+  scales: Record<string, Record<string, string>>,
+  name: string,
+  step: number,
+  value: string
+): void {
+  const scale = scales[name] ?? {};
+  scale[`${name}${step}`] = value;
+  scales[name] = scale;
+}
+
+function collectNumberedColorScales(
   colorTokens: FlatToken[]
 ): Record<string, Record<string, string>> {
   const scales: Record<string, Record<string, string>> = {};
-  const keyed = new Map<string, string>();
 
   for (const token of colorTokens) {
-    if (!token.tokenKey || typeof token.tamaguiValue !== "string") {
-      continue;
-    }
-    keyed.set(token.tokenKey, token.tamaguiValue);
-  }
-
-  const scalePattern = /^([A-Z]+)(\d{1,2})$/i;
-  for (const [key, value] of keyed) {
-    const match = scalePattern.exec(key);
-    if (!match) {
+    if (typeof token.tamaguiValue !== "string") {
       continue;
     }
 
-    const [, name = "", stepRaw = ""] = match;
-    const step = Number(stepRaw);
-    if (step < 0 || step > 12) {
+    const parsed = parseScaleToken(token);
+    if (!parsed) {
       continue;
     }
 
-    const scale = scales[name] ?? {};
-    scale[`${name}${step}`] = value;
-    scales[name] = scale;
+    addScaleStep(scales, parsed.name, parsed.step, token.tamaguiValue);
   }
 
   return Object.fromEntries(
@@ -177,51 +218,309 @@ export function collectColorScales(
   );
 }
 
-function paletteFromScale(
-  scale: Record<string, string>,
-  name: string
-): string[] | undefined {
-  const values: string[] = [];
-  for (let step = 1; step <= 12; step++) {
-    const value = scale[`${name}${step}`];
-    if (!value) {
+/**
+ * Collect color palettes for Tamagui `childrenThemes`.
+ *
+ * Groups marked `palette: true` (or `$type: "palette"`) win. When none are
+ * marked, numbered 1–12 (or 100–900) scales are used as a fallback.
+ */
+export function collectColorScales(
+  colorTokens: FlatToken[]
+): Record<string, Record<string, string>> {
+  const indicated: Record<string, Record<string, string>> = {};
+
+  for (const token of colorTokens) {
+    if (!token.palette || typeof token.tamaguiValue !== "string") {
+      continue;
+    }
+
+    const parsed = parseScaleToken(token);
+    if (!parsed) {
+      continue;
+    }
+
+    addScaleStep(indicated, parsed.name, parsed.step, token.tamaguiValue);
+  }
+
+  const indicatedScales = Object.fromEntries(
+    Object.entries(indicated).filter(
+      ([, steps]) => Object.keys(steps).length >= 2
+    )
+  );
+
+  if (Object.keys(indicatedScales).length > 0) {
+    return indicatedScales;
+  }
+
+  return collectNumberedColorScales(colorTokens);
+}
+
+/**
+ * Tamagui v5 palettes: light runs lightest → darkest, dark runs darkest →
+ * lightest (`color1`–`color12`).
+ *
+ * @see https://tamagui.dev/docs/core/config-v5#base-colors-color1-12
+ */
+export function orderPaletteForScheme(
+  values: readonly string[],
+  scheme: ColorScheme
+): string[] {
+  if (values.length < 2) {
+    return [...values];
+  }
+
+  const first = colorLightness(values[0]!);
+  const last = colorLightness(values[values.length - 1]!);
+  if (first == null || last == null || first === last) {
+    return [...values];
+  }
+
+  const lightestFirst = first > last;
+  if (scheme === "light") {
+    return lightestFirst ? [...values] : values.toReversed();
+  }
+
+  return lightestFirst ? values.toReversed() : [...values];
+}
+
+function srgbToLinear(channel: number): number {
+  return channel <= 0.04045
+    ? channel / 12.92
+    : ((channel + 0.055) / 1.055) ** 2.4;
+}
+
+function hexLightness(color: string): number | undefined {
+  let hex = color.startsWith("#") ? color.slice(1) : "";
+  if (hex.length === 3 || hex.length === 4) {
+    hex = [...hex].map(char => char + char).join("");
+  }
+  if (hex.length === 8) {
+    hex = hex.slice(0, 6);
+  }
+  if (hex.length !== 6 || /[^0-9a-f]/i.test(hex)) {
+    return undefined;
+  }
+
+  const r = Number.parseInt(hex.slice(0, 2), 16) / 255;
+  const g = Number.parseInt(hex.slice(2, 4), 16) / 255;
+  const b = Number.parseInt(hex.slice(4, 6), 16) / 255;
+
+  return (
+    0.2126 * srgbToLinear(r) +
+    0.7152 * srgbToLinear(g) +
+    0.0722 * srgbToLinear(b)
+  );
+}
+
+function parseComponent(raw: string): number | undefined {
+  const trimmed = raw.trim();
+  if (trimmed.endsWith("%")) {
+    const percent = Number.parseFloat(trimmed);
+
+    return Number.isFinite(percent) ? percent / 100 : undefined;
+  }
+
+  const value = Number.parseFloat(trimmed);
+
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function normalizeLightness(value: number): number {
+  return value > 1 ? value / 100 : value;
+}
+
+function functionalColorArgs(color: string, fn: string): string[] | undefined {
+  const match = new RegExp(`^${fn}\\((.+)\\)$`, "i").exec(color.trim());
+  if (!match?.[1]) {
+    return undefined;
+  }
+
+  return match[1].split(/[\s,/]+/).filter(Boolean);
+}
+
+/**
+ * Approximate perceptual lightness (0–1) for hex, rgb, hsl, and oklch colors.
+ * CSS variables and unresolved aliases return `undefined`.
+ */
+export function colorLightness(color: string): number | undefined {
+  const value = color.trim();
+  if (!value || value.startsWith("var(") || value.includes("{")) {
+    return undefined;
+  }
+
+  const hex = hexLightness(value);
+  if (hex != null) {
+    return hex;
+  }
+
+  const oklch = functionalColorArgs(value, "oklch");
+  if (oklch?.[0]) {
+    const lightness = parseComponent(oklch[0]);
+    if (lightness == null) {
       return undefined;
     }
-    values.push(value);
+
+    return normalizeLightness(lightness);
   }
-  return values;
+
+  const hsl = functionalColorArgs(value, "hsla?");
+  if (hsl?.[2]) {
+    const lightness = parseComponent(hsl[2]);
+    if (lightness == null) {
+      return undefined;
+    }
+
+    return normalizeLightness(lightness);
+  }
+
+  const rgb = functionalColorArgs(value, "rgba?");
+  if (rgb?.[0] && rgb[1] && rgb[2]) {
+    const r = parseComponent(rgb[0]);
+    const g = parseComponent(rgb[1]);
+    const b = parseComponent(rgb[2]);
+    if (r == null || g == null || b == null) {
+      return undefined;
+    }
+
+    const toChannel = (component: number, raw: string): number =>
+      raw.trim().endsWith("%") || component <= 1 ? component : component / 255;
+
+    return (
+      0.2126 * srgbToLinear(toChannel(r, rgb[0])) +
+      0.7152 * srgbToLinear(toChannel(g, rgb[1])) +
+      0.0722 * srgbToLinear(toChannel(b, rgb[2]))
+    );
+  }
+
+  return undefined;
+}
+
+function orderedScaleEntries(
+  scale: Record<string, string>,
+  name: string
+): Array<[number, string]> {
+  const entries: Array<[number, string]> = [];
+  const prefix = name.toLowerCase();
+
+  for (const [key, value] of Object.entries(scale)) {
+    if (!key.toLowerCase().startsWith(prefix)) {
+      continue;
+    }
+
+    const rest = key.slice(name.length);
+    if (!/^\d+$/.test(rest)) {
+      continue;
+    }
+
+    entries.push([Number(rest), value]);
+  }
+
+  entries.sort(([a], [b]) => a - b);
+  return entries;
+}
+
+function orderScaleForScheme(
+  scale: Record<string, string>,
+  name: string,
+  scheme: ColorScheme
+): Record<string, string> {
+  const entries = orderedScaleEntries(scale, name);
+  if (entries.length === 0) {
+    return scale;
+  }
+
+  const ordered = orderPaletteForScheme(
+    entries.map(([, value]) => value),
+    scheme
+  );
+  const result: Record<string, string> = {};
+  for (const [index, [step]] of entries.entries()) {
+    result[`${name}${step}`] = ordered[index] ?? entries[index]![1];
+  }
+
+  return result;
+}
+
+/**
+ * Tamagui v5 base palettes are 12 colors (`color1`–`color12`). Shorter
+ * Razorwind scales are padded with the last stop so template indices stay valid.
+ */
+function padPalette(values: string[]): string[] {
+  if (values.length >= TAMAGUI_PALETTE_LENGTH) {
+    return values.slice(0, TAMAGUI_PALETTE_LENGTH);
+  }
+
+  const padded = [...values];
+  const last = padded.at(-1);
+  if (last == null) {
+    return padded;
+  }
+
+  while (padded.length < TAMAGUI_PALETTE_LENGTH) {
+    padded.push(last);
+  }
+
+  return padded;
+}
+
+function paletteFromScale(
+  scale: Record<string, string>,
+  name: string,
+  scheme: ColorScheme
+): string[] | undefined {
+  const entries = orderedScaleEntries(scale, name);
+  if (entries.length < 2) {
+    return undefined;
+  }
+
+  return padPalette(
+    orderPaletteForScheme(
+      entries.map(([, value]) => value),
+      scheme
+    )
+  );
+}
+
+function pickBasePalette(
+  scales: Record<string, Record<string, string>>,
+  scheme: ColorScheme
+): string[] | undefined {
+  const byLower = new Map(
+    Object.entries(scales).map(([name, scale]) => [
+      name.toLowerCase(),
+      { name, scale }
+    ])
+  );
+
+  for (const candidate of BASE_PALETTE_NAMES) {
+    const match = byLower.get(candidate);
+    if (!match) {
+      continue;
+    }
+
+    const palette = paletteFromScale(match.scale, match.name, scheme);
+    if (palette) {
+      return palette;
+    }
+  }
+
+  return undefined;
 }
 
 function resolveBasePalettes(tokens: FlatToken[]): {
   lightPalette?: string[];
   darkPalette?: string[];
 } {
-  const colors = tokens.filter(token => token.category === "color");
+  const colors = tokens.filter(
+    token => token.category === "color" || token.palette
+  );
   const lightScales = collectColorScales(tokensForScheme(colors, "light"));
   const darkScales = collectColorScales(tokensForScheme(colors, "dark"));
 
-  let lightPalette: string[] | undefined;
-  let darkPalette: string[] | undefined;
-
-  for (const name of Object.keys(lightScales)) {
-    if (PALETTE_SCALE_NAMES.has(name.toLowerCase())) {
-      lightPalette = paletteFromScale(lightScales[name]!, name);
-      if (lightPalette) {
-        break;
-      }
-    }
-  }
-
-  for (const name of Object.keys(darkScales)) {
-    if (PALETTE_SCALE_NAMES.has(name.toLowerCase())) {
-      darkPalette = paletteFromScale(darkScales[name]!, name);
-      if (darkPalette) {
-        break;
-      }
-    }
-  }
-
-  return { lightPalette, darkPalette };
+  return {
+    lightPalette: pickBasePalette(lightScales, "light"),
+    darkPalette: pickBasePalette(darkScales, "dark")
+  };
 }
 
 function semanticColorsForTheme(tokens: FlatToken[]): Record<string, string> {
@@ -237,9 +536,12 @@ function semanticColorsForTheme(tokens: FlatToken[]): Record<string, string> {
       continue;
     }
 
-    // Skip stepped scale keys — those go to childrenThemes / palettes.
-    if (/^[A-Z]+\d{1,2}$/i.test(token.tokenKey)) {
-      const scaleName = token.tokenKey.replace(/\d{1,2}$/, "");
+    // Skip palette / stepped scale keys — those go to childrenThemes / palettes.
+    if (token.palette) {
+      continue;
+    }
+    if (/^[A-Z]+\d{1,3}$/i.test(token.tokenKey)) {
+      const scaleName = token.tokenKey.replace(/\d{1,3}$/, "");
       if (scales[scaleName]) {
         continue;
       }
@@ -266,13 +568,17 @@ function renderChildrenThemes(
 
   const blocks: string[] = [];
   for (const name of [...names].toSorted((a, b) => a.localeCompare(b))) {
-    if (PALETTE_SCALE_NAMES.has(name.toLowerCase())) {
-      continue;
-    }
-
-    const light = lightScales[name] ?? darkScales[name];
-    const dark = darkScales[name] ?? lightScales[name];
-    if (!light || !dark) {
+    const light = orderScaleForScheme(
+      lightScales[name] ?? darkScales[name] ?? {},
+      name,
+      "light"
+    );
+    const dark = orderScaleForScheme(
+      darkScales[name] ?? lightScales[name] ?? {},
+      name,
+      "dark"
+    );
+    if (Object.keys(light).length === 0 || Object.keys(dark).length === 0) {
       continue;
     }
 

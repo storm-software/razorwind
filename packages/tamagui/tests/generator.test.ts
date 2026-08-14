@@ -20,11 +20,17 @@ import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
 import {
   flattenTokens,
+  isPaletteGroup,
   resolveTokenCategory,
   toTokenKey
 } from "../src/flatten";
 import { formatTokenValue, toTamaguiValue } from "../src/format";
-import { generateTamaguiConfig, renderTamaguiConfig } from "../src/generate";
+import {
+  colorLightness,
+  generateTamaguiConfig,
+  orderPaletteForScheme,
+  renderTamaguiConfig
+} from "../src/generate";
 import tamagui from "../src/index";
 
 const tokens = {
@@ -320,5 +326,180 @@ describe("tamagui plugin", () => {
     const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
     expect(install).toContain("both `light` and `dark` themes");
     expect(install).toContain("defaultTheme=\"light\"");
+  });
+
+  it("maps palette: true groups to childrenThemes and base palettes", () => {
+    function nestedScale(
+      hex: (step: number) => string,
+      steps = 9
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { palette: true };
+      for (let step = 1; step <= steps; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            brand: {
+              1: { $value: "#00ccaa" },
+              2: { $value: "#006655" }
+            },
+            red: nestedScale(step => `#ff${(step * 10).toString(16).padStart(2, "0")}00`),
+            base: nestedScale(step => `#f${step}f${step}f${step}`)
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            red: nestedScale(step => `#aa${(step * 10).toString(16).padStart(2, "0")}00`),
+            base: nestedScale(step => `#1${step}1${step}1${step}`)
+          }
+        }
+      }
+    } as Schema;
+
+    const flat = flattenTokens(spec.tokens);
+    expect(flat.find(token => token.path === "color.red.1")?.palette).toBe(true);
+    expect(flat.find(token => token.path === "color.base.9")?.palette).toBe(true);
+    expect(flat.find(token => token.path === "color.brand.1")?.palette).toBeUndefined();
+    expect(
+      isPaletteGroup({ palette: true, 1: { $value: "#fff" } })
+    ).toBe(true);
+
+    const content = renderTamaguiConfig(flat, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("childrenThemes:");
+    expect(content).toContain("red:");
+    expect(content).toContain("base:");
+    expect(content).not.toContain("brand:");
+    expect(content).toContain("lightPalette:");
+    expect(content).toContain("darkPalette:");
+    expect(content).toContain('"#f1f1f1"');
+    expect(content).toContain('"#191919"');
+    // 9-step base is padded to Tamagui's 12-stop palette
+    expect(content).toMatch(/lightPalette:\s*\[[^\]]*"#f9f9f9"[^\]]*\]/s);
+    expect(content).toMatch(/darkPalette:\s*\[[^\]]*"#191919"[^\]]*\]/s);
+  });
+
+  it("uses gray, grey, or neutral palettes as lightPalette and darkPalette", () => {
+    function nestedScale(
+      hex: (step: number) => string
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { palette: true };
+      for (let step = 1; step <= 4; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            blue: nestedScale(step => `#0000f${step}`),
+            neutral: nestedScale(step => `#e${step}e${step}e${step}`)
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            blue: nestedScale(step => `#0000a${step}`),
+            grey: nestedScale(step => `#2${step}2${step}2${step}`)
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("lightPalette:");
+    expect(content).toContain("darkPalette:");
+    expect(content).toContain("childrenThemes:");
+    expect(content).toContain("blue:");
+    expect(content).toContain("neutral:");
+    expect(content).toContain("grey:");
+    expect(content).toContain('"#e1e1e1"');
+    expect(content).toContain('"#212121"');
+  });
+
+  it("orders light palettes lightest-first and dark palettes darkest-first", () => {
+    expect(colorLightness("#ffffff")).toBeGreaterThan(colorLightness("#000000")!);
+    expect(colorLightness("oklch(0.9 0.1 200)")).toBeGreaterThan(
+      colorLightness("oklch(0.2 0.1 200)")!
+    );
+    expect(colorLightness("hsl(0, 0%, 90%)")).toBeGreaterThan(
+      colorLightness("hsl(0, 0%, 10%)")!
+    );
+    expect(
+      orderPaletteForScheme(["#ffffff", "#888888", "#000000"], "dark")
+    ).toEqual(["#000000", "#888888", "#ffffff"]);
+    expect(
+      orderPaletteForScheme(["#000000", "#888888", "#ffffff"], "light")
+    ).toEqual(["#ffffff", "#888888", "#000000"]);
+
+    function nestedScale(colors: string[]): Record<string, unknown> {
+      const scale: Record<string, unknown> = { palette: true };
+      for (const [index, color] of colors.entries()) {
+        scale[String(index + 1)] = { $value: color };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: nestedScale(["#111111", "#888888", "#ffffff"]),
+            red: nestedScale(["#330000", "#cc6666", "#ffeaea"])
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: nestedScale(["#f5f5f5", "#777777", "#0a0a0a"]),
+            red: nestedScale(["#ffcccc", "#aa4444", "#1a0000"])
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toMatch(/lightPalette:\s*\[\s*"#ffffff"/);
+    expect(content).toMatch(/darkPalette:\s*\[\s*"#0a0a0a"/);
+    expect(content).toMatch(
+      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?red1:\s*"#ffeaea"/
+    );
+    expect(content).toMatch(
+      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?red1:\s*"#1a0000"/
+    );
   });
 });

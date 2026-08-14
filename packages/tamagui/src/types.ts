@@ -106,4 +106,10 @@ export interface FlatToken {
   description?: string;
   /** Theme / set id when tokens are a `Record<string, Tokens>`. */
   theme?: string;
+  /**
+   * True when an ancestor group is marked as a palette (`palette: true` or
+   * `$type: "palette"`). Those scales feed Tamagui `childrenThemes` /
+   * `lightPalette` / `darkPalette`.
+   */
+  palette?: boolean;
 }

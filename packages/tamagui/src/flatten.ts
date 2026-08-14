@@ -46,6 +46,32 @@ function isTokenLeaf(node: Record<string, unknown>): boolean {
   return "$value" in node || "value" in node || "$ref" in node || "ref" in node;
 }
 
+function isTruthyPaletteFlag(value: unknown): boolean {
+  return value === true || value === "true" || value === 1;
+}
+
+/**
+ * True when a DTCG group is explicitly a color palette.
+ *
+ * Accepts `palette: true`, `$palette: true`, or `$type: "palette"`.
+ */
+export function isPaletteGroup(node: Record<string, unknown>): boolean {
+  if (isTruthyPaletteFlag(node.palette) || isTruthyPaletteFlag(node.$palette)) {
+    return true;
+  }
+
+  return readType(node) === "palette";
+}
+
+function isPaletteMetadataKey(key: string, value: unknown): boolean {
+  return (
+    (key === "palette" || key === "$palette") &&
+    (typeof value === "boolean" ||
+      typeof value === "number" ||
+      typeof value === "string")
+  );
+}
+
 function readDescription(node: Record<string, unknown>): string | undefined {
   if (typeof node.$description === "string") {
     return node.$description;
@@ -98,7 +124,7 @@ export function resolveTokenCategory(
     }
   }
 
-  if (type === "color") {
+  if (type === "color" || type === "palette") {
     return "color";
   }
 
@@ -187,43 +213,51 @@ function walkTokens(
   path: string[],
   inheritedType: string | undefined,
   theme: string | undefined,
+  inPalette: boolean,
   out: FlatToken[]
 ): void {
   if (!isObject(node)) {
     return;
   }
 
+  const palette = inPalette || isPaletteGroup(node);
   const type = readType(node, inheritedType);
 
   if (isTokenLeaf(node)) {
     const value = readValue(node);
     const tokenPath = path.join(".");
-    const category = resolveTokenCategory(tokenPath, type);
+    const category =
+      resolveTokenCategory(tokenPath, type) ??
+      (palette || type === "palette" ? "color" : undefined);
     const cssValue = formatTokenValue(value, type);
     const tamaguiValue =
-      category === "color" || type === "color"
+      category === "color" || type === "color" || type === "palette"
         ? cssValue
         : toTamaguiValue(value, type);
 
     out.push({
       path: tokenPath,
-      type,
+      type: type === "palette" ? "color" : type,
       value,
       cssValue,
       tamaguiValue,
       category,
       tokenKey: category ? toTokenKey(tokenPath) : undefined,
       description: readDescription(node),
-      theme
+      theme,
+      palette: palette || undefined
     });
     return;
   }
 
   for (const [key, child] of Object.entries(node)) {
-    if (key.startsWith("$")) {
+    if (key.startsWith("$") && key !== "$palette") {
       continue;
     }
-    walkTokens(child, [...path, key], type, theme, out);
+    if (isPaletteMetadataKey(key, child)) {
+      continue;
+    }
+    walkTokens(child, [...path, key], type, theme, palette, out);
   }
 }
 
@@ -241,7 +275,7 @@ export function flattenTokens(
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walkTokens(set.tokens, [], undefined, theme, flat);
+    walkTokens(set.tokens, [], undefined, theme, false, flat);
   }
 
   if (!includeTypes) {

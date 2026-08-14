@@ -338,12 +338,14 @@ export async function generateTailwindCss(
       outputPath,
       content,
       { name: "razorwind-tailwindcss" },
+      undefined,
       "css"
     ),
     [installPath]: createDocument<Schema, TailwindGeneratePluginOptions>(
       installPath,
       installBody,
       { name: "razorwind-tailwindcss" },
+      undefined,
       "markdown"
     )
   };

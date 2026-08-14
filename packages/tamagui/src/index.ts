@@ -22,6 +22,7 @@ import type { TamaguiPluginOptions } from "./types";
 
 export {
   flattenTokens,
+  isPaletteGroup,
   resolveTokenCategory,
   resolveTokenSets,
   toCamelCaseKey,
@@ -30,7 +31,9 @@ export {
 export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
   collectColorScales,
+  colorLightness,
   generateTamaguiConfig,
+  orderPaletteForScheme,
   renderInstallMd,
   renderTamaguiConfig
 } from "./generate";
@@ -47,7 +50,10 @@ export type {
  *
  * Light and dark token sets are emitted as a single config: `createV5Theme`
  * receives both `lightPalette` / `darkPalette` and `childrenThemes` with
- * `{ light, dark }` palettes.
+ * `{ light, dark }` palettes. Groups marked `palette: true` become
+ * `childrenThemes`; palettes named `base`, `grey`, `gray`, or `neutral` also
+ * set `lightPalette` / `darkPalette` (`color1`–`color12`). Light palettes are
+ * ordered lightest-first; dark palettes darkest-first.
  *
  * @see https://tamagui.dev/docs/core/config-v5
  *
