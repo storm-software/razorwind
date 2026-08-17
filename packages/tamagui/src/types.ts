@@ -96,7 +96,7 @@ export interface TamaguiPluginOptions {
    * generated tokens/themes on top. When false, emit a minimal config from
    * Razorwind tokens only.
    *
-   * @defaultValue `true`
+   * @defaultValue `false`
    */
   useDefaultConfig?: boolean;
 

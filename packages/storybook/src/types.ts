@@ -146,6 +146,9 @@ export interface StorybookPluginOptions {
    * multiple themes become a record keyed by theme name
    * (`{ light: create({…}), dark: create({…}) }`).
    *
+   * DTCG aliases (`{color.base.1}`) and color objects in mapped values are
+   * resolved to concrete CSS colors before emit.
+   *
    * @see https://storybook.js.org/docs/configure/user-interface/theming
    */
   mapTheme?: GenerateStorybookTheme;

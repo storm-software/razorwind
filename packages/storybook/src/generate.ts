@@ -35,7 +35,7 @@ import {
 import { joinPaths } from "@stryke/path/join";
 import type { PartialKeys } from "@stryke/types/base";
 import { flattenTokens, resolveTokenSets } from "./flatten";
-import { escapeString, toLiteral } from "./format";
+import { escapeString, formatTokenValue, toLiteral } from "./format";
 import { renderInstallMd } from "./install";
 import type {
   FlatToken,
@@ -572,16 +572,143 @@ function tokensForThemeSet(sets: TokenSet[], theme: TokenSet) {
   return mergeTokenTrees(theme.tokens, base.tokens);
 }
 
+/** DTCG alias (`{color.base.1}`), including optional inner whitespace. */
+const DTCG_ALIAS_PATTERN = /^\{([^{}]+)\}$/;
+
+function readAliasPath(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const match = DTCG_ALIAS_PATTERN.exec(value.trim());
+
+  return match?.[1]?.trim();
+}
+
+/**
+ * Unwrap a token node (`{ $value, $type, … }`) so mapTheme can pass either
+ * the leaf or its `$value`.
+ */
+function unwrapTokenNode(value: unknown): unknown {
+  if (
+    isObject(value) &&
+    "$value" in value &&
+    !("colorSpace" in value) &&
+    !("hex" in value)
+  ) {
+    return value.$value;
+  }
+
+  return value;
+}
+
+/**
+ * Follow DTCG aliases to the terminal `$value` using `byPath`.
+ */
+function resolveAliasValue(
+  value: unknown,
+  byPath: Map<string, FlatToken>
+): unknown {
+  let current = unwrapTokenNode(value);
+  const seen = new Set<string>();
+
+  for (let depth = 0; depth < 8; depth++) {
+    const aliasPath = readAliasPath(current);
+    if (!aliasPath) {
+      break;
+    }
+    if (seen.has(aliasPath)) {
+      break;
+    }
+    seen.add(aliasPath);
+
+    const token = byPath.get(aliasPath);
+    if (!token) {
+      break;
+    }
+
+    current = token.value;
+  }
+
+  return current;
+}
+
+/**
+ * Turn a resolved token `$value` into a Storybook-friendly literal (hex,
+ * oklch, `8px`, font stacks) instead of leaving DTCG objects in `theme.ts`.
+ */
+function formatResolvedThemeValue(value: unknown): unknown {
+  if (
+    value == null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return value;
+  }
+
+  return formatTokenValue(value);
+}
+
+function tokenLookupForTheme(
+  tokens: Schema["tokens"],
+  themeName: string
+): Map<string, FlatToken> {
+  const sets = resolveTokenSets(tokens);
+  const match =
+    sets.find(set => set.id === themeName) ??
+    (sets.length === 1 ? sets[0] : undefined);
+  const tree = match ? tokensForThemeSet(sets, match) : tokens;
+  const lookup = new Map<string, FlatToken>();
+
+  for (const token of flattenTokens(tree)) {
+    const existing = lookup.get(token.path);
+    if (!existing || token.theme === themeName) {
+      lookup.set(token.path, token);
+    }
+  }
+
+  return lookup;
+}
+
+/**
+ * Replace DTCG aliases (`{color.base.1}`) and color objects in mapped theme
+ * fields with the terminal CSS color (or other formatted token value).
+ */
+function resolveThemeFields(
+  theme: StorybookThemePartial,
+  byPath: Map<string, FlatToken>
+): StorybookThemePartial {
+  const resolved = { ...theme };
+
+  for (const [key, value] of Object.entries(theme)) {
+    if (key === "base" || value === undefined) {
+      continue;
+    }
+
+    (resolved as Record<string, unknown>)[key] = formatResolvedThemeValue(
+      resolveAliasValue(value, byPath)
+    );
+  }
+
+  return resolved;
+}
+
 function applyMappedTheme(
   name: string,
   theme: StorybookThemePartial,
   identity: { title?: string; homepage?: string; logo?: string },
   fonts: Fonts | undefined,
-  specTheme?: string
+  spec: Pick<Schema, "tokens" | "theme">
 ): StorybookTheme {
-  return applyBrandDefaults(
-    inferThemeBase(name, theme, specTheme),
+  const resolved = resolveThemeFields(
     theme,
+    tokenLookupForTheme(spec.tokens, name)
+  );
+
+  return applyBrandDefaults(
+    inferThemeBase(name, resolved, spec.theme),
+    resolved,
     identity,
     fonts
   );
@@ -693,7 +820,7 @@ export function normalizeThemes(
   mapTheme: NonNullable<StorybookPluginOptions["mapTheme"]>
 ): Record<string, StorybookTheme> {
   const apply = (name: string, theme: StorybookThemePartial): StorybookTheme =>
-    applyMappedTheme(name, theme, identity, spec.fonts, spec.theme);
+    applyMappedTheme(name, theme, identity, spec.fonts, spec);
 
   if (isThemeRecord(mapped)) {
     return Object.fromEntries(

@@ -315,6 +315,162 @@ describe("storybook plugin", () => {
     expect(theme).toContain('colorPrimary: "#111111"');
   });
 
+  it("resolves DTCG aliases in mapTheme $value fields to underlying colors", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          light: {
+            color: {
+              $type: "color",
+              base: {
+                1: { $value: "#ffffff" }
+              },
+              foreground: {
+                primary: { $value: "{color.base.1}" }
+              }
+            }
+          },
+          dark: {
+            color: {
+              $type: "color",
+              base: {
+                1: { $value: "#111111" }
+              },
+              foreground: {
+                primary: { $value: "{color.base.1}" }
+              }
+            }
+          }
+        }
+      } as Schema,
+      {
+        outputPath: "out",
+        mapTheme: tokens => {
+          const tree = tokens as Record<
+            string,
+            {
+              color?: {
+                foreground?: { primary?: { $value?: unknown } };
+              };
+            }
+          >;
+
+          return {
+            light: {
+              base: "light",
+              textColor: tree.light?.color?.foreground?.primary?.$value as string
+            },
+            dark: {
+              base: "dark",
+              textColor: tree.dark?.color?.foreground?.primary?.$value as string
+            }
+          };
+        }
+      }
+    );
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain('textColor: "#ffffff"');
+    expect(theme).toContain('textColor: "#111111"');
+    expect(theme).not.toContain("{color.base.1}");
+    expect(theme).not.toContain("var(--");
+  });
+
+  it("resolves alias chains and formats DTCG color objects in mapTheme values", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            $type: "color",
+            base: {
+              1: {
+                $value: {
+                  colorSpace: "srgb",
+                  components: [0.067, 0.067, 0.067],
+                  hex: "#111111"
+                }
+              }
+            },
+            foreground: {
+              primary: { $value: "{color.base.1}" },
+              brand: { $value: "{color.foreground.primary}" }
+            }
+          }
+        }
+      } as Schema,
+      {
+        outputPath: "out",
+        mapTheme: tokens => {
+          const color = (
+            tokens as {
+              color?: {
+                foreground?: {
+                  brand?: { $value?: unknown };
+                };
+                base?: { 1?: { $value?: unknown } };
+              };
+            }
+          ).color;
+
+          return {
+            base: "dark" as const,
+            textColor: color?.foreground?.brand?.$value as string,
+            appBg: color?.base?.[1]?.$value as string
+          };
+        }
+      }
+    );
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain('textColor: "#111111"');
+    expect(theme).toContain('appBg: "#111111"');
+    expect(theme).not.toContain("{color.");
+    expect(theme).not.toContain("colorSpace");
+  });
+
+  it("resolves aliases when mapTheme is invoked per token set", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          light: {
+            color: {
+              $type: "color",
+              base: { 1: { $value: "#fafafa" } },
+              foreground: { primary: { $value: "{color.base.1}" } }
+            }
+          },
+          dark: {
+            color: {
+              $type: "color",
+              base: { 1: { $value: "#0a0a0a" } },
+              foreground: { primary: { $value: "{color.base.1}" } }
+            }
+          }
+        }
+      } as Schema,
+      {
+        outputPath: "out",
+        mapTheme: input => ({
+          textColor: (
+            input as {
+              color?: { foreground?: { primary?: { $value?: unknown } } };
+            }
+          ).color?.foreground?.primary?.$value as string
+        })
+      }
+    );
+
+    const theme = documents["out/theme.ts"]?.chunks?.[0]?.content;
+    expect(theme).toContain("light: create({");
+    expect(theme).toContain("dark: create({");
+    expect(theme).toContain('textColor: "#fafafa"');
+    expect(theme).toContain('textColor: "#0a0a0a"');
+    expect(theme).not.toContain("{color.base.1}");
+  });
+
   it("quotes non-identifier theme names in the combined record", () => {
     const content = renderThemeFile({
       light: { base: "light", colorPrimary: "#fff" },

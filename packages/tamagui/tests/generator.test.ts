@@ -210,8 +210,9 @@ describe("tamagui plugin", () => {
     ]);
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
     expect(content).toContain(
-      `import { createV5Theme, defaultConfig, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
+      `import { createV5Theme, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
     );
+    expect(content).not.toContain("defaultConfig");
     expect(content).toContain(
       `import { animations } from "@tamagui/config/v5-css"`
     );
@@ -236,11 +237,24 @@ describe("tamagui plugin", () => {
     expect(content).toContain("declare module \"@tamagui/core\"");
   });
 
+  it("merges defaultConfig when useDefaultConfig is true", async () => {
+    const plugin = tamagui({
+      outputPath: "src/tamagui.config.ts",
+      useDefaultConfig: true
+    });
+    const documents = await plugin.generate!(spec, {} as never);
+    const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
+
+    expect(content).toContain(
+      `import { createV5Theme, defaultConfig, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
+    );
+    expect(content).toContain("...defaultConfig");
+  });
+
   it("generateTamaguiConfig mirrors the plugin generate output", () => {
     const documents = generateTamaguiConfig(spec, {
       outputPath: "out/tamagui.config.ts",
-      animations: false,
-      useDefaultConfig: false
+      animations: false
     });
 
     const content = documents["out/tamagui.config.ts"]?.chunks?.[0]?.content;

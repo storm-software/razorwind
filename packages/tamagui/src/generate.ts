@@ -1066,7 +1066,7 @@ export function renderTamaguiConfig(
   options: TamaguiPluginOptions = {}
 ): string {
   const fonts = spec.fonts ?? {};
-  const useDefaultConfig = options.useDefaultConfig !== false;
+  const useDefaultConfig = options.useDefaultConfig === true;
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
 
