@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.52) (08/17/2026)
+
+### Bug Fixes
+
+- **storybook:** Resolve issue applying unerlying token values to the generated theme ([24f185b](https://github.com/storm-software/razorwind/commit/24f185b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.55**
+
 ## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.51) (08/14/2026)
 
 ### Updated Dependencies

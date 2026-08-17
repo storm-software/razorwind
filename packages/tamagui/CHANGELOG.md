@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.44) (08/17/2026)
+
+### Bug Fixes
+
+- **storybook:** Resolve issue applying unerlying token values to the generated theme ([24f185b](https://github.com/storm-software/razorwind/commit/24f185b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.55**
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.43) (08/14/2026)
 
 ### Features
