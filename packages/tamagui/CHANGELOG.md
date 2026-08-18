@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.50) (08/18/2026)
+
+### Features
+
+- **tamagui:** Added semantic tokens as themes ([8c27c85](https://github.com/storm-software/razorwind/commit/8c27c85))
+
 ## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.49) (08/18/2026)
 
 ### Bug Fixes

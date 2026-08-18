@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.53](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.53) (08/18/2026)
+
+### Features
+
+- **tamagui:** Added semantic tokens as themes ([8c27c85](https://github.com/storm-software/razorwind/commit/8c27c85))
+
 ## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.52) (08/18/2026)
 
 ### Updated Dependencies
