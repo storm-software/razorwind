@@ -3,8 +3,11 @@
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "rootDir": ".",
-    "types": ["node"],
-    "outDir": "./out-tsc"
+    "types": ["node", "node"],
+    "outDir": "./out-tsc",
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
   "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [

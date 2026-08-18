@@ -210,6 +210,55 @@ describe("flattenTokens", () => {
         ?.tokenKey
     ).toBe("backgroundAccentSubtle");
   });
+
+  it("captures token theme properties as childTheme without clobbering the set id", () => {
+    const themed = {
+      light: {
+        color: {
+          $type: "color",
+          danger: {
+            $value: "{color.red.7}",
+            theme: "danger"
+          },
+          warning: {
+            $value: "{color.yellow.4}",
+            $theme: "warning"
+          }
+        }
+      }
+    };
+
+    const flat = flattenTokens(themed);
+    expect(flat.find(token => token.path === "color.danger")).toMatchObject({
+      theme: "light",
+      childTheme: "danger"
+    });
+    expect(flat.find(token => token.path === "color.warning")).toMatchObject({
+      theme: "light",
+      childTheme: "warning"
+    });
+  });
+
+  it("inherits theme from an ancestor group", () => {
+    const themed = {
+      color: {
+        $type: "color",
+        accent: {
+          theme: "accent",
+          foreground: { $value: "#00ccaa" },
+          background: { $value: "#003d33" }
+        }
+      }
+    };
+
+    const flat = flattenTokens(themed);
+    expect(
+      flat.find(token => token.path === "color.accent.foreground")?.childTheme
+    ).toBe("accent");
+    expect(
+      flat.find(token => token.path === "color.accent.background")?.childTheme
+    ).toBe("accent");
+  });
 });
 
 describe("tamagui plugin", () => {
@@ -738,8 +787,227 @@ describe("tamagui plugin", () => {
     expect(content).toContain('"#f1f1f1"');
     expect(content).toContain('"#191919"');
     // 9-step base is padded to Tamagui's 12-stop palette
-    expect(content).toMatch(/lightPalette:\s*\[[^\]]*"#f9f9f9"[^\]]*\]/s);
-    expect(content).toMatch(/darkPalette:\s*\[[^\]]*"#191919"[^\]]*\]/s);
+    expect(content).toMatch(
+      /lightPalette:\s*\[[^\]]*tokens\.color\.lightBase9[^\]]*\]/s
+    );
+    expect(content).toMatch(
+      /darkPalette:\s*\[[^\]]*tokens\.color\.darkBase9[^\]]*\]/s
+    );
+  });
+
+  it("maps token theme properties onto semantic childrenThemes palettes", () => {
+    function nestedScale(
+      hex: (step: number) => string,
+      steps = 9
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { primitive: true };
+      for (let step = 1; step <= steps; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#f${step}f${step}f${step}`),
+            red: nestedScale(
+              step => `#ff${(step * 10).toString(16).padStart(2, "0")}00`
+            ),
+            yellow: nestedScale(
+              step => `#ffff${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            green: nestedScale(
+              step => `#00ff${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            sky: nestedScale(
+              step => `#00${(step * 10).toString(16).padStart(2, "0")}ff`
+            ),
+            purple: nestedScale(
+              step => `#${(step * 10).toString(16).padStart(2, "0")}00ff`
+            ),
+            brand: {
+              1: { $value: "#00ccaa" },
+              2: { $value: "#006655" }
+            },
+            foreground: {
+              danger: { $value: "{color.red.7}", theme: "danger" },
+              warning: { $value: "{color.yellow.4}", theme: "warning" },
+              success: { $value: "{color.green.6}", theme: "success" },
+              info: { $value: "{color.sky.3}", theme: "info" },
+              discovery: { $value: "{color.purple.7}", theme: "discovery" },
+              accent: { $value: "{color.brand.1}", theme: "accent" },
+              positive: { $value: "{color.green.4}", theme: "positive" },
+              "on-danger": { $value: "{color.base.1}", theme: "danger" },
+              "on-success": { $value: "{color.base.1}", theme: "success" }
+            },
+            background: {
+              success: { $value: "{color.green.6}", theme: "success" },
+              "success-subtle": { $value: "{color.green.9}", theme: "success" }
+            }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#1${step}1${step}1${step}`),
+            red: nestedScale(
+              step => `#aa${(step * 10).toString(16).padStart(2, "0")}00`
+            ),
+            yellow: nestedScale(
+              step => `#aaaa${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            green: nestedScale(
+              step => `#00aa${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            sky: nestedScale(
+              step => `#00${(step * 10).toString(16).padStart(2, "0")}aa`
+            ),
+            purple: nestedScale(
+              step => `#${(step * 10).toString(16).padStart(2, "0")}00aa`
+            ),
+            brand: {
+              1: { $value: "#00aa88" },
+              2: { $value: "#003322" }
+            },
+            foreground: {
+              danger: { $value: "{color.red.7}", theme: "danger" },
+              warning: { $value: "{color.yellow.4}", theme: "warning" },
+              success: { $value: "{color.green.6}", theme: "success" },
+              info: { $value: "{color.sky.3}", theme: "info" },
+              discovery: { $value: "{color.purple.7}", theme: "discovery" },
+              accent: { $value: "{color.brand.1}", theme: "accent" },
+              positive: { $value: "{color.green.4}", theme: "positive" },
+              "on-danger": { $value: "{color.base.1}", theme: "danger" },
+              "on-success": { $value: "{color.base.1}", theme: "success" }
+            },
+            background: {
+              success: { $value: "{color.green.6}", theme: "success" },
+              "success-subtle": { $value: "{color.green.9}", theme: "success" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("childrenThemes:");
+    expect(content).toContain("danger:");
+    expect(content).toContain("warning:");
+    expect(content).toContain("discovery:");
+    expect(content).toContain("info:");
+    expect(content).toContain("success:");
+    expect(content).toContain("accent:");
+    expect(content).toContain("positive:");
+    expect(content).toMatch(
+      /success:\s*\{[\s\S]*?light:\s*\{[\s\S]*?background:/
+    );
+    expect(content).toMatch(
+      /success:\s*\{[\s\S]*?light:\s*\{[\s\S]*?backgroundSubtle:/
+    );
+    expect(content).toMatch(
+      /success:\s*\{[\s\S]*?light:\s*\{[\s\S]*?foreground:/
+    );
+    expect(content).toMatch(
+      /success:\s*\{[\s\S]*?light:\s*\{[\s\S]*?foregroundOn:/
+    );
+    expect(content).toMatch(
+      /danger:\s*\{[\s\S]*?light:\s*\{[\s\S]*?foregroundOn:/
+    );
+    expect(content).not.toContain("danger1:");
+    expect(content).not.toContain("success1:");
+    expect(content).not.toContain("accent1:");
+    expect(content).not.toContain("positive1:");
+    expect(content).toContain('"#00ccaa"');
+    expect(content).toContain('"#00aa88"');
+    // Hue palettes remain as children themes alongside the semantic roles.
+    expect(content).toContain("red:");
+    expect(content).toContain("yellow:");
+  });
+
+  it("maps base Primary to roles and Tertiary (fallback Secondary) to Subtle", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            foreground: {
+              primary: { $value: "#111111", theme: "base" },
+              secondary: { $value: "#444444" },
+              tertiary: { $value: "#777777" },
+              "on-primary": { $value: "#fafafa", theme: "base" }
+            },
+            background: {
+              primary: { $value: "#ffffff", theme: "base" },
+              secondary: { $value: "#eeeeee" },
+              tertiary: { $value: "#dddddd" }
+            },
+            border: {
+              primary: { $value: "#cccccc", theme: "base" },
+              secondary: { $value: "#bbbbbb" }
+            }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            foreground: {
+              primary: { $value: "#f5f5f5", theme: "base" },
+              secondary: { $value: "#aaaaaa" },
+              tertiary: { $value: "#888888" },
+              "on-primary": { $value: "#0a0a0a", theme: "base" }
+            },
+            background: {
+              primary: { $value: "#111111", theme: "base" },
+              secondary: { $value: "#222222" },
+              tertiary: { $value: "#333333" }
+            },
+            border: {
+              primary: { $value: "#444444", theme: "base" },
+              secondary: { $value: "#555555" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const baseMatch = content.match(
+      /base:\s*\{\s*light:\s*(\{[\s\S]*?\}),\s*dark:\s*(\{[\s\S]*?\})\s*\}/
+    );
+    expect(baseMatch).toBeTruthy();
+    const [, lightBlock = "", darkBlock = ""] = baseMatch ?? [];
+
+    expect(lightBlock).toContain("background: tokens.color.backgroundPrimary");
+    expect(lightBlock).toContain("backgroundSubtle: tokens.color.backgroundSecondary");
+    expect(lightBlock).toContain("foreground: tokens.color.foregroundPrimary");
+    expect(lightBlock).toContain("foregroundOn: tokens.color.foregroundOnPrimary");
+    expect(lightBlock).toContain("foregroundSubtle: tokens.color.foregroundSecondary");
+    expect(lightBlock).toContain("border: tokens.color.borderPrimary");
+    expect(lightBlock).toContain("borderSubtle: tokens.color.borderSecondary");
+
+    expect(darkBlock).toContain('background: "#111111"');
+    expect(darkBlock).toContain('backgroundSubtle: "#222222"');
+    expect(darkBlock).toContain('foregroundOn: "#0a0a0a"');
+    expect(darkBlock).toContain('borderSubtle: "#555555"');
   });
 
   it("uses gray, grey, or neutral palettes as lightPalette and darkPalette", () => {
@@ -842,13 +1110,17 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).toMatch(/lightPalette:\s*\[\s*"#ffffff"/);
-    expect(content).toMatch(/darkPalette:\s*\[\s*"#0a0a0a"/);
     expect(content).toMatch(
-      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?red1:\s*"#ffeaea"/
+      /lightPalette:\s*\[\s*tokens\.color\.lightBase3/
     );
     expect(content).toMatch(
-      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?red1:\s*"#1a0000"/
+      /darkPalette:\s*\[\s*tokens\.color\.darkBase3/
+    );
+    expect(content).toMatch(
+      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?color1:\s*tokens\.color\.lightRed3/
+    );
+    expect(content).toMatch(
+      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?color1:\s*tokens\.color\.darkRed3/
     );
   });
 
@@ -994,12 +1266,12 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).not.toContain("V5Theme");
+    expect(content).not.toContain("interface V5Theme");
     expect(content).toContain("export interface AppTheme {");
     expect(content).toContain("backgroundAccent: string;");
     expect(content).toContain("blue1: string;");
     expect(content).not.toContain("gray1: string;");
-    expect(content).toContain("selectionStyles(theme: AppTheme)");
+    expect(content).toContain("theme: AppTheme");
   });
 
   it("emits CSS color strings and box-shadow strings in createTokens", () => {
@@ -1080,8 +1352,8 @@ describe("tamagui plugin", () => {
 
     expect(content).toContain("color: {");
     expect(content).toContain('primary: "#0066cc"');
-    expect(content).toContain('light_brand1: "#00ccaa"');
-    expect(content).toContain('dark_brand1: "#00aa88"');
+    expect(content).toContain('lightBrand1: "#00ccaa"');
+    expect(content).toContain('darkBrand1: "#00aa88"');
     expect(content).not.toContain("colorSpace");
     expect(content).toContain("shadow: {");
     expect(content).toContain("insetShadow: {");

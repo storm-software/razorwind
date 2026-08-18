@@ -132,6 +132,24 @@ function isPrimitiveMetadataKey(key: string, value: unknown): boolean {
   );
 }
 
+function isThemeMetadataKey(key: string, value: unknown): boolean {
+  return (key === "theme" || key === "$theme") && typeof value === "string";
+}
+
+/**
+ * Read a semantic children-theme name from a token or group (`theme` / `$theme`).
+ */
+function readChildTheme(node: Record<string, unknown>): string | undefined {
+  if (typeof node.theme === "string" && node.theme.length > 0) {
+    return node.theme;
+  }
+  if (typeof node.$theme === "string" && node.$theme.length > 0) {
+    return node.$theme;
+  }
+
+  return undefined;
+}
+
 function readDescription(node: Record<string, unknown>): string | undefined {
   if (typeof node.$description === "string") {
     return node.$description;
@@ -303,6 +321,7 @@ function walkTokens(
   inheritedType: string | undefined,
   theme: string | undefined,
   primitive: boolean,
+  childTheme: string | undefined,
   out: FlatToken[]
 ): void {
   if (!isObject(node)) {
@@ -312,6 +331,7 @@ function walkTokens(
   const isPrimitive =
     primitive || isPrimitiveGroup(node) || isPaletteGroup(node);
   const type = readType(node, inheritedType);
+  const nextChildTheme = readChildTheme(node) ?? childTheme;
 
   if (isTokenLeaf(node)) {
     const value = readValue(node);
@@ -341,7 +361,8 @@ function walkTokens(
       tokenKey: category ? toTokenKey(tokenPath) : undefined,
       description: readDescription(node),
       theme,
-      primitive: isPrimitive
+      ...(nextChildTheme ? { childTheme: nextChildTheme } : {}),
+      ...(isPrimitive ? { primitive: true } : {})
     });
     return;
   }
@@ -356,8 +377,19 @@ function walkTokens(
     if (isPrimitiveMetadataKey(key, child)) {
       continue;
     }
+    if (isThemeMetadataKey(key, child)) {
+      continue;
+    }
 
-    walkTokens(child, [...path, key], type, theme, isPrimitive, out);
+    walkTokens(
+      child,
+      [...path, key],
+      type,
+      theme,
+      isPrimitive,
+      nextChildTheme,
+      out
+    );
   }
 }
 
@@ -375,7 +407,7 @@ export function flattenTokens(
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walkTokens(set.tokens, [], undefined, theme, false, flat);
+    walkTokens(set.tokens, [], undefined, theme, false, undefined, flat);
   }
 
   if (!includeTypes) {

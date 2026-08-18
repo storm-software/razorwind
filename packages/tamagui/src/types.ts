@@ -144,6 +144,11 @@ export interface FlatToken {
   /** Theme / set id when tokens are a `Record<string, Tokens>`. */
   theme?: string;
   /**
+   * Semantic children theme from the token's `theme` / `$theme` property
+   * (`danger`, `accent`, …). Distinct from {@link theme} (token-set id).
+   */
+  childTheme?: string;
+  /**
    * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed Tamagui `childrenThemes` / `lightPalette` / `darkPalette`.
    */
   primitive?: boolean;

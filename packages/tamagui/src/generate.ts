@@ -231,10 +231,28 @@ function buildCategoryBuckets(
 }
 
 /**
+ * `createTokens({ color })` key for a primitive palette step.
+ *
+ * Light/dark primitives are prefixed (`lightBlue1`, `darkBlue1`) so both schemes
+ * can coexist in one bucket.
+ */
+function paletteTokenKey(token: FlatToken): string {
+  const stem = token.path.replace(/^color\./i, "").replaceAll(".", "");
+
+  return token.theme
+    ? `${token.theme}${stem[0]?.toUpperCase() ?? ""}${stem.slice(1)}`
+    : stem;
+}
+
+function tokenColorRef(tokenKey: string): string {
+  return `tokens.color.${tokenKey}`;
+}
+
+/**
  * Color entries for `createTokens({ color })` — CSS strings, not DTCG objects.
  *
- * Palette scales are prefixed by theme (`light_base1`, `dark_blue6`) so light
- * and dark can coexist. Semantic colors from the light scheme use `tokenKey`.
+ * Palette scales use {@link paletteTokenKey}. Semantic colors from the light
+ * scheme use `tokenKey`.
  *
  * @see https://tamagui.dev/docs/core/tokens
  */
@@ -258,18 +276,12 @@ function colorBucketForCreateTokens(
     bucket[key] = value;
   };
 
-  const paletteKey = (token: FlatToken): string => {
-    const stem = token.path.replace(/^color\./i, "").replaceAll(".", "");
-
-    return token.theme ? `${token.theme}_${stem}` : stem;
-  };
-
   for (const token of lightColorTokens) {
     if (!token.tokenKey) {
       continue;
     }
     if (token.primitive) {
-      put(paletteKey(token), token);
+      put(paletteTokenKey(token), token);
     } else {
       put(token.tokenKey, token);
     }
@@ -279,10 +291,124 @@ function colorBucketForCreateTokens(
     if (!token.tokenKey || !token.primitive) {
       continue;
     }
-    put(paletteKey(token), token);
+    put(paletteTokenKey(token), token);
   }
 
   return bucket;
+}
+
+function collectPaletteTokenKeys(
+  colorTokens: FlatToken[]
+): Record<string, Record<string, string>> {
+  const indicated: Record<string, Record<string, string>> = {};
+
+  for (const token of colorTokens) {
+    if (!token.primitive) {
+      continue;
+    }
+
+    const parsed = parseScaleToken(token);
+    if (!parsed) {
+      continue;
+    }
+
+    const bucketKey = paletteTokenKey(token);
+    if (!bucketKey) {
+      continue;
+    }
+
+    const scale = indicated[parsed.name] ?? {};
+    scale[`${parsed.name}${parsed.step}`] = bucketKey;
+    indicated[parsed.name] = scale;
+  }
+
+  const indicatedScales = Object.fromEntries(
+    Object.entries(indicated).filter(
+      ([, steps]) => Object.keys(steps).length >= 2
+    )
+  );
+
+  if (Object.keys(indicatedScales).length > 0) {
+    return indicatedScales;
+  }
+
+  const fallback: Record<string, Record<string, string>> = {};
+  for (const token of colorTokens) {
+    const parsed = parseScaleToken(token);
+    if (!parsed) {
+      continue;
+    }
+
+    const bucketKey = token.tokenKey ?? paletteTokenKey(token);
+    if (!bucketKey) {
+      continue;
+    }
+
+    const scale = fallback[parsed.name] ?? {};
+    scale[`${parsed.name}${parsed.step}`] = bucketKey;
+    fallback[parsed.name] = scale;
+  }
+
+  return Object.fromEntries(
+    Object.entries(fallback).filter(
+      ([, steps]) => Object.keys(steps).length >= 3
+    )
+  );
+}
+
+function bucketValueMatchesToken(
+  token: FlatToken,
+  lookups: TokenLookups,
+  colorBucket: Readonly<Record<string, string | number>>,
+  bucketKey: string
+): boolean {
+  const bucketValue = colorBucket[bucketKey];
+  if (typeof bucketValue !== "string") {
+    return false;
+  }
+
+  const literal = resolvedColorLiteral(token, lookups);
+
+  return literal != null && literal === bucketValue;
+}
+
+/**
+ * `tokens.color.*` when the token (or its resolved alias) is in the color bucket;
+ * otherwise a concrete color literal for `createV5Theme` extras.
+ */
+function resolveColorTokenReference(
+  token: FlatToken,
+  lookups: TokenLookups,
+  colorBucket: Readonly<Record<string, string | number>>
+): string | undefined {
+  if (
+    token.tokenKey &&
+    bucketValueMatchesToken(token, lookups, colorBucket, token.tokenKey)
+  ) {
+    return tokenColorRef(token.tokenKey);
+  }
+
+  const resolved = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
+  if (
+    resolved.tokenKey &&
+    bucketValueMatchesToken(token, lookups, colorBucket, resolved.tokenKey)
+  ) {
+    return tokenColorRef(resolved.tokenKey);
+  }
+
+  if (resolved.primitive) {
+    const paletteKey = paletteTokenKey(resolved);
+    if (bucketValueMatchesToken(token, lookups, colorBucket, paletteKey)) {
+      return tokenColorRef(paletteKey);
+    }
+  }
+
+  const literal = resolvedColorLiteral(token, lookups);
+  if (literal) {
+    return toLiteral(literal);
+  }
+
+  return undefined;
 }
 
 function renderObjectLiteral(
@@ -307,6 +433,32 @@ function renderObjectLiteral(
     return `${pad}${
       /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key)
     }: ${rendered}`;
+  });
+
+  return `{\n${lines.join(",\n")}\n${" ".repeat(Math.max(indent - 2, 0))}}`;
+}
+
+/**
+ * Render a config object whose values are already TypeScript expressions
+ * (`tokens.color.blue1`, `theme.color1`, …) rather than raw literals.
+ */
+function renderConfigObjectLiteral(
+  values: Record<string, string>,
+  indent = 2
+): string {
+  const pad = " ".repeat(indent);
+  const entries = Object.entries(values).toSorted(([a], [b]) =>
+    a.localeCompare(b, undefined, { numeric: true })
+  );
+
+  if (entries.length === 0) {
+    return "{}";
+  }
+
+  const lines = entries.map(([key, expression]) => {
+    return `${pad}${
+      /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key)
+    }: ${expression}`;
   });
 
   return `{\n${lines.join(",\n")}\n${" ".repeat(Math.max(indent - 2, 0))}}`;
@@ -563,9 +715,9 @@ function scaleStepForScheme(
  * Map a resolved color token onto a Tamagui `theme` object key.
  *
  * Base palettes (`lightPalette` / `darkPalette`) become `color1`–`color12`.
- * Children palettes become named keys (`blue6`, `red7`, …) that `createV5Theme`
- * spreads onto the generated theme extras. Dark scheme steps are flipped when
- * the matching palette was reversed darkest-first.
+ * Children palette themes also use `color1`–`color12` inside each child theme.
+ * Root `getTheme` extras still reference palette steps as `theme.blue6`, etc.
+ * Dark scheme steps are flipped when the matching palette was reversed darkest-first.
  */
 function themePropertyForToken(
   token: FlatToken,
@@ -581,13 +733,10 @@ function themePropertyForToken(
   const step = scaleStepForScheme(parsed.step, parsed.name, scales, scheme);
 
   if (
-    basePaletteName &&
-    parsed.name.toLowerCase() === basePaletteName.toLowerCase()
+    (basePaletteName &&
+      parsed.name.toLowerCase() === basePaletteName.toLowerCase()) ||
+    scales[parsed.name]
   ) {
-    return `color${step}`;
-  }
-
-  if (scales[parsed.name]) {
     return `${parsed.name}${step}`;
   }
 
@@ -895,10 +1044,107 @@ function orderScaleForScheme(
   );
   const result: Record<string, string> = {};
   for (const [index, [step]] of entries.entries()) {
-    result[`${name}${step}`] = ordered[index] ?? entries[index]![1];
+    result[`color${step}`] = ordered[index] ?? entries[index]![1];
   }
 
   return result;
+}
+
+function sourceStepForOrderedPaletteValue(
+  entries: Array<[number, string]>,
+  ordered: string[],
+  index: number
+): number {
+  const targetValue = ordered[index];
+  const sourceEntry = entries.find(([, value]) => value === targetValue);
+
+  return sourceEntry?.[0] ?? entries[index]?.[0] ?? index + 1;
+}
+
+/**
+ * Palette child themes reference `tokens.color.*` keys while preserving Tamagui
+ * palette ordering (dark palettes flip step assignment onto `name1`–`name12`).
+ */
+function orderScaleTokenRefsForScheme(
+  valueScale: Record<string, string>,
+  tokenKeyScale: Record<string, string>,
+  name: string,
+  scheme: ColorScheme
+): Record<string, string> {
+  const entries = orderedScaleEntries(valueScale, name);
+  if (entries.length === 0) {
+    return {};
+  }
+
+  const ordered = orderPaletteForScheme(
+    entries.map(([, value]) => value),
+    scheme
+  );
+  const result: Record<string, string> = {};
+
+  for (const [index, [step]] of entries.entries()) {
+    const sourceStep = sourceStepForOrderedPaletteValue(
+      entries,
+      ordered,
+      index
+    );
+    const scaleKey = `${name}${sourceStep}`;
+    const tokenKey = tokenKeyScale[scaleKey];
+    if (!tokenKey) {
+      continue;
+    }
+
+    result[`${name}${step}`] = tokenColorRef(tokenKey);
+  }
+
+  return result;
+}
+
+function renderPaletteTokenRefArray(
+  valueScale: Record<string, string>,
+  tokenKeyScale: Record<string, string>,
+  paletteName: string,
+  scheme: ColorScheme
+): string | undefined {
+  const entries = orderedScaleEntries(valueScale, paletteName);
+  if (entries.length < 2) {
+    return undefined;
+  }
+
+  const ordered = orderPaletteForScheme(
+    entries.map(([, value]) => value),
+    scheme
+  );
+  const refs: string[] = [];
+
+  for (const [index] of entries.entries()) {
+    const sourceStep = sourceStepForOrderedPaletteValue(
+      entries,
+      ordered,
+      index
+    );
+    const tokenKey = tokenKeyScale[`${paletteName}${sourceStep}`];
+    if (!tokenKey) {
+      return undefined;
+    }
+    refs.push(tokenColorRef(tokenKey));
+  }
+
+  const padded = [...refs];
+  const last = padded.at(-1);
+  if (last == null) {
+    return undefined;
+  }
+
+  while (padded.length < TAMAGUI_PALETTE_LENGTH) {
+    padded.push(last);
+  }
+
+  return `[${padded.join(",")}]`;
+}
+
+function isPaletteScale(scale: Record<string, string>, name: string): boolean {
+  return orderedScaleEntries(scale, name).length >= 2;
 }
 
 /**
@@ -939,6 +1185,214 @@ function paletteFromScale(
       scheme
     )
   );
+}
+
+/**
+ * Unique semantic `theme` / `$theme` tags, excluding light/dark scheme ids.
+ *
+ * `theme: "danger"` and `theme: "accent"` become children theme names;
+ * appearance set ids (`light`, `dark`, `default`) do not.
+ */
+function collectChildThemeNames(tokens: FlatToken[]): string[] {
+  const byLower = new Map<string, string>();
+
+  for (const token of tokens) {
+    const raw = token.childTheme?.trim();
+    if (!raw) {
+      continue;
+    }
+
+    const lower = raw.toLowerCase();
+    if (isLightThemeId(lower) || isDarkThemeId(lower)) {
+      continue;
+    }
+
+    if (!byLower.has(lower)) {
+      byLower.set(lower, toCamelCaseKey([raw]));
+    }
+  }
+
+  return [...byLower.values()].toSorted((a, b) => a.localeCompare(b));
+}
+
+/**
+ * Role key inside a semantic children theme.
+ *
+ * `foregroundSuccess` + theme `success` → `foreground`.
+ * `backgroundSuccessSubtle` → `backgroundSubtle`.
+ * `foregroundOnSuccess` → `foregroundOn`.
+ */
+function childThemeColorKey(
+  tokenKey: string,
+  childTheme: string
+): string | undefined {
+  const themeLower = childTheme.toLowerCase();
+  const parts = tokenKey.split(/(?=[A-Z])/).filter(Boolean);
+  const kept = parts.filter(part => part.toLowerCase() !== themeLower);
+  if (kept.length === 0) {
+    return undefined;
+  }
+
+  return toCamelCaseKey(kept);
+}
+
+type BaseRank = "primary" | "secondary" | "tertiary";
+
+function isBaseChildTheme(name: string): boolean {
+  return name.toLowerCase() === "base";
+}
+
+/**
+ * Parse `foregroundPrimary` / `backgroundSecondary` / `foregroundOnPrimary`
+ * into a role plus rank. Used only for the `base` children theme.
+ */
+function parseBaseRankKey(
+  tokenKey: string
+): { role: string; rank: BaseRank } | undefined {
+  const parts = tokenKey.split(/(?=[A-Z])/).filter(Boolean);
+  const last = parts.at(-1)?.toLowerCase();
+  if (last !== "primary" && last !== "secondary" && last !== "tertiary") {
+    return undefined;
+  }
+  if (parts.length < 2) {
+    return undefined;
+  }
+
+  return { role: toCamelCaseKey(parts.slice(0, -1)), rank: last };
+}
+
+function isSemanticColorToken(token: FlatToken): boolean {
+  return (
+    token.category === "color" && !token.primitive && Boolean(token.tokenKey)
+  );
+}
+
+/**
+ * `base` children theme: `xPrimary` → `x`, `xSecondary` → `xSubtle`
+ * (fall back to `xTertiary` when secondary is missing).
+ *
+ * Primary tokens are tagged `theme: "base"`; secondary/tertiary often are not,
+ * so untagged rank tokens are included unless they belong to another children
+ * theme.
+ */
+function collectBaseChildrenColors(
+  tokens: FlatToken[],
+  lookups: TokenLookups,
+  colorBucket: Readonly<Record<string, string | number>>
+): Record<string, string> {
+  const ranks = new Map<
+    string,
+    { primary?: string; secondary?: string; tertiary?: string }
+  >();
+  const extras: Record<string, string> = {};
+
+  for (const token of tokens) {
+    if (!isSemanticColorToken(token) || !token.tokenKey) {
+      continue;
+    }
+
+    const childLower = token.childTheme?.toLowerCase();
+    if (childLower && childLower !== "base") {
+      continue;
+    }
+
+    const expression = resolveColorTokenReference(token, lookups, colorBucket);
+    if (!expression) {
+      continue;
+    }
+
+    const parsed = parseBaseRankKey(token.tokenKey);
+    if (parsed) {
+      const entry = ranks.get(parsed.role) ?? {};
+      entry[parsed.rank] = expression;
+      ranks.set(parsed.role, entry);
+      continue;
+    }
+
+    if (childLower === "base") {
+      const key = childThemeColorKey(token.tokenKey, "base");
+      if (key) {
+        extras[key] = expression;
+      }
+    }
+  }
+
+  const colors: Record<string, string> = { ...extras };
+  for (const [role, entry] of ranks) {
+    if (entry.primary) {
+      colors[role] = entry.primary;
+    }
+
+    const subtle = entry.secondary ?? entry.tertiary;
+    if (subtle) {
+      colors[`${role}Subtle`] = subtle;
+    }
+  }
+
+  return colors;
+}
+
+/**
+ * Build Tamagui `childrenThemes` extras from semantic token `theme` tags.
+ *
+ * Each tagged color becomes a role on that children theme, with the theme
+ * name stripped from the token key:
+ * `foregroundSuccess` / `backgroundSuccessSubtle` →
+ * `{ foreground, backgroundSubtle }` on `success`.
+ *
+ * `base` is special: `backgroundPrimary` → `background`,
+ * `backgroundSecondary` → `backgroundSubtle` (or `backgroundTertiary`).
+ */
+function collectSemanticChildrenScales(
+  tokens: FlatToken[],
+  colorBucket: Readonly<Record<string, string | number>>
+): Record<string, Record<string, string>> {
+  const lookups = tokenLookups(tokens);
+  const result: Record<string, Record<string, string>> = {};
+
+  for (const childTheme of collectChildThemeNames(tokens)) {
+    if (isBaseChildTheme(childTheme)) {
+      const colors = collectBaseChildrenColors(tokens, lookups, colorBucket);
+      if (Object.keys(colors).length > 0) {
+        result[childTheme] = colors;
+      }
+      continue;
+    }
+
+    const colors: Record<string, string> = {};
+    const childLower = childTheme.toLowerCase();
+
+    for (const token of tokens) {
+      if (
+        !isSemanticColorToken(token) ||
+        token.childTheme?.toLowerCase() !== childLower
+      ) {
+        continue;
+      }
+
+      const key = childThemeColorKey(token.tokenKey!, childTheme);
+      if (!key) {
+        continue;
+      }
+
+      const expression = resolveColorTokenReference(
+        token,
+        lookups,
+        colorBucket
+      );
+      if (!expression) {
+        continue;
+      }
+
+      colors[key] = expression;
+    }
+
+    if (Object.keys(colors).length > 0) {
+      result[childTheme] = colors;
+    }
+  }
+
+  return result;
 }
 
 function pickBasePalette(
@@ -1209,7 +1663,10 @@ function ringShadowsForTheme(
 
 function renderChildrenThemes(
   lightScales: Record<string, Record<string, string>>,
-  darkScales: Record<string, Record<string, string>>
+  darkScales: Record<string, Record<string, string>>,
+  lightPaletteTokenKeys: Record<string, Record<string, string>>,
+  darkPaletteTokenKeys: Record<string, Record<string, string>>,
+  useTokenRefs: boolean
 ): string | undefined {
   const names = new Set([
     ...Object.keys(lightScales),
@@ -1222,23 +1679,56 @@ function renderChildrenThemes(
 
   const blocks: string[] = [];
   for (const name of [...names].toSorted((a, b) => a.localeCompare(b))) {
-    const light = orderScaleForScheme(
-      lightScales[name] ?? darkScales[name] ?? {},
-      name,
-      "light"
-    );
-    const dark = orderScaleForScheme(
-      darkScales[name] ?? lightScales[name] ?? {},
-      name,
-      "dark"
-    );
+    const lightValueScale = lightScales[name] ?? darkScales[name] ?? {};
+    const darkValueScale = darkScales[name] ?? lightScales[name] ?? {};
+    if (
+      Object.keys(lightValueScale).length === 0 ||
+      Object.keys(darkValueScale).length === 0
+    ) {
+      continue;
+    }
+
+    const paletteChild =
+      isPaletteScale(lightValueScale, name) ||
+      isPaletteScale(darkValueScale, name);
+
+    let light: Record<string, string>;
+    let dark: Record<string, string>;
+
+    if (useTokenRefs && paletteChild) {
+      light = orderScaleTokenRefsForScheme(
+        lightValueScale,
+        lightPaletteTokenKeys[name] ?? darkPaletteTokenKeys[name] ?? {},
+        name,
+        "light"
+      );
+      dark = orderScaleTokenRefsForScheme(
+        darkValueScale,
+        darkPaletteTokenKeys[name] ?? lightPaletteTokenKeys[name] ?? {},
+        name,
+        "dark"
+      );
+    } else if (paletteChild) {
+      light = orderScaleForScheme(lightValueScale, name, "light");
+      dark = orderScaleForScheme(darkValueScale, name, "dark");
+    } else {
+      light = lightValueScale;
+      dark = darkValueScale;
+    }
+
     if (Object.keys(light).length === 0 || Object.keys(dark).length === 0) {
       continue;
     }
 
+    const renderLiteral =
+      paletteChild && !useTokenRefs
+        ? (values: Record<string, string>, indent: number) =>
+            renderObjectLiteral(values, indent)
+        : renderConfigObjectLiteral;
+
     blocks.push(`    ${name}: {
-      light: ${renderObjectLiteral(light, 8)},
-      dark: ${renderObjectLiteral(dark, 8)}
+      light: ${renderLiteral(light, 8)},
+      dark: ${renderLiteral(dark, 8)}
     }`);
   }
 
@@ -1408,14 +1898,55 @@ export function renderTamaguiConfig(
   const colorTokens = tokens.filter(token => token.category === "color");
   const lightColorTokens = tokensForScheme(colorTokens, "light");
   const darkColorTokens = tokensForScheme(colorTokens, "dark");
+  const darkColorTokensOrLight =
+    darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens;
 
-  const lightScales = collectColorScales(lightColorTokens);
-  const darkScales = collectColorScales(
-    darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens
+  const colorBucket = colorBucketForCreateTokens(
+    lightColorTokens,
+    darkColorTokens
   );
+  const useTokenRefs = Object.keys(colorBucket).length > 0;
+  const lightPaletteTokenKeys = collectPaletteTokenKeys(lightColorTokens);
+  const darkPaletteTokenKeys = collectPaletteTokenKeys(darkColorTokensOrLight);
+
+  const lightPaletteScales = collectColorScales(lightColorTokens);
+  const darkPaletteScales = collectColorScales(darkColorTokensOrLight);
+  const lightScales = {
+    ...lightPaletteScales,
+    ...collectSemanticChildrenScales(lightColorTokens, colorBucket)
+  };
+  const darkScales = {
+    ...darkPaletteScales,
+    ...collectSemanticChildrenScales(darkColorTokensOrLight, colorBucket)
+  };
   const { lightPalette, darkPalette, lightBaseName, darkBaseName } =
     resolveBasePalettes(tokens);
-  const childrenThemes = renderChildrenThemes(lightScales, darkScales);
+  const childrenThemes = renderChildrenThemes(
+    lightScales,
+    darkScales,
+    lightPaletteTokenKeys,
+    darkPaletteTokenKeys,
+    useTokenRefs
+  );
+
+  const lightPaletteExpr =
+    useTokenRefs && lightBaseName
+      ? renderPaletteTokenRefArray(
+          lightPaletteScales[lightBaseName] ?? {},
+          lightPaletteTokenKeys[lightBaseName] ?? {},
+          lightBaseName,
+          "light"
+        )
+      : undefined;
+  const darkPaletteExpr =
+    useTokenRefs && darkBaseName
+      ? renderPaletteTokenRefArray(
+          darkPaletteScales[darkBaseName] ?? {},
+          darkPaletteTokenKeys[darkBaseName] ?? {},
+          darkBaseName,
+          "dark"
+        )
+      : undefined;
 
   const lightSchemeTokens = tokensForScheme(tokens, "light");
   const darkSchemeTokens = tokensForScheme(tokens, "dark");
@@ -1449,10 +1980,6 @@ export function renderTamaguiConfig(
   });
 
   const buckets = buildCategoryBuckets(lightSchemeTokens);
-  const colorBucket = colorBucketForCreateTokens(
-    lightColorTokens,
-    darkColorTokens
-  );
   const createTokensArgs: string[] = [];
   if (Object.keys(colorBucket).length > 0) {
     createTokensArgs.push(`  color: ${renderObjectLiteral(colorBucket, 4)}`);
@@ -1466,11 +1993,15 @@ export function renderTamaguiConfig(
   }
 
   const themeOptions: string[] = [];
-  if (lightPalette) {
+  if (lightPaletteExpr) {
+    themeOptions.push(`  lightPalette: ${lightPaletteExpr}`);
+  } else if (lightPalette) {
     themeOptions.push(`  lightPalette: ${toLiteral(lightPalette)}`);
   }
 
-  if (darkPalette) {
+  if (darkPaletteExpr) {
+    themeOptions.push(`  darkPalette: ${darkPaletteExpr}`);
+  } else if (darkPalette) {
     themeOptions.push(`  darkPalette: ${toLiteral(darkPalette)}`);
   }
 
@@ -1482,7 +2013,7 @@ export function renderTamaguiConfig(
     Object.keys(lightSemantic).length > 0 ||
     Object.keys(darkSemantic).length > 0
   ) {
-    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: any; scheme: "light" | "dark" }) => {
+    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: AppTheme; scheme: "light" | "dark" }) => {
     return scheme === "dark"
       ? ${renderThemeObjectLiteral(darkSemantic, 8)}
       : ${renderThemeObjectLiteral(lightSemantic, 8)};
