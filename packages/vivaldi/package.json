@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/vivaldi",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "Razorwind plugin that generates Vivaldi browser themes from design tokens.",
   "repository": {

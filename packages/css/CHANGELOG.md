@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/css%400.0.40) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue parsing radius token values ([9cbc791](https://github.com/storm-software/razorwind/commit/9cbc791))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.57**
+- Updated **style-dictionary** to **v0.0.43**
+
 ## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/css%400.0.39) (08/18/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.49) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue parsing radius token values ([9cbc791](https://github.com/storm-software/razorwind/commit/9cbc791))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.57**
+
 ## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.48) (08/18/2026)
 
 ### Bug Fixes

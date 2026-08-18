@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.57](https://github.com/storm-software/razorwind/releases/tag/core%400.0.57) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue parsing radius token values ([9cbc791](https://github.com/storm-software/razorwind/commit/9cbc791))
+
 ## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/core%400.0.51) (08/14/2026)
 
 ### Bug Fixes

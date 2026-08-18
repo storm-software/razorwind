@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/shadcn",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "type": "module",
   "description": "Razorwind Shadcn plugin that can create Shadcn UI registry files from design tokens/components or read a Shadcn UI registry file and return the design tokens/components.",
   "repository": {
