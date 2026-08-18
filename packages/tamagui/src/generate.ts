@@ -130,7 +130,10 @@ function bucketTokenKey(token: FlatToken): string {
   return token.tokenKey ?? "";
 }
 
-function bucketTokenValue(token: FlatToken): string | number {
+function bucketTokenValue(
+  token: FlatToken,
+  lookups: TokenLookups
+): string | number {
   if (
     token.category &&
     PX_TOKEN_CATEGORIES.has(token.category) &&
@@ -139,11 +142,13 @@ function bucketTokenValue(token: FlatToken): string | number {
     return `px(${token.tamaguiValue})`;
   }
 
-  if (
-    token.category === "dropShadow" &&
-    typeof token.tamaguiValue === "string"
-  ) {
-    return toDropShadowFilter(token.tamaguiValue);
+  if (typeof token.tamaguiValue === "string") {
+    const resolved = resolveCssReferencesInValue(token.tamaguiValue, lookups);
+    if (token.category === "dropShadow") {
+      return toDropShadowFilter(resolved);
+    }
+
+    return resolved;
   }
 
   return token.tamaguiValue;
@@ -180,6 +185,7 @@ function buildCategoryBuckets(
   tokens: FlatToken[]
 ): Partial<Record<TamaguiTokenCategory, TokenBucket>> {
   const buckets: Partial<Record<TamaguiTokenCategory, TokenBucket>> = {};
+  const lookups = tokenLookups(tokens);
 
   for (const token of tokens) {
     if (!token.category || token.category === "color" || !token.tokenKey) {
@@ -191,8 +197,13 @@ function buildCategoryBuckets(
       continue;
     }
 
+    const value = bucketTokenValue(token, lookups);
+    if (typeof value === "string" && containsCssVarOrAlias(value)) {
+      continue;
+    }
+
     const bucket = buckets[token.category] ?? {};
-    bucket[key] = bucketTokenValue(token);
+    bucket[key] = value;
     buckets[token.category] = bucket;
   }
 
@@ -312,7 +323,21 @@ function renderThemeObjectLiteral(
 }
 
 const DTCG_ALIAS_PATTERN = /^\{([^{}]+)\}$/;
+const DTCG_ALIAS_GLOBAL_PATTERN = /\{([^{}]+)\}/g;
 const CSS_VAR_PATTERN = /^var\((--[^),\s]+)(?:\s*,[^)]*)?\)$/;
+const CSS_VAR_GLOBAL_PATTERN = /var\((--[^),\s]+)(?:\s*,[^)]*)?\)/g;
+
+interface TokenLookups {
+  byPath: Map<string, FlatToken>;
+  byCssVar: Map<string, FlatToken>;
+}
+
+function tokenLookups(tokens: FlatToken[]): TokenLookups {
+  return {
+    byPath: new Map(tokens.map(token => [token.path, token])),
+    byCssVar: new Map(tokens.map(token => [toThemeCssVar(token.path), token]))
+  };
+}
 
 function readAliasPath(value: unknown): string | undefined {
   if (typeof value !== "string") {
@@ -336,6 +361,71 @@ function readCssVarName(value: unknown): string | undefined {
 
 function isCssVarOrAlias(value: unknown): boolean {
   return readAliasPath(value) != null || readCssVarName(value) != null;
+}
+
+function containsCssVarOrAlias(value: string): boolean {
+  return /var\(|\{[^{}]+\}/.test(value);
+}
+
+/**
+ * Terminal CSS color string for a token after following DTCG / `var()` aliases.
+ * Returns `undefined` when the chain still ends on a reference.
+ */
+function resolvedColorLiteral(
+  token: FlatToken,
+  lookups: TokenLookups
+): string | undefined {
+  const resolved = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
+  if (resolved.category != null && resolved.category !== "color") {
+    return undefined;
+  }
+
+  const candidates = [resolved.cssValue, resolved.tamaguiValue];
+  for (const candidate of candidates) {
+    if (
+      typeof candidate === "string" &&
+      candidate.length > 0 &&
+      !isCssVarOrAlias(candidate)
+    ) {
+      return candidate;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Replace DTCG aliases and CSS `var(--…)` references in a CSS string with
+ * resolved color constants (hex / oklch / rgb).
+ *
+ * Shadow / ring tokens store `{color.border.accent}` as `var(--color-border-accent)`
+ * after flatten — Tamagui `createTokens` needs the concrete color instead.
+ */
+function resolveCssReferencesInValue(
+  value: string,
+  lookups: TokenLookups
+): string {
+  const replaceAlias = (match: string, tokenPath: string): string => {
+    const next = lookups.byPath.get(tokenPath.trim());
+    if (!next) {
+      return match;
+    }
+
+    return resolvedColorLiteral(next, lookups) ?? match;
+  };
+
+  const replaceCssVar = (match: string, cssVar: string): string => {
+    const next = lookups.byCssVar.get(cssVar);
+    if (!next) {
+      return match;
+    }
+
+    return resolvedColorLiteral(next, lookups) ?? match;
+  };
+
+  return value
+    .replace(DTCG_ALIAS_GLOBAL_PATTERN, replaceAlias)
+    .replace(CSS_VAR_GLOBAL_PATTERN, replaceCssVar);
 }
 
 /**
@@ -832,10 +922,7 @@ function semanticColorsForTheme(
   basePaletteName: string | undefined
 ): Record<string, string> {
   const scales = collectColorScales(tokens);
-  const byPath = new Map(tokens.map(token => [token.path, token]));
-  const byCssVar = new Map(
-    tokens.map(token => [toThemeCssVar(token.path), token])
-  );
+  const { byPath, byCssVar } = tokenLookups(tokens);
   const semantic: Record<string, string> = {};
 
   for (const token of tokens) {

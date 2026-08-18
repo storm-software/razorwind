@@ -877,6 +877,61 @@ describe("tamagui plugin", () => {
     expect(content).not.toMatch(/space:\s*\{[^}]*insetShadow/s);
   });
 
+  it("resolves ring shadow color aliases to color constants", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            brand: {
+              primitive: true,
+              1: { $value: "#00ccaa" }
+            },
+            border: {
+              accent: { $value: "{color.brand.1}" }
+            }
+          },
+          ring: {
+            accent: {
+              $type: "shadow",
+              $value: {
+                color: "{color.border.accent}",
+                offsetX: { value: 0, unit: "px" },
+                offsetY: { value: 0, unit: "px" },
+                blur: { value: 0, unit: "px" },
+                spread: { value: 3, unit: "px" }
+              }
+            },
+            "accent-subtle": {
+              $type: "shadow",
+              $value: {
+                color: "{color.border.accent}",
+                offsetX: { value: 0, unit: "px" },
+                offsetY: { value: 0, unit: "px" },
+                blur: { value: 0, unit: "px" },
+                spread: { value: 1, unit: "px" }
+              }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
+    expect(content).toContain('ringAccentSubtle: "0px 0px 0px 1px #00ccaa"');
+    expect(content).not.toContain("var(--color-border-accent)");
+    expect(content).not.toContain("{color.border.accent}");
+  });
+
   it("emits fontSize, dropShadow, and textShadow as createTokens categories", () => {
     const shadowLayer = {
       color: {
