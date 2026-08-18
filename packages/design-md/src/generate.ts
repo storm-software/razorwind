@@ -205,12 +205,22 @@ function applyGenerateOptions(
 }
 
 /**
+ * True when a color token belongs to a `palette: true` or `primitive: true`
+ * group and should be omitted from DESIGN.md `colors`.
+ */
+function isPaletteOrPrimitiveColor(token: FlatToken): boolean {
+  return token.palette === true || token.primitive === true;
+}
+
+/**
  * Extract a DESIGN.md document from the Razorwind schema.
  *
  * Colors, typography, rounded / spacing scales, and component tokens are
- * derived from the DTCG token tree. DTCG aliases are re-emitted as DESIGN.md
- * `{section.token}` references when the target token is part of the output,
- * or resolved to their terminal CSS value otherwise.
+ * derived from the DTCG token tree. Color groups marked `palette` or
+ * `primitive` are omitted from the colors section. DTCG aliases are
+ * re-emitted as DESIGN.md `{section.token}` references when the target
+ * token is part of the output, or resolved to their terminal CSS value
+ * otherwise.
  */
 export function extractDesignMd(spec: Schema): DesignMdDocument {
   const flat = selectPrimaryTheme(flattenTokens(spec.tokens));
@@ -234,24 +244,26 @@ export function extractDesignMd(spec: Schema): DesignMdDocument {
   const refTargets = new Map<string, string>();
   const componentTokens: FlatToken[] = [];
 
-  for (const token of flat.filter(token => !token.primitive)) {
+  for (const token of flat) {
     const segments = token.path.split(".");
     if (segments[0] && COMPONENT_PATTERN.test(segments[0])) {
       componentTokens.push(token);
       continue;
     }
 
-    if (token.type === "color" && !token.primitive) {
+    if (token.type === "color") {
+      if (isPaletteOrPrimitiveColor(token)) {
+        continue;
+      }
+
       const name = toTokenName(token.path, COLOR_PREFIXES);
       const resolved = resolveAlias(token, byPath);
-      if (!resolved.primitive) {
-        document.colors[name] = resolved.cssValue;
-        if (token.description) {
-          document.colorDescriptions[name] = token.description;
-        }
-
-        refTargets.set(token.path, `colors.${name}`);
+      document.colors[name] = resolved.cssValue;
+      if (token.description) {
+        document.colorDescriptions[name] = token.description;
       }
+
+      refTargets.set(token.path, `colors.${name}`);
       continue;
     }
 

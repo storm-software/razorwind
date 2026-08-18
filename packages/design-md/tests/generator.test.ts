@@ -126,6 +126,37 @@ describe("extractDesignMd", () => {
       padding: "12px"
     });
   });
+
+  it("omits palette and primitive color groups from colors", () => {
+    const document = extractDesignMd({
+      ...spec,
+      tokens: {
+        color: {
+          $type: "color",
+          primary: { $value: "#0066cc", $description: "Brand primary" },
+          surface: {
+            palette: true,
+            1: { $value: "#ffffff" },
+            2: { $value: "#f4f4f4" }
+          },
+          red: {
+            primitive: true,
+            1: { $value: "#ff0000" }
+          },
+          page: { $value: "{color.surface.1}" }
+        }
+      }
+    } as Schema);
+
+    expect(document.colors).toEqual({
+      primary: "#0066cc",
+      page: "#ffffff"
+    });
+    expect(document.colorDescriptions.primary).toBe("Brand primary");
+    expect(document.colors["surface-1"]).toBeUndefined();
+    expect(document.colors["surface-2"]).toBeUndefined();
+    expect(document.colors["red-1"]).toBeUndefined();
+  });
 });
 
 describe("renderDesignMd", () => {
@@ -202,6 +233,33 @@ describe("flattenTokens", () => {
         "spacing.md",
         "components.button-primary.background"
       ])
+    );
+  });
+
+  it("marks palette and primitive ancestor groups", () => {
+    const flat = flattenTokens({
+      color: {
+        $type: "color",
+        primary: { $value: "#0066cc" },
+        surface: {
+          palette: true,
+          1: { $value: "#ffffff" }
+        },
+        red: {
+          primitive: true,
+          1: { $value: "#ff0000" }
+        }
+      }
+    });
+
+    expect(flat.find(token => token.path === "color.primary")?.palette).toBe(
+      undefined
+    );
+    expect(flat.find(token => token.path === "color.surface.1")?.palette).toBe(
+      true
+    );
+    expect(flat.find(token => token.path === "color.red.1")?.primitive).toBe(
+      true
     );
   });
 });
