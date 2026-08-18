@@ -245,7 +245,7 @@ function paletteTokenKey(token: FlatToken): string {
 }
 
 function tokenColorRef(tokenKey: string): string {
-  return `tokens.color.${tokenKey}`;
+  return `tokens.color.${tokenKey}.val`;
 }
 
 /**
@@ -440,7 +440,7 @@ function renderObjectLiteral(
 
 /**
  * Render a config object whose values are already TypeScript expressions
- * (`tokens.color.blue1`, `theme.color1`, …) rather than raw literals.
+ * (`tokens.color.blue1.val`, `theme.color1`, …) rather than raw literals.
  */
 function renderConfigObjectLiteral(
   values: Record<string, string>,
@@ -1094,7 +1094,7 @@ function orderScaleTokenRefsForScheme(
       continue;
     }
 
-    result[`${name}${step}`] = tokenColorRef(tokenKey);
+    result[`color${step}`] = tokenColorRef(tokenKey);
   }
 
   return result;

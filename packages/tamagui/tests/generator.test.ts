@@ -788,10 +788,10 @@ describe("tamagui plugin", () => {
     expect(content).toContain('"#191919"');
     // 9-step base is padded to Tamagui's 12-stop palette
     expect(content).toMatch(
-      /lightPalette:\s*\[[^\]]*tokens\.color\.lightBase9[^\]]*\]/s
+      /lightPalette:\s*\[[^\]]*tokens\.color\.lightBase9\.val[^\]]*\]/s
     );
     expect(content).toMatch(
-      /darkPalette:\s*\[[^\]]*tokens\.color\.darkBase9[^\]]*\]/s
+      /darkPalette:\s*\[[^\]]*tokens\.color\.darkBase9\.val[^\]]*\]/s
     );
   });
 
@@ -996,13 +996,13 @@ describe("tamagui plugin", () => {
     expect(baseMatch).toBeTruthy();
     const [, lightBlock = "", darkBlock = ""] = baseMatch ?? [];
 
-    expect(lightBlock).toContain("background: tokens.color.backgroundPrimary");
-    expect(lightBlock).toContain("backgroundSubtle: tokens.color.backgroundSecondary");
-    expect(lightBlock).toContain("foreground: tokens.color.foregroundPrimary");
-    expect(lightBlock).toContain("foregroundOn: tokens.color.foregroundOnPrimary");
-    expect(lightBlock).toContain("foregroundSubtle: tokens.color.foregroundSecondary");
-    expect(lightBlock).toContain("border: tokens.color.borderPrimary");
-    expect(lightBlock).toContain("borderSubtle: tokens.color.borderSecondary");
+    expect(lightBlock).toContain("background: tokens.color.backgroundPrimary.val");
+    expect(lightBlock).toContain("backgroundSubtle: tokens.color.backgroundSecondary.val");
+    expect(lightBlock).toContain("foreground: tokens.color.foregroundPrimary.val");
+    expect(lightBlock).toContain("foregroundOn: tokens.color.foregroundOnPrimary.val");
+    expect(lightBlock).toContain("foregroundSubtle: tokens.color.foregroundSecondary.val");
+    expect(lightBlock).toContain("border: tokens.color.borderPrimary.val");
+    expect(lightBlock).toContain("borderSubtle: tokens.color.borderSecondary.val");
 
     expect(darkBlock).toContain('background: "#111111"');
     expect(darkBlock).toContain('backgroundSubtle: "#222222"');
@@ -1111,16 +1111,16 @@ describe("tamagui plugin", () => {
     });
 
     expect(content).toMatch(
-      /lightPalette:\s*\[\s*tokens\.color\.lightBase3/
+      /lightPalette:\s*\[\s*tokens\.color\.lightBase3\.val/
     );
     expect(content).toMatch(
-      /darkPalette:\s*\[\s*tokens\.color\.darkBase3/
+      /darkPalette:\s*\[\s*tokens\.color\.darkBase3\.val/
     );
     expect(content).toMatch(
-      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?color1:\s*tokens\.color\.lightRed3/
+      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?color1:\s*tokens\.color\.lightRed3\.val/
     );
     expect(content).toMatch(
-      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?color1:\s*tokens\.color\.darkRed3/
+      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?color1:\s*tokens\.color\.darkRed3\.val/
     );
   });
 
