@@ -19,7 +19,6 @@
 import { cssFontFamily, fontFamilyName } from "@razorwind/core/lib/fonts";
 import type { Font, Fonts, LocalFont } from "@razorwind/core/schema";
 import { isObject } from "@razorwind/core/utils";
-import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { basename } from "node:path";
 import { toLiteral, toTamaguiValue } from "./format";
 import type { FlatToken } from "./types";
@@ -269,26 +268,22 @@ function toFontKey(segments: string[]): string {
 }
 
 /**
- * Map a font role / family token name onto Tamagui's `body` / `heading` /
- * `mono` keys.
+ * Map a font role / family token name onto a Tamagui `fonts` object key.
+ *
+ * Family aliases (`sans` / `serif` → `body`, `monospace` → `mono`) stay
+ * collapsed so Tamagui's default font names resolve. Distinct type roles
+ * (`heading`, `title`, `display`, `caption`, `code`) keep their own keys.
  */
 export function tamaguiFontKeyFromRole(name: string): string {
   switch (name.toLowerCase()) {
-    case "heading":
-    case "title":
-    case "display": {
-      return "heading";
-    }
-    case "mono":
-    case "monospace":
-    case "caption":
-    case "code": {
-      return "mono";
-    }
     case "sans":
     case "body":
     case "serif": {
       return "body";
+    }
+    case "monospace":
+    case "mono": {
+      return "mono";
     }
     default: {
       return toFontKey([name]);
@@ -305,8 +300,10 @@ function tamaguiFontKeyFromSpec(font: Font): string {
 }
 
 /**
- * Tamagui font key for a typography token. Nested language segments and
- * `body_cn`-style names keep the `_` separator FontLanguage expects.
+ * Tamagui `fonts` object key for a typography token. The DTCG token name is
+ * kept as-is (`display-lg`, `heading-2xl`) so `fontFamily="$display-lg"`
+ * matches the design tokens. Nested language segments use the `_` separator
+ * FontLanguage expects (`typography.body.cn` → `body_cn`).
  *
  * @see https://tamagui.dev/docs/core/font-language
  */
@@ -323,10 +320,10 @@ export function typographyFontKey(path: string): string {
     LANGUAGE_SUFFIX_PATTERN.test(last) &&
     !last.includes("_")
   ) {
-    return `${toFontKey(segments.slice(0, -1))}_${last}`;
+    return `${segments.slice(0, -1).join("-")}_${last}`;
   }
 
-  return toFontKey(segments);
+  return segments.join("-");
 }
 
 function fontFamilyTokenKey(path: string): string {
@@ -396,15 +393,34 @@ function isLetterSpacingToken(token: FlatToken): boolean {
   return pathStartsWith(token.path, LETTER_SPACING_PATH_PREFIX);
 }
 
+function uniqueFontKey(
+  used: ReadonlySet<string> | ReadonlyMap<string, unknown>,
+  base: string
+): string {
+  if (!used.has(base)) {
+    return base;
+  }
+
+  let index = 2;
+  let key = `${base}${index}`;
+  while (used.has(key)) {
+    index++;
+    key = `${base}${index}`;
+  }
+
+  return key;
+}
+
 function assignSpecFonts(fonts: Fonts): Map<string, Font> {
   const assigned = new Map<string, Font>();
 
   for (const font of Object.values(fonts)) {
-    const key = tamaguiFontKeyFromSpec(font);
-    const existing = assigned.get(key);
-    if (!existing || (font.role === key && existing.role !== key)) {
-      assigned.set(key, font);
+    let key = tamaguiFontKeyFromSpec(font);
+    if (assigned.has(key)) {
+      const fromName = toFontKey([font.name]);
+      key = uniqueFontKey(assigned, fromName);
     }
+    assigned.set(key, font);
   }
 
   return assigned;
@@ -518,89 +534,29 @@ function setFamily(def: TamaguiFontDef, family: string): TamaguiFontDef {
   };
 }
 
-interface SharedFontScales {
-  size: Record<string, number>;
-  lineHeight: Record<string, number>;
-  weight: Record<string, string>;
-  letterSpacing: Record<string, number>;
-}
+const SCALE_ALIAS_PREFIX =
+  /^(?:font-size|fontSize|font-weight|fontWeight|line-height|lineHeight|leading|letter-spacing|letterSpacing|tracking)$/i;
 
-function collectSharedScales(
-  tokens: FlatToken[],
-  byPath: Map<string, FlatToken>
-): SharedFontScales {
-  const size: Record<string, number> = {};
-  const lineHeightRaw: Array<{ key: string; value: unknown }> = [];
-  const weight: Record<string, string> = {};
-  const letterSpacing: Record<string, number> = {};
-
-  for (const token of tokens) {
-    if (isFontSizeToken(token)) {
-      const value = toPixelNumber(resolveTokenValue(token.value, byPath));
-      if (value != null) {
-        size[scaleKeyFromPath(token.path, FONT_SIZE_PATH_PREFIX)] = value;
-      }
-      continue;
-    }
-
-    if (isFontWeightToken(token)) {
-      const value = toWeightString(resolveTokenValue(token.value, byPath));
-      if (value) {
-        weight[scaleKeyFromPath(token.path, FONT_WEIGHT_PATH_PREFIX)] = value;
-      }
-      continue;
-    }
-
-    if (isLetterSpacingToken(token)) {
-      const value = toPixelNumber(resolveTokenValue(token.value, byPath));
-      if (value != null) {
-        letterSpacing[
-          scaleKeyFromPath(token.path, LETTER_SPACING_PATH_PREFIX)
-        ] = value;
-      }
-      continue;
-    }
-
-    if (isLineHeightToken(token)) {
-      lineHeightRaw.push({
-        key: scaleKeyFromPath(token.path, LINE_HEIGHT_PATH_PREFIX),
-        value: resolveTokenValue(token.value, byPath)
-      });
-    }
-  }
-
-  const defaultSize = size.true ?? size.base ?? Object.values(size)[0];
-  const lineHeight: Record<string, number> = {};
-
-  for (const entry of lineHeightRaw) {
-    const matchedSize = size[entry.key] ?? defaultSize;
-    const value = toLineHeightPx(entry.value, matchedSize);
-    if (value != null) {
-      lineHeight[entry.key] = value;
-    }
-  }
-
-  return { size, lineHeight, weight, letterSpacing };
-}
-
-function mergeScale<T>(
-  base: Record<string, T>,
-  extra: Record<string, T>
+/**
+ * Tamagui font scale from a single typography property. `true` is the default
+ * token; a referenced DTCG leaf (`{font-size.md}` → `md`) is kept alongside it.
+ */
+function scaleFromTypographyValue<T>(
+  value: T,
+  source: unknown
 ): Record<string, T> {
-  return { ...extra, ...base };
-}
+  const scale: Record<string, T> = { true: value };
+  const alias = readAliasPath(source);
+  if (!alias) {
+    return scale;
+  }
 
-function applySharedScales(
-  def: TamaguiFontDef,
-  scales: SharedFontScales
-): TamaguiFontDef {
-  return {
-    ...def,
-    size: mergeScale(def.size, scales.size),
-    lineHeight: mergeScale(def.lineHeight, scales.lineHeight),
-    weight: mergeScale(def.weight, scales.weight),
-    letterSpacing: mergeScale(def.letterSpacing, scales.letterSpacing)
-  };
+  const key = scaleKeyFromPath(alias, SCALE_ALIAS_PREFIX);
+  if (key && key !== "true") {
+    scale[key] = value;
+  }
+
+  return scale;
 }
 
 function ensureSize(def: TamaguiFontDef): TamaguiFontDef {
@@ -633,45 +589,79 @@ function applyTypography(
     next = setFamily(next, family);
   }
 
-  const fontSize = toPixelNumber(
-    resolveTokenValue(readProperty(token.value, TYPOGRAPHY_SIZE_KEYS), byPath)
-  );
+  const rawSize = readProperty(token.value, TYPOGRAPHY_SIZE_KEYS);
+  const fontSize = toPixelNumber(resolveTokenValue(rawSize, byPath));
   if (fontSize != null) {
-    next = { ...next, size: { ...next.size, true: fontSize } };
+    next = { ...next, size: scaleFromTypographyValue(fontSize, rawSize) };
   }
 
-  const weight = toWeightString(
-    resolveTokenValue(readProperty(token.value, TYPOGRAPHY_WEIGHT_KEYS), byPath)
-  );
+  const rawWeight = readProperty(token.value, TYPOGRAPHY_WEIGHT_KEYS);
+  const weight = toWeightString(resolveTokenValue(rawWeight, byPath));
   if (weight) {
-    next = { ...next, weight: { ...next.weight, true: weight } };
+    next = { ...next, weight: scaleFromTypographyValue(weight, rawWeight) };
   }
 
+  const rawLetterSpacing = readProperty(
+    token.value,
+    TYPOGRAPHY_LETTER_SPACING_KEYS
+  );
   const letterSpacing = toPixelNumber(
-    resolveTokenValue(
-      readProperty(token.value, TYPOGRAPHY_LETTER_SPACING_KEYS),
-      byPath
-    )
+    resolveTokenValue(rawLetterSpacing, byPath)
   );
   if (letterSpacing != null) {
     next = {
       ...next,
-      letterSpacing: { ...next.letterSpacing, true: letterSpacing }
+      letterSpacing: scaleFromTypographyValue(letterSpacing, rawLetterSpacing)
     };
   }
 
+  const rawLineHeight = readProperty(token.value, TYPOGRAPHY_LINE_HEIGHT_KEYS);
   const lineHeight = toLineHeightPx(
-    resolveTokenValue(
-      readProperty(token.value, TYPOGRAPHY_LINE_HEIGHT_KEYS),
-      byPath
-    ),
+    resolveTokenValue(rawLineHeight, byPath),
     next.size.true ?? fontSize
   );
   if (lineHeight != null) {
-    next = { ...next, lineHeight: { ...next.lineHeight, true: lineHeight } };
+    next = {
+      ...next,
+      lineHeight: scaleFromTypographyValue(lineHeight, rawLineHeight)
+    };
   }
 
-  return next;
+  return alignFontScaleKeys(next);
+}
+
+function alignFontScaleKeys(def: TamaguiFontDef): TamaguiFontDef {
+  const sizeKeys = Object.keys(def.size);
+  if (sizeKeys.length === 0) {
+    return def;
+  }
+
+  const fill = <T>(scale: Record<string, T>): Record<string, T> => {
+    const fallback = scale.true ?? Object.values(scale)[0];
+    if (fallback == null) {
+      return scale;
+    }
+
+    const next = { ...scale };
+    for (const key of sizeKeys) {
+      next[key] ??= fallback;
+    }
+
+    return next;
+  };
+
+  return {
+    ...def,
+    lineHeight:
+      Object.keys(def.lineHeight).length > 0
+        ? fill(def.lineHeight)
+        : def.lineHeight,
+    weight: Object.keys(def.weight).length > 0 ? fill(def.weight) : def.weight,
+    letterSpacing:
+      Object.keys(def.letterSpacing).length > 0
+        ? fill(def.letterSpacing)
+        : def.letterSpacing
+  };
 }
 
 /**
@@ -685,7 +675,6 @@ export function collectTamaguiFonts(
   fonts?: Fonts
 ): TamaguiFontDef[] {
   const byPath = new Map(tokens.map(token => [token.path, token]));
-  const scales = collectSharedScales(tokens, byPath);
   const defs = new Map<string, TamaguiFontDef>();
 
   const put = (def: TamaguiFontDef): void => {
@@ -694,7 +683,7 @@ export function collectTamaguiFonts(
 
   if (fonts) {
     for (const [key, font] of assignSpecFonts(fonts)) {
-      put(applySharedScales(applySpecFont(emptyFont(key), font), scales));
+      put(applySpecFont(emptyFont(key), font));
     }
   }
 
@@ -715,7 +704,7 @@ export function collectTamaguiFonts(
     } else if (family && !defs.has(key)) {
       next = setFamily(next, family);
     }
-    put(applySharedScales(next, scales));
+    put(next);
   }
 
   for (const token of tokens) {
@@ -725,17 +714,12 @@ export function collectTamaguiFonts(
 
     const key = typographyFontKey(token.path);
     const existing = defs.get(key) ?? emptyFont(key);
-    put(
-      applyTypography(applySharedScales(existing, scales), token, byPath, fonts)
-    );
+    put(applyTypography(existing, token, byPath, fonts));
   }
 
-  return getUniqueBy(
-    [...defs.values()]
-      .map(ensureSize)
-      .toSorted((a, b) => a.key.localeCompare(b.key)),
-    font => font.key
-  );
+  return [...defs.values()]
+    .map(ensureSize)
+    .toSorted((a, b) => a.key.localeCompare(b.key));
 }
 
 function renderScaleKey(key: string): string {
@@ -772,12 +756,21 @@ function renderScale(
 
 /**
  * Valid JS identifier used for the `const <name> = createFont(...)` binding.
+ * Hyphenated token names (`display-lg`) become camelCase (`displayLgFont`);
+ * FontLanguage keys (`body_cn`) keep the underscore.
  */
 export function fontVarName(key: string, index: number): string {
-  const base = key.replaceAll(/\W/g, "") || `font${index}`;
-  const named = `${base}Font`;
+  const identifier = key
+    .split("-")
+    .filter(Boolean)
+    .map((part, partIndex) =>
+      partIndex === 0 ? part : `${part.charAt(0).toUpperCase()}${part.slice(1)}`
+    )
+    .join("")
+    .replaceAll(/[^\w$]/g, "");
+  const named = `${identifier || `font${index}`}Font`;
 
-  return /^[A-Z_]/i.test(named) ? named : `font${index}`;
+  return /^[A-Z_$]/i.test(named) ? named : `font${index}`;
 }
 
 /**

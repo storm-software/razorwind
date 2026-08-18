@@ -1142,7 +1142,8 @@ function renderThemeInterface(
  * Render a Tamagui v5 config module from flattened design tokens.
  *
  * Light and dark token sets are combined into one `createV5Theme` call.
- * Typography and font-family tokens are emitted as `createFont` entries.
+ * Each typography token is emitted as its own `createFont` entry with that
+ * token's size, line height, and weight (not a shared type scale).
  *
  * @see https://tamagui.dev/docs/core/config-v5
  * @see https://tamagui.dev/docs/core/font-language#font-tokens
@@ -1252,10 +1253,7 @@ export function renderTamaguiConfig(
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
-  const assignedFonts = collectTamaguiFonts(
-    tokensForScheme(tokens, "light"),
-    fonts
-  );
+  const assignedFonts = collectTamaguiFonts(tokens, fonts);
   if (assignedFonts.length > 0) {
     tamaguiImports.push("createFont");
   }

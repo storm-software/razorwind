@@ -62,9 +62,10 @@ export type {
  * set `lightPalette` / `darkPalette` (`color1`–`color12`). Light palettes are
  * ordered lightest-first; dark palettes darkest-first.
  *
- * Typography tokens (`$type: "typography"`) and font-family tokens each emit
- * a Tamagui `createFont` entry. Names with a `_` suffix (or a nested language
- * segment) become FontLanguage variants (`body_cn`).
+ * Typography tokens (`$type: "typography"`) each emit their own Tamagui
+ * `createFont` entry with that token's size, line height, and weight. Font
+ * keys keep the DTCG token name (`display-lg`). Names with a `_` suffix (or a
+ * nested language segment) become FontLanguage variants (`body_cn`).
  *
  * @see https://tamagui.dev/docs/core/config-v5
  * @see https://tamagui.dev/docs/core/font-language#font-tokens

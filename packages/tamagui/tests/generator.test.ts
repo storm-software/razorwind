@@ -32,6 +32,7 @@ import {
   renderTamaguiConfig
 } from "../src/generate";
 import tamagui from "../src/index";
+import type { TamaguiPluginOptions } from "../src/types";
 
 const tokens = {
   color: {
@@ -89,6 +90,26 @@ const spec = {
   icons: {}, fonts: {},
   tokens
 } as Schema;
+
+function renderConfig(
+  schema: Schema,
+  options: TamaguiPluginOptions = {},
+  extraFonts?: Schema["fonts"]
+): string {
+  return renderTamaguiConfig(
+    extraFonts ? { ...schema, fonts: extraFonts } : schema,
+    flattenTokens(schema.tokens),
+    options
+  );
+}
+
+function createFontBlock(content: string, varName: string): string {
+  const start = content.indexOf(`const ${varName} = createFont(`);
+  expect(start).toBeGreaterThan(-1);
+  const end = content.indexOf("});", start);
+
+  return content.slice(start, end);
+}
 
 describe("format helpers", () => {
   it("formats DTCG color values to hex", () => {
@@ -267,15 +288,15 @@ describe("tamagui plugin", () => {
   });
 
   it("renderTamaguiConfig can omit type augmentation", () => {
-    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       includeTypeAugmentation: false
     });
     expect(content).not.toContain("declare module");
   });
 
   it("emits createFont from spec.fonts", () => {
-    const content = renderTamaguiConfig(
-      flattenTokens(spec.tokens),
+    const content = renderConfig(
+      spec,
       { useDefaultConfig: false, animations: false },
       {
         inter: {
@@ -351,7 +372,7 @@ describe("tamagui plugin", () => {
       "fontWeight"
     );
 
-    const content = renderTamaguiConfig(flat, {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -375,6 +396,124 @@ describe("tamagui plugin", () => {
     expect(content).toContain("true: -0.32");
     expect(content).not.toContain('"fontFamily"');
     expect(content).not.toContain("[object Object]");
+
+    const body = createFontBlock(content, "bodyFont");
+    const heading = createFontBlock(content, "headingFont");
+    expect(body).toContain("true: 16");
+    expect(body).toContain("true: 24");
+    expect(body).toContain('true: "400"');
+    expect(heading).toContain("true: 24");
+    expect(heading).toContain("true: 30");
+    expect(heading).toContain('true: "700"');
+    expect(heading).not.toContain("true: 16");
+    expect(body).not.toContain("true: 30");
+  });
+
+  it("keeps each typography token as its own font with that token's metrics", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        "font-size": {
+          $type: "dimension",
+          xs: { $value: { value: 0.75, unit: "rem" } },
+          md: { $value: { value: 1, unit: "rem" } },
+          lg: { $value: { value: 1.125, unit: "rem" } },
+          "5xl": { $value: { value: 3, unit: "rem" } }
+        },
+        "font-weight": {
+          $type: "fontWeight",
+          light: { $value: 300 },
+          normal: { $value: 400 },
+          semibold: { $value: 600 }
+        },
+        "line-height": {
+          xs: { $type: "number", $value: 1.333333 },
+          md: { $type: "number", $value: 1.5 },
+          lg: { $type: "number", $value: 1.555556 },
+          "5xl": { $type: "number", $value: 1 }
+        },
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Space Grotesk",
+              fontWeight: "{font-weight.light}",
+              fontSize: "{font-size.md}",
+              lineHeight: "{line-height.md}"
+            }
+          },
+          "heading-md": {
+            $value: {
+              fontFamily: "Space Grotesk",
+              fontWeight: "{font-weight.semibold}",
+              fontSize: "{font-size.lg}",
+              lineHeight: "{line-height.lg}"
+            }
+          },
+          "heading-sm": {
+            $value: {
+              fontFamily: "Space Grotesk",
+              fontWeight: "{font-weight.semibold}",
+              fontSize: "{font-size.md}",
+              lineHeight: "{line-height.md}"
+            }
+          },
+          "display-lg": {
+            $value: {
+              fontFamily: "Permanent Marker",
+              fontWeight: "{font-weight.normal}",
+              fontSize: "{font-size.5xl}",
+              lineHeight: "{line-height.5xl}"
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    expect(content).toContain("body: bodyFont");
+    expect(content).toContain('"heading-md": headingMdFont');
+    expect(content).toContain('"heading-sm": headingSmFont');
+    expect(content).toContain('"display-lg": displayLgFont');
+
+    const body = createFontBlock(content, "bodyFont");
+    const headingMd = createFontBlock(content, "headingMdFont");
+    const headingSm = createFontBlock(content, "headingSmFont");
+    const displayLg = createFontBlock(content, "displayLgFont");
+
+    expect(body).toContain("true: 16");
+    expect(body).toContain("md: 16");
+    expect(body).toContain("true: 24");
+    expect(body).toContain('true: "300"');
+    expect(body).toContain('light: "300"');
+    expect(body).not.toContain('"5xl"');
+    expect(body).not.toContain("true: 48");
+
+    expect(headingMd).toContain("true: 18");
+    expect(headingMd).toContain("lg: 18");
+    expect(headingMd).toContain("true: 28");
+    expect(headingMd).toContain('true: "600"');
+    expect(headingMd).toContain('semibold: "600"');
+    expect(headingMd).not.toContain('"5xl"');
+    expect(headingMd).not.toContain('true: "300"');
+
+    expect(headingSm).toContain("true: 16");
+    expect(headingSm).toContain('true: "600"');
+    expect(headingSm).not.toContain('true: "300"');
+    expect(headingSm).not.toContain("true: 18");
+
+    expect(displayLg).toContain("true: 48");
+    expect(displayLg).toContain('"5xl": 48');
+    expect(displayLg).toContain('true: "400"');
+    expect(displayLg).toContain("Permanent Marker");
+    expect(displayLg).not.toContain("Space Grotesk");
   });
 
   it("maps nested typography language segments onto FontLanguage keys", () => {
@@ -397,7 +536,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(flattenTokens(nested.tokens), {
+    const content = renderConfig(nested, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -427,8 +566,8 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(
-      flattenTokens(spec.tokens),
+    const content = renderConfig(
+      spec,
       {
         useDefaultConfig: false,
         animations: false,
@@ -582,7 +721,7 @@ describe("tamagui plugin", () => {
       isPaletteGroup({ palette: true, 1: { $value: "#fff" } })
     ).toBe(true);
 
-    const content = renderTamaguiConfig(flat, {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -634,7 +773,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -695,7 +834,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -751,7 +890,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -774,7 +913,7 @@ describe("tamagui plugin", () => {
   });
 
   it("emits AppTheme from token-derived palettes, scales, and semantics", () => {
-    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       animations: false,
       includeTypeAugmentation: false
     });
@@ -857,7 +996,7 @@ describe("tamagui plugin", () => {
       "inset 0px 1px 1px 0px #0000000d"
     );
 
-    const content = renderTamaguiConfig(flat, {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -920,7 +1059,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(spec, flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
@@ -969,7 +1108,7 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
-    const content = renderTamaguiConfig(flattenTokens(spec.tokens), {
+    const content = renderConfig(spec, {
       useDefaultConfig: false,
       animations: false,
       includeTypeAugmentation: false
