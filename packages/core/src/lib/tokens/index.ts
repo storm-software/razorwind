@@ -27,7 +27,7 @@ export {
   canonicalizeTokenType,
   type RazorwindParserName
 } from "./constants";
-export { parseCssCustomProperties } from "./css";
+export { collectCssCustomProperties, parseCssCustomProperties } from "./css";
 export {
   inferTypeFromPath,
   inferValue,

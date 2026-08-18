@@ -189,6 +189,28 @@ describe("parseCssCustomProperties", () => {
       }
     });
   });
+
+  it("collects custom properties declared outside :root", () => {
+    const tokens = parseCssCustomProperties(`
+      .dark { --color-bg: #111111; }
+      @theme { --radius-lg: 12px; }
+      @property --color-accent {
+        syntax: "<color>";
+        inherits: true;
+        initial-value: #ff6600;
+      }
+    `);
+
+    expect(tokens).toMatchObject({
+      color: {
+        bg: expect.objectContaining({ $type: "color" }),
+        accent: expect.objectContaining({ $type: "color" })
+      },
+      radius: {
+        lg: expect.objectContaining({ $type: "dimension" })
+      }
+    });
+  });
 });
 
 describe("razorwindParsers", () => {

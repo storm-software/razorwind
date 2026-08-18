@@ -78,6 +78,76 @@ describe("parseCssTokens", () => {
       }
     });
   });
+
+  it("collects custom properties from every rule, not only :root", () => {
+    const tokens = parseCssTokens(`
+:root {
+  --color-primary: #0066cc;
+}
+
+.dark {
+  --color-bg: #111111;
+}
+
+@layer base {
+  html {
+    --spacing-lg: 2rem;
+  }
+}
+
+.card {
+  --card-padding: 1rem;
+  color: var(--color-primary);
+}
+
+@property --color-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ff6600;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --color-fg: #eeeeee;
+  }
+}
+`);
+
+    expect(tokens).toMatchObject({
+      color: {
+        primary: expect.objectContaining({ $type: "color" }),
+        bg: expect.objectContaining({ $type: "color" }),
+        accent: expect.objectContaining({ $type: "color" }),
+        fg: expect.objectContaining({ $type: "color" })
+      },
+      spacing: {
+        lg: expect.objectContaining({ $type: "dimension" })
+      },
+      card: {
+        padding: expect.objectContaining({ $type: "dimension" })
+      }
+    });
+  });
+
+  it("keeps composite values that contain curly braces", () => {
+    const tokens = parseCssTokens(`
+@theme {
+  --blur-sm: 8px;
+  --border-accent: {"width":{"value":2,"unit":"px"},"style":"solid"};
+}
+`);
+
+    expect(tokens).toMatchObject({
+      blur: {
+        sm: expect.objectContaining({ $type: "dimension" })
+      },
+      border: {
+        accent: {
+          $value: '{"width":{"value":2,"unit":"px"},"style":"solid"}'
+        }
+      }
+    });
+  });
 });
 
 describe("resolveCssPath", () => {
@@ -122,6 +192,32 @@ describe("extractCssTokens", () => {
       },
       spacing: {
         sm: expect.anything()
+      }
+    });
+  });
+
+  it("extracts custom properties declared outside :root", async () => {
+    const dir = await makeCssFixture(`
+.dark {
+  --color-bg: #111111;
+}
+
+@theme {
+  --radius-lg: 12px;
+}
+`);
+
+    const tokens = await extractCssTokens({
+      cwd: dir,
+      cssPath: "src/styles.css"
+    });
+
+    expect(tokens).toMatchObject({
+      color: {
+        bg: expect.anything()
+      },
+      radius: {
+        lg: expect.anything()
       }
     });
   });

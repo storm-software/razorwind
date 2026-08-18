@@ -54,8 +54,12 @@ function hasTokens(tokens: unknown): tokens is Tokens {
 }
 
 /**
- * Parse CSS custom properties (`:root`, `@theme`, `[data-theme]`, …) into a
- * nested DTCG token tree.
+ * Parse CSS custom properties from an entire stylesheet into a nested DTCG
+ * token tree.
+ *
+ * Declarations are collected from every rule — `:root`, `@theme`, `.dark`,
+ * `@layer`, `@property`, `[data-theme]`, component selectors, and so on — not
+ * only `:root`. `var(--token)` usages are ignored.
  */
 export function parseCssTokens(contents: string): Tokens {
   return parseCssCustomProperties(contents) as Tokens;

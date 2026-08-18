@@ -12,10 +12,10 @@ catalog:
   "@nx/vite": 23.1.0
   "@nx/vitest": 23.1.0
   "@nx/workspace": 23.1.0
-  "@power-plant/core": ^0.0.90
+  "@power-plant/core": ^0.0.91
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/schema": ^0.0.88
-  "@power-plant/utils": ^0.0.76
+  "@power-plant/schema": ^0.0.89
+  "@power-plant/utils": ^0.0.77
   "@powerlines/plugin-env": ^0.16.420
   "@powerlines/nx": ^0.13.251
   "@powerlines/plugin-untyped": ^0.2.627
@@ -40,15 +40,15 @@ catalog:
   "@storm-software/tsconfig": ^0.48.199
   "@storm-software/untyped": ^0.24.275
   "@storm-software/workspace-tools": ^1.297.2
-  "@stryke/env": ^0.20.129
-  "@stryke/fs": ^0.33.112
-  "@stryke/hash": ^0.13.65
-  "@stryke/helpers": ^0.10.50
-  "@stryke/path": ^0.29.37
-  "@stryke/string-format": ^0.17.52
-  "@stryke/type-checks": ^0.6.43
-  "@stryke/types": ^0.12.38
-  "@stryke/url": ^0.4.62
+  "@stryke/env": ^0.20.130
+  "@stryke/fs": ^0.33.113
+  "@stryke/hash": ^0.13.66
+  "@stryke/helpers": ^0.10.51
+  "@stryke/path": ^0.29.38
+  "@stryke/string-format": ^0.17.53
+  "@stryke/type-checks": ^0.6.44
+  "@stryke/types": ^0.12.39
+  "@stryke/url": ^0.4.63
   "@tailwindcss/node": ^4.3.3
   "@types/node": ^25.9.5
   "@typescript/native-preview": 7.0.0-dev.20251218.3

@@ -136,20 +136,29 @@ function bucketTokenKey(token: FlatToken): string {
   return token.tokenKey ?? "";
 }
 
+/**
+ * Terminal `createTokens` value after following DTCG / `var()` aliases.
+ *
+ * Semantic radius tokens (`{border-radius.lg}`) must resolve to the primitive
+ * number — unresolved `{…}` / `var()` strings are omitted from the bucket.
+ */
 function bucketTokenValue(
   token: FlatToken,
   lookups: TokenLookups
 ): string | number {
+  const terminal = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
+  const tamaguiValue = terminal.tamaguiValue;
+
   if (
     token.category &&
     PX_TOKEN_CATEGORIES.has(token.category) &&
-    typeof token.tamaguiValue === "number"
+    typeof tamaguiValue === "number"
   ) {
-    return `px(${token.tamaguiValue})`;
+    return `px(${tamaguiValue})`;
   }
 
-  if (typeof token.tamaguiValue === "string") {
-    const resolved = resolveCssReferencesInValue(token.tamaguiValue, lookups);
+  if (typeof tamaguiValue === "string") {
+    const resolved = resolveCssReferencesInValue(tamaguiValue, lookups);
     if (token.category === "dropShadow") {
       return toDropShadowFilter(resolved);
     }
@@ -157,7 +166,7 @@ function bucketTokenValue(
     return resolved;
   }
 
-  return token.tamaguiValue;
+  return tamaguiValue;
 }
 
 /**

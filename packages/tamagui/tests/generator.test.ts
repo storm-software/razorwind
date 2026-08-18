@@ -1298,4 +1298,54 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("dropShadowSm:");
     expect(content).not.toContain("textShadowXs:");
   });
+
+  it("resolves semantic border-radius aliases into createTokens radius", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        "border-radius": {
+          $type: "dimension",
+          lg: { $value: { value: 0.5, unit: "rem" } },
+          md: { $value: { value: 0.375, unit: "rem" } },
+          sm: { $value: { value: 0.25, unit: "rem" } },
+          xs: { $value: { value: 0.125, unit: "rem" } },
+          container: { $value: "{border-radius.lg}" },
+          card: { $value: "{border-radius.md}" },
+          trigger: { $value: "{border-radius.sm}" },
+          control: { $value: "{border-radius.xs}" },
+          dialog: { $value: "{border-radius.xs}" },
+          popover: { $value: "{border-radius.xs}" },
+          tooltip: { $value: "{border-radius.xs}" }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const tokensBlock = content.slice(
+      content.indexOf("createTokens"),
+      content.indexOf("const themes")
+    );
+
+    expect(tokensBlock).toContain("radius: {");
+    expect(tokensBlock).toContain("lg: 8");
+    expect(tokensBlock).toContain("md: 6");
+    expect(tokensBlock).toContain("sm: 4");
+    expect(tokensBlock).toContain("xs: 2");
+    expect(tokensBlock).toContain("container: 8");
+    expect(tokensBlock).toContain("card: 6");
+    expect(tokensBlock).toContain("trigger: 4");
+    expect(tokensBlock).toContain("control: 2");
+    expect(tokensBlock).toContain("dialog: 2");
+    expect(tokensBlock).toContain("popover: 2");
+    expect(tokensBlock).toContain("tooltip: 2");
+    expect(tokensBlock).not.toContain("{border-radius");
+    expect(tokensBlock).not.toContain("var(--border-radius");
+  });
 });
