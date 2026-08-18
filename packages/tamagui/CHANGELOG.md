@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.46) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update generated output fonts to better align with the token input ([dcbffff](https://github.com/storm-software/razorwind/commit/dcbffff))
+
 ## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.45) (08/18/2026)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.53](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.53) (08/18/2026)
+
+### Bug Fixes
+
+- **design-md:** Resolve issue where primitive color palettes were displayed in generated `DESIGN.md` files ([435361d](https://github.com/storm-software/razorwind/commit/435361d))
+
 ## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.52) (08/18/2026)
 
 ### Updated Dependencies
