@@ -27,6 +27,7 @@ import {
 import { formatTokenValue, toTamaguiValue } from "../src/format";
 import {
   colorLightness,
+  flipPaletteStep,
   generateTamaguiConfig,
   orderPaletteForScheme,
   renderTamaguiConfig
@@ -849,6 +850,80 @@ describe("tamagui plugin", () => {
     expect(content).toMatch(
       /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?red1:\s*"#1a0000"/
     );
+  });
+
+  it("flips dark getTheme scale steps after palettes are reversed darkest-first", () => {
+    expect(flipPaletteStep(1, 9)).toBe(9);
+    expect(flipPaletteStep(7, 9)).toBe(3);
+    expect(flipPaletteStep(5, 9)).toBe(5);
+    expect(flipPaletteStep(9, 9)).toBe(1);
+    expect(flipPaletteStep(1, 3)).toBe(3);
+
+    function nestedScale(colors: string[]): Record<string, unknown> {
+      const scale: Record<string, unknown> = { primitive: true };
+      for (const [index, color] of colors.entries()) {
+        scale[String(index + 1)] = { $value: color };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: nestedScale(["#ffffff", "#888888", "#111111"]),
+            red: nestedScale(["#ffeaea", "#cc6666", "#330000"]),
+            surface: nestedScale(["#ffffff", "#f4f4f3", "#e8e7e6"]),
+            danger: { $value: "{color.red.1}" },
+            dangersubtle: { $value: "{color.red.3}" },
+            background: { $value: "{color.base.1}" },
+            foreground: { $value: "{color.base.3}" },
+            page: { $value: "{color.surface.1}" }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: nestedScale(["#f5f5f5", "#777777", "#0a0a0a"]),
+            red: nestedScale(["#ffcccc", "#aa4444", "#1a0000"]),
+            surface: nestedScale(["#1a1c1f", "#1e2023", "#242629"]),
+            danger: { $value: "{color.red.1}" },
+            dangersubtle: { $value: "{color.red.3}" },
+            background: { $value: "{color.base.1}" },
+            foreground: { $value: "{color.base.3}" },
+            page: { $value: "{color.surface.1}" }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const themeMatch = content.match(
+      /return scheme === "dark"\s*\? (\{[\s\S]*?\})\s*: (\{[\s\S]*?\});/
+    );
+    expect(themeMatch).toBeTruthy();
+    const [, darkBlock = "", lightBlock = ""] = themeMatch ?? [];
+
+    expect(lightBlock).toContain("danger: theme.red1");
+    expect(lightBlock).toContain("dangersubtle: theme.red3");
+    expect(lightBlock).toContain("background: theme.color1");
+    expect(lightBlock).toContain("foreground: theme.color3");
+    expect(lightBlock).toContain("page: theme.surface1");
+
+    expect(darkBlock).toContain("danger: theme.red3");
+    expect(darkBlock).toContain("dangersubtle: theme.red1");
+    expect(darkBlock).toContain("background: theme.color3");
+    expect(darkBlock).toContain("foreground: theme.color1");
+    expect(darkBlock).toContain("page: theme.surface1");
   });
 
   it("maps getTheme semantic aliases onto the Tamagui theme object", () => {

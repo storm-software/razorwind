@@ -39,6 +39,7 @@ export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
   collectColorScales,
   colorLightness,
+  flipPaletteStep,
   generateTamaguiConfig,
   orderPaletteForScheme,
   renderInstallMd,

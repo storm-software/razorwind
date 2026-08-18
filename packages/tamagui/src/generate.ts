@@ -493,31 +493,93 @@ function themePropertyAccess(property: string): string {
 }
 
 /**
+ * Mirror a palette step across a numbered scale (`1` ↔ `max`, `2` ↔ `max-1`).
+ *
+ * Dark palettes are emitted darkest-first (`color1` / `red1` are the darkest
+ * stops), so a DTCG alias `{color.red.7}` must read `theme.red3` on a 9-step
+ * scale to keep pointing at the original token color.
+ */
+export function flipPaletteStep(step: number, maxStep: number): number {
+  if (maxStep < 1) {
+    return step;
+  }
+
+  return maxStep + 1 - step;
+}
+
+function wasPaletteReversed(
+  values: readonly string[],
+  scheme: ColorScheme
+): boolean {
+  if (values.length < 2) {
+    return false;
+  }
+
+  const ordered = orderPaletteForScheme(values, scheme);
+
+  return ordered.some((value, index) => value !== values[index]);
+}
+
+/**
+ * Remap a DTCG scale step onto the Tamagui theme key for this scheme.
+ *
+ * Light palettes stay lightest-first, so steps are unchanged. Dark palettes
+ * that were reversed darkest-first flip `step` across the scale (`max + 1 - n`).
+ */
+function scaleStepForScheme(
+  step: number,
+  name: string,
+  scales: Record<string, Record<string, string>>,
+  scheme: ColorScheme
+): number {
+  const scale = scales[name];
+  if (!scale || scheme !== "dark") {
+    return step;
+  }
+
+  const entries = orderedScaleEntries(scale, name);
+  if (entries.length < 2) {
+    return step;
+  }
+
+  const values = entries.map(([, value]) => value);
+  if (!wasPaletteReversed(values, scheme)) {
+    return step;
+  }
+
+  return flipPaletteStep(step, entries[entries.length - 1]![0]);
+}
+
+/**
  * Map a resolved color token onto a Tamagui `theme` object key.
  *
  * Base palettes (`lightPalette` / `darkPalette`) become `color1`–`color12`.
  * Children palettes become named keys (`blue6`, `red7`, …) that `createV5Theme`
- * spreads onto the generated theme extras.
+ * spreads onto the generated theme extras. Dark scheme steps are flipped when
+ * the matching palette was reversed darkest-first.
  */
 function themePropertyForToken(
   token: FlatToken,
   basePaletteName: string | undefined,
-  scales: Record<string, Record<string, string>>
+  scales: Record<string, Record<string, string>>,
+  scheme: ColorScheme
 ): string | undefined {
   const parsed = parseScaleToken(token);
   if (!parsed) {
     return undefined;
   }
 
+  const step = scaleStepForScheme(parsed.step, parsed.name, scales, scheme);
+
   if (
     basePaletteName &&
     parsed.name.toLowerCase() === basePaletteName.toLowerCase()
   ) {
-    return `color${parsed.step}`;
+    return `color${step}`;
   }
 
   if (scales[parsed.name]) {
-    return `${parsed.name}${parsed.step}`;
+    return `${parsed.name}${step}`;
   }
 
   return undefined;
@@ -922,7 +984,8 @@ function resolveBasePalettes(tokens: FlatToken[]): {
  * Semantic color extras for `createV5Theme({ getTheme })`.
  *
  * Palette aliases become `theme.colorN` / `theme.blueN` accesses on the object
- * Tamagui passes into `getTheme`. Direct hex colors stay as string literals.
+ * Tamagui passes into `getTheme`. Dark scheme steps are flipped when palettes
+ * were reversed darkest-first. Direct hex colors stay as string literals.
  * CSS `var()` strings are never emitted — they are not valid Tamagui theme
  * values.
  *
@@ -930,7 +993,8 @@ function resolveBasePalettes(tokens: FlatToken[]): {
  */
 function semanticColorsForTheme(
   tokens: FlatToken[],
-  basePaletteName: string | undefined
+  basePaletteName: string | undefined,
+  scheme: ColorScheme
 ): Record<string, string> {
   const scales = collectColorScales(tokens);
   const { byPath, byCssVar } = tokenLookups(tokens);
@@ -953,7 +1017,12 @@ function semanticColorsForTheme(
     }
 
     const resolved = resolveAliasChain(token, byPath, byCssVar);
-    const property = themePropertyForToken(resolved, basePaletteName, scales);
+    const property = themePropertyForToken(
+      resolved,
+      basePaletteName,
+      scales,
+      scheme
+    );
     if (property) {
       semantic[token.tokenKey] = themePropertyAccess(property);
       continue;
@@ -985,10 +1054,16 @@ function colorTokenToShadowPart(
   token: FlatToken,
   lookups: TokenLookups,
   basePaletteName: string | undefined,
-  scales: Record<string, Record<string, string>>
+  scales: Record<string, Record<string, string>>,
+  scheme: ColorScheme
 ): ShadowPart | undefined {
   const resolved = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
-  const property = themePropertyForToken(resolved, basePaletteName, scales);
+  const property = themePropertyForToken(
+    resolved,
+    basePaletteName,
+    scales,
+    scheme
+  );
   if (property) {
     return { kind: "theme", property };
   }
@@ -1009,7 +1084,8 @@ function splitShadowColorRefs(
   value: string,
   lookups: TokenLookups,
   basePaletteName: string | undefined,
-  scales: Record<string, Record<string, string>>
+  scales: Record<string, Record<string, string>>,
+  scheme: ColorScheme
 ): ShadowPart[] | undefined {
   const parts: ShadowPart[] = [];
   const pattern = /\{([^{}]+)\}|var\((--[^),\s]+)(?:\s*,[^)]*)?\)/g;
@@ -1034,7 +1110,8 @@ function splitShadowColorRefs(
       token,
       lookups,
       basePaletteName,
-      scales
+      scales,
+      scheme
     );
     if (!part) {
       return undefined;
@@ -1076,13 +1153,14 @@ function renderShadowParts(parts: ShadowPart[]): string {
  * Ring box-shadow extras for `createV5Theme({ getTheme })`.
  *
  * Palette-mapped colors become `${theme.color7}` interpolations so light/dark
- * inversion is handled by Tamagui. Other colors stay scheme-specific literals.
+ * inversion is handled by Tamagui palettes (with dark steps flipped to match). Other colors stay scheme-specific literals.
  *
  * @see https://tamagui.dev/docs/guides/theme-builder#gettheme
  */
 function ringShadowsForTheme(
   tokens: FlatToken[],
-  basePaletteName: string | undefined
+  basePaletteName: string | undefined,
+  scheme: ColorScheme
 ): Record<string, string> {
   const lookups = tokenLookups(tokens);
   const scales = collectColorScales(
@@ -1103,7 +1181,13 @@ function ringShadowsForTheme(
       continue;
     }
 
-    const parts = splitShadowColorRefs(css, lookups, basePaletteName, scales);
+    const parts = splitShadowColorRefs(
+      css,
+      lookups,
+      basePaletteName,
+      scales,
+      scheme
+    );
     if (!parts) {
       continue;
     }
@@ -1332,15 +1416,16 @@ export function renderTamaguiConfig(
     darkColorTokens.length > 0 ? darkBaseName : lightBaseName;
 
   const lightSemantic = {
-    ...semanticColorsForTheme(lightColorTokens, lightBaseName),
-    ...ringShadowsForTheme(lightSchemeTokens, lightBaseName)
+    ...semanticColorsForTheme(lightColorTokens, lightBaseName, "light"),
+    ...ringShadowsForTheme(lightSchemeTokens, lightBaseName, "light")
   };
   const darkSemantic = {
     ...semanticColorsForTheme(
       darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens,
-      darkBaseNameOrLight
+      darkBaseNameOrLight,
+      "dark"
     ),
-    ...ringShadowsForTheme(darkSchemeOrLight, darkBaseNameOrLight)
+    ...ringShadowsForTheme(darkSchemeOrLight, darkBaseNameOrLight, "dark")
   };
   const appThemeKeys = collectAppThemeKeys({
     lightSemantic,
