@@ -673,6 +673,7 @@ describe("tamagui plugin", () => {
     const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
     expect(install).toContain("both `light` and `dark` themes");
     expect(install).toContain("defaultTheme=\"light\"");
+    expect(install).toContain("boxShadow=\"$ringAccent\"");
   });
 
   it("maps palette: true groups to childrenThemes and base palettes", () => {
@@ -1065,10 +1066,107 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
-    expect(content).toContain('ringAccentSubtle: "0px 0px 0px 1px #00ccaa"');
+    const tokensBlock = content.slice(
+      content.indexOf("createTokens"),
+      content.indexOf("const themes")
+    );
+    const getTheme = content.slice(content.indexOf("getTheme:"));
+
+    expect(tokensBlock).not.toContain("ringAccent");
+    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
+    expect(getTheme).toContain('ringAccentSubtle: "0px 0px 0px 1px #00ccaa"');
     expect(content).not.toContain("var(--color-border-accent)");
     expect(content).not.toContain("{color.border.accent}");
+  });
+
+  it("emits ring shadows on getTheme for light and dark schemes", () => {
+    function nestedScale(
+      hex: (step: number) => string,
+      steps = 9
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { primitive: true };
+      for (let step = 1; step <= steps; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const ringLayer = (color: string, spread: number) => ({
+      $type: "shadow",
+      $value: {
+        color,
+        offsetX: { value: 0, unit: "px" },
+        offsetY: { value: 0, unit: "px" },
+        blur: { value: 0, unit: "px" },
+        spread: { value: spread, unit: "px" }
+      }
+    });
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#f${step}f${step}f${step}`),
+            brand: {
+              primitive: true,
+              1: { $value: "#00ccaa" }
+            },
+            border: {
+              primary: { $value: "{color.base.7}" },
+              accent: { $value: "{color.brand.1}" }
+            }
+          },
+          ring: {
+            primary: ringLayer("{color.border.primary}", 3),
+            accent: ringLayer("{color.border.accent}", 3)
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: nestedScale(step => `#1${step}1${step}1${step}`),
+            brand: {
+              primitive: true,
+              1: { $value: "#00aa88" }
+            },
+            border: {
+              primary: { $value: "{color.base.7}" },
+              accent: { $value: "{color.brand.1}" }
+            }
+          },
+          ring: {
+            primary: ringLayer("{color.border.primary}", 3),
+            accent: ringLayer("{color.border.accent}", 3)
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const tokensBlock = content.slice(
+      content.indexOf("createTokens"),
+      content.indexOf("const themes")
+    );
+    const getTheme = content.slice(content.indexOf("getTheme:"));
+
+    expect(tokensBlock).not.toContain("ringPrimary");
+    expect(tokensBlock).not.toContain("ringAccent");
+    expect(getTheme).toContain("ringPrimary: `0px 0px 0px 3px ${theme.color7}`");
+    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
+    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00aa88"');
+    expect(content).toContain("ringAccent: string;");
+    expect(content).toContain("ringPrimary: string;");
+    expect(content).not.toContain("var(--");
+    expect(content).not.toContain("{color.");
   });
 
   it("emits fontSize, dropShadow, and textShadow as createTokens categories", () => {

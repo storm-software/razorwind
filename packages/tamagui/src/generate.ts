@@ -34,6 +34,8 @@ import type {
 const LIGHT_THEME_IDS = new Set(["default", "light", "theme"]);
 /** Matches core `isSharedThemeId` (`base`, `baseDimmed`, …). */
 const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
+/** DTCG `ring.*` shadows — themed via `getTheme`, not static `createTokens`. */
+const RING_PATH_PATTERN = /^ring(?:\.|$)/i;
 /**
  * Palette names that map onto Tamagui v5 `lightPalette` / `darkPalette`
  * (`color1`–`color12` on the base theme).
@@ -92,6 +94,10 @@ function tokensForScheme(
   }
 
   return [...byPath.values()];
+}
+
+function isRingToken(token: FlatToken): boolean {
+  return RING_PATH_PATTERN.test(token.path) && token.category === "shadow";
 }
 
 /** Custom token categories that need Tamagui's `px()` helper (not size/space/radius). */
@@ -188,7 +194,12 @@ function buildCategoryBuckets(
   const lookups = tokenLookups(tokens);
 
   for (const token of tokens) {
-    if (!token.category || token.category === "color" || !token.tokenKey) {
+    if (
+      !token.category ||
+      token.category === "color" ||
+      !token.tokenKey ||
+      isRingToken(token)
+    ) {
       continue;
     }
 
@@ -960,6 +971,149 @@ function semanticColorsForTheme(
   return semantic;
 }
 
+type ShadowPart =
+  { kind: "text"; value: string } | { kind: "theme"; property: string };
+
+function escapeTemplateLiteral(value: string): string {
+  return value
+    .replaceAll("\\", "\\\\")
+    .replaceAll("`", "\\`")
+    .replaceAll("${", "\\${");
+}
+
+function colorTokenToShadowPart(
+  token: FlatToken,
+  lookups: TokenLookups,
+  basePaletteName: string | undefined,
+  scales: Record<string, Record<string, string>>
+): ShadowPart | undefined {
+  const resolved = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
+  const property = themePropertyForToken(resolved, basePaletteName, scales);
+  if (property) {
+    return { kind: "theme", property };
+  }
+
+  const literal = resolvedColorLiteral(resolved, lookups);
+  if (literal) {
+    return { kind: "text", value: literal };
+  }
+
+  return undefined;
+}
+
+/**
+ * Split a CSS box-shadow string on DTCG aliases and `var(--…)` color refs.
+ * Returns `undefined` when any reference cannot be resolved.
+ */
+function splitShadowColorRefs(
+  value: string,
+  lookups: TokenLookups,
+  basePaletteName: string | undefined,
+  scales: Record<string, Record<string, string>>
+): ShadowPart[] | undefined {
+  const parts: ShadowPart[] = [];
+  const pattern = /\{([^{}]+)\}|var\((--[^),\s]+)(?:\s*,[^)]*)?\)/g;
+  let lastIndex = 0;
+
+  for (const match of value.matchAll(pattern)) {
+    const index = match.index ?? 0;
+    if (index > lastIndex) {
+      parts.push({ kind: "text", value: value.slice(lastIndex, index) });
+    }
+
+    const token = match[1]
+      ? lookups.byPath.get(match[1].trim())
+      : match[2]
+        ? lookups.byCssVar.get(match[2])
+        : undefined;
+    if (!token) {
+      return undefined;
+    }
+
+    const part = colorTokenToShadowPart(
+      token,
+      lookups,
+      basePaletteName,
+      scales
+    );
+    if (!part) {
+      return undefined;
+    }
+
+    parts.push(part);
+    lastIndex = index + match[0].length;
+  }
+
+  if (lastIndex < value.length) {
+    parts.push({ kind: "text", value: value.slice(lastIndex) });
+  }
+
+  return parts;
+}
+
+function renderShadowParts(parts: ShadowPart[]): string {
+  const hasTheme = parts.some(part => part.kind === "theme");
+  if (!hasTheme) {
+    return toLiteral(
+      parts.map(part => (part.kind === "text" ? part.value : "")).join("")
+    );
+  }
+
+  const body = parts
+    .map(part => {
+      if (part.kind === "theme") {
+        return `\${${themePropertyAccess(part.property)}}`;
+      }
+
+      return escapeTemplateLiteral(part.value);
+    })
+    .join("");
+
+  return `\`${body}\``;
+}
+
+/**
+ * Ring box-shadow extras for `createV5Theme({ getTheme })`.
+ *
+ * Palette-mapped colors become `${theme.color7}` interpolations so light/dark
+ * inversion is handled by Tamagui. Other colors stay scheme-specific literals.
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder#gettheme
+ */
+function ringShadowsForTheme(
+  tokens: FlatToken[],
+  basePaletteName: string | undefined
+): Record<string, string> {
+  const lookups = tokenLookups(tokens);
+  const scales = collectColorScales(
+    tokens.filter(token => token.category === "color")
+  );
+  const rings: Record<string, string> = {};
+
+  for (const token of tokens) {
+    if (!isRingToken(token) || !token.tokenKey) {
+      continue;
+    }
+
+    const css =
+      typeof token.tamaguiValue === "string"
+        ? token.tamaguiValue
+        : token.cssValue;
+    if (typeof css !== "string" || css.length === 0) {
+      continue;
+    }
+
+    const parts = splitShadowColorRefs(css, lookups, basePaletteName, scales);
+    if (!parts) {
+      continue;
+    }
+
+    rings[token.tokenKey] = renderShadowParts(parts);
+  }
+
+  return rings;
+}
+
 function renderChildrenThemes(
   lightScales: Record<string, Record<string, string>>,
   darkScales: Record<string, Record<string, string>>
@@ -1170,11 +1324,24 @@ export function renderTamaguiConfig(
     resolveBasePalettes(tokens);
   const childrenThemes = renderChildrenThemes(lightScales, darkScales);
 
-  const lightSemantic = semanticColorsForTheme(lightColorTokens, lightBaseName);
-  const darkSemantic = semanticColorsForTheme(
-    darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens,
-    darkColorTokens.length > 0 ? darkBaseName : lightBaseName
-  );
+  const lightSchemeTokens = tokensForScheme(tokens, "light");
+  const darkSchemeTokens = tokensForScheme(tokens, "dark");
+  const darkSchemeOrLight =
+    darkColorTokens.length > 0 ? darkSchemeTokens : lightSchemeTokens;
+  const darkBaseNameOrLight =
+    darkColorTokens.length > 0 ? darkBaseName : lightBaseName;
+
+  const lightSemantic = {
+    ...semanticColorsForTheme(lightColorTokens, lightBaseName),
+    ...ringShadowsForTheme(lightSchemeTokens, lightBaseName)
+  };
+  const darkSemantic = {
+    ...semanticColorsForTheme(
+      darkColorTokens.length > 0 ? darkColorTokens : lightColorTokens,
+      darkBaseNameOrLight
+    ),
+    ...ringShadowsForTheme(darkSchemeOrLight, darkBaseNameOrLight)
+  };
   const appThemeKeys = collectAppThemeKeys({
     lightSemantic,
     darkSemantic,
@@ -1187,7 +1354,7 @@ export function renderTamaguiConfig(
     specName: spec.name
   });
 
-  const buckets = buildCategoryBuckets(tokensForScheme(tokens, "light"));
+  const buckets = buildCategoryBuckets(lightSchemeTokens);
   const colorBucket = colorBucketForCreateTokens(
     lightColorTokens,
     darkColorTokens
