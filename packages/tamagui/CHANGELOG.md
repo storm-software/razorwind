@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.45) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue applying ring with variables ([88129f9](https://github.com/storm-software/razorwind/commit/88129f9))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.56**
+
 ## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.44) (08/17/2026)
 
 ### Bug Fixes

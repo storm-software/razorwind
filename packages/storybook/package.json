@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/storybook",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "type": "module",
   "description": "Razorwind plugin that creates Storybook MDX token doc blocks from Razorwind design tokens.",
   "repository": {
