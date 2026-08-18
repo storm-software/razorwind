@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.51) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue specifying color tokens to `createTheme` ([a5a3b7d](https://github.com/storm-software/razorwind/commit/a5a3b7d))
+
 ## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.50) (08/18/2026)
 
 ### Features
