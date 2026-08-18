@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.47) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue specifying ring colors per theme ([ecc4743](https://github.com/storm-software/razorwind/commit/ecc4743))
+
 ## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.46) (08/18/2026)
 
 ### Bug Fixes
