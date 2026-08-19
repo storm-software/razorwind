@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.58](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.58) (08/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue including semantic state tokens in theme ([705f8bf](https://github.com/storm-software/razorwind/commit/705f8bf))
+
 ## [0.0.57](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.57) (08/19/2026)
 
 ### Bug Fixes
