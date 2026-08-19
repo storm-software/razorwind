@@ -1202,8 +1202,8 @@ function paletteFromScale(
 /**
  * Unique semantic `theme` / `$theme` tags, excluding light/dark scheme ids.
  *
- * `theme: "danger"` and `theme: "accent"` become children theme names;
- * appearance set ids (`light`, `dark`, `default`) do not.
+ * Tags like `theme: "danger"` feed {@link collectSemanticRoles} for `getTheme`
+ * aliases. Appearance set ids (`light`, `dark`, `default`) are ignored.
  */
 function collectChildThemeNames(tokens: FlatToken[]): string[] {
   const byLower = new Map<string, string>();
@@ -1252,6 +1252,113 @@ type BaseRank = "primary" | "secondary" | "tertiary";
 
 function isBaseChildTheme(name: string): boolean {
   return name.toLowerCase() === "base";
+}
+
+/**
+ * Semantic children-theme tags used by `getTheme` to pick `foregroundWarning`
+ * vs `foregroundPrimary`. `base` is excluded — it uses the Primary aliases.
+ */
+function collectSemanticRoles(tokens: FlatToken[]): string[] {
+  return collectChildThemeNames(tokens).filter(name => !isBaseChildTheme(name));
+}
+
+function capitalizeRole(role: string): string {
+  return `${role.charAt(0).toUpperCase()}${role.slice(1)}`;
+}
+
+/**
+ * Short theme keys overlaid in `getTheme` from qualified semantic sources.
+ *
+ * `name: "dark"` / `"dark_base"` / `"dark_yellow"` → Primary (`foregroundPrimary`).
+ * `name: "dark_warning"` / `"dark_warning_Button"` → Warning (`foregroundWarning`).
+ */
+const ROLE_ALIAS_BINDINGS: ReadonlyArray<{
+  alias: string;
+  source: (role: string) => string;
+}> = [
+  { alias: "background", source: role => `background${role}` },
+  { alias: "backgroundDisabled", source: role => `background${role}Disabled` },
+  { alias: "backgroundHover", source: role => `background${role}Hover` },
+  {
+    alias: "backgroundSubtle",
+    source: role =>
+      role === "Primary" ? "backgroundSecondary" : `background${role}Subtle`
+  },
+  { alias: "border", source: role => `border${role}` },
+  { alias: "borderDisabled", source: role => `border${role}Disabled` },
+  { alias: "borderHover", source: role => `border${role}Hover` },
+  {
+    alias: "borderSubtle",
+    source: role =>
+      role === "Primary" ? "borderSecondary" : `border${role}Subtle`
+  },
+  { alias: "foreground", source: role => `foreground${role}` },
+  { alias: "foregroundDisabled", source: role => `foreground${role}Disabled` },
+  { alias: "foregroundHover", source: role => `foreground${role}Hover` },
+  { alias: "foregroundOn", source: role => `foregroundOn${role}` },
+  {
+    alias: "foregroundOnDisabled",
+    source: role => `foregroundOn${role}Disabled`
+  },
+  { alias: "foregroundOnHover", source: role => `foregroundOn${role}Hover` }
+];
+
+function collectRoleAliasThemeKeys(
+  lightSemantic: Record<string, string>,
+  darkSemantic: Record<string, string>,
+  roles: readonly string[]
+): string[] {
+  const sources = new Set([
+    ...Object.keys(lightSemantic),
+    ...Object.keys(darkSemantic)
+  ]);
+  const capitalized = ["Primary", ...roles.map(capitalizeRole)];
+  const aliases: string[] = [];
+
+  for (const { alias, source } of ROLE_ALIAS_BINDINGS) {
+    if (capitalized.some(role => sources.has(source(role)))) {
+      aliases.push(alias);
+    }
+  }
+
+  return aliases;
+}
+
+/**
+ * Turn stripped semantic children maps into numbered palettes so Tamagui still
+ * generates `dark_warning` / `light_danger` without putting `foreground` on
+ * the root extra (`createV5Theme` flattens children maps onto base extra).
+ *
+ * `base` is omitted — the numbered `base` scale from {@link collectColorScales}
+ * already creates `dark_base`.
+ */
+function semanticRolesAsNumberedPalettes(
+  semantic: Record<string, Record<string, string>>
+): Record<string, Record<string, string>> {
+  const result: Record<string, Record<string, string>> = {};
+
+  for (const [name, colors] of Object.entries(semantic)) {
+    if (isBaseChildTheme(name)) {
+      continue;
+    }
+
+    const values = Object.values(colors);
+    if (values.length === 0) {
+      continue;
+    }
+
+    const scale: Record<string, string> = {};
+    for (const [index, value] of values.entries()) {
+      scale[`${name}${index + 1}`] = value;
+    }
+    if (Object.keys(scale).length === 1) {
+      scale[`${name}2`] = values[0]!;
+    }
+
+    result[name] = scale;
+  }
+
+  return result;
 }
 
 /**
@@ -1345,12 +1452,11 @@ function collectBaseChildrenColors(
 }
 
 /**
- * Build Tamagui `childrenThemes` extras from semantic token `theme` tags.
+ * Build semantic color maps from token `theme` tags (stripped keys).
  *
- * Each tagged color becomes a role on that children theme, with the theme
- * name stripped from the token key:
- * `foregroundSuccess` / `backgroundSuccessSubtle` →
- * `{ foreground, backgroundSubtle }` on `success`.
+ * Not passed to `childrenThemes` as-is — Tamagui would flatten `foreground`
+ * onto the root extra. {@link semanticRolesAsNumberedPalettes} rewrites these
+ * maps to `warning1` / `danger2` palettes so named themes still exist.
  *
  * `base` is special: `backgroundPrimary` → `background`,
  * `backgroundSecondary` → `backgroundSubtle` (or `backgroundTertiary`).
@@ -1720,6 +1826,14 @@ function renderChildrenThemes(
         name,
         "dark"
       );
+      // Semantic role palettes already store `tokens.color.*.val` expressions
+      // under `warning1` / `danger2` — there is no primitive token-key scale.
+      if (Object.keys(light).length === 0) {
+        light = lightValueScale;
+      }
+      if (Object.keys(dark).length === 0) {
+        dark = darkValueScale;
+      }
     } else if (paletteChild) {
       light = orderScaleForScheme(lightValueScale, name, "light");
       dark = orderScaleForScheme(darkValueScale, name, "dark");
@@ -1825,6 +1939,7 @@ function collectAppThemeKeys(options: {
   darkScales: Record<string, Record<string, string>>;
   lightPalette?: string[];
   darkPalette?: string[];
+  semanticRoles?: readonly string[];
 }): string[] {
   const keys = new Set<string>();
 
@@ -1852,10 +1967,64 @@ function collectAppThemeKeys(options: {
   )) {
     keys.add(key);
   }
+  for (const key of collectRoleAliasThemeKeys(
+    options.lightSemantic,
+    options.darkSemantic,
+    options.semanticRoles ?? []
+  )) {
+    keys.add(key);
+  }
 
   return [...keys].toSorted((a, b) =>
     a.localeCompare(b, undefined, { numeric: true })
   );
+}
+
+function renderSemanticRolesConst(roles: readonly string[]): string {
+  const rolesLiteral = roles.map(role => toLiteral(role)).join(", ");
+
+  return `const SEMANTIC_ROLES = new Set([${rolesLiteral}]);`;
+}
+
+function renderGetTheme(
+  lightSemantic: Record<string, string>,
+  darkSemantic: Record<string, string>
+): string {
+  return `  getTheme: ({ theme, scheme, name }: { theme: AppTheme; scheme: "light" | "dark"; name?: string }) => {
+    const values: Record<string, string> = scheme === "dark"
+      ? ${renderThemeObjectLiteral(darkSemantic, 8)}
+      : ${renderThemeObjectLiteral(lightSemantic, 8)};
+    const child = name?.split("_")[1];
+    const role =
+      child && SEMANTIC_ROLES.has(child)
+        ? child.charAt(0).toUpperCase() + child.slice(1)
+        : "Primary";
+    const overlay: Record<string, string> = {};
+    const assign = (alias: string, source: string) => {
+      const value = values[source];
+      if (value !== undefined) {
+        overlay[alias] = value;
+      }
+    };
+    assign("background", \`background\${role}\`);
+    assign("backgroundDisabled", \`background\${role}Disabled\`);
+    assign("backgroundHover", \`background\${role}Hover\`);
+    assign("backgroundSubtle", role === "Primary" ? "backgroundSecondary" : \`background\${role}Subtle\`);
+    assign("border", \`border\${role}\`);
+    assign("borderDisabled", \`border\${role}Disabled\`);
+    assign("borderHover", \`border\${role}Hover\`);
+    assign("borderSubtle", role === "Primary" ? "borderSecondary" : \`border\${role}Subtle\`);
+    assign("foreground", \`foreground\${role}\`);
+    assign("foregroundDisabled", \`foreground\${role}Disabled\`);
+    assign("foregroundHover", \`foreground\${role}Hover\`);
+    assign("foregroundOn", \`foregroundOn\${role}\`);
+    assign("foregroundOnDisabled", \`foregroundOn\${role}Disabled\`);
+    assign("foregroundOnHover", \`foregroundOn\${role}Hover\`);
+    return {
+      ...values,
+      ...overlay
+    };
+  }`;
 }
 
 function renderThemeInterfaceProperty(key: string): string {
@@ -1923,13 +2092,24 @@ export function renderTamaguiConfig(
 
   const lightPaletteScales = collectColorScales(lightColorTokens);
   const darkPaletteScales = collectColorScales(darkColorTokensOrLight);
+  const semanticRoles = collectSemanticRoles([
+    ...lightColorTokens,
+    ...darkColorTokensOrLight
+  ]);
+  // Palette scales win on name collision (`base` stays a 1–12 scale). Semantic
+  // roles that are not palettes become numbered children so Tamagui still
+  // generates `dark_warning` without putting `foreground` on the root extra.
   const lightScales = {
-    ...lightPaletteScales,
-    ...collectSemanticChildrenScales(lightColorTokens, colorBucket)
+    ...semanticRolesAsNumberedPalettes(
+      collectSemanticChildrenScales(lightColorTokens, colorBucket)
+    ),
+    ...lightPaletteScales
   };
   const darkScales = {
-    ...darkPaletteScales,
-    ...collectSemanticChildrenScales(darkColorTokensOrLight, colorBucket)
+    ...semanticRolesAsNumberedPalettes(
+      collectSemanticChildrenScales(darkColorTokensOrLight, colorBucket)
+    ),
+    ...darkPaletteScales
   };
   const { lightPalette, darkPalette, lightBaseName, darkBaseName } =
     resolveBasePalettes(tokens);
@@ -1985,7 +2165,8 @@ export function renderTamaguiConfig(
     lightScales,
     darkScales,
     lightPalette,
-    darkPalette
+    darkPalette,
+    semanticRoles
   });
   const themeInterfaceLines = renderThemeInterface(appThemeKeys, {
     specName: spec.name
@@ -2025,11 +2206,7 @@ export function renderTamaguiConfig(
     Object.keys(lightSemantic).length > 0 ||
     Object.keys(darkSemantic).length > 0
   ) {
-    themeOptions.push(`  getTheme: ({ theme, scheme }: { theme: AppTheme; scheme: "light" | "dark" }) => {
-    return scheme === "dark"
-      ? ${renderThemeObjectLiteral(darkSemantic, 8)}
-      : ${renderThemeObjectLiteral(lightSemantic, 8)};
-  }`);
+    themeOptions.push(renderGetTheme(lightSemantic, darkSemantic));
   }
 
   const imports: string[] = ["import { isWeb } from '@tamagui/constants';"];
@@ -2089,6 +2266,14 @@ export function renderTamaguiConfig(
     themeOptions.length > 0
       ? `createV5Theme({\n${themeOptions.join(",\n")}\n})`
       : `createV5Theme()`;
+
+  const emitGetTheme =
+    Object.keys(lightSemantic).length > 0 ||
+    Object.keys(darkSemantic).length > 0;
+
+  if (emitGetTheme) {
+    lines.push(renderSemanticRolesConst(semanticRoles), "");
+  }
 
   lines.push(`const themes = ${themeCall};`, "");
 

@@ -60,11 +60,10 @@ export type {
  * receives both `lightPalette` / `darkPalette` and `childrenThemes` with
  * `{ light, dark }` palettes. Groups marked `palette: true` become
  * `childrenThemes`; palettes named `base`, `grey`, `gray`, or `neutral` also
- * set `lightPalette` / `darkPalette` (`color1`–`color12`). Semantic token
- * `theme` tags on semantic tokens add children themes whose keys are the
- * semantic color roles (`foreground`, `backgroundSubtle`, …). The `base`
- * children theme maps `xPrimary` → `x` and `xTertiary` (or `xSecondary`) →
- * `xSubtle`. Light palettes are ordered lightest-first; dark palettes
+ * set `lightPalette` / `darkPalette` (`color1`–`color12`). Semantic `theme`
+ * tags select `getTheme` aliases keyed by the generated theme `name`
+ * (`dark` / `dark_base` → Primary, `dark_warning` → Warning) rather than
+ * childrenThemes maps. Light palettes are ordered lightest-first; dark palettes
  * darkest-first.
  *
  * Typography tokens (`$type: "typography"`) each emit their own Tamagui
