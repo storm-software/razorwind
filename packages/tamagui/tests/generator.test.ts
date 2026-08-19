@@ -928,6 +928,12 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("success1:");
     expect(content).not.toContain("accent1:");
     expect(content).not.toContain("positive1:");
+    expect(content).toContain("lightForegroundDanger:");
+    expect(content).toContain("darkForegroundDanger:");
+    expect(content).toContain("lightForegroundAccent:");
+    expect(content).toContain("tokens.color.lightForegroundDanger.val");
+    expect(content).toContain("tokens.color.darkForegroundDanger.val");
+    expect(content).toContain("tokens.color.lightBackgroundSuccess.val");
     expect(content).toContain('"#00ccaa"');
     expect(content).toContain('"#00aa88"');
     // Hue palettes remain as children themes alongside the semantic roles.
@@ -996,18 +1002,18 @@ describe("tamagui plugin", () => {
     expect(baseMatch).toBeTruthy();
     const [, lightBlock = "", darkBlock = ""] = baseMatch ?? [];
 
-    expect(lightBlock).toContain("background: tokens.color.backgroundPrimary.val");
-    expect(lightBlock).toContain("backgroundSubtle: tokens.color.backgroundSecondary.val");
-    expect(lightBlock).toContain("foreground: tokens.color.foregroundPrimary.val");
-    expect(lightBlock).toContain("foregroundOn: tokens.color.foregroundOnPrimary.val");
-    expect(lightBlock).toContain("foregroundSubtle: tokens.color.foregroundSecondary.val");
-    expect(lightBlock).toContain("border: tokens.color.borderPrimary.val");
-    expect(lightBlock).toContain("borderSubtle: tokens.color.borderSecondary.val");
+    expect(lightBlock).toContain("background: tokens.color.lightBackgroundPrimary.val");
+    expect(lightBlock).toContain("backgroundSubtle: tokens.color.lightBackgroundSecondary.val");
+    expect(lightBlock).toContain("foreground: tokens.color.lightForegroundPrimary.val");
+    expect(lightBlock).toContain("foregroundOn: tokens.color.lightForegroundOnPrimary.val");
+    expect(lightBlock).toContain("foregroundSubtle: tokens.color.lightForegroundSecondary.val");
+    expect(lightBlock).toContain("border: tokens.color.lightBorderPrimary.val");
+    expect(lightBlock).toContain("borderSubtle: tokens.color.lightBorderSecondary.val");
 
-    expect(darkBlock).toContain('background: "#111111"');
-    expect(darkBlock).toContain('backgroundSubtle: "#222222"');
-    expect(darkBlock).toContain('foregroundOn: "#0a0a0a"');
-    expect(darkBlock).toContain('borderSubtle: "#555555"');
+    expect(darkBlock).toContain("background: tokens.color.darkBackgroundPrimary.val");
+    expect(darkBlock).toContain("backgroundSubtle: tokens.color.darkBackgroundSecondary.val");
+    expect(darkBlock).toContain("foregroundOn: tokens.color.darkForegroundOnPrimary.val");
+    expect(darkBlock).toContain("borderSubtle: tokens.color.darkBorderSecondary.val");
   });
 
   it("uses gray, grey, or neutral palettes as lightPalette and darkPalette", () => {
@@ -1308,6 +1314,9 @@ describe("tamagui plugin", () => {
                 components: [0, 0.4, 0.8],
                 hex: "#0066cc"
               }
+            },
+            foreground: {
+              accent: { $value: "{color.brand.1}" }
             }
           },
           "inset-shadow": {
@@ -1327,6 +1336,9 @@ describe("tamagui plugin", () => {
               primitive: true,
               1: { $value: "#00aa88" },
               2: { $value: "#003322" }
+            },
+            foreground: {
+              accent: { $value: "{color.brand.1}" }
             }
           }
         }
@@ -1351,9 +1363,11 @@ describe("tamagui plugin", () => {
     });
 
     expect(content).toContain("color: {");
-    expect(content).toContain('primary: "#0066cc"');
+    expect(content).toContain('lightPrimary: "#0066cc"');
     expect(content).toContain('lightBrand1: "#00ccaa"');
     expect(content).toContain('darkBrand1: "#00aa88"');
+    expect(content).toContain('lightForegroundAccent: "#00ccaa"');
+    expect(content).toContain('darkForegroundAccent: "#00aa88"');
     expect(content).not.toContain("colorSpace");
     expect(content).toContain("shadow: {");
     expect(content).toContain("insetShadow: {");

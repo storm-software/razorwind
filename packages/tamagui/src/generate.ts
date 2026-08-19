@@ -231,13 +231,14 @@ function buildCategoryBuckets(
 }
 
 /**
- * `createTokens({ color })` key for a primitive palette step.
+ * `createTokens({ color })` key for a color token.
  *
- * Light/dark primitives are prefixed (`lightBlue1`, `darkBlue1`) so both schemes
- * can coexist in one bucket.
+ * Light/dark tokens are prefixed (`lightBlue1`, `darkForegroundDanger`) so both
+ * schemes can coexist in one bucket. Tokens without a scheme keep `tokenKey`.
  */
 function paletteTokenKey(token: FlatToken): string {
-  const stem = token.path.replace(/^color\./i, "").replaceAll(".", "");
+  const stem =
+    token.tokenKey ?? token.path.replace(/^color\./i, "").replaceAll(".", "");
 
   return token.theme
     ? `${token.theme}${stem[0]?.toUpperCase() ?? ""}${stem.slice(1)}`
@@ -251,8 +252,9 @@ function tokenColorRef(tokenKey: string): string {
 /**
  * Color entries for `createTokens({ color })` — CSS strings, not DTCG objects.
  *
- * Palette scales use {@link paletteTokenKey}. Semantic colors from the light
- * scheme use `tokenKey`.
+ * Primitive palettes and semantic colors both use {@link paletteTokenKey}.
+ * DTCG aliases / CSS `var()` values are resolved to concrete colors so
+ * `createV5Theme` can reference `tokens.color.<name>.val`.
  *
  * @see https://tamagui.dev/docs/core/tokens
  */
@@ -261,37 +263,32 @@ function colorBucketForCreateTokens(
   darkColorTokens: FlatToken[]
 ): TokenBucket {
   const bucket: TokenBucket = {};
+  const lightLookups = tokenLookups(lightColorTokens);
+  const darkLookups = tokenLookups(darkColorTokens);
 
-  const put = (key: string, token: FlatToken): void => {
-    const value = token.cssValue;
+  const put = (token: FlatToken, lookups: TokenLookups): void => {
+    if (!token.tokenKey) {
+      return;
+    }
+
+    const value = resolvedColorLiteral(token, lookups);
     if (
       typeof value !== "string" ||
       value.length === 0 ||
-      isCssVarOrAlias(value) ||
       value === "[object Object]"
     ) {
       return;
     }
 
-    bucket[key] = value;
+    bucket[paletteTokenKey(token)] = value;
   };
 
   for (const token of lightColorTokens) {
-    if (!token.tokenKey) {
-      continue;
-    }
-    if (token.primitive) {
-      put(paletteTokenKey(token), token);
-    } else {
-      put(token.tokenKey, token);
-    }
+    put(token, lightLookups);
   }
 
   for (const token of darkColorTokens) {
-    if (!token.tokenKey || !token.primitive) {
-      continue;
-    }
-    put(paletteTokenKey(token), token);
+    put(token, darkLookups);
   }
 
   return bucket;
@@ -381,16 +378,31 @@ function resolveColorTokenReference(
   lookups: TokenLookups,
   colorBucket: Readonly<Record<string, string | number>>
 ): string | undefined {
+  const ownKey = paletteTokenKey(token);
+  if (bucketValueMatchesToken(token, lookups, colorBucket, ownKey)) {
+    return tokenColorRef(ownKey);
+  }
+
   if (
     token.tokenKey &&
+    token.tokenKey !== ownKey &&
     bucketValueMatchesToken(token, lookups, colorBucket, token.tokenKey)
   ) {
     return tokenColorRef(token.tokenKey);
   }
 
   const resolved = resolveAliasChain(token, lookups.byPath, lookups.byCssVar);
+  const resolvedKey = paletteTokenKey(resolved);
+  if (
+    resolvedKey !== ownKey &&
+    bucketValueMatchesToken(token, lookups, colorBucket, resolvedKey)
+  ) {
+    return tokenColorRef(resolvedKey);
+  }
+
   if (
     resolved.tokenKey &&
+    resolved.tokenKey !== resolvedKey &&
     bucketValueMatchesToken(token, lookups, colorBucket, resolved.tokenKey)
   ) {
     return tokenColorRef(resolved.tokenKey);
