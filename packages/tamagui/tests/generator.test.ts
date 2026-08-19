@@ -919,6 +919,64 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("const light_red");
   });
 
+  it("orders createThemes palettes background to foreground", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            base: {
+              primitive: true,
+              1: { $value: "#ffffff" },
+              2: { $value: "#808080" },
+              3: { $value: "#000000" }
+            },
+            background: { $value: "{color.base.1}" }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            base: {
+              primitive: true,
+              1: { $value: "#f5f5f5" },
+              2: { $value: "#555555" },
+              3: { $value: "#111111" }
+            },
+            background: { $value: "{color.base.3}" }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const base = objectProperty(content, "base");
+    const paletteStart = base.indexOf("palette:");
+    const palette = base.slice(paletteStart);
+    const lightStart = palette.indexOf("light: [");
+    const darkStart = palette.indexOf("dark: [");
+    const lightPalette = palette.slice(lightStart, darkStart);
+    const darkPalette = palette.slice(
+      darkStart,
+      palette.indexOf("}", darkStart)
+    );
+
+    expect(lightPalette.indexOf("lightBase1.val")).toBeLessThan(
+      lightPalette.indexOf("lightBase3.val")
+    );
+    expect(darkPalette.indexOf("darkBase3.val")).toBeLessThan(
+      darkPalette.indexOf("darkBase1.val")
+    );
+  });
+
   it("maps token theme properties onto createThemes children", () => {
     function nestedScale(
       hex: (step: number) => string,

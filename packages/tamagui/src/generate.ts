@@ -306,12 +306,60 @@ function scaleStopExpression(
   return value ? toLiteral(value) : '"#000000"';
 }
 
-function collectScaleExpressions(
+interface PaletteStop {
+  step: number;
+  expression: string;
+  lightness?: number;
+}
+
+/**
+ * Approximate perceptual lightness in 0–1 for hex and `oklch()` colors.
+ *
+ * Used to order `createThemes` palettes background → foreground regardless of
+ * token step numbering.
+ */
+function colorLightness(css: string): number | undefined {
+  const value = css.trim();
+  const oklch = /^oklch\(\s*([0-9.]+)(%?)/i.exec(value);
+  if (oklch) {
+    const n = Number(oklch[1]);
+    if (!Number.isFinite(n)) {
+      return undefined;
+    }
+
+    return oklch[2] === "%" || n > 1 ? n / 100 : n;
+  }
+
+  const hex = /^#([\da-f]{3,8})$/i.exec(value);
+  if (!hex) {
+    return undefined;
+  }
+
+  const raw = hex[1]!;
+  let r: number;
+  let g: number;
+  let b: number;
+  if (raw.length === 3 || raw.length === 4) {
+    r = Number.parseInt(raw[0]! + raw[0], 16);
+    g = Number.parseInt(raw[1]! + raw[1], 16);
+    b = Number.parseInt(raw[2]! + raw[2], 16);
+  } else if (raw.length === 6 || raw.length === 8) {
+    r = Number.parseInt(raw.slice(0, 2), 16);
+    g = Number.parseInt(raw.slice(2, 4), 16);
+    b = Number.parseInt(raw.slice(4, 6), 16);
+  } else {
+    return undefined;
+  }
+
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+}
+
+function collectScaleStops(
   tokens: FlatToken[],
   names: readonly string[],
   colorBucket: TokenBucket
-): string[] | undefined {
-  const byName = new Map<string, { step: number; expression: string }[]>();
+): PaletteStop[] | undefined {
+  const byName = new Map<string, PaletteStop[]>();
 
   for (const token of tokens) {
     const parsed = parseScaleToken(token);
@@ -319,10 +367,15 @@ function collectScaleExpressions(
       continue;
     }
 
+    const css =
+      typeof token.cssValue === "string" && token.cssValue.length > 0
+        ? token.cssValue
+        : undefined;
     const list = byName.get(parsed.name) ?? [];
     list.push({
       step: parsed.step,
-      expression: scaleStopExpression(token, colorBucket)
+      expression: scaleStopExpression(token, colorBucket),
+      lightness: css ? colorLightness(css) : undefined
     });
     byName.set(parsed.name, list);
   }
@@ -333,15 +386,45 @@ function collectScaleExpressions(
       continue;
     }
 
-    const unique = new Map<number, string>();
+    const unique = new Map<number, PaletteStop>();
     for (const item of list.toSorted((a, b) => a.step - b.step)) {
-      unique.set(item.step, item.expression);
+      unique.set(item.step, item);
     }
 
     return [...unique.values()];
   }
 
   return undefined;
+}
+
+/**
+ * Tamagui palettes are a background → foreground gradient.
+ *
+ * Light: lightest first (`#fff` → `#000`). Dark: darkest first (`#000` → `#fff`).
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder
+ */
+function orderPaletteForScheme(
+  stops: PaletteStop[],
+  scheme: ColorScheme
+): string[] {
+  const known = stops.filter(stop => stop.lightness != null);
+  if (known.length >= 2) {
+    return [...stops]
+      .toSorted((a, b) => {
+        const left = a.lightness ?? 0.5;
+        const right = b.lightness ?? 0.5;
+
+        return scheme === "light" ? right - left : left - right;
+      })
+      .map(stop => stop.expression);
+  }
+
+  const expressions = stops
+    .toSorted((a, b) => a.step - b.step)
+    .map(stop => stop.expression);
+
+  return scheme === "light" ? expressions : [...expressions].toReversed();
 }
 
 function ensureTwoStops(
@@ -364,7 +447,12 @@ function ensureTwoStops(
  * `gray` / `grey` / `neutral` (or `accent` / `brand`) feed token refs; a two-stop
  * fallback is used when no matching scale exists.
  *
+ * Stops are ordered background → foreground: light palettes go light → dark,
+ * dark palettes go dark → light.
+ *
  * `createThemes` requires at least two stops and same-length light/dark arrays.
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder
  */
 function schemePalettes(
   lightTokens: FlatToken[],
@@ -374,24 +462,36 @@ function schemePalettes(
   fallbackLight: readonly string[],
   fallbackDark: readonly string[]
 ): { light: string[]; dark: string[] } {
-  const lightScale = collectScaleExpressions(lightTokens, names, colorBucket);
-  const darkScale = collectScaleExpressions(darkTokens, names, colorBucket);
+  const lightScale = collectScaleStops(lightTokens, names, colorBucket);
+  const darkScale = collectScaleStops(darkTokens, names, colorBucket);
 
   if (lightScale && darkScale) {
     return {
-      light: ensureTwoStops(lightScale, fallbackLight),
-      dark: ensureTwoStops(darkScale, fallbackDark)
+      light: ensureTwoStops(
+        orderPaletteForScheme(lightScale, "light"),
+        fallbackLight
+      ),
+      dark: ensureTwoStops(
+        orderPaletteForScheme(darkScale, "dark"),
+        fallbackDark
+      )
     };
   }
 
   if (lightScale) {
-    const light = ensureTwoStops(lightScale, fallbackLight);
+    const light = ensureTwoStops(
+      orderPaletteForScheme(lightScale, "light"),
+      fallbackLight
+    );
 
     return { light, dark: [...light].toReversed() };
   }
 
   if (darkScale) {
-    const dark = ensureTwoStops(darkScale, fallbackDark);
+    const dark = ensureTwoStops(
+      orderPaletteForScheme(darkScale, "dark"),
+      fallbackDark
+    );
 
     return { light: [...dark].toReversed(), dark };
   }
