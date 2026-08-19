@@ -502,11 +502,17 @@ function schemePalettes(
   };
 }
 
+function isSemanticColorToken(token: FlatToken): boolean {
+  return (
+    token.category === "color" && !token.primitive && Boolean(token.tokenKey)
+  );
+}
+
 /**
  * Color entries for `createTokens({ color })` — CSS strings, not DTCG objects.
  *
- * Palette scales use {@link paletteTokenKey}. Semantic colors from the light
- * scheme use `tokenKey`.
+ * Palette / primitive scales only ({@link paletteTokenKey}). Semantic colors
+ * (including computed state siblings) belong in {@link collectThemeMaps}.
  *
  * @see https://tamagui.dev/docs/core/tokens
  */
@@ -531,14 +537,10 @@ function colorBucketForCreateTokens(
   };
 
   for (const token of lightColorTokens) {
-    if (!token.tokenKey) {
+    if (!token.tokenKey || isSemanticColorToken(token)) {
       continue;
     }
-    if (token.primitive) {
-      put(paletteTokenKey(token), token);
-    } else {
-      put(token.tokenKey, token);
-    }
+    put(paletteTokenKey(token), token);
   }
 
   for (const token of darkColorTokens) {
@@ -570,6 +572,11 @@ function bucketValueMatchesToken(
 /**
  * `tokens.color.*` when the token (or its resolved alias) is in the color bucket;
  * otherwise a concrete color literal for `createThemes` extra values.
+ *
+ * Semantic tokens are never in the color bucket, so they only get a
+ * `tokens.color.*` ref when they resolve to a primitive still stored there.
+ * Computed state hex values (hover / pressed / disabled) fall through to a
+ * literal — child themes override `$backgroundHover`, not a global token.
  */
 function resolveColorTokenReference(
   token: FlatToken,
@@ -832,12 +839,6 @@ function childThemeColorKey(
   }
 
   return toCamelCaseKey(kept);
-}
-
-function isSemanticColorToken(token: FlatToken): boolean {
-  return (
-    token.category === "color" && !token.primitive && Boolean(token.tokenKey)
-  );
 }
 
 /**
@@ -1212,11 +1213,11 @@ function renderThemesModule(
 /**
  * Render a Tamagui config module from flattened design tokens.
  *
- * Light and dark token sets become `createThemes` extra maps. Semantic colors with
- * a `theme` / `$theme` property are nested as `light_<name>` / `dark_<name>`,
- * with the theme name stripped from the token key. Each typography token is
- * emitted as its own `createFont` entry with that token's size, line height,
- * and weight (not a shared type scale).
+ * `createTokens({ color })` holds palette / primitive scales. Light and dark
+ * semantic colors become `createThemes` extra maps (tagged `$theme` names as
+ * `light_<name>` / `dark_<name>`, with the theme name stripped from the token
+ * key). Each typography token is emitted as its own `createFont` entry with
+ * that token's size, line height, and weight (not a shared type scale).
  *
  * @see https://tamagui.dev/docs/core/configuration
  * @see https://tamagui.dev/docs/intro/themes

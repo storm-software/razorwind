@@ -29,6 +29,9 @@ export type TamaguiAnimationDriver =
 
 /**
  * Tamagui `createTokens` category keys we emit from DTCG tokens.
+ *
+ * `color` is palettes / primitives only. Semantic theme / `$theme` colors
+ * (including computed state siblings) go to `createThemes` extras.
  */
 export type TamaguiTokenCategory =
   | "color"
@@ -149,7 +152,7 @@ export interface FlatToken {
    */
   childTheme?: string;
   /**
-   * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed `createTokens({ color })` and `createThemes` palettes, and are skipped when building semantic extras.
+   * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed `createTokens({ color })` and `createThemes` palettes. Semantic colors (theme / `$theme`, including computed state siblings) are not primitives and go to extras only.
    */
   primitive?: boolean;
 }

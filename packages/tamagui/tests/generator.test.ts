@@ -844,7 +844,7 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("childrenThemes:");
     expect(content).not.toContain("getTheme:");
     expect(content).not.toContain("createTheme(");
-    expect(content).toContain("primary: tokens.color.primary.val");
+    expect(content).toContain('primary: "#0066cc"');
     expect(content).toContain('primary: "#66b3ff"');
     expect(content).not.toContain("#99c2e6");
     expect(content).toContain("sm: 8");
@@ -1265,7 +1265,7 @@ describe("tamagui plugin", () => {
     const light = createThemeBlock(content, "light");
     expect(light).toContain("background: tokens.color.lightBase1.val");
     expect(light).toContain("primary: tokens.color.lightBlue6.val");
-    expect(light).toContain("accent: tokens.color.accent.val");
+    expect(light).toContain('accent: "#00ccaa"');
     expect(light).not.toContain("foregroundWarning");
 
     const dark = createThemeBlock(content, "dark");
@@ -1283,6 +1283,74 @@ describe("tamagui plugin", () => {
     expect(content).toContain("background: string;");
     expect(content).toContain("accent: string;");
     expect(content).toContain("foreground: string;");
+  });
+
+  it("keeps semantic colors (including computed hex states) off createTokens", () => {
+    function nestedScale(
+      hex: (step: number) => string,
+      steps = 9
+    ): Record<string, unknown> {
+      const scale: Record<string, unknown> = { primitive: true };
+      for (let step = 1; step <= steps; step++) {
+        scale[String(step)] = { $value: hex(step) };
+      }
+      return scale;
+    }
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            red: nestedScale(
+              step => `#ff${(step * 10).toString(16).padStart(2, "0")}00`
+            ),
+            background: {
+              danger: { $value: "{color.red.7}", theme: "danger" },
+              "danger-hover": { $value: "#a12e37", theme: "danger" },
+              "danger-pressed": { $value: "#8b272f", theme: "danger" },
+              "danger-disabled": { $value: "#c96b72", theme: "danger" }
+            },
+            overlay: {
+              "background-hover": { $value: "#1a1a1acc" }
+            },
+            foreground: {
+              "link-hover": { $value: "#2563eb" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const tokensBlock = tokensSource(content);
+    expect(tokensBlock).toContain("lightRed7:");
+    expect(tokensBlock).not.toContain("backgroundDangerHover");
+    expect(tokensBlock).not.toContain("backgroundDangerPressed");
+    expect(tokensBlock).not.toContain("backgroundDangerDisabled");
+    expect(tokensBlock).not.toContain("backgroundDanger:");
+    expect(tokensBlock).not.toContain("overlayBackgroundHover");
+    expect(tokensBlock).not.toContain("foregroundLinkHover");
+
+    const danger = createThemeBlock(content, "light_danger");
+    expect(danger).toContain("background: tokens.color.lightRed7.val");
+    expect(danger).toContain('backgroundHover: "#a12e37"');
+    expect(danger).toContain('backgroundPressed: "#8b272f"');
+    expect(danger).toContain('backgroundDisabled: "#c96b72"');
+    expect(danger).not.toContain("backgroundDangerHover");
+    expect(danger).not.toContain("tokens.color.backgroundDangerHover");
+
+    const light = createThemeBlock(content, "light");
+    expect(light).toContain('overlayBackgroundHover: "#1a1a1acc"');
+    expect(light).toContain('foregroundLinkHover: "#2563eb"');
   });
 
   it("emits AppTheme from semantic createThemes keys", () => {
@@ -1380,10 +1448,12 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).toContain("color: {");
+    const tokensBlock = tokensSource(content);
+    expect(tokensBlock).toContain("color: {");
+    expect(tokensBlock).toContain('lightBrand1: "#00ccaa"');
+    expect(tokensBlock).toContain('darkBrand1: "#00aa88"');
+    expect(tokensBlock).not.toContain("primary:");
     expect(content).toContain('primary: "#0066cc"');
-    expect(content).toContain('lightBrand1: "#00ccaa"');
-    expect(content).toContain('darkBrand1: "#00aa88"');
     expect(content).not.toContain("colorSpace");
     expect(content).toContain("shadow: {");
     expect(content).toContain("insetShadow: {");
