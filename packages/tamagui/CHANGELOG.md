@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.52) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue applying semantic token colors ([4fef39c](https://github.com/storm-software/razorwind/commit/4fef39c))
+
 ## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.51) (08/18/2026)
 
 ### Bug Fixes
