@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.53](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.53) (08/18/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue determining theme color values ([34d0a49](https://github.com/storm-software/razorwind/commit/34d0a49))
+
 ## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.52) (08/18/2026)
 
 ### Bug Fixes
