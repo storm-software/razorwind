@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.57](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.57) (08/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with inverted theme tokens ([bfe1fac](https://github.com/storm-software/razorwind/commit/bfe1fac))
+
 ## [0.0.56](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.56) (08/19/2026)
 
 ### Bug Fixes
