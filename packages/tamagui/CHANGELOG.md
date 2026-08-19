@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.54](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.54) (08/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue applying children themes ([b9b152a](https://github.com/storm-software/razorwind/commit/b9b152a))
+
 ## [0.0.53](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.53) (08/18/2026)
 
 ### Bug Fixes
