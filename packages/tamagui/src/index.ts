@@ -37,11 +37,7 @@ export {
 } from "./fonts";
 export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
-  collectColorScales,
-  colorLightness,
-  flipPaletteStep,
   generateTamaguiConfig,
-  orderPaletteForScheme,
   renderInstallMd,
   renderTamaguiConfig
 } from "./generate";
@@ -53,25 +49,24 @@ export type {
 } from "./types";
 
 /**
- * Razorwind plugin that turns design tokens into a Tamagui v5 config
- * (`createTamagui` + `createTokens` + `createV5Theme` + `createFont`).
+ * Razorwind plugin that turns design tokens into a Tamagui config
+ * (`createTamagui` + `createTokens` + `createTheme` + `createFont`).
  *
- * Light and dark token sets are emitted as a single config: `createV5Theme`
- * receives both `lightPalette` / `darkPalette` and `childrenThemes` with
- * `{ light, dark }` palettes. Groups marked `palette: true` become
- * `childrenThemes`; palettes named `base`, `grey`, `gray`, or `neutral` also
- * set `lightPalette` / `darkPalette` (`color1`–`color12`). Semantic `theme`
- * tags select `getTheme` aliases keyed by the generated theme `name`
- * (`dark` / `dark_base` → Primary, `dark_warning` → Warning) rather than
- * childrenThemes maps. Light palettes are ordered lightest-first; dark palettes
- * darkest-first.
+ * Light and dark token sets are emitted as a single config. Semantic colors
+ * and shadows (not marked `palette` / `primitive`) that declare `theme` /
+ * `$theme` become nested Tamagui themes (`light_primary`, `dark_danger`, …),
+ * with the theme name stripped from the token key (`backgroundPrimarySubtle` +
+ * `theme: "primary"` → `backgroundSubtle`; `ringPrimarySubtle` → `ringSubtle`
+ * on `primary`). Untagged semantic colors land on the `light` / `dark` base
+ * themes. Primitive palettes stay on `createTokens({ color })`.
  *
  * Typography tokens (`$type: "typography"`) each emit their own Tamagui
  * `createFont` entry with that token's size, line height, and weight. Font
  * keys keep the DTCG token name (`display-lg`). Names with a `_` suffix (or a
  * nested language segment) become FontLanguage variants (`body_cn`).
  *
- * @see https://tamagui.dev/docs/core/config-v5
+ * @see https://tamagui.dev/docs/core/configuration
+ * @see https://tamagui.dev/docs/intro/themes
  * @see https://tamagui.dev/docs/core/font-language#font-tokens
  *
  * @example

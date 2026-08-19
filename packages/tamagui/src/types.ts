@@ -53,7 +53,7 @@ export interface TamaguiPluginOptions {
    * Output path written relative to the execution cwd.
    *
    * Light and dark schemes are always written to this single file — Tamagui
-   * `createV5Theme` encodes both palettes in one config.
+   * `createTheme` encodes both as `light` / `dark` plus nested children.
    *
    * @defaultValue `"tamagui.config.ts"`
    */
@@ -149,7 +149,7 @@ export interface FlatToken {
    */
   childTheme?: string;
   /**
-   * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed Tamagui `childrenThemes` / `lightPalette` / `darkPalette`.
+   * True when an ancestor group is marked as a primitive (`primitive: true` or `$type: "primitive"` or `$type: "palette"`). Those scales feed `createTokens({ color })` and are skipped when building semantic `createTheme` objects.
    */
   primitive?: boolean;
 }

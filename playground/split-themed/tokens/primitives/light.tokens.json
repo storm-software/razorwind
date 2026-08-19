@@ -27,7 +27,7 @@
       }
     },
     "surface": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -46,10 +46,16 @@
         "$value": "#E8E7E6",
         "$description": "The third level surface of the palette - used for floating component backgrounds (tooltips, modals, etc.)"
       },
+      "4": {
+        "$type": "color",
+        "colorSpace": "display-p3",
+        "$value": "#C3C4C4",
+        "$description": "The fourth level surface of the palette - used for the highest level of elevation (drawers, modals, etc.)"
+      },
       "$description": "The surface color palette - used for background colors"
     },
     "base": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -107,7 +113,7 @@
       "$description": "The base color palette"
     },
     "red": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -165,7 +171,7 @@
       "$description": "The red color palette"
     },
     "orange": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -223,7 +229,7 @@
       "$description": "The orange color palette"
     },
     "yellow": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -281,7 +287,7 @@
       "$description": "The yellow color palette"
     },
     "green": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -339,7 +345,7 @@
       "$description": "The green color palette"
     },
     "sky": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -397,7 +403,7 @@
       "$description": "The sky color palette"
     },
     "blue": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -455,7 +461,7 @@
       "$description": "The blue color palette"
     },
     "purple": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",
@@ -513,7 +519,7 @@
       "$description": "The purple color palette"
     },
     "pink": {
-      "primitive": true,
+      "palette": true,
       "1": {
         "$type": "color",
         "colorSpace": "display-p3",

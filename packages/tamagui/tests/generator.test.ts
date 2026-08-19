@@ -25,13 +25,7 @@ import {
   toTokenKey
 } from "../src/flatten";
 import { formatTokenValue, toTamaguiValue } from "../src/format";
-import {
-  colorLightness,
-  flipPaletteStep,
-  generateTamaguiConfig,
-  orderPaletteForScheme,
-  renderTamaguiConfig
-} from "../src/generate";
+import { generateTamaguiConfig, renderTamaguiConfig } from "../src/generate";
 import tamagui from "../src/index";
 import type { TamaguiPluginOptions } from "../src/types";
 
@@ -112,21 +106,26 @@ function createFontBlock(content: string, varName: string): string {
   return content.slice(start, end);
 }
 
-function childrenThemesSource(content: string): string {
-  const start = content.indexOf("childrenThemes:");
+function createThemeBlock(content: string, name: string): string {
+  const start = content.indexOf(`const ${name} = createTheme(`);
   if (start < 0) {
     return "";
   }
 
-  const getTheme = content.indexOf("getTheme:", start);
+  const end = content.indexOf("});", start);
 
-  return content.slice(start, getTheme < 0 ? undefined : getTheme);
+  return end < 0 ? content.slice(start) : content.slice(start, end + 3);
 }
 
-function getThemeSource(content: string): string {
-  const start = content.indexOf("getTheme:");
+function tokensSource(content: string): string {
+  const start = content.indexOf("const tokens = createTokens(");
+  if (start < 0) {
+    return "";
+  }
 
-  return start < 0 ? "" : content.slice(start);
+  const end = content.indexOf("\nconst ", start + 1);
+
+  return end < 0 ? content.slice(start) : content.slice(start, end);
 }
 
 describe("format helpers", () => {
@@ -276,6 +275,51 @@ describe("flattenTokens", () => {
       flat.find(token => token.path === "color.accent.background")?.childTheme
     ).toBe("accent");
   });
+
+  it("captures theme properties on shadow tokens", () => {
+    const themed = {
+      light: {
+        ring: {
+          primary: {
+            $type: "shadow",
+            $value: {
+              color: "#0066cc",
+              offsetX: { value: 0, unit: "px" },
+              offsetY: { value: 0, unit: "px" },
+              blur: { value: 0, unit: "px" },
+              spread: { value: 3, unit: "px" }
+            },
+            theme: "primary"
+          }
+        },
+        shadow: {
+          accent: {
+            $type: "shadow",
+            $value: {
+              color: "#00ccaa",
+              offsetX: { value: 0, unit: "px" },
+              offsetY: { value: 1, unit: "px" },
+              blur: { value: 2, unit: "px" },
+              spread: { value: 0, unit: "px" }
+            },
+            theme: "accent"
+          }
+        }
+      }
+    };
+
+    const flat = flattenTokens(themed);
+    expect(flat.find(token => token.path === "ring.primary")).toMatchObject({
+      theme: "light",
+      childTheme: "primary",
+      category: "shadow"
+    });
+    expect(flat.find(token => token.path === "shadow.accent")).toMatchObject({
+      theme: "light",
+      childTheme: "accent",
+      category: "shadow"
+    });
+  });
 });
 
 describe("tamagui plugin", () => {
@@ -288,7 +332,7 @@ describe("tamagui plugin", () => {
     expect(typeof plugin.generate).toBe("function");
   });
 
-  it("generates a Tamagui v5 config from schema tokens", async () => {
+  it("generates a Tamagui config from schema tokens", async () => {
     const plugin = tamagui({ outputPath: "src/tamagui.config.ts" });
     const documents = await plugin.generate!(spec, {} as never);
 
@@ -297,9 +341,8 @@ describe("tamagui plugin", () => {
       "src/INSTALL.md"
     ]);
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
-    expect(content).toContain(
-      `import { createV5Theme, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
-    );
+    expect(content).not.toContain("createV5Theme");
+    expect(content).not.toContain("@tamagui/config/v5\"");
     expect(content).not.toContain("defaultConfig");
     expect(content).toContain(
       `import { animations } from "@tamagui/config/v5-css"`
@@ -307,6 +350,7 @@ describe("tamagui plugin", () => {
     expect(content).toContain(`from "@tamagui/core"`);
     expect(content).toContain("createTamagui");
     expect(content).toContain("createTokens");
+    expect(content).toContain("createTheme");
     expect(content).toContain("createTokens({");
     expect(content).toContain("primary: \"#0066cc\"");
     expect(content).toContain("backgroundAccent:");
@@ -316,11 +360,10 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain('"colorSpace"');
     expect(content).toContain("sm: 8");
     expect(content).toContain("true: 4");
-    expect(content).toContain("createV5Theme({");
-    expect(content).toContain("childrenThemes:");
-    expect(content).toContain("blue:");
-    expect(content).toContain("getTheme:");
-    expect(content).toContain("...theme");
+    expect(content).toContain("const light = createTheme(");
+    expect(content).toContain("const dark = createTheme(");
+    expect(content).not.toContain("childrenThemes:");
+    expect(content).not.toContain("getTheme:");
     expect(content).toContain("export const config = createTamagui({");
     expect(content).toContain("declare module \"@tamagui/core\"");
   });
@@ -334,8 +377,9 @@ describe("tamagui plugin", () => {
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
 
     expect(content).toContain(
-      `import { createV5Theme, defaultConfig, type CreateV5ThemeOptions } from "@tamagui/config/v5"`
+      `import { defaultConfig } from "@tamagui/config/v5"`
     );
+    expect(content).not.toContain("createV5Theme");
     expect(content).toContain("...defaultConfig");
   });
 
@@ -346,8 +390,9 @@ describe("tamagui plugin", () => {
     });
 
     const content = documents["out/tamagui.config.ts"]?.chunks?.[0]?.content;
-    expect(content).toContain(`from "@tamagui/config/v5"`);
-    expect(content).toContain("createV5Theme");
+    expect(content).not.toContain(`from "@tamagui/config/v5"`);
+    expect(content).not.toContain("createV5Theme");
+    expect(content).toContain("createTheme");
     expect(content).not.toContain("defaultConfig");
     expect(content).not.toContain("animations");
     expect(content).toContain("createTokens({");
@@ -662,7 +707,7 @@ describe("tamagui plugin", () => {
     expect(content).toContain('true: "400"');
   });
 
-  it("emits one createV5Theme config with both light and dark palettes", () => {
+  it("emits light and dark createTheme configs from scheme token sets", () => {
     function stepped(
       name: string,
       channel: (step: number) => string
@@ -724,26 +769,24 @@ describe("tamagui plugin", () => {
     expect(documents["tamagui.config.ts"]?.meta?.data?.appendTheme).toBe(false);
 
     const content = documents["tamagui.config.ts"]?.chunks?.[0]?.content ?? "";
-    expect(content).toContain("createV5Theme({");
-    expect(content).toContain("lightPalette:");
-    expect(content).toContain("darkPalette:");
-    expect(content).toContain("childrenThemes:");
-    expect(content).toContain("blue:");
-    expect(content).toContain("light:");
-    expect(content).toContain("dark:");
-    expect(content).toContain("primary: \"#0066cc\"");
-    expect(content).toContain("primary: \"#66b3ff\"");
+    expect(content).toContain("const light = createTheme(");
+    expect(content).toContain("const dark = createTheme(");
+    expect(content).not.toContain("createV5Theme");
+    expect(content).not.toContain("lightPalette:");
+    expect(content).not.toContain("childrenThemes:");
+    expect(content).not.toContain("getTheme:");
+    expect(content).toContain("primary: tokens.color.primary.val");
+    expect(content).toContain('primary: "#66b3ff"');
     expect(content).not.toContain("#99c2e6");
-    expect(content).toContain("scheme === \"dark\"");
     expect(content).toContain("sm: 8");
 
     const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
-    expect(install).toContain("both `light` and `dark` themes");
+    expect(install).toContain("light, dark, and nested semantic themes");
     expect(install).toContain("defaultTheme=\"light\"");
     expect(install).toContain("boxShadow=\"$ringAccent\"");
   });
 
-  it("maps palette: true groups to childrenThemes and base palettes", () => {
+  it("keeps primitive palettes on createTokens and out of createTheme", () => {
     function nestedScale(
       hex: (step: number) => string,
       steps = 9
@@ -795,24 +838,19 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).toContain("childrenThemes:");
-    expect(content).toContain("red:");
-    expect(content).toContain("base:");
-    expect(content).not.toContain("brand:");
-    expect(content).toContain("lightPalette:");
-    expect(content).toContain("darkPalette:");
+    expect(content).not.toContain("childrenThemes:");
+    expect(content).not.toContain("lightPalette:");
+    expect(content).toContain("lightRed1:");
+    expect(content).toContain("darkBase9:");
     expect(content).toContain('"#f1f1f1"');
     expect(content).toContain('"#191919"');
-    // 9-step base is padded to Tamagui's 12-stop palette
-    expect(content).toMatch(
-      /lightPalette:\s*\[[^\]]*tokens\.color\.lightBase9\.val[^\]]*\]/s
-    );
-    expect(content).toMatch(
-      /darkPalette:\s*\[[^\]]*tokens\.color\.darkBase9\.val[^\]]*\]/s
-    );
+    const light = createThemeBlock(content, "light");
+    expect(light).toContain("brand1:");
+    expect(light).not.toContain("red1:");
+    expect(content).not.toContain("const light_red");
   });
 
-  it("maps token theme properties onto semantic childrenThemes palettes", () => {
+  it("maps token theme properties onto nested createTheme objects", () => {
     function nestedScale(
       hex: (step: number) => string,
       steps = 9
@@ -865,7 +903,11 @@ describe("tamagui plugin", () => {
             },
             background: {
               success: { $value: "{color.green.6}", theme: "success" },
-              "success-subtle": { $value: "{color.green.9}", theme: "success" }
+              "success-subtle": { $value: "{color.green.9}", theme: "success" },
+              "primary-subtle": {
+                $value: "{color.base.2}",
+                theme: "primary"
+              }
             }
           }
         },
@@ -905,7 +947,11 @@ describe("tamagui plugin", () => {
             },
             background: {
               success: { $value: "{color.green.6}", theme: "success" },
-              "success-subtle": { $value: "{color.green.9}", theme: "success" }
+              "success-subtle": { $value: "{color.green.9}", theme: "success" },
+              "primary-subtle": {
+                $value: "{color.base.2}",
+                theme: "primary"
+              }
             }
           }
         }
@@ -918,39 +964,40 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    expect(content).toContain("childrenThemes:");
-    expect(content).toContain("danger:");
-    expect(content).toContain("warning:");
-    expect(content).toContain("discovery:");
-    expect(content).toContain("info:");
-    expect(content).toContain("success:");
-    expect(content).toContain("accent:");
-    expect(content).toContain("positive:");
-    const children = childrenThemesSource(content);
-    expect(children).not.toMatch(/\bforeground:/);
-    expect(children).not.toMatch(/\bbackground:/);
-    expect(children).not.toMatch(/warning:\s*\{[\s\S]*?\bforeground:/);
-    expect(content).toContain("lightForegroundDanger:");
-    expect(content).toContain("darkForegroundDanger:");
-    expect(content).toContain("lightForegroundAccent:");
-    expect(content).toContain("tokens.color.lightForegroundDanger.val");
-    expect(content).toContain("tokens.color.darkForegroundDanger.val");
-    expect(content).toContain("tokens.color.lightBackgroundSuccess.val");
+    expect(content).toContain("const light_danger = createTheme(");
+    expect(content).toContain("const dark_danger = createTheme(");
+    expect(content).toContain("const light_warning = createTheme(");
+    expect(content).toContain("const light_success = createTheme(");
+    expect(content).toContain("const light_accent = createTheme(");
+    expect(content).toContain("const light_primary = createTheme(");
+    expect(content).toContain("light_primary");
+    expect(content).toContain("dark_success");
+
+    const danger = createThemeBlock(content, "light_danger");
+    expect(danger).toContain("foreground:");
+    expect(danger).toContain("foregroundOn:");
+    expect(danger).not.toContain("foregroundDanger");
+
+    const success = createThemeBlock(content, "light_success");
+    expect(success).toContain("background:");
+    expect(success).toContain("backgroundSubtle:");
+    expect(success).toContain("foreground:");
+    expect(success).toContain("foregroundOn:");
+
+    const primary = createThemeBlock(content, "light_primary");
+    expect(primary).toContain("backgroundSubtle:");
+    expect(primary).not.toContain("backgroundPrimarySubtle");
+
+    expect(content).toContain("tokens.color.lightRed7.val");
+    expect(content).toContain("tokens.color.darkRed7.val");
     expect(content).toContain('"#00ccaa"');
     expect(content).toContain('"#00aa88"');
-    // Hue palettes remain as children themes alongside the semantic roles.
-    expect(content).toContain("red:");
-    expect(content).toContain("yellow:");
-    const getTheme = getThemeSource(content);
-    expect(getTheme).toContain("name");
-    expect(getTheme).toContain("foreground${role}");
-    expect(content).toContain("SEMANTIC_ROLES");
-    expect(content).toContain('"warning"');
-    expect(content).toContain('"danger"');
-    expect(content).not.toContain('"base"');
+    expect(content).not.toContain("childrenThemes:");
+    expect(content).not.toContain("getTheme:");
+    expect(content).not.toContain("const light_red");
   });
 
-  it("maps base Primary to roles and Secondary to Subtle via getTheme", () => {
+  it("strips the theme name from semantic keys on the named theme", () => {
     const spec = {
       components: {},
       icons: {},
@@ -960,19 +1007,20 @@ describe("tamagui plugin", () => {
           color: {
             $type: "color",
             foreground: {
-              primary: { $value: "#111111", theme: "base" },
-              secondary: { $value: "#444444" },
-              tertiary: { $value: "#777777" },
-              "on-primary": { $value: "#fafafa", theme: "base" }
+              primary: { $value: "#111111", theme: "primary" },
+              secondary: { $value: "#444444", theme: "secondary" },
+              tertiary: { $value: "#777777", theme: "tertiary" },
+              "on-primary": { $value: "#fafafa", theme: "primary" }
             },
             background: {
-              primary: { $value: "#ffffff", theme: "base" },
-              secondary: { $value: "#eeeeee" },
-              tertiary: { $value: "#dddddd" }
+              primary: { $value: "#ffffff", theme: "primary" },
+              "primary-subtle": { $value: "#f5f5f5", theme: "primary" },
+              secondary: { $value: "#eeeeee", theme: "secondary" },
+              page: { $value: "#fafafa" }
             },
             border: {
-              primary: { $value: "#cccccc", theme: "base" },
-              secondary: { $value: "#bbbbbb" }
+              primary: { $value: "#cccccc", theme: "primary" },
+              secondary: { $value: "#bbbbbb", theme: "secondary" }
             }
           }
         },
@@ -980,19 +1028,20 @@ describe("tamagui plugin", () => {
           color: {
             $type: "color",
             foreground: {
-              primary: { $value: "#f5f5f5", theme: "base" },
-              secondary: { $value: "#aaaaaa" },
-              tertiary: { $value: "#888888" },
-              "on-primary": { $value: "#0a0a0a", theme: "base" }
+              primary: { $value: "#f5f5f5", theme: "primary" },
+              secondary: { $value: "#aaaaaa", theme: "secondary" },
+              tertiary: { $value: "#888888", theme: "tertiary" },
+              "on-primary": { $value: "#0a0a0a", theme: "primary" }
             },
             background: {
-              primary: { $value: "#111111", theme: "base" },
-              secondary: { $value: "#222222" },
-              tertiary: { $value: "#333333" }
+              primary: { $value: "#111111", theme: "primary" },
+              "primary-subtle": { $value: "#1a1a1a", theme: "primary" },
+              secondary: { $value: "#222222", theme: "secondary" },
+              page: { $value: "#0a0a0a" }
             },
             border: {
-              primary: { $value: "#444444", theme: "base" },
-              secondary: { $value: "#555555" }
+              primary: { $value: "#444444", theme: "primary" },
+              secondary: { $value: "#555555", theme: "secondary" }
             }
           }
         }
@@ -1005,278 +1054,33 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    const children = childrenThemesSource(content);
-    expect(children).not.toMatch(/\bforeground:/);
-    expect(children).not.toMatch(/base:\s*\{[\s\S]*?\bforeground:/);
+    const light = createThemeBlock(content, "light");
+    expect(light).toContain("backgroundPage:");
+    expect(light).not.toContain("backgroundPrimary:");
+    expect(light).not.toContain("foregroundPrimary:");
 
-    const getTheme = getThemeSource(content);
-    expect(getTheme).toContain("name");
-    expect(getTheme).toContain("foreground${role}");
-    expect(getTheme).toContain("backgroundSecondary");
-    expect(getTheme).toContain("borderSecondary");
-    expect(content).toContain("lightForegroundPrimary:");
-    expect(content).toContain("darkForegroundPrimary:");
-    expect(content).toContain("foregroundPrimary:");
-    expect(content).toContain("foregroundOnPrimary:");
-    expect(content).toContain("backgroundPrimary:");
-    expect(content).toContain("borderPrimary:");
-    expect(content).not.toContain('"base"');
+    const lightPrimary = createThemeBlock(content, "light_primary");
+    expect(lightPrimary).toMatch(/^\s*foreground:/m);
+    expect(lightPrimary).toMatch(/^\s*foregroundOn:/m);
+    expect(lightPrimary).toMatch(/^\s*background:/m);
+    expect(lightPrimary).toMatch(/^\s*backgroundSubtle:/m);
+    expect(lightPrimary).toMatch(/^\s*border:/m);
+    expect(lightPrimary).not.toMatch(/^\s*backgroundPrimary/m);
+    expect(lightPrimary).not.toMatch(/^\s*foregroundPrimary/m);
+
+    const lightSecondary = createThemeBlock(content, "light_secondary");
+    expect(lightSecondary).toContain("foreground:");
+    expect(lightSecondary).toContain("background:");
+    expect(lightSecondary).toContain("border:");
+
+    const darkPrimary = createThemeBlock(content, "dark_primary");
+    expect(darkPrimary).toContain("background:");
+    expect(darkPrimary).toContain("backgroundSubtle:");
+    expect(content).toContain("light_primary");
+    expect(content).toContain("dark_tertiary");
   });
 
-  it("aliases $foreground from getTheme name, not childrenThemes extras", () => {
-    function nestedScale(
-      hex: (step: number) => string,
-      steps = 4
-    ): Record<string, unknown> {
-      const scale: Record<string, unknown> = { primitive: true };
-      for (let step = 1; step <= steps; step++) {
-        scale[String(step)] = { $value: hex(step) };
-      }
-      return scale;
-    }
-
-    const spec = {
-      components: {},
-      icons: {},
-      fonts: {},
-      tokens: {
-        light: {
-          color: {
-            $type: "color",
-            base: nestedScale(step => `#f${step}f${step}f${step}`),
-            yellow: nestedScale(step => `#ffff${step}${step}`),
-            foreground: {
-              primary: { $value: "{color.base.1}", theme: "base" },
-              warning: { $value: "{color.yellow.4}", theme: "warning" }
-            }
-          }
-        },
-        dark: {
-          color: {
-            $type: "color",
-            base: nestedScale(step => `#1${step}1${step}1${step}`),
-            yellow: nestedScale(step => `#aaaa${step}${step}`),
-            foreground: {
-              primary: { $value: "{color.base.1}", theme: "base" },
-              warning: { $value: "{color.yellow.4}", theme: "warning" }
-            }
-          }
-        }
-      }
-    } as Schema;
-
-    const content = renderConfig(spec, {
-      useDefaultConfig: false,
-      animations: false,
-      includeTypeAugmentation: false
-    });
-
-    const children = childrenThemesSource(content);
-    expect(children).toContain("yellow:");
-    expect(children).toContain("base:");
-    expect(children).not.toMatch(/\bforeground:/);
-    expect(children).not.toMatch(/warning:\s*\{[\s\S]*?\bforeground:/);
-
-    const getTheme = getThemeSource(content);
-    expect(getTheme).toContain("name");
-    expect(getTheme).toContain("foreground${role}");
-    expect(content).toContain("SEMANTIC_ROLES");
-    expect(content).toContain('"warning"');
-    expect(content).not.toContain('"base"');
-    expect(content).toContain("foregroundPrimary:");
-    expect(content).toContain("foregroundWarning:");
-    expect(content).toContain("foreground: string;");
-  });
-
-  it("uses gray, grey, or neutral palettes as lightPalette and darkPalette", () => {
-    function nestedScale(
-      hex: (step: number) => string
-    ): Record<string, unknown> {
-      const scale: Record<string, unknown> = { primitive: true };
-      for (let step = 1; step <= 4; step++) {
-        scale[String(step)] = { $value: hex(step) };
-      }
-      return scale;
-    }
-
-    const spec = {
-      components: {},
-      icons: {},
-      fonts: {},
-      tokens: {
-        light: {
-          color: {
-            $type: "color",
-            blue: nestedScale(step => `#0000f${step}`),
-            neutral: nestedScale(step => `#e${step}e${step}e${step}`)
-          }
-        },
-        dark: {
-          color: {
-            $type: "color",
-            blue: nestedScale(step => `#0000a${step}`),
-            grey: nestedScale(step => `#2${step}2${step}2${step}`)
-          }
-        }
-      }
-    } as Schema;
-
-    const content = renderConfig(spec, {
-      useDefaultConfig: false,
-      animations: false,
-      includeTypeAugmentation: false
-    });
-
-    expect(content).toContain("lightPalette:");
-    expect(content).toContain("darkPalette:");
-    expect(content).toContain("childrenThemes:");
-    expect(content).toContain("blue:");
-    expect(content).toContain("neutral:");
-    expect(content).toContain("grey:");
-    expect(content).toContain('"#e1e1e1"');
-    expect(content).toContain('"#212121"');
-  });
-
-  it("orders light palettes lightest-first and dark palettes darkest-first", () => {
-    expect(colorLightness("#ffffff")).toBeGreaterThan(colorLightness("#000000")!);
-    expect(colorLightness("oklch(0.9 0.1 200)")).toBeGreaterThan(
-      colorLightness("oklch(0.2 0.1 200)")!
-    );
-    expect(colorLightness("hsl(0, 0%, 90%)")).toBeGreaterThan(
-      colorLightness("hsl(0, 0%, 10%)")!
-    );
-    expect(
-      orderPaletteForScheme(["#ffffff", "#888888", "#000000"], "dark")
-    ).toEqual(["#000000", "#888888", "#ffffff"]);
-    expect(
-      orderPaletteForScheme(["#000000", "#888888", "#ffffff"], "light")
-    ).toEqual(["#ffffff", "#888888", "#000000"]);
-
-    function nestedScale(colors: string[]): Record<string, unknown> {
-      const scale: Record<string, unknown> = { primitive: true };
-      for (const [index, color] of colors.entries()) {
-        scale[String(index + 1)] = { $value: color };
-      }
-      return scale;
-    }
-
-    const spec = {
-      components: {},
-      icons: {},
-      fonts: {},
-      tokens: {
-        light: {
-          color: {
-            $type: "color",
-            base: nestedScale(["#111111", "#888888", "#ffffff"]),
-            red: nestedScale(["#330000", "#cc6666", "#ffeaea"])
-          }
-        },
-        dark: {
-          color: {
-            $type: "color",
-            base: nestedScale(["#f5f5f5", "#777777", "#0a0a0a"]),
-            red: nestedScale(["#ffcccc", "#aa4444", "#1a0000"])
-          }
-        }
-      }
-    } as Schema;
-
-    const content = renderConfig(spec, {
-      useDefaultConfig: false,
-      animations: false,
-      includeTypeAugmentation: false
-    });
-
-    expect(content).toMatch(
-      /lightPalette:\s*\[\s*tokens\.color\.lightBase3\.val/
-    );
-    expect(content).toMatch(
-      /darkPalette:\s*\[\s*tokens\.color\.darkBase3\.val/
-    );
-    expect(content).toMatch(
-      /red:\s*\{[\s\S]*?light:\s*\{[\s\S]*?red1:\s*tokens\.color\.lightRed3\.val/
-    );
-    expect(content).toMatch(
-      /red:\s*\{[\s\S]*?dark:\s*\{[\s\S]*?red1:\s*tokens\.color\.darkRed3\.val/
-    );
-  });
-
-  it("flips dark getTheme scale steps after palettes are reversed darkest-first", () => {
-    expect(flipPaletteStep(1, 9)).toBe(9);
-    expect(flipPaletteStep(7, 9)).toBe(3);
-    expect(flipPaletteStep(5, 9)).toBe(5);
-    expect(flipPaletteStep(9, 9)).toBe(1);
-    expect(flipPaletteStep(1, 3)).toBe(3);
-
-    function nestedScale(colors: string[]): Record<string, unknown> {
-      const scale: Record<string, unknown> = { primitive: true };
-      for (const [index, color] of colors.entries()) {
-        scale[String(index + 1)] = { $value: color };
-      }
-      return scale;
-    }
-
-    const spec = {
-      components: {},
-      icons: {},
-      fonts: {},
-      tokens: {
-        light: {
-          color: {
-            $type: "color",
-            base: nestedScale(["#ffffff", "#888888", "#111111"]),
-            red: nestedScale(["#ffeaea", "#cc6666", "#330000"]),
-            surface: nestedScale(["#ffffff", "#f4f4f3", "#e8e7e6"]),
-            danger: { $value: "{color.red.1}" },
-            dangersubtle: { $value: "{color.red.3}" },
-            background: { $value: "{color.base.1}" },
-            foreground: { $value: "{color.base.3}" },
-            page: { $value: "{color.surface.1}" }
-          }
-        },
-        dark: {
-          color: {
-            $type: "color",
-            base: nestedScale(["#f5f5f5", "#777777", "#0a0a0a"]),
-            red: nestedScale(["#ffcccc", "#aa4444", "#1a0000"]),
-            surface: nestedScale(["#1a1c1f", "#1e2023", "#242629"]),
-            danger: { $value: "{color.red.1}" },
-            dangersubtle: { $value: "{color.red.3}" },
-            background: { $value: "{color.base.1}" },
-            foreground: { $value: "{color.base.3}" },
-            page: { $value: "{color.surface.1}" }
-          }
-        }
-      }
-    } as Schema;
-
-    const content = renderConfig(spec, {
-      useDefaultConfig: false,
-      animations: false,
-      includeTypeAugmentation: false
-    });
-
-    const themeMatch = content.match(
-      /const values: Record<string, string> = scheme === "dark"\s*\? (\{[\s\S]*?\})\s*: (\{[\s\S]*?\});/
-    );
-    expect(themeMatch).toBeTruthy();
-    const [, darkBlock = "", lightBlock = ""] = themeMatch ?? [];
-
-    expect(lightBlock).toContain("danger: theme.red1");
-    expect(lightBlock).toContain("dangersubtle: theme.red3");
-    expect(lightBlock).toContain("background: theme.base1");
-    expect(lightBlock).toContain("foreground: theme.base3");
-    expect(lightBlock).toContain("page: theme.surface1");
-
-    expect(darkBlock).toContain("danger: theme.red3");
-    expect(darkBlock).toContain("dangersubtle: theme.red1");
-    expect(darkBlock).toContain("background: theme.base3");
-    expect(darkBlock).toContain("foreground: theme.base1");
-    expect(darkBlock).toContain("page: theme.surface1");
-  });
-
-  it("maps getTheme semantic aliases onto the Tamagui theme object", () => {
+  it("puts untagged semantic colors on the light and dark base themes", () => {
     function nestedScale(
       hex: (step: number) => string,
       steps = 6
@@ -1298,9 +1102,13 @@ describe("tamagui plugin", () => {
             $type: "color",
             base: nestedScale(step => `#f${step}f${step}f${step}`),
             blue: nestedScale(step => `#0000f${step}`),
+            yellow: nestedScale(step => `#ffff${step}${step}`),
             primary: { $value: "{color.blue.6}" },
             background: { $value: "{color.base.1}" },
-            accent: { $value: "#00ccaa" }
+            accent: { $value: "#00ccaa" },
+            foreground: {
+              warning: { $value: "{color.yellow.4}", theme: "warning" }
+            }
           }
         },
         dark: {
@@ -1308,9 +1116,13 @@ describe("tamagui plugin", () => {
             $type: "color",
             base: nestedScale(step => `#1${step}1${step}1${step}`),
             blue: nestedScale(step => `#0000a${step}`),
+            yellow: nestedScale(step => `#aaaa${step}${step}`),
             primary: { $value: "{color.blue.6}" },
             background: { $value: "{color.base.1}" },
-            accent: { $value: "#00aa88" }
+            accent: { $value: "#00aa88" },
+            foreground: {
+              warning: { $value: "{color.yellow.4}", theme: "warning" }
+            }
           }
         }
       }
@@ -1322,24 +1134,30 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    const getTheme = content.slice(content.indexOf("getTheme:"));
-    expect(getTheme).toContain("...theme");
-    expect(getTheme).toContain("name");
-    expect(getTheme).toContain("background: theme.base1");
-    expect(getTheme).toContain("primary: theme.blue6");
-    expect(getTheme).toContain('accent: "#00ccaa"');
-    expect(getTheme).toContain('accent: "#00aa88"');
-    expect(getTheme).not.toContain("var(--");
-    expect(getTheme).not.toContain("{color.");
+    const light = createThemeBlock(content, "light");
+    expect(light).toContain("background: tokens.color.lightBase1.val");
+    expect(light).toContain("primary: tokens.color.lightBlue6.val");
+    expect(light).toContain("accent: tokens.color.accent.val");
+    expect(light).not.toContain("foregroundWarning");
+
+    const dark = createThemeBlock(content, "dark");
+    expect(dark).toContain("background: tokens.color.darkBase1.val");
+    expect(dark).toContain("primary: tokens.color.darkBlue6.val");
+    expect(dark).toContain('accent: "#00aa88"');
+
+    const warning = createThemeBlock(content, "light_warning");
+    expect(warning).toContain("foreground:");
+    expect(warning).not.toContain("foregroundWarning");
+    expect(content).not.toContain("var(--");
+    expect(content).not.toContain("{color.");
     expect(content).toContain("export interface AppTheme {");
     expect(content).toContain("primary: string;");
     expect(content).toContain("background: string;");
     expect(content).toContain("accent: string;");
-    expect(content).toContain("blue6: string;");
-    expect(content).toContain("theme: AppTheme");
+    expect(content).toContain("foreground: string;");
   });
 
-  it("emits AppTheme from token-derived palettes, scales, and semantics", () => {
+  it("emits AppTheme from semantic createTheme keys", () => {
     const content = renderConfig(spec, {
       animations: false,
       includeTypeAugmentation: false
@@ -1350,7 +1168,6 @@ describe("tamagui plugin", () => {
     expect(content).toContain("backgroundAccent: string;");
     expect(content).toContain("blue1: string;");
     expect(content).not.toContain("gray1: string;");
-    expect(content).toContain("theme: AppTheme");
   });
 
   it("emits CSS color strings and box-shadow strings in createTokens", () => {
@@ -1436,11 +1253,9 @@ describe("tamagui plugin", () => {
     });
 
     expect(content).toContain("color: {");
-    expect(content).toContain('lightPrimary: "#0066cc"');
+    expect(content).toContain('primary: "#0066cc"');
     expect(content).toContain('lightBrand1: "#00ccaa"');
     expect(content).toContain('darkBrand1: "#00aa88"');
-    expect(content).toContain('lightForegroundAccent: "#00ccaa"');
-    expect(content).toContain('darkForegroundAccent: "#00aa88"');
     expect(content).not.toContain("colorSpace");
     expect(content).toContain("shadow: {");
     expect(content).toContain("insetShadow: {");
@@ -1500,20 +1315,17 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    const tokensBlock = content.slice(
-      content.indexOf("createTokens"),
-      content.indexOf("const themes")
-    );
-    const getTheme = content.slice(content.indexOf("getTheme:"));
+    const tokensBlock = tokensSource(content);
+    const light = createThemeBlock(content, "light");
 
     expect(tokensBlock).not.toContain("ringAccent");
-    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
-    expect(getTheme).toContain('ringAccentSubtle: "0px 0px 0px 1px #00ccaa"');
+    expect(light).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
+    expect(light).toContain('ringAccentSubtle: "0px 0px 0px 1px #00ccaa"');
     expect(content).not.toContain("var(--color-border-accent)");
     expect(content).not.toContain("{color.border.accent}");
   });
 
-  it("emits ring shadows on getTheme for light and dark schemes", () => {
+  it("emits ring shadows on light and dark createTheme objects", () => {
     function nestedScale(
       hex: (step: number) => string,
       steps = 9
@@ -1586,21 +1398,106 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    const tokensBlock = content.slice(
-      content.indexOf("createTokens"),
-      content.indexOf("const themes")
-    );
-    const getTheme = content.slice(content.indexOf("getTheme:"));
+    const tokensBlock = tokensSource(content);
+    const light = createThemeBlock(content, "light");
+    const dark = createThemeBlock(content, "dark");
 
     expect(tokensBlock).not.toContain("ringPrimary");
     expect(tokensBlock).not.toContain("ringAccent");
-    expect(getTheme).toContain("ringPrimary: `0px 0px 0px 3px ${theme.base7}`");
-    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
-    expect(getTheme).toContain('ringAccent: "0px 0px 0px 3px #00aa88"');
+    expect(light).toContain('ringPrimary: "0px 0px 0px 3px #f7f7f7"');
+    expect(light).toContain('ringAccent: "0px 0px 0px 3px #00ccaa"');
+    expect(dark).toContain('ringPrimary: "0px 0px 0px 3px #171717"');
+    expect(dark).toContain('ringAccent: "0px 0px 0px 3px #00aa88"');
     expect(content).toContain("ringAccent: string;");
     expect(content).toContain("ringPrimary: string;");
     expect(content).not.toContain("var(--");
     expect(content).not.toContain("{color.");
+  });
+
+  it("maps themed shadow tokens onto nested createTheme objects", () => {
+    const ringLayer = (color: string, spread: number) => ({
+      $type: "shadow" as const,
+      $value: {
+        color,
+        offsetX: { value: 0, unit: "px" },
+        offsetY: { value: 0, unit: "px" },
+        blur: { value: 0, unit: "px" },
+        spread: { value: spread, unit: "px" }
+      }
+    });
+
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            brand: { primitive: true, 1: { $value: "#00ccaa" } },
+            background: {
+              primary: { $value: "#ffffff", theme: "primary" }
+            }
+          },
+          ring: {
+            primary: { ...ringLayer("#111111", 3), theme: "primary" },
+            "primary-subtle": { ...ringLayer("#222222", 1), theme: "primary" },
+            accent: { ...ringLayer("{color.brand.1}", 3), theme: "accent" }
+          },
+          shadow: {
+            primary: {
+              $type: "shadow",
+              theme: "primary",
+              $value: {
+                color: "#00000026",
+                offsetX: { value: 0, unit: "px" },
+                offsetY: { value: 1, unit: "px" },
+                blur: { value: 2, unit: "px" },
+                spread: { value: 0, unit: "px" }
+              }
+            },
+            "accent-subtle": {
+              $type: "shadow",
+              theme: "accent",
+              $value: {
+                color: "#00ccaa33",
+                offsetX: { value: 0, unit: "px" },
+                offsetY: { value: 4, unit: "px" },
+                blur: { value: 8, unit: "px" },
+                spread: { value: 0, unit: "px" }
+              }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+
+    const light = createThemeBlock(content, "light");
+    expect(light).not.toMatch(/^\s*ringPrimary:/m);
+    expect(light).not.toMatch(/^\s*ringAccent:/m);
+
+    const primary = createThemeBlock(content, "light_primary");
+    expect(primary).toMatch(/^\s*background:/m);
+    expect(primary).toMatch(/^\s*ring:/m);
+    expect(primary).toMatch(/^\s*ringSubtle:/m);
+    expect(primary).toMatch(/^\s*shadow:/m);
+    expect(primary).toContain('ring: "0px 0px 0px 3px #111111"');
+    expect(primary).toContain('ringSubtle: "0px 0px 0px 1px #222222"');
+    expect(primary).toContain('shadow: "0px 1px 2px 0px #00000026"');
+    expect(primary).not.toMatch(/^\s*ringPrimary:/m);
+    expect(primary).not.toMatch(/^\s*shadowPrimary:/m);
+
+    const accent = createThemeBlock(content, "light_accent");
+    expect(accent).toMatch(/^\s*ring:/m);
+    expect(accent).toMatch(/^\s*shadowSubtle:/m);
+    expect(accent).toContain('ring: "0px 0px 0px 3px #00ccaa"');
+    expect(accent).toContain('shadowSubtle: "0px 4px 8px 0px #00ccaa33"');
   });
 
   it("emits fontSize, dropShadow, and textShadow as createTokens categories", () => {
@@ -1687,10 +1584,7 @@ describe("tamagui plugin", () => {
       includeTypeAugmentation: false
     });
 
-    const tokensBlock = content.slice(
-      content.indexOf("createTokens"),
-      content.indexOf("const themes")
-    );
+    const tokensBlock = tokensSource(content);
 
     expect(tokensBlock).toContain("radius: {");
     expect(tokensBlock).toContain("lg: 8");
