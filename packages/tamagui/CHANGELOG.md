@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.55](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.55) (08/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update generator to use user defined themes instead of v5 ([ccf45ae](https://github.com/storm-software/razorwind/commit/ccf45ae))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.58**
+
 ## [0.0.54](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.54) (08/19/2026)
 
 ### Bug Fixes
