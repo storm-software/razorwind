@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.56](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.56) (08/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update imports to use `createThemes` function ([acfdcd2](https://github.com/storm-software/razorwind/commit/acfdcd2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.59**
+
 ## [0.0.55](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.55) (08/19/2026)
 
 ### Bug Fixes
