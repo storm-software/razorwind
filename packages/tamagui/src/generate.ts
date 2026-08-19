@@ -1056,7 +1056,7 @@ function orderScaleForScheme(
   );
   const result: Record<string, string> = {};
   for (const [index, [step]] of entries.entries()) {
-    result[`color${step}`] = ordered[index] ?? entries[index]![1];
+    result[`${name}${step}`] = ordered[index] ?? entries[index]![1];
   }
 
   return result;
@@ -1106,7 +1106,7 @@ function orderScaleTokenRefsForScheme(
       continue;
     }
 
-    result[`color${step}`] = tokenColorRef(tokenKey);
+    result[`${name}${step}`] = tokenColorRef(tokenKey);
   }
 
   return result;
@@ -1808,7 +1808,7 @@ function collectBasePaletteThemeKeys(
     step <= Math.min(paletteLength, TAMAGUI_PALETTE_LENGTH);
     step++
   ) {
-    keys.push(`color${step}`);
+    keys.push(`base${step}`);
   }
 
   return keys;
