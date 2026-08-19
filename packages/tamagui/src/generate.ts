@@ -34,7 +34,7 @@ import type {
 const LIGHT_THEME_IDS = new Set(["default", "light", "theme"]);
 /** Matches core `isSharedThemeId` (`base`, `baseDimmed`, …). */
 const SHARED_THEME_PATTERN = /^base(?:[A-Z]\w*|[._-].+)?$/i;
-/** DTCG `ring.*` shadows — themed via `createTheme`, not static `createTokens`. */
+/** DTCG `ring.*` shadows — themed via `createThemes`, not static `createTokens`. */
 const RING_PATH_PATTERN = /^ring(?:\.|$)/i;
 
 const ANIMATION_IMPORTS: Record<
@@ -62,7 +62,7 @@ function isDarkThemeId(id: string): boolean {
  * Merge shared tokens and tokens with no theme id into the light or dark scheme.
  *
  * Appearance variants (`lightDimmed`, `darkHighContrast`, …) are ignored —
- * Tamagui configs emit `light` / `dark` themes (plus nested children).
+ * Tamagui configs emit `light` / `dark` themes (plus nested `createThemes` children).
  */
 function tokensForScheme(
   tokens: FlatToken[],
@@ -257,6 +257,151 @@ function tokenColorRef(tokenKey: string): string {
   return `tokens.color.${tokenKey}.val`;
 }
 
+const BASE_PALETTE_NAMES = ["base", "gray", "grey", "neutral"] as const;
+const ACCENT_PALETTE_NAMES = ["accent", "brand"] as const;
+const FALLBACK_LIGHT_PALETTE = ['"#ffffff"', '"#000000"'] as const;
+const FALLBACK_DARK_PALETTE = ['"#000000"', '"#ffffff"'] as const;
+
+/**
+ * Primitive scale identity from a flattened path (`color.base.1` → base / 1).
+ */
+function parseScaleToken(
+  token: FlatToken
+): { name: string; step: number } | undefined {
+  if (token.category !== "color" || !token.primitive) {
+    return undefined;
+  }
+
+  const relative = token.path.replace(/^color\./i, "");
+  const parts = relative.split(".").filter(Boolean);
+  const last = parts.at(-1);
+  if (!last || parts.length < 2) {
+    return undefined;
+  }
+
+  const step = Number(last);
+  if (!Number.isFinite(step)) {
+    return undefined;
+  }
+
+  return { name: parts.slice(0, -1).join(".").toLowerCase(), step };
+}
+
+function scaleStopExpression(
+  token: FlatToken,
+  colorBucket: TokenBucket
+): string {
+  const key = paletteTokenKey(token);
+  if (key in colorBucket) {
+    return tokenColorRef(key);
+  }
+
+  const value =
+    typeof token.cssValue === "string" && token.cssValue.length > 0
+      ? token.cssValue
+      : typeof token.tamaguiValue === "string"
+        ? token.tamaguiValue
+        : undefined;
+
+  return value ? toLiteral(value) : '"#000000"';
+}
+
+function collectScaleExpressions(
+  tokens: FlatToken[],
+  names: readonly string[],
+  colorBucket: TokenBucket
+): string[] | undefined {
+  const byName = new Map<string, { step: number; expression: string }[]>();
+
+  for (const token of tokens) {
+    const parsed = parseScaleToken(token);
+    if (!parsed) {
+      continue;
+    }
+
+    const list = byName.get(parsed.name) ?? [];
+    list.push({
+      step: parsed.step,
+      expression: scaleStopExpression(token, colorBucket)
+    });
+    byName.set(parsed.name, list);
+  }
+
+  for (const name of names) {
+    const list = byName.get(name);
+    if (!list || list.length === 0) {
+      continue;
+    }
+
+    const unique = new Map<number, string>();
+    for (const item of list.toSorted((a, b) => a.step - b.step)) {
+      unique.set(item.step, item.expression);
+    }
+
+    return [...unique.values()];
+  }
+
+  return undefined;
+}
+
+function ensureTwoStops(
+  palette: string[],
+  fallback: readonly string[]
+): string[] {
+  if (palette.length >= 2) {
+    return palette;
+  }
+
+  if (palette.length === 1) {
+    return [palette[0]!, fallback[1] ?? '"#000000"'];
+  }
+
+  return [...fallback];
+}
+
+/**
+ * Light/dark palettes for `createThemes`. Primitive scales named `base` /
+ * `gray` / `grey` / `neutral` (or `accent` / `brand`) feed token refs; a two-stop
+ * fallback is used when no matching scale exists.
+ *
+ * `createThemes` requires at least two stops and same-length light/dark arrays.
+ */
+function schemePalettes(
+  lightTokens: FlatToken[],
+  darkTokens: FlatToken[],
+  names: readonly string[],
+  colorBucket: TokenBucket,
+  fallbackLight: readonly string[],
+  fallbackDark: readonly string[]
+): { light: string[]; dark: string[] } {
+  const lightScale = collectScaleExpressions(lightTokens, names, colorBucket);
+  const darkScale = collectScaleExpressions(darkTokens, names, colorBucket);
+
+  if (lightScale && darkScale) {
+    return {
+      light: ensureTwoStops(lightScale, fallbackLight),
+      dark: ensureTwoStops(darkScale, fallbackDark)
+    };
+  }
+
+  if (lightScale) {
+    const light = ensureTwoStops(lightScale, fallbackLight);
+
+    return { light, dark: [...light].toReversed() };
+  }
+
+  if (darkScale) {
+    const dark = ensureTwoStops(darkScale, fallbackDark);
+
+    return { light: [...dark].toReversed(), dark };
+  }
+
+  return {
+    light: [...fallbackLight],
+    dark: [...fallbackDark]
+  };
+}
+
 /**
  * Color entries for `createTokens({ color })` — CSS strings, not DTCG objects.
  *
@@ -324,7 +469,7 @@ function bucketValueMatchesToken(
 
 /**
  * `tokens.color.*` when the token (or its resolved alias) is in the color bucket;
- * otherwise a concrete color literal for `createTheme` values.
+ * otherwise a concrete color literal for `createThemes` extra values.
  */
 function resolveColorTokenReference(
   token: FlatToken,
@@ -757,7 +902,7 @@ function renderThemeInterface(
     "/**",
     ` * Theme values available on \`useTheme()\` and \`$\` style props for the ${options.specName || "design system"}.`,
     " *",
-    " * Derived from semantic color tokens mapped by \`createTheme\`. Nested",
+    " * Derived from semantic color tokens mapped by \`createThemes\`. Nested",
     " * themes (`light_primary`, `dark_danger`, …) come from each token's",
     " * `theme` / `$theme` property.",
     " *",
@@ -770,73 +915,196 @@ function renderThemeInterface(
   ];
 }
 
-function nestedThemeName(scheme: ColorScheme, child: string): string {
-  return `${scheme}_${child}`;
-}
-
 function hasThemeValues(values: Record<string, string>): boolean {
   return Object.keys(values).length > 0;
 }
 
-function renderCreateThemeStatement(
-  name: string,
-  values: Record<string, string>
+function renderIdentifierKey(key: string): string {
+  return /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key);
+}
+
+function renderExpressionArray(expressions: string[], indent: number): string {
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+
+  return `[\n${expressions.map(expression => `${pad}${expression}`).join(",\n")}\n${close}]`;
+}
+
+function renderPaletteBlock(
+  light: string[],
+  dark: string[],
+  indent: number
 ): string {
-  return `const ${name} = createTheme(${renderConfigObjectLiteral(values, 2)});`;
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+  const inner = indent + 2;
+
+  return `{
+${pad}light: ${renderExpressionArray(light, inner)},
+${pad}dark: ${renderExpressionArray(dark, inner)}
+${close}}`;
+}
+
+function renderExtraBlock(
+  light: Record<string, string>,
+  dark: Record<string, string>,
+  indent: number
+): string {
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+  const inner = indent + 2;
+
+  return `{
+${pad}light: ${renderConfigObjectLiteral(light, inner)},
+${pad}dark: ${renderConfigObjectLiteral(dark, inner)}
+${close}}`;
+}
+
+function renderChildThemeMap(
+  children: Record<string, Record<string, string>>,
+  indent: number
+): string {
+  const entries = Object.entries(children).toSorted(([a], [b]) =>
+    a.localeCompare(b)
+  );
+  if (entries.length === 0) {
+    return "{}";
+  }
+
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+  const inner = indent + 2;
+  const lines = entries.map(
+    ([name, values]) =>
+      `${pad}${renderIdentifierKey(name)}: ${renderConfigObjectLiteral(values, inner)}`
+  );
+
+  return `{\n${lines.join(",\n")}\n${close}}`;
+}
+
+function renderEmptyChildrenThemes(names: string[], indent: number): string {
+  const pad = " ".repeat(indent);
+  const close = " ".repeat(Math.max(indent - 2, 0));
+  const lines = names.map(name => `${pad}${renderIdentifierKey(name)}: {}`);
+
+  return `{\n${lines.join(",\n")}\n${close}}`;
+}
+
+function renderChildThemeExtrasConst(
+  light: Record<string, Record<string, string>>,
+  dark: Record<string, Record<string, string>>
+): string {
+  return `const childThemeExtras: {
+  light: Record<string, Record<string, string>>;
+  dark: Record<string, Record<string, string>>;
+} = {
+  light: ${renderChildThemeMap(light, 4)},
+  dark: ${renderChildThemeMap(dark, 4)}
+};`;
+}
+
+function childrenForScheme(
+  maps: ThemeMaps,
+  fallback: ThemeMaps,
+  names: string[]
+): Record<string, Record<string, string>> {
+  return Object.fromEntries(
+    names.map(name => [
+      name,
+      maps.children[name] ?? fallback.children[name] ?? {}
+    ])
+  );
 }
 
 /**
- * Emit `createTheme` statements plus a `themes` record.
+ * Emit `createThemes` from `@tamagui/theme-builder`.
  *
- * Nested Tamagui names use underscores (`light_primary`) so `<Theme name="primary">`
- * resolves under light/dark.
+ * Untagged semantics land on `base.extra`. A semantic `accent` child uses the
+ * first-class `accent` slot (palette + extra). Other `theme` / `$theme` names
+ * become `childrenThemes` with extras applied through `getTheme`. Nested Tamagui
+ * names use underscores (`light_primary`) so `<Theme name="primary">` resolves
+ * under light/dark.
+ *
+ * @see https://tamagui.dev/docs/guides/theme-builder
  */
 function renderThemesModule(
   light: ThemeMaps,
   dark: ThemeMaps,
-  hasDark: boolean
+  colorBucket: TokenBucket,
+  lightColorTokens: FlatToken[],
+  darkColorTokens: FlatToken[]
 ): { statements: string[]; hasThemes: boolean } {
-  const statements: string[] = [];
-  const recordEntries: string[] = [];
-
-  const pushTheme = (
-    name: string,
-    values: Record<string, string>,
-    allowEmpty = false
-  ): void => {
-    if (!allowEmpty && !hasThemeValues(values)) {
-      return;
-    }
-
-    statements.push(renderCreateThemeStatement(name, values));
-    const key = /^[A-Z_$][\w$]*$/i.test(name) ? name : toLiteral(name);
-    recordEntries.push(key === name ? `  ${name}` : `  ${key}: ${name}`);
-  };
-
   const childNames = [
     ...new Set([...Object.keys(light.children), ...Object.keys(dark.children)])
   ].toSorted((a, b) => a.localeCompare(b));
+  const hasAccent = childNames.includes("accent");
+  const nestedNames = childNames.filter(name => name !== "accent");
+  const hasBase = hasThemeValues(light.base) || hasThemeValues(dark.base);
 
-  pushTheme("light", light.base, childNames.length > 0);
-  if (hasDark) {
-    pushTheme("dark", dark.base, childNames.length > 0);
-  }
-
-  for (const child of childNames) {
-    const lightValues = light.children[child] ?? dark.children[child] ?? {};
-    pushTheme(nestedThemeName("light", child), lightValues);
-
-    if (hasDark) {
-      const darkValues = dark.children[child] ?? light.children[child] ?? {};
-      pushTheme(nestedThemeName("dark", child), darkValues);
-    }
-  }
-
-  if (recordEntries.length === 0) {
+  if (!hasBase && childNames.length === 0) {
     return { statements: [], hasThemes: false };
   }
 
-  statements.push("", `const themes = {\n${recordEntries.join(",\n")}\n};`);
+  const basePalette = schemePalettes(
+    lightColorTokens,
+    darkColorTokens,
+    BASE_PALETTE_NAMES,
+    colorBucket,
+    FALLBACK_LIGHT_PALETTE,
+    FALLBACK_DARK_PALETTE
+  );
+  const accentPalette = schemePalettes(
+    lightColorTokens,
+    darkColorTokens,
+    ACCENT_PALETTE_NAMES,
+    colorBucket,
+    basePalette.light,
+    basePalette.dark
+  );
+
+  const statements: string[] = [];
+  const createThemesFields: string[] = ["  componentThemes: false"];
+
+  const baseFields = [
+    `    palette: ${renderPaletteBlock(basePalette.light, basePalette.dark, 6)}`
+  ];
+  if (hasBase) {
+    baseFields.push(`    extra: ${renderExtraBlock(light.base, dark.base, 6)}`);
+  }
+  createThemesFields.push(`  base: {\n${baseFields.join(",\n")}\n  }`);
+
+  if (hasAccent) {
+    const lightAccent = light.children.accent ?? dark.children.accent ?? {};
+    const darkAccent = dark.children.accent ?? light.children.accent ?? {};
+    createThemesFields.push(`  accent: {
+    palette: ${renderPaletteBlock(accentPalette.light, accentPalette.dark, 6)},
+    extra: ${renderExtraBlock(lightAccent, darkAccent, 6)}
+  }`);
+  }
+
+  if (nestedNames.length > 0) {
+    const lightNested = childrenForScheme(light, dark, nestedNames);
+    const darkNested = childrenForScheme(dark, light, nestedNames);
+    statements.push(renderChildThemeExtrasConst(lightNested, darkNested), "");
+    createThemesFields.push(
+      `  childrenThemes: ${renderEmptyChildrenThemes(nestedNames, 4)}`
+    );
+    const skipAccent = hasAccent ? ' || child === "accent"' : "";
+    createThemesFields.push(`  getTheme: ({ name, theme, scheme }) => {
+    const child = name.replace(/^(?:light|dark)_/, "");
+    if (child === name${skipAccent}) {
+      return theme;
+    }
+
+    const extras = childThemeExtras[scheme ?? "light"][child];
+
+    return extras ? { ...theme, ...extras } : theme;
+  }`);
+  }
+
+  statements.push(
+    `const themes = createThemes({\n${createThemesFields.join(",\n")}\n});`
+  );
 
   return { statements, hasThemes: true };
 }
@@ -844,7 +1112,7 @@ function renderThemesModule(
 /**
  * Render a Tamagui config module from flattened design tokens.
  *
- * Light and dark token sets become `createTheme` objects. Semantic colors with
+ * Light and dark token sets become `createThemes` extra maps. Semantic colors with
  * a `theme` / `$theme` property are nested as `light_<name>` / `dark_<name>`,
  * with the theme name stripped from the token key. Each typography token is
  * emitted as its own `createFont` entry with that token's size, line height,
@@ -883,7 +1151,9 @@ export function renderTamaguiConfig(
   const { statements: themeStatements, hasThemes } = renderThemesModule(
     lightMaps,
     darkMaps,
-    hasDark
+    colorBucket,
+    lightColorTokens,
+    darkColorTokens
   );
   const appThemeKeys = collectAppThemeKeys(
     hasDark ? [lightMaps, darkMaps] : [lightMaps]
@@ -920,12 +1190,13 @@ export function renderTamaguiConfig(
     imports.push(`import userConfig from "${options.importConfig}";`);
   }
 
+  if (hasThemes) {
+    imports.push(`import { createThemes } from "@tamagui/theme-builder";`);
+  }
+
   const tamaguiImports = ["createTamagui", "px"];
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
-  }
-  if (hasThemes) {
-    tamaguiImports.push("createTheme");
   }
   const assignedFonts = collectTamaguiFonts(tokens, fonts);
   if (assignedFonts.length > 0) {
@@ -941,6 +1212,7 @@ export function renderTamaguiConfig(
     ` * `,
     " * @see https://tamagui.dev/docs/core/configuration",
     " * @see https://tamagui.dev/docs/intro/themes",
+    " * @see https://tamagui.dev/docs/guides/theme-builder",
     " */",
     "",
     ...imports,

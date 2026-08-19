@@ -50,15 +50,16 @@ export type {
 
 /**
  * Razorwind plugin that turns design tokens into a Tamagui config
- * (`createTamagui` + `createTokens` + `createTheme` + `createFont`).
+ * (`createTamagui` + `createTokens` + `createThemes` + `createFont`).
  *
  * Light and dark token sets are emitted as a single config. Semantic colors
  * and shadows (not marked `palette` / `primitive`) that declare `theme` /
- * `$theme` become nested Tamagui themes (`light_primary`, `dark_danger`, …),
- * with the theme name stripped from the token key (`backgroundPrimarySubtle` +
- * `theme: "primary"` → `backgroundSubtle`; `ringPrimarySubtle` → `ringSubtle`
- * on `primary`). Untagged semantic colors land on the `light` / `dark` base
- * themes. Primitive palettes stay on `createTokens({ color })`.
+ * `$theme` become nested Tamagui themes via `createThemes` from
+ * `@tamagui/theme-builder` (`light_primary`, `dark_danger`, …), with the theme
+ * name stripped from the token key (`backgroundPrimarySubtle` + `theme: "primary"`
+ * → `backgroundSubtle`; `ringPrimarySubtle` → `ringSubtle` on `primary`).
+ * Untagged semantic colors land on `base.extra`. Primitive palettes stay on
+ * `createTokens({ color })` and feed `base.palette` / `accent.palette`.
  *
  * Typography tokens (`$type: "typography"`) each emit their own Tamagui
  * `createFont` entry with that token's size, line height, and weight. Font
@@ -67,6 +68,7 @@ export type {
  *
  * @see https://tamagui.dev/docs/core/configuration
  * @see https://tamagui.dev/docs/intro/themes
+ * @see https://tamagui.dev/docs/guides/theme-builder
  * @see https://tamagui.dev/docs/core/font-language#font-tokens
  *
  * @example

@@ -92,11 +92,15 @@
   },
   "peerDependencies": {
     "@tamagui/config": ">=1.120.0",
+    "@tamagui/theme-builder": ">=1.120.0",
     "react": ">=18",
     "tamagui": ">=1.120.0"
   },
   "peerDependenciesMeta": {
     "@tamagui/config": {
+      "optional": true
+    },
+    "@tamagui/theme-builder": {
       "optional": true
     },
     "react": {
