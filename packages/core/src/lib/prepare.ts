@@ -31,9 +31,6 @@ import { isEmptyTokens, loadTokens } from "./tokens";
 const NO_PLUGINS_ERROR =
   "Razorwind will not generate any code - no plugins configured. Please add at least one plugin to the configuration.";
 
-const NO_TOKENS_ERROR =
-  "Unable to load design tokens for the current workspace. Please ensure that Razorwind is configured correctly and that the tokens are available.";
-
 /**
  * Load tokens, extract, and validate for the current {@link Config} on
  * `context.options`.
@@ -70,14 +67,12 @@ export async function prepareSpec(
     spec = await plugin.extract!(spec, context.options);
   }
 
-  if (!spec.tokens || isEmptyTokens(spec.tokens)) {
-    throw new Error(NO_TOKENS_ERROR);
-  }
-
-  for (const plugin of context.options.plugins.filter(
-    plugin => plugin.validate
-  )) {
-    await plugin.validate!(spec, context.options);
+  if (spec.tokens && !isEmptyTokens(spec.tokens)) {
+    for (const plugin of context.options.plugins.filter(
+      plugin => plugin.validate
+    )) {
+      await plugin.validate!(spec, context.options);
+    }
   }
 
   return spec;

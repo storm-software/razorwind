@@ -129,15 +129,13 @@ function globStaticPrefix(globPath: string): string | undefined {
 function resolveSingleTokensPath(
   cwd: string,
   tokensPath: string
-): ResolvedSingleTokensPath {
+): ResolvedSingleTokensPath | undefined {
   const absolute = toAbsolute(cwd, tokensPath);
 
   if (isGlobPattern(tokensPath)) {
     const staticPrefix = globStaticPrefix(absolute);
     if (staticPrefix && !existsSync(staticPrefix)) {
-      throw new Error(
-        `tokensPath "${tokensPath}" does not exist (resolved: ${absolute}).`
-      );
+      return undefined;
     }
 
     return {
@@ -148,9 +146,7 @@ function resolveSingleTokensPath(
   }
 
   if (!existsSync(absolute)) {
-    throw new Error(
-      `tokensPath "${tokensPath}" does not exist (resolved: ${absolute}).`
-    );
+    return undefined;
   }
 
   if (isDirectory(absolute)) {
@@ -185,21 +181,19 @@ function resolveSingleTokensPath(
  */
 export function resolveTokensSource(
   options: ResolveTokensPathOptions
-): ResolvedTokensSource {
+): ResolvedTokensSource | undefined {
   const { cwd, tokensPath, fallbackPaths = [] } = options;
 
   const paths = normalizeTokensPaths(tokensPath);
   if (paths.length > 0) {
     const resolved = paths.map(path => resolveSingleTokensPath(cwd, path));
     const styleDictionaryConfigs = resolved.filter(
-      entry => entry.isStyleDictionaryConfig
+      entry => entry && entry.isStyleDictionaryConfig
     );
 
     if (styleDictionaryConfigs.length > 0) {
       if (resolved.length > 1) {
-        throw new Error(
-          "tokensPath cannot mix Style Dictionary config files with other token sources."
-        );
+        return undefined;
       }
 
       return {
@@ -211,7 +205,7 @@ export function resolveTokensSource(
 
     return {
       resolvedPath: resolved[0]?.resolvedPath,
-      source: resolved.flatMap(entry => entry.source),
+      source: resolved.flatMap(entry => entry?.source ?? []),
       origin: "tokensPath"
     };
   }

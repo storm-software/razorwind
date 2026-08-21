@@ -1,0 +1,3907 @@
+@theme {
+  --bounding:
+    hover: not([data-disabled])
+      var(--background-color: var(--color-surface-hover))
+      .action-icon--boundlessvar(--border-radius: var(--radius-xs))
+      .action-icon--boundless: hover: not([data-disabled])
+      var(--background-color: var(--color-surface-hover))
+      .action-icon: hover: not([data-disabled])
+      .action-icon__basevar(--background-color: var(--color-surface-hover))
+      .action-icon: active: not([data-disabled]) var(--transform: scale(-95))
+      .action-icon: active: not([data-disabled])
+      .action-icon__basevar(--background-color: var(--color-surface-selected))
+      .action-icon--open: not([data-disabled])
+      var(--background-color: var(--color-surface-selected))
+      .action-icon--open: not([data-disabled])
+      .action-icon__basevar(--background-color: var(--color-surface-selected))
+      .action-icon: focus-visible: not([data-disabled])
+      var(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .action-icon--disabled,
+    .action-icon[data-disabled]var(
+        --color: var(--color-icon-disabled)
+          !important;background-color: transparent!important;opacity: var(
+            --opacity-disabled
+          )
+          ;cursor: not-allowed;pointer-events: none
+      )
+      .action-icon--preserve-color svgvar(--stroke: currentColor!important)
+      .action-icon.pressed
+      .action-icon__basevar(--background-color: var(--color-surface-selected))
+      .action-icon.released .action-icon__overlayvar(--opacity: -1)
+      .action-icon.clickedvar(--transform: scale(-95)) .action-icon
+      svgvar(--position: relative;z-index: 1) @media
+      (forced-colors: active){.action-iconvar(
+        --border: 1px solid ButtonText;color: ButtonText
+      )
+      .action-icon svgvar(--stroke: ButtonText;fill: none)
+      .action-icon: hover: not([data-disabled])
+      var(--border-color: Highlight;color: Highlight)
+      .action-icon: hover: not([data-disabled]) svgvar(--stroke: Highlight)
+      .action-icon: focus-visible: not([data-disabled])
+      var(--outline: 2px solid Highlight;outline-offset: 1px)
+      .action-icon--disabled,
+    .action-icon[data-disabled]var(--border-color: GrayText;color: GrayText)
+      .action-icon--disabled svg,
+    .action-icon[data-disabled] svgvar(--stroke: GrayText)
+      .action-icon--boundingvar(
+        --background-color: Canvas;border-color: ButtonText
+      )}.action-menuvar(--position: relative;display: inline-block)
+      .action-menu__triggervar(--cursor: pointer;display: inline-block)
+      .action-menu__trigger[data-disabled=true]var(
+        --cursor: not-allowed;opacity: -5
+      )
+      .action-menu__contentvar(
+        --background: var(--color-background-surface, #ffffff) ;border: 1px
+          solid var(--color-border-default, #e0e0e0)
+          ;border-radius: var(--radius-s, 8px)
+          ;box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, -15))
+          ;min-width: 160px;max-width: 280px;padding: 1px;z-index: 50;outline:
+          none;overflow: hidden;box-sizing: border-box
+      )
+      .action-menu__content: focusvar(--outline: none)
+      .action-menu__viewportvar(
+        --max-height: 280px;overflow-y: auto;overflow-x: hidden
+      )
+      .action-menu__viewport: : -webkit-scrollbarvar(--width: 6px)
+      .action-menu__viewport: : -webkit-scrollbar-trackvar(
+        --background: var(--color-background-subtle, #f5f5f5)
+      )
+      .action-menu__viewport: : -webkit-scrollbar-thumbvar(
+        --background: var(--color-border-default, #ccc) ;border-radius: 3px
+      )
+      .action-menu__viewport: : -webkit-scrollbar-thumb: hovervar(
+        --background: var(--color-border-hover, #aaa)
+      )
+      .action-menu__content--no-custom-scrollbar
+      .action-menu__viewport: : -webkit-scrollbarvar(--display: none)
+      .action-menu__itemvar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-12, 12px)
+          ;padding: var(--spacing-sp-12, 12px) var(--spacing-sp-16, 16px)
+          ;min-height: 48px;cursor: pointer;font-weight: var(
+            --font-body-medium-regular-weight,
+            400
+          )
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;line-height: var(--line-height-normal, 1-5)
+          ;color: var(--color-text-primary, #1a1a1a)
+          ;background: transparent;border: var(--border-width-100, 1px) solid
+          transparent;border-radius: var(--radius-xs, 4px)
+          ;width: 100%;text-align: left;transition: background-color -15s
+          ease;position: relative;isolation: isolate;-webkit-user-select:
+          none;user-select: none;box-sizing: border-box;min-width: 0
+      )
+      .action-menu__item: beforevar(
+        --content: ""
+          ;position: absolute;top: 2px;right: 2px;bottom: 2px;left:
+          2px;border-radius: calc(var(--radius-xs, 4px) - 1px)
+          ;background: transparent;pointer-events: none;z-index: -1;transition:
+          background-color -15s
+          ease
+      )
+      .action-menu__item: hover,
+    .action-menu__item[data-highlighted]: not([data-focus-visible])
+      var(--border-color: transparent;outline: none)
+      .action-menu__item: hover: before,
+    .action-menu__item[data-highlighted]: not([data-focus-visible]): beforevar(
+        --background-color: var(--color-background-hover, #f0f0f0)
+      )
+      .action-menu__item: focusvar(--outline: none)
+      .action-menu__item: activevar(
+        --background-color: var(--color-background-pressed, #e8e8e8)
+      )
+      .action-menu__item[data-selected]var(
+        --background-color: var(--color-surface-selected, #e7f1fc)
+          ;color: var(--color-text-selected, #0f3db5)
+          ;font-weight: var(--font-weight-semibold, 600)
+      )
+      .action-menu__item[data-selected]: hover,
+    .action-menu__item[data-selected][data-highlighted]var(
+        --background-color: var(--color-surface-selected, #e7f1fc)
+          ;color: var(--color-text-selected, #0f3db5)
+      )
+      .action-menu__item[data-disabled],
+    .action-menu__item--disabledvar(
+        --color: var(--color-text-disabled, #999)
+          ;cursor: not-allowed;pointer-events: none
+      )
+      .action-menu__item[data-disabled]: hover,
+    .action-menu__item--disabled: hovervar(--background: transparent)
+      .action-menu__item--has-submenuvar(
+        --padding-right: var(--spacing-sp-12, 12px)
+      )
+      .action-menu__item-iconvar(
+        ----action-menu-icon-size: 16px;display: flex;align-items:
+          center;justify-content: center;flex-shrink: 0;align-self:
+          flex-start;margin-top: calc(
+            (
+                var(--font-body-medium-size, 14px) *
+                  var(--line-height-normal, 1-5) - var(--action-menu-icon-size)
+              ) /
+              2
+          )
+      )
+      .action-menu__item-icon--leftvar(--order: -1)
+      .action-menu__item-icon--rightvar(--order: 1;margin-left: auto)
+      .action-menu__item-icon--xsvar(
+        ----action-menu-icon-size: 12px;width: 12px;height: 12px
+      )
+      .action-menu__item-icon--smvar(
+        ----action-menu-icon-size: 14px;width: 14px;height: 14px
+      )
+      .action-menu__item-icon--mdvar(
+        ----action-menu-icon-size: 16px;width: 16px;height: 16px
+      )
+      .action-menu__item-icon--lgvar(
+        ----action-menu-icon-size: 20px;width: 20px;height: 20px
+      )
+      .action-menu__item-icon--xlvar(
+        ----action-menu-icon-size: 24px;width: 24px;height: 24px
+      )
+      .action-menu__item-textvar(--flex: 1;min-width: 0;word-break: break-word)
+      .action-menu__item + .action-menu__itemvar(--margin-top: 2px)
+      .action-menu__separatorvar(
+        --height: 1px;background: var(--color-border-default, #e0e0e0)
+          ;margin: var(--spacing-sp-4, 4px) 0
+      )
+      .action-menu__group-labelvar(
+        --padding: var(--spacing-sp-4, 4px) var(--spacing-sp-12, 12px)
+          ;font-size: var(--font-size-xs, 12px)
+          ;font-weight: var(--font-weight-semibold, 600)
+          ;color: var(--color-text-muted, #666)
+          ;text-transform: uppercase;letter-spacing: -5px
+      )
+      .action-menu__sub-contentvar(
+        --background: var(--color-background-surface, #ffffff) ;border: 1px
+          solid var(--color-border-default, #e0e0e0)
+          ;border-radius: var(--radius-s, 8px)
+          ;box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, -15))
+          ;min-width: 160px;max-width: 280px;max-height: 280px;padding:
+          1px;z-index: 51;outline: none;overflow-x: hidden;overflow-y:
+          auto;box-sizing: border-box
+      )
+      @keyframes action-menu-fade-in{0%var (--opacity: 0;transform: scale(-95))
+      tovar(--opacity: 1;transform: scale(1))}@keyframes
+      action-menu-fade-out{0%var (--opacity: 1;transform: scale(1))
+      tovar(
+        --opacity: 0;transform: scale(-95)
+      )}.action-menu__content[data-state=open],
+    .action-menu__sub-content[data-state=open]var(
+        --animation: action-menu-fade-in -15s ease-out
+      )
+      .action-menu__content[data-state=closed],
+    .action-menu__sub-content[data-state=closed]var(
+        --animation: action-menu-fade-out -1s ease-in
+      )
+      .action-menu__content[data-side=top]var(--transform-origin: bottom center)
+      .action-menu__content[data-side=bottom]var(--transform-origin: top center)
+      .action-menu__content[data-side=left]var(--transform-origin: right center)
+      .action-menu__content[data-side=right]var(--transform-origin: left center)
+      .action-menu__item[data-focus-visible]var(
+        --outline: none;box-shadow: inset 0 0 0 var(--focus-ring-width, 2px)
+          var(--focus-ring-color, #779fe3)
+      )
+      @media (forced-colors: active){.action-menu__content,
+    .action-menu__sub-contentvar(
+        --background: Canvas;border-color: ButtonText;box-shadow: none
+      )
+      .action-menu__item,
+    .action-menu__group-labelvar(--color: CanvasText)
+      .action-menu__item: beforevar(--background: transparent)
+      .action-menu__item: hover: before,
+    .action-menu__item[data-highlighted]: not([data-focus-visible]): beforevar(
+        --background-color: Highlight
+      )
+      .action-menu__item: hover,
+    .action-menu__item[data-highlighted]: not([data-focus-visible])
+      var(--color: HighlightText) .action-menu__item[data-selected],
+    .action-menu__item[data-selected]: hover,
+    .action-menu__item[data-selected][data-highlighted]var(
+        --background-color: Highlight;color: HighlightText
+      )
+      .action-menu__item[data-disabled],
+    .action-menu__item--disabledvar(--color: GrayText)
+      .action-menu__item-iconvar(--color: currentColor)
+      .action-menu__separatorvar(--background: ButtonText)
+      .action-menu__item[data-focus-visible]var(
+        --box-shadow: inset 0 0 0 2px Highlight
+      )}: hostvar(--display: inline-flex;vertical-align: bottom)
+      .badgevar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;box-sizing: border-box;border-radius: var(--radius-xs)
+          ;font-family: var(--font-family-brand)
+          ;text-decoration: none;white-space: nowrap
+      )
+      .badge--outlinevar(
+        --border-width: var(--border-width-100)
+          ;border-style: solid;background-color: var(--color-surface-foreground)
+      )
+      .badge--filled.badge--color-defaultvar(
+        --background-color: var(--chetwode-100) ;color: var(--chetwode-600)
+      )
+      .badge--filled.badge--color-skyvar(
+        --background-color: var(--azure-100) ;color: var(--azure-700)
+      )
+      .badge--filled.badge--color-grassvar(
+        --background-color: var(--green-haze-100) ;color: var(--green-haze-700)
+      )
+      .badge--filled.badge--color-boredvar(
+        --background-color: var(--orange-haze-100)
+          ;color: var(--orange-haze-700)
+      )
+      .badge--filled.badge--color-negativevar(
+        --background-color: var(--color-state-error-light)
+          ;color: var(--color-state-error-accent)
+      )
+      .badge--filled.badge--color-neuteralvar(
+        --background-color: var(--neutral-300) ;color: var(--color-text-primary)
+          ;border: var(--border-width-100) solid var(--color-stroke-default)
+      )
+      .badge--filled.badge--color-darkvar(
+        --background-color: var(--color-surface-foreground-dark)
+          ;color: var(--color-text-inverse)
+      )
+      .badge--outline.badge--color-defaultvar(
+        --border-color: var(--chetwode-200) ;color: var(--chetwode-500)
+      )
+      .badge--outline.badge--color-skyvar(
+        --border-color: var(--azure-200) ;color: var(--azure-600)
+      )
+      .badge--outline.badge--color-grassvar(
+        --border-color: var(--green-haze-200)
+          ;color: var(--color-state-success-accent)
+      )
+      .badge--outline.badge--color-boredvar(
+        --border-color: var(--orange-haze-200) ;color: var(--orange-haze-600)
+      )
+      .badge--outline.badge--color-negativevar(
+        --border-color: var(--warning-light)
+          ;color: var(--color-state-error-accent)
+      )
+      .badge--outline.badge--color-neuteralvar(
+        --border-color: var(--color-stroke-default)
+          ;color: var(--color-text-primary)
+      )
+      .badge--outline.badge--color-darkvar(
+        --border-color: var(--color-surface-foreground-dark)
+          ;color: var(--color-surface-foreground-dark)
+      )
+      .badge--size-defaultvar(
+        --padding: var(--spacing-sp-2) var(--spacing-sp-6)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height) ;height: 24px
+      )
+      .badge--size-largevar(
+        --padding: var(--spacing-sp-2) var(--spacing-sp-8)
+          ;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-semibold-weight)
+          ;line-height: var(--font-body-large-line-height) ;height: 28px
+      )
+      .badge--size-smallvar(
+        --padding: var(--spacing-sp-2) var(--spacing-sp-4)
+          ;font-size: var(--font-body-small-size)
+          ;font-weight: var(--font-body-small-semibold-weight)
+          ;line-height: var(--font-body-small-line-height) ;height: 20px
+      )
+      @media (forced-colors: active){.badgevar(--border-color: ButtonText)
+      .badge--filledvar(--background-color: ButtonFace;color: ButtonText)
+      .badge--outlinevar(--background-color: Canvas;color: ButtonText)
+      .badge--filled.badge--color-dark,
+    .badge--outline.badge--color-darkvar(
+        --border-color: ButtonText;color: ButtonText
+      )}.breadcrumbvar(
+        --display: flex;align-items: center;align-content: center;flex-wrap:
+          wrap;gap: var(--spacing-sp-6)
+          ;min-height: var(--font-utility-link-line-height)
+      )
+      .breadcrumb__listvar(
+        --display: flex;align-items: center;align-content: center;flex-wrap:
+          wrap;gap: var(--spacing-sp-6)
+          ;list-style: none;padding: 0;margin: 0
+      )
+      .breadcrumb__itemvar(--display: flex;align-items: center)
+      .breadcrumb__linkvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-utility-link-size)
+          ;font-style: normal;font-weight: var(--font-utility-link-weight, 600)
+          ;line-height: var(--font-utility-link-line-height)
+          ;text-decoration-line: underline;text-decoration-style:
+          solid;text-decoration-skip-ink: none;text-decoration-thickness:
+          auto;text-underline-offset: auto;text-underline-position:
+          from-font;text-decoration: underline;color: var(
+            --color-text-link-default
+          )
+      )
+      .breadcrumb__link: hovervar(
+        --color: var(--color-text-link-hover) ;text-decoration: none
+      )
+      .breadcrumb__textvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-style: normal;font-weight: var(
+            --font-body-medium-regular-weight,
+            400
+          )
+          ;line-height: var(--font-body-medium-line-height)
+          ;text-decoration: none;color: var(--color-text-primary)
+          ;border-radius: var(--radius-xs)
+      )
+      .breadcrumb__text: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .breadcrumb__separatorvar(
+        --color: var(--color-icon-brand)
+          ;display: flex;align-items: center;width: var(--px-16)
+          ;height: var(--px-16)
+      )
+      .breadcrumb__link--disabledvar(
+        --color: var(--color-text-disabled)
+          ;text-decoration: none;cursor: default;pointer-events: none
+      )
+      .breadcrumb--compactvar(--height: auto) .breadcrumb--compact
+      .breadcrumb__separatorvar(
+        --margin-left: var(--spacing-sp-4) ;margin-right: var(--spacing-sp-4)
+          ;width: var(--px-12) ;height: var(--px-12)
+      )
+      .breadcrumb--large .breadcrumb__link,
+    .breadcrumb--large
+      .breadcrumb__textvar(
+        --font-size: var(--font-body-large-size)
+          ;line-height: var(--font-body-large-line-height)
+      )
+      .breadcrumb--large
+      .breadcrumb__separatorvar(--width: var(--px-20) ;height: var(--px-20))
+      @media (forced-colors: active){.breadcrumb__linkvar(--color: LinkText)
+      .breadcrumb__link: hovervar(--color: LinkText;text-decoration: underline)
+      .breadcrumb__textvar(--color: CanvasText)
+      .breadcrumb__text: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .breadcrumb__separatorvar(--color: CanvasText)
+      .breadcrumb__link--disabledvar(--color: GrayText)}.buttonvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;position: relative;-moz-appearance: none;appearance:
+          none;-webkit-appearance: none;border: none;cursor:
+          pointer;-webkit-user-select: none;user-select: none;text-decoration:
+          none;box-sizing: border-box;transition: background-color -2s
+          ease-out,
+        border-color -2s ease-out,
+        color -2s ease-out,
+        box-shadow -2s ease-out;font-family: var(--font-family-brand)
+          ;border-radius: var(--radius-xs)
+      )
+      .button: focus-visible: not([data-disabled])
+      var(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: -1px
+      )
+      .button--secondary: focus-visible: not([data-disabled])
+      var(--outline-offset: 0)
+      .button__contentvar(
+        --display: inline-flex;align-items: center;justify-content: center;gap:
+          0
+      )
+      .button__iconvar(
+        --display: inline-flex;align-items: center;justify-content: center
+      )
+      .button__icon svgvar(--width: 20px;height: 20px)
+      .button__labelvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;padding-left: var(--spacing-sp-4)
+          ;padding-right: var(--spacing-sp-4)
+      )
+      .button--icon-only .button__contentvar(--gap: 0) .button--icon-only
+      .button__labelvar(--display: none)
+      .button--defaultvar(
+        --min-width: 72px;height: 36px;padding-top: var(--spacing-sp-6)
+          ;padding-bottom: var(--spacing-sp-6)
+          ;padding-left: var(--spacing-sp-8) ;padding-right: var(--spacing-sp-8)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .button--default .button__iconvar(--padding: var(--spacing-sp-2))
+      .button--default .button__icon svgvar(--width: 20px;height: 20px)
+      .button--smallvar(
+        --min-width: 56px;height: 24px;padding: var(--spacing-sp-4)
+          ;font-size: var(--font-body-small-size)
+          ;font-weight: var(--font-body-small-semibold-weight)
+          ;line-height: var(--font-body-small-line-height)
+      )
+      .button--small .button__icon svgvar(--width: 16px;height: 16px)
+      .button--primaryvar(
+        --background-color: var(--color-surface-button-primary-default)
+          ;color: var(--color-text-button-primary-default)
+      )
+      .button--primary: hover: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-primary-hover)
+          ;color: var(--color-text-button-primary-hover)
+      )
+      .button--primary: active: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-primary-pressed)
+          ;color: var(--color-text-button-primary-pressed)
+      )
+      .button--primary: focus-visible: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-primary-focused)
+          ;color: var(--color-text-button-primary-focused)
+      )
+      .button--primary[data-disabled]var(
+        --background-color: var(--color-surface-button-primary-disabled)
+          ;color: var(--color-text-button-primary-disabled) ;cursor: not-allowed
+      )
+      .button--secondaryvar(
+        ----color-text-button-secondary-default: var(--color-text-link-default)
+          ;--color-text-button-secondary-hover: var(--color-text-link-hover)
+          ;--color-text-button-secondary-pressed: var(--color-text-link-pressed)
+          ;--color-text-button-secondary-focused: var(--color-text-link-default)
+          ;--color-text-button-secondary-disabled: var(--neutral-650)
+          ;--color-surface-button-secondary-default: var(--neutral-50)
+          ;--color-surface-button-secondary-hover: var(--brand-150)
+          ;--color-surface-button-secondary-pressed: var(--brand-250)
+          ;--color-surface-button-secondary-focused: var(--neutral-50)
+          ;--color-surface-button-secondary-disabled: var(--neutral-50)
+          ;background-color: var(--color-surface-button-secondary-default)
+          ;color: var(--color-text-button-secondary-default)
+          ;border: var(--border-width-100) solid
+          var(--color-text-button-secondary-default)
+      )
+      .button--secondary.button--defaultvar(
+        --padding-top: calc(var(--spacing-sp-6) - var(--border-width-100))
+          ;padding-bottom: calc(var(--spacing-sp-6) - var(--border-width-100))
+          ;padding-left: calc(var(--spacing-sp-8) - var(--border-width-100))
+          ;padding-right: calc(var(--spacing-sp-8) - var(--border-width-100))
+      )
+      .button--secondary.button--smallvar(
+        --padding: calc(var(--spacing-sp-4) - var(--border-width-100))
+      )
+      .button--secondary: hover: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-secondary-hover)
+          ;color: var(--color-text-button-secondary-hover)
+          ;border-color: var(--color-text-button-secondary-hover)
+      )
+      .button--secondary: active: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-secondary-pressed)
+          ;color: var(--color-text-button-secondary-pressed)
+          ;border-color: var(--color-text-button-secondary-pressed)
+      )
+      .button--secondary: focus-visible: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-secondary-focused)
+          ;color: var(--color-text-button-secondary-focused)
+          ;border-color: var(--color-text-button-secondary-focused)
+      )
+      .button--secondary[data-disabled]var(
+        --background-color: var(--color-surface-button-secondary-disabled)
+          ;color: var(--color-text-button-secondary-disabled)
+          ;border-color: var(--color-stroke-default) ;cursor: not-allowed
+      )
+      .button--tertiaryvar(
+        --background-color: var(--color-surface-button-tertiary-default)
+          ;color: var(--color-text-button-tertiary-default)
+      )
+      .button--tertiary: hover: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-tertiary-hover)
+          ;color: var(--color-text-button-tertiary-hover)
+      )
+      .button--tertiary: active: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-tertiary-pressed)
+          ;color: var(--color-text-button-tertiary-pressed)
+      )
+      .button--tertiary: focus-visible: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-tertiary-focused)
+          ;color: var(--color-text-button-tertiary-focused)
+      )
+      .button--tertiary[data-disabled]var(
+        --background-color: var(--color-surface-button-tertiary-disabled)
+          ;color: var(--color-text-button-tertiary-disabled)
+          ;cursor: not-allowed
+      )
+      .button--errorvar(
+        --background-color: var(--color-surface-button-error-default)
+          ;color: var(--color-text-button-error-default)
+      )
+      .button--error: hover: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-error-hover)
+          ;color: var(--color-text-button-error-hover)
+      )
+      .button--error: active: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-error-pressed)
+          ;color: var(--color-text-button-error-pressed)
+      )
+      .button--error: focus-visible: not([data-disabled])
+      var(
+        --background-color: var(--color-surface-button-error-focused)
+          ;color: var(--color-text-button-error-focused)
+      )
+      .button--error[data-disabled]var(
+        --background-color: var(--color-surface-button-error-disabled)
+          ;color: var(--color-text-button-error-disabled) ;cursor: not-allowed
+      )
+      .button--linkvar(
+        --background-color: transparent;color: var(--color-text-link-default)
+          ;border: none;padding: 0;min-width: auto;height: auto;text-decoration:
+          underline;border-radius: var(--radius-xs)
+      )
+      .button--link .button__contentvar(--gap: var(--spacing-sp-4))
+      .button--link .button__labelvar(--padding: 0)
+      .button--link: hover: not([data-disabled])
+      var(
+        --background-color: transparent;color: var(--color-text-link-hover)
+          ;text-decoration: underline
+      )
+      .button--link: active: not([data-disabled])
+      var(
+        --background-color: transparent;color: var(--color-text-link-pressed)
+          ;text-decoration: underline
+      )
+      .button--link: focus-visible: not([data-disabled])
+      var(
+        --background-color: transparent;color: var(--color-text-link-default)
+          ;text-decoration: underline
+      )
+      .button--link[data-disabled]var(
+        --background-color: transparent;color: var(--color-text-link-disabled)
+          ;text-decoration: none;cursor: not-allowed
+      )
+      .button--loadingvar(--cursor: wait) .button--loading
+      .button__contentvar(--visibility: hidden)
+      .button__loading-dotsvar(
+        --display: flex;align-items: center;justify-content: center;position:
+          absolute;top: 0;right: 0;bottom: 0;left: 0
+      )
+      .button__dotvar(
+        --width: 4px;height: 4px;border-radius: 50%;background-color:
+          currentColor;margin: 0
+          2px;animation: button-flicker 1-4s infinite both
+      )
+      .button__dot: nth-child(1) var(--animation-delay: 0s)
+      .button__dot: nth-child(2) var(--animation-delay: -2s)
+      .button__dot: nth-child(3) var(--animation-delay: -4s) @keyframes
+      button-flicker{0%,
+    80%,
+    tovar(--opacity: 0) 40%var (--opacity: 1)}.button--primary.button--loading,
+    .button--primary.button--loading: hover,
+    .button--primary.button--loading: active,
+    .button--primary.button--loading: focus-visiblevar(
+        --background-color: var(--color-surface-button-primary-default)
+          ;color: var(--color-text-button-primary-default)
+          ;outline: none;box-shadow: none
+      )
+      .button--secondary.button--loading,
+    .button--secondary.button--loading: hover,
+    .button--secondary.button--loading: active,
+    .button--secondary.button--loading: focus-visiblevar(
+        --background-color: var(--color-surface-button-secondary-default)
+          ;color: var(--color-text-button-secondary-default)
+          ;outline: none;border-color: var(
+            --color-text-button-secondary-default
+          )
+      )
+      .button--tertiary.button--loading,
+    .button--tertiary.button--loading: hover,
+    .button--tertiary.button--loading: active,
+    .button--tertiary.button--loading: focus-visiblevar(
+        --background-color: var(--color-surface-button-tertiary-default)
+          ;color: var(--color-text-button-tertiary-default)
+          ;outline: none;box-shadow: none
+      )
+      .button--error.button--loading,
+    .button--error.button--loading: hover,
+    .button--error.button--loading: active,
+    .button--error.button--loading: focus-visiblevar(
+        --background-color: var(--color-surface-button-error-default)
+          ;color: var(--color-text-button-error-default)
+          ;outline: none;box-shadow: none
+      )
+      @media (forced-colors: active){.buttonvar(--border: 1px solid ButtonText)
+      .button__content,
+    .button__label,
+    .button__iconvar(--background-color: transparent;color: inherit)
+      .button__contentvar(--position: relative;z-index: 1) .button__icon
+      svgvar(--stroke: currentColor)
+      .button: focus-visible: not([data-disabled])
+      var(--outline: 2px solid Highlight;outline-offset: 1px)
+      .button--primaryvar(
+        --forced-color-adjust: none;background-color: Canvas;color:
+          CanvasText;border-color: Highlight
+      )
+      .button--primary .button__content,
+    .button--primary .button__label, .button--primary .button__icon,
+    .button--primary .button__icon svgvar(--forced-color-adjust: none)
+      .button--primary: beforevar(
+        --content: ""
+          ;position: absolute;top: 0;right: 0;bottom: 0;left: 0;border-radius:
+          inherit;background-color: Canvas;z-index: 0
+      )
+      .button--primary: hover: not([data-disabled])
+      var(
+        --background-color: Highlight;color: HighlightText;border-color:
+          Highlight
+      )
+      .button--primary: hover: not([data-disabled]): beforevar(
+        --background-color: Highlight
+      )
+      .button--primary: active: not([data-disabled]),
+    .button--primary: focus-visible: not([data-disabled])
+      var(
+        --background-color: Highlight;color: HighlightText;border-color:
+          Highlight
+      )
+      .button--primary: active: not([data-disabled]): before,
+    .button--primary: focus-visible: not([data-disabled]): beforevar(
+        --background-color: Highlight
+      )
+      .button--link,
+    .button--link: hover: not([data-disabled]),
+    .button--link: active: not([data-disabled]),
+    .button--link: focus-visible: not([data-disabled])
+      var(--background-color: transparent;border-color: transparent)
+      .button[data-disabled]var(
+        --border-color: GrayText;color: GrayText
+      )}brml-button-group,
+    wf-button-groupvar(--display: inline-block)
+      .button-groupvar(
+        --display: inline-flex;align-items: center;box-sizing:
+          border-box;border-radius: var(--radius-s)
+          ;padding: var(--spacing-sp-4)
+          ;background-color: var(--color-surface-button-group-background)
+      )
+      .button-group--smallvar(--gap: var(--spacing-sp-4)) .button-group--medium,
+    .button-group--largevar(--gap: var(--spacing-sp-8))
+      .button-group__buttonvar(
+        --all: unset;box-sizing: border-box;display: inline-flex;align-items:
+          center;justify-content: center;gap: var(--spacing-sp-4)
+          ;cursor: pointer;white-space: nowrap;flex-grow: 1;border-radius: var(
+            --radius-xs
+          )
+          ;color: var(--color-text-primary)
+          ;background-color: transparent;font-family: var(--font-family-brand)
+          ;text-decoration: none
+      )
+      .button-group--large
+      .button-group__buttonvar(
+        --height: 48px;padding: var(--spacing-sp-8) var(--spacing-sp-16)
+          ;gap: var(--spacing-sp-8) ;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-semibold-weight)
+          ;line-height: var(--font-body-large-line-height)
+      )
+      .button-group--medium
+      .button-group__buttonvar(
+        --height: 32px;padding-left: var(--spacing-sp-8)
+          ;padding-right: var(--spacing-sp-8)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .button-group--small
+      .button-group__buttonvar(
+        --height: 28px;padding-left: calc(
+            var(--spacing-sp-6) + var(--spacing-sp-4)
+          )
+          ;padding-right: calc(var(--spacing-sp-6) + var(--spacing-sp-4))
+          ;font-size: var(--font-body-small-size)
+          ;font-weight: var(--font-body-small-semibold-weight)
+          ;line-height: var(--font-body-small-line-height)
+      )
+      .button-group--small
+      .button-group__button--icon-onlyvar(
+        --padding-left: var(--spacing-sp-6) ;padding-right: var(--spacing-sp-6)
+      )
+      .button-group--medium
+      .button-group__button--icon-onlyvar(
+        --padding-left: var(--spacing-sp-4) ;padding-right: var(--spacing-sp-4)
+      )
+      .button-group--large
+      .button-group__button--icon-onlyvar(
+        --padding-left: var(--spacing-sp-8) ;padding-right: var(--spacing-sp-8)
+      )
+      .button-group__iconvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;flex-shrink: 0
+      )
+      .button-group--small .button-group__iconvar(--width: 16px;height: 16px)
+      .button-group--medium .button-group__iconvar(--width: 24px;height: 24px)
+      .button-group--large .button-group__iconvar(--width: 32px;height: 32px)
+      .button-group--small
+      .button-group__button--with-iconvar(--padding-left: var(--spacing-sp-6))
+      .button-group--medium
+      .button-group__button--with-iconvar(--padding-left: var(--spacing-sp-4))
+      .button-group--large
+      .button-group__button--with-iconvar(--padding-left: var(--spacing-sp-8))
+      .button-group[data-disabled]var(--cursor: not-allowed)
+      .button-group__button: hover: not(: disabled): not([data-disabled]): not(
+        .button-group__button--active
+      )
+      var(
+        --background-color: var(--color-surface-button-group-hover)
+          ;color: var(--color-text-primary)
+      )
+      .button-group__button--activevar(
+        --background-color: var(--color-surface-button-group-active)
+          ;color: var(--color-text-button-tertiary-default)
+      )
+      .button-group__button--active: hover: not(: disabled): not(
+        [data-disabled]
+      )
+      var(--color: var(--color-text-button-tertiary-hover))
+      .button-group__button--active: active: not(: disabled): not(
+        [data-disabled]
+      )
+      var(--color: var(--color-text-button-tertiary-pressed))
+      .button-group__button--active: focus-visible: not(: disabled): not(
+        [data-disabled]
+      )
+      var(--color: var(--color-text-button-tertiary-focused))
+      .button-group__button: focus-visible: not([data-disabled])
+      var(--position: relative;z-index: 1) .button-group__button[data-disabled],
+    .button-group__button: disabledvar(
+        --color: var(--color-text-button-secondary-disabled)
+          ;background-color: transparent;cursor: not-allowed
+      ): hostvar(--display: inline-block;vertical-align: bottom): host(: focus),
+    : host(: focus-visible) var(--outline: none)
+      .icon-buttonvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;position: relative;border: none;background-color:
+          transparent;cursor: pointer;-webkit-user-select: none;user-select:
+          none;box-sizing: border-box;transition: background-color -2s
+          ease-out,
+        color -2s ease-out,
+        box-shadow -2s ease-out;font-family: var(--font-family-brand)
+          ;border-radius: var(--radius-xs)
+          ;padding: 0;color: var(--color-icon-dark)
+          ;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:
+          grayscale
+      )
+      .icon-button--xsvar(
+        --width: 16px;height: 16px;padding:
+          1px;--icon-button-focus-outline-width: 2px
+      )
+      .icon-button--smvar(
+        --width: 24px;height: 24px;padding:
+          2px;--icon-button-focus-outline-width: 2px
+      )
+      .icon-button--mdvar(
+        --width: 32px;height: 32px;padding:
+          2px;--icon-button-focus-outline-width: 2px
+      )
+      .icon-button--brandvar(--color: var(--color-icon-brand))
+      .icon-button--blackvar(--color: var(--color-icon-dark))
+      .icon-button--linkvar(--color: var(--color-icon-link-default))
+      .icon-button--link svgvar(--stroke: var(--color-icon-link-default))
+      .icon-button: hover: not([data-disabled])
+      var(--background-color: var(--color-surface-hover))
+      .icon-button--link: hover: not([data-disabled])
+      var(--background-color: transparent;color: var(--color-icon-link-hover))
+      .icon-button--link: hover: not([data-disabled])
+      svgvar(--stroke: var(--color-icon-link-hover))
+      .icon-button: active: not([data-disabled])
+      var(--background-color: var(--denim-100))
+      .icon-button--link: active: not([data-disabled])
+      var(--background-color: transparent;color: var(--color-icon-link-pressed))
+      .icon-button--link: active: not([data-disabled])
+      svgvar(--stroke: var(--color-icon-link-pressed))
+      .icon-button--active: not([data-disabled])
+      var(--background-color: var(--color-surface-selected))
+      .icon-button--active: hover: not([data-disabled])
+      var(--background-color: var(--color-surface-selected))
+      .icon-button: focus-visible: not([data-disabled])
+      var(
+        --background-color: var(
+            --color-surface-button-secondary-focused,
+            var(--color-surface-neutral)
+          )
+          ;outline: var(--icon-button-focus-outline-width, 2px) solid
+          var(--color-border-focused) ;outline-offset: 0
+      )
+      .icon-button--link: focus-visible: not([data-disabled])
+      svgvar(--stroke: var(--color-icon-link-default)) .icon-button--disabled,
+    .icon-button[data-disabled]var(
+        --color: var(--color-icon-disabled)
+          !important;background-color: transparent!important;opacity: var(
+            --opacity-disabled
+          )
+          ;cursor: not-allowed
+      )
+      .icon-button--link.icon-button--disabled,
+    .icon-button--link[data-disabled]var(
+        --color: var(--color-icon-link-disabled) !important
+      )
+      .icon-button--link.icon-button--disabled svg,
+    .icon-button--link[data-disabled]
+      svgvar(--stroke: var(--color-icon-link-disabled)) @media
+      (forced-colors: active){.icon-buttonvar(
+        --border: 1px solid ButtonText;color: ButtonText
+      )
+      .icon-button svgvar(--stroke: ButtonText;fill: none)
+      .icon-button: hover: not([data-disabled])
+      var(--border-color: Highlight;color: Highlight;background-color: Canvas)
+      .icon-button: hover: not([data-disabled]) svgvar(--stroke: Highlight)
+      .icon-button: focus-visible: not([data-disabled])
+      var(--outline: 2px solid Highlight;outline-offset: 0)
+      .icon-button--disabled,
+    .icon-button[data-disabled]var(--border-color: GrayText;color: GrayText)
+      .icon-button--disabled svg,
+    .icon-button[data-disabled]
+      svgvar(--stroke: GrayText)}.dpvar(
+        ----dp-font-family: var(
+            --font-family-brand,
+            var(
+              --font-family-sans,
+              -apple-system,
+              BlinkMacSystemFont,
+              "Segoe UI",
+              Roboto,
+              "Helvetica Neue",
+              Arial,
+              sans-serif
+            )
+          )
+          ;--dp-font-size: var(--font-body-medium-size, 14px)
+          ;--dp-line-height: var(--font-body-medium-line-height, 1-4285714286)
+          ;display: flex;flex-direction: column;align-items: flex-start;gap:
+          var(--spacing-sp-4, 4px)
+          ;width: 100%;min-width: 0;max-width: 320px;box-sizing:
+          border-box;font-family: var(--dp-font-family)
+      )
+      .dp--range: not(.dp--compact-range): not(.dp--icon-only)
+      var(--max-width: 100%): hostvar(
+        --display: block;width: 100%;max-width: 100%
+      ): host([icon-only])
+      var(--display: inline-block;width: auto;max-width: none): host(
+        [range][range-single-width]: not([icon-only])
+      )
+      var(--width: 100%;min-width: 0;max-width: 100%)
+      .dp--inline-labelvar(
+        --flex-direction: row;align-items: center;gap: var(--spacing-sm, 8px)
+      )
+      .dp__labelvar(
+        --font-size: var(--font-size-sm, 14px)
+          ;font-weight: var(--font-weight-medium, 500)
+          ;color: var(--color-text-secondary, #666666)
+          ;line-height: 1-5;margin-bottom: 4px
+      )
+      .dp--inline-label .dp__labelvar(--flex-shrink: 0;margin-bottom: 0)
+      .dp__requiredvar(--color: var(--color-error, #ff4d4f) ;margin-left: 2px)
+      .dp__input-wrappervar(
+        --position: relative;width: 100%;box-sizing: border-box
+      )
+      .dp--inline-label .dp__input-wrappervar(--flex: 1 1 auto;min-width: 0)
+      .dp--icon-onlyvar(--width: auto;min-width: auto;max-width: none)
+      .dp--compact-rangevar(--width: 100%;min-width: 0;max-width: 320px)
+      .dp--icon-only
+      .dp__input-wrappervar(--width: 40px;max-width: 40px;height: 40px)
+      .dp__icon-only-buttonvar(
+        --width: 40px;max-width: 40px;height: 40px;box-sizing:
+          border-box;border-radius: var(--border-radius-md, 6px)
+          ;border: none;background: transparent;color: var(
+            --color-icon-brand,
+            #0b49ea
+          )
+          ;display: inline-flex;align-items: center;justify-content:
+          center;cursor: pointer;transition: background-color -2s
+          ease-out,
+        color -2s ease-out,
+        box-shadow -2s ease-out,
+        outline-color -2s ease-out
+      )
+      .dp__icon-only-button: hovervar(
+        --background-color: var(--color-surface-hover, #f2f4f5)
+      )
+      .dp__icon-only-button: focus-visiblevar(
+        --background-color: var(
+            --color-surface-button-secondary-focused,
+            var(--color-surface-neutral, #ffffff)
+          )
+          ;outline: 2px solid var(--color-border-focused, var(--denim-300))
+          ;outline-offset: 0
+      )
+      .dp__icon-only-button: disabledvar(--cursor: not-allowed;opacity: -6)
+      .dp__icon-only-hidden-pickervar(
+        --position: absolute;top: 0;left: 0;width: 40px;max-width: 40px;height:
+          40px;opacity: 0;overflow: hidden;pointer-events: none
+      )
+      .dp__icon-only-hidden-picker
+      .dp__input.Apvar(
+        --width: 40px;max-width: 40px;min-height: 40px;padding: 0;border:
+          0;box-shadow: none;background: transparent
+      )
+      .dp__compact-range-triggervar(
+        --width: 100%;min-height: 36px;box-sizing: border-box;padding: 0
+          11px;font-family: var(--dp-font-family)
+          ;font-size: var(--dp-font-size)
+          ;font-weight: 400;color: var(--color-text-secondary, #666666)
+          ;border: 1px solid var(--color-stroke-default, #d9d9d9)
+          ;border-radius: var(--border-radius-md, 6px)
+          ;background: var(--color-surface-input-default, #ffffff)
+          ;box-shadow: 0 1px 2px
+          #0000000d;display: inline-flex;align-items: center;justify-content:
+          space-between;gap: 8px;text-align: left;cursor: pointer
+      )
+      .dp__compact-range-trigger: hovervar(
+        --border-color: var(--color-surface-accent, #0b49ea)
+      )
+      .dp__compact-range-trigger: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .dp__compact-range-trigger: focus-withinvar(
+        --border-color: var(--color-surface-accent, #0b49ea) ;box-shadow: 0 0 0
+          3px #0b49ea1a
+      )
+      .dp__compact-range-trigger--emptyvar(
+        --color: var(--color-text-input-placeholder, #999999)
+      )
+      .dp__compact-range-trigger--disabledvar(
+        --background-color: var(--color-surface-input-disabled, #f5f5f5)
+          ;border-color: var(--color-stroke-light, #e5e5e5)
+          ;cursor: not-allowed;opacity: -6
+      )
+      .dp__compact-range-trigger--invalidvar(
+        --border-color: var(--color-state-error-accent, #ff4d4f)
+      )
+      .dp__compact-range-trigger--invalid: focus-withinvar(
+        --border-color: var(--color-state-error-accent, #ff4d4f) ;box-shadow: 0
+          0 0 3px #ff4d4f1a
+      )
+      .dp__compact-range-valuevar(
+        --min-width: 0;overflow: hidden;text-overflow: ellipsis;white-space:
+          nowrap
+      )
+      .dp__compact-range-input-wrapvar(
+        --position: relative;flex: 1 1
+          auto;min-width: 0;display: flex;align-items: center
+      )
+      .dp__compact-range-inputvar(
+        --flex: 1 1
+          auto;min-width: 0;width: 100%;border: none;outline: none;background:
+          transparent;padding: 0;margin: 0;font: inherit;color: var(
+            --color-text-primary,
+            #1c1f22
+          )
+          ;text-overflow: ellipsis;position: relative;z-index: 1
+      )
+      .dp__compact-range-ghostvar(
+        --position: absolute;top: 0;right: 0;bottom: 0;left: 0;display:
+          flex;align-items: center;pointer-events: none;font:
+          inherit;white-space: pre;overflow: hidden;z-index: 0
+      )
+      .dp__compact-range-ghost-typedvar(--color: transparent)
+      .dp__compact-range-ghost-remaindervar(
+        --color: var(--color-text-input-placeholder, #999999)
+      )
+      .dp__compact-range-input: : placeholdervar(
+        --color: var(--color-text-input-placeholder, #999999)
+      )
+      .dp__compact-range-input: disabledvar(
+        --background: transparent;cursor: not-allowed;color: var(
+            --color-text-disabled,
+            rgba(0, 0, 0, -25)
+          )
+      )
+      .dp__compact-range-actionsvar(
+        --display: inline-flex;align-items: center;gap: 6px;flex-shrink: 0
+      )
+      .dp__compact-range-clearvar(
+        --color: var(--color-text-input-placeholder, #999999)
+          ;font-size: 14px;line-height: 1
+      )
+      .dp__compact-range-hidden-pickervar(
+        --position: absolute;top: 0;left: 0;width: 100%;height: 36px;box-sizing:
+          border-box;opacity: 0;overflow: hidden;pointer-events: none
+      )
+      .dp__compact-range-hidden-picker
+      .dp__input.Ap-rangevar(--width: 100%;min-height: 36px)
+      .dp__input.Apvar(
+        --width: 100%;min-height: 40px;box-sizing: border-box;padding: 0
+          11px;font-family: var(--dp-font-family)
+          ;font-size: var(--dp-font-size)
+          ;font-weight: 400;font-style: normal;line-height: 40px;border: 1px
+          solid var(--color-stroke-default, #d9d9d9)
+          ;border-radius: var(--border-radius-md, 6px)
+          ;background: var(--color-surface-input-default, #ffffff)
+          ;transition: all -2s cubic-bezier(-4, 0, -2, 1) ;box-shadow: 0 1px 2px
+          #0000000d;display: inline-flex;align-items: center
+      )
+      .dp__input.Ap.Ap-rangevar(--width: 100%)
+      .dp__input.Ap: hovervar(
+        --border-color: var(--color-surface-accent, #0b49ea)
+      )
+      .dp__input.Ap-focused,
+    .dp__input.Ap: focus-withinvar(
+        --border-color: var(--color-surface-accent, #0b49ea) ;box-shadow: 0 1px
+          2px #0000000d;outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .dp__input.Ap-disabledvar(
+        --background-color: var(--color-surface-input-disabled, #f5f5f5)
+          ;border-color: var(--color-stroke-light, #e5e5e5)
+          ;cursor: not-allowed;opacity: -6
+      )
+      .dp__input
+      .Ap-inputvar(
+        --flex: 1;display: flex;align-items: center;height: 100%;padding: 0
+      )
+      .dp__input
+      .Ap-input>inputvar(
+        --font-family: var(--dp-font-family) ;font-size: var(--dp-font-size)
+          ;font-weight: 400;font-style: normal;color: var(
+            --color-text-secondary,
+            #666666
+          )
+          ;height: 38px;line-height: var(--dp-line-height)
+          ;padding: 0;border: none;outline: none;background: transparent;flex:
+          1;width: 100%
+      )
+      .dp__input
+      .Ap-input>input: : placeholdervar(
+        --font-family: var(--dp-font-family) ;font-size: var(--dp-font-size)
+          ;font-style: normal;font-weight: 400;line-height: var(
+            --dp-line-height
+          )
+          ;color: var(--color-text-input-placeholder, #999999) ;opacity: 1
+      )
+      .dp__input
+      .Ap-suffixvar(
+        --color: var(--color-icon-brand, #0b49ea)
+          ;font-size: 16px;transition: color -2s;margin-left: 4px;display:
+          flex;align-items: center;height: 100%
+      )
+      .dp__input: hover .Ap-suffixvar(--color: var(--color-icon-brand, #0b49ea))
+      .dp__input
+      .Ap-clearvar(
+        --background: var(--color-surface-input-default, #ffffff)
+          ;opacity: 0;transition: opacity -2s;margin-right: 4px;display:
+          flex;align-items: center
+      )
+      .dp__input: hover .Ap-clearvar(--opacity: 1) .dp--small
+      .Apvar(
+        --width: 100%;min-height: 32px;line-height: 32px;padding: 0
+          7px;font-size: var(--font-body-small-size, 12px)
+      )
+      .dp--small
+      .dp__compact-range-triggervar(
+        --width: 100%;min-height: 32px;padding: 0
+          7px;font-size: var(--font-body-small-size, 12px)
+      )
+      .dp--small .dp__compact-range-hidden-pickervar(--width: 100%;height: 32px)
+      .dp--small .dp__compact-range-hidden-picker
+      .dp__input.Ap-rangevar(--width: 100%;min-height: 32px) .dp--small
+      .Ap.Ap-rangevar(--width: 100%) .dp--small
+      .Ap-input>inputvar(
+        --font-size: var(--font-body-small-size, 12px)
+          ;height: 30px;line-height: 30px
+      )
+      .dp--small .Ap-suffixvar(--font-size: 14px) .dp--large
+      .Apvar(
+        --width: 100%;min-height: 48px;line-height: 48px;padding: 0
+          15px;font-size: var(--font-body-large-size, 16px)
+      )
+      .dp--large
+      .dp__compact-range-triggervar(
+        --width: 100%;min-height: 48px;padding: 0
+          15px;font-size: var(--font-body-large-size, 16px)
+      )
+      .dp--large .dp__compact-range-hidden-pickervar(--width: 100%;height: 48px)
+      .dp--large .dp__compact-range-hidden-picker
+      .dp__input.Ap-rangevar(--width: 100%;min-height: 48px) .dp--large
+      .Ap.Ap-rangevar(--width: 100%) .dp--large
+      .Ap-input>inputvar(
+        --font-size: var(--font-body-large-size, 16px)
+          ;height: 46px;line-height: 46px
+      )
+      .dp--large .Ap-suffixvar(--font-size: 18px) .dp--outlined
+      .Apvar(
+        --border: 1px solid var(--color-stroke-default, #d9d9d9)
+          ;background: var(--color-surface-input-default, #ffffff)
+      )
+      .dp--filled
+      .Apvar(
+        --background-color: var(--neutral-150, #f5f5f5)
+          ;border-color: transparent
+      )
+      .dp--filled
+      .Ap: hovervar(
+        --background-color: var(--neutral-150, #ebebeb)
+          ;border-color: transparent
+      )
+      .dp--filled
+      .Ap-focusedvar(
+        --background-color: var(--color-surface-input-default, #ffffff)
+          ;border-color: var(--color-surface-accent, #0b49ea)
+      )
+      .dp--borderless
+      .Apvar(
+        --border: none;background: transparent;box-shadow: none;padding-left: 0
+      )
+      .dp--borderless .Ap: hover,
+    .dp--borderless .Ap-focusedvar(--box-shadow: none)
+      .dp--disabledvar(--cursor: not-allowed) .dp--disabled
+      .dp__labelvar(--color: var(--color-text-disabled, #999)) .dp--error .Ap,
+    .dp--error .Ap: hovervar(--border-color: var(--color-error, #ff4d4f))
+      .dp--error .Ap-focused,
+    .dp--error
+      .Ap: focus-withinvar(
+        --border-color: var(--color-error, #ff4d4f) ;box-shadow: 0 1px 2px
+          #0000000d;outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .dp--warning .Ap,
+    .dp--warning .Ap: hovervar(--border-color: var(--color-warning, #faad14))
+      .dp--warning .Ap-focused,
+    .dp--warning
+      .Ap: focus-withinvar(
+        --border-color: var(--color-warning, #faad14) ;box-shadow: 0 1px 2px
+          #0000000d;outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .dp__feedbackvar(
+        --display: flex;align-items: center;gap: var(--spacing-xs, 4px)
+          ;font-size: var(--font-size-xs, 12px)
+          ;line-height: 1-4;margin-top: 4px
+      )
+      .dp__feedback-iconvar(--display: inline-flex;flex-shrink: 0)
+      .dp__feedback--errorvar(--color: var(--color-error, #ff4d4f))
+      .dp__feedback--warningvar(--color: var(--color-warning, #faad14))
+      .dp__feedback--successvar(--color: var(--color-success, #52c41a))
+      .dp__feedback--infovar(--color: var(--color-info, #1890ff))
+      .Ap-dropdownvar(
+        --z-index: var(--z-index-dropdown, 1050) ;overflow: visible
+      )
+      .Ap-dropdown
+      .Ap-panel-containervar(
+        --display: inline-block;width: auto;border-radius: var(
+            --radius-s,
+            var(--border-radius-sm, 4px)
+          )
+          ;background: var(--color-surface-foreground, #ffffff) ;border: 1px
+          solid var(--color-stroke-light, #e5e5e5) ;box-shadow: 0 2px 8px
+          #00000026;overflow: hidden;font-family: var(
+            --font-family-brand,
+            var(
+              --font-family-sans,
+              -apple-system,
+              BlinkMacSystemFont,
+              "Segoe UI",
+              Roboto,
+              "Helvetica Neue",
+              Arial,
+              sans-serif
+            )
+          )
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;line-height: var(--font-body-medium-line-height, 1-4285714286)
+      )
+      .Ap-dropdown: not(.Ap-dropdown-range) .Ap-panel-container
+      .Ap-panelsvar(--width: 299px) .Ap-dropdown
+      .Ap-panelvar(
+        --width: 100%;background: var(--color-surface-foreground, #ffffff)
+      )
+      .Ap-dropdown.dp-popup--single-range-panel .Ap-panels
+      .Ap-panel: nth-child(2) var(--display: none)
+      .Ap-dropdown.dp-popup--single-range-panel .Ap-panels
+      .Ap-panel: nth-child(1) .Ap-header
+      buttonvar(--visibility: visible!important) .Ap-dropdown
+      .Ap-headervar(
+        --color: var(--color-text-primary, #1a1a1a) ;border-bottom: 1px solid
+          var(--color-stroke-light, #e5e5e5)
+      )
+      .Ap-dropdown .Ap-header-view,
+    .Ap-dropdown .Ap-header-view
+      buttonvar(
+        --font-family: inherit;font-size: inherit;font-weight: var(
+            --font-weight-semibold,
+            600
+          )
+          ;color: var(--color-text-primary, #1a1a1a)
+      )
+      .Ap-dropdown .Ap-header-prev-btn,
+    .Ap-dropdown .Ap-header-next-btn, .Ap-dropdown .Ap-header-super-prev-btn,
+    .Ap-dropdown
+      .Ap-header-super-next-btnvar(--color: var(--color-icon-dark, #1c1f22))
+      .Ap-dropdown .Ap-prev-icon,
+    .Ap-dropdown .Ap-next-icon, .Ap-dropdown .Ap-super-prev-icon,
+    .Ap-dropdown
+      .Ap-super-next-iconvar(
+        --width: 9px;height: 9px;color: var(--color-icon-dark, #1c1f22)
+      )
+      .Ap-dropdown .Ap-prev-icon: before,
+    .Ap-dropdown .Ap-next-icon: before,
+    .Ap-dropdown .Ap-super-prev-icon: before,
+    .Ap-dropdown
+      .Ap-super-next-icon: beforevar(
+        --width: 9px;height: 9px;border-block-start-width:
+          1-5px;border-inline-start-width: 1-5px
+      )
+      .Ap-dropdown .Ap-super-prev-icon: after,
+    .Ap-dropdown
+      .Ap-super-next-icon: aftervar(
+        --width: 9px;height: 9px;top: 5px;inset-inline-start:
+          5px;border-block-start-width: 1-5px;border-inline-start-width: 1-5px
+      )
+      .Ap-dropdown .Ap-content
+      thvar(
+        --font-family: inherit;font-size: inherit;font-weight: 400;color: var(
+            --color-text-secondary,
+            #666666
+          )
+      )
+      .Ap-dropdown .Ap-content th,
+    .Ap-dropdown .Ap-content tdvar(--padding: 0) .Ap-dropdown
+      .Ap-cellvar(--padding: 2px 0) .Ap-dropdown .Ap-cell
+      .Ap-cell-innervar(
+        --font-family: inherit;font-size: inherit;font-weight: 400;width:
+          34px;height: 34px;line-height: 34px;margin-inline: auto;color: var(
+            --color-text-primary,
+            #1a1a1a
+          )
+      )
+      .Ap-dropdown .Ap-cell: not(.Ap-cell-in-view)
+      .Ap-cell-innervar(--color: var(--neutral-400, #cbd0d4)) .Ap-dropdown
+      .Ap-cell-disabled .Ap-cell-innervar(--color: var(--neutral-150, #d9d9d9))
+      .Ap-dropdown .Ap-cell-in-view.Ap-cell-selected: not(.Ap-cell-disabled)
+      .Ap-cell-inner,
+    .Ap-dropdown .Ap-cell-selected .Ap-cell-inner,
+    .Ap-dropdown .Ap-cell-range-start .Ap-cell-inner,
+    .Ap-dropdown .Ap-cell-range-end .Ap-cell-inner,
+    .Ap-dropdown .Ap-cell-in-view.Ap-cell-selected: hover
+      .Ap-cell-innervar(
+        --background-color: var(--color-surface-selected, #e6f4ff)
+          ;color: var(--color-text-selected, #0b49ea)
+          ;font-weight: var(--font-weight-semibold, 600)
+      )
+      .Ap-dropdown .Ap-cell-today
+      .Ap-cell-inner: beforevar(
+        --border-color: var(--color-surface-accent, #0b49ea)
+      )
+      .Ap-dropdown
+      .Ap-cell: hover: not(.Ap-cell-selected): not(.Ap-cell-disabled)
+      .Ap-cell-innervar(--background-color: var(--brand-100, #fafcff))
+      .Ap-dropdown
+      .Ap-cell-in-view: hover: not(.Ap-cell-selected): not(.Ap-cell-disabled)
+      .Ap-cell-innervar(--color: var(--brand-700, #082485) !important)
+      .Ap-dropdown
+      .Ap-footervar(
+        --width: 100%;border-top: 1px solid var(--color-stroke-light, #e5e5e5)
+          ;background: var(--color-surface-foreground, #ffffff)
+      )
+      .Ap-dropdown .Ap-now
+      .Ap-now-btnvar(
+        --font-family: inherit;font-size: inherit;font-weight: 400;color: var(
+            --color-text-link-default,
+            #0b49ea
+          )
+      )
+      .Ap-dropdown .Ap-ranges .ant-btn: not(.ant-btn-primary)
+      var(
+        --font-family: inherit;font-size: inherit;font-weight: 400;color: var(
+            --color-text-button-secondary-default,
+            #666666
+          )
+          ;background: var(--color-surface-button-secondary-default, #ffffff)
+          ;border-color: var(--color-stroke-light, #e5e5e5)
+      )
+      .Ap-dropdown .Ap-ok
+      .ant-btn-primaryvar(
+        --font-family: inherit;font-size: inherit;font-weight: 400;color: var(
+            --color-text-button-primary-default,
+            #ffffff
+          )
+          ;background: var(--color-surface-button-primary-default, #0b49ea)
+          ;border-color: var(--color-surface-button-primary-default, #0b49ea)
+      )
+      .Ap-dropdown .Ap-ok
+      .ant-btn-primary: not(: disabled): not(.ant-btn-disabled): hovervar(
+        --background: var(--color-surface-accent, #0b49ea)
+          ;border-color: var(--color-surface-accent, #0b49ea)
+      )
+      .Ap-dropdown .Ap-now .Ap-now-btn: hover,
+    .Ap-dropdown .Ap-header-view
+      button: hovervar(--color: var(--color-text-dark-accent, #0837b8))
+      .Ap-dropdown.dp-popup--year-picker .Ap-cellvar(--padding: 1px 0)
+      .Ap-dropdown.dp-popup--year-picker
+      .Ap-cell-innervar(
+        --width: 52px;height: 40px;line-height: 40px;font-weight:
+          500;border-radius: 4px
+      )
+      .Ap-dropdown.dp-popup--year-picker
+      .Ap-cell-in-view.Ap-cell-selected: not(.Ap-cell-disabled) .Ap-cell-inner,
+    .Ap-dropdown.dp-popup--year-picker .Ap-cell-selected .Ap-cell-inner,
+    .Ap-dropdown.dp-popup--year-picker .Ap-cell-range-start .Ap-cell-inner,
+    .Ap-dropdown.dp-popup--year-picker .Ap-cell-range-end .Ap-cell-inner,
+    .Ap-dropdown.dp-popup--year-picker .Ap-cell-in-view.Ap-cell-selected: hover
+      .Ap-cell-innervar(
+        --background-color: var(--color-surface-selected, #e6f4ff)
+          ;color: var(--color-text-selected, #0b49ea)
+          ;font-weight: 600;border-radius: 4px
+      )
+      .dp__panel-with-footer .Ap-footervar(--display: none)
+      .dp__panel-with-footervar(
+        --display: flex;flex-direction: column;width: 100%;height: 100%
+      )
+      .dp__panel-contentvar(--flex: 1;overflow-y: auto;width: 100%)
+      .dp__panel-footervar(
+        --display: flex;justify-content: flex-end;gap: var(--spacing-sp-8, 8px)
+          ;padding: var(--spacing-sp-8, 8px) ;border-top: 1px solid
+          var(--color-stroke-light, #e5e5e5)
+          ;background: var(--color-surface-foreground, #ffffff) ;flex-shrink: 0
+      )
+      .dp__footer-buttonvar(
+        --flex: 0 0
+          auto;min-width: 72px;height: 36px;min-height: 36px;padding: var(
+            --spacing-sp-6,
+            6px
+          )
+          var(--spacing-sp-8, 8px) ;border-radius: var(--radius-xs, 4px)
+          ;border: 1px solid var(--color-stroke-controls-default, #bfc4c8)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-weight-semibold, 600)
+          ;cursor: pointer;transition: all -2s
+          ease;font-family: inherit;line-height: var(
+            --font-body-medium-line-height,
+            1-4285714286
+          )
+          ;display: flex;align-items: center;justify-content:
+          center;-webkit-user-select: none;user-select: none
+      )
+      .dp__footer-button--cancelvar(
+        --background: var(--color-surface-button-secondary-default, #ffffff)
+          ;color: var(--color-text-button-secondary-default, #656c70)
+          ;border-color: var(--color-stroke-controls-default, #bfc4c8)
+      )
+      .dp__footer-button--cancel: hover: not(: disabled)
+      var(
+        --background: var(--color-surface-button-secondary-hover, #e0e3e6)
+          ;color: var(--color-text-button-secondary-hover, #72797d)
+          ;border-color: var(--color-stroke-controls-hover, #1c1f22)
+      )
+      .dp__footer-button--cancel: active: not(: disabled)
+      var(
+        --background: var(--color-surface-button-secondary-pressed, #d6dade)
+          ;color: var(--color-text-button-secondary-pressed, #1c1f22)
+      )
+      .dp__footer-button--applyvar(
+        --background: var(--color-surface-button-primary-default, #0b49ea)
+          ;color: var(--color-text-button-primary-default, #ffffff)
+          ;border-color: var(--color-surface-button-primary-default, #0b49ea)
+      )
+      .dp__footer-button--apply: hover: not(: disabled)
+      var(
+        --background: var(--color-surface-button-primary-hover, #0f3db5)
+          ;color: var(--color-text-button-primary-hover, #ffffff)
+          ;border-color: var(--color-surface-button-primary-hover, #0f3db5)
+      )
+      .dp__footer-button--apply: active: not(: disabled)
+      var(
+        --background: var(--color-surface-button-primary-pressed, #001f5a)
+          ;color: var(--color-text-button-primary-pressed, #ffffff)
+          ;border-color: var(--color-surface-button-primary-pressed, #001f5a)
+      )
+      .dp__footer-button: focus-visiblevar(
+        --outline: var(--border-width-200, 2px) solid
+          var(--color-stroke-brand, #0b49ea)
+          ;outline-offset: var(--border-width-100, 1px)
+      )
+      .dp__footer-button: disabledvar(--opacity: -6;cursor: not-allowed) @media
+      (prefers-reduced-motion: reduce){.dp__footer-buttonvar(
+        --transition: none
+      )}: hostvar(--display: inline-flex;vertical-align: middle;line-height: 0)
+      .fvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;box-sizing: content-box;padding: var(--spacing-sp-2, 2px)
+          ;overflow: hidden;line-height: 0;aspect-ratio: 4 / 3
+      )
+      .f svgvar(--display: block;width: 100%;height: 100%)
+      .f--size-xxsvar(--height: 8px) .f--size-xsvar(--height: 10px)
+      .f--size-smvar(--height: 12px) .f--size-mdvar(--height: 16px)
+      .f--size-lgvar(--height: 20px) .f--size-xlvar(--height: 28px)
+      .f--missingvar(
+        --background-color: var(--neutral-200, #eee)
+          ;color: var(--color-text-secondary, #666)
+          ;font-family: var(--font-family-brand, system-ui, sans-serif)
+          ;font-size: 10px;font-weight: 600;text-transform: uppercase
+      ): host(: focus-within)
+      .input-wrappervar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: -1px;box-shadow: inset 0 0 0 1px var(--denim-300)
+      )
+      .input-containervar(
+        --display: flex;flex-direction: column;gap: var(--spacing-xs, 4px)
+          ;width: 100%
+      )
+      .input-labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-secondary)
+      )
+      .input-wrappervar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-12)
+          ;padding: 0 var(--spacing-sp-12) ;border: var(--border-width-100)
+          solid var(--color-stroke-input-default)
+          ;border-radius: var(--radius-xs)
+          ;background-color: var(--color-surface-input-default)
+          ;height: 36px;transition: border-color -2s ease-in-out,
+        box-shadow -2s ease-in-out
+      )
+      .input-wrapper: hovervar(--border-color: var(--color-stroke-input-hover))
+      .input-wrapper: focus-withinvar(
+        --border-color: var(--color-stroke-input-active)
+          ;outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .input-wrapper--disabledvar(
+        --background-color: var(--color-surface-input-disabled)
+          ;border-color: var(--color-stroke-input-default)
+          ;color: var(--color-text-secondary) ;cursor: not-allowed
+      )
+      .input-wrapper--errorvar(--border-color: var(--error-accent))
+      .input-wrapper--error: focus-withinvar(
+        --border-color: var(--error-accent) ;outline: var(--border-width-200)
+          solid var(--denim-300) ;outline-offset: 1px
+      )
+      .input-wrapper--successvar(
+        --border-color: var(--color-state-success-accent)
+      )
+      .input-wrapper--warningvar(
+        --border-color: var(--color-state-warning-accent)
+      )
+      .input-wrapper--infovar(--border-color: var(--color-stroke-brand))
+      .inputvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary)
+          ;background-color: transparent;border: none;padding: 0;flex:
+          1;min-width: 0;height: 100%;outline: none;appearance:
+          none;-webkit-appearance: none;-moz-appearance: none
+      )
+      .input: : placeholdervar(
+        --color: var(--color-text-input-placeholder)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height) ;opacity: 1
+      )
+      .input--disabledvar(
+        --color: var(--color-text-secondary) ;cursor: not-allowed
+      )
+      .input--disabled: : placeholdervar(
+        --color: var(--color-text-input-placeholder)
+      )
+      .input-icon-leftvar(
+        --display: flex;align-items: center;justify-content: center;color: var(
+            --color-icon-dark
+          )
+          ;min-width: 16px;min-height: 16px;flex-shrink: 0
+      )
+      .input-icon-left button,
+    .input-icon-right
+      buttonvar(
+        --cursor: pointer;background: none;border: none;padding: 0;display:
+          flex;align-items: center;justify-content: center
+      )
+      .input-icon-rightvar(
+        --display: flex;align-items: center;justify-content: center;color: var(
+            --color-icon-brand
+          )
+          ;min-width: 16px;min-height: 16px;flex-shrink: 0
+      )
+      .input-feedbackvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-secondary)
+          ;display: flex;align-items: center;gap: var(--spacing-xs, 4px)
+          ;padding-top: var(--spacing-xxs, 2px)
+      )
+      .input-feedback--errorvar(--color: var(--color-state-error-accent))
+      .input-feedback--successvar(--color: var(--color-state-success-accent))
+      .input-feedback--warningvar(--color: var(--color-state-warning-accent))
+      .input-feedback--infovar(--color: var(--color-text-secondary))
+      .input-feedback-iconvar(
+        --color: inherit;width: 16px;height: 16px;display:
+          inline-flex;align-items: center;justify-content: center;flex-shrink: 0
+      )
+      .input-feedback-messagevar(--flex: 1) @media
+      (forced-colors: active){.input-labelvar(--color: CanvasText)
+      .input-wrappervar(--background-color: Field;border-color: ButtonText)
+      .input-wrapper: hovervar(--border-color: Highlight)
+      .input-wrapper: focus-within,
+    : host(: focus-within)
+      .input-wrappervar(
+        --border-color: Highlight;outline: 2px solid
+          Highlight;outline-offset: 1px;box-shadow: none
+      )
+      .input-wrapper--disabledvar(
+        --background-color: ButtonFace;border-color: GrayText;color: GrayText
+      )
+      .input,
+    .input: focus,
+    .input: activevar(--color: FieldText;caret-color: FieldText)
+      .input: : placeholdervar(--color: GrayText) .input--disabled,
+    .input--disabled: : placeholdervar(--color: GrayText) .input-icon-left,
+    .input-icon-right, .input-feedback, .input-feedback--error,
+    .input-feedback--success, .input-feedback--warning,
+    .input-feedback--infovar(--color: CanvasText)}.tsvar(--position: relative)
+      .ts__listvar(
+        --display: flex;width: fit-content;border-bottom-style:
+          solid;border-bottom-color: var(--color-stroke-default)
+          ;border-bottom-width: var(--border-width-300)
+      )
+      .ts__list--title,
+    .ts__list--mediumvar(--gap: var(--spacing-sp-24))
+      .ts__list--smallvar(
+        --gap: var(--spacing-sp-12) ;border-bottom-style: none
+      )
+      .ts__triggervar(
+        --background-color: transparent;border: none;border-radius: var(
+            --radius-xs
+          )
+          ;padding: 0;margin: 0;cursor: pointer;position: relative;outline:
+          none;color: var(--color-text-secondary)
+          ;-webkit-tap-highlight-color: transparent;display: flex;align-items:
+          center;justify-content: center;text-align: center
+      )
+      .ts__list--small .ts__triggervar(--margin-bottom: 0)
+      .ts__trigger-labelvar(
+        --display: block;width: 100%;text-align: center;position:
+          relative;white-space: nowrap
+      )
+      .ts__trigger-label: aftervar(
+        --content: ""
+          ;position: absolute;left: 0;width: 100%;height: var(
+            --border-width-300
+          )
+          ;background-color: transparent
+      )
+      .ts__trigger--title
+      .ts__trigger-label: aftervar(--bottom: calc(-1 * var(--spacing-sp-6)))
+      .ts__trigger--medium
+      .ts__trigger-label: aftervar(--bottom: calc(-1 * var(--spacing-sp-6)))
+      .ts__trigger--small
+      .ts__trigger-label: aftervar(--bottom: calc(-1 * var(--spacing-sp-8)))
+      .ts__trigger--titlevar(
+        --min-width: 58px;height: 36px;margin-bottom: calc(
+            ((36px - var(--font-headline-h4-line-height)) / 2) -
+              var(--spacing-sp-6) - var(--border-width-300)
+          )
+      )
+      .ts__trigger--title
+      .ts__trigger-labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-headline-h4-size)
+          ;font-weight: var(--font-headline-h4-weight)
+          ;line-height: var(--font-headline-h4-line-height)
+      )
+      .ts__trigger--mediumvar(
+        --min-width: 40px;height: 32px;margin-bottom: calc(
+            ((32px - var(--font-body-medium-line-height)) / 2) -
+              var(--spacing-sp-6) - var(--border-width-300)
+          )
+      )
+      .ts__trigger--medium
+      .ts__trigger-labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .ts__trigger--smallvar(--min-width: 40px;height: 28px) .ts__trigger--small
+      .ts__trigger-labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .ts__trigger[data-state=active]
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-brand)
+      )
+      .ts__trigger[data-state=active]var(--color: var(--color-text-primary))
+      .ts__trigger[data-state=inactive]: hover: not([data-disabled])
+      .ts__trigger-label: aftervar(--background-color: var(--color-stroke-dark))
+      .ts__trigger[data-state=inactive]: hover: not([data-disabled])
+      var(--color: var(--color-text-primary))
+      .ts__trigger[data-state=active]: hover: not([data-disabled])
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-brand)
+      )
+      .ts__trigger[data-state=active]: hover: not([data-disabled])
+      var(--color: var(--color-text-primary))
+      .ts__trigger[data-state=inactive]: active: not([data-disabled])
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-brand)
+      )
+      .ts__trigger[data-state=inactive]: active: not([data-disabled])
+      var(--color: var(--color-text-link-default))
+      .ts__trigger[data-state=active]: active: not([data-disabled])
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-brand)
+      )
+      .ts__trigger[data-state=active]: active: not([data-disabled])
+      var(--color: var(--color-text-primary))
+      .ts__trigger: focus-visible: not([data-disabled])
+      var(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .ts__trigger[data-state=inactive]: focus-visible: not([data-disabled])
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-default)
+      )
+      .ts__trigger[data-state=inactive]: focus-visible: not([data-disabled])
+      var(--color: var(--color-text-secondary))
+      .ts__trigger[data-state=active]: focus-visible: not([data-disabled])
+      .ts__trigger-label: aftervar(
+        --background-color: var(--color-stroke-brand)
+      )
+      .ts__trigger[data-state=active]: focus-visible: not([data-disabled])
+      var(--color: var(--color-text-primary)) .ts__trigger[data-disabled]
+      .ts__trigger-label: aftervar(--background-color: transparent)
+      .ts__trigger[data-disabled]var(
+        --color: var(--color-text-disabled) ;cursor: not-allowed
+      )
+      .ts__trigger--medium[data-disabled] .ts__trigger-label,
+    .ts__trigger--small[data-disabled]
+      .ts__trigger-labelvar(
+        --font-weight: var(--font-body-medium-regular-weight)
+      )
+      .ts__contentvar(
+        --padding-top: var(--spacing-sp-8) ;padding-bottom: var(--spacing-sp-8)
+          ;outline: none
+      )
+      .ts__content[data-has-content=false]var(
+        --padding-top: 0;padding-bottom: 0;display: none
+      )
+      .ts__content: emptyvar(--padding: 0;display: none) @media
+      (forced-colors: active){.ts__listvar(--border-bottom-color: ButtonText)
+      .ts__triggervar(--color: ButtonText)
+      .ts__trigger-label: aftervar(--height: 3px)
+      .ts__trigger[data-state=active]
+      .ts__trigger-label: aftervar(--background-color: Highlight)
+      .ts__trigger[data-state=inactive]: hover: not([data-disabled])
+      .ts__trigger-label: after,
+    .ts__trigger[data-state=inactive]: active: not([data-disabled])
+      .ts__trigger-label: aftervar(--background-color: Highlight)
+      .ts__trigger: focus-visible: not([data-disabled])
+      var(--outline: 2px solid Highlight;outline-offset: 1px)
+      .ts__trigger[data-disabled]var(--color: GrayText)}: rootvar(
+        ----p-header-background: var(--color-surface-background, var(--grey-50))
+          ;--p-header-color: var(--color-text-primary, var(--grey-1050))
+          ;--p-header-padding: 0;--p-header-gap: var(--spacing-sp-12, 12px)
+          ;--p-title-color: var(--color-text-primary, var(--grey-1050))
+          ;--p-subtitle-color: var(--color-text-secondary, var(--grey-750))
+          ;--p-metadata-color: var(
+            --typography-secondary-616-f-76-nevada,
+            var(--color-text-secondary, #616f76)
+          )
+          ;--p-ts-margin-top: var(--spacing-xs)
+          ;--p-body-side-offset: var(--spacing-s)
+          ;--p-body-min-height: var(--spacing-xl)
+          ;--p-body-background: var(--color-surface-background, var(--grey-50))
+          ;--p-body-border-color: var(--grey-300)
+          ;--p-body-border-width: 1px;--p-body-shadow: none;--p-body-padding:
+          var(--p-content-vertical-padding, 0)
+          var(--p-content-horizontal-padding, var(--spacing-sp-24, 24px))
+          ;--p-multiple-body-background: var(
+            --color-surface-background,
+            var(--grey-50)
+          )
+          ;--p-multiple-content-padding: 0;--p-refresh-gap: var(
+            --spacing-sp-4,
+            4px
+          )
+          ;--p-refresh-color: var(--color-text-link-default, var(--blue-500))
+      )
+      .pvar(
+        --display: flex;width: 100%;max-width: 1920px;padding: 0;flex-direction:
+          column;align-items: center;box-sizing: border-box;margin: 0
+          auto;background: var(--color-surface-background, var(--grey-50))
+      )
+      .p__innervar(--width: 100%;box-sizing: border-box;padding: 0)
+      .p__headervar(
+        --display: flex;width: 100%;flex-direction: column;gap: var(
+            --p-header-gap
+          )
+          ;padding: var(--p-header-padding)
+          ;background: var(--p-header-background) ;color: var(--p-header-color)
+          ;box-sizing: border-box
+      )
+      .p__header--full-height-actionsvar(
+        --min-height: calc(var(--spacing-xl) + var(--spacing-s))
+      )
+      .p__navigation: empty,
+    .p__actions: empty,
+    .p__ts: emptyvar(--display: none)
+      .p__navigationvar(
+        --display: flex;align-items: center;color: var(
+            --color-text-primary,
+            var(--grey-1050)
+          )
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-style: normal;font-weight: var(
+            --font-body-medium-regular-weight
+          )
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .p__navigation: : slotted(*) var(--display: flex;align-items: center)
+      .p__header-mainvar(
+        --display: flex;align-items: flex-start;gap: var(--spacing-s)
+      )
+      .p__header-main--centeredvar(--align-items: center)
+      .p__title-blockvar(
+        --min-width: 0;flex: 1 1
+          auto;display: flex;flex-direction: column;gap: var(
+            --spacing-sp-4,
+            4px
+          )
+      )
+      .p__title-rowvar(
+        --display: flex;align-items: baseline;gap: var(--spacing-sp-12, 12px)
+          ;min-width: 0;flex-wrap: wrap
+      )
+      .p__title-row--stackedvar(
+        --align-items: flex-start;flex-direction: column
+      )
+      .p__titlevar(
+        --margin: 0;color: var(--p-title-color)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-headline-h3-size)
+          ;font-style: normal;font-weight: var(--font-headline-h3-weight, 700)
+          ;line-height: var(--font-headline-h3-line-height)
+      )
+      .p__subtitlevar(
+        --color: var(--p-subtitle-color) ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-large-size)
+          ;font-style: normal;font-weight: var(
+            --font-body-large-regular-weight,
+            400
+          )
+          ;line-height: var(--font-body-large-line-height)
+      )
+      .p__metadatavar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-8, 8px)
+          ;flex-wrap: wrap;color: var(--p-metadata-color)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--typography-body-7-font-size, 14px)
+          ;font-style: normal;font-weight: var(
+            --typography-body-7-font-weight,
+            400
+          )
+          ;line-height: var(--typography-body-7-line-height, 21px)
+      )
+      .p__timestampvar(
+        --white-space: nowrap;color: var(--p-metadata-color)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--typography-body-7-font-size, 14px)
+          ;font-style: normal;font-weight: var(
+            --typography-body-7-font-weight,
+            400
+          )
+          ;line-height: var(--typography-body-7-line-height, 21px)
+      )
+      .p__refreshvar(
+        --display: inline-flex;align-items: center;gap: var(--spacing-sp-8, 8px)
+      )
+      .p__refresh-buttonvar(
+        --display: inline-flex;align-items: center;gap: var(--p-refresh-gap)
+          ;border: 0;padding: 0;margin: 0;background: transparent;color: var(
+            --p-refresh-color
+          )
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-utility-link-size)
+          ;font-style: normal;font-weight: 600;line-height: var(
+            --font-utility-link-line-height
+          )
+          ;cursor: pointer;text-decoration-line:
+          underline;text-decoration-style: solid;text-decoration-skip-ink:
+          none;text-decoration-thickness: auto;text-underline-offset:
+          auto;text-underline-position: from-font
+      )
+      .p__refresh-button>brml-icon,
+    .p__refresh-button>wf-iconvar(
+        --display: inline-flex;align-items: center;justify-content: center;flex:
+          0
+          0 auto;color: inherit
+      )
+      .p__refresh-button: hovervar(--color: var(--blue-550)) .p__refresh-button
+      brml-iconvar(--color: var(--p-refresh-color) ;--icon-color: currentColor)
+      .p__refresh-button: hover
+      brml-iconvar(--color: var(--blue-550) ;--icon-color: currentColor)
+      .p__refresh-button
+      wf-iconvar(--color: var(--p-refresh-color) ;--icon-color: currentColor)
+      .p__refresh-button: hover
+      wf-iconvar(--color: var(--blue-550) ;--icon-color: currentColor)
+      .p__refresh-button: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 2px;border-radius: var(--radius-xs)
+      )
+      .p__metadata: : slotted(*)
+      var(
+        --display: inline-flex;align-items: center;gap: var(--spacing-xxs)
+          ;flex-wrap: wrap;position: static!important;inset: auto!important
+      )
+      .p__actionsvar(
+        --flex: 0 0
+          auto;margin-left: auto;display: flex;align-items: center;align-self:
+          center;gap: var(--spacing-sp-12, 12px)
+      )
+      .p__actions: : slotted(*)
+      var(--display: flex;align-items: center;gap: var(--spacing-sp-12, 12px))
+      .p__tsvar(--width: 100%) .p__ts--inlinevar(--margin-left: auto)
+      .p__ts: not(.p__ts--inline) var(--margin-top: var(--p-ts-margin-top))
+      .p__ts: : slotted(*) var(--width: 100%) .p__ts-slot
+      .ts__contentvar(--display: none)
+      .p__ts-listvar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-24, 24px)
+          ;border-bottom: var(--border-width-300) solid
+          var(--color-stroke-default) ;padding-bottom: var(--spacing-xxs)
+      )
+      .p__t-buttonvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;border: 0;border-bottom: var(--border-width-300)
+          solid transparent;margin: 0 0 calc(var(--spacing-xxs) * -1)
+          ;padding: 0 0 var(--spacing-xxs)
+          ;background: transparent;color: var(--color-text-primary)
+          ;cursor: pointer;text-align: center;font-family: var(
+            --font-family-brand
+          )
+          ;font-size: var(--font-body-medium-size)
+          ;font-style: normal;font-weight: var(
+            --font-body-medium-semibold-weight,
+            600
+          )
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .p__t-button[data-state=active]var(
+        --color: var(--color-text-primary)
+          ;border-bottom-color: var(--color-stroke-brand)
+      )
+      .p__t-button[data-disabled]var(
+        --color: var(--color-text-disabled) ;cursor: not-allowed
+      )
+      .p__t-button: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 2px;border-radius: var(--radius-xs)
+      )
+      .p__bodyvar(
+        --width: 100%;min-height: var(--p-body-min-height)
+          ;background: var(--p-body-background)
+      )
+      .p__body--multiplevar(--background: var(--p-multiple-body-background))
+      .p__body-contentvar(--padding: var(--p-body-padding))
+      .p__body-content--multiplevar(
+        --padding: var(--p-multiple-content-padding)
+      )
+      .p__panel[hidden]var(--display: none) @media (forced-colors: active){.p,
+    .p__header, .p__body,
+    .p__body--multiplevar(--background: Canvas;color: CanvasText) .p__navigation,
+    .p__title, .p__subtitle, .p__metadata,
+    .p__timestampvar(--color: CanvasText) .p__refresh-button,
+    .p__refresh-button: hovervar(--color: LinkText)
+      .p__refresh-button: focus-visible,
+    .p__t-button: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 2px
+      )
+      .p__ts-listvar(--border-bottom-color: ButtonText)
+      .p__t-buttonvar(--color: ButtonText)
+      .p__t-button[data-state=active]var(
+        --color: CanvasText;border-bottom-color: Highlight
+      )
+      .p__t-button[data-disabled]var(--color: GrayText)}.rvar(
+        --display: inline-flex;align-items: center;gap: var(--spacing-sp-12)
+          ;cursor: pointer;position: relative
+      )
+      .r--disabledvar(--cursor: not-allowed)
+      .r__textvar(--display: flex;flex-direction: column)
+      .r__buttonvar(
+        --all: unset;background-color: transparent;border-radius: 50%;display:
+          flex;align-items: center;justify-content: center;flex-shrink:
+          0;border-style: solid;border-width: var(--border-width-200)
+          ;transition: all -15s cubic-bezier(-4, 0, -2, 1) ;position: relative
+      )
+      .r__button--size-18var(--width: 18px;height: 18px)
+      .r__button--size-24var(--width: 24px;height: 24px)
+      .r__buttonvar(--border-color: var(--color-stroke-controls-default)) .r
+      .r__labelvar(--color: var(--color-text-controls-default))
+      .r__button[data-state=unchecked]: not([data-disabled]): hovervar(
+        --border-color: var(--color-stroke-controls-hover)
+      )
+      .r: has(.r__button[data-state=unchecked]: not([data-disabled]): hover)
+      .r__labelvar(--color: var(--color-text-controls-hover))
+      .r__button[data-state=unchecked]: not([data-disabled]): focus-visible,
+    .r__button[data-state=checked]: not([data-disabled]): focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .r: has(.r__button: not([data-disabled]): focus-visible)
+      .r__labelvar(--color: var(--color-text-controls-focused))
+      .r__button[data-state=checked]var(
+        --border-color: var(--color-surface-controls-selected)
+          ;background-color: transparent
+      )
+      .r: has(.r__button[data-state=checked])
+      .r__labelvar(--color: var(--color-text-controls-selected))
+      .r__button[data-disabled]var(
+        --border-color: var(--color-stroke-controls-disabled)
+          ;background-color: var(--color-surface-controls-disabled)
+      )
+      .r: has(.r__button[data-disabled])
+      .r__labelvar(--color: var(--color-text-controls-disabled))
+      .r__indicatorvar(
+        --display: flex;align-items: center;justify-content: center;width:
+          100%;height: 100%;position: relative
+      )
+      .r__indicator: aftervar(
+        --content: "" ;display: block;background-color: #fff;border-radius: 50%
+      )
+      .r__button--size-18
+      .r__indicator: aftervar(--width: 10px;height: 10px;background-color: #fff)
+      .r__button--size-24
+      .r__indicator: aftervar(--width: 14px;height: 14px;background-color: #fff)
+      .r__button[data-state=checked]: not([data-disabled])
+      .r__indicator: aftervar(
+        --background-color: var(--color-surface-controls-selected)
+      )
+      .r__button[data-disabled][data-state=checked]
+      .r__indicator: aftervar(
+        --background-color: var(--color-stroke-controls-disabled)
+      )
+      .r__button[data-state=checked][data-locked=true]var(
+        --background-color: var(--color-surface-controls-locked)
+          ;border-color: var(--color-surface-controls-locked-icon)
+      )
+      .r__button[data-state=checked][data-locked=true]
+      .r__indicator: aftervar(
+        --background-color: var(--color-surface-controls-locked-icon)
+      )
+      .r: has(.r__button[data-state=checked][data-locked=true])
+      .r__labelvar(--color: var(--color-text-controls-locked))
+      .r__button[data-state=unchecked][data-locked=true]var(
+        --border-color: var(--color-stroke-controls-disabled)
+          ;background-color: var(--color-surface-controls-disabled)
+      )
+      .r: has(.r__button[data-state=unchecked][data-locked=true])
+      .r__labelvar(--color: var(--color-text-controls-locked))
+      .r__labelvar(--display: block) .r--size-18
+      .r__labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .r--size-24
+      .r__labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-semibold-weight)
+          ;line-height: var(--font-body-large-line-height)
+      )
+      .r-group,
+    [data-radix-r-group-root]var(--display: flex) .r-group--vertical,
+    [data-radix-r-group-root][data-orientation=vertical]var(
+        --flex-direction: column;gap: var(--spacing-sp-24)
+      )
+      .r-group--horizontal,
+    [data-radix-r-group-root][data-orientation=horizontal]var(
+        --flex-direction: row;gap: var(--spacing-sp-24)
+      )
+      .r-group--inlinevar(
+        --flex-direction: row;flex-wrap: wrap;gap: var(--spacing-sp-16)
+      )
+      @media
+      (forced-colors: active){.r__buttonvar(
+        --background-color: Canvas;border-color: ButtonText
+      )
+      .r .r__labelvar(--color: CanvasText)
+      .r__button[data-state=unchecked]: not([data-disabled]): hovervar(
+        --border-color: Highlight
+      )
+      .r__button[data-state=unchecked]: not([data-disabled]): focus-visible,
+    .r__button[data-state=checked]: not([data-disabled]): focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .r__button[data-state=checked]var(--border-color: Highlight)
+      .r: has(.r__button[data-state=checked]) .r__label,
+    .r: has(.r__button: not([data-disabled]): focus-visible) .r__label,
+    .r: has(.r__button[data-state=unchecked]: not([data-disabled]): hover)
+      .r__labelvar(--color: CanvasText) .r__indicator: after,
+    .r__button--size-18 .r__indicator: after,
+    .r__button--size-24 .r__indicator: aftervar(--background-color: transparent)
+      .r__button[data-state=checked]: not([data-disabled])
+      .r__indicator: aftervar(--background-color: Highlight)
+      .r__button[data-disabled]var(
+        --border-color: GrayText;background-color: ButtonFace
+      )
+      .r__button[data-disabled][data-state=checked] .r__indicator: after,
+    .r__button[data-state=checked][data-locked=true]
+      .r__indicator: aftervar(--background-color: GrayText)
+      .r__button[data-state=checked][data-locked=true],
+    .r__button[data-state=unchecked][data-locked=true]var(
+        --border-color: GrayText;background-color: ButtonFace
+      )
+      .r: has(.r__button[data-disabled]) .r__label,
+    .r: has(.r__button[data-state=checked][data-locked=true]) .r__label,
+    .r: has(.r__button[data-state=unchecked][data-locked=true])
+      .r__labelvar(--color: GrayText)}.svar(
+        --display: inline-flex;align-items: center;gap: var(--spacing-sp-8)
+          ;cursor: default;vertical-align: middle
+      )
+      .s--disabledvar(--cursor: not-allowed)
+      .s__labelvar(
+        --cursor: pointer;-webkit-user-select: none;user-select: none;color:
+          var(--color-text-primary)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .s__label--disabledvar(--cursor: not-allowed)
+      .s__rootvar(
+        --position: relative;border: none;padding: 0;border-radius:
+          9999px;cursor: pointer;transition: background-color -15s
+          ease-in-out;flex-shrink: 0;outline: none;-webkit-tap-highlight-color:
+          transparent
+      )
+      .s__root--size-defaultvar(--width: 40px;height: 24px)
+      .s__root--size-smallvar(--width: 28px;height: 16px)
+      .s__thumbvar(
+        --display: block;background-color: var(--color-surface-toggle-ellipse)
+          ;border-radius: 9999px;transition: transform -15s
+          ease-in-out;transform: translate(var(--thumb-translate-x-unchecked))
+          ;will-change: transform
+      )
+      .s__root--size-defaultvar(
+        ----thumb-size: calc(24px - 2 * var(--spacing-sp-4))
+          ;--thumb-translate-x-unchecked: var(--spacing-sp-4)
+          ;--thumb-translate-x-checked: calc(
+            40px - var(--thumb-size) - var(--spacing-sp-4)
+          )
+      )
+      .s__root--size-default
+      .s__thumbvar(--width: var(--thumb-size) ;height: var(--thumb-size))
+      .s__root--size-smallvar(
+        ----thumb-size: calc(16px - 2 * var(--spacing-sp-2))
+          ;--thumb-translate-x-unchecked: var(--spacing-sp-2)
+          ;--thumb-translate-x-checked: calc(
+            28px - var(--thumb-size) - var(--spacing-sp-2)
+          )
+      )
+      .s__root--size-small
+      .s__thumbvar(--width: var(--thumb-size) ;height: var(--thumb-size))
+      .s__root[data-state=unchecked]var(
+        --background-color: var(--color-surface-toggle-default)
+      )
+      .s__root[data-state=unchecked]
+      .s__thumbvar(--transform: translate(var(--thumb-translate-x-unchecked)))
+      .s__root[data-state=checked]var(
+        --background-color: var(--color-surface-toggle-active)
+      )
+      .s__root[data-state=checked]
+      .s__thumbvar(--transform: translate(var(--thumb-translate-x-checked)))
+      .s__root: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .s__root[data-disabled]var(
+        --background-color: var(--color-surface-toggle-disabled)
+          ;cursor: not-allowed
+      )
+      .s__root[data-disabled] .s__thumbvar(--opacity: -6) @media
+      (forced-colors: active){.s__rootvar(
+        --forced-color-adjust: none;border: 2px solid
+          ButtonText;background-color: Canvas
+      )
+      .s__root[data-state=unchecked]var(
+        --background-color: Canvas;border-color: ButtonText
+      )
+      .s__root[data-state=checked]var(
+        --background-color: Highlight;border-color: Highlight
+      )
+      .s__thumbvar(--forced-color-adjust: none;background-color: ButtonText)
+      .s__root[data-state=checked]
+      .s__thumbvar(--background-color: HighlightText)
+      .s__root: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .s__root[data-disabled]var(--border-color: GrayText)
+      .s__root[data-disabled]
+      .s__thumbvar(--background-color: GrayText;opacity: 1)
+      .s__labelvar(--color: ButtonText)}.accordionvar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4, 4px)
+          ;width: 100%
+      )
+      .epvar(
+        --display: block;background-color: var(
+            --color-surface-foreground,
+            #ffffff
+          )
+          ;border-radius: var(--radius-xs, 4px) ;overflow: hidden
+      )
+      .ep[data-state=open]var(--border-radius: var(--radius-xs, 4px))
+      .ep__headervar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-12, 12px)
+          ;padding: 0;margin: 0;font: inherit
+      )
+      .ep__triggervar(
+        --flex: 1 1
+          auto;display: flex;align-items: center;justify-content:
+          space-between;gap: var(--spacing-sp-12, 12px)
+          ;width: 100%;padding: var(--spacing-sp-16, 16px)
+          ;background: transparent;border: 0;margin: 0;cursor:
+          pointer;text-align: left;font-family: var(
+            --font-family-brand,
+            sans-serif
+          )
+          ;font-size: var(--font-body-large-size, 16px)
+          ;font-weight: var(--font-body-large-regular-weight, 400)
+          ;line-height: var(--font-body-large-line-height, 24px)
+          ;color: var(--color-text-primary, #1c1f22)
+          ;transition: background-color -1s ease-out
+      )
+      .ep[data-state=open]>.ep__header>.ep__triggervar(
+        --font-weight: var(--font-body-large-semibold-weight, 600)
+      )
+      .ep__trigger: hover: not([disabled])
+      var(--background-color: var(--color-surface-hover, #f3f4f6))
+      .ep__trigger: focusvar(--outline: none)
+      .ep__trigger: focus-visiblevar(
+        --outline: var(--focus-ring-width, var(--border-width-200, 2px)) solid
+          var(--focus-ring-color, var(--denim-300, #779fe3))
+          ;outline-offset: -2px
+      )
+      .ep__titlevar(
+        --display: flex;flex: 1 1
+          auto;align-items: center;min-width: 0;gap: var(--spacing-sp-8, 8px)
+      )
+      .ep__chevronvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;flex-shrink: 0;width: 24px;height: 24px;color: var(
+            --color-icon-brand,
+            #0b49ea
+          )
+          ;transition: transform -2s ease-out
+      )
+      .ep[data-state=open]>.ep__header>.ep__trigger
+      .ep__chevronvar(--transform: rotate(90deg)) .ep[data-arrow-left]
+      .ep__triggervar(
+        --flex-direction: row-reverse;justify-content: flex-end;gap: var(
+            --spacing-sp-12,
+            12px
+          )
+      )
+      .ep__contentvar(
+        --display: grid;grid-template-rows: 0fr;overflow: hidden;transition:
+          grid-template-rows -2s
+          ease-out
+      )
+      .ep[data-state=open]>.ep__contentvar(--grid-template-rows: 1fr)
+      .ep__content[data-state]var(
+        --display: grid;grid-template-rows: 0fr;overflow: hidden;visibility:
+          hidden;transition: grid-template-rows -2s
+          ease-out,
+        visibility 0s linear -2s!important
+      )
+      .ep__content[data-state=open]var(
+        --grid-template-rows: 1fr;visibility: visible;transition:
+          grid-template-rows -2s
+          ease-out,
+        visibility 0s linear 0s!important
+      )
+      .ep__content-innervar(--overflow: hidden;min-height: 0)
+      .ep__content-bodyvar(
+        --padding: 0 var(--spacing-sp-16, 16px) var(--spacing-sp-16, 16px)
+          ;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-large-size, 16px)
+          ;font-weight: var(--font-body-large-regular-weight, 400)
+          ;line-height: var(--font-body-large-line-height, 24px)
+          ;color: var(--color-text-primary, #1c1f22)
+      )
+      .ep__content-body>.accordionvar(
+        --width: auto;margin-right: calc(-1 * var(--spacing-sp-16, 16px))
+          ;margin-bottom: calc(-1 * var(--spacing-sp-16, 16px))
+      )
+      .a-nestedvar(
+        --width: auto;margin-right: calc(-1 * var(--spacing-sp-16, 16px))
+          ;margin-bottom: calc(-1 * var(--spacing-sp-16, 16px))
+      )
+      .ep__content-body>.a-arrow-left,
+    .a-nested.a-arrow-leftvar(
+        --margin-right: 0;margin-left: calc(
+            -1 *
+              (
+                24px + var(--spacing-sp-12, 12px) + var(--anest, 1) *
+                  var(--spacing-sp-16, 16px)
+              )
+          )
+      )
+      .ep[data-arrow-left]
+      .ep__titlevar(
+        --margin-left: calc(var(--anest, 0) * var(--spacing-sp-16, 16px))
+      )
+      .ep[data-arrow-left]
+      .ep__content-bodyvar(
+        --padding-left: calc(
+            var(--spacing-sp-16, 16px) + 24px + var(--spacing-sp-12, 12px) +
+              var(--anest, 0) * var(--spacing-sp-16, 16px)
+          )
+      )
+      .ep[data-variant=secondary],
+    .a-secondary
+      .epvar(--background-color: var(--color-surface-background, #f6f7f8))
+      @media (prefers-reduced-motion: reduce){.ep__chevron,
+    .ep__content,
+    .ep__triggervar(--transition: none)}.covar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-12)
+          ;box-sizing: border-box;padding: var(--spacing-sp-12)
+          ;border-radius: var(--radius-s) ;border-width: var(--border-width-100)
+          ;border-style: solid;font-family: var(--font-family-brand)
+          ;color: var(--color-text-primary)
+      )
+      .co--variant-infovar(
+        --background-color: var(--color-surface-intercom-info)
+          ;border-color: var(--color-state-info-stroke)
+      )
+      .co--variant-successvar(
+        --background-color: var(--color-surface-intercom-success)
+          ;border-color: var(--color-state-success-stroke)
+      )
+      .co--variant-warningvar(
+        --background-color: var(--color-surface-intercom-warning)
+          ;border-color: var(--color-state-warning-stroke)
+      )
+      .co--variant-criticalvar(
+        --background-color: var(--color-surface-intercom-error)
+          ;border-color: var(--color-state-error-stroke)
+      )
+      .co__mainvar(
+        --display: flex;flex: 1 0
+          0;min-width: 0;align-items: center;gap: var(--spacing-sp-12)
+      )
+      .co__iconvar(
+        --align-self: stretch;display: inline-flex;flex-shrink: 0;width:
+          16px;align-items: flex-start;justify-content: center;padding-block:
+          var(--spacing-sp-2)
+      )
+      .co__textvar(
+        --display: flex;flex-direction: column;flex: 1 0
+          0;min-width: 0;align-items: flex-start;gap: var(--spacing-sp-4)
+      )
+      .co__text>[hidden]var(--display: none)
+      .co__titlevar(
+        --font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary) ;word-break: break-word
+      )
+      .co__descriptionvar(
+        --font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary) ;word-break: break-word
+      )
+      .co__linkvar(
+        --display: inline-flex;align-items: center;justify-content: center;gap:
+          var(--spacing-sp-4)
+          ;border-radius: var(--radius-xs)
+          ;font-size: var(--font-utility-link-size)
+          ;font-weight: var(--font-utility-link-weight)
+          ;line-height: var(--font-utility-link-line-height)
+          ;color: var(--color-text-link-default)
+          ;text-decoration: underline;text-underline-offset: 2px
+      )
+      .co__dismissvar(--flex-shrink: 0;align-self: flex-start) @media
+      (forced-colors: active){.covar(
+        --border-color: ButtonText;background-color: Canvas;color: CanvasText
+      )
+      .co__title,
+    .co__descriptionvar(--color: CanvasText)
+      .co__linkvar(--color: LinkText)}.mb-rootvar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4)
+          ;box-sizing: border-box
+      )
+      .mbvar(
+        --position: relative;display: flex;align-items: center;justify-content:
+          space-between;gap: var(--spacing-sp-16)
+          ;min-height: 56px;padding: var(--spacing-sp-12) var(--spacing-sp-16)
+          ;padding-inline-start: calc(var(--spacing-sp-16) + 6px)
+          ;border-radius: var(--radius-s)
+          ;overflow: hidden;box-sizing: border-box;font-family: var(
+            --font-family-brand
+          )
+          ;color: var(--color-text-primary) ;box-shadow: 0 2px 8px
+          #00000026;background-color: var(--color-surface-intercom-info)
+      )
+      .mb: beforevar(
+        --content: ""
+          ;position: absolute;inset-block: 0;inset-inline-start: 0;width:
+          6px;background-color: var(--color-state-info-accent)
+          ;pointer-events: none
+      )
+      .mb--variant-infovar(
+        --background-color: var(--color-surface-intercom-info)
+      )
+      .mb--variant-info: beforevar(
+        --background-color: var(--color-state-info-accent)
+      )
+      .mb--variant-successvar(
+        --background-color: var(--color-surface-intercom-success)
+      )
+      .mb--variant-success: beforevar(
+        --background-color: var(--color-state-success-accent)
+      )
+      .mb--variant-warningvar(
+        --background-color: var(--color-surface-intercom-warning)
+      )
+      .mb--variant-warning: beforevar(
+        --background-color: var(--color-state-warning-accent)
+      )
+      .mb--variant-criticalvar(
+        --background-color: var(--color-surface-intercom-error)
+      )
+      .mb--variant-critical: beforevar(
+        --background-color: var(--color-state-error-accent)
+      )
+      .mb__contentvar(
+        --display: flex;flex: 1 1
+          auto;min-width: 0;align-items: center;gap: var(--spacing-sp-12)
+      )
+      .mb__iconvar(
+        --display: inline-flex;flex-shrink: 0;width: 16px;height:
+          16px;align-items: center;justify-content: center
+      )
+      .mb__textvar(
+        --display: flex;flex: 1 1
+          auto;min-width: 0;align-items: center;flex-wrap: wrap;gap: var(
+            --spacing-sp-8
+          )
+      )
+      .mb__messagevar(
+        --font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary) ;word-break: break-word
+      )
+      .mb__linkvar(
+        --display: inline-flex;align-items: center;gap: var(--spacing-sp-4)
+      )
+      .mb__actionsvar(
+        --display: flex;flex-shrink: 0;align-items: center;gap: var(
+            --spacing-sp-16
+          )
+      )
+      .mb__togglevar(
+        --display: inline-flex;align-items: center;justify-content: center;gap:
+          var(--spacing-sp-4)
+          ;padding: 0;border: 0;background: transparent;border-radius: var(
+            --radius-xs
+          )
+          ;cursor: pointer;color: var(--color-text-link-default)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-utility-link-size)
+          ;font-weight: var(--font-utility-link-weight)
+          ;line-height: var(--font-utility-link-line-height)
+          ;text-decoration: underline;text-underline-offset: 2px;transition:
+          color -2s
+          ease-in-out
+      )
+      .mb__toggle: hover: not(: disabled)
+      var(--color: var(--color-text-link-hover))
+      .mb__toggle: active: not(: disabled)
+      var(--color: var(--color-text-link-pressed))
+      .mb__toggle: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .mb__toggle: disabledvar(
+        --color: var(--color-text-link-disabled)
+          ;cursor: not-allowed;pointer-events: none
+      )
+      .mb__toggle-labelvar(--display: inline)
+      .mb__toggle-iconvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;width: 16px;height: 16px
+      )
+      .mb__dismissvar(--flex-shrink: 0)
+      .mb__expandedvar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4)
+      )
+      .mb__expanded[hidden]var(--display: none) @media
+      (forced-colors: active){.mbvar(
+        --background-color: Canvas;color: CanvasText;box-shadow: none;border:
+          1px
+          solid CanvasText
+      )
+      .mb: beforevar(--background-color: CanvasText)
+      .mb__messagevar(--color: CanvasText) .mb__togglevar(--color: LinkText)
+      .mb__toggle: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )}: hostvar(--width: 100%): host([fill])
+      var(--height: 100%;width: 100%): host([fill])
+      .cvar(--height: 100%;width: 100%)
+      .cvar(
+        --display: flex;flex-direction: column;background-color: var(
+            --color-surface-foreground
+          )
+          ;border-radius: var(--radius-s) ;position: relative
+      )
+      .c--elevatedvar(
+        --box-shadow: 0 1px 3px #0000001a,
+        0 1px 2px -1px #0000001a
+      )
+      .c--outlinedvar(--box-shadow: none)
+      .c-headervar(
+        --display: flex;flex-direction: column;padding: var(--spacing-sp-24)
+          ;padding-bottom: 0;gap: var(--spacing-sp-8)
+      )
+      .c-header__top-rowvar(
+        --display: flex;align-items: flex-start;justify-content:
+          space-between;gap: var(--spacing-sp-8)
+      )
+      .c-header__title-areavar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-8)
+          ;flex: 1;min-width: 0
+      )
+      .c-header__metavar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-8)
+          ;color: var(--color-text-secondary)
+          ;font-size: var(--font-body-small-size)
+          ;line-height: var(--font-body-small-line-height)
+          ;font-weight: var(--font-body-small-regular-weight)
+      )
+      .c-header__controlsvar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-4)
+          ;flex-shrink: 0
+      )
+      .c-titlevar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-4)
+          ;color: var(--color-text-primary)
+          ;font-size: var(--font-headline-h4-size)
+          ;font-family: var(---font-family-brand)
+          ;line-height: var(--font-headline-h4-line-height)
+          ;font-weight: var(--font-headline-h4-weight) ;margin: 0;min-width: 0
+      )
+      .c-title__textvar(
+        --overflow: hidden;text-overflow: ellipsis;white-space: nowrap
+      )
+      .c-title__iconvar(
+        --flex-shrink: 0;display: flex;align-items: center;color: var(
+            --color-icon-dark
+          )
+      )
+      .c-header-actionsvar(
+        --display: flex;flex-wrap: wrap;gap: var(--spacing-sp-8)
+          ;align-items: center
+      )
+      .c-header-actions--rowvar(--flex-direction: row)
+      .c-header-actions--stackedvar(
+        --flex-direction: column;align-items: flex-start
+      )
+      .c-bodyvar(
+        --display: flex;flex-direction: column;padding: var(--spacing-sp-6)
+          var(--spacing-sp-24)
+          ;flex: 1;min-height: 0;overflow: hidden;margin-bottom: var(
+            --c-body-footer-margin,
+            var(--spacing-sp-24)
+          )
+      )
+      .c-body--flushvar(--padding: 0) .c--has-footer
+      .c-bodyvar(
+        --margin-bottom: calc(
+            var(--spacing-sp-24) + var(--font-body-medium-line-height)
+          )
+      )
+      .c--has-footervar(
+        ----c-body-footer-margin: calc(
+            var(--spacing-sp-24) + var(--font-body-medium-line-height)
+          )
+      )
+      .c-body__contentvar(
+        --display: flex;flex-direction: column;flex: 1;min-height: 0
+      )
+      .c-body__placeholdervar(
+        --display: flex;align-items: center;justify-content: center;min-height:
+          120px;border: 1px
+          dashed var(--color-stroke-default) ;border-radius: var(--radius-xs)
+          ;color: var(--color-text-secondary)
+          ;font-size: var(--font-body-medium-size)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .c-footervar(
+        --display: block;align-items: center;background-color: var(
+            --color-surface-foreground
+          )
+          ;color: var(--color-text-primary)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-style: normal;font-weight: 400;line-height: var(
+            --font-body-medium-line-height
+          )
+          ;position: absolute;bottom: var(--spacing-sp-24)
+          ;left: var(--spacing-sp-24) ;right: var(--spacing-sp-24)
+      )
+      .c-footer
+      avar(
+        --color: var(--color-text-link-default)
+          ;font-family: var(--font-family-brand)
+          ;font-size: var(--font-utility-link-size)
+          ;font-style: normal;font-weight: 600;line-height: var(
+            --font-utility-link-line-height
+          )
+          ;text-decoration-line: underline;text-decoration-style:
+          solid;text-decoration-skip-ink: none;text-decoration-thickness:
+          auto;text-underline-offset: auto
+      )
+      .c-header-rowvar(
+        --display: flex;align-items: center;justify-content: space-between;gap:
+          var(--spacing-sp-8)
+          ;width: 100%
+      )
+      .c-header-row__start,
+    .c-header-row__endvar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-8)
+      )
+      .module-headervar(
+        --display: flex;flex-direction: row;flex-wrap: nowrap;align-items:
+          flex-start;justify-content: space-between;padding-bottom: var(
+            --spacing-sp-8
+          )
+          ;gap: var(--spacing-sp-8)
+      )
+      .module-header>: : slotted(*: first-child) var(--flex: 1;min-width: 0)
+      .module-header>: : slotted(*: not(: first-child)) var(--flex-shrink: 0)
+      .c-header--flushvar(--padding: 0) @media
+      (forced-colors: active){.cvar(
+        --background-color: Canvas;border: 1px solid ButtonText
+      )
+      .c--elevatedvar(--box-shadow: none) .c-header__meta,
+    .c-title, .c-title__icon, .c-body__placeholder,
+    .c-footervar(--color: CanvasText)
+      .c-body__placeholdervar(--border-color: ButtonText)
+      .c-footervar(--background-color: Canvas) .c-footer
+      avar(--color: LinkText)}.cb-groupvar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-24)
+      )
+      .cb-group--horizontalvar(--display: flex;flex-direction: row)
+      .cb__containervar(
+        --display: flex;align-items: flex-start;gap: var(--spacing-sp-12)
+          ;cursor: default
+      )
+      .cb__container--disabledvar(--cursor: not-allowed)
+      .cb__rootvar(
+        --display: flex;align-items: center;justify-content:
+          center;border-radius: var(--radius-xxs)
+          ;border-width: var(--border-width-200)
+          ;border-style: solid;background-color: transparent;box-sizing:
+          border-box;transition: background-color -2s
+          ease-out,
+        border-color -2s
+          ease-out;flex-shrink: 0;padding: 0;font-size: 0;line-height: 0
+      )
+      .cb__container--size-18 .cb__rootvar(--width: 18px;height: 18px)
+      .cb__container--size-24 .cb__rootvar(--width: 24px;height: 24px)
+      .cb__root[data-state=unchecked]var(
+        --border-color: var(--color-stroke-controls-default)
+      )
+      .cb__root[data-state=unchecked]: hover: not([data-disabled])
+      var(--border-color: var(--color-stroke-controls-hover))
+      .cb__root[data-state=checked]var(
+        --background-color: var(--color-surface-controls-selected)
+          ;border-width: 0px
+      )
+      .cb__root[data-state=checked]: hover: not([data-disabled])
+      var(--background-color: var(--brand-550))
+      .cb__root[data-state=indeterminate]var(
+        --background-color: var(--color-surface-controls-selected)
+          ;border-width: 0px
+      )
+      .cb__root[data-state=indeterminate]: hover: not([data-disabled])
+      var(--background-color: var(--brand-550))
+      .cb__root: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .cb__root[data-disabled]var(
+        --background-color: var(--color-surface-controls-disabled)
+          ;border-color: var(--color-stroke-controls-disabled)
+          ;cursor: not-allowed
+      )
+      .cb__root[data-disabled][data-state=checked],
+    .cb__root[data-disabled][data-state=indeterminate]var(
+        --background-color: var(--color-surface-controls-locked)
+          ;border-width: 0px
+      )
+      .cb__indicatorvar(
+        --display: flex;align-items: center;justify-content: center;width:
+          100%;height: 100%;color: var(--neutral-50)
+      )
+      .cb__iconvar(--display: none) .cb__icon--minusvar(--stroke-width: 2px)
+      .cb__root[data-state=checked] .cb__icon--check,
+    .cb__root[data-state=indeterminate] .cb__icon--minusvar(--display: block)
+      .cb__container--size-18 .cb__icon--checkvar(--width: 12px;height: 12px)
+      .cb__container--size-18 .cb__icon--minusvar(--width: 8px;height: 8px)
+      .cb__container--size-24 .cb__icon--checkvar(--width: 16px;height: 16px)
+      .cb__container--size-24 .cb__icon--minusvar(--width: 12px;height: 12px)
+      .cb__root[data-disabled]
+      .cb__indicatorvar(--color: var(--color-text-controls-disabled))
+      .cb__text-containervar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-2)
+      )
+      .cb__labelvar(--cursor: pointer) .cb__container--disabled
+      .cb__labelvar(
+        --cursor: not-allowed;color: var(--color-text-controls-disabled)
+      )
+      .cb__supporting-text,
+    .cb__container--disabled
+      .cb__supporting-textvar(--color: var(--color-text-secondary))
+      .cb__container--size-18
+      .cb__labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary)
+      )
+      .cb__container--size-18
+      .cb__supporting-textvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .cb__container--size-24
+      .cb__labelvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-semibold-weight)
+          ;line-height: var(--font-body-large-line-height)
+          ;color: var(--color-text-primary)
+      )
+      .cb__container--size-24
+      .cb__supporting-textvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-regular-weight)
+          ;line-height: var(--font-body-large-line-height)
+      )
+      @media
+      (forced-colors: active){.cb__root[data-state=unchecked]var(
+        --forced-color-adjust: none;background-color: Canvas;border-color:
+          ButtonText
+      )
+      .cb__root[data-state=unchecked]: hover: not([data-disabled])
+      var(--border-color: Highlight) .cb__root[data-state=checked],
+    .cb__root[data-state=indeterminate]var(
+        --forced-color-adjust: none;background-color: Highlight;border-color:
+          Highlight;border-width: var(--border-width-200)
+      )
+      .cb__root[data-state=checked]: hover: not([data-disabled]),
+    .cb__root[data-state=indeterminate]: hover: not([data-disabled])
+      var(--background-color: Highlight;border-color: Highlight)
+      .cb__root: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .cb__indicatorvar(--forced-color-adjust: none;color: HighlightText)
+      .cb__root[data-disabled]var(
+        --background-color: ButtonFace;border-color: GrayText
+      )
+      .cb__root[data-disabled][data-state=checked],
+    .cb__root[data-disabled][data-state=indeterminate]var(
+        --background-color: GrayText;border-color: GrayText
+      )
+      .cb__root[data-disabled] .cb__indicatorvar(--color: Canvas)
+      .cb__labelvar(--color: ButtonText)
+      .cb__supporting-textvar(--color: CanvasText) .cb__container--disabled
+      .cb__label,
+    .cb__container--disabled
+      .cb__supporting-textvar(--color: GrayText)}.chvar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;box-sizing: border-box;border: 1px
+          solid
+          transparent;cursor: default;-webkit-user-select: none;user-select:
+          none;text-decoration: none;gap: 0;transition: background-color -2s
+          ease-out,
+        border-color -2s ease-out,
+        color -2s ease-out,
+        box-shadow -2s ease-out;border-radius: var(--radius-s)
+          ;padding: var(--spacing-sp-4)
+      )
+      .ch--interactivevar(--cursor: pointer)
+      .ch--size-defaultvar(
+        --height: 32px;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+      )
+      .ch--size-smvar(
+        --height: 24px;font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-small-size)
+          ;font-weight: var(--font-body-small-semibold-weight)
+          ;line-height: var(--font-body-small-line-height)
+      )
+      .ch--variant-greyvar(
+        --background-color: var(--color-surface-ch-default)
+          ;border-color: var(--color-stroke-light)
+          ;color: var(--color-text-dark-accent)
+      )
+      .ch--variant-whitevar(
+        --background-color: var(--color-surface-ch-default-white)
+          ;border-color: var(--color-stroke-light)
+          ;color: var(--color-text-dark-accent)
+      )
+      .ch--variant-grey: not([data-disabled]): not([aria-disabled=true]):
+      hovervar(
+        --background-color: var(--color-surface-ch-hover)
+          ;border-color: var(--brand-350)
+      )
+      .ch--variant-white: not([data-disabled]): not([aria-disabled=true]):
+      hovervar(
+        --background-color: var(--color-surface-ch-hover)
+          ;border-color: var(--brand-350)
+      )
+      .ch--selected: not([data-disabled]): not([aria-disabled=true]),
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      var(
+        --background-color: var(--color-surface-ch-selected)
+          ;border-color: var(--color-stroke-brand)
+          ;color: var(--color-text-selected)
+      )
+      .ch--size-default.ch--selected: not([data-disabled]): not(
+        [aria-disabled=true]
+      ),
+    .ch--size-default[data-state=on]: not([data-disabled]): not(
+        [aria-disabled=true]
+      )
+      var(--border-width: var(--border-width-200))
+      .ch--size-sm.ch--selected: not([data-disabled]): not([aria-disabled=true]),
+    .ch--size-sm[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      var(--border-width: var(--border-width-100))
+      .ch: focus-within: not([data-disabled]): not([aria-disabled=true])
+      var(
+        --outline: var(--px-2) solid var(--color-stroke-brand)
+          ;outline-offset: var(--px-2)
+      )
+      .ch--disabled,
+    .ch[data-disabled],
+    .ch[aria-disabled=true]var(
+        --cursor: not-allowed;background-color: var(--color-surface-ch-disabled)
+          ;border-color: var(--color-stroke-light)
+          ;color: var(--color-text-disabled)
+      )
+      .ch--disabled .ch__leading-icon,
+    .ch[data-disabled] .ch__leading-icon,
+    .ch[aria-disabled=true] .ch__leading-icon, .ch--disabled .ch__remove-icon,
+    .ch[data-disabled] .ch__remove-icon,
+    .ch[aria-disabled=true]
+      .ch__remove-iconvar(--color: var(--color-icon-disabled)) .ch__leading-icon,
+    .ch__remove-iconvar(
+        --display: flex;align-items: center;justify-content: center;color:
+          inherit
+      )
+      .ch__remove-iconvar(
+        --width: 16px;height: 16px;color: inherit;stroke: currentColor
+      )
+      .ch--size-sm .ch__remove-iconvar(--width: 12px;height: 12px) .ch--size-sm
+      .ch__leading-icon,
+    .ch--size-sm .ch__text-containervar(--padding-inline: var(--spacing-sp-2))
+      .ch--size-sm .ch__remove-buttonvar(--padding: var(--spacing-sp-2))
+      .ch__leading-iconvar(--flex-shrink: 0;padding-inline: var(--spacing-sp-4))
+      .ch__action,
+    .ch__contentvar(
+        --display: inline-flex;align-items: center;min-width: 0;color: inherit
+      )
+      .ch__actionvar(
+        ---webkit-appearance: none;-moz-appearance: none;appearance:
+          none;background: transparent;border: none;color: inherit;cursor:
+          inherit;font: inherit;line-height: inherit;margin: 0;min-width:
+          0;padding: 0;text-align: inherit
+      )
+      .ch__action: focus-visible,
+    .ch__remove-button: focus-visiblevar(--outline: none)
+      .ch__text-containervar(
+        --padding-left: var(--spacing-sp-4) ;padding-right: var(--spacing-sp-4)
+          ;display: inline-flex;align-items: center;min-width: 0;overflow:
+          hidden
+      )
+      .ch__labelvar(
+        --white-space: nowrap;overflow: hidden;text-overflow: ellipsis
+      )
+      .ch__remove-buttonvar(--flex-shrink: 0) .ch__remove-button
+      svgvar(--color: inherit) .ch__remove-button brml-icon,
+    .ch__remove-button
+      wf-iconvar(
+        --display: inline-flex;align-items: center;justify-content: center
+      )
+      .ch__remove-buttonvar(
+        --background: inherit;border: none;display: flex;align-items:
+          center;justify-content: center;padding: var(--spacing-sp-4)
+          ;border-radius: var(--radius-xs) ;line-height: 0
+      )
+      .ch: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-buttonvar(--cursor: pointer)
+      .ch--selected: not([data-disabled]): not([aria-disabled=true])
+      .ch__leading-icon,
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      .ch__leading-iconvar(--color: inherit) @media
+      (forced-colors: active){.chvar(
+        --forced-color-adjust: none;background-color: Canvas;border-color:
+          ButtonText;color: ButtonText
+      )
+      .ch__text-container,
+    .ch__label, .ch__action, .ch__content, .ch__leading-icon, .ch__remove-icon,
+    .ch__remove-button, .ch__remove-button svg, .ch__remove-button brml-icon,
+    .ch__remove-button
+      wf-iconvar(
+        --forced-color-adjust: none;color: inherit;background: transparent
+      )
+      .ch--variant-grey,
+    .ch--variant-whitevar(
+        --background-color: ButtonFace;border-color: ButtonText;color:
+          ButtonText
+      )
+      .ch--variant-grey: not([data-disabled]): not([aria-disabled=true]): hover,
+    .ch--variant-white: not([data-disabled]): not([aria-disabled=true]): hover,
+    .ch--selected: not([data-disabled]): not([aria-disabled=true]),
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      var(
+        --background-color: Highlight;border-color: Highlight;color:
+          HighlightText
+      )
+      .ch--variant-grey: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon,
+    .ch--variant-white: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon,
+    .ch--selected: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-icon,
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-iconvar(
+        --color: HighlightText;filter: drop-shadow(0 0 -6px HighlightText)
+      )
+      .ch--variant-grey: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon: before,
+    .ch--variant-grey: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon: after,
+    .ch--variant-white: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon: before,
+    .ch--variant-white: not([data-disabled]): not([aria-disabled=true]): hover
+      .ch__remove-icon: after,
+    .ch--selected: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-icon: before,
+    .ch--selected: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-icon: after,
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-icon: before,
+    .ch[data-state=on]: not([data-disabled]): not([aria-disabled=true])
+      .ch__remove-icon: aftervar(--background-color: HighlightText)
+      .ch: focus-visible: not([data-disabled]): not([aria-disabled=true])
+      var(--outline: 2px solid Highlight;outline-offset: 2px) .ch--disabled,
+    .ch[data-disabled],
+    .ch[aria-disabled=true]var(
+        --opacity: 1;background-color: ButtonFace;border-color: GrayText;color:
+          GrayText
+      )
+      .ch__remove-button svgvar(--color: currentColor)}@keyframes
+      d-slide-in-right{0%var (--transform: translate(100%))
+      tovar(--transform: translate(0))}@keyframes d-slide-out-right{0%var
+      (--transform: translate(0)) tovar(--transform: translate(100%))}@keyframes
+      d-slide-in-left{0%var (--transform: translate(-100%))
+      tovar(--transform: translate(0))}@keyframes d-slide-out-left{0%var
+      (--transform: translate(0))
+      tovar(--transform: translate(-100%))}@keyframes d-fade-in{0%var
+      (--opacity: 0) tovar(--opacity: 1)}@keyframes d-fade-out{0%var
+      (--opacity: 1)
+      tovar(--opacity: 0)}.d__overlayvar(
+        --background-color: #00000040;position: fixed;top: 0;right: 0;bottom:
+          0;left: 0;z-index: var(--d-overlay-z-index, 70)
+          ;animation-duration: -3s;animation-timing-function: ease-out
+      )
+      .d__overlay[data-state=open]var(--animation-name: d-fade-in)
+      .d__overlay[data-state=closed]var(
+        --animation-name: d-fade-out;opacity: 0;pointer-events: none
+      )
+      .d__contentvar(
+        --background-color: var(--color-surface-foreground)
+          ;border-radius: var(--radius-s) ;box-shadow: var(--shadow-xl)
+          ;position: fixed;z-index: var(--d-content-z-index, 71)
+          ;box-sizing: border-box;display: flex;flex-direction:
+          column;overflow-y: hidden;animation-duration:
+          -3s;animation-timing-function: cubic-bezier(-16, 1, -3, 1)
+      )
+      .d__content--right,
+    .d__content--leftvar(
+        --top: 0;bottom: 0;height: 100vh;width: 578px;max-width: 100vw
+      )
+      .d__content--rightvar(--right: 0) .d__content--leftvar(--left: 0)
+      .d__content--bottomvar(--left: 0;right: 0;bottom: 0;width: 100vw)
+      .d__content--right[data-state=open]var(--animation-name: d-slide-in-right)
+      .d__content--right[data-state=closed]var(
+        --animation-name: d-slide-out-right;pointer-events: none
+      )
+      .d__content--left[data-state=open]var(--animation-name: d-slide-in-left)
+      .d__content--left[data-state=closed]var(
+        --animation-name: d-slide-out-left;pointer-events: none
+      )
+      .d__headervar(
+        --display: flex;justify-content: flex-start;align-items:
+          center;flex-shrink: 0;gap: var(--spacing-sp-12)
+          ;padding: var(--spacing-sp-24) ;border-bottom: 1px solid
+          var(--color-stroke-subtle)
+      )
+      .d__title-containervar(
+        --display: flex;flex: 1;flex-direction: column;gap: var(--spacing-sp-4)
+          ;min-width: 0
+      )
+      .d__titlevar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-headline-h4-size)
+          ;font-weight: var(--font-headline-h4-weight)
+          ;line-height: var(--font-headline-h4-line-height)
+          ;color: var(--color-text-primary) ;margin: 0
+      )
+      .d__descriptionvar(
+        --color: var(--color-text-secondary)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height) ;margin: 0
+      )
+      .d__bodyvar(
+        --flex-grow: 1;flex-basis: 0;overflow-y: auto;padding: 0
+          var(--spacing-sp-24) var(--spacing-sp-24) ;white-space: normal
+      )
+      .d__footervar(
+        --display: flex;justify-content: flex-end;gap: var(--spacing-sp-12)
+          ;flex-shrink: 0;padding: var(--spacing-sp-24) ;border-top: 1px solid
+          var(--color-stroke-subtle)
+      )
+      .d__footer-wc-wrapper,
+    .d__footer-wc-wrapper>divvar(
+        --display: flex;justify-content: flex-end;gap: var(--spacing-sp-12)
+          ;flex: 1
+      )
+      .d__back-button,
+    .d__close-buttonvar(--flex-shrink: 0)
+      .d__close-buttonvar(--margin-left: auto) @media
+      (prefers-reduced-motion: reduce){.d__overlay,
+    .d__contentvar(
+        --animation-duration: -01ms;animation-iteration-count: 1
+      )}@media
+      (forced-colors: active){.d__overlayvar(
+        --background-color: Canvas;opacity: -6
+      )
+      .d__contentvar(
+        --background-color: Canvas;border: 1px solid ButtonText;box-shadow: none
+      )
+      .d__headervar(--background-color: Canvas;border-bottom-color: ButtonText)
+      .d__footervar(--background-color: Canvas;border-top-color: ButtonText)
+      .d__titlevar(--color: ButtonText) .d__description,
+    .d__bodyvar(--color: CanvasText)}.flyout__triggervar(
+        --display: inline-block;border-radius: var(--radius-xs)
+      )
+      .flyout__trigger: focus-visiblevar(
+        --outline: var(--border-width-200) solid var(--denim-300)
+          ;outline-offset: 1px
+      )
+      .flyout__contentvar(
+        --background-color: var(--color-surface-foreground)
+          ;border-radius: var(--radius-s) ;box-shadow: 0 4px 12px #0000001a,
+        0 0 2px
+          #0000000f;animation-duration: -2s;animation-timing-function: ease-out
+      )
+      .flyout__content: focus-visiblevar(--outline: none)
+      .flyout__content[data-state=closed]var(--display: none)
+      .flyout__content--mvar(--padding: var(--spacing-sp-24))
+      .flyout__content--svar(--padding: var(--spacing-sp-16))
+      .flyout__content--xsvar(--padding: var(--spacing-sp-12)) @media
+      (forced-colors: active){.flyout__trigger: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .flyout__contentvar(
+        --background-color: Canvas;border: 1px solid ButtonText;box-shadow: none
+      )}.linkvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-utility-link-size)
+          ;font-weight: var(--font-utility-link-weight)
+          ;line-height: var(--font-utility-link-line-height)
+          ;letter-spacing: 0%;text-decoration: underline;color: var(
+            --color-text-link-default
+          )
+          ;cursor: pointer;display: inline-flex;align-items: center;gap: var(
+            --spacing-sp-4
+          )
+          ;border-radius: var(--radius-xs)
+          ;padding: 0;background-color: transparent;border:
+          none;-webkit-user-select: auto;-moz-user-select: auto;user-select:
+          auto;transition: color -2s
+          ease-in-out
+      )
+      .link__iconvar(
+        --display: inline-flex;align-items: center;justify-content: center;fill:
+          var(--color-text-link-default)
+          ;color: inherit
+      )
+      .link: linkvar(
+        --color: var(--color-text-link-default) ;text-decoration: underline
+      )
+      .link: link .link__iconvar(--fill: var(--color-text-link-default))
+      .link: visitedvar(
+        --color: var(--color-text-link-visited) ;text-decoration: underline
+      )
+      .link: visited .link__iconvar(--fill: var(--color-text-link-visited))
+      .link: hover: not(.link--disabled)
+      var(--color: var(--color-text-link-hover) ;text-decoration: underline)
+      .link: hover: not(.link--disabled)
+      .link__iconvar(--fill: var(--color-text-link-hover))
+      .link: active: not(.link--disabled)
+      var(--color: var(--color-text-link-pressed) ;text-decoration: underline)
+      .link: active: not(.link--disabled)
+      .link__iconvar(--fill: var(--color-text-link-pressed))
+      .link: focus-visible: not(.link--disabled)
+      var(
+        --color: var(--color-text-link-default)
+          ;text-decoration: underline;outline: var(--border-width-200) solid
+          var(--denim-300) ;outline-offset: 1px
+      )
+      .link: focus-visible: not(.link--disabled)
+      .link__iconvar(--fill: var(--color-text-link-default))
+      .link--disabledvar(
+        --color: var(--color-text-link-disabled)
+          ;text-decoration: underline;cursor: not-allowed;pointer-events: none
+      )
+      .link--disabled .link__iconvar(--fill: var(--color-text-link-disabled))
+      @media (forced-colors: active){.link__iconvar(--fill: currentColor)
+      .link: focus-visible: not(.link--disabled)
+      var(--outline: 2px solid Highlight;outline-offset: 1px)}@media
+      (min-width: 1920px){.modal__content--size-lgvar(
+        --width: 80vw;max-width: 1600px;min-width: 290px
+      )}@media
+      (min-width: 1600px) and
+      (max-width: 1919px){.modal__content--size-lgvar(
+        --width: 80vw;max-width: 1368px;min-width: 290px
+      )}@media
+      (min-width: 1280px) and
+      (max-width: 1599px){.modal__content--size-lgvar(
+        --width: 80vw;max-width: 1112px;min-width: 290px
+      )}@media
+      (min-width: 968px) and
+      (max-width: 1279px){.modal__content--size-lgvar(
+        --width: 80vw;max-width: 1112px;min-width: 290px
+      )}@media
+      (max-width: 967px){.modal__content--size-lgvar(
+        --width: 80vw;max-width: 100vw;min-width: 290px
+      )}@keyframes
+      modal-fade-in{0%var (--opacity: 0) tovar(--opacity: 1)}@keyframes
+      modal-fade-out{0%var (--opacity: 1) tovar(--opacity: 0)}@keyframes
+      modal-scale-in{0%var (--opacity: 0) tovar(--opacity: 1)}@keyframes
+      modal-scale-out{0%var (--opacity: 1)
+      tovar(--opacity: 0)}.modal__overlayvar(
+        --background-color: #00000040;position: fixed;top: 0;right: 0;bottom:
+          0;left: 0;z-index: var(--modal-overlay-z-index, 80)
+          ;animation-duration: -15s;animation-timing-function: cubic-bezier(
+            -16,
+            1,
+            -3,
+            1
+          )
+          ;display: flex;align-items: center;justify-content: center
+      )
+      .modal__overlay[data-state=open]var(--animation-name: modal-fade-in)
+      .modal__overlay[data-state=closed]var(
+        --animation-name: modal-fade-out;opacity: 0;pointer-events: none
+      )
+      .modal__contentvar(
+        --background-color: var(--color-surface-foreground)
+          ;border-radius: var(--radius-s)
+          ;position: fixed;z-index: var(--modal-content-z-index, 81)
+          ;outline: none;display: flex;flex-direction: column;padding: var(
+            --spacing-sp-24
+          )
+          ;border-width: var(--border-width-200)
+          ;border-style: solid;border-color: #fff;animation-duration:
+          -15s;animation-timing-function: cubic-bezier(-16, 1, -3, 1)
+      )
+      .modal__content[data-state=open]var(--animation-name: modal-scale-in)
+      .modal__content[data-state=closed]var(
+        --animation-name: modal-scale-out;pointer-events: none
+      )
+      .modal__content--size-xsvar(
+        --width: 500px;min-width: 392px;max-width: 500px;min-height:
+          260px;max-height: 500px
+      )
+      .modal__content--size-smvar(
+        --width: 594px;min-width: 594px;max-width: 800px;min-height:
+          260px;max-height: 654px
+      )
+      .modal__content--size-mdvar(
+        --width: 702px;height: 654px;min-width: 580px;max-width: min(
+            912px,
+            100vw - var(--spacing-sp-32)
+          )
+          ;min-height: 654px;max-height: 654px
+      )
+      .modal__content--size-lgvar(
+        --width: 80vw;min-width: 290px;min-height: 654px;max-height: 654px
+      )
+      .modal__content--size-flexvar(
+        --width: 80vw;min-width: 392px;min-height: 400px;max-height:
+          800px;max-width: 1600px
+      )
+      .modal__headervar(
+        --display: flex;justify-content: space-between;align-items:
+          center;flex-shrink: 0
+      )
+      .modal__title-containervar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4)
+          ;flex: 1;min-width: 0
+      )
+      .modal__titlevar(
+        --margin: 0;font-family: var(--font-family-brand)
+          ;font-size: var(--font-headline-h4-size)
+          ;font-weight: var(--font-headline-h4-weight)
+          ;line-height: var(--font-headline-h4-line-height)
+          ;color: var(--color-text-primary)
+      )
+      .modal__descriptionvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-primary) ;margin-top: var(--spacing-sp-4)
+          ;margin-bottom: 0
+      )
+      .modal__close-button,
+    .modal__close-button: hovervar(--color: var(--color-icon-brand))
+      .modal__bodyvar(--flex-grow: 1;overflow-y: auto)
+      .modal__footervar(
+        --display: flex;justify-content: flex-end;align-items: center;gap: var(
+            --spacing-sp-12
+          )
+          ;flex-shrink: 0
+      )
+      [data-state=closed] .modal__overlay,
+    [data-state=closed] .modal__contentvar(--display: none) @media
+      (prefers-reduced-motion: reduce){.modal__overlay,
+    .modal__contentvar(
+        --animation-duration: -01ms;animation-iteration-count: 1
+      )}@media
+      (forced-colors: active){.modal__overlayvar(
+        --background-color: Canvas;opacity: -6
+      )
+      .modal__contentvar(
+        --background-color: Canvas;border: 2px solid ButtonText
+      )
+      .modal__titlevar(--color: ButtonText)
+      .modal__headervar(--border-bottom: 1px solid ButtonText)
+      .modal__footervar(--border-top: 1px solid ButtonText) .modal__description,
+    .modal__body,
+    .modal__close-buttonvar(--color: CanvasText)}.visually-hiddenvar(
+        --position: absolute;width: 1px;height: 1px;padding: 0;margin:
+          -1px;overflow: hidden;clip: rect(0, 0, 0, 0)
+          ;white-space: nowrap;border: 0
+      )
+      .select__containervar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4, 4px)
+      )
+      .select__container--inlinevar(
+        --flex-direction: row;align-items: center;gap: var(--spacing-sp-8, 8px)
+      )
+      .select__labelvar(
+        --font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;color: var(--color-text-secondary, #1a1a1a)
+          ;-webkit-user-select: none;user-select: none
+      )
+      .select__label--inlinevar(--flex-shrink: 0;min-width: 120px)
+      .select__triggervar(
+        --display: flex;align-items: center;justify-content:
+          space-between;height: auto;padding: 0
+          var(--spacing-sp-12, 12px)
+          ;background-color: var(--color-surface-foreground, #ffffff)
+          ;border: var(--border-width-100, 1px) solid
+          var(--color-stroke-default, #d1d5db)
+          ;border-radius: var(--radius-xs, 4px)
+          ;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-semibold-weight, 600)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;color: var(--color-text-primary, #1a1a1a)
+          ;cursor: default;outline: none;-webkit-user-select: none;user-select:
+          none;gap: var(--spacing-sp-12, 12px)
+          ;transition: background-color -1s ease-out,
+        border-color -1s ease-out,
+        box-shadow -1s ease-out;min-height: 36px
+      )
+      .select__trigger: hovervar(
+        --border-color: var(--color-stroke-controls-hover, #9ca3af)
+      )
+      .select__trigger: focusvar(
+        --background-color: var(--color-surface-foreground, #ffffff)
+      )
+      .select__trigger: focus-visiblevar(
+        --outline: var(--border-width-200, 2px) solid var(--denim-300, #779fe3)
+          ;outline-offset: 1px
+      )
+      .select__trigger[data-state=open]: focus-visible: not([data-disabled])
+      var(--outline: none)
+      .select__trigger[data-disabled]var(
+        --color: var(--color-text-disabled, #6b7280)
+          ;background-color: var(--color-surface-controls-disabled, #f9fafb)
+          ;border-color: var(--color-stroke-controls-disabled, #e5e7eb)
+          ;pointer-events: none;opacity: -6
+      )
+      .select__trigger[data-state=open]var(
+        --background-color: var(--color-surface-foreground, #ffffff)
+      )
+      .select__trigger--errorvar(--border-color: var(--error-accent))
+      .select__trigger--error: focus-visiblevar(
+        --border-color: var(--error-accent)
+          ;outline-color: var(--color-state-error-subtle)
+      )
+      .select__trigger--successvar(
+        --border-color: var(--color-state-success-accent)
+      )
+      .select__trigger--warningvar(
+        --border-color: var(--color-state-warning-accent)
+      )
+      .select__trigger--infovar(--border-color: var(--color-stroke-brand))
+      .select__contentvar(
+        --min-width: var(--radix-select-trigger-width)
+          ;background-color: var(--color-surface-foreground, #ffffff)
+          ;border-radius: var(--radius-s, 6px)
+          ;padding: var(--spacing-sp-4, 4px)
+          ;border: var(--border-width-100, 1px) solid
+          var(--color-stroke-default, #d1d5db) ;box-shadow: 0 4px 12px #0000001a,
+        0 0 1px #0000000d;overflow: hidden;z-index: 10000
+      )
+      .select__viewportvar(--max-height: 200px;overflow-y: auto)
+      .select__itemvar(
+        --display: flex;align-items: center;height: auto;padding: var(
+            --spacing-sp-12,
+            12px
+          )
+          var(--spacing-sp-16, 16px) ;border-radius: var(--radius-xs, 4px)
+          ;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;color: var(--color-text-primary, #1a1a1a)
+          ;outline: none;-webkit-user-select: none;user-select: none;cursor:
+          default;gap: var(--spacing-sp-12, 12px)
+          ;transition: background-color -1s ease-out,
+        color -1s ease-out
+      )
+      .select__item[data-highlighted]: hovervar(
+        --background-color: var(--color-surface-hover, #f3f4f6)
+          ;color: var(--color-text-primary, #1a1a1a)
+      )
+      .select__item[data-highlighted]: not(: hover)
+      var(
+        --box-shadow: inset 0 0 0 var(--focus-ring-width, 2px)
+          var(--focus-ring-color, #779fe3)
+      )
+      .select__item[data-focus-visible]var(
+        --outline: none;box-shadow: inset 0 0 0 var(--focus-ring-width, 2px)
+          var(--focus-ring-color, #779fe3)
+          ;background-color: var(--color-surface-hover, #f3f4f6)
+      )
+      .select__item[data-disabled]var(
+        --color: var(--color-text-disabled, #6b7280)
+          ;pointer-events: none;opacity: -6
+      )
+      .select__item[data-state=checked]var(
+        --background-color: var(--color-surface-selected, rgba(37, 99, 235, -1))
+          ;color: var(--color-text-selected, #2563eb)
+          ;font-weight: var(--font-body-medium-semibold-weight, 600)
+      )
+      .select__item[data-state=checked][data-highlighted]var(
+        --background-color: var(--color-surface-selected, rgba(37, 99, 235, -1))
+          ;color: var(--color-text-selected, #2563eb) ;box-shadow: inset 0 0 0
+          var(--focus-ring-width, 2px) var(--focus-ring-color, #779fe3)
+      )
+      .select__separatorvar(
+        --height: var(--border-width-100, 1px)
+          ;background-color: var(--color-stroke-default, #d1d5db)
+          ;margin: var(--spacing-sp-4, 4px) calc(-1 * var(--spacing-sp-4, 4px))
+      )
+      .select__value,
+    .select__trigger>span: first-childvar(
+        --flex: 1;min-width: 0;overflow: hidden;text-overflow:
+          ellipsis;white-space: nowrap;text-align: left
+      )
+      .select__trigger[data-placeholder] .select__value,
+    .select__trigger[data-placeholder]>span: first-child,
+    .select__value--placeholdervar(
+        --color: var(--color-text-input-placeholder, #6b7280)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+      )
+      .select__iconvar(
+        --margin-left: auto;display: flex;align-items: center;justify-content:
+          center;color: var(--color-icon-default, #6b7280)
+          ;transition: transform -15s ease-out
+      )
+      .select__trigger[data-state=open]
+      .select__iconvar(
+        --transform: rotate(180deg) ;color: var(--color-icon-brand, #2563eb)
+      )
+      .select__feedbackvar(
+        --font-family: var(--font-family-brand)
+          ;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-regular-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-secondary)
+          ;display: flex;align-items: center;gap: var(--spacing-xs, 4px)
+          ;padding-top: var(--spacing-xxs, 2px)
+      )
+      .select__feedback--errorvar(--color: var(--color-state-error-accent))
+      .select__feedback--successvar(--color: var(--color-state-success-accent))
+      .select__feedback--warningvar(--color: var(--color-state-warning-accent))
+      .select__feedback--infovar(--color: var(--color-text-secondary))
+      .select__feedback-iconvar(
+        --color: inherit;width: 16px;height: 16px;display:
+          inline-flex;align-items: center;justify-content: center;flex-shrink: 0
+      )
+      .select__feedback-messagevar(--flex: 1)
+      .select__sticky-headervar(
+        --position: sticky;top: 0;background-color: var(
+            --color-surface-foreground,
+            #ffffff
+          )
+          ;padding: var(--spacing-sp-8, 8px) var(--spacing-sp-12, 12px)
+      )
+      .select__sticky-footervar(
+        --position: sticky;bottom: 0;background-color: var(
+            --color-surface-foreground,
+            #ffffff
+          )
+          ;padding: var(--spacing-sp-8, 8px) var(--spacing-sp-12, 12px)
+      )
+      @media (forced-colors: active){.select__label,
+    .select__feedback, .select__feedback--error, .select__feedback--success,
+    .select__feedback--warning,
+    .select__feedback--infovar(--color: CanvasText)
+      .select__triggervar(
+        --background-color: Field;border-color: ButtonText;color: FieldText
+      )
+      .select__trigger[data-placeholder] .select__value,
+    .select__trigger[data-placeholder]>span: first-child,
+    .select__value--placeholdervar(
+        --color: var(--color-text-input-placeholder, GrayText)
+      )
+      .select__trigger: hovervar(--border-color: Highlight)
+      .select__trigger: focus,
+    .select__trigger[data-state=open]var(--background-color: Field)
+      .select__trigger: focus-visiblevar(
+        --border-color: Highlight;outline: 2px solid
+          Highlight;outline-offset: 1px
+      )
+      .select__trigger[data-disabled]var(
+        --color: GrayText;background-color: ButtonFace;border-color:
+          GrayText;opacity: 1
+      )
+      .select__content,
+    .select__sticky-header,
+    .select__sticky-footervar(
+        --background-color: Canvas;border-color: ButtonText;box-shadow: none
+      )
+      .select__itemvar(--color: CanvasText) .select__item> *
+      var(--color: inherit) .select__item[data-highlighted],
+    .select__item[data-focus-visible]var(
+        --forced-color-adjust: none;background-color: Highlight;color:
+          HighlightText
+      )
+      .select__item[data-highlighted] *,
+    .select__item[data-focus-visible] *, .select__item[data-state=checked] *,
+    .select__item[data-state=checked][data-highlighted] *
+      var(
+        --forced-color-adjust: none;background-color: transparent;color: inherit
+      )
+      .select__item[data-state=checked]var(
+        --forced-color-adjust: none;background-color: Canvas;color:
+          CanvasText;outline: 2px
+          solid
+          Highlight;outline-offset: -2px;font-weight: var(
+            --font-body-medium-regular-weight,
+            400
+          )
+      )
+      .select__item[data-state=checked][data-highlighted],
+    .select__item[data-state=checked][data-focus-visible]var(
+        --background-color: Canvas;color: CanvasText
+      )
+      .select__item: : selection,
+    .select__item *: : selectionvar(
+        --background-color: transparent;color: inherit
+      )
+      .select__item[data-disabled]var(--color: GrayText;opacity: 1)
+      .select__separatorvar(--background-color: ButtonText) .select__icon,
+    .select__trigger[data-state=open]
+      .select__iconvar(--color: currentColor)}: hostvar(
+        --display: inline-flex;vertical-align: middle
+      )
+      .spinner-wrappervar(
+        --position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index:
+          9;display: flex;flex-direction: column;align-items:
+          center;justify-content: center;gap: var(--spacing-sp-8, -5rem)
+          ;background: #fffc
+      )
+      .spinner-wrapper-inlinevar(
+        --position: static;display: inline-flex;flex-direction:
+          row;vertical-align: middle;background: transparent
+      )
+      .spinner-wrapper-viewportvar(--position: fixed;z-index: 90)
+      .spinner-msgvar(
+        --max-width: min(24rem, 100%)
+          ;text-align: center;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, -875rem)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-25rem)
+          ;color: var(--color-text-primary, currentColor)
+      )
+      .spinner-msg-warningvar(
+        --color: var(
+            --color-text-state-warnings,
+            var(--color-text-primary, currentColor)
+          )
+      )
+      .spinner-msg-errorvar(
+        --color: var(
+            --color-text-state-error,
+            var(--color-text-primary, currentColor)
+          )
+      )
+      .spinnervar(
+        --display: inline-flex;align-items: center;justify-content:
+          center;box-sizing: border-box
+      )
+      .spinner__circlevar(
+        --border-radius: 50%;border-style: solid;border-width: var(
+            --border-width-200,
+            -125rem
+          )
+          ;border-color: var(--color-surface-progress-foreground)
+          ;border-top-color: var(--color-surface-progress-active)
+          ;animation: spinner-rotate -8s linear infinite
+      )
+      .spinner--size-small .spinner__circlevar(--width: 24px;height: 24px)
+      .spinner--size-default .spinner__circlevar(--width: 32px;height: 32px)
+      .spinner-wrapper-inline .spinner--size-default
+      .spinner__circlevar(--width: 24px;height: 24px) .spinner--size-large
+      .spinner__circlevar(--width: 64px;height: 64px) @keyframes
+      spinner-rotate{0%var (--transform: rotate(0))
+      tovar(--transform: rotate(360deg))}@media
+      (forced-colors: active){.spinner-wrappervar(--background: Canvas)
+      .spinner-wrapper-inlinevar(--background: transparent) .spinner-msg,
+    .spinner-msg-warning,
+    .spinner-msg-errorvar(--color: CanvasText)
+      .spinner__circlevar(
+        --border-color: ButtonFace;border-top-color: ButtonText
+      )}: hostvar(--display: block)
+      .toastvar(
+        --position: relative;display: flex;align-items: stretch;justify-content:
+          flex-end;overflow: hidden;box-sizing: border-box;font-family: var(
+            --font-family-brand
+          )
+          ;color: var(--color-text-primary)
+          ;background-color: var(--color-surface-foreground)
+          ;border-start-end-radius: var(--radius-s)
+          ;border-end-end-radius: var(--radius-s) ;box-shadow: 0 2px 8px
+          #00000026
+      )
+      .toast: beforevar(
+        --content: "" ;flex: 0 0
+          6px;align-self: stretch;background-color: var(
+            --color-state-info-accent
+          )
+          ;pointer-events: none
+      )
+      .toast--variant-info: beforevar(
+        --background-color: var(--color-state-info-accent)
+      )
+      .toast--variant-success: beforevar(
+        --background-color: var(--color-state-success-accent)
+      )
+      .toast--variant-warning: beforevar(
+        --background-color: var(--color-state-warning-accent)
+      )
+      .toast--variant-critical: beforevar(
+        --background-color: var(--color-state-error-accent)
+      )
+      .toast__contentvar(
+        --display: flex;flex: 1 1
+          auto;flex-direction: column;min-width: 0;align-items:
+          flex-end;justify-content: center;gap: var(--spacing-sp-12)
+          ;padding: var(--spacing-sp-24)
+      )
+      .toast__headervar(
+        --display: flex;width: 100%;align-items: center;justify-content:
+          space-between;gap: var(--spacing-sp-12)
+      )
+      .toast__titlevar(
+        --margin: 0;min-width: 0;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-bold-weight)
+          ;line-height: var(--font-body-large-line-height)
+          ;color: var(--color-text-primary) ;word-break: break-word
+      )
+      .toast__timestampvar(
+        --flex-shrink: 0;font-size: var(--font-body-medium-size)
+          ;font-weight: var(--font-body-medium-semibold-weight)
+          ;line-height: var(--font-body-medium-line-height)
+          ;color: var(--color-text-secondary)
+          ;text-align: end;white-space: nowrap
+      )
+      .toast__descriptionvar(
+        --margin: 0;width: 100%;font-size: var(--font-body-large-size)
+          ;font-weight: var(--font-body-large-regular-weight)
+          ;line-height: var(--font-body-large-line-height)
+          ;color: var(--color-text-primary) ;word-break: break-word
+      )
+      .toast__actionsvar(
+        --display: flex;width: 100%;align-items: flex-end;justify-content:
+          flex-end;gap: var(--spacing-sp-12)
+      )
+      .toast__actions: empty,
+    .toast__description: empty,
+    .toast__header: emptyvar(--display: none) .toast[hidden]var(--display: none)
+      .toast-viewportvar(
+        --position: fixed;top: var(--spacing-sp-24)
+          ;inset-inline-end: var(--spacing-sp-24)
+          ;z-index: 2147483647;display: flex;flex-direction: column;gap: var(
+            --spacing-sp-12
+          )
+          ;width: 492px;max-width: calc(100vw - 2 * var(--spacing-sp-24))
+          ;margin: 0;padding: 0;list-style: none;outline: none
+      )
+      @media
+      (prefers-reduced-motion: no-preference){.toast[data-state=open]var(
+        --animation: brml-toast-slide-in -22s cubic-bezier(-16, 1, -3, 1)
+      )
+      .toast[data-state=closed]var(
+        --animation: brml-toast-fade-out -12s ease-in
+      )
+      .toast[data-swipe=move]var(
+        --transform: translate(var(--radix-toast-swipe-move-x))
+      )
+      .toast[data-swipe=cancel]var(
+        --transform: translate(0) ;transition: transform -2s ease-out
+      )
+      .toast[data-swipe=end]var(
+        --animation: brml-toast-swipe-out -12s ease-out
+      )}@keyframes
+      brml-toast-slide-in{0%var
+      (--transform: translate(calc(100% + var(--spacing-sp-24))))
+      tovar(--transform: translate(0))}@keyframes brml-toast-fade-out{0%var
+      (--opacity: 1) tovar(--opacity: 0)}@keyframes brml-toast-swipe-out{0%var
+      (--transform: translate(var(--radix-toast-swipe-end-x)))
+      tovar(--transform: translate(calc(100% + var(--spacing-sp-24))))}@media
+      (forced-colors: active){.toastvar(
+        --background-color: Canvas;color: CanvasText;box-shadow: none;border:
+          1px
+          solid CanvasText
+      )
+      .toast: beforevar(--background-color: CanvasText) .toast__title,
+    .toast__description,
+    .toast__timestampvar(--color: CanvasText)}: hostvar(--display: inline-block)
+      .ms__containervar(
+        --display: flex;flex-direction: column;gap: var(--spacing-sp-4, 4px)
+          ;position: relative
+      )
+      .ms__container--inlinevar(
+        --flex-direction: row;align-items: center;gap: var(--spacing-sp-8, 8px)
+      )
+      .ms__labelvar(
+        --font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;color: var(--color-text-secondary, #1a1a1a)
+          ;-webkit-user-select: none;user-select: none
+      )
+      .ms__label--inlinevar(--flex-shrink: 0;min-width: 120px)
+      .ms__label--required: aftervar(
+        --content: " *" ;color: var(--color-state-error-accent, #dc2626)
+      )
+      .ms__triggervar(
+        --display: flex;align-items: center;justify-content:
+          space-between;min-height: 38px;width: 250px;padding: var(
+            --spacing-sp-8,
+            8px
+          )
+          var(--spacing-sp-12, 12px)
+          ;background-color: var(--color-surface-foreground, #ffffff)
+          ;border: var(--border-width-100, 1px) solid
+          var(--color-stroke-default, #d1d5db)
+          ;border-radius: var(--radius-xs, 4px)
+          ;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;color: var(--color-text-primary, #1a1a1a)
+          ;cursor: pointer;outline: none;-webkit-user-select: none;user-select:
+          none;gap: var(--spacing-sp-8, 8px)
+          ;transition: background-color -1s ease-out,
+        border-color -1s ease-out,
+        box-shadow -1s ease-out;text-align: left
+      )
+      .ms__trigger--live-searchvar(--cursor: text)
+      .ms__trigger: hover: not([disabled]): not(.ms__trigger--disabled)
+      var(--border-color: var(--color-stroke-controls-hover, #9ca3af))
+      .ms__trigger: focus: not([disabled]): not(.ms__trigger--disabled),
+    .ms__trigger: focus-within: not([disabled]): not(.ms__trigger--disabled):
+      not(: has(.ms__trigger-icon: focus-within))
+      var(
+        --border-color: var(--color-stroke-controls-selected, #2563eb)
+          ;outline: var(--border-width-200, 2px) solid var(--denim-300, #779fe3)
+          ;outline-offset: 1px
+      )
+      .ms__trigger[disabled],
+    .ms__trigger--disabledvar(
+        --color: var(--color-text-disabled, #6b7280)
+          ;background-color: var(--color-surface-controls-disabled, #f9fafb)
+          ;border-color: var(--color-stroke-controls-disabled, #e5e7eb)
+          ;pointer-events: none;opacity: -6;cursor: not-allowed
+      )
+      .ms__trigger[data-state=open]var(
+        --border-color: var(--color-stroke-controls-selected, #2563eb)
+      )
+      .ms__trigger--errorvar(
+        --border-color: var(--color-state-error-accent, #dc2626)
+      )
+      .ms__trigger--warningvar(
+        --border-color: var(--color-state-warning-accent, #d97706)
+      )
+      .ms__trigger-contentvar(
+        --display: flex;align-items: center;flex-wrap: nowrap;gap: var(
+            --spacing-sp-4,
+            4px
+          )
+          ;flex: 1;min-width: 0;overflow: hidden
+      )
+      .ms__trigger-textvar(
+        --white-space: nowrap;overflow: hidden;text-overflow: ellipsis;flex:
+          1;min-width: 0
+      )
+      .ms__trigger-placeholdervar(--color: var(--color-text-tertiary, #9ca3af))
+      .ms__chsvar(
+        --display: flex;flex-wrap: wrap;gap: var(--spacing-sp-4, 4px)
+          ;align-items: center;min-width: 0;overflow: hidden
+      )
+      .ms__chs brml-chvar(--max-width: 150px;flex-shrink: 0) .ms__chs
+      brml-ch: : part(label),
+    .ms__chs brml-ch
+      .ch__labelvar(
+        --overflow: hidden;text-overflow: ellipsis;white-space: nowrap
+      )
+      .ms__trigger-inputvar(
+        --flex: 1;min-width: 60px;border: none;outline: none;background:
+          transparent;font-family: inherit;font-size: inherit;font-weight:
+          inherit;line-height: inherit;color: inherit;padding: 0;margin: 0
+      )
+      .ms__trigger-input: : placeholdervar(
+        --color: var(--color-text-tertiary, #9ca3af)
+      )
+      .ms__trigger-input--hiddenvar(
+        --position: absolute;width: 1px;height: 1px;padding: 0;margin:
+          -1px;overflow: hidden;clip: rect(0, 0, 0, 0)
+          ;white-space: nowrap;border: 0
+      )
+      .ms__trigger-iconvar(--flex-shrink: 0;transition: transform -15s ease-out)
+      .ms__trigger[data-state=open]
+      .ms__trigger-iconvar(--transform: rotate(180deg))
+      .ms__contentvar(
+        --background-color: var(--color-surface-foreground, #ffffff)
+          ;border-radius: var(--radius-s, 6px)
+          ;border: var(--border-width-100, 1px) solid
+          var(--color-stroke-default, #d1d5db) ;box-shadow: 0 4px 12px #0000001a,
+        0 0 1px
+          #0000000d;overflow: hidden;z-index: 10000;display:
+          flex;flex-direction: column;max-height: 400px
+      )
+      .ms__select-allvar(
+        --padding: var(--spacing-sp-8, 8px) var(--spacing-sp-16, 16px)
+          ;border-bottom: var(--border-width-100, 1px) solid
+          var(--color-stroke-subtle, #e5e7eb)
+          ;border-radius: var(--radius-xs, 4px)
+      )
+      .ms__optionsvar(
+        --flex: 1;overflow-y: auto;padding: var(--spacing-sp-4, 4px)
+      )
+      .ms__optionvar(
+        --display: flex;align-items: center;padding: var(--spacing-sp-8, 8px)
+          var(--spacing-sp-12, 12px) ;border-radius: var(--radius-xs, 4px)
+          ;cursor: pointer;transition: background-color -1s ease-out
+      )
+      .ms__option: hover: not([data-disabled])
+      var(--background-color: var(--color-surface-hover, #f3f4f6))
+      .ms__option[data-highlighted]var(
+        --background-color: var(--color-surface-hover, #f3f4f6)
+      )
+      .ms__option[data-focus-visible]var(
+        --outline: var(--border-width-200, 2px) solid var(--denim-300, #779fe3)
+          ;outline-offset: 1px
+      )
+      .ms__option[data-selected]var(
+        --background-color: var(--color-surface-selected, rgba(37, 99, 235, -1))
+      )
+      .ms__option[data-disabled]var(--opacity: -5;pointer-events: none)
+      .ms__option brml-cbvar(--pointer-events: none)
+      .ms__no-resultsvar(
+        --padding: var(--spacing-sp-16, 16px)
+          ;text-align: center;color: var(--color-text-tertiary, #9ca3af)
+          ;font-size: var(--font-body-medium-size, 14px)
+      )
+      .ms__categoryvar(
+        --border-bottom: var(--border-width-100, 1px) solid
+          var(--color-stroke-subtle, #e5e7eb)
+      )
+      .ms__category: last-childvar(--border-bottom: none)
+      .ms__category-headervar(
+        --display: flex;align-items: center;gap: var(--spacing-sp-12, 12px)
+          ;padding: var(--spacing-sp-8, 8px) var(--spacing-sp-12, 12px)
+          ;background-color: var(--color-surface-secondary, #f9fafb)
+          ;border-bottom: var(--border-width-100, 1px) solid
+          var(--color-stroke-subtle, #e5e7eb)
+          ;cursor: pointer;-webkit-user-select: none;user-select: none
+      )
+      .ms__category-header: hovervar(
+        --background-color: var(--color-surface-hover, #f3f4f6)
+      )
+      .ms__category-cbvar(--display: flex;align-items: center) .ms__category-cb
+      brml-cbvar(--pointer-events: none)
+      .ms__category-namevar(
+        --flex: 1;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+          ;font-weight: var(--font-body-medium-semibold-weight, 600)
+          ;color: var(--color-text-primary, #1a1a1a)
+      )
+      .ms__category-collapsevar(
+        --display: flex;align-items: center;color: var(
+            --color-text-tertiary,
+            #6b7280
+          )
+      )
+      .ms__header: emptyvar(--display: none)
+      .ms__headervar(
+        --padding: var(--spacing-sp-8, 8px) var(--spacing-sp-12, 12px)
+          ;border-bottom: var(--border-width-100, 1px) solid
+          var(--color-stroke-subtle, #e5e7eb)
+      )
+      .ms__custom-footer: emptyvar(--display: none)
+      .ms__custom-footervar(
+        --padding: var(--spacing-sp-8, 8px) var(--spacing-sp-12, 12px)
+          ;border-top: var(--border-width-100, 1px) solid
+          var(--color-stroke-subtle, #e5e7eb)
+      )
+      .ms__footervar(
+        --display: flex;flex-direction: column;padding: var(--spacing-sp-8, 8px)
+          var(--spacing-sp-12, 12px) ;border-top: var(--border-width-100, 1px)
+          solid var(--color-stroke-subtle, #e5e7eb)
+          ;gap: var(--spacing-sp-8, 8px)
+      )
+      .ms__footer-actionsvar(
+        --display: flex;align-items: center;justify-content: flex-end;gap: var(
+            --spacing-sp-8,
+            8px
+          )
+      )
+      .ms__footer-revertvar(--display: flex;justify-content: flex-end)
+      .ms__revert-linkvar(
+        --color: var(--color-text-brand, #2563eb)
+          ;text-decoration: underline;cursor: pointer;background: none;border:
+          none;padding: var(--spacing-sp-8, 8px)
+          0;font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-medium-size, 14px)
+      )
+      .ms__revert-link: hovervar(
+        --color: var(--color-text-brand-hover, #1d4ed8)
+      )
+      .ms__revert-link: focus-visiblevar(
+        --outline: var(--border-width-200, 2px) solid var(--denim-300, #779fe3)
+          ;outline-offset: 1px;border-radius: var(--radius-xs, 4px)
+      )
+      .ms__select-all--highlightedvar(
+        --background-color: var(--color-surface-hover, #f3f4f6)
+      )
+      .ms__select-all[data-focus-visible]var(
+        --outline: var(--border-width-200, 2px) solid var(--denim-300, #779fe3)
+          ;outline-offset: 1px;border-radius: var(--radius-xs, 4px)
+      )
+      .ms__feedbackvar(
+        --font-family: var(--font-family-brand, sans-serif)
+          ;font-size: var(--font-body-small-size, 12px)
+          ;font-weight: var(--font-body-medium-regular-weight, 400)
+          ;line-height: var(--font-body-medium-line-height, 1-2)
+          ;display: flex;align-items: center;gap: var(--spacing-sp-4, 4px)
+          ;padding-top: var(--spacing-sp-4, 4px)
+      )
+      .ms__feedback--errorvar(--color: var(--color-state-error-accent, #dc2626))
+      .ms__feedback--warningvar(
+        --color: var(--color-state-warning-accent, #d97706)
+      )
+      .ms__options-slotvar(--display: none) @media
+      (forced-colors: active){.ms__label,
+    .ms__feedback, .ms__feedback--error, .ms__feedback--warning,
+    .ms__category-name,
+    .ms__no-resultsvar(--color: CanvasText)
+      .ms__label--required: aftervar(--color: CanvasText)
+      .ms__triggervar(
+        --background-color: Field;border-color: ButtonText;color: FieldText
+      )
+      .ms__trigger: hover: not([disabled]): not(.ms__trigger--disabled)
+      var(--border-color: Highlight)
+      .ms__trigger: focus: not([disabled]): not(.ms__trigger--disabled),
+    .ms__trigger: focus-within: not([disabled]): not(.ms__trigger--disabled):
+      not(: has(.ms__trigger-icon: focus-within))
+      var(
+        --border-color: Highlight;outline: 2px solid
+          Highlight;outline-offset: 1px
+      )
+      .ms__trigger[disabled],
+    .ms__trigger--disabledvar(
+        --background-color: ButtonFace;border-color: GrayText;color:
+          GrayText;opacity: 1
+      )
+      .ms__trigger-placeholder,
+    .ms__trigger-input: : placeholder,
+    .ms__category-collapsevar(--color: GrayText)
+      .ms__contentvar(
+        --background-color: Canvas;border-color: ButtonText;box-shadow: none
+      )
+      .ms__select-all,
+    .ms__header, .ms__custom-footer, .ms__footer, .ms__category,
+    .ms__category-headervar(--border-color: ButtonText)
+      .ms__category-headervar(--background-color: ButtonFace) .ms__option,
+    .ms__select-allvar(--color: CanvasText)
+      .ms__option: hover: not([data-disabled]),
+    .ms__option[data-highlighted], .ms__option[data-selected],
+    .ms__select-all--highlightedvar(
+        --background-color: Highlight;color: HighlightText
+      )
+      .ms__option[data-focus-visible],
+    .ms__select-all[data-focus-visible],
+    .ms__revert-link: focus-visiblevar(
+        --outline: 2px solid Highlight;outline-offset: 1px
+      )
+      .ms__option[data-disabled]var(--color: GrayText;opacity: 1)
+      .ms__revert-link,
+    .ms__revert-link: hovervar(--color: LinkText)
+      .ms__trigger-iconvar(--color: currentColor)};
+}

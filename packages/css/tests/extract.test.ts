@@ -148,6 +148,100 @@ describe("parseCssTokens", () => {
       }
     });
   });
+
+  it("recovers declarations embedded in malformed custom property values", () => {
+    const tokens = parseCssTokens(`
+@theme {
+  --bounding: .buttonvar(--background-color: var(--color-surface-hover))
+    .buttonvar(--opacity: 0.5)
+    .buttonvar(--color-surface-hover, #f3f4f6)
+}
+`);
+
+    expect(tokens).toMatchObject({
+      background: {
+        color: {
+          $value: "{color.surface.hover}"
+        }
+      },
+      color: {
+        surface: {
+          hover: {
+            $type: "color",
+            $value: { hex: "#f3f4f6" }
+          }
+        }
+      },
+      opacity: {
+        $value: "0.5"
+      }
+    });
+    expect(tokens).not.toHaveProperty("bounding");
+  });
+
+  it("does not recover var-like text from quoted token values", () => {
+    const tokens = parseCssTokens(`
+:root {
+  --content: "var(--color: red)";
+}
+`);
+
+    expect(tokens).toMatchObject({
+      content: {
+        $value: '"var(--color: red)"'
+      }
+    });
+    expect(tokens).not.toHaveProperty("color");
+  });
+
+  it("extracts referenced variables from fallback values", () => {
+    const tokens = parseCssTokens(`
+.button {
+  color: var(--color-primary, #0066cc);
+  border-radius: var(--radius-control, var(--radius-sm, 4px));
+  padding: var(--spacing-control);
+}
+`);
+
+    expect(tokens).toMatchObject({
+      color: {
+        primary: {
+          $type: "color",
+          $value: { hex: "#0066cc" }
+        }
+      },
+      radius: {
+        control: {
+          $value: "{radius.sm}"
+        },
+        sm: {
+          $type: "dimension",
+          $value: { value: 4, unit: "px" }
+        }
+      }
+    });
+    expect(tokens).not.toHaveProperty("spacing.control");
+  });
+
+  it("keeps declarations authoritative over reference fallbacks", () => {
+    const tokens = parseCssTokens(`
+:root {
+  --color-primary: #112233;
+}
+
+.button {
+  color: var(--color-primary, #ffffff);
+}
+`);
+
+    expect(tokens).toMatchObject({
+      color: {
+        primary: {
+          $value: { hex: "#112233" }
+        }
+      }
+    });
+  });
 });
 
 describe("resolveCssPath", () => {
