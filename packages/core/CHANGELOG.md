@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.60](https://github.com/storm-software/razorwind/releases/tag/core%400.0.60) (08/21/2026)
+
+### Bug Fixes
+
+- **css:** Enhanced CSS variable extraction logic ([83caffc](https://github.com/storm-software/razorwind/commit/83caffc))
+
 ## [0.0.57](https://github.com/storm-software/razorwind/releases/tag/core%400.0.57) (08/18/2026)
 
 ### Bug Fixes

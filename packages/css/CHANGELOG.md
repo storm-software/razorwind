@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/css%400.0.43) (08/21/2026)
+
+### Bug Fixes
+
+- **css:** Enhanced CSS variable extraction logic ([83caffc](https://github.com/storm-software/razorwind/commit/83caffc))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.60**
+- Updated **style-dictionary** to **v0.0.46**
+
 ## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/css%400.0.42) (08/19/2026)
 
 ### Updated Dependencies
