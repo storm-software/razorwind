@@ -143,7 +143,7 @@ function hasThemeVariants(variants: TokenVariants): boolean {
 }
 
 function renderVariantHook(): string {
-  return `import { useGlobals } from "storybook/preview-api";
+  return `import { useGlobals, useMemo } from "storybook/preview-api";
 
 /**
  * Select a generated token variant. By default this follows Storybook's
@@ -155,11 +155,14 @@ export function useThemeVariant<T extends Record<string, unknown>>(
   theme?: string
 ): keyof T & string {
   const [globals] = useGlobals();
-  const candidate = theme ?? globals.theme;
 
-  return typeof candidate === "string" && candidate in variants
-    ? (candidate as keyof T & string)
-    : fallback;
+  return useMemo(() => {
+    const candidate = theme ?? globals.theme;
+
+    return typeof candidate === "string" && candidate in variants
+      ? (candidate as keyof T & string)
+      : fallback;
+  }, [fallback, globals.theme, theme, variants]);
 }
 `;
 }

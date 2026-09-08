@@ -573,6 +573,9 @@ describe("storybook plugin", () => {
     expect(typeset).toContain("fontSizes={[16]}");
     expect(typeset).toContain("fontSizes={[18]}");
     expect(table).toContain("TOKEN_VARIANTS");
+    expect(selector).toContain(
+      'import { useGlobals, useMemo } from "storybook/preview-api"'
+    );
     expect(selector).toContain("const candidate = theme ?? globals.theme");
     expect(install).toContain("Token-doc variants");
 
