@@ -145,7 +145,10 @@ export function flattenTokens(
   tokens: Tokens | Record<string, Tokens>,
   includeTypes?: TokenType[]
 ): FlatToken[] {
-  const flat = flattenTokensBase<FlatToken>(tokens, { includeTypes });
+  const flat = flattenTokensBase<FlatToken>(tokens, {
+    includeTypes,
+    shouldIncludeToken: token => token.skipDocs !== true
+  });
   const flags = collectPaletteAndPrimitiveFlags(tokens);
 
   for (const token of flat) {

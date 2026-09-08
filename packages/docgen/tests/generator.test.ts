@@ -204,6 +204,17 @@ describe("flattenTokens", () => {
       "#0066cc"
     );
   });
+
+  it("omits tokens marked skipDocs", () => {
+    const flat = flattenTokens({
+      color: {
+        visible: { $type: "color", $value: "#0066cc" },
+        hidden: { $type: "color", $value: "#663399", skipDocs: true }
+      }
+    } as Schema["tokens"]);
+
+    expect(flat.map(token => token.path)).toEqual(["color.visible"]);
+  });
 });
 
 describe("docgen extract plugin", () => {

@@ -42,6 +42,7 @@ export function flattenTokens(
 
   return flattenTokensBase<FlatToken>(tokens, {
     includeTypes: options.includeTypes,
+    shouldIncludeToken: token => token.skipDocs !== true,
     enrichToken: base => ({
       ...base,
       cssVar: toCssVar(base.path, cssVarPrefix)

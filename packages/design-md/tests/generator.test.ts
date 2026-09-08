@@ -117,6 +117,20 @@ describe("extractDesignMd", () => {
     expect(document.colors.accent).toBe("#0066cc");
   });
 
+  it("omits tokens marked skipDocs", () => {
+    const document = extractDesignMd({
+      ...spec,
+      tokens: {
+        color: {
+          visible: { $type: "color", $value: "#0066cc" },
+          hidden: { $type: "color", $value: "#663399", skipDocs: true }
+        }
+      }
+    } as Schema);
+
+    expect(document.colors).toEqual({ visible: "#0066cc" });
+  });
+
   it("re-emits component aliases as DESIGN.md token references", () => {
     const document = extractDesignMd(spec);
     expect(document.components["button-primary"]).toEqual({

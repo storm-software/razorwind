@@ -118,6 +118,7 @@ export function flattenTokens(
 
   return flattenTokensBase<FlatToken>(tokens, {
     includeTypes: options.includeTypes,
+    shouldIncludeToken: token => token.skipDocs !== true,
     enrichToken: base => {
       const colorMetadata = metadata.get(metadataKey(base.theme, base.path));
 

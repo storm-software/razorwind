@@ -123,6 +123,7 @@ function walkTokens<T extends BaseFlatToken>(
   path: string[],
   inheritedType: string | undefined,
   theme: string | undefined,
+  shouldIncludeToken: ((node: Record<string, unknown>) => boolean) | undefined,
   enrichToken: ((token: BaseFlatToken) => T) | undefined,
   out: T[]
 ): void {
@@ -133,6 +134,10 @@ function walkTokens<T extends BaseFlatToken>(
   const type = readType(node, inheritedType);
 
   if (isTokenLeaf(node)) {
+    if (shouldIncludeToken && !shouldIncludeToken(node)) {
+      return;
+    }
+
     const value = readValue(node);
     const base: BaseFlatToken = {
       path: path.join("."),
@@ -150,7 +155,15 @@ function walkTokens<T extends BaseFlatToken>(
     if (key.startsWith("$")) {
       continue;
     }
-    walkTokens(child, [...path, key], type, theme, enrichToken, out);
+    walkTokens(
+      child,
+      [...path, key],
+      type,
+      theme,
+      shouldIncludeToken,
+      enrichToken,
+      out
+    );
   }
 }
 
@@ -186,6 +199,8 @@ export function resolveTokenSets(
 export interface FlattenTokensOptions<T extends BaseFlatToken = BaseFlatToken> {
   /** When set, only tokens whose `$type` is listed are returned. */
   includeTypes?: readonly string[];
+  /** Return false to omit a token leaf from the flattened result. */
+  shouldIncludeToken?: (node: Record<string, unknown>) => boolean;
   /** Map each base row before it is appended (e.g. add `cssVar`). */
   enrichToken?: (token: BaseFlatToken) => T;
 }
@@ -204,7 +219,15 @@ export function flattenTokens<T extends BaseFlatToken = BaseFlatToken>(
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walkTokens(set.tokens, [], undefined, theme, options.enrichToken, flat);
+    walkTokens(
+      set.tokens,
+      [],
+      undefined,
+      theme,
+      options.shouldIncludeToken,
+      options.enrichToken,
+      flat
+    );
   }
 
   if (!includeTypes) {

@@ -126,6 +126,17 @@ describe("flattenTokens", () => {
     );
   });
 
+  it("omits tokens marked skipDocs", () => {
+    const flat = flattenTokens({
+      color: {
+        visible: { $type: "color", $value: "#0066cc" },
+        hidden: { $type: "color", $value: "#663399", skipDocs: true }
+      }
+    } as Schema["tokens"]);
+
+    expect(flat.map(token => token.path)).toEqual(["color.visible"]);
+  });
+
   it("preserves palette and semantic color metadata without clobbering token-set themes", () => {
     const flat = flattenTokens({
       dark: {

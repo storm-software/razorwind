@@ -103,6 +103,20 @@ describe("flattenTokens / resolveTokenSets", () => {
     expect(flat[0]?.type).toBe("color");
   });
 
+  it("can omit token leaves with shouldIncludeToken", () => {
+    const flat = flattenTokens(
+      {
+        color: {
+          visible: { $type: "color", $value: "#000" },
+          hidden: { $type: "color", $value: "#fff", skipDocs: true }
+        }
+      },
+      { shouldIncludeToken: token => token.skipDocs !== true }
+    );
+
+    expect(flat.map(token => token.path)).toEqual(["color.visible"]);
+  });
+
   it("emits CSS var() for DTCG aliases", () => {
     const aliased = {
       color: {
