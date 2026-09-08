@@ -205,6 +205,14 @@ describe("storybook plugin", () => {
     const overview = documents["docs/tokens/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("<ColorPaletteBlock />");
     expect(overview).toContain("<TokenTableBlock />");
+    expect(overview).toContain("## Space");
+    expect(overview).toContain('"spacing"');
+    expect(overview).not.toContain("## Size");
+
+    const typography =
+      documents["docs/tokens/Typography.mdx"]?.chunks?.[0]?.content;
+    expect(typography).toContain("<TypesetBlock />");
+    expect(typography).toContain("<TokenTableBlock typography />");
 
     const icons =
       documents["docs/tokens/blocks/IconGallery.tsx"]?.chunks?.[0]?.content;
@@ -243,6 +251,83 @@ describe("storybook plugin", () => {
     expect(table).toContain('value: "#7f0005"');
     expect(colors).not.toContain("var(--color-red-9)");
     expect(table).not.toContain("var(--color-red-9)");
+  });
+
+  it("includes size and space token sections when their path groups exist", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          size: {
+            sm: { $type: "dimension", $value: { value: 8, unit: "px" } }
+          },
+          space: {
+            md: { $type: "dimension", $value: { value: 16, unit: "px" } }
+          }
+        }
+      } as Schema,
+      { outputPath: "out" }
+    );
+
+    const overview = documents["out/Tokens.mdx"]?.chunks?.[0]?.content;
+
+    expect(overview).toContain("## Size");
+    expect(overview).toContain('<TokenTableBlock filter="size" />');
+    expect(overview).toContain("## Space");
+    expect(overview).toContain('"space"');
+  });
+
+  it("includes all typography-related tokens in the Typography docs", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          font: {
+            family: { $type: "fontFamily", $value: ["Inter", "sans-serif"] },
+            weight: { $type: "fontWeight", $value: 600 },
+            size: {
+              $type: "dimension",
+              $value: { value: 16, unit: "px" }
+            }
+          },
+          typography: {
+            heading: {
+              $type: "typography",
+              $value: {
+                fontFamily: "{font.family}",
+                fontSize: "{font.size}",
+                fontWeight: "{font.weight}",
+                letterSpacing: { value: 0, unit: "px" },
+                lineHeight: 1.2
+              }
+            }
+          },
+          letterSpacing: {
+            tight: {
+              $type: "dimension",
+              $value: { value: -0.02, unit: "em" }
+            }
+          },
+          lineHeight: { body: { $type: "number", $value: 1.5 } },
+          spacing: {
+            md: { $type: "dimension", $value: { value: 16, unit: "px" } }
+          }
+        }
+      } as Schema,
+      { outputPath: "out" }
+    );
+
+    const table = documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content;
+    const typography = documents["out/Typography.mdx"]?.chunks?.[0]?.content;
+
+    expect(typography).toContain("<TokenTableBlock typography />");
+    expect(table).toContain('path: "font.family"');
+    expect(table).toContain('path: "font.weight"');
+    expect(table).toContain('path: "font.size"');
+    expect(table).toContain('path: "typography.heading"');
+    expect(table).toContain('path: "letterSpacing.tight"');
+    expect(table).toContain('path: "lineHeight.body"');
+    expect(table).toMatch(/path: "spacing.md"[\s\S]*?typography: false/);
   });
 
   it("omits icon documentation when the schema has no icons", () => {
