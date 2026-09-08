@@ -30,7 +30,8 @@ import {
   isSharedThemeId,
   mergeTokenTrees,
   resolveSchemaIdentity,
-  SHARED_THEME_ID
+  SHARED_THEME_ID,
+  toThemeCssVar
 } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path/join";
 import type { PartialKeys } from "@stryke/types/base";
@@ -45,6 +46,116 @@ import type {
 } from "./types";
 
 const DEFAULT_SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog";
+
+type TokenVariants = Record<string, FlatToken[]>;
+
+const DTCG_ALIAS_PATTERN = /^\{([^{}]+)\}$/;
+const CSS_VAR_PATTERN = /^var\((--[^),\s]+)(?:\s*,[^)]*)?\)$/;
+
+function readAliasPath(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  return DTCG_ALIAS_PATTERN.exec(value.trim())?.[1]?.trim();
+}
+
+function readCssVarName(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  return CSS_VAR_PATTERN.exec(value.trim())?.[1];
+}
+
+/**
+ * Replace color aliases with their terminal literal for docs. The emitted CSS
+ * variable remains in the separate CSS-variable column, but Storybook's
+ * palette and swatch preview receive a concrete color they can display.
+ */
+function resolveColorValues(tokens: FlatToken[]): FlatToken[] {
+  const byPath = new Map(tokens.map(token => [token.path, token]));
+  const byCssVar = new Map(
+    tokens.map(token => [toThemeCssVar(token.path), token])
+  );
+
+  const resolve = (token: FlatToken): string => {
+    let current = token;
+    const seen = new Set<string>();
+
+    for (let depth = 0; depth < 8; depth++) {
+      if (seen.has(current.path)) {
+        return token.cssValue;
+      }
+      seen.add(current.path);
+
+      const next =
+        byPath.get(readAliasPath(current.value) ?? "") ??
+        byCssVar.get(
+          readCssVarName(current.value) ??
+            readCssVarName(current.cssValue) ??
+            ""
+        );
+
+      if (!next || next.path === current.path) {
+        return current.cssValue;
+      }
+
+      current = next;
+    }
+
+    return token.cssValue;
+  };
+
+  return tokens.map(token =>
+    token.type === "color" ? { ...token, cssValue: resolve(token) } : token
+  );
+}
+
+function hasThemeVariants(variants: TokenVariants): boolean {
+  return Object.keys(variants).length > 1;
+}
+
+function renderVariantHook(): string {
+  return `import { useGlobals } from "storybook/preview-api";
+
+/**
+ * Select a generated token variant. By default this follows Storybook's
+ * \`theme\` global; callers may pass \`theme\` to override it.
+ */
+export function useThemeVariant<T extends Record<string, unknown>>(
+  variants: T,
+  fallback: keyof T & string,
+  theme?: string
+): keyof T & string {
+  const [globals] = useGlobals();
+  const candidate = theme ?? globals.theme;
+
+  return typeof candidate === "string" && candidate in variants
+    ? (candidate as keyof T & string)
+    : fallback;
+}
+`;
+}
+
+function resolveTokenVariants(
+  tokens: Schema["tokens"],
+  options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes">
+): TokenVariants {
+  const sets = resolveTokenSets(tokens);
+  const themes = sets.filter(set => !isSharedThemeId(set.id));
+
+  if (themes.length <= 1) {
+    return { default: resolveColorValues(flattenTokens(tokens, options)) };
+  }
+
+  return Object.fromEntries(
+    themes.map(theme => [
+      theme.id,
+      resolveColorValues(flattenTokens(tokensForThemeSet(sets, theme), options))
+    ])
+  );
+}
 
 function groupByPath(
   tokens: FlatToken[],
@@ -81,11 +192,13 @@ function leafLabel(path: string, group: string): string {
  * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-colorpalette
  */
 export function renderColorPaletteBlock(
-  tokens: FlatToken[],
+  variants: TokenVariants,
   options: Pick<StorybookPluginOptions, "colorGroupBy"> = {}
 ): string {
-  const colors = tokens.filter(token => token.type === "color");
   const groupBy = options.colorGroupBy ?? 2;
+  const variantEntries = Object.entries(variants);
+  const defaultTheme = variantEntries[0]?.[0] ?? "default";
+  const themed = hasThemeVariants(variants);
   const renderItems = (sectionTokens: FlatToken[], indent = "    ") =>
     [...groupByPath(sectionTokens, groupBy).entries()]
       .toSorted(([a], [b]) => a.localeCompare(b))
@@ -112,54 +225,69 @@ ${colorsObject}
       })
       .join("\n");
 
-  const paletteColors = colors.filter(token => token.palette);
-  const semanticColors = colors.filter(
-    token => !token.palette && token.childTheme
-  );
-  const otherColors = colors.filter(
-    token => !token.palette && !token.childTheme
-  );
-  const hasCategorizedColors =
-    paletteColors.length > 0 || semanticColors.length > 0;
-  const items = renderItems(colors);
-  const sections = [
-    ["Color palettes", paletteColors],
-    ["Semantic colors", semanticColors],
-    ["Colors", otherColors]
-  ]
-    .filter(
-      (section): section is [string, FlatToken[]] =>
-        !!section[1] && section[1].length > 0
-    )
-    .map(
-      ([title, sectionTokens]) => `      <section>
+  const renderPalette = (tokens: FlatToken[]) => {
+    const colors = tokens.filter(token => token.type === "color");
+    const paletteColors = colors.filter(token => token.palette);
+    const semanticColors = colors.filter(
+      token => !token.palette && token.childTheme
+    );
+    const otherColors = colors.filter(
+      token => !token.palette && !token.childTheme
+    );
+    const hasCategorizedColors =
+      paletteColors.length > 0 || semanticColors.length > 0;
+    const items = renderItems(colors);
+    const sections = [
+      ["Color palettes", paletteColors],
+      ["Semantic colors", semanticColors],
+      ["Colors", otherColors]
+    ]
+      .filter(
+        (section): section is [string, FlatToken[]] => !!section[1]?.length
+      )
+      .map(
+        ([title, sectionTokens]) => `      <section>
         <h2>${title}</h2>
         <ColorPalette>
 ${renderItems(sectionTokens, "          ")}
         </ColorPalette>
       </section>`
+      )
+      .join("\n");
+
+    return hasCategorizedColors
+      ? `<>\n${sections}\n    </>`
+      : `<ColorPalette>\n${items || "      {/* No color tokens */}"}\n    </ColorPalette>`;
+  };
+
+  const paletteVariants = variantEntries
+    .map(
+      ([theme, tokens]) =>
+        `  ${toLiteral(theme)}: (\n    ${renderPalette(tokens)}\n  )`
     )
-    .join("\n");
+    .join(",\n");
 
   return `import { ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
+${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
 
 /**
  * Color tokens rendered with Storybook's ColorPalette doc block.
  *
  * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-colorpalette
  */
-export function ColorPaletteBlock() {
-  return (
-${
-  hasCategorizedColors
-    ? `    <>
-${sections}
-    </>`
-    : `    <ColorPalette>
-${items || "      {/* No color tokens */}"}
-    </ColorPalette>`
+const COLOR_VARIANTS = {
+${paletteVariants}
+};
+
+export interface ColorPaletteBlockProps {
+  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  theme?: string;
 }
-  );
+
+export function ColorPaletteBlock({ theme }: ColorPaletteBlockProps = {}) {
+  const activeTheme = ${themed ? `useThemeVariant(COLOR_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+
+  return COLOR_VARIANTS[activeTheme];
 }
 `;
 }
@@ -170,54 +298,74 @@ ${items || "      {/* No color tokens */}"}
  * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-typeset
  */
 export function renderTypesetBlock(
-  tokens: FlatToken[],
+  variants: TokenVariants,
   options: Pick<StorybookPluginOptions, "sampleText"> & { fonts?: Fonts } = {}
 ): string {
   const sampleText = options.sampleText ?? DEFAULT_SAMPLE_TEXT;
-  const fontSizes = tokens
-    .filter(
-      token =>
-        token.type === "dimension" &&
-        /(?:font|type|text).*size|size.*(?:font|type|text)/i.test(token.path)
+  const themed = hasThemeVariants(variants);
+  const variantEntries = Object.entries(variants);
+  const defaultTheme = variantEntries[0]?.[0] ?? "default";
+  const renderTypeset = (tokens: FlatToken[]) => {
+    const fontSizes = tokens
+      .filter(
+        token =>
+          token.type === "dimension" &&
+          /(?:font|type|text).*size|size.*(?:font|type|text)/i.test(token.path)
+      )
+      .map(token => {
+        const match = /^(\d+(?:\.\d+)?)/.exec(token.cssValue);
+
+        return match ? Number(match[1]) : token.cssValue;
+      });
+    const uniqueSizes = [...new Set(fontSizes)];
+    const fromFonts = pickFontByRole(options.fonts, SANS_ROLES);
+    const fontFamily =
+      (fromFonts ? cssFontFamily(fromFonts) : undefined) ??
+      tokens.find(token => token.type === "fontFamily")?.cssValue ??
+      "system-ui, sans-serif";
+    const fontWeightToken = tokens.find(token => token.type === "fontWeight");
+    const fontWeight = fontWeightToken
+      ? Number.parseFloat(fontWeightToken.cssValue) || 400
+      : 400;
+    const sizesLiteral =
+      uniqueSizes.length > 0
+        ? `[${uniqueSizes.map(size => toLiteral(size)).join(", ")}]`
+        : `[12, 14, 16, 20, 24, 32]`;
+
+    return `<Typeset
+      fontFamily={${toLiteral(fontFamily)}}
+      fontSizes={${sizesLiteral}}
+      fontWeight={${toLiteral(fontWeight)}}
+      sampleText={${toLiteral(sampleText)}}
+    />`;
+  };
+  const typesetVariants = variantEntries
+    .map(
+      ([theme, tokens]) => `  ${toLiteral(theme)}: (${renderTypeset(tokens)})`
     )
-    .map(token => {
-      const match = /^(\d+(?:\.\d+)?)/.exec(token.cssValue);
-
-      return match ? Number(match[1]) : token.cssValue;
-    });
-
-  const uniqueSizes = [...new Set(fontSizes)];
-  const fromFonts = pickFontByRole(options.fonts, SANS_ROLES);
-  const fontFamily =
-    (fromFonts ? cssFontFamily(fromFonts) : undefined) ??
-    tokens.find(token => token.type === "fontFamily")?.cssValue ??
-    "system-ui, sans-serif";
-  const fontWeightToken = tokens.find(token => token.type === "fontWeight");
-  const fontWeight = fontWeightToken
-    ? Number.parseFloat(fontWeightToken.cssValue) || 400
-    : 400;
-
-  const sizesLiteral =
-    uniqueSizes.length > 0
-      ? `[${uniqueSizes.map(size => toLiteral(size)).join(", ")}]`
-      : `[12, 14, 16, 20, 24, 32]`;
+    .join(",\n");
 
   return `import { Typeset } from "@storybook/addon-docs/blocks";
+${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
 
 /**
  * Typography tokens rendered with Storybook's Typeset doc block.
  *
  * @see https://storybook.js.org/docs/api/doc-blocks/doc-block-typeset
  */
-export function TypesetBlock() {
-  return (
-    <Typeset
-      fontFamily={${toLiteral(fontFamily)}}
-      fontSizes={${sizesLiteral}}
-      fontWeight={${toLiteral(fontWeight)}}
-      sampleText={${toLiteral(sampleText)}}
-    />
-  );
+const TYPESET_VARIANTS = {
+${typesetVariants}
+};
+
+export interface TypesetBlockProps {
+  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  theme?: string;
+}
+
+export function TypesetBlock({ theme }: TypesetBlockProps = {}) {
+  const activeTheme = ${themed ? `useThemeVariant(TYPESET_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+
+  return TYPESET_VARIANTS[activeTheme];
 }
 `;
 }
@@ -228,12 +376,16 @@ export function TypesetBlock() {
  * Mirrors the swatchbook TokenTable idea for MDX docs, using a static table
  * baked from the generator input.
  */
-export function renderTokenTableBlock(tokens: FlatToken[]): string {
-  const rows = tokens
-    .map(token => {
-      const theme = token.theme ? toLiteral(token.theme) : "undefined";
+export function renderTokenTableBlock(variants: TokenVariants): string {
+  const themed = hasThemeVariants(variants);
+  const variantEntries = Object.entries(variants);
+  const defaultTheme = variantEntries[0]?.[0] ?? "default";
+  const renderRows = (tokens: FlatToken[]) =>
+    tokens
+      .map(token => {
+        const theme = token.theme ? toLiteral(token.theme) : "undefined";
 
-      return `    {
+        return `    {
       path: ${toLiteral(token.path)},
       type: ${token.type ? toLiteral(token.type) : "undefined"},
       value: ${toLiteral(token.cssValue)},
@@ -241,10 +393,18 @@ export function renderTokenTableBlock(tokens: FlatToken[]): string {
       description: ${token.description ? toLiteral(token.description) : "undefined"},
       theme: ${theme}
     }`;
-    })
+      })
+      .join(",\n");
+  const rowsByTheme = variantEntries
+    .map(
+      ([theme, tokens]) => `  ${toLiteral(theme)}: [
+${renderRows(tokens)}
+  ]`
+    )
     .join(",\n");
 
   return `import type { CSSProperties, ReactElement } from "react";
+${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
 
 export interface TokenTableRow {
   path: string;
@@ -255,9 +415,9 @@ export interface TokenTableRow {
   theme?: string;
 }
 
-const TOKENS: TokenTableRow[] = [
-${rows || ""}
-];
+const TOKEN_VARIANTS: Record<string, TokenTableRow[]> = {
+${rowsByTheme}
+};
 
 const tableStyle: CSSProperties = {
   width: "100%",
@@ -288,6 +448,8 @@ export interface TokenTableBlockProps {
   filter?: string;
   /** Optional DTCG \`$type\` filter. */
   type?: string;
+  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  theme?: string;
 }
 
 /**
@@ -295,9 +457,11 @@ export interface TokenTableBlockProps {
  */
 export function TokenTableBlock({
   filter,
-  type
+  type,
+  theme
 }: TokenTableBlockProps = {}): ReactElement {
-  const rows = TOKENS.filter(token => {
+  const activeTheme = ${themed ? `useThemeVariant(TOKEN_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+  const rows = TOKEN_VARIANTS[activeTheme].filter(token => {
     if (filter && !token.path.startsWith(filter)) {
       return false;
     }
@@ -504,12 +668,14 @@ import { IconGalleryBlock } from "./blocks/IconGallery";
 `;
 }
 
-export function renderBlocksIndex(): string {
+export function renderBlocksIndex(hasIcons = true): string {
   return `export { ColorPaletteBlock } from "./ColorPalette";
-export { IconGalleryBlock } from "./IconGallery";
+export type { ColorPaletteBlockProps } from "./ColorPalette";
+${hasIcons ? 'export { IconGalleryBlock } from "./IconGallery";\n' : ""}
 export { TokenTableBlock } from "./TokenTable";
 export type { TokenTableBlockProps, TokenTableRow } from "./TokenTable";
 export { TypesetBlock } from "./Typeset";
+export type { TypesetBlockProps } from "./Typeset";
 `;
 }
 
@@ -604,19 +770,6 @@ function tokensForThemeSet(sets: TokenSet[], theme: TokenSet) {
   }
 
   return mergeTokenTrees(theme.tokens, base.tokens);
-}
-
-/** DTCG alias (`{color.base.1}`), including optional inner whitespace. */
-const DTCG_ALIAS_PATTERN = /^\{([^{}]+)\}$/;
-
-function readAliasPath(value: unknown): string | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const match = DTCG_ALIAS_PATTERN.exec(value.trim());
-
-  return match?.[1]?.trim();
 }
 
 /**
@@ -933,6 +1086,7 @@ export function generateTokenDocs(
   const titlePrefix = options.titlePrefix ?? identity.title ?? "Design Tokens";
   const docsOptions = { ...options, titlePrefix };
   const flat = flattenTokens(spec.tokens, options);
+  const variants = resolveTokenVariants(spec.tokens, options);
   const hasColors = flat.some(token => token.type === "color");
   const hasTypography =
     (spec.fonts && Object.keys(spec.fonts).length > 0) ||
@@ -954,27 +1108,22 @@ export function generateTokenDocs(
   const documents: GeneratorFunctionResult<Schema, StorybookPluginOptions> = {
     [joinPaths(outputPath, "blocks/ColorPalette.tsx")]: createDoc(
       "blocks/ColorPalette.tsx",
-      renderColorPaletteBlock(flat, docsOptions),
+      renderColorPaletteBlock(variants, docsOptions),
       "tsx"
     ),
     [joinPaths(outputPath, "blocks/Typeset.tsx")]: createDoc(
       "blocks/Typeset.tsx",
-      renderTypesetBlock(flat, { ...docsOptions, fonts: spec.fonts }),
+      renderTypesetBlock(variants, { ...docsOptions, fonts: spec.fonts }),
       "tsx"
     ),
     [joinPaths(outputPath, "blocks/TokenTable.tsx")]: createDoc(
       "blocks/TokenTable.tsx",
-      renderTokenTableBlock(flat),
-      "tsx"
-    ),
-    [joinPaths(outputPath, "blocks/IconGallery.tsx")]: createDoc(
-      "blocks/IconGallery.tsx",
-      renderIconGalleryBlock(options.skipIcons ? {} : spec.icons),
+      renderTokenTableBlock(variants),
       "tsx"
     ),
     [joinPaths(outputPath, "blocks/index.ts")]: createDoc(
       "blocks/index.ts",
-      renderBlocksIndex(),
+      renderBlocksIndex(hasIcons),
       "typescript"
     ),
     [joinPaths(outputPath, "Tokens.mdx")]: createDoc(
@@ -987,6 +1136,22 @@ export function generateTokenDocs(
       "mdx"
     )
   };
+
+  if (hasIcons) {
+    documents[joinPaths(outputPath, "blocks/IconGallery.tsx")] = createDoc(
+      "blocks/IconGallery.tsx",
+      renderIconGalleryBlock(spec.icons),
+      "tsx"
+    );
+  }
+
+  if (hasThemeVariants(variants)) {
+    documents[joinPaths(outputPath, "blocks/ThemeVariant.ts")] = createDoc(
+      "blocks/ThemeVariant.ts",
+      renderVariantHook(),
+      "typescript"
+    );
+  }
 
   if (hasColors) {
     documents[joinPaths(outputPath, "Colors.mdx")] = createDoc(
@@ -1046,7 +1211,8 @@ export function generateTokenDocs(
         outputPath,
         titlePrefix,
         themeFiles: themeNames ? ["theme.ts"] : undefined,
-        themeNames
+        themeNames,
+        tokenThemeNames: Object.keys(variants)
       }),
     "markdown"
   );

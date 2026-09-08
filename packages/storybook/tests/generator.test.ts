@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Schema, Tokens } from "@razorwind/core/schema";
+import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { flattenTokens } from "../src/flatten";
 import { formatTokenValue, toCssVar } from "../src/format";
@@ -25,7 +26,10 @@ import {
   normalizeThemes,
   renderThemeFile
 } from "../src/generate";
-import storybook, { type StorybookPluginOptions, type StorybookTheme } from "../src/index";
+import storybook, {
+  type StorybookPluginOptions,
+  type StorybookTheme
+} from "../src/index";
 
 const tokens = {
   color: {
@@ -180,8 +184,8 @@ describe("storybook plugin", () => {
       ])
     );
 
-    const colors = documents["docs/tokens/blocks/ColorPalette.tsx"]?.chunks?.[0]
-      ?.content;
+    const colors =
+      documents["docs/tokens/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content;
     expect(colors).toContain('from "@storybook/addon-docs/blocks"');
     expect(colors).toContain("ColorPalette");
     expect(colors).toContain("ColorItem");
@@ -191,14 +195,56 @@ describe("storybook plugin", () => {
     expect(overview).toContain("<ColorPaletteBlock />");
     expect(overview).toContain("<TokenTableBlock />");
 
-    const icons = documents["docs/tokens/blocks/IconGallery.tsx"]?.chunks?.[0]
-      ?.content;
+    const icons =
+      documents["docs/tokens/blocks/IconGallery.tsx"]?.chunks?.[0]?.content;
     expect(icons).toContain("IconGallery");
     expect(icons).toContain("IconItem");
     expect(icons).toContain("home");
     expect(documents["docs/tokens/Icons.mdx"]?.chunks?.[0]?.content).toContain(
       "<IconGalleryBlock />"
     );
+  });
+
+  it("renders referenced colors as their underlying literal in token docs", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            $type: "color",
+            red: {
+              9: { $value: "#7f0005" }
+            },
+            danger: { $value: "var(--color-red-9)" },
+            warning: { $value: "{color.red.9}" }
+          }
+        }
+      } as Schema,
+      { outputPath: "out" }
+    );
+
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content;
+    const table = documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content;
+
+    expect(colors).toContain('"danger": "#7f0005"');
+    expect(colors).toContain('"warning": "#7f0005"');
+    expect(table).toContain('value: "#7f0005"');
+    expect(colors).not.toContain("var(--color-red-9)");
+    expect(table).not.toContain("var(--color-red-9)");
+  });
+
+  it("omits icon documentation when the schema has no icons", () => {
+    const documents = generateTokenDocs(
+      { ...spec, icons: {} },
+      { outputPath: "out" }
+    );
+
+    expect(documents["out/Icons.mdx"]).toBeUndefined();
+    expect(documents["out/blocks/IconGallery.tsx"]).toBeUndefined();
+    expect(
+      documents["out/blocks/index.ts"]?.chunks?.[0]?.content
+    ).not.toContain("IconGallery");
   });
 
   it("separates palette, semantic, and unmarked colors into doc sections", () => {
@@ -244,9 +290,9 @@ describe("storybook plugin", () => {
 
   it("generateTokenDocs mirrors the plugin generate output", () => {
     const documents = generateTokenDocs(spec, { outputPath: "out" });
-    expect(documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content).toContain(
-      "TokenTableBlock"
-    );
+    expect(
+      documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content
+    ).toContain("TokenTableBlock");
   });
 
   it("writes a Storybook theme when mapTheme is provided", () => {
@@ -255,10 +301,10 @@ describe("storybook plugin", () => {
       mapTheme: (tokens: Schema["tokens"]): StorybookTheme => ({
         base: "light",
         colorPrimary: (
-          (tokens.color as Record<string, { $value?: { hex?: string } }>)
-            ?.primary?.$value?.hex
-        ) as string,
-        fontBase: (tokens.font as Record<string, Tokens>)?.family?.sans as string,
+          tokens.color as Record<string, { $value?: { hex?: string } }>
+        )?.primary?.$value?.hex as string,
+        fontBase: (tokens.font as Record<string, Tokens>)?.family
+          ?.sans as string,
         brandTitle: "Razorwind"
       })
     }) satisfies StorybookPluginOptions;
@@ -268,7 +314,7 @@ describe("storybook plugin", () => {
     expect(theme).toContain("export default create({");
     expect(theme).toContain('base: "light"');
     expect(theme).toContain('colorPrimary: "#0066cc"');
-    expect(theme).toContain("brandTitle: \"Razorwind\"");
+    expect(theme).toContain('brandTitle: "Razorwind"');
   });
 
   it("uses spec.fonts for Typeset and theme fontBase when mapTheme omits them", () => {
@@ -383,6 +429,68 @@ describe("storybook plugin", () => {
     expect(theme).toContain('colorPrimary: "#111111"');
   });
 
+  it("generates token-doc variants that follow Storybook's theme global", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          light: {
+            color: {
+              $type: "color",
+              primary: { $value: "#eeeeee" }
+            },
+            font: {
+              size: {
+                $type: "dimension",
+                md: { $value: { value: 16, unit: "px" } }
+              }
+            }
+          },
+          dark: {
+            color: {
+              $type: "color",
+              primary: { $value: "#111111" }
+            },
+            font: {
+              size: {
+                $type: "dimension",
+                md: { $value: { value: 18, unit: "px" } }
+              }
+            }
+          }
+        }
+      } as Schema,
+      { outputPath: "out" }
+    );
+
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content;
+    const typeset = documents["out/blocks/Typeset.tsx"]?.chunks?.[0]?.content;
+    const table = documents["out/blocks/TokenTable.tsx"]?.chunks?.[0]?.content;
+    const selector =
+      documents["out/blocks/ThemeVariant.ts"]?.chunks?.[0]?.content;
+    const install = documents["out/INSTALL.md"]?.chunks?.[0]?.content;
+
+    expect(colors).toContain('"light": (');
+    expect(colors).toContain('"dark": (');
+    expect(colors).toContain('useThemeVariant(COLOR_VARIANTS, "light", theme)');
+    expect(typeset).toContain("fontSizes={[16]}");
+    expect(typeset).toContain("fontSizes={[18]}");
+    expect(table).toContain("TOKEN_VARIANTS");
+    expect(selector).toContain("const candidate = theme ?? globals.theme");
+    expect(install).toContain("Token-doc variants");
+
+    for (const block of [colors, typeset, table, selector]) {
+      expect(block).toBeDefined();
+      expect(
+        ts.transpile(block!, {
+          jsx: ts.JsxEmit.ReactJSX,
+          target: ts.ScriptTarget.ESNext
+        }).diagnostics ?? []
+      ).toEqual([]);
+    }
+  });
+
   it("resolves DTCG aliases in mapTheme $value fields to underlying colors", () => {
     const documents = generateTokenDocs(
       {
@@ -427,7 +535,8 @@ describe("storybook plugin", () => {
           return {
             light: {
               base: "light",
-              textColor: tree.light?.color?.foreground?.primary?.$value as string
+              textColor: tree.light?.color?.foreground?.primary
+                ?.$value as string
             },
             dark: {
               base: "dark",
