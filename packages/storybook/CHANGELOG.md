@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.62](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.62) (09/08/2026)
+
+### Bug Fixes
+
+- **storybook:** Resolve issue with generated Storybook doc-block hook mixing ([a128470](https://github.com/storm-software/razorwind/commit/a128470))
+
 ## [0.0.61](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.61) (09/08/2026)
 
 ### Bug Fixes
