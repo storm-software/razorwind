@@ -2,6 +2,21 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.61](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.61) (09/08/2026)
+
+### Bug Fixes
+
+- **storybook:** Resolve issue generating doc blocks for all themes ([1d1ad4f](https://github.com/storm-software/razorwind/commit/1d1ad4f))
+
+### Features
+
+- **storybook:** Added space and size doc blocks ([d4c638c](https://github.com/storm-software/razorwind/commit/d4c638c))
+- **core:** Added the `skipDocs` property to generators ([4d2933d](https://github.com/storm-software/razorwind/commit/4d2933d))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.64**
+
 ## [0.0.60](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.60) (09/06/2026)
 
 ### Bug Fixes

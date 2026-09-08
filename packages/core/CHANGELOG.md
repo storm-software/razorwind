@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.64](https://github.com/storm-software/razorwind/releases/tag/core%400.0.64) (09/08/2026)
+
+### Features
+
+- **core:** Added the `skipDocs` property to generators ([4d2933d](https://github.com/storm-software/razorwind/commit/4d2933d))
+
 ## [0.0.62](https://github.com/storm-software/razorwind/releases/tag/core%400.0.62) (08/24/2026)
 
 ### Bug Fixes

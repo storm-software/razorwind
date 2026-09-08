@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Cursor
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/cursor%400.0.39) (09/08/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.64**
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/cursor%400.0.38) (09/06/2026)
 
 ### Updated Dependencies

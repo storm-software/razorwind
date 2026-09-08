@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.61](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.61) (09/08/2026)
+
+### Features
+
+- **core:** Added the `skipDocs` property to generators ([4d2933d](https://github.com/storm-software/razorwind/commit/4d2933d))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.64**
+
 ## [0.0.60](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.60) (09/06/2026)
 
 ### Updated Dependencies
