@@ -26,7 +26,7 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { loadConfig as loadConfigC12 } from "c12";
 import { defu } from "defu";
 import { createJiti } from "jiti";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import os from "node:os";
 import { isAbsolute, resolve } from "node:path";
 import type {
@@ -88,6 +88,20 @@ export function uniquePlugins(plugins: Plugin[]): Plugin[] {
 
 const homeDir = os.homedir();
 
+function hasFiles(path: string): boolean {
+  if (!existsSync(path)) {
+    return false;
+  }
+
+  try {
+    return readdirSync(path, { withFileTypes: true }).some(entry =>
+      entry.isFile()
+    );
+  } catch {
+    return false;
+  }
+}
+
 function toUserConfigs(value: unknown): UserConfig[] {
   if (!Array.isArray(value)) {
     return [];
@@ -144,6 +158,10 @@ function finalizeConfig(
   userConfig: Partial<UserConfig>,
   layers: SharedConfigLayers
 ): Config {
+  const defaultIconsPath = joinPaths(cwd, "assets/icons");
+  const defaultFontsPath = joinPaths(cwd, "assets/fonts");
+  const hasDefaultIcons = hasFiles(defaultIconsPath);
+  const hasDefaultFonts = hasFiles(defaultFontsPath);
   const config = defu(
     {
       cwd,
@@ -156,8 +174,8 @@ function finalizeConfig(
     layers.homeLayer,
     {
       componentsPath: cwd,
-      iconsPath: joinPaths(cwd, "assets/icons"),
-      fontsPath: joinPaths(cwd, "assets/fonts"),
+      ...(hasDefaultIcons ? { iconsPath: defaultIconsPath } : {}),
+      ...(hasDefaultFonts ? { fontsPath: defaultFontsPath } : {}),
       plugins: []
     }
   );
@@ -178,11 +196,14 @@ function finalizeConfig(
       .filter(isSetString)
       .map(path => findFilePath(path));
     config.iconsPath =
-      paths.length > 0 ? paths : joinPaths(cwd, "assets/icons");
+      paths.length > 0 ? paths : hasDefaultIcons ? defaultIconsPath : undefined;
   } else if (isSetString(config.iconsPath)) {
-    config.iconsPath = findFilePath(config.iconsPath);
+    config.iconsPath =
+      config.iconsPath === defaultIconsPath
+        ? defaultIconsPath
+        : findFilePath(config.iconsPath);
   } else {
-    config.iconsPath = joinPaths(cwd, "assets/icons");
+    config.iconsPath = hasDefaultIcons ? defaultIconsPath : undefined;
   }
 
   if (Array.isArray(config.fontsPath)) {
@@ -190,11 +211,14 @@ function finalizeConfig(
       .filter(isSetString)
       .map(path => findFilePath(path));
     config.fontsPath =
-      paths.length > 0 ? paths : joinPaths(cwd, "assets/fonts");
+      paths.length > 0 ? paths : hasDefaultFonts ? defaultFontsPath : undefined;
   } else if (isSetString(config.fontsPath)) {
-    config.fontsPath = findFilePath(config.fontsPath);
+    config.fontsPath =
+      config.fontsPath === defaultFontsPath
+        ? defaultFontsPath
+        : findFilePath(config.fontsPath);
   } else {
-    config.fontsPath = joinPaths(cwd, "assets/fonts");
+    config.fontsPath = hasDefaultFonts ? defaultFontsPath : undefined;
   }
 
   const plugins = uniquePlugins(

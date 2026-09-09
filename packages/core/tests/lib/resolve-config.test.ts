@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -71,8 +71,10 @@ describe("resolveConfig", () => {
     expect(config.verbose).toBe(false);
   });
 
-  it("includes a resolved fontsPath on the config", async () => {
+  it("does not add a default fontsPath when the directory has no files", async () => {
     const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await mkdir(join(dir, "assets/icons"), { recursive: true });
+    await mkdir(join(dir, "assets/fonts"), { recursive: true });
     await writeFile(
       join(dir, "razorwind.config.ts"),
       `export default { plugins: [] };\n`,
@@ -83,8 +85,24 @@ describe("resolveConfig", () => {
       configFile: "razorwind.config.ts"
     });
 
-    expect(config.fontsPath).toEqual(expect.any(String));
-    expect(String(config.fontsPath).startsWith(dir)).toBe(true);
+    expect(config.fontsPath).toBeUndefined();
+    expect(config.iconsPath).toBeUndefined();
+  });
+
+  it("adds default icon and font paths when their directories contain files", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(join(dir, "razorwind.config.ts"), `export default {}\n`);
+    await mkdir(join(dir, "assets/icons"), { recursive: true });
+    await mkdir(join(dir, "assets/fonts"), { recursive: true });
+    await writeFile(join(dir, "assets/icons/icon.svg"), "<svg />");
+    await writeFile(join(dir, "assets/fonts/font.woff2"), "font");
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts"
+    });
+
+    expect(config.iconsPath).toBe(join(dir, "assets/icons"));
+    expect(config.fontsPath).toBe(join(dir, "assets/fonts"));
   });
 
   it("retains parser-only and preprocessor-only plugins", async () => {

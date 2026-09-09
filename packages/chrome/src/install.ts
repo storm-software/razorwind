@@ -44,10 +44,7 @@ export function renderInstallMd(options: {
   const fileList = options.themes
     .map(theme => {
       const files = [`\`${theme.folderName}/manifest.json\``];
-      const assets = [
-        ...(theme.imagePaths ?? []),
-        ...(theme.iconPaths ?? [])
-      ];
+      const assets = [...(theme.imagePaths ?? []), ...(theme.iconPaths ?? [])];
       if (assets.length > 0) {
         files.push(
           assets.map(path => `\`${theme.folderName}/${path}\``).join(", ")
@@ -58,11 +55,14 @@ export function renderInstallMd(options: {
     .join("\n");
 
   const themeChoices = options.themes
-    .map(theme => `- **${theme.displayName}** — folder \`${theme.folderName}/\``)
+    .map(
+      theme => `- **${theme.displayName}** — folder \`${theme.folderName}/\``
+    )
     .join("\n");
 
   const hasAssets = options.themes.some(
-    theme => (theme.imagePaths?.length ?? 0) > 0 || (theme.iconPaths?.length ?? 0) > 0
+    theme =>
+      (theme.imagePaths?.length ?? 0) > 0 || (theme.iconPaths?.length ?? 0) > 0
   );
   const assetNote = hasAssets
     ? `

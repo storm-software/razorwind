@@ -89,6 +89,7 @@
     "fast-glob": "catalog:",
     "shadcn": "catalog:",
     "tsconfig-paths": "catalog:",
+    "yaml": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {

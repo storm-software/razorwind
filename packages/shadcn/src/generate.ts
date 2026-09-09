@@ -27,8 +27,12 @@ import type {
 } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { existsSync } from "@stryke/fs/exists";
+import { readJsonFile } from "@stryke/fs/json";
 import { joinPaths } from "@stryke/path/join";
-import { dirname, isAbsolute, join, relative } from "node:path";
+import fg from "fast-glob";
+import { readFile } from "node:fs/promises";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { parse as parseYaml } from "yaml";
 import { renderInstallMd } from "./install";
 import type { ShadcnGeneratePluginOptions } from "./types";
 
@@ -77,6 +81,167 @@ export interface RegistryDocument {
   name?: string;
   homepage?: string;
   items: RegistryItemLike[];
+}
+
+type DependencyRecord = Record<string, string>;
+
+interface WorkspaceManifest {
+  packages?: string[];
+  catalog?: DependencyRecord;
+  catalogs?: Record<string, DependencyRecord>;
+}
+
+interface WorkspacePackage {
+  name?: string;
+  version?: string;
+}
+
+function resolveWorkspaceSpecifier(specifier: string, version: string): string {
+  const range = specifier.slice("workspace:".length);
+
+  if (range === "*") {
+    return version;
+  }
+
+  if (range === "^" || range === "~") {
+    return `${range}${version}`;
+  }
+
+  return range;
+}
+
+function findPnpmWorkspaceRoot(cwd: string): string | undefined {
+  let directory = resolve(cwd);
+
+  while (true) {
+    if (existsSync(join(directory, "pnpm-workspace.yaml"))) {
+      return directory;
+    }
+
+    const parent = dirname(directory);
+    if (parent === directory) {
+      return undefined;
+    }
+
+    directory = parent;
+  }
+}
+
+async function createDependencyVersionResolver(cwd: string) {
+  const workspaceRoot = findPnpmWorkspaceRoot(cwd) ?? cwd;
+  const workspaceFile = join(workspaceRoot, "pnpm-workspace.yaml");
+  let manifest: WorkspaceManifest = {};
+
+  if (existsSync(workspaceFile)) {
+    try {
+      manifest = (parseYaml(await readFile(workspaceFile, "utf8")) ??
+        {}) as WorkspaceManifest;
+    } catch {
+      // The resolver below reports a dependency-specific error when needed.
+    }
+  }
+
+  const workspaceVersions = new Map<string, string>();
+  const patterns = manifest.packages?.filter(
+    (pattern): pattern is string =>
+      typeof pattern === "string" && !pattern.startsWith("!")
+  );
+  if (patterns && patterns.length) {
+    const packageJsonPaths = await fg(
+      patterns.map(
+        pattern =>
+          `${pattern
+            .split("\\")
+            .join("/")
+            .replace(/[\\/]$/, "")}/package.json`
+      ),
+      { cwd: workspaceRoot, ignore: ["**/node_modules/**"] }
+    );
+
+    for (const packageJsonPath of packageJsonPaths) {
+      try {
+        const packageJson = await readJsonFile<WorkspacePackage>(
+          join(workspaceRoot, packageJsonPath)
+        );
+        if (packageJson.name && packageJson.version) {
+          workspaceVersions.set(packageJson.name, packageJson.version);
+        }
+      } catch {
+        // Ignore unreadable workspace manifests.
+      }
+    }
+  }
+
+  return (name: string, specifier: string): string => {
+    if (specifier.startsWith("catalog:")) {
+      const catalogName = specifier.slice("catalog:".length);
+      const catalog = catalogName
+        ? manifest.catalogs?.[catalogName]
+        : manifest.catalog;
+      const version = catalog?.[name];
+
+      if (!version) {
+        throw new Error(
+          `Unable to resolve ${specifier} for ${name} from ${workspaceFile}.`
+        );
+      }
+
+      return version;
+    }
+
+    if (specifier.startsWith("workspace:")) {
+      const version = workspaceVersions.get(name);
+      if (!version) {
+        throw new Error(
+          `Unable to resolve ${specifier} for workspace package ${name}.`
+        );
+      }
+
+      return resolveWorkspaceSpecifier(specifier, version);
+    }
+
+    return specifier;
+  };
+}
+
+async function resolveComponentDependencyVersions(
+  components: Components,
+  cwd: string
+): Promise<Components> {
+  const resolveVersion = await createDependencyVersionResolver(cwd);
+  const resolveRecord = (deps: DependencyRecord | undefined) =>
+    deps
+      ? Object.fromEntries(
+          Object.entries(deps).map(([name, version]) => [
+            name,
+            resolveVersion(name, version)
+          ])
+        )
+      : undefined;
+  const resolved: Components = {};
+
+  for (const [name, component] of Object.entries(components)) {
+    if (!component) {
+      continue;
+    }
+
+    resolved[name] = {
+      ...component,
+      ...(component.dependencies
+        ? { dependencies: resolveRecord(component.dependencies) }
+        : {}),
+      ...(component.devDependencies
+        ? { devDependencies: resolveRecord(component.devDependencies) }
+        : {}),
+      ...(component.registryDependencies
+        ? {
+            registryDependencies: resolveRecord(component.registryDependencies)
+          }
+        : {})
+    };
+  }
+
+  return resolved;
 }
 
 /**
@@ -260,7 +425,11 @@ export async function generateRegistryJson(
   };
 
   const outputPath = await resolveoutputPath(options);
-  const content = `${JSON.stringify(renderRegistryJson(spec.components, registryOptions, cwd), null, 2)}\n`;
+  const components = await resolveComponentDependencyVersions(
+    spec.components,
+    cwd ?? process.cwd()
+  );
+  const content = `${JSON.stringify(renderRegistryJson(components, registryOptions, cwd), null, 2)}\n`;
   const installBody =
     options.installGuide ??
     renderInstallMd({
