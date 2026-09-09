@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.61](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.61) (09/09/2026)
+
+### Bug Fixes
+
+- **shadcn:** Fixed issue resolving version specifiers in `registry.json` file ([dbea68f](https://github.com/storm-software/razorwind/commit/dbea68f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.65**
+
 ## [0.0.60](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.60) (09/08/2026)
 
 ### Updated Dependencies

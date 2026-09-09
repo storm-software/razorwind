@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.65](https://github.com/storm-software/razorwind/releases/tag/core%400.0.65) (09/09/2026)
+
+### Bug Fixes
+
+- **shadcn:** Fixed issue resolving version specifiers in `registry.json` file ([dbea68f](https://github.com/storm-software/razorwind/commit/dbea68f))
+
 ## [0.0.64](https://github.com/storm-software/razorwind/releases/tag/core%400.0.64) (09/08/2026)
 
 ### Features
