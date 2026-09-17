@@ -23,6 +23,7 @@ import llms, {
   renderLlmsDocuments,
   renderLlmsIndex,
   renderComponentsDocument,
+  renderFontsDocument,
   renderIconsDocument,
   renderTokensDocument
 } from "../src";
@@ -145,6 +146,50 @@ const iconSpec = {
           type: "svg",
           theme: "dark",
           content: "RAW_DARK_SVG_SENTINEL"
+        }
+      ]
+    }
+  }
+} satisfies Schema;
+
+const fontSpec = {
+  ...emptySpec,
+  fonts: {
+    sans: {
+      name: "sans",
+      title: "Inter",
+      source: "google",
+      family: "Inter",
+      role: "sans",
+      fallbacks: ["system-ui", "sans-serif"],
+      display: "swap",
+      category: "sans-serif",
+      description: "Primary interface typeface.",
+      tags: ["ui", "body"],
+      weights: [700, 400],
+      styles: ["normal", "italic"],
+      subsets: ["latin-ext", "latin"],
+      variable: true
+    },
+    mono: {
+      name: "mono",
+      title: "Acme Mono",
+      source: "local",
+      family: "Acme Mono",
+      role: "code",
+      files: [
+        {
+          path: "fonts/acme-mono-bold.woff2",
+          format: "woff2",
+          weight: 700,
+          style: "normal",
+          unicodeRange: "U+0000-00FF"
+        },
+        {
+          path: "fonts/acme-mono.woff2",
+          format: "woff2",
+          weight: 400,
+          style: "normal"
         }
       ]
     }
@@ -381,6 +426,45 @@ describe("renderIconsDocument", () => {
   it("renders an explicit empty state", () => {
     expect(renderIconsDocument(emptySpec)).toContain(
       "No documented icons were found."
+    );
+  });
+});
+
+describe("renderFontsDocument", () => {
+  it("renders Google font metadata and sorted configuration lists", () => {
+    const content = renderFontsDocument(fontSpec);
+
+    expect(content).toContain("## Inter");
+    expect(content).toContain("Primary interface typeface.");
+    expect(content).toContain("- **Source:** `google`");
+    expect(content).toContain("- **Family:** `Inter`");
+    expect(content).toContain("- **Role:** `sans`");
+    expect(content).toContain("- **Fallbacks:** `sans-serif`, `system-ui`");
+    expect(content).toContain("- **Display:** `swap`");
+    expect(content).toContain("- **Category:** `sans-serif`");
+    expect(content).toContain("- **Tags:** `body`, `ui`");
+    expect(content).toContain("- **Weights:** `400`, `700`");
+    expect(content).toContain("- **Styles:** `italic`, `normal`");
+    expect(content).toContain("- **Subsets:** `latin`, `latin-ext`");
+    expect(content).toContain("- **Variable:** `true`");
+  });
+
+  it("renders local font files sorted by path", () => {
+    const content = renderFontsDocument(fontSpec);
+    const regular = content.indexOf("`fonts/acme-mono.woff2`");
+    const bold = content.indexOf("`fonts/acme-mono-bold.woff2`");
+
+    expect(content.indexOf("## Acme Mono")).toBeLessThan(
+      content.indexOf("## Inter")
+    );
+    expect(regular).toBeGreaterThan(0);
+    expect(bold).toBeLessThan(regular);
+    expect(content).toContain("`U+0000-00FF`");
+  });
+
+  it("renders an explicit empty state", () => {
+    expect(renderFontsDocument(emptySpec)).toContain(
+      "No documented fonts were found."
     );
   });
 });

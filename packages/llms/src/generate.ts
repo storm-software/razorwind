@@ -22,12 +22,14 @@ import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderComponentsDocument } from "./components";
 import { resolveResourceUrl, validHttpUrl } from "./format";
+import { renderFontsDocument } from "./fonts";
 import { renderIconsDocument } from "./icons";
 import { renderTokensDocument } from "./tokens";
 import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
 
 export { renderTokensDocument } from "./tokens";
 export { renderComponentsDocument } from "./components";
+export { renderFontsDocument } from "./fonts";
 export { renderIconsDocument } from "./icons";
 
 const FILES = [
@@ -126,7 +128,7 @@ export function renderLlmsDocuments(
     tokens: renderTokensDocument(spec),
     components: renderComponentsDocument(spec),
     icons: renderIconsDocument(spec),
-    fonts: `# ${title} Fonts\n`
+    fonts: renderFontsDocument(spec)
   };
 }
 
