@@ -26,20 +26,20 @@ catalog:
   "@shell-shock/preset-cli": ^0.9.37
   "@shell-shock/core": ^0.17.25
   "@shell-shock/nx": ^0.0.98
-  "@storm-software/config": ^1.138.72
-  "@storm-software/config-tools": ^1.190.136
-  "@storm-software/cspell": ^0.46.203
-  "@storm-software/eslint-plugin-pnpm": ^0.0.99
-  "@storm-software/eslint-config-react": ^0.0.93
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.99
-  "@storm-software/git-tools": ^2.131.144
-  "@storm-software/linting-tools": ^1.134.66
-  "@storm-software/markdownlint": ^0.30.291
-  "@storm-software/pnpm-tools": ^0.7.150
-  "@storm-software/prettier": ^0.59.189
-  "@storm-software/tsconfig": ^0.48.202
-  "@storm-software/untyped": ^0.24.278
-  "@storm-software/workspace-tools": ^1.297.5
+  "@storm-software/config": ^1.138.74
+  "@storm-software/config-tools": ^1.190.138
+  "@storm-software/cspell": ^0.46.205
+  "@storm-software/eslint-plugin-pnpm": ^0.0.101
+  "@storm-software/eslint-config-react": ^0.0.95
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.101
+  "@storm-software/git-tools": ^2.131.146
+  "@storm-software/linting-tools": ^1.134.68
+  "@storm-software/markdownlint": ^0.30.293
+  "@storm-software/pnpm-tools": ^0.7.152
+  "@storm-software/prettier": ^0.59.191
+  "@storm-software/tsconfig": ^0.48.204
+  "@storm-software/untyped": ^0.24.280
+  "@storm-software/workspace-tools": ^1.297.7
   "@stryke/env": ^0.20.133
   "@stryke/fs": ^0.33.116
   "@stryke/hash": ^0.13.69
@@ -50,7 +50,7 @@ catalog:
   "@stryke/types": ^0.12.42
   "@stryke/url": ^0.4.66
   "@tailwindcss/node": ^4.3.3
-  "@types/node": ^25.9.5
+  "@types/node": ^25.9.7
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   c12: ^3.3.4
   chalk: ^5.6.2
@@ -62,11 +62,11 @@ catalog:
   jiti: ^2.7.0
   json5: ^2.2.3
   jsonc-eslint-parser: ^3.3.0
-  lefthook: ^2.1.12
+  lefthook: ^2.1.14
   log4brains: ^1.1.0
   nx: 23.1.0
   pkg-types: ^2.3.3
-  prettier: ^3.9.6
+  prettier: ^3.9.7
   rimraf: ^6.1.3
   shadcn: ^4.21.0
   smol-toml: ^1.8.0
@@ -75,13 +75,13 @@ catalog:
   tsconfig-paths: ^4.2.0
   untyped: ^2.0.0
   verdaccio: 6.0.5
-  vite: ^8.2.2
+  vite: ^8.3.0
   vitest: ~4.1.11
-  yaml: ^2.9.0
-  zod: ^4.5.4
+  yaml: ^2.9.1
+  zod: ^4.6.5
   zx: ^8.8.5
   powerlines: ^0.47.212
-  "@storm-software/tsdoc": ^0.13.288
+  "@storm-software/tsdoc": ^0.13.290
 overrides:
   "@emnapi/core": 1.11.2
   "@emnapi/runtime": 1.11.2
