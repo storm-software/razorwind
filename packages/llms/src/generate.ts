@@ -20,11 +20,13 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
+import { renderComponentsDocument } from "./components";
 import { resolveResourceUrl, validHttpUrl } from "./format";
 import { renderTokensDocument } from "./tokens";
 import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
 
 export { renderTokensDocument } from "./tokens";
+export { renderComponentsDocument } from "./components";
 
 const FILES = [
   ["index", "llms.txt"],
@@ -120,7 +122,7 @@ export function renderLlmsDocuments(
   return {
     index: renderLlmsIndex(spec, options),
     tokens: renderTokensDocument(spec),
-    components: `# ${title} Components\n`,
+    components: renderComponentsDocument(spec),
     icons: `# ${title} Icons\n`,
     fonts: `# ${title} Fonts\n`
   };

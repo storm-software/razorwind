@@ -22,6 +22,7 @@ import llms, {
   generateLlms,
   renderLlmsDocuments,
   renderLlmsIndex,
+  renderComponentsDocument,
   renderTokensDocument
 } from "../src";
 
@@ -66,6 +67,51 @@ const tokenSpec = {
     }
   }
 } as unknown as Schema;
+
+const componentSpec = {
+  ...emptySpec,
+  components: {
+    card: {
+      name: "card",
+      title: "Card",
+      type: "component"
+    },
+    button: {
+      name: "button",
+      title: "Button",
+      type: "ui",
+      category: "actions",
+      description: "Triggers an action.",
+      tags: ["interactive", "action"],
+      related: ["icon-button"],
+      since: "1.0.0",
+      version: "2.0.0",
+      dependencies: { zeta: "^2.0.0", alpha: "^1.0.0" },
+      devDependencies: { vitest: "^4.0.0" },
+      registryDependencies: { icon: "*" },
+      files: [
+        { path: "src/button.tsx", type: "ui", target: "@ui/button.tsx" },
+        { path: "src/button.css", type: "style" }
+      ],
+      usage: [
+        {
+          name: "markdown",
+          title: "With markdown",
+          description: "Renders Markdown content.",
+          path: "usage/markdown.tsx",
+          language: "tsx",
+          content: 'const markdown = "```example```";'
+        },
+        {
+          name: "metadata",
+          title: "Metadata only",
+          path: "usage/metadata.tsx",
+          language: "tsx"
+        }
+      ]
+    }
+  }
+} satisfies Schema;
 
 describe("llms plugin", () => {
   it("exposes a Razorwind generate plugin", () => {
@@ -216,5 +262,51 @@ describe("renderTokensDocument", () => {
 
     expect(renderTokensDocument(tokenSpec)).toBe(first);
     expect(JSON.stringify(tokenSpec.tokens)).toBe(before);
+  });
+});
+
+describe("renderComponentsDocument", () => {
+  it("renders sorted component metadata, dependencies, and files", () => {
+    const content = renderComponentsDocument(componentSpec);
+    const button = content.indexOf("## Button");
+    const card = content.indexOf("## Card");
+    const alpha = content.indexOf("- `alpha`: `^1.0.0`");
+    const zeta = content.indexOf("- `zeta`: `^2.0.0`");
+
+    expect(button).toBeGreaterThan(0);
+    expect(card).toBeGreaterThan(button);
+    expect(content).toContain("Triggers an action.");
+    expect(content).toContain("- **Name:** `button`");
+    expect(content).toContain("- **Type:** `ui`");
+    expect(content).toContain("- **Category:** `actions`");
+    expect(content).toContain("- **Tags:** `interactive`, `action`");
+    expect(content).toContain("- **Related:** `icon-button`");
+    expect(content).toContain("- **Since:** `1.0.0`");
+    expect(content).toContain("- **Version:** `2.0.0`");
+    expect(alpha).toBeGreaterThan(0);
+    expect(zeta).toBeGreaterThan(alpha);
+    expect(content).toContain("### Development Dependencies");
+    expect(content).toContain("### Registry Dependencies");
+    expect(content.indexOf("`src/button.css`")).toBeLessThan(
+      content.indexOf("`src/button.tsx`")
+    );
+  });
+
+  it("renders safe source fences and preserves metadata-only examples", () => {
+    const content = renderComponentsDocument(componentSpec);
+
+    expect(content).toContain("#### With markdown");
+    expect(content).toContain("Renders Markdown content.");
+    expect(content).toContain("- **Path:** `usage/markdown.tsx`");
+    expect(content).toContain('````tsx\nconst markdown = "```example```";\n````');
+    expect(content).toContain("#### Metadata only");
+    expect(content).toContain("- **Path:** `usage/metadata.tsx`");
+    expect(content).not.toContain("````tsx\n\n````");
+  });
+
+  it("renders an explicit empty state", () => {
+    expect(renderComponentsDocument(emptySpec)).toContain(
+      "No documented components were found."
+    );
   });
 });
