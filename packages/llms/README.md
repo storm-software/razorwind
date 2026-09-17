@@ -64,6 +64,24 @@ Using [pnpm](https://pnpm.io):
 pnpm add -D @razorwind/llms
 ```
 
+<details>
+  <summary>Using npm</summary>
+
+```bash
+npm install -D @razorwind/llms
+```
+
+</details>
+
+<details>
+  <summary>Using Yarn</summary>
+
+```bash
+yarn add -D @razorwind/llms
+```
+
+</details>
+
 ## Usage
 
 ```ts
@@ -126,6 +144,13 @@ import {
   renderLlmsIndex,
   renderTokensDocument
 } from "@razorwind/llms/generate";
+import { schema } from "./design-system";
+
+const documents = renderLlmsDocuments(schema, {
+  baseUrl: "https://design.example.com/ai/"
+});
+
+console.log(documents.index);
 ```
 
 Generated files should be regenerated from the Razorwind schema rather than
