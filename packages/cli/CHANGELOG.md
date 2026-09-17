@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.4) (09/17/2026)
+
+### Bug Fixes
+
+- **llms:** Resolve issue with generate output ([bf4a6d5](https://github.com/storm-software/razorwind/commit/bf4a6d5))
+
 ## [0.0.3](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.3) (09/17/2026)
 
 ### Bug Fixes
