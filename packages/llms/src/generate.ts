@@ -121,8 +121,6 @@ export function renderLlmsDocuments(
   spec: Schema,
   options: LlmsPluginOptions = {}
 ): LlmsDocumentSet {
-  const title = resolveTitle(spec, options);
-
   return {
     index: renderLlmsIndex(spec, options),
     tokens: renderTokensDocument(spec),
