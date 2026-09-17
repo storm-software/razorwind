@@ -33,18 +33,18 @@ function inlineValues(
 }
 
 function renderLocalFiles(font: LocalFont): string {
-  const rows = font.files.toSorted((a, b) => a.path.localeCompare(b.path)).map(
-    file =>
-      `| \`${escapeTableCell(file.path)}\` | ${
-        file.format ? `\`${escapeTableCell(file.format)}\`` : ""
-      } | ${file.weight !== undefined ? `\`${file.weight}\`` : ""} | ${
-        file.style ? `\`${escapeTableCell(file.style)}\`` : ""
-      } | ${
-        file.unicodeRange
-          ? `\`${escapeTableCell(file.unicodeRange)}\``
-          : ""
-      } |`
-  );
+  const rows = font.files
+    .toSorted((a, b) => a.path.localeCompare(b.path))
+    .map(
+      file =>
+        `| \`${escapeTableCell(file.path)}\` | ${
+          file.format ? `\`${escapeTableCell(file.format)}\`` : ""
+        } | ${file.weight !== undefined ? `\`${file.weight}\`` : ""} | ${
+          file.style ? `\`${escapeTableCell(file.style)}\`` : ""
+        } | ${
+          file.unicodeRange ? `\`${escapeTableCell(file.unicodeRange)}\`` : ""
+        } |`
+    );
 
   return [
     "### Files",

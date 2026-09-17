@@ -17,11 +17,11 @@
  ------------------------------------------------------------------- */
 
 import type { Schema } from "@razorwind/core/schema";
+import type { BaseFlatToken } from "@razorwind/core/utils";
 import {
   flattenTokens,
   resolveSchemaIdentity,
-  titleCase,
-  type BaseFlatToken
+  titleCase
 } from "@razorwind/core/utils";
 import { escapeTableCell } from "./format";
 
@@ -30,14 +30,16 @@ function tokenGroup(token: BaseFlatToken): string {
 }
 
 function renderTokenTable(tokens: BaseFlatToken[]): string {
-  const rows = tokens.toSorted((a, b) => a.path.localeCompare(b.path)).map(
-    token =>
-      `| \`${escapeTableCell(token.path)}\` | ${
-        token.type ? `\`${escapeTableCell(token.type)}\`` : ""
-      } | \`${escapeTableCell(token.cssValue)}\` | ${escapeTableCell(
-        token.description
-      )} |`
-  );
+  const rows = tokens
+    .toSorted((a, b) => a.path.localeCompare(b.path))
+    .map(
+      token =>
+        `| \`${escapeTableCell(token.path)}\` | ${
+          token.type ? `\`${escapeTableCell(token.type)}\`` : ""
+        } | \`${escapeTableCell(token.cssValue)}\` | ${escapeTableCell(
+          token.description
+        )} |`
+    );
 
   return [
     "| Token | Type | Value | Description |",
@@ -62,9 +64,9 @@ export function renderTokensDocument(spec: Schema): string {
     return `${sections.join("\n\n")}\n`;
   }
 
-  const themes = [
-    ...new Set(tokens.map(token => token.theme ?? ""))
-  ].toSorted((a, b) => a.localeCompare(b));
+  const themes = [...new Set(tokens.map(token => token.theme ?? ""))].toSorted(
+    (a, b) => a.localeCompare(b)
+  );
   const showThemes = themes.length > 1 || themes[0] !== "";
 
   for (const theme of themes) {

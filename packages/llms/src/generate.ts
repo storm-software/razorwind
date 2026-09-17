@@ -21,16 +21,16 @@ import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderComponentsDocument } from "./components";
-import { resolveResourceUrl, validHttpUrl } from "./format";
 import { renderFontsDocument } from "./fonts";
+import { resolveResourceUrl, validHttpUrl } from "./format";
 import { renderIconsDocument } from "./icons";
 import { renderTokensDocument } from "./tokens";
 import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
 
-export { renderTokensDocument } from "./tokens";
 export { renderComponentsDocument } from "./components";
 export { renderFontsDocument } from "./fonts";
 export { renderIconsDocument } from "./icons";
+export { renderTokensDocument } from "./tokens";
 
 const FILES = [
   ["index", "llms.txt"],
@@ -95,12 +95,8 @@ export function renderLlmsIndex(
   const homepage = validHttpUrl(spec.homepage);
   const repository = validHttpUrl(spec.repository);
   const resources = [
-    ...(homepage
-      ? [`- [Homepage](${homepage}): Design system website.`]
-      : []),
-    ...(repository
-      ? [`- [Repository](${repository}): Source repository.`]
-      : [])
+    ...(homepage ? [`- [Homepage](${homepage}): Design system website.`] : []),
+    ...(repository ? [`- [Repository](${repository}): Source repository.`] : [])
   ];
   const sections = [
     `# ${title}`,

@@ -11,6 +11,7 @@ out
 .nx
 .shell-shock
 
+graphify-out
 .pnpm-store
 
 powerlines.d.ts
