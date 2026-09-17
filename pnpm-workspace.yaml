@@ -26,20 +26,20 @@ catalog:
   "@shell-shock/preset-cli": ^0.9.37
   "@shell-shock/core": ^0.17.25
   "@shell-shock/nx": ^0.0.98
-  "@storm-software/config": ^1.138.74
+  "@storm-software/config": ^1.138.75
   "@storm-software/config-tools": ^1.190.138
   "@storm-software/cspell": ^0.46.205
   "@storm-software/eslint-plugin-pnpm": ^0.0.101
   "@storm-software/eslint-config-react": ^0.0.95
   "@storm-software/eslint-plugin-tsdoc": ^0.0.101
-  "@storm-software/git-tools": ^2.131.146
+  "@storm-software/git-tools": ^2.131.147
   "@storm-software/linting-tools": ^1.134.68
   "@storm-software/markdownlint": ^0.30.293
-  "@storm-software/pnpm-tools": ^0.7.152
+  "@storm-software/pnpm-tools": ^0.7.153
   "@storm-software/prettier": ^0.59.191
   "@storm-software/tsconfig": ^0.48.204
   "@storm-software/untyped": ^0.24.280
-  "@storm-software/workspace-tools": ^1.297.7
+  "@storm-software/workspace-tools": ^1.297.8
   "@stryke/env": ^0.20.133
   "@stryke/fs": ^0.33.116
   "@stryke/hash": ^0.13.69
