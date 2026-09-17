@@ -73,7 +73,5 @@
     "@shell-shock/eslint-plugin": "catalog:",
     "@types/node": "catalog:"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "publishConfig": { "access": "public" }
 }

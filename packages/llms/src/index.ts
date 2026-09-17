@@ -16,15 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-import { definePlugin } from "@razorwind/core/plugin";
-import { generateLlms } from "./generate";
-import type { LlmsPluginOptions } from "./types";
-
 export * from "./generate";
 export type * from "./types";
-
-/** Generate AI-ready llms.txt documentation from a Razorwind schema. */
-export default definePlugin((options?: LlmsPluginOptions) => ({
-  name: "llms:generate",
-  generate: async spec => generateLlms(spec, options ?? {})
-}));

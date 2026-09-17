@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
@@ -149,4 +150,8 @@ export function generateLlms(
   return documents;
 }
 
-export default generateLlms;
+/** Generate AI-ready llms.txt documentation from a Razorwind schema. */
+export default definePlugin((options?: LlmsPluginOptions) => ({
+  name: "llms:generate",
+  generate: async spec => generateLlms(spec, options ?? {})
+}));
