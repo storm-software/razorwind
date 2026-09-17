@@ -11,27 +11,7 @@
   "release": {
     "groups": {
       "packages": {
-        "projects": [
-          "packages/core",
-          "packages/css",
-          "packages/color-variants",
-          "packages/design-md",
-          "packages/docgen",
-          "packages/shadcn",
-          "packages/storybook",
-          "packages/style-dictionary",
-          "packages/shiki",
-          "packages/tailwindcss",
-          "packages/tamagui",
-          "packages/vsce",
-          "packages/cursor",
-          "packages/zed",
-          "packages/zsh",
-          "packages/ghostty",
-          "packages/notepad-plus-plus",
-          "packages/vivaldi",
-          "packages/nx"
-        ],
+        "projects": ["packages/*"],
         "projectsRelationship": "independent",
         "version": {
           "manifestRootsToUpdate": [

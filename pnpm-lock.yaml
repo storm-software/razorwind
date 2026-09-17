@@ -317,32 +317,32 @@ catalogs:
       specifier: ^1.297.10
       version: 1.297.10
     '@stryke/env':
-      specifier: ^0.20.133
-      version: 0.20.133
+      specifier: ^0.20.134
+      version: 0.20.134
     '@stryke/fs':
-      specifier: ^0.33.116
-      version: 0.33.116
+      specifier: ^0.33.117
+      version: 0.33.117
     '@stryke/hash':
-      specifier: ^0.13.69
-      version: 0.13.69
+      specifier: ^0.13.70
+      version: 0.13.70
     '@stryke/helpers':
-      specifier: ^0.10.54
-      version: 0.10.54
+      specifier: ^0.10.55
+      version: 0.10.55
     '@stryke/path':
-      specifier: ^0.29.41
-      version: 0.29.41
+      specifier: ^0.29.42
+      version: 0.29.42
     '@stryke/string-format':
-      specifier: ^0.17.56
-      version: 0.17.56
+      specifier: ^0.17.57
+      version: 0.17.57
     '@stryke/type-checks':
-      specifier: ^0.6.47
-      version: 0.6.47
+      specifier: ^0.6.48
+      version: 0.6.48
     '@stryke/types':
-      specifier: ^0.12.42
-      version: 0.12.42
+      specifier: ^0.12.43
+      version: 0.12.43
     '@stryke/url':
-      specifier: ^0.4.66
-      version: 0.4.66
+      specifier: ^0.4.67
+      version: 0.4.67
     '@tailwindcss/node':
       specifier: ^4.3.3
       version: 4.3.3
@@ -655,25 +655,25 @@ importers:
         version: 0.0.79(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@stryke/env':
         specifier: 'catalog:'
-        version: 0.20.133(zod@4.6.5)
+        version: 0.20.134(zod@4.6.5)
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/string-format':
         specifier: 'catalog:'
-        version: 0.17.56
+        version: 0.17.57
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       '@stryke/url':
         specifier: 'catalog:'
-        version: 0.4.66(zod@4.6.5)
+        version: 0.4.67(zod@4.6.5)
       c12:
         specifier: 'catalog:'
         version: 3.3.4
@@ -728,16 +728,16 @@ importers:
         version: link:../style-dictionary
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       fast-glob:
         specifier: 'catalog:'
         version: 3.3.3
@@ -765,7 +765,7 @@ importers:
         version: link:../core
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
     devDependencies:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
@@ -790,13 +790,13 @@ importers:
         version: link:../core
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       style-dictionary:
         specifier: 'catalog:'
         version: 5.5.3
@@ -827,10 +827,10 @@ importers:
         version: link:../core
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
     devDependencies:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
@@ -924,25 +924,25 @@ importers:
         version: 1.297.10(@babel/traverse@7.29.8)(@storm-software/pnpm-tools@0.7.155(zod@4.6.5))(@types/node@25.9.7)(nx@23.2.1)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.7))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.7)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.7))(prettier-plugin-sh@0.15.0(prettier@3.9.7))(prettier-plugin-toml@2.0.6(prettier@3.9.7))(typescript@6.0.3)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0))
       '@stryke/env':
         specifier: 'catalog:'
-        version: 0.20.133(zod@4.6.5)
+        version: 0.20.134(zod@4.6.5)
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/hash':
         specifier: 'catalog:'
-        version: 0.13.69(zod@4.6.5)
+        version: 0.13.70(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/string-format':
         specifier: 'catalog:'
-        version: 0.17.56
+        version: 0.17.57
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       c12:
         specifier: 'catalog:'
         version: 3.3.4
@@ -1065,13 +1065,13 @@ importers:
         version: link:../core
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       c12:
         specifier: 'catalog:'
         version: 3.3.4
@@ -1117,7 +1117,7 @@ importers:
         version: link:../core
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
     devDependencies:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
@@ -1145,10 +1145,10 @@ importers:
         version: 10.6.0(@types/react@17.0.4)(storybook@10.6.0(@types/react@17.0.4)(prettier@3.9.7)(react@19.3.0))
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       react:
         specifier: '>=18'
         version: 19.3.0
@@ -1161,7 +1161,7 @@ importers:
         version: 0.1.614(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.30.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.7))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.7)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.7))(prettier-plugin-sh@0.15.0(prettier@3.9.7))(prettier-plugin-toml@2.0.6(prettier@3.9.7))(rolldown@1.2.9)(rollup@4.63.3)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.13)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.7)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(zod@4.6.5)
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.7
@@ -1179,7 +1179,7 @@ importers:
         version: link:../core
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       style-dictionary:
         specifier: 'catalog:'
         version: 5.5.3
@@ -1207,16 +1207,16 @@ importers:
         version: link:../core
       '@stryke/fs':
         specifier: 'catalog:'
-        version: 0.33.116(zod@4.6.5)
+        version: 0.33.117(zod@4.6.5)
       '@stryke/path':
         specifier: 'catalog:'
-        version: 0.29.41
+        version: 0.29.42
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       '@stryke/types':
         specifier: 'catalog:'
-        version: 0.12.42
+        version: 0.12.43
       '@tailwindcss/node':
         specifier: 'catalog:'
         version: 4.3.3
@@ -1250,13 +1250,13 @@ importers:
         version: link:../core
       '@stryke/helpers':
         specifier: 'catalog:'
-        version: 0.10.54
+        version: 0.10.55
       '@stryke/string-format':
         specifier: 'catalog:'
-        version: 0.17.56
+        version: 0.17.57
       '@stryke/type-checks':
         specifier: 'catalog:'
-        version: 0.6.47
+        version: 0.6.48
       '@tamagui/config':
         specifier: '>=1.120.0'
         version: 2.7.7(react-dom@19.3.0(react@19.3.0))(react-native-reanimated@4.5.3(react-native-worklets@0.11.3(@babel/core@8.0.5)(@react-native/metro-config@0.86.1(@babel/core@8.0.5))(react-native@0.86.0(@babel/core@8.0.5)(@react-native/metro-config@0.86.1(@babel/core@8.0.5))(@types/react@17.0.4)(react@19.3.0))(react@19.3.0))(react-native@0.86.0(@babel/core@8.0.5)(@react-native/metro-config@0.86.1(@babel/core@8.0.5))(@types/react@17.0.4)(react@19.3.0))(react@19.3.0))(react@19.3.0)
@@ -6188,6 +6188,9 @@ packages:
   '@stryke/convert@0.7.45':
     resolution: {integrity: sha512-Hmfylli03PX0z51/dgUCXCprp0li5lXerNjly9XTNM3PnyRJTqyMwcpe/i7IuRitIwe9GoIQmlyZXvJo8G7oOQ==}
 
+  '@stryke/convert@0.7.46':
+    resolution: {integrity: sha512-3ShEfsHUhFfn9XPfsMN+oKmBXIrp5iTXbKX7EzxORXGYpLp4PK6JaCCLOW7uIJn/65WmnGffc570G40rJ9Rw5g==}
+
   '@stryke/date@0.0.26':
     resolution: {integrity: sha512-R/hrhq6wYxdOtJR1whPGU6M0H/he8zpgdcU3VYjLVI2WbEUlyDoLI3ltU2R3qJa7l5q7UMMlmT6jTB8PhOppHg==}
 
@@ -6197,14 +6200,26 @@ packages:
   '@stryke/env@0.20.133':
     resolution: {integrity: sha512-MmsqC5W8vqjBPjcFENtfvzVQ2bqAESR3VLl4HonhxD53ZPEoaz0euiVc1g8rc0DrD+4IXeX9UuvgLB00AJUA0A==}
 
+  '@stryke/env@0.20.134':
+    resolution: {integrity: sha512-E8x+Z78BDyoJ0p5xSZyHp7zrvSAkS8AXKNZu0vyR1Zfwglcgna/9BG/jZSHGhJzvulyMn9ud0GioGUHjSJF/9w==}
+
   '@stryke/fs@0.33.116':
     resolution: {integrity: sha512-+MqSCWtfChkHyE9tr8aDNl/beQ/JykheF2xGj9kDNVRnRQhcZLvizapO8tTREEEa0KyDMU2jqSkvoIhlPoXfXA==}
+
+  '@stryke/fs@0.33.117':
+    resolution: {integrity: sha512-DdMi1p9PbXBE2NFSyQY0Cfc3XAQr0OSt+bFlkNT/sRn40CC1dkgNSejTlTlJGFjKv4gYPMTh9M6sL8O5+neaYg==}
 
   '@stryke/hash@0.13.69':
     resolution: {integrity: sha512-ehAmWQ/gejTl/Lb320jJvKFqAP3P4BgylFsxHDQvVFXrzrwNcBNGG7kipqBXAX6vJd1Po7fcu98QRTMG+h0iqA==}
 
+  '@stryke/hash@0.13.70':
+    resolution: {integrity: sha512-kfWAxfEM4crC61dpFKf3qhRsWdjlyBst+ZtlSFKjRrKiXNBhj3ITrR5rR8IZYj1A7BXaRit62+SFBPvu3nvfWQ==}
+
   '@stryke/helpers@0.10.54':
     resolution: {integrity: sha512-xexkhWaFY+raOBrllvCXYGpgvO9f3/rJ/iNK341InDQahHfoCocIn46a2CQqQhavHoFNTp5mm8ZCXS9bwdZrWQ==}
+
+  '@stryke/helpers@0.10.55':
+    resolution: {integrity: sha512-zkXr7WPcp7QiSIbiWnPMs+aA1c7++5Ii89FaDBV0CKI/AaI5i7uMoftiPuboiqh4Pcqq0KFP/XB45+MVbpn1Tg==}
 
   '@stryke/http@0.12.106':
     resolution: {integrity: sha512-JzPvoS/PyTK4/+bZUmoeAto64B4oHhpo9KhSFtQI82xMo/adrb0MSNtezxStGBygShUGkK7qxMFLhzGLeiBBbw==}
@@ -6212,8 +6227,14 @@ packages:
   '@stryke/json@0.15.38':
     resolution: {integrity: sha512-+N2b893bE0uZ1/RabWekbLhQkwn9JrgiwDB1fWTGcvtgGJzsIbuYi8TrHZDshw5YP5bt2T2/y7R1Yh7ToGlmvA==}
 
+  '@stryke/json@0.15.39':
+    resolution: {integrity: sha512-zh4ijFFcA8l72Sjwxkt2TmwQYPx1J9lqOHlh5pct2NCXwxRYNroxs4k5SSBJ0x+wKfBJd6e+NUFP1Qfl83oiKA==}
+
   '@stryke/path@0.29.41':
     resolution: {integrity: sha512-f9ihfDRIYrNTmG1CaI8zTXOzW3OEa0G5Rp1/AiiScCsNJWNa6BTAWOMmmX1Rt1BX4lyc55Qf+1iixkYZqUqdIw==}
+
+  '@stryke/path@0.29.42':
+    resolution: {integrity: sha512-iI7G9vBZp6BQKikn/yE9aRsZCiOOkYFwDWVZuvJ1SKH0hcLG0cHoCXcHv+JXoQImCLt8X6bJ0/bJjh6ghjCjYg==}
 
   '@stryke/resolve@0.0.11':
     resolution: {integrity: sha512-zc4AzjyEIaD+GQxE+GLnDIX09c3uQOCT0uZ4pxiCL+aYG03RD4lwn3BURMsTgzvvbswOUGM2JZENFEd1yUvX4Q==}
@@ -6224,17 +6245,29 @@ packages:
   '@stryke/string-format@0.17.56':
     resolution: {integrity: sha512-9jWFDdX2JHLOZrmupmkQg/y+AWNFFdhwlEhPJwMTdrx+Wy1gSH69sfgf/0o1dfRpL2DFXLhPlLCbYUfRxouhVg==}
 
+  '@stryke/string-format@0.17.57':
+    resolution: {integrity: sha512-wJiCjDR3KRUZbnySQQQj3Xh5gLhMY2BzGfUJxGtx3GRHcdl5vXPXJ4yUlhOsD3+IVc//5ZIBcM0HgUn2nUZ4xQ==}
+
   '@stryke/type-checks@0.6.47':
     resolution: {integrity: sha512-jCPmGcEGERMus86mN2bGsVmsKAShDif4vopExltGo2VKPaYWrAuWWGmi/A7U7Y0VvYP9pUosHY5IWe4VrQ4QGg==}
 
+  '@stryke/type-checks@0.6.48':
+    resolution: {integrity: sha512-FeADtoZKULzsRjgbUsiwsgbMb0Ji5FGuibSpVhzIfos2MSGt5dMZPKxjkPXyWaq6NAx4gAF0ZgKgJso3b9fV8w==}
+
   '@stryke/types@0.12.42':
     resolution: {integrity: sha512-YS37PtAeN464+HIGQPMhtht+OBGd5HJN+WXqK66SJrNEsb+CWVzSgBuvkJPfQTDeEwqQr2gU+gaiR071YKFgQw==}
+
+  '@stryke/types@0.12.43':
+    resolution: {integrity: sha512-O3s6xCiXWL567FWxDokm8y2tjIkhZYnzpkocNIhVbTAx+HQyOEf77v83w41mrssVK0IWgi02vL/Ywmsg/keykw==}
 
   '@stryke/unique-id@0.3.127':
     resolution: {integrity: sha512-tPYMQiJcWD/+4LrCF164zW4Fpe9J7GiJhKG5Ve2oReo/Z/wCNaEXIp9LQVrZ8+oEoRcXYSI15uDn91Vg88MRNA==}
 
   '@stryke/url@0.4.66':
     resolution: {integrity: sha512-obBBzh6uEoOW+fkphzmIRrnCPvCGG+Kvy0y8Aui/7dQWDms46F5mnPDa7Ai591CjMqJk7FxJA/YV4L027vQ49A==}
+
+  '@stryke/url@0.4.67':
+    resolution: {integrity: sha512-NzmOPTCM/gchQsQ4hf/MwMgyMR0JlfEh+YADmtrWAC9ebd6uavyqCxaBUW1SC6AhgI3oarRtMZFxLunUKhzeOw==}
 
   '@stryke/zod@0.3.60':
     resolution: {integrity: sha512-jfbOe0XMJXLSTtwVCaO+6aeHMcZHz5/FxKTg7Go1Q/RZunR/j9On2YoewTjlRivqhlyUR4toErjktQtAhkJ4jA==}
@@ -26056,6 +26089,11 @@ snapshots:
       '@stryke/type-checks': 0.6.47
       '@stryke/types': 0.12.42
 
+  '@stryke/convert@0.7.46':
+    dependencies:
+      '@stryke/type-checks': 0.6.48
+      '@stryke/types': 0.12.43
+
   '@stryke/date@0.0.26': {}
 
   '@stryke/date@0.0.7': {}
@@ -26067,6 +26105,18 @@ snapshots:
       '@stryke/fs': 0.33.116(zod@4.6.5)
       '@stryke/path': 0.29.41
       '@stryke/string-format': 0.17.56
+      defu: 6.1.7
+    transitivePeerDependencies:
+      - magicast
+      - zod
+
+  '@stryke/env@0.20.134(zod@4.6.5)':
+    dependencies:
+      '@dotenvx/dotenvx': 1.35.0
+      '@stryke/convert': 0.7.46
+      '@stryke/fs': 0.33.117(zod@4.6.5)
+      '@stryke/path': 0.29.42
+      '@stryke/string-format': 0.17.57
       defu: 6.1.7
     transitivePeerDependencies:
       - magicast
@@ -26099,6 +26149,33 @@ snapshots:
       - magicast
       - zod
 
+  '@stryke/fs@0.33.117(zod@4.6.5)':
+    dependencies:
+      '@antfu/install-pkg': 1.1.0
+      '@storm-software/config-tools': 1.190.141(zod@4.6.5)
+      '@stryke/convert': 0.7.46
+      '@stryke/helpers': 0.10.55
+      '@stryke/json': 0.15.39
+      '@stryke/path': 0.29.42
+      '@stryke/string-format': 0.17.57
+      '@stryke/type-checks': 0.6.48
+      '@stryke/types': 0.12.43
+      acorn: 8.18.0
+      chalk: 5.6.2
+      defu: 6.1.7
+      glob: 11.1.0
+      nanotar: 0.2.1
+      pathe: 2.0.3
+      pkg-types: 2.3.3
+      semver: 7.7.1
+      smol-toml: 1.8.0
+      tinyexec: 0.3.2
+      ufo: 1.6.4
+      yaml: 2.9.1
+    transitivePeerDependencies:
+      - magicast
+      - zod
+
   '@stryke/hash@0.13.69(zod@4.6.5)':
     dependencies:
       '@stryke/fs': 0.33.116(zod@4.6.5)
@@ -26110,11 +26187,28 @@ snapshots:
       - magicast
       - zod
 
+  '@stryke/hash@0.13.70(zod@4.6.5)':
+    dependencies:
+      '@stryke/fs': 0.33.117(zod@4.6.5)
+      '@stryke/json': 0.15.39
+      '@stryke/type-checks': 0.6.48
+      js-xxhash: 4.0.0
+      ohash: 2.0.12
+    transitivePeerDependencies:
+      - magicast
+      - zod
+
   '@stryke/helpers@0.10.54':
     dependencies:
       '@stryke/convert': 0.7.45
       '@stryke/type-checks': 0.6.47
       '@stryke/types': 0.12.42
+
+  '@stryke/helpers@0.10.55':
+    dependencies:
+      '@stryke/convert': 0.7.46
+      '@stryke/type-checks': 0.6.48
+      '@stryke/types': 0.12.43
 
   '@stryke/http@0.12.106(zod@4.6.5)':
     dependencies:
@@ -26137,11 +26231,26 @@ snapshots:
       lines-and-columns: 2.0.4
       superjson: 2.2.6
 
+  '@stryke/json@0.15.39':
+    dependencies:
+      '@stryke/type-checks': 0.6.48
+      '@stryke/types': 0.12.43
+      buffer: 6.0.3
+      jsonc-parser: 3.3.1
+      lines-and-columns: 2.0.4
+      superjson: 2.2.6
+
   '@stryke/path@0.29.41':
     dependencies:
       '@stryke/convert': 0.7.45
       '@stryke/type-checks': 0.6.47
       '@stryke/types': 0.12.42
+
+  '@stryke/path@0.29.42':
+    dependencies:
+      '@stryke/convert': 0.7.46
+      '@stryke/type-checks': 0.6.48
+      '@stryke/types': 0.12.43
 
   '@stryke/resolve@0.0.11(zod@4.6.5)':
     dependencies:
@@ -26187,11 +26296,23 @@ snapshots:
       '@stryke/path': 0.29.41
       '@stryke/types': 0.12.42
 
+  '@stryke/string-format@0.17.57':
+    dependencies:
+      '@stryke/helpers': 0.10.55
+      '@stryke/path': 0.29.42
+      '@stryke/types': 0.12.43
+
   '@stryke/type-checks@0.6.47':
     dependencies:
       '@stryke/types': 0.12.42
 
+  '@stryke/type-checks@0.6.48':
+    dependencies:
+      '@stryke/types': 0.12.43
+
   '@stryke/types@0.12.42': {}
+
+  '@stryke/types@0.12.43': {}
 
   '@stryke/unique-id@0.3.127(zod@4.6.5)':
     dependencies:
@@ -26207,6 +26328,16 @@ snapshots:
       '@stryke/json': 0.15.38
       '@stryke/path': 0.29.41
       '@stryke/type-checks': 0.6.47
+    transitivePeerDependencies:
+      - magicast
+      - zod
+
+  '@stryke/url@0.4.67(zod@4.6.5)':
+    dependencies:
+      '@stryke/fs': 0.33.117(zod@4.6.5)
+      '@stryke/json': 0.15.39
+      '@stryke/path': 0.29.42
+      '@stryke/type-checks': 0.6.48
     transitivePeerDependencies:
       - magicast
       - zod
