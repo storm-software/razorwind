@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.53](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.53) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.52) (09/17/2026)
 
 ### Updated Dependencies

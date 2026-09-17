@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Ghostty
 
+## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/ghostty%400.0.41) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/ghostty%400.0.40) (09/17/2026)
 
 ### Updated Dependencies

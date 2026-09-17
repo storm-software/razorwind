@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vivaldi
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.15) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.14) (09/17/2026)
 
 ### Updated Dependencies

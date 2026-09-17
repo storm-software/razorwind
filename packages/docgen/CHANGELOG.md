@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.63](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.63) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.62](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.62) (09/17/2026)
 
 ### Updated Dependencies

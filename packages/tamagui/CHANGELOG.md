@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.66](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.66) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.65](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.65) (09/17/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.67](https://github.com/storm-software/razorwind/releases/tag/core%400.0.67) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
 ## [0.0.65](https://github.com/storm-software/razorwind/releases/tag/core%400.0.65) (09/09/2026)
 
 ### Bug Fixes

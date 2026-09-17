@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Color Variants
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.44) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.43) (09/17/2026)
 
 ### Updated Dependencies

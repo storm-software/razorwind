@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/css%400.0.50) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace's `README.md` files ([449b114](https://github.com/storm-software/razorwind/commit/449b114))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.67**
+- Updated **style-dictionary** to **v0.0.53**
+
 ## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/css%400.0.49) (09/17/2026)
 
 ### Updated Dependencies
