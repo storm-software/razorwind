@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
   "repository": {
@@ -50,9 +50,13 @@
     "@shell-shock/eslint-plugin": "catalog:",
     "@types/node": "catalog:"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "types": "./dist/index.d.cts",
-  "bin": { "razorwind": "./dist/bin.mjs" },
+  "bin": {
+    "razorwind": "./dist/bin.mjs"
+  },
   "exports": {
     "./bin": "./dist/bin.mjs",
     "./clean": "./dist/clean.mjs",
