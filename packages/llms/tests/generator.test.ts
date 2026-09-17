@@ -23,6 +23,7 @@ import llms, {
   renderLlmsDocuments,
   renderLlmsIndex,
   renderComponentsDocument,
+  renderIconsDocument,
   renderTokensDocument
 } from "../src";
 
@@ -107,6 +108,43 @@ const componentSpec = {
           title: "Metadata only",
           path: "usage/metadata.tsx",
           language: "tsx"
+        }
+      ]
+    }
+  }
+} satisfies Schema;
+
+const iconSpec = {
+  ...emptySpec,
+  icons: {
+    settings: {
+      name: "settings",
+      title: "Settings",
+      files: [{ path: "icons/settings.svg", type: "svg" }]
+    },
+    home: {
+      name: "home",
+      title: "Home",
+      category: "navigation",
+      description: "Navigate to the home screen.",
+      tags: ["house", "navigation"],
+      aliases: ["house"],
+      related: ["dashboard"],
+      since: "1.0.0",
+      version: "2.0.0",
+      files: [
+        {
+          path: "icons/home-light.svg",
+          type: "svg",
+          theme: "light",
+          target: "assets/home.svg",
+          content: "RAW_LIGHT_SVG_SENTINEL"
+        },
+        {
+          path: "icons/home-dark.svg",
+          type: "svg",
+          theme: "dark",
+          content: "RAW_DARK_SVG_SENTINEL"
         }
       ]
     }
@@ -307,6 +345,42 @@ describe("renderComponentsDocument", () => {
   it("renders an explicit empty state", () => {
     expect(renderComponentsDocument(emptySpec)).toContain(
       "No documented components were found."
+    );
+  });
+});
+
+describe("renderIconsDocument", () => {
+  it("renders sorted icon metadata and themed asset files", () => {
+    const content = renderIconsDocument(iconSpec);
+    const home = content.indexOf("## Home");
+    const settings = content.indexOf("## Settings");
+
+    expect(home).toBeGreaterThan(0);
+    expect(settings).toBeGreaterThan(home);
+    expect(content).toContain("Navigate to the home screen.");
+    expect(content).toContain("- **Name:** `home`");
+    expect(content).toContain("- **Category:** `navigation`");
+    expect(content).toContain("- **Tags:** `house`, `navigation`");
+    expect(content).toContain("- **Aliases:** `house`");
+    expect(content).toContain("- **Related:** `dashboard`");
+    expect(content).toContain("- **Since:** `1.0.0`");
+    expect(content).toContain("- **Version:** `2.0.0`");
+    expect(content.indexOf("`icons/home-dark.svg`")).toBeLessThan(
+      content.indexOf("`icons/home-light.svg`")
+    );
+    expect(content).toContain("`assets/home.svg`");
+  });
+
+  it("does not embed raw icon file contents", () => {
+    const content = renderIconsDocument(iconSpec);
+
+    expect(content).not.toContain("RAW_LIGHT_SVG_SENTINEL");
+    expect(content).not.toContain("RAW_DARK_SVG_SENTINEL");
+  });
+
+  it("renders an explicit empty state", () => {
+    expect(renderIconsDocument(emptySpec)).toContain(
+      "No documented icons were found."
     );
   });
 });
