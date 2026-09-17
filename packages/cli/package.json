@@ -1,18 +1,29 @@
 {
   "name": "@razorwind/cli",
   "version": "0.0.2",
-  "type": "module",
+  "private": true,
   "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/razorwind.git",
-    "directory": "packages/cli"
-  },
+  "keywords": [
+    "cli",
+    "razorwind",
+    "storm-software",
+    "shell-shock"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/cli"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,33 +43,10 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": true,
-  "files": ["dist"],
-  "keywords": ["cli", "razorwind", "storm-software", "shell-shock"],
-  "dependencies": {
-    "@shell-shock/core": "catalog:",
-    "@shell-shock/preset-cli": "catalog:",
-    "@powerlines/plugin-env": "catalog:",
-    "@razorwind/core": "workspace:*"
-  },
-  "devDependencies": {
-    "@shell-shock/eslint-plugin": "catalog:",
-    "@types/node": "catalog:"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "types": "./dist/index.d.cts",
-  "bin": {
-    "razorwind": "./dist/bin.mjs"
-  },
+  "type": "module",
   "exports": {
     "./bin": "./dist/bin.mjs",
+    "./changelog": "./dist/changelog.mjs",
     "./clean": "./dist/clean.mjs",
     "./completions-bash-config": "./dist/completions-bash-config.mjs",
     "./completions-bash-script": "./dist/completions-bash-script.mjs",
@@ -73,5 +61,26 @@
     "./help": "./dist/help.mjs",
     "./package.json": "./package.json",
     "./update": "./dist/update.mjs"
+  },
+  "types": "./dist/index.d.cts",
+  "bin": {
+    "razorwind": "./dist/bin.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@powerlines/plugin-env": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@shell-shock/core": "catalog:",
+    "@shell-shock/preset-cli": "catalog:"
+  },
+  "devDependencies": {
+    "@shell-shock/eslint-plugin": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

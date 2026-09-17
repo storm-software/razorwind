@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { CommandMetadata } from "@shell-shock/core";
+import { createEngine } from "@shell-shock/core/engine";
 
 export const metadata = {
   title: "Clean",
@@ -35,6 +36,17 @@ export interface CleanOptions {
   root?: string;
 }
 
-async function handler(options: CleanOptions) {}
+async function handler(options: CleanOptions = {}) {
+  const engineOptions: Parameters<typeof createEngine>[0] & {
+    root: string;
+  } = {
+    root: options.root ?? process.cwd()
+  };
+  const engine = await createEngine(engineOptions);
+
+  await engine.clean({
+    command: "clean"
+  });
+}
 
 export default handler;

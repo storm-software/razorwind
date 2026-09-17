@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import { createExecute } from "@power-plant/core";
+import { generator } from "@razorwind/core";
 import type { CommandMetadata } from "@shell-shock/core";
 
 export const metadata = {
@@ -34,6 +36,11 @@ export interface GenerateOptions {
   root?: string;
 }
 
-async function handler(options: GenerateOptions) {}
+async function handler(options: GenerateOptions = {}) {
+  const { root, ...generatorOptions } = options;
+  const execute = await createExecute({ cwd: root ?? process.cwd() });
+
+  await execute(generator, generatorOptions);
+}
 
 export default handler;

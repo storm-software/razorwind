@@ -56,18 +56,19 @@ async function handler(
   type: "data" | "cache" | "logs" | "temp" | "all" = "all"
 ) {
   const config = await resolveConfig(process.cwd(), {});
+  const selectedType = options.type ?? type;
 
   const envPaths = [] as string[];
-  if (type === "all" || type === "data") {
+  if (selectedType === "all" || selectedType === "data") {
     envPaths.push(config.envPaths.data);
   }
-  if (type === "all" || type === "cache") {
+  if (selectedType === "all" || selectedType === "cache") {
     envPaths.push(config.envPaths.cache);
   }
-  if (type === "all" || type === "logs") {
+  if (selectedType === "all" || selectedType === "logs") {
     envPaths.push(config.envPaths.log);
   }
-  if (type === "all" || type === "temp") {
+  if (selectedType === "all" || selectedType === "temp") {
     envPaths.push(config.envPaths.temp);
   }
 

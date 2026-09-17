@@ -1,5 +1,15 @@
-import { describe, expect, it } from "vitest";
-import { metadata } from "../../../src/commands/clean/command";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const { clean, createEngine } = vi.hoisted(() => ({
+  clean: vi.fn(),
+  createEngine: vi.fn()
+}));
+
+vi.mock("@shell-shock/core/engine", () => ({ createEngine }));
+
+import handler, {
+  metadata
+} from "../../../src/commands/clean/command";
 
 describe("clean command metadata", () => {
   it("has a title", () => {
@@ -18,5 +28,22 @@ describe("clean command metadata", () => {
 
   it("title is 'Clean'", () => {
     expect(metadata.title).toBe("Clean");
+  });
+});
+
+describe("clean command", () => {
+  beforeEach(() => {
+    clean.mockReset();
+    createEngine.mockReset();
+    createEngine.mockResolvedValue({ clean });
+  });
+
+  it("runs Shell Shock cleanup at the requested root", async () => {
+    await handler({ root: "/tmp/razorwind-clean" });
+
+    expect(createEngine).toHaveBeenCalledWith({
+      root: "/tmp/razorwind-clean"
+    });
+    expect(clean).toHaveBeenCalledWith({});
   });
 });

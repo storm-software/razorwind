@@ -148,3 +148,5 @@ export function generateLlms(
 
   return documents;
 }
+
+export default generateLlms;
