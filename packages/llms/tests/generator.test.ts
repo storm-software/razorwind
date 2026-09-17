@@ -21,7 +21,8 @@ import { describe, expect, it } from "vitest";
 import llms, {
   generateLlms,
   renderLlmsDocuments,
-  renderLlmsIndex
+  renderLlmsIndex,
+  renderTokensDocument
 } from "../src";
 
 const emptySpec = {
@@ -39,6 +40,32 @@ const resourceSpec = {
   homepage: "https://design.acme.test",
   repository: "https://github.com/acme/system"
 } satisfies Schema;
+
+const tokenSpec = {
+  ...emptySpec,
+  tokens: {
+    light: {
+      color: {
+        $type: "color",
+        primary: { $value: "#0066cc", $description: "Brand primary" },
+        hidden: { $value: "#ff00ff", skipDocs: true }
+      },
+      spacing: {
+        $type: "dimension",
+        sm: { $value: { value: 8, unit: "px" } }
+      }
+    },
+    dark: {
+      color: {
+        $type: "color",
+        primary: {
+          $value: "#66aaff",
+          $description: "Brand primary | dark"
+        }
+      }
+    }
+  }
+} as unknown as Schema;
 
 describe("llms plugin", () => {
   it("exposes a Razorwind generate plugin", () => {
@@ -153,5 +180,41 @@ Follow Acme accessibility guidance.
     expect(() =>
       renderLlmsIndex(emptySpec, { details: "## Override" })
     ).toThrow(/details.*H1 or H2/i);
+  });
+});
+
+describe("renderTokensDocument", () => {
+  it("groups formatted tokens by sorted theme and token group", () => {
+    const content = renderTokensDocument(tokenSpec);
+    const dark = content.indexOf("## Dark");
+    const light = content.indexOf("## Light");
+
+    expect(dark).toBeGreaterThan(0);
+    expect(light).toBeGreaterThan(dark);
+    expect(content).toContain("### Color");
+    expect(content).toContain("### Spacing");
+    expect(content).toContain(
+      "| `color.primary` | `color` | `#0066cc` | Brand primary |"
+    );
+    expect(content).toContain(
+      "| `color.primary` | `color` | `#66aaff` | Brand primary \\| dark |"
+    );
+    expect(content).toContain("| `spacing.sm` | `dimension` | `8px` |  |"
+    );
+    expect(content).not.toContain("hidden");
+  });
+
+  it("renders an explicit empty state", () => {
+    expect(renderTokensDocument(emptySpec)).toContain(
+      "No documented tokens were found."
+    );
+  });
+
+  it("is deterministic and does not mutate the schema", () => {
+    const before = JSON.stringify(tokenSpec.tokens);
+    const first = renderTokensDocument(tokenSpec);
+
+    expect(renderTokensDocument(tokenSpec)).toBe(first);
+    expect(JSON.stringify(tokenSpec.tokens)).toBe(before);
   });
 });

@@ -21,7 +21,10 @@ import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { resolveResourceUrl, validHttpUrl } from "./format";
+import { renderTokensDocument } from "./tokens";
 import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
+
+export { renderTokensDocument } from "./tokens";
 
 const FILES = [
   ["index", "llms.txt"],
@@ -116,7 +119,7 @@ export function renderLlmsDocuments(
 
   return {
     index: renderLlmsIndex(spec, options),
-    tokens: `# ${title} Tokens\n`,
+    tokens: renderTokensDocument(spec),
     components: `# ${title} Components\n`,
     icons: `# ${title} Icons\n`,
     fonts: `# ${title} Fonts\n`
