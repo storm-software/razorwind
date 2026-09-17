@@ -20,6 +20,7 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
 import { join } from "node:path";
+import { resolveResourceUrl, validHttpUrl } from "./format";
 import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
 
 const FILES = [
@@ -30,16 +31,91 @@ const FILES = [
   ["fonts", "llms-fonts.txt"]
 ] as const;
 
+const COMPANION_LINKS = [
+  [
+    "Design Tokens",
+    "llms-tokens.txt",
+    "Approved design tokens, values, themes, and usage descriptions."
+  ],
+  [
+    "Components",
+    "llms-components.txt",
+    "Available components, dependencies, files, and usage examples."
+  ],
+  [
+    "Icons",
+    "llms-icons.txt",
+    "Available icon names, aliases, metadata, and asset variants."
+  ],
+  [
+    "Fonts",
+    "llms-fonts.txt",
+    "Approved font families, roles, sources, weights, and files."
+  ]
+] as const;
+
+function resolveTitle(spec: Schema, options: LlmsPluginOptions): string {
+  if (options.title !== undefined && options.title.trim().length === 0) {
+    throw new Error("title cannot be empty.");
+  }
+
+  return (
+    options.title?.trim() ??
+    resolveSchemaIdentity(spec).title ??
+    "Design System"
+  );
+}
+
+/** Render the standards-compatible llms.txt index. */
+export function renderLlmsIndex(
+  spec: Schema,
+  options: LlmsPluginOptions = {}
+): string {
+  const title = resolveTitle(spec, options);
+  const summary = (options.summary ?? spec.description)?.trim();
+  const details = options.details?.trim();
+
+  if (details && /^ {0,3}#{1,2}\s+/m.test(details)) {
+    throw new Error("details cannot contain H1 or H2 headings.");
+  }
+
+  const referenceLinks = COMPANION_LINKS.map(
+    ([label, file, description]) =>
+      `- [${label}](${resolveResourceUrl(options.baseUrl, file)}): ${description}`
+  );
+  const homepage = validHttpUrl(spec.homepage);
+  const repository = validHttpUrl(spec.repository);
+  const resources = [
+    ...(homepage
+      ? [`- [Homepage](${homepage}): Design system website.`]
+      : []),
+    ...(repository
+      ? [`- [Repository](${repository}): Source repository.`]
+      : [])
+  ];
+  const sections = [
+    `# ${title}`,
+    ...(summary ? [`> ${summary}`] : []),
+    ...(details ? [details] : []),
+    "## Design System Reference",
+    referenceLinks.join("\n"),
+    ...(resources.length > 0
+      ? ["## Project Resources", resources.join("\n")]
+      : [])
+  ];
+
+  return `${sections.join("\n\n")}\n`;
+}
+
 /** Render the complete llms.txt document set from a Razorwind schema. */
 export function renderLlmsDocuments(
   spec: Schema,
   options: LlmsPluginOptions = {}
 ): LlmsDocumentSet {
-  const title =
-    options.title ?? resolveSchemaIdentity(spec).title ?? "Design System";
+  const title = resolveTitle(spec, options);
 
   return {
-    index: `# ${title}\n`,
+    index: renderLlmsIndex(spec, options),
     tokens: `# ${title} Tokens\n`,
     components: `# ${title} Components\n`,
     icons: `# ${title} Icons\n`,

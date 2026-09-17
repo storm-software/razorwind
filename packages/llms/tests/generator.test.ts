@@ -18,7 +18,11 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
-import llms, { generateLlms, renderLlmsDocuments } from "../src";
+import llms, {
+  generateLlms,
+  renderLlmsDocuments,
+  renderLlmsIndex
+} from "../src";
 
 const emptySpec = {
   name: "@acme/system",
@@ -28,6 +32,12 @@ const emptySpec = {
   components: {},
   icons: {},
   fonts: {}
+} satisfies Schema;
+
+const resourceSpec = {
+  ...emptySpec,
+  homepage: "https://design.acme.test",
+  repository: "https://github.com/acme/system"
 } satisfies Schema;
 
 describe("llms plugin", () => {
@@ -68,5 +78,80 @@ describe("llms plugin", () => {
       "public/llms-icons.txt",
       "public/llms-fonts.txt"
     ]);
+  });
+});
+
+describe("renderLlmsIndex", () => {
+  it("renders the standard index structure with relative companion links", () => {
+    expect(
+      renderLlmsIndex(resourceSpec, {
+        details: "Follow Acme accessibility guidance."
+      })
+    ).toBe(`# Acme Design System
+
+> Components and tokens for Acme products.
+
+Follow Acme accessibility guidance.
+
+## Design System Reference
+
+- [Design Tokens](llms-tokens.txt): Approved design tokens, values, themes, and usage descriptions.
+- [Components](llms-components.txt): Available components, dependencies, files, and usage examples.
+- [Icons](llms-icons.txt): Available icon names, aliases, metadata, and asset variants.
+- [Fonts](llms-fonts.txt): Approved font families, roles, sources, weights, and files.
+
+## Project Resources
+
+- [Homepage](https://design.acme.test): Design system website.
+- [Repository](https://github.com/acme/system): Source repository.
+`);
+  });
+
+  it("resolves companion links against a normalized absolute baseUrl", () => {
+    const content = renderLlmsIndex(emptySpec, {
+      baseUrl: "https://design.acme.test/docs"
+    });
+
+    expect(content).toContain(
+      "[Design Tokens](https://design.acme.test/docs/llms-tokens.txt)"
+    );
+    expect(content).toContain(
+      "[Fonts](https://design.acme.test/docs/llms-fonts.txt)"
+    );
+  });
+
+  it("omits absent summaries and project resources", () => {
+    const content = renderLlmsIndex({
+      ...emptySpec,
+      description: undefined
+    });
+
+    expect(content).not.toContain(">");
+    expect(content).not.toContain("## Project Resources");
+  });
+
+  it("ignores malformed optional schema resource URLs", () => {
+    const content = renderLlmsIndex({
+      ...resourceSpec,
+      homepage: "/design-system",
+      repository: "not a URL"
+    });
+
+    expect(content).not.toContain("## Project Resources");
+  });
+
+  it("rejects invalid explicit index options", () => {
+    expect(() => renderLlmsIndex(emptySpec, { title: "   " })).toThrow(
+      /title.*empty/i
+    );
+    expect(() => renderLlmsIndex(emptySpec, { baseUrl: "/docs" })).toThrow(
+      /baseUrl.*absolute HTTP/i
+    );
+    expect(() =>
+      renderLlmsIndex(emptySpec, { baseUrl: "ftp://acme.test" })
+    ).toThrow(/baseUrl.*HTTP/i);
+    expect(() =>
+      renderLlmsIndex(emptySpec, { details: "## Override" })
+    ).toThrow(/details.*H1 or H2/i);
   });
 });
