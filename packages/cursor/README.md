@@ -5,9 +5,9 @@
 
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x640-light.gif">
-<img src="https://public.storm-cdn.com/razorwind/media/banner-1280x640-dark.gif" width="100%" alt="Razorwind" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x427-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x427-light.gif">
+<img src="https://public.storm-cdn.com/razorwind/media/banner-1280x427-dark.gif" width="100%" alt="Razorwind" />
 </picture>
 </div>
 <br />
@@ -48,7 +48,6 @@
 <!-- prettier-ignore-end -->
 
 <!-- END header -->
-
 
 # Razorwind - Cursor Theme Extension Plugin
 
@@ -166,7 +165,6 @@ Run `nx build cursor` to build the library.
 ### Running unit tests
 
 Run `nx test cursor` to execute the unit tests via [Vitest](https://vitest.dev/).
-
 
 ### Running unit tests
 
