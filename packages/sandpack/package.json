@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/sandpack",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "Razorwind plugin that generates Sandpack themes and component usage demos from design tokens.",
   "repository": {

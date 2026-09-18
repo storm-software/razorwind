@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.6) (09/18/2026)
+
+### Bug Fixes
+
+- **theme-seeds:** Clean up theme seed files ([1357fc9](https://github.com/storm-software/razorwind/commit/1357fc9))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.71**
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.5) (09/18/2026)
 
 ### Updated Dependencies

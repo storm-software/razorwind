@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
   "keywords": ["cli", "razorwind", "storm-software", "shell-shock"],
@@ -58,7 +58,9 @@
     "./update": "./dist/update.mjs"
   },
   "types": "./dist/index.d.cts",
-  "bin": { "razorwind": "./dist/bin.mjs" },
+  "bin": {
+    "razorwind": "./dist/bin.mjs"
+  },
   "files": ["dist"],
   "dependencies": {
     "@power-plant/core": "catalog:",
@@ -71,5 +73,7 @@
     "@shell-shock/eslint-plugin": "catalog:",
     "@types/node": "catalog:"
   },
-  "publishConfig": { "access": "public" }
+  "publishConfig": {
+    "access": "public"
+  }
 }

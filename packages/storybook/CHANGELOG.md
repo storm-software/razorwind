@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.69](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.69) (09/18/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.71**
+
 ## [0.0.68](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.68) (09/18/2026)
 
 ### Updated Dependencies
