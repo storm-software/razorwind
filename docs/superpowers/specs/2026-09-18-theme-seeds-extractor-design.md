@@ -46,8 +46,8 @@ documentation, and release metadata.
 The default export is a Razorwind plugin factory named `theme-seeds`:
 
 ```ts
-import { defineConfig } from "@razorwind/core";
-import themeSeeds from "@razorwind/theme-seeds";
+import { defineConfig } from "@razorwind/core"
+import themeSeeds from "@razorwind/theme-seeds"
 
 export default defineConfig({
   plugins: [
@@ -61,40 +61,40 @@ export default defineConfig({
       lightness: 0
     })
   ]
-});
+})
 ```
 
 The package exports this public contract:
 
 ```ts
-export type ThemeSeedAppearance = "dark" | "light";
+export type ThemeSeedAppearance = "dark" | "light"
 
 export interface ThemeSeeds {
   /** Accent hue on the OKLCH hue wheel. Normalized modulo 360. */
-  hue: number;
+  hue: number
   /** Accent chroma. Clamped to 0 through 0.25. */
-  chroma: number;
+  chroma: number
   /** Neutral tint from cool (-1) through neutral (0) to warm (1). */
-  warmth: number;
+  warmth: number
   /** Motion and shape personality. Clamped to 0 through 1. */
-  energy: number;
+  energy: number
   /** Rhythm multiplier. Clamped to 0.85 through 1.15. */
-  density: number;
-  appearance: ThemeSeedAppearance;
+  density: number
+  appearance: ThemeSeedAppearance
   /** Ground position within the appearance. Defaults to 0 and clamps to -1 through 1. */
-  lightness?: number;
+  lightness?: number
 }
 
 export const SEED_RANGES: Readonly<{
-  hue: readonly [0, 360];
-  chroma: readonly [0, 0.25];
-  warmth: readonly [-1, 1];
-  energy: readonly [0, 1];
-  density: readonly [0.85, 1.15];
-  lightness: readonly [-1, 1];
-}>;
+  hue: readonly [0, 360]
+  chroma: readonly [0, 0.25]
+  warmth: readonly [-1, 1]
+  energy: readonly [0, 1]
+  density: readonly [0.85, 1.15]
+  lightness: readonly [-1, 1]
+}>
 
-export function generateThemeTokens(seeds: ThemeSeeds): Tokens;
+export function generateThemeTokens(seeds: ThemeSeeds): Tokens
 ```
 
 The exact names above are part of the intended public contract.
@@ -134,18 +134,18 @@ representations:
 
 The public paths are:
 
-| Group | Token paths |
-| --- | --- |
-| Surface | `surface.page`, `surface.sunken`, `surface.raised`, `surface.overlay`, `surface.veil`, `surface.padding` |
-| Ink | `ink.DEFAULT`, `ink.muted`, `ink.faint`, `ink.inverse` |
-| Accent | `accent.DEFAULT`, `accent.strong`, `accent.ink`, `accent.soft`, `accent.line` |
-| Lines and focus | `line.DEFAULT`, `line.strong`, `focus.ring` |
-| Status | `status.positive.DEFAULT`, `status.positive.soft`, `status.warning.DEFAULT`, `status.warning.soft`, `status.danger.DEFAULT`, `status.danger.soft` |
-| Shadow | `shadow.color` |
-| Motion | `motion.instant`, `motion.fast`, `motion.base`, `motion.slow` |
-| Density | `density` |
-| Radius | `radius.interactive`, `radius.surface`, `radius.overlay` |
-| Rhythm | `control.height.sm`, `control.height.md`, `control.height.lg`, `control.padding.x`, `stack.gap` |
+| Group           | Token paths                                                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Surface         | `surface.page`, `surface.sunken`, `surface.raised`, `surface.overlay`, `surface.veil`, `surface.padding`                                          |
+| Ink             | `ink.DEFAULT`, `ink.muted`, `ink.faint`, `ink.inverse`                                                                                            |
+| Accent          | `accent.DEFAULT`, `accent.strong`, `accent.ink`, `accent.soft`, `accent.line`                                                                     |
+| Lines and focus | `line.DEFAULT`, `line.strong`, `focus.ring`                                                                                                       |
+| Status          | `status.positive.DEFAULT`, `status.positive.soft`, `status.warning.DEFAULT`, `status.warning.soft`, `status.danger.DEFAULT`, `status.danger.soft` |
+| Shadow          | `shadow.color`                                                                                                                                    |
+| Motion          | `motion.instant`, `motion.fast`, `motion.base`, `motion.slow`                                                                                     |
+| Density         | `density`                                                                                                                                         |
+| Radius          | `radius.interactive`, `radius.surface`, `radius.overlay`                                                                                          |
+| Rhythm          | `control.height.sm`, `control.height.md`, `control.height.lg`, `control.padding.x`, `stack.gap`                                                   |
 
 `DEFAULT` follows the existing Razorwind convention for preserving a scalar
 role that also has named children. The generated tree does not include CSS
