@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Vivaldi
 
+## [0.0.18](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.18) (09/18/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.70**
+
 ## [0.0.17](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.17) (09/17/2026)
 
 ### Updated Dependencies
