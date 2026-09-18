@@ -83,6 +83,9 @@
     },
     {
       "path": "./packages/llms"
+    },
+    {
+      "path": "./packages/theme-seeds"
     }
   ],
   "files": []
