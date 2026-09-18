@@ -1,0 +1,20 @@
+{
+  "name": "@razorwind/theme-seeds",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind extractor that generates semantic design tokens from theme seeds.",
+  "homepage": "https://stormsoftware.com",
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": { "access": "public" }
+}

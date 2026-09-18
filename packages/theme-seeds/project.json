@@ -1,0 +1,17 @@
+{
+  "name": "theme-seeds",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/theme-seeds/src",
+  "tags": ["platform:node"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": { "configFile": "packages/theme-seeds/vitest.config.mts" }
+    },
+    "nx-release-publish": {
+      "executor": "@storm-software/workspace-tools:npm-publish",
+      "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"]
+    }
+  }
+}
