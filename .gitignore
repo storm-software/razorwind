@@ -6,6 +6,7 @@
 # compiled output
 dist
 tmp
+.worktrees/
 out-tsc
 out
 .nx
