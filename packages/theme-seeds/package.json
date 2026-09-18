@@ -11,6 +11,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@razorwind/core": "workspace:*"
+  },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",
     "@types/node": "catalog:",

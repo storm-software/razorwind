@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { Token, Tokens } from "@razorwind/core/schema";
 import type { NormalizedThemeSeeds, ThemeSeeds } from "./types";
 import { SEED_RANGES } from "./types";
@@ -28,10 +46,7 @@ function normalizeSeeds(seeds: ThemeSeeds): NormalizedThemeSeeds {
   const warmth = requireFiniteSeed("warmth", seeds.warmth);
   const energy = requireFiniteSeed("energy", seeds.energy);
   const density = requireFiniteSeed("density", seeds.density);
-  const lightness = requireFiniteSeed(
-    "lightness",
-    seeds.lightness === undefined ? 0 : seeds.lightness
-  );
+  const lightness = requireFiniteSeed("lightness", seeds.lightness ?? 0);
 
   if (seeds.appearance !== "dark" && seeds.appearance !== "light") {
     throw new TypeError('Theme seed "appearance" must be "dark" or "light".');
