@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
   "keywords": ["cli", "razorwind", "storm-software", "shell-shock"],

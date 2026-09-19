@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Sandpack
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/sandpack%400.0.6) (09/18/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.72**
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/sandpack%400.0.5) (09/18/2026)
 
 ### Updated Dependencies

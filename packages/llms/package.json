@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/llms",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "description": "Razorwind plugin that generates AI-ready llms.txt design-system documentation.",
   "repository": {
