@@ -17,4 +17,5 @@
  ------------------------------------------------------------------- */
 
 export { assertSafeRelativePath, resolveBenchmarkOptions } from "./options";
+export { adaptSchema, renderComponentDeclarations } from "./schema";
 export type * from "./types";
