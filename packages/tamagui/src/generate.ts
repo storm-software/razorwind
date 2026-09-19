@@ -246,11 +246,15 @@ function buildCategoryBuckets(
  * can coexist in one bucket.
  */
 function paletteTokenKey(token: FlatToken): string {
-  const stem = token.path.replace(/^color\./i, "").replaceAll(".", "");
+  const stem = paletteTokenStem(token);
 
   return token.theme
     ? `${token.theme}${stem[0]?.toUpperCase() ?? ""}${stem.slice(1)}`
     : stem;
+}
+
+function paletteTokenStem(token: FlatToken): string {
+  return token.path.replace(/^color\./i, "").replaceAll(".", "");
 }
 
 function tokenColorRef(tokenKey: string): string {
@@ -291,9 +295,10 @@ function scaleStopExpression(
   token: FlatToken,
   colorBucket: TokenBucket
 ): string {
-  const key = paletteTokenKey(token);
-  if (key in colorBucket) {
-    return tokenColorRef(key);
+  for (const key of [paletteTokenKey(token), paletteTokenStem(token)]) {
+    if (key in colorBucket) {
+      return tokenColorRef(key);
+    }
   }
 
   const value =
@@ -522,6 +527,21 @@ function colorBucketForCreateTokens(
 ): TokenBucket {
   const bucket: TokenBucket = {};
 
+  const darkPrimitivesByPath = new Map(
+    darkColorTokens
+      .filter(token => token.primitive)
+      .map(token => [token.path, token])
+  );
+  const sharedPrimitivePaths = new Set(
+    lightColorTokens
+      .filter(token => {
+        const darkToken = darkPrimitivesByPath.get(token.path);
+
+        return token.primitive && darkToken?.cssValue === token.cssValue;
+      })
+      .map(token => token.path)
+  );
+
   const put = (key: string, token: FlatToken): void => {
     const value = token.cssValue;
     if (
@@ -536,18 +556,23 @@ function colorBucketForCreateTokens(
     bucket[key] = value;
   };
 
+  const keyFor = (token: FlatToken): string =>
+    token.primitive && sharedPrimitivePaths.has(token.path)
+      ? paletteTokenStem(token)
+      : paletteTokenKey(token);
+
   for (const token of lightColorTokens) {
     if (!token.tokenKey || isSemanticColorToken(token)) {
       continue;
     }
-    put(paletteTokenKey(token), token);
+    put(keyFor(token), token);
   }
 
   for (const token of darkColorTokens) {
     if (!token.tokenKey || !token.primitive) {
       continue;
     }
-    put(paletteTokenKey(token), token);
+    put(keyFor(token), token);
   }
 
   return bucket;

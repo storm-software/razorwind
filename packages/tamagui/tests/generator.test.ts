@@ -82,7 +82,8 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {}, fonts: {},
+  icons: {},
+  fonts: {},
   tokens
 } as Schema;
 
@@ -106,7 +107,10 @@ function createFontBlock(content: string, varName: string): string {
   return content.slice(start, end);
 }
 
-function extractBalancedObject(content: string, openBraceIndex: number): string {
+function extractBalancedObject(
+  content: string,
+  openBraceIndex: number
+): string {
   let depth = 0;
 
   for (let i = openBraceIndex; i < content.length; i++) {
@@ -281,9 +285,9 @@ describe("flattenTokens", () => {
     expect(flat.find(token => token.path === "spacing.sm")?.tamaguiValue).toBe(
       8
     );
-    expect(
-      flat.find(token => token.path === "radius.DEFAULT")?.tokenKey
-    ).toBe("true");
+    expect(flat.find(token => token.path === "radius.DEFAULT")?.tokenKey).toBe(
+      "true"
+    );
     expect(
       flat.find(token => token.path === "color.background.accent-subtle")
         ?.tokenKey
@@ -405,7 +409,7 @@ describe("tamagui plugin", () => {
     ]);
     const content = documents["src/tamagui.config.ts"]?.chunks?.[0]?.content;
     expect(content).not.toContain("createV5Theme");
-    expect(content).not.toContain("@tamagui/config/v5\"");
+    expect(content).not.toContain('@tamagui/config/v5"');
     expect(content).not.toContain("defaultConfig");
     expect(content).toContain(
       `import { animations } from "@tamagui/config/v5-css"`
@@ -418,7 +422,7 @@ describe("tamagui plugin", () => {
     expect(content).toContain("createTokens");
     expect(content).toContain("createThemes");
     expect(content).toContain("createTokens({");
-    expect(content).toContain("primary: \"#0066cc\"");
+    expect(content).toContain('primary: "#0066cc"');
     expect(content).toContain("backgroundAccent:");
     expect(content).toContain("backgroundAccentSubtle:");
     expect(content).not.toContain("backgroundaccent");
@@ -432,7 +436,7 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("getTheme:");
     expect(content).not.toContain("createTheme(");
     expect(content).toContain("export const config = createTamagui({");
-    expect(content).toContain("declare module \"@tamagui/core\"");
+    expect(content).toContain('declare module "@tamagui/core"');
   });
 
   it("merges defaultConfig when useDefaultConfig is true", async () => {
@@ -770,7 +774,9 @@ describe("tamagui plugin", () => {
 
     expect(content).toContain("const bodyFont = createFont({");
     expect(content).toContain("face:");
-    expect(content).toContain('400: { normal: "Inter-Regular", italic: "Inter-Italic" }');
+    expect(content).toContain(
+      '400: { normal: "Inter-Regular", italic: "Inter-Italic" }'
+    );
     expect(content).toContain("true: 16");
     expect(content).toContain('true: "400"');
   });
@@ -803,16 +809,30 @@ describe("tamagui plugin", () => {
           color: {
             $type: "color",
             primary: { $value: "#0066cc" },
-            ...stepped("blue", step => `#cce0${(step * 10).toString(16).padStart(2, "0")}`),
-            ...stepped("gray", step => `#f${step.toString(16)}f${step.toString(16)}f${step.toString(16)}`)
+            ...stepped(
+              "blue",
+              step => `#cce0${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            ...stepped(
+              "gray",
+              step =>
+                `#f${step.toString(16)}f${step.toString(16)}f${step.toString(16)}`
+            )
           }
         },
         dark: {
           color: {
             $type: "color",
             primary: { $value: "#66b3ff" },
-            ...stepped("blue", step => `#003d${(step * 10).toString(16).padStart(2, "0")}`),
-            ...stepped("gray", step => `#1${step.toString(16)}1${step.toString(16)}1${step.toString(16)}`)
+            ...stepped(
+              "blue",
+              step => `#003d${(step * 10).toString(16).padStart(2, "0")}`
+            ),
+            ...stepped(
+              "gray",
+              step =>
+                `#1${step.toString(16)}1${step.toString(16)}1${step.toString(16)}`
+            )
           }
         },
         lightDimmed: {
@@ -851,8 +871,8 @@ describe("tamagui plugin", () => {
 
     const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
     expect(install).toContain("light, dark, and nested semantic themes");
-    expect(install).toContain("defaultTheme=\"light\"");
-    expect(install).toContain("boxShadow=\"$ringAccent\"");
+    expect(install).toContain('defaultTheme="light"');
+    expect(install).toContain('boxShadow="$ringAccent"');
   });
 
   it("keeps primitive palettes on createTokens and out of theme extras", () => {
@@ -879,14 +899,18 @@ describe("tamagui plugin", () => {
               1: { $value: "#00ccaa" },
               2: { $value: "#006655" }
             },
-            red: nestedScale(step => `#ff${(step * 10).toString(16).padStart(2, "0")}00`),
+            red: nestedScale(
+              step => `#ff${(step * 10).toString(16).padStart(2, "0")}00`
+            ),
             base: nestedScale(step => `#f${step}f${step}f${step}`)
           }
         },
         dark: {
           color: {
             $type: "color",
-            red: nestedScale(step => `#aa${(step * 10).toString(16).padStart(2, "0")}00`),
+            red: nestedScale(
+              step => `#aa${(step * 10).toString(16).padStart(2, "0")}00`
+            ),
             base: nestedScale(step => `#1${step}1${step}1${step}`)
           }
         }
@@ -894,12 +918,16 @@ describe("tamagui plugin", () => {
     } as Schema;
 
     const flat = flattenTokens(spec.tokens);
-    expect(flat.find(token => token.path === "color.red.1")?.primitive).toBe(true);
-    expect(flat.find(token => token.path === "color.base.9")?.primitive).toBe(true);
-    expect(flat.find(token => token.path === "color.brand.1")?.primitive).toBeUndefined();
+    expect(flat.find(token => token.path === "color.red.1")?.primitive).toBe(
+      true
+    );
+    expect(flat.find(token => token.path === "color.base.9")?.primitive).toBe(
+      true
+    );
     expect(
-      isPaletteGroup({ palette: true, 1: { $value: "#fff" } })
-    ).toBe(true);
+      flat.find(token => token.path === "color.brand.1")?.primitive
+    ).toBeUndefined();
+    expect(isPaletteGroup({ palette: true, 1: { $value: "#fff" } })).toBe(true);
 
     const content = renderConfig(spec, {
       useDefaultConfig: false,
@@ -917,6 +945,49 @@ describe("tamagui plugin", () => {
     expect(light).toContain("brand1:");
     expect(light).not.toContain("red1:");
     expect(content).not.toContain("const light_red");
+  });
+
+  it("shares identical light and dark primitive palette entries", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            blue: {
+              primitive: true,
+              1: { $value: "#cce0ff" },
+              2: { $value: "#99c2ff" }
+            }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            blue: {
+              primitive: true,
+              1: { $value: "#cce0ff" },
+              2: { $value: "#003d7a" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(spec, {
+      useDefaultConfig: false,
+      animations: false,
+      includeTypeAugmentation: false
+    });
+    const tokensBlock = tokensSource(content);
+
+    expect(tokensBlock).toContain('blue1: "#cce0ff"');
+    expect(tokensBlock).not.toContain("lightBlue1:");
+    expect(tokensBlock).not.toContain("darkBlue1:");
+    expect(tokensBlock).toContain('lightBlue2: "#99c2ff"');
+    expect(tokensBlock).toContain('darkBlue2: "#003d7a"');
   });
 
   it("orders createThemes palettes background to foreground", () => {
@@ -1411,7 +1482,11 @@ describe("tamagui plugin", () => {
           shadow: {
             sm: {
               $type: "shadow",
-              $value: { ...insetLayer, inset: false, offsetY: { value: 2, unit: "px" } }
+              $value: {
+                ...insetLayer,
+                inset: false,
+                offsetY: { value: 2, unit: "px" }
+              }
             }
           }
         },
@@ -1432,15 +1507,15 @@ describe("tamagui plugin", () => {
     } as Schema;
 
     const flat = flattenTokens(spec.tokens);
-    expect(
-      flat.find(token => token.path === "inset-shadow.xs")?.category
-    ).toBe("insetShadow");
+    expect(flat.find(token => token.path === "inset-shadow.xs")?.category).toBe(
+      "insetShadow"
+    );
     expect(flat.find(token => token.path === "inset-shadow.xs")?.tokenKey).toBe(
       "xs"
     );
-    expect(flat.find(token => token.path === "inset-shadow.xs")?.tamaguiValue).toBe(
-      "inset 0px 1px 1px 0px #0000000d"
-    );
+    expect(
+      flat.find(token => token.path === "inset-shadow.xs")?.tamaguiValue
+    ).toBe("inset 0px 1px 1px 0px #0000000d");
 
     const content = renderConfig(spec, {
       useDefaultConfig: false,
