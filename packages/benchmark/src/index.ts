@@ -16,8 +16,27 @@
 
  ------------------------------------------------------------------- */
 
+import { definePlugin } from "@razorwind/core/plugin";
+import { generateBenchmark } from "./generate";
+import type { BenchmarkOptions } from "./types";
+
+export default definePlugin((options: BenchmarkOptions = {}) => ({
+  name: "benchmark",
+  themeGeneration: "combined",
+  generate: async (schema, config) => generateBenchmark(schema, config, options)
+}));
+
+export { runBenchmark, runCell } from "./engine";
+export type { RunBenchmarkRequest, RunCellRequest } from "./engine";
 export { BUILT_IN_PROFILES, expandMatrix } from "./engine/matrix";
+export { generateBenchmark } from "./generate";
+export type {
+  BenchmarkDocument,
+  BenchmarkDocuments,
+  GenerateBenchmarkDependencies
+} from "./generate";
 export { assertSafeRelativePath, resolveBenchmarkOptions } from "./options";
+export { renderManifest, renderReportHtml, renderResults } from "./report";
 export { adaptSchema, renderComponentDeclarations } from "./schema";
 export { BUNDLED_TASKS, loadTasks, validateTask } from "./tasks";
 export type * from "./types";
