@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Theme Seeds
 
+## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/theme-seeds%400.0.5) (09/18/2026)
+
+### Bug Fixes
+
+- **theme-seeds:** Resolve issue with missing repository ([1bdac50](https://github.com/storm-software/razorwind/commit/1bdac50))
+
 ## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/theme-seeds%400.0.4) (09/18/2026)
 
 ### Updated Dependencies
