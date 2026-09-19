@@ -20,7 +20,7 @@ const groundTruth: GroundTruth = {
       }
     }
   },
-  tokens: []
+  tokens: [{ path: "color.primary", type: "color", value: "#0055cc" }]
 };
 
 function file(source: string) {
@@ -115,5 +115,19 @@ describe("mechanical grading", () => {
       gate: "review",
       basis: ["imports", "apiFidelity"]
     });
+  });
+
+  it("marks token discipline unavailable when Schema contains no tokens", () => {
+    const token = gradeMechanical({
+      groundTruth: { ...groundTruth, tokens: [] },
+      task,
+      files: [
+        file('export const Example = () => <div className="bg-[#f00]" />')
+      ]
+    }).find(result => result.dimension === "tokenDiscipline");
+
+    expect(token).toEqual(
+      expect.objectContaining({ applicable: false, score: 0, gate: "pass" })
+    );
   });
 });

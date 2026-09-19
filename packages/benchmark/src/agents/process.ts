@@ -112,6 +112,10 @@ export async function runProcess(
       stderr = appendBounded(stderr, error.message);
       settle(null);
     });
+    child.stdin.on("error", error => {
+      stderr = appendBounded(stderr, error.message);
+      settle(null);
+    });
     child.on("close", exitCode => settle(exitCode));
     if (request.stdin !== undefined) child.stdin.write(request.stdin);
     child.stdin.end();

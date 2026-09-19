@@ -3,6 +3,7 @@ import {
   mkdtemp,
   readFile,
   realpath,
+  rename,
   symlink,
   writeFile
 } from "node:fs/promises";
@@ -153,6 +154,18 @@ describe("fixture provisioning", () => {
     await symlink(await realpath(outside), join(fixture.taskDir, "escape.tsx"));
     await expect(collectFixtureSources(fixture)).rejects.toThrow(
       /outside src\/task/i
+    );
+  });
+
+  it("rejects replacement of the trusted task directory", async () => {
+    const root = await sourceRoot();
+    const fixture = await provision(root, "bare");
+    const moved = `${fixture.taskDir}-moved`;
+    await rename(fixture.taskDir, moved);
+    await symlink(root, fixture.taskDir);
+
+    await expect(collectFixtureSources(fixture)).rejects.toThrow(
+      /task directory.*replaced|outside src\/task/i
     );
   });
 });

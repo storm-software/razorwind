@@ -1,4 +1,12 @@
-import { access, rm, writeFile } from "node:fs/promises";
+import {
+  access,
+  mkdir,
+  mkdtemp,
+  rm,
+  symlink,
+  writeFile
+} from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { AgentAdapter, AgentRunRequest } from "../src/agents";
@@ -145,10 +153,74 @@ describe("evaluation engine", () => {
       "timeout",
       undefined
     ]);
+    expect(run.cells[1]?.gate).toBe("fail");
     expect(invocation).toBe(3);
     for (const result of run.cells) {
       await expect(access(result.workspacePath!)).resolves.toBeUndefined();
     }
+  });
+
+  it("uses custom-profile model selections during execution", async () => {
+    const models: string[] = [];
+    const adapter = fakeAdapter(async request => {
+      models.push(request.model);
+      await writeValid(request);
+      return {
+        ok: true,
+        timedOut: false,
+        exitCode: 0,
+        durationMs: 1,
+        transcript: ""
+      };
+    });
+    await runBenchmark({
+      groundTruth,
+      options: resolveBenchmarkOptions(
+        {
+          profile: {
+            agents: ["codex"],
+            models: { codex: ["profile-model"] },
+            contexts: ["bare"],
+            tasks: "*"
+          },
+          models: { codex: ["top-level-model"] }
+        },
+        process.cwd()
+      ),
+      tasks: [task],
+      adapters: { codex: adapter }
+    });
+
+    expect(models).toEqual(["profile-model"]);
+  });
+
+  it("rejects invalid context trees before any agent executes", async () => {
+    const root = await mkdtemp(join(tmpdir(), "benchmark-preflight-"));
+    const outside = await mkdtemp(
+      join(tmpdir(), "benchmark-preflight-outside-")
+    );
+    retained.push(root, outside);
+    await mkdir(join(root, "skills", "acme"), { recursive: true });
+    await writeFile(join(outside, "secret.md"), "outside\n");
+    await symlink(
+      join(outside, "secret.md"),
+      join(root, "skills", "acme", "escape.md")
+    );
+    const run = vi.fn<AgentAdapter["run"]>();
+
+    await expect(
+      runBenchmark({
+        groundTruth,
+        options: resolveBenchmarkOptions(
+          { context: { skillDirs: ["skills/acme"] } },
+          root
+        ),
+        tasks: [task],
+        cells: cells(1),
+        adapters: { codex: fakeAdapter(run) }
+      })
+    ).rejects.toThrow(/context.*outside/i);
+    expect(run).not.toHaveBeenCalled();
   });
 
   it("selects Codex first for automatic profiles and rejects explicit missing agents", async () => {

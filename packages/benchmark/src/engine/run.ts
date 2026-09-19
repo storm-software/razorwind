@@ -15,6 +15,7 @@ import {
   collectFixtureSources,
   disposeFixture,
   provisionFixture,
+  validateContextSources,
   type Fixture
 } from "./fixture";
 import { judgeCell } from "./judge";
@@ -92,7 +93,11 @@ async function resolveCells(request: RunBenchmarkRequest): Promise<{
     }
   }
 
-  const models = { ...request.options.models };
+  const profileModels =
+    typeof request.options.profile === "string"
+      ? undefined
+      : request.options.profile.models;
+  const models = { ...request.options.models, ...profileModels };
   for (const id of requested) {
     if (!models[id]?.length) models[id] = [adapters.get(id)!.defaultModel];
   }
@@ -152,7 +157,7 @@ export async function runCell(request: RunCellRequest): Promise<CellResult> {
         task: request.task,
         files
       }),
-      await gradeCompile(fixture)
+      await gradeCompile(fixture, sources)
     ];
     if (request.options.judge && request.judgeAdapter) {
       dimensions.push(
@@ -173,7 +178,7 @@ export async function runCell(request: RunCellRequest): Promise<CellResult> {
       cell: request.cell,
       dimensions,
       score: composed.score,
-      gate: composed.gate,
+      gate: agentResult.ok ? composed.gate : "fail",
       durationMs: Date.now() - startedAt,
       transcript: agentResult.transcript,
       usage: agentResult.usage,
@@ -208,6 +213,7 @@ export async function runBenchmark(
   request: RunBenchmarkRequest
 ): Promise<BenchmarkRun> {
   const startedAt = new Date().toISOString();
+  await validateContextSources(request.options);
   const resolved = await resolveCells(request);
   const tasks = new Map(request.tasks.map(task => [task.id, task]));
   const results = new Array<CellResult>(resolved.cells.length);

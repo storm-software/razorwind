@@ -76,4 +76,35 @@ describe("compile grading", () => {
     );
     expect((await gradeCompile(fixture)).gate).toBe("pass");
   });
+
+  it("supports common React state hooks in interactive tasks", async () => {
+    const fixture = await fixtureFor({
+      tone: { required: false, type: '"primary" | "danger"' }
+    });
+    await writeFile(
+      fixture.entryPath,
+      'import { useState } from "react"; import { Button } from "@acme/ui"; export default function Example() { const [open, setOpen] = useState(false); return <><Button tone="primary" /><div onClick={() => setOpen(!open)}>{String(open)}</div></>; }\n'
+    );
+    expect((await gradeCompile(fixture)).gate).toBe("pass");
+  });
+
+  it("ignores agent changes to compiler configuration and declarations", async () => {
+    const fixture = await fixtureFor({
+      tone: { required: false, type: '"primary" | "danger"' }
+    });
+    await writeFile(
+      fixture.tsconfigPath,
+      '{"compilerOptions":{"noCheck":true}}\n'
+    );
+    await writeFile(
+      `${fixture.root}/types/design-system.d.ts`,
+      'declare module "@acme/ui" { export const Button: any }\n'
+    );
+    await writeFile(
+      fixture.entryPath,
+      'import { Button } from "@acme/ui"; export default () => <Button tone="invented" />;\n'
+    );
+
+    expect((await gradeCompile(fixture)).gate).toBe("fail");
+  });
 });

@@ -30,6 +30,15 @@ function allowed(path: string, patterns: string[]): boolean {
 }
 
 export function gradeTokenDiscipline(context: GradeContext): DimensionResult {
+  if (context.groundTruth.tokens.length === 0) {
+    return {
+      dimension: "tokenDiscipline",
+      score: 0,
+      gate: "pass",
+      applicable: false,
+      findings: []
+    };
+  }
   const findings: Finding[] = [];
   let hasColor = false;
   for (const file of context.files) {

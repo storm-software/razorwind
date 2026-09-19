@@ -31,7 +31,8 @@ const run: BenchmarkRun = {
       ],
       score: 100,
       gate: "pass",
-      durationMs: 50
+      durationMs: 50,
+      usage: { inputTokens: 10, outputTokens: 4, costUsd: 0.01, turns: 2 }
     },
     {
       cell: {
@@ -75,7 +76,8 @@ describe("benchmark reports", () => {
         id: "codex|gpt-5|bare|button|1",
         basis: ["imports", "compile"],
         score: 100,
-        gate: "pass"
+        gate: "pass",
+        usage: run.cells[0]?.usage
       })
     );
     expect(results.cells[1].error).toEqual(run.cells[1]?.error);

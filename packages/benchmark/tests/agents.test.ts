@@ -198,4 +198,36 @@ describe("agent adapters", () => {
       })
     );
   });
+
+  it("normalizes stdin stream failures instead of crashing the host", async () => {
+    const spawn = vi.fn<SpawnProcess>(() => {
+      const child = new EventEmitter() as ChildProcessWithoutNullStreams;
+      child.stdin = new PassThrough();
+      child.stdout = new PassThrough();
+      child.stderr = new PassThrough();
+      child.pid = 123;
+      child.kill = vi.fn(() => true);
+      child.stdin.destroy(new Error("stdin closed"));
+      return child;
+    });
+
+    await expect(
+      runProcess(
+        {
+          executable: "agent",
+          args: [],
+          cwd: process.cwd(),
+          stdin: "prompt",
+          timeoutMs: 1000
+        },
+        spawn
+      )
+    ).resolves.toEqual(
+      expect.objectContaining({
+        ok: false,
+        exitCode: null,
+        stderr: expect.stringContaining("stdin closed")
+      })
+    );
+  });
 });

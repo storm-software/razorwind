@@ -27,8 +27,12 @@ const SOURCE_EXTENSIONS = new Set([".js", ".jsx", ".ts", ".tsx"]);
 export interface Fixture {
   root: string;
   taskDir: string;
+  trustedRoot: string;
+  trustedTaskDir: string;
   entryPath: string;
   tsconfigPath: string;
+  reactDeclarations: string;
+  designSystemDeclarations: string;
   groundTruth: GroundTruth;
   task: BenchmarkTask;
 }
@@ -80,14 +84,50 @@ async function safeContextSource(
   return realSource;
 }
 
+async function validateContextTree(
+  root: string,
+  source: string,
+  seen = new Set<string>()
+): Promise<void> {
+  const resolved = await realpath(source);
+  if (!isInside(root, resolved)) {
+    throw new Error(`Context real path '${resolved}' resolves outside ${root}`);
+  }
+  if (seen.has(resolved)) return;
+  seen.add(resolved);
+  const sourceStat = await stat(resolved);
+  if (!sourceStat.isDirectory()) return;
+  for (const entry of await readdir(resolved)) {
+    await validateContextTree(root, join(resolved, entry), seen);
+  }
+}
+
+export async function validateContextSources(
+  options: ResolvedBenchmarkOptions
+): Promise<void> {
+  const realCwd = await realpath(options.cwd);
+  for (const source of [
+    ...options.context.agentsMd,
+    ...options.context.skillDirs
+  ]) {
+    const resolved = await safeContextSource(options.cwd, source);
+    await validateContextTree(realCwd, resolved);
+  }
+}
+
 async function copyContextSource(
   cwd: string,
   source: string,
   destination: string
 ) {
   const resolved = await safeContextSource(cwd, source);
+  await validateContextTree(await realpath(cwd), resolved);
   await mkdir(resolve(destination, ".."), { recursive: true });
-  await cp(resolved, destination, { recursive: true, errorOnExist: true });
+  await cp(resolved, destination, {
+    recursive: true,
+    errorOnExist: true,
+    dereference: true
+  });
 }
 
 const REACT_DECLARATIONS = `
@@ -97,7 +137,16 @@ declare namespace JSX {
   interface IntrinsicElements { [element: string]: Record<string, unknown> }
 }
 declare module "react" {
+  export type ReactNode = unknown;
+  export type CSSProperties = Record<string, string | number | undefined>;
   export type ComponentType<Props = Record<string, unknown>> = (props: Props) => JSX.Element | null;
+  export type Dispatch<Value> = (value: Value) => void;
+  export type SetStateAction<Value> = Value | ((previous: Value) => Value);
+  export function useState<Value>(initial: Value | (() => Value)): [Value, Dispatch<SetStateAction<Value>>];
+  export function useEffect(effect: () => void | (() => void), dependencies?: readonly unknown[]): void;
+  export function useMemo<Value>(factory: () => Value, dependencies: readonly unknown[]): Value;
+  export function useCallback<Value extends (...args: never[]) => unknown>(callback: Value, dependencies: readonly unknown[]): Value;
+  export function useRef<Value>(initial: Value): { current: Value };
 }
 declare module "react/jsx-runtime" {
   export const Fragment: unique symbol;
@@ -133,6 +182,9 @@ export async function provisionFixture(
   const taskDir = join(root, "src", "task");
   const entryPath = join(taskDir, "index.tsx");
   const tsconfigPath = join(root, "tsconfig.json");
+  const designSystemDeclarations = renderComponentDeclarations(
+    request.groundTruth
+  );
   try {
     await Promise.all([
       mkdir(taskDir, { recursive: true }),
@@ -150,7 +202,7 @@ export async function provisionFixture(
       ),
       writeFile(
         join(root, "types", "design-system.d.ts"),
-        renderComponentDeclarations(request.groundTruth)
+        designSystemDeclarations
       ),
       writeFile(
         entryPath,
@@ -183,8 +235,12 @@ export async function provisionFixture(
     return {
       root,
       taskDir,
+      trustedRoot: await realpath(root),
+      trustedTaskDir: await realpath(taskDir),
       entryPath,
       tsconfigPath,
+      reactDeclarations: REACT_DECLARATIONS.trimStart(),
+      designSystemDeclarations,
       groundTruth: request.groundTruth,
       task: request.task
     };
@@ -207,7 +263,17 @@ async function collectFiles(directory: string): Promise<string[]> {
 export async function collectFixtureSources(
   fixture: Fixture
 ): Promise<FixtureSource[]> {
+  const realRoot = await realpath(fixture.root);
   const realTaskDir = await realpath(fixture.taskDir);
+  if (
+    realRoot !== fixture.trustedRoot ||
+    realTaskDir !== fixture.trustedTaskDir ||
+    !isInside(realRoot, realTaskDir)
+  ) {
+    throw new Error(
+      "Benchmark task directory was replaced or resolves outside src/task"
+    );
+  }
   const sources: FixtureSource[] = [];
   for (const path of (await collectFiles(fixture.taskDir)).sort()) {
     const resolved = await realpath(path);

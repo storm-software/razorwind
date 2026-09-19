@@ -83,6 +83,7 @@ export function renderResults(run: BenchmarkRun): string {
       score: result.score,
       gate: result.gate,
       durationMs: result.durationMs,
+      usage: result.usage,
       dimensions: result.dimensions.map(dimension => ({
         dimension: dimension.dimension,
         score: dimension.score,

@@ -91,6 +91,11 @@ export async function adaptSchema(
       props: await extractComponentProps(component.files)
     };
   }
+  if (Object.keys(components).length === 0) {
+    throw new Error(
+      "@razorwind/benchmark requires at least one usable component"
+    );
+  }
 
   return {
     packageName,

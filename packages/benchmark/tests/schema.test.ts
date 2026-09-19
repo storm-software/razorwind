@@ -68,4 +68,10 @@ describe("Schema ground truth", () => {
 
     expect(groundTruth.packageName).toBe("@custom/components");
   });
+
+  it("rejects schemas without usable components", async () => {
+    await expect(
+      adaptSchema({ ...schema, components: {} }, {})
+    ).rejects.toThrow(/usable component/i);
+  });
 });
