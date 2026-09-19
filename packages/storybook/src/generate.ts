@@ -142,27 +142,19 @@ function hasThemeVariants(variants: TokenVariants): boolean {
   return Object.keys(variants).length > 1;
 }
 
-function renderVariantHook(): string {
-  return `import { useGlobals, useMemo } from "storybook/preview-api";
-
-/**
- * Select a generated token variant. By default this follows Storybook's
- * \`theme\` global; callers may pass \`theme\` to override it.
+function renderVariantResolver(): string {
+  return `/**
+ * Select a generated token variant. Callers may pass \`theme\` to override
+ * the generated fallback without requiring Storybook preview-hook context.
  */
-export function useThemeVariant<T extends Record<string, unknown>>(
+export function resolveThemeVariant<T extends Record<string, unknown>>(
   variants: T,
   fallback: keyof T & string,
   theme?: string
 ): keyof T & string {
-  const [globals] = useGlobals();
-
-  return useMemo(() => {
-    const candidate = theme ?? globals.theme;
-
-    return typeof candidate === "string" && candidate in variants
-      ? (candidate as keyof T & string)
-      : fallback;
-  }, [fallback, globals.theme, theme, variants]);
+  return typeof theme === "string" && theme in variants
+    ? (theme as keyof T & string)
+    : fallback;
 }
 `;
 }
@@ -297,7 +289,7 @@ ${renderItems(sectionTokens, "          ")}
     .join(",\n");
 
   return `import { ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
-${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
+${themed ? 'import { resolveThemeVariant } from "./ThemeVariant";\n' : ""}
 
 /**
  * Color tokens rendered with Storybook's ColorPalette doc block.
@@ -309,12 +301,12 @@ ${paletteVariants}
 };
 
 export interface ColorPaletteBlockProps {
-  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  /** Generated token-set name. Defaults to the first generated variant. */
   theme?: string;
 }
 
 export function ColorPaletteBlock({ theme }: ColorPaletteBlockProps = {}) {
-  const activeTheme = ${themed ? `useThemeVariant(COLOR_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+  const activeTheme = ${themed ? `resolveThemeVariant(COLOR_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
 
   return COLOR_VARIANTS[activeTheme];
 }
@@ -375,7 +367,7 @@ export function renderTypesetBlock(
     .join(",\n");
 
   return `import { Typeset } from "@storybook/addon-docs/blocks";
-${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
+${themed ? 'import { resolveThemeVariant } from "./ThemeVariant";\n' : ""}
 
 /**
  * Typography tokens rendered with Storybook's Typeset doc block.
@@ -387,12 +379,12 @@ ${typesetVariants}
 };
 
 export interface TypesetBlockProps {
-  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  /** Generated token-set name. Defaults to the first generated variant. */
   theme?: string;
 }
 
 export function TypesetBlock({ theme }: TypesetBlockProps = {}) {
-  const activeTheme = ${themed ? `useThemeVariant(TYPESET_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+  const activeTheme = ${themed ? `resolveThemeVariant(TYPESET_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
 
   return TYPESET_VARIANTS[activeTheme];
 }
@@ -434,7 +426,7 @@ ${renderRows(tokens)}
     .join(",\n");
 
   return `import type { CSSProperties, ReactElement } from "react";
-${themed ? 'import { useThemeVariant } from "./ThemeVariant";\n' : ""}
+${themed ? 'import { resolveThemeVariant } from "./ThemeVariant";\n' : ""}
 
 export interface TokenTableRow {
   path: string;
@@ -481,7 +473,7 @@ export interface TokenTableBlockProps {
   type?: string;
   /** Restrict rows to tokens used to define typography. */
   typography?: boolean;
-  /** Generated token-set name. Defaults to Storybook's \`theme\` global. */
+  /** Generated token-set name. Defaults to the first generated variant. */
   theme?: string;
 }
 
@@ -494,7 +486,7 @@ export function TokenTableBlock({
   typography,
   theme
 }: TokenTableBlockProps = {}): ReactElement {
-  const activeTheme = ${themed ? `useThemeVariant(TOKEN_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
+  const activeTheme = ${themed ? `resolveThemeVariant(TOKEN_VARIANTS, ${toLiteral(defaultTheme)}, theme)` : toLiteral(defaultTheme)};
   const rows = TOKEN_VARIANTS[activeTheme].filter(token => {
     const filters = typeof filter === "string" ? [filter] : filter;
     if (
@@ -1212,7 +1204,7 @@ export function generateTokenDocs(
   if (hasThemeVariants(variants)) {
     documents[joinPaths(outputPath, "blocks/ThemeVariant.ts")] = createDoc(
       "blocks/ThemeVariant.ts",
-      renderVariantHook(),
+      renderVariantResolver(),
       "typescript"
     );
   }

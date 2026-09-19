@@ -525,7 +525,7 @@ describe("storybook plugin", () => {
     expect(theme).toContain('colorPrimary: "#111111"');
   });
 
-  it("generates token-doc variants that follow Storybook's theme global", () => {
+  it("generates standalone token-doc variants with explicit theme selection", () => {
     const documents = generateTokenDocs(
       {
         ...spec,
@@ -569,23 +569,49 @@ describe("storybook plugin", () => {
 
     expect(colors).toContain('"light": (');
     expect(colors).toContain('"dark": (');
-    expect(colors).toContain('useThemeVariant(COLOR_VARIANTS, "light", theme)');
+    expect(colors).toContain(
+      'resolveThemeVariant(COLOR_VARIANTS, "light", theme)'
+    );
     expect(typeset).toContain("fontSizes={[16]}");
     expect(typeset).toContain("fontSizes={[18]}");
     expect(table).toContain("TOKEN_VARIANTS");
-    expect(selector).toContain(
-      'import { useGlobals, useMemo } from "storybook/preview-api"'
-    );
-    expect(selector).toContain("const candidate = theme ?? globals.theme");
+    expect(selector).toContain("export function resolveThemeVariant");
+    expect(selector).not.toContain("storybook/preview-api");
+    expect(selector).not.toContain("useGlobals");
     expect(install).toContain("Token-doc variants");
+
+    const selectorModule = { exports: {} as Record<string, unknown> };
+    new Function(
+      "exports",
+      "module",
+      ts.transpile(selector!, {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ESNext
+      })
+    )(selectorModule.exports, selectorModule);
+
+    const resolveThemeVariant = selectorModule.exports.resolveThemeVariant as (
+      variants: Record<string, unknown>,
+      fallback: string,
+      theme?: string
+    ) => string;
+    expect(resolveThemeVariant({ light: null, dark: null }, "dark")).toBe(
+      "dark"
+    );
+    expect(
+      resolveThemeVariant({ light: null, dark: null }, "dark", "light")
+    ).toBe("light");
+    expect(
+      resolveThemeVariant({ light: null, dark: null }, "dark", "missing")
+    ).toBe("dark");
 
     for (const block of [colors, typeset, table, selector]) {
       expect(block).toBeDefined();
       expect(
-        ts.transpile(block!, {
+        (ts.transpile(block!, {
           jsx: ts.JsxEmit.ReactJSX,
           target: ts.ScriptTarget.ESNext
-        }).diagnostics ?? []
+        }) as any).diagnostics ?? []
       ).toEqual([]);
     }
   });
