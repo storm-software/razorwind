@@ -12,6 +12,7 @@ export type DimensionName =
 export interface BenchmarkRubric {
   id: string;
   description: string;
+  weight: number;
   critical?: boolean;
 }
 

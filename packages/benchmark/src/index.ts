@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+export { BUILT_IN_PROFILES, expandMatrix } from "./engine/matrix";
 export { assertSafeRelativePath, resolveBenchmarkOptions } from "./options";
 export { adaptSchema, renderComponentDeclarations } from "./schema";
+export { BUNDLED_TASKS, loadTasks, validateTask } from "./tasks";
 export type * from "./types";
