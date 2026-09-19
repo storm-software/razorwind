@@ -31,8 +31,7 @@ export type ColorVariant =
 /** Default variants created when the plugin is called with no options. */
 export const DEFAULT_COLOR_VARIANTS: ColorVariant[] = [
   "dimmed",
-  "high-contrast",
-  "monochromatic"
+  "high-contrast"
 ];
 
 /**
@@ -42,7 +41,7 @@ export interface ColorVariantsPluginOptions {
   /**
    * Color variants to generate from each extracted token set.
    *
-   * @defaultValue `["dimmed", "high-contrast", "monochromatic"]`
+   * @defaultValue `["dimmed", "high-contrast"]`
    */
   variants?: ColorVariant[];
 }
