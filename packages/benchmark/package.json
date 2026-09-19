@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",
+    "@types/babel__traverse": "catalog:",
     "@types/node": "catalog:"
   },
   "publishConfig": {

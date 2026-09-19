@@ -7,6 +7,7 @@ catalog:
   "@babel/parser": ^7.29.0
   "@babel/traverse": ^7.29.0
   "@babel/types": ^7.29.0
+  "@types/babel__traverse": ^7.28.0
   "@ls-lint/ls-lint": ^2.3.1
   "@nx/devkit": 23.1.0
   "@nx/eslint-plugin": 23.1.0
