@@ -100,6 +100,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { createElement } from "react"
 import * as LucideIcons from "lucide-react"
 import { defineConfig, defineIconLibrary } from "@razorwind/core"
+import docgen from "@razorwind/docgen/generate"
 
 export default defineConfig({
   iconLibrary: defineIconLibrary({
@@ -117,7 +118,7 @@ export default defineConfig({
       }
     }
   }),
-  plugins: []
+  plugins: [docgen()]
 })
 ```
 
