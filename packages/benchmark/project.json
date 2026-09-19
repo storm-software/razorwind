@@ -5,6 +5,12 @@
   "sourceRoot": "packages/benchmark/src",
   "tags": ["platform:node"],
   "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "packages/benchmark/vitest.config.mts"
+      }
+    },
     "nx-release-publish": {
       "executor": "@storm-software/workspace-tools:npm-publish",
       "dependsOn": ["build", "prepare-publish-manifest", "^nx-release-publish"]

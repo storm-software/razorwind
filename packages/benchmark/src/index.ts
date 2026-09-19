@@ -16,3 +16,5 @@
 
  ------------------------------------------------------------------- */
 
+export { assertSafeRelativePath, resolveBenchmarkOptions } from "./options";
+export type * from "./types";
