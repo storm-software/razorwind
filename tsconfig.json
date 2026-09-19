@@ -86,6 +86,9 @@
     },
     {
       "path": "./packages/theme-seeds"
+    },
+    {
+      "path": "./packages/benchmark"
     }
   ],
   "files": []

@@ -166,7 +166,7 @@ export function generateShikiTheme(
   assertOptions(options);
 
   const outputPath = options.outputPath ?? "shiki-themes";
-  const themes = normalizeThemes(options.mapTheme(spec.tokens));
+  const themes = normalizeThemes(options.mapTheme(spec));
 
   if (themes.length === 0) {
     throw new Error("@razorwind/shiki mapTheme() returned no themes");

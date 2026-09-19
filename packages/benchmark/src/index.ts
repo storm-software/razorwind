@@ -16,8 +16,3 @@
 
  ------------------------------------------------------------------- */
 
-export {
-  flattenTokens,
-  resolveTokenSets,
-  type TokenSet
-} from "@razorwind/core/utils";

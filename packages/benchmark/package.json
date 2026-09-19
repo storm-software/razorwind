@@ -1,0 +1,99 @@
+{
+  "name": "@razorwind/benchmark",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind plugin that runs a benchmark on your design system to determine it's effectiveness when used with AI agents.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/benchmark"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "keywords": [
+    "benchmark",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./extract": {
+      "require": {
+        "types": "./dist/extract.d.cts",
+        "default": "./dist/extract.cjs"
+      },
+      "import": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      },
+      "default": {
+        "types": "./dist/extract.d.mts",
+        "default": "./dist/extract.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/generate.d.cts",
+        "default": "./dist/generate.cjs"
+      },
+      "import": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      },
+      "default": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@power-plant/dtcg-schema": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@razorwind/style-dictionary": "workspace:*",
+    "@stryke/fs": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
+    "fast-glob": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

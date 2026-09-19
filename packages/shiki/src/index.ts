@@ -72,8 +72,8 @@ export type {
  * export default defineConfig({
  *   plugins: [
  *     shiki({
- *       mapTheme: tokens => {
- *         const flat = flattenTokens(tokens);
+ *       mapTheme: spec => {
+ *         const flat = flattenTokens(spec.tokens);
  *         const color = (path: string) =>
  *           flat.find(t => t.path === path)?.cssValue ?? "#000000";
  *

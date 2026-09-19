@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { TokenType } from "@power-plant/dtcg-schema";
-import type { Tokens } from "@razorwind/core/schema";
+import type { Schema } from "@razorwind/core/schema";
 
 /**
  * A flattened design token ready for Shiki theme mapping.
@@ -94,7 +94,7 @@ export interface ShikiTheme {
  * Return a single theme, an array, or a record keyed by theme id.
  */
 export type GenerateShikiTheme = (
-  tokens: Tokens | Record<string, Tokens>
+  tokens: Schema
 ) => ShikiTheme | ShikiTheme[] | Record<string, ShikiTheme>;
 
 /**
