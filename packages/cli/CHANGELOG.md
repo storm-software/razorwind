@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.9](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.9) (09/19/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace package' dependencies ([f46acd3](https://github.com/storm-software/razorwind/commit/f46acd3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.73**
+
 ## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.8) (09/19/2026)
 
 ### Bug Fixes

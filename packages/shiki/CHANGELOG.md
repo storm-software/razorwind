@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shiki
 
+## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.47) (09/19/2026)
+
+### Features
+
+- **benchmark:** Initial check-in of the Benchmark plugin ([0899e4f](https://github.com/storm-software/razorwind/commit/0899e4f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.73**
+
 ## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.46) (09/18/2026)
 
 ### Updated Dependencies

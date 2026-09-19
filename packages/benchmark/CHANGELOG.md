@@ -1,0 +1,30 @@
+![Razorwind's logo banner](https://public.storm-cdn.com/razorwind/banner-1280x320-dark.gif)
+
+# Changelog for Razorwind - Benchmark
+
+## [0.0.2](https://github.com/storm-software/razorwind/releases/tag/benchmark%400.0.2) (09/19/2026)
+
+### Bug Fixes
+
+- **benchmark:** Reformat package source code ([3cdc5af](https://github.com/storm-software/razorwind/commit/3cdc5af))
+- **benchmark:** harden evaluation boundaries ([c34355d](https://github.com/storm-software/razorwind/commit/c34355d))
+
+### Features
+
+- **benchmark:** expose razorwind evaluation plugin ([edb0c24](https://github.com/storm-software/razorwind/commit/edb0c24))
+- **benchmark:** execute evaluation matrices ([aed513d](https://github.com/storm-software/razorwind/commit/aed513d))
+- **benchmark:** add claude and codex adapters ([d709b8a](https://github.com/storm-software/razorwind/commit/d709b8a))
+- **benchmark:** provision isolated fixtures ([4fad415](https://github.com/storm-software/razorwind/commit/4fad415))
+- **benchmark:** add mechanical grading ([e4405ef](https://github.com/storm-software/razorwind/commit/e4405ef))
+- **benchmark:** add evaluation task matrix ([6311957](https://github.com/storm-software/razorwind/commit/6311957))
+- **benchmark:** derive ground truth from schema ([f3da5e1](https://github.com/storm-software/razorwind/commit/f3da5e1))
+- **benchmark:** define package contracts ([5049d7b](https://github.com/storm-software/razorwind/commit/5049d7b))
+- **benchmark:** Initial check-in of the Benchmark plugin ([0899e4f](https://github.com/storm-software/razorwind/commit/0899e4f))
+
+### Documentation
+
+- **benchmark:** document evaluation workflow ([66d61a9](https://github.com/storm-software/razorwind/commit/66d61a9))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.73**
