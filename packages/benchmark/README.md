@@ -1,286 +1,163 @@
 <!-- START header -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-
-<div align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x427-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/razorwind/media/banner-1280x427-light.gif">
-<img src="https://public.storm-cdn.com/razorwind/media/banner-1280x427-dark.gif" width="100%" alt="Razorwind" />
-</picture>
-</div>
-<br />
-
-<div align="center">
-<b>
-<a href="https://stormsoftware.com" target="_blank">Website</a>  •
-<a href="https://github.com/storm-software/razorwind" target="_blank">GitHub</a>  •
-<a href="https://discord.gg/MQ6YVzakM5">Discord</a>  •  <a href="https://stormstack.github.io/stormstack/" target="_blank">Docs</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •
-<a href="https://github.com/storm-software/stack/issues/new?assignees=&labels=bug&template=bug-report.yml&title=Bug Report%3A+">Report a Bug</a>
-</b>
-</div>
-<br />
-
-💨 Razorwind is a unified set of tools that make creating design systems a breeze.
-
-<h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3>
-<br />
-
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=for-the-badge&logo=commitlint&color=1fb2a6)](http://commitizen.github.io/cz-cli/)&nbsp;![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=for-the-badge&color=1fb2a6)&nbsp;![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/storm-software/razorwind/release.yml?style=for-the-badge&logo=github-actions&color=1fb2a6)
-
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-> [!IMPORTANT] 
-> This repository, and the apps, libraries, and tools contained within, is still in it's initial development phase. As a result, bugs and issues are expected with it's usage. When the main development phase completes, a proper release will be performed, the packages will be available through NPM (and other distributions), and this message will be removed. However, in the meantime, please feel free to report any issues you may come across.
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<div align="center">
-<b>Be sure to ⭐ this repository on <a href="https://github.com/storm-software/razorwind" target="_blank">GitHub</a> so you can keep up to date on any daily progress!</b>
-</div>
-
-<br />
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
 <!-- END header -->
 
-# Razorwind - CSS Plugin
+# Razorwind Benchmark
 
-**Razorwind - CSS** is a package that can create CSS files from design tokens or read a CSS file and return the design tokens.
+`@razorwind/benchmark` is a Razorwind plugin for measuring how effectively AI
+coding agents use a design system. It provisions an isolated TypeScript
+fixture for each matrix cell, runs Claude Code or Codex, applies deterministic
+mechanical graders, and emits JSON plus a self-contained HTML report.
 
-## Installing
+> [!CAUTION]
+> A real generation run invokes authenticated AI coding-agent CLIs and may
+> consume paid credits. The package defaults to concurrency `1`; model-based
+> judgment is disabled unless `judge` is explicitly configured. Automated
+> package tests never invoke a live agent.
 
-Using [pnpm](http://pnpm.io):
+## Installation
 
 ```bash
 pnpm add -D @razorwind/benchmark
 ```
 
-<details>
-  <summary>Using npm</summary>
+The selected agent CLI must already be installed and authenticated in the
+environment running Razorwind:
 
-```bash
-npm install -D @razorwind/benchmark
-```
+- [Codex](https://developers.openai.com/codex/) through an existing `codex`
+  session; or
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code/) through an
+  existing `claude` session.
 
-</details>
+The plugin does not collect, persist, or transform credentials. With no agent
+selection, it detects Codex first and then Claude Code. Explicitly requested
+agents are required and missing executables fail before fixtures are created.
 
-<details>
-  <summary>Using yarn</summary>
-
-```bash
-yarn add -D @razorwind/benchmark
-```
-
-</details>
-
-## Usage
+## Safe smoke configuration
 
 ```ts
-import { defineConfig } from "@razorwind/core";
-import benchmark from "@razorwind/benchmark";
+import benchmark from "@razorwind/benchmark"
+import { defineConfig } from "@razorwind/core"
 
 export default defineConfig({
-  plugins: [benchmark()]
-});
+  plugins: [
+    benchmark({
+      profile: "smoke",
+      concurrency: 1,
+      retainWorkspaces: false
+    })
+  ]
+})
 ```
 
-### Options
+The smoke profile is bounded to one task, two context levels, and one
+repetition. It still calls a real agent when Razorwind generation runs.
 
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
+## Options
 
-## Development
+| Option              | Default                 | Description                                                           |
+| ------------------- | ----------------------- | --------------------------------------------------------------------- |
+| `profile`           | `"smoke"`               | Bundled profile name or a custom matrix profile.                      |
+| `agents`            | auto-detect             | Ordered set of `"codex"` and/or `"claude-code"` agents to require.    |
+| `models`            | CLI default             | Models per agent, for example `{ codex: ["gpt-5"] }`.                 |
+| `contexts`          | `["bare", "agents-md"]` | Context levels used when the profile does not override them.          |
+| `context.agentsMd`  | `[]`                    | Instruction files, relative to the Razorwind working directory.       |
+| `context.skillDirs` | `[]`                    | Skill directories, relative to the Razorwind working directory.       |
+| `tasks`             | `"bundled"`             | Bundled tasks or a validated custom `BenchmarkTask[]`.                |
+| `packageName`       | Schema name             | Explicit design-system import package when Schema has no usable name. |
+| `outputPath`        | `"benchmark"`           | Safe relative root for generated artifacts.                           |
+| `repetitions`       | `1`                     | Repetitions when the profile does not override them.                  |
+| `concurrency`       | `1`                     | Maximum simultaneous agent cells.                                     |
+| `timeoutMs`         | 30 minutes              | Timeout for each generating-agent invocation.                         |
+| `retainWorkspaces`  | `false`                 | Retain temporary fixtures for diagnostics.                            |
+| `judge`             | disabled                | Optional paid judge agent, model, sample count, and timeout.          |
 
-### Building
+Custom profile fields are `agents`, `models`, `contexts`, `tasks` (`"*"` or
+task IDs), and `repetitions`.
 
-Run `nx build benchmark` to build the library.
+## Bundled profiles
 
-### Running unit tests
+| Profile  | Contexts               | Tasks                         | Repetitions |
+| -------- | ---------------------- | ----------------------------- | ----------- |
+| `smoke`  | bare, AGENTS.md        | account-deletion confirmation | 1           |
+| `small`  | skill                  | five representative tasks     | 1           |
+| `medium` | AGENTS.md, skill       | all bundled tasks             | 1           |
+| `full`   | bare, AGENTS.md, skill | all bundled tasks             | 3           |
 
-Run `nx test benchmark` to execute the unit tests via [Vitest](https://vitest.dev/).
+The ten bundled tasks cover action hierarchy, destructive confirmation,
+status indicators, empty states, validation errors, onboarding progress,
+pagination, password visibility, immediate settings, and transient success
+feedback. Prompts remain intent-level; hidden component expectations are not
+leaked to the generating agent.
+
+## Context levels
+
+- `bare` copies no guidance.
+- `agents-md` copies only configured instruction files.
+- `skill` copies configured instruction files and skill directories.
+
+Every context source must remain inside the configured working directory both
+lexically and after realpath resolution. Generated source collection is
+similarly restricted to `src/task/` inside a unique temporary fixture.
+
+## Outputs
+
+The combined plugin runs once for the complete multi-theme Schema and returns:
+
+- `benchmark/manifest.json` — resolved non-secret matrix metadata;
+- `benchmark/results.json` — ordered cell results, scores, findings, errors,
+  timings, and applicable dimension basis; and
+- `benchmark/report.html` — a deterministic, accessible, self-contained
+  summary with no external runtime dependencies.
+
+Change the leading directory with `outputPath`. Razorwind owns final document
+placement; the benchmark engine does not write artifacts directly into the
+consumer workspace.
+
+## Scoring
+
+Scores are a weighted mean over applicable dimensions and are renormalized
+when a dimension is unavailable:
+
+| Dimension            | Weight | What it measures                                       |
+| -------------------- | -----: | ------------------------------------------------------ |
+| imports              |   0.10 | Foreign UI dependencies.                               |
+| API fidelity         |   0.25 | Hallucinated exports and invented known props.         |
+| token discipline     |   0.15 | Raw colors and dimensions bypassing tokens.            |
+| static accessibility |   0.10 | Curated JSX accessibility checks.                      |
+| compilation          |   0.10 | TypeScript diagnostics against generated declarations. |
+| judgment             |   0.30 | Optional rubric-based model judgment.                  |
+
+Any hard failure makes the cell fail; otherwise review findings produce a
+review gate. Judgment is opt-in and may consume additional paid credits for
+every configured sample.
+
+## Schema requirements and limitations
+
+Ground truth comes only from the Razorwind `Schema`. Component props are
+extracted from embedded `component.files[].content`. When component source is
+missing, export checks remain active, but prop-level API fidelity is explicitly
+reported as not applicable and generated declarations stay permissive. The
+benchmark never guesses a prop API from a package installation.
+
+This initial release intentionally excludes upstream audit workflows, CI
+baselines, leaderboard and comparison commands, pruning, interactive wizards,
+and long-form report generation. Live browser/runtime evaluation is also out
+of scope; accessibility grading is static and curated.
+
+## Programmatic API
+
+The package exports the plugin plus focused helpers for option resolution,
+Schema adaptation, task and matrix construction, benchmark execution, and
+artifact rendering. Process spawning and fixture lifecycle internals are not
+public exports.
+
+## Original work and inspiration
+
+This package adapts the core evaluation methodology and selected implementation
+from [open-design-system-bench](https://github.com/christophhdesign/open-design-system-bench),
+originally authored by [Christoph Hellmuth](https://github.com/christophhdesign)
+and distributed under the MIT License. See [NOTICE](NOTICE) for the preserved
+license and source revision.
 
 <!-- START footer -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-
-## Storm Workspaces
-
-Storm workspaces are built using
-<a href="https://nx.dev/" target="_blank">Nx</a>, a set of extensible dev tools
-for monorepos, which helps you develop like Google, Facebook, and Microsoft.
-Building on top of Nx, the Open System provides a set of tools and patterns that
-help you scale your monorepo to many teams while keeping the codebase
-maintainable.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Roadmap
-
-See the [open issues](https://github.com/storm-software/razorwind/issues) for
-a list of proposed features (and known issues).
-
-- [Top Feature Requests](https://github.com/storm-software/razorwind/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc)
-  (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc)
-  (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/storm-software/razorwind/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Support
-
-Reach out to the maintainer at one of the following places:
-
-- [Contact](https://stormsoftware.com/contact)
-- [GitHub discussions](https://github.com/storm-software/razorwind/discussions)
-- <support@stormsoftware.com>
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## License
-
-This project is licensed under the **Apache License 2.0**. Feel free to edit and
-distribute this template as you like.
-
-See [LICENSE](LICENSE) for more information.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Changelog
-
-This project adheres to
-[Semantic Versioning](https://semver.org/spec/v2.0.0.html). Every release, along
-with the migration instructions, is documented in the [CHANGELOG](CHANGELOG.md)
-file
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Contributing
-
-First off, thanks for taking the time to contribute! Contributions are what
-makes the open-source community such an amazing place to learn, inspire, and
-create. Any contributions you make will benefit everybody else and are **greatly
-appreciated**.
-
-Please try to create bug reports that are:
-
-- _Reproducible._ Include steps to reproduce the problem.
-- _Specific._ Include as much detail as possible: which version, what
-  environment, etc.
-- _Unique._ Do not duplicate existing opened issues.
-- _Scoped to a Single Bug._ One bug per report.
-
-Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
-
-You can use
-[markdownlint-cli](https://github.com/storm-software/razorwind/markdownlint-cli)
-to check for common markdown style inconsistency.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Contributors
-
-Thanks goes to these wonderful people
-([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://www.sullypat.com/"><img src="https://avatars.githubusercontent.com/u/99053093?v=4?s=100" width="100px;" alt="Patrick Sullivan"/><br /><sub><b>Patrick Sullivan</b></sub></a><br /><a href="#design-sullivanpj" title="Design">🎨</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Code">💻</a> <a href="#tool-sullivanpj" title="Tools">🔧</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Documentation">📖</a> <a href="https://github.com/storm-software/razorwind/commits?author=sullivanpj" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://tylerbenning.com/"><img src="https://avatars.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#design-tbenning" title="Design">🎨</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://stormsoftware.com"><img src="https://avatars.githubusercontent.com/u/149802440?v=4?s=100" width="100px;" alt="Stormie"/><br /><sub><b>Stormie</b></sub></a><br /><a href="#maintenance-stormie-bot" title="Maintenance">🚧</a></td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td align="center" size="13px" colspan="7">
-        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg" alt="All Contributors">
-          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
-        </img>
-      </td>
-    </tr>
-  </tfoot>
-</table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the
-[all-contributors](https://github.com/all-contributors/all-contributors)
-specification. Contributions of any kind welcome!
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-<hr />
-<br />
-
-<div align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x320-dark.webp">
-  <source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/media/banner-1280x320-light.webp">
-<img src="https://public.storm-cdn.com/storm-software/media/banner-1280x320-dark.webp" width="100%" alt="Storm Software" />
-</picture>
-</div>
-<br />
-
-<div align="center">
-<a href="https://stormsoftware.com" target="_blank">Website</a>  •  <a href="https://stormsoftware.com/contact" target="_blank">Contact</a>  •  <a href="https://linkedin.com/in/patrick-sullivan-865526b0" target="_blank">LinkedIn</a>  •  <a href="https://medium.com/@pat.joseph.sullivan" target="_blank">Medium</a>  •  <a href="https://github.com/storm-software" target="_blank">GitHub</a>  •  <a href="https://keybase.io/sullivanp" target="_blank">OpenPGP Key</a>
-</div>
-
-<div align="center">
-<b>Fingerprint:</b> 1BD2 7192 7770 2549 F4C9 F238 E6AD C420 DA5C 4C2D
-</div>
-<br />
-
-Storm Software is an open source software development organization and creator
-of Acidic, StormStack and StormCloud.
-
-Our mission is to make software development more accessible. Our ideal future is
-one where anyone can create software without years of prior development
-experience serving as a barrier to entry. We hope to achieve this via LLMs,
-Generative AI, and intuitive, high-level data modeling/programming languages.
-
-Join us on [Discord](https://discord.gg/MQ6YVzakM5) to chat with the team,
-receive release notifications, ask questions, and get involved.
-
-If this sounds interesting, and you would like to help us in creating the next
-generation of development tools, please reach out on our
-[website](https://stormsoftware.com/contact) or join our
-[Slack channel](https://join.slack.com/t/storm-software/shared_invite/zt-2gsmk04hs-i6yhK_r6urq0dkZYAwq2pA)!
-
-<br />
-
-<div align="center"><a href="https://stormsoftware.com" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/storm-software/icons/circle-dark.webp"><source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/storm-software/icons/circle-light.webp"><img src="https://public.storm-cdn.com/storm-software/icons/circle-dark.webp" width="200px" alt="Storm Software" /></picture></a></div>
-<br />
-<div align="center"><a href="https://stormsoftware.com" target="_blank"><picture><source media="(prefers-color-scheme: dark)" srcset="https://public.storm-cdn.com/misc/text/visit-us-dark.png"><source media="(prefers-color-scheme: light)" srcset="https://public.storm-cdn.com/misc/text/visit-us-light.png"><img src="https://public.storm-cdn.com/misc/text/visit-us-dark.png" height="90px" alt="Visit us at stormsoftware.com" /></picture></a></div>
-<br />
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-<br />
-
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
 <!-- END footer -->
