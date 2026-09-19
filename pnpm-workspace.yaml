@@ -26,20 +26,20 @@ catalog:
   "@shell-shock/preset-cli": ^0.9.38
   "@shell-shock/core": ^0.17.26
   "@shell-shock/nx": ^0.0.99
-  "@storm-software/config": ^1.138.77
-  "@storm-software/config-tools": ^1.190.141
-  "@storm-software/cspell": ^0.46.208
-  "@storm-software/eslint-plugin-pnpm": ^0.0.104
-  "@storm-software/eslint-config-react": ^0.0.98
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.104
-  "@storm-software/git-tools": ^2.131.149
-  "@storm-software/linting-tools": ^1.134.71
-  "@storm-software/markdownlint": ^0.30.296
-  "@storm-software/pnpm-tools": ^0.7.155
-  "@storm-software/prettier": ^0.59.194
-  "@storm-software/tsconfig": ^0.48.207
-  "@storm-software/untyped": ^0.24.283
-  "@storm-software/workspace-tools": ^1.297.10
+  "@storm-software/config": ^1.138.78
+  "@storm-software/config-tools": ^1.190.142
+  "@storm-software/cspell": ^0.46.209
+  "@storm-software/eslint-plugin-pnpm": ^0.0.105
+  "@storm-software/eslint-config-react": ^0.0.99
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.105
+  "@storm-software/git-tools": ^2.131.150
+  "@storm-software/linting-tools": ^1.134.72
+  "@storm-software/markdownlint": ^0.30.297
+  "@storm-software/pnpm-tools": ^0.7.156
+  "@storm-software/prettier": ^0.59.195
+  "@storm-software/tsconfig": ^0.48.208
+  "@storm-software/untyped": ^0.24.284
+  "@storm-software/workspace-tools": ^1.297.11
   "@stryke/env": ^0.20.134
   "@stryke/fs": ^0.33.117
   "@stryke/hash": ^0.13.70
@@ -66,7 +66,7 @@ catalog:
   log4brains: ^1.1.0
   nx: 23.1.0
   pkg-types: ^2.3.3
-  prettier: ^3.9.7
+  prettier: ^3.9.8
   rimraf: ^6.1.3
   shadcn: ^4.21.0
   smol-toml: ^1.8.0
@@ -81,7 +81,7 @@ catalog:
   zod: ^4.6.5
   zx: ^8.8.5
   powerlines: ^0.47.213
-  "@storm-software/tsdoc": ^0.13.293
+  "@storm-software/tsdoc": ^0.13.294
 overrides:
   "@emnapi/core": 1.11.2
   "@emnapi/runtime": 1.11.2
