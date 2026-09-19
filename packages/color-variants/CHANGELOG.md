@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Color Variants
 
+## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.50) (09/19/2026)
+
+### Bug Fixes
+
+- **color-variants:** Remove `monochromatic` from the default variants list ([8e196f8](https://github.com/storm-software/razorwind/commit/8e196f8))
+
 ## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.49) (09/18/2026)
 
 ### Updated Dependencies

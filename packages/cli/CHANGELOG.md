@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.8) (09/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with color palette theme duplication ([371d06c](https://github.com/storm-software/razorwind/commit/371d06c))
+
 ## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.7) (09/18/2026)
 
 ### Updated Dependencies

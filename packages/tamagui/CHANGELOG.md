@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.72](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.72) (09/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with color palette theme duplication ([371d06c](https://github.com/storm-software/razorwind/commit/371d06c))
+
 ## [0.0.71](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.71) (09/18/2026)
 
 ### Updated Dependencies
