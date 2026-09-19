@@ -1,4 +1,23 @@
-import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
+import type { ChildProcessWithoutNullStreams } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const MAX_CAPTURE_BYTES = 1_000_000;
 
@@ -29,8 +48,10 @@ export type SpawnProcess = (
   options: Parameters<typeof spawn>[2]
 ) => ChildProcessWithoutNullStreams;
 
+// eslint-disable-next-line node/prefer-global/buffer
 function appendBounded(existing: string, chunk: Buffer | string): string {
   const combined = existing + chunk.toString();
+
   return combined.length > MAX_CAPTURE_BYTES
     ? combined.slice(-MAX_CAPTURE_BYTES)
     : combined;
@@ -71,7 +92,7 @@ export async function runProcess(
     }
   };
 
-  return await new Promise(resolveResult => {
+  return new Promise(resolveResult => {
     const timeout = setTimeout(() => {
       timedOut = true;
       killTree("SIGTERM");

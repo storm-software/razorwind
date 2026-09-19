@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { GeneratedDocument } from "@power-plant/core";
 import type { Config } from "@razorwind/core";
 import type { Schema } from "@razorwind/core/schema";
@@ -23,6 +41,7 @@ function document(
   language: string
 ): BenchmarkDocument {
   const meta = { name: "benchmark" } as const;
+
   return {
     path,
     language,
@@ -49,6 +68,7 @@ export async function generateBenchmark(
     tasks
   });
   const root = resolved.outputPath;
+
   return {
     [`${root}/manifest.json`]: document(
       `${root}/manifest.json`,

@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { BenchmarkRun, DimensionName } from "../types";
 import { renderResults } from "./json";
 
@@ -49,13 +67,16 @@ export function renderReportHtml(run: BenchmarkRun): string {
       const dimensionCells = availableDimensions
         .map(dimension => {
           const item = byDimension.get(dimension);
+
           return `<td>${item && item.applicable !== false ? score(item.score) : "—"}</td>`;
         })
         .join("");
+
       return `<tr><th scope="row">${escapeHtml(result.cell.id)}</th><td>${escapeHtml(result.cell.agent)}</td><td>${escapeHtml(result.cell.model)}</td><td>${escapeHtml(result.cell.context)}</td><td>${escapeHtml(result.cell.taskId)}</td><td>${result.cell.repetition}</td><td>${score(result.score)}</td><td><span class="gate ${result.gate}">${result.gate}</span></td>${dimensionCells}</tr>`;
     })
     .join("\n");
   const embedded = escapeEmbeddedJson(renderResults(run));
+
   return `<!doctype html>
 <html lang="en">
 <head>

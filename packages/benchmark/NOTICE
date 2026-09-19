@@ -1,7 +1,7 @@
 @razorwind/benchmark includes an adapted, scoped port of work from:
 
   open-design-system-bench
-  https://github.com/christophhdesign/open-design-system-bench
+  <https://github.com/christophhdesign/open-design-system-bench>
   Original author: Christoph Hellmuth
   Source revision: e258a12dff8d483746e9a9ebfa655fa827301e13
 

@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { AgentAdapter, AgentRunResult } from "../agents";
 import { getAgentAdapter } from "../agents";
 import { analyzeSource, composeScore, gradeMechanical } from "../grade";
@@ -11,12 +29,12 @@ import type {
   GroundTruth,
   ResolvedBenchmarkOptions
 } from "../types";
+import type { Fixture } from "./fixture";
 import {
   collectFixtureSources,
   disposeFixture,
   provisionFixture,
-  validateContextSources,
-  type Fixture
+  validateContextSources
 } from "./fixture";
 import { judgeCell } from "./judge";
 import { expandMatrix } from "./matrix";
@@ -110,6 +128,7 @@ async function resolveCells(request: RunBenchmarkRequest): Promise<{
         ? request.options.profile
         : { ...request.options.profile, agents: requested, models }
   };
+
   return { cells: expandMatrix(options, request.tasks), adapters };
 }
 
@@ -174,6 +193,7 @@ export async function runCell(request: RunCellRequest): Promise<CellResult> {
       );
     }
     const composed = composeScore(dimensions);
+
     return {
       cell: request.cell,
       dimensions,
@@ -216,7 +236,7 @@ export async function runBenchmark(
   await validateContextSources(request.options);
   const resolved = await resolveCells(request);
   const tasks = new Map(request.tasks.map(task => [task.id, task]));
-  const results = new Array<CellResult>(resolved.cells.length);
+  const results = Array.from({ length: resolved.cells.length });
   let nextIndex = 0;
 
   const worker = async () => {
@@ -256,6 +276,6 @@ export async function runBenchmark(
       typeof request.options.profile === "string"
         ? request.options.profile
         : "custom",
-    cells: results
+    cells: results as CellResult[]
   };
 }

@@ -1,9 +1,20 @@
-/*
- * Adapted from open-design-system-bench by Christoph Hellmuth.
- * Source: https://github.com/christophhdesign/open-design-system-bench
- * Revision: e258a12dff8d483746e9a9ebfa655fa827301e13
- * License: MIT (see ../NOTICE in the published package).
- */
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
 
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -22,7 +33,8 @@ function safeFileName(path: string, index: number): string {
   const supported = [".ts", ".tsx", ".js", ".jsx"].includes(extension)
     ? extension
     : ".tsx";
-  const stem = basename(path, extname(path)).replaceAll(/[^a-zA-Z0-9_-]/g, "-");
+  const stem = basename(path, extname(path)).replaceAll(/[^\w-]/g, "-");
+
   return `${String(index).padStart(3, "0")}-${stem || "component"}${supported}`;
 }
 

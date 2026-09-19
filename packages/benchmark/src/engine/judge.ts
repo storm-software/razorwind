@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { AgentAdapter } from "../agents";
 import type {
   BenchmarkTask,
@@ -34,6 +52,7 @@ function promptFor(request: JudgeCellRequest): string {
       props: component.props ? Object.keys(component.props).sort() : null
     })
   );
+
   return [
     "Evaluate this generated design-system implementation against the rubric.",
     'Return only JSON: {"score": number, "gate": "pass" | "review" | "fail", "findings": string[]}.',
@@ -114,5 +133,6 @@ export async function judgeCell(
         responses.length > 1 ? `Sample ${sample + 1}: ${message}` : message
     }))
   );
+
   return { dimension: "judgment", score, gate, findings };
 }

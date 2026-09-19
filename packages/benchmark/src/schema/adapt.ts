@@ -1,3 +1,21 @@
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import type { Schema } from "@razorwind/core/schema";
 import type { BenchmarkComponent, BenchmarkToken, GroundTruth } from "../types";
 import { extractComponentProps } from "./props";
@@ -10,11 +28,12 @@ export interface AdaptSchemaOptions {
 }
 
 function pascalCase(value: string): string {
-  const parts = value.split(/[^a-zA-Z0-9]+/).filter(Boolean);
+  const parts = value.split(/[^a-z0-9]+/i).filter(Boolean);
   const result = parts
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
-  return /^[A-Za-z_$]/.test(result) ? result : `Component${result}`;
+
+  return /^[A-Z_$]/i.test(result) ? result : `Component${result}`;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

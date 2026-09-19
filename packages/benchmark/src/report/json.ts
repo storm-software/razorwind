@@ -1,9 +1,22 @@
-import type {
-  AgentId,
-  BenchmarkRun,
-  ContextLevel,
-  DimensionName
-} from "../types";
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
+import type { AgentId, BenchmarkRun } from "../types";
 
 function unique<T>(values: T[]): T[] {
   return [...new Set(values)];
@@ -23,9 +36,7 @@ function configuration(run: BenchmarkRun) {
     profile: run.profile,
     agents,
     models,
-    contexts: unique(
-      run.cells.map(result => result.cell.context)
-    ) as ContextLevel[],
+    contexts: unique(run.cells.map(result => result.cell.context)),
     tasks: unique(run.cells.map(result => result.cell.taskId)),
     repetitions: Math.max(
       0,
@@ -79,7 +90,7 @@ export function renderResults(run: BenchmarkRun): string {
       repetition: result.cell.repetition,
       basis: result.dimensions
         .filter(dimension => dimension.applicable !== false)
-        .map(dimension => dimension.dimension) as DimensionName[],
+        .map(dimension => dimension.dimension),
       score: result.score,
       gate: result.gate,
       durationMs: result.durationMs,

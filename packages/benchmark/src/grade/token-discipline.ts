@@ -1,8 +1,21 @@
-/**
- * Adapted from christophhdesign/open-design-system-bench by Christoph Hellmuth.
- * Source commit: e258a12dff8d483746e9a9ebfa655fa827301e13. MIT licensed;
- * see ../../NOTICE for the preserved license notice.
- */
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import { matchesGlob } from "node:path";
 import type { DimensionResult, Finding, Gate } from "../types";
 import type { GradeContext } from "./index";
@@ -86,6 +99,7 @@ export function gradeTokenDiscipline(context: GradeContext): DimensionResult {
   const count = findings.length;
   const gate: Gate =
     count === 0 ? "pass" : count > 3 || hasColor ? "review" : "pass";
+
   return {
     dimension: "tokenDiscipline",
     score: Math.max(0, 100 - count * 10),

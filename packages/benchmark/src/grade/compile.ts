@@ -1,15 +1,25 @@
-/**
- * Adapted from christophhdesign/open-design-system-bench by Christoph Hellmuth.
- * Source commit: e258a12dff8d483746e9a9ebfa655fa827301e13. MIT licensed;
- * see ../../NOTICE for the preserved license notice.
- */
+/* -------------------------------------------------------------------
+
+                    🗲 Storm Software - Razorwind
+
+ This code was released as part of the Razorwind project. Razorwind
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/razorwind.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/razorwind
+ Documentation:            https://docs.stormsoftware.com/projects/razorwind
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
 import { join, relative } from "node:path";
 import ts from "typescript";
-import {
-  collectFixtureSources,
-  type Fixture,
-  type FixtureSource
-} from "../engine/fixture";
+import type { Fixture, FixtureSource } from "../engine/fixture";
+import { collectFixtureSources } from "../engine/fixture";
 import type { DimensionResult, Finding } from "../types";
 
 function diagnosticFinding(
@@ -27,6 +37,7 @@ function diagnosticFinding(
     "\\",
     "/"
   );
+
   return {
     dimension: "compile",
     file,
@@ -69,6 +80,7 @@ export async function gradeCompile(
   host.readFile = path => virtualFiles.get(path) ?? readFile(path);
   host.getSourceFile = (path, languageVersion) => {
     const source = host.readFile(path);
+
     return source === undefined
       ? undefined
       : ts.createSourceFile(path, source, languageVersion, true);
@@ -87,6 +99,7 @@ export async function gradeCompile(
   const errors = diagnostics
     .filter(diagnostic => diagnostic.category === ts.DiagnosticCategory.Error)
     .slice(0, 20);
+
   return {
     dimension: "compile",
     score: errors.length === 0 ? 100 : 0,
