@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.10) (09/21/2026)
+
+### Features
+
+- **json-render:** Initial check-in of the JSON Render plugin package ([7ee0c40](https://github.com/storm-software/razorwind/commit/7ee0c40))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.74**
+
 ## [0.0.9](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.9) (09/19/2026)
 
 ### Miscellaneous

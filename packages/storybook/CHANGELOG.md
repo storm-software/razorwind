@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.72](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.72) (09/21/2026)
+
+### Bug Fixes
+
+- **storybook:** Resolve issue with Doc Block properties ([f9327e3](https://github.com/storm-software/razorwind/commit/f9327e3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.74**
+
 ## [0.0.71](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.71) (09/19/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Shiki
 
+## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.48) (09/21/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.74**
+
 ## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.47) (09/19/2026)
 
 ### Features
