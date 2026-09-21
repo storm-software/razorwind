@@ -1,0 +1,81 @@
+{
+  "name": "@razorwind/json-render",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind plugin that generates json-render catalogs, prompts, and structured-output schemas from extracted design-system metadata.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/json-render"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "keywords": [
+    "json-render",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/generate.d.cts",
+        "default": "./dist/generate.cjs"
+      },
+      "import": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      },
+      "default": {
+        "types": "./dist/generate.d.mts",
+        "default": "./dist/generate.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@json-render/core": "catalog:",
+    "@json-render/react": "catalog:",
+    "@power-plant/core": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

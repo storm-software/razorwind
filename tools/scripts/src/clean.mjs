@@ -34,7 +34,7 @@ try {
   }
 
   proc =
-    $`rm -rf ./.nx/cache ./.nx/workspace-data ./.rolldown ./dist ./tmp`.timeout(
+    $`rm -rf ./.nx/cache ./.nx/workspace-data ./.rolldown ./dist ./tmp ./packages/*/tsconfig.tsbuildinfo`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {

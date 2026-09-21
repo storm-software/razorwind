@@ -4,9 +4,9 @@ packages:
   - docs/*
   - playground/*
 catalog:
-  "@babel/parser": ^7.29.0
-  "@babel/traverse": ^7.29.0
-  "@babel/types": ^7.29.0
+  "@babel/parser": ^7.29.9
+  "@babel/traverse": ^7.29.8
+  "@babel/types": ^7.29.8
   "@types/babel__traverse": ^7.28.0
   "@ls-lint/ls-lint": ^2.3.1
   "@nx/devkit": 23.1.0
@@ -15,6 +15,8 @@ catalog:
   "@nx/plugin": 23.1.0
   "@nx/vite": 23.1.0
   "@nx/vitest": 23.1.0
+  "@json-render/core": ^0.21.0
+  "@json-render/react": ^0.21.0
   "@nx/workspace": 23.1.0
   "@power-plant/core": ^0.0.93
   "@power-plant/dtcg-schema": ^0.0.1
@@ -54,13 +56,13 @@ catalog:
   "@stryke/types": ^0.12.43
   "@stryke/url": ^0.4.67
   "@tailwindcss/node": ^4.3.3
-  "@types/node": ^25.9.7
+  "@types/node": ^25.9.8
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   c12: ^3.3.4
   chalk: ^5.6.2
   copyfiles: ^2.4.1
   defu: ^6.1.7
-  eslint: ^10.10.0
+  eslint: ^10.11.0
   eslint-flat-config-utils: ^3.2.0
   fast-glob: ^3.3.3
   jiti: ^2.7.0

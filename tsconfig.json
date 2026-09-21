@@ -88,6 +88,9 @@
       "path": "./packages/theme-seeds"
     },
     {
+      "path": "./packages/json-render"
+    },
+    {
       "path": "./packages/benchmark"
     }
   ],
