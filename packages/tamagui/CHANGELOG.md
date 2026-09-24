@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.75](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.75) (09/24/2026)
+
+### Features
+
+- **tamagui:** Added the `target` option to support Tamagui v3 ([f724dfd](https://github.com/storm-software/razorwind/commit/f724dfd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.75**
+
 ## [0.0.74](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.74) (09/21/2026)
 
 ### Updated Dependencies

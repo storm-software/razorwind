@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Benchmark
 
+## [0.0.4](https://github.com/storm-software/razorwind/releases/tag/benchmark%400.0.4) (09/24/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.75**
+
 ## [0.0.3](https://github.com/storm-software/razorwind/releases/tag/benchmark%400.0.3) (09/21/2026)
 
 ### Updated Dependencies
