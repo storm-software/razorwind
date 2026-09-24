@@ -31,6 +31,20 @@
       "skillPath": "plugins/frontend-mobile-development/skills/tailwind-design-system/SKILL.md",
       "computedHash": "cd61afd28f594e8b6712b61749209cbb4466e3eec4e4223793bbd97fc85c1b63"
     },
+    "tamagui": {
+      "source": "tamagui/tamagui",
+      "ref": "v3-beta",
+      "sourceType": "github",
+      "skillPath": "skills/tamagui/SKILL.md",
+      "computedHash": "96f9fa3b85671b74ab56861e659352eb7bfe35de9e6f3e309761d04664d2326e"
+    },
+    "tamagui-upgrade-v3": {
+      "source": "tamagui/tamagui",
+      "ref": "v3-beta",
+      "sourceType": "github",
+      "skillPath": "skills/tamagui-upgrade-v3/SKILL.md",
+      "computedHash": "8dc176e1fbedd2b0199908cfb7a52d19c27fe31cd0870e16edfdd6236cb670e4"
+    },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
       "sourceType": "github",

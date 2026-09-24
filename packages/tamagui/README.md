@@ -81,6 +81,18 @@ yarn add -D @razorwind/tamagui
 
 ## Development
 
+## Tamagui version target
+
+Generated output targets Tamagui v2 by default. Select v3 to generate a config
+with flat-value settings, v3 module augmentation, and v3 bare-token examples
+in `INSTALL.md`:
+
+```ts
+import tamagui from "@razorwind/tamagui"
+
+tamagui({ target: "v3" })
+```
+
 ### Building
 
 Run `nx build tamagui` to build the library.

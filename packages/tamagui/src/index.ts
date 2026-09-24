@@ -45,6 +45,7 @@ export type {
   FlatToken,
   TamaguiAnimationDriver,
   TamaguiPluginOptions,
+  TamaguiTarget,
   TamaguiTokenCategory
 } from "./types";
 

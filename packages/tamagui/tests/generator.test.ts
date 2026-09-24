@@ -478,6 +478,28 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain("declare module");
   });
 
+  it("renders a v3 config with flat-value settings and module augmentation", () => {
+    const content = renderConfig(spec, { target: "v3" });
+
+    expect(content).toContain(
+      'import { createTamagui, px, createTokens } from "@tamagui/core";'
+    );
+    expect(content).toContain(
+      'settings: { styleValueSyntax: "string", legacyConditionObjects: false }'
+    );
+    expect(content).toContain('declare module "tamagui"');
+    expect(content).not.toContain('declare module "@tamagui/core"');
+  });
+
+  it("documents bare-token style props for the v3 target", () => {
+    const documents = generateTamaguiConfig(spec, { target: "v3" });
+    const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
+
+    expect(install).toContain('color="primary"');
+    expect(install).toContain('padding="sm"');
+    expect(install).not.toContain('color="$primary"');
+  });
+
   it("emits createFont from spec.fonts", () => {
     const content = renderConfig(
       spec,

@@ -27,6 +27,9 @@ import type { CreateTamaguiProps } from "tamagui";
 export type TamaguiAnimationDriver =
   "css" | "rn" | "reanimated" | "motion" | false;
 
+/** Tamagui major-version syntax emitted by the generated config and guide. */
+export type TamaguiTarget = "v2" | "v3";
+
 /**
  * Tamagui `createTokens` category keys we emit from DTCG tokens.
  *
@@ -52,6 +55,17 @@ export type TamaguiTokenCategory =
  * Options for the Razorwind Tamagui config generator.
  */
 export interface TamaguiPluginOptions {
+  /**
+   * Tamagui major-version syntax to target in generated output.
+   *
+   * V3 output enables flat-value settings, augments the `tamagui` module,
+   * and documents bare token names. V2 remains the default to preserve
+   * existing generated output.
+   *
+   * @defaultValue `"v2"`
+   */
+  target?: TamaguiTarget;
+
   /**
    * Output path written relative to the execution cwd.
    *

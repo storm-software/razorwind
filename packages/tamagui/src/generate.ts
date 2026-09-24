@@ -28,6 +28,7 @@ import type {
   FlatToken,
   TamaguiAnimationDriver,
   TamaguiPluginOptions,
+  TamaguiTarget,
   TamaguiTokenCategory
 } from "./types";
 
@@ -1254,6 +1255,7 @@ export function renderTamaguiConfig(
   options: TamaguiPluginOptions = {}
 ): string {
   const fonts = spec.fonts ?? {};
+  const target: TamaguiTarget = options.target ?? "v2";
   const useDefaultConfig = options.useDefaultConfig === true;
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
@@ -1328,7 +1330,11 @@ export function renderTamaguiConfig(
   if (assignedFonts.length > 0) {
     tamaguiImports.push("createFont");
   }
-  imports.push(`import { ${tamaguiImports.join(", ")} } from "@tamagui/core";`);
+  const tamaguiModule = "@tamagui/core";
+  const typeAugmentationModule = target === "v3" ? "tamagui" : tamaguiModule;
+  imports.push(
+    `import { ${tamaguiImports.join(", ")} } from "${tamaguiModule}";`
+  );
 
   const lines: string[] = [
     "/* eslint-disable */",
@@ -1438,6 +1444,12 @@ export function renderTamaguiConfig(
     configParts.push(`  defaultFont: ${toLiteral(options.defaultFont)}`);
   }
 
+  if (target === "v3") {
+    configParts.push(
+      '  settings: { styleValueSyntax: "string", legacyConditionObjects: false }'
+    );
+  }
+
   lines.push(
     "",
     ...(themeInterfaceLines ?? []),
@@ -1457,7 +1469,7 @@ export const config = createTamagui({`,
 
   if (includeTypeAugmentation) {
     lines.push(
-      `declare module "@tamagui/core" {`,
+      `declare module "${typeAugmentationModule}" {`,
       `  // eslint-disable-next-line @typescript-eslint/no-empty-object-type`,
       `  interface TamaguiCustomConfig extends AppConfig {}`,
       `}`,
@@ -1492,7 +1504,9 @@ export function generateTamaguiConfig(
 
   const outputPath = options.outputPath ?? "tamagui.config.ts";
   const content = renderTamaguiConfig(spec, flat, options);
-  const installBody = options.installGuide ?? renderInstallMd({ outputPath });
+  const installBody =
+    options.installGuide ??
+    renderInstallMd({ outputPath, target: options.target });
   const installPath = join(dirname(outputPath), "INSTALL.md");
 
   return {
