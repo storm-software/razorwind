@@ -170,3 +170,138 @@ export interface FlatToken {
    */
   primitive?: boolean;
 }
+
+/**
+ * Options for the Razorwind Tamagui ESLint guardrails generate plugin.
+ *
+ * The guardrails target Tamagui v3 flat values, so nothing is emitted unless
+ * {@link TamaguiEslintPluginOptions.target} is `"v3"`.
+ */
+export interface TamaguiEslintPluginOptions extends Pick<
+  TamaguiPluginOptions,
+  "includeTypes"
+> {
+  /**
+   * Tamagui major-version syntax the app is written in. Only `"v3"` emits the
+   * guardrails plugin; V2 `$token` / condition-object syntax is not linted.
+   *
+   * @defaultValue `"v2"`
+   */
+  target?: TamaguiTarget;
+
+  /**
+   * Output path of the generated ESLint plugin module, written relative to
+   * the execution cwd.
+   *
+   * @defaultValue "eslint/tamagui/razorwind-guardrails.mjs"
+   */
+  eslintPath?: string;
+
+  /**
+   * Rule namespace used in `eslint.config.*` (`<prefix>/no-color-literal`).
+   *
+   * @defaultValue "design-system"
+   */
+  prefix?: string;
+
+  /**
+   * Module the generated file imports `createGuardrails` from.
+   *
+   * @defaultValue "@razorwind/tamagui/eslint-runtime"
+   */
+  runtimeImport?: string;
+
+  /**
+   * Shorthands configured on the app's Tamagui config, merged over the
+   * `@tamagui/shorthands/v5` defaults so `bg` / `p` / `rounded` resolve to
+   * their style property.
+   */
+  shorthands?: Record<string, string>;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, ESLint flat-config
+   * wiring steps are generated for the output file.
+   */
+  installGuide?: string;
+}
+
+/** ESLint rule ids emitted by the Tamagui guardrails generator. */
+export type GuardrailRuleId =
+  | "no-legacy-token-prefix"
+  | "no-legacy-condition-object"
+  | "no-color-literal"
+  | "no-stock-palette"
+  | "no-spacing-literal"
+  | "no-radius-literal"
+  | "no-typography-literal"
+  | "no-shadow-literal"
+  | "no-dark-pairs"
+  | "focus-visible";
+
+export type GuardrailSeverity = "error" | "warn" | "off";
+
+/**
+ * Tamagui v3 token categories a style property resolves bare names against,
+ * plus `shadow` for the generated shadow token buckets.
+ *
+ * @see https://tamagui.dev/docs/core/tokens
+ */
+export type GuardrailTokenCategory =
+  | "color"
+  | "space"
+  | "size"
+  | "radius"
+  | "zIndex"
+  | "fontFamily"
+  | "fontSize"
+  | "fontWeight"
+  | "lineHeight"
+  | "letterSpacing"
+  | "shadow";
+
+/**
+ * Schema-derived Tamagui vocabulary serialized into the generated ESLint
+ * module.
+ */
+export interface GuardrailTheme {
+  /** Plugin `meta.name`. */
+  name: string;
+  /** Plugin `meta.version`. */
+  version: string;
+  /** Rule namespace used in flat config. */
+  prefix: string;
+  /**
+   * Themes the generated config defines: color schemes (`light`, `dark`)
+   * followed by nested semantic themes (`primary`, `danger`, …).
+   */
+  themes: string[];
+  /**
+   * Token category → bare v3 names the generated config defines, e.g.
+   * `{ color: ["background", "blue1"], space: ["4", "sm"] }`. Colors include
+   * theme values (`background`) as well as `createTokens` color keys.
+   */
+  tokens: Partial<Record<GuardrailTokenCategory, string[]>>;
+  /** Shorthand → style property (`bg` → `backgroundColor`). */
+  shorthands: Record<string, string>;
+}
+
+/** Shared ESLint `settings["razorwind-tamagui"]` read by every guardrail rule. */
+export interface GuardrailSettings {
+  /**
+   * JSX element names whose style props are linted. When omitted, every
+   * capitalized component (`<View>`, `<Stack.Item>`) is linted.
+   */
+  components?: string[];
+  /** Calls whose object arguments are style configs (`styled`). */
+  callees?: string[];
+}
+
+/** Options for the generated flat-config factory. */
+export interface GuardrailOptions extends GuardrailSettings {
+  /** Glob(s) the rules apply to. */
+  files?: string[];
+  /** Glob(s) exempt from every rule. */
+  ignores?: string[];
+  /** Per-rule overrides of the schema-derived default severities. */
+  severity?: Partial<Record<GuardrailRuleId, GuardrailSeverity>>;
+}

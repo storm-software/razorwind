@@ -20,6 +20,8 @@ import { definePlugin } from "@razorwind/core/plugin";
 import { generateTamaguiConfig } from "./generate";
 import type { TamaguiPluginOptions } from "./types";
 
+export * as eslint from "./eslint";
+
 export {
   flattenTokens,
   isPaletteGroup,
@@ -37,13 +39,16 @@ export {
 } from "./fonts";
 export { formatTokenValue, toCssVar, toTamaguiValue } from "./format";
 export {
+  collectTamaguiVocabulary,
   generateTamaguiConfig,
   renderInstallMd,
-  renderTamaguiConfig
+  renderTamaguiConfig,
+  type TamaguiVocabulary
 } from "./generate";
 export type {
   FlatToken,
   TamaguiAnimationDriver,
+  TamaguiEslintPluginOptions,
   TamaguiPluginOptions,
   TamaguiTarget,
   TamaguiTokenCategory

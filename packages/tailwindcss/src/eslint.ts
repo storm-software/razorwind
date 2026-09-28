@@ -85,6 +85,7 @@ export function splitThemeCssVar(
     }
     if (bare.startsWith(`${ns}-`)) {
       const name = bare.slice(ns.length + 1);
+
       // `--text-sm--line-height` style sub-properties are not utilities.
       return name.includes("--") ? undefined : [ns, name];
     }

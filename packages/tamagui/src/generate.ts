@@ -21,6 +21,7 @@ import type { Schema } from "@razorwind/core/schema";
 import { createDocument, toThemeCssVar } from "@razorwind/core/utils";
 import { dirname, join } from "node:path";
 import { flattenTokens, toCamelCaseKey } from "./flatten";
+import type { TamaguiFontDef } from "./fonts";
 import { collectTamaguiFonts, fontVarName, renderCreateFont } from "./fonts";
 import { toLiteral } from "./format";
 import { renderInstallMd } from "./install";
@@ -1236,6 +1237,98 @@ function renderThemesModule(
   return { statements, hasThemes: true };
 }
 
+interface TokenAnalysis {
+  lightColorTokens: FlatToken[];
+  darkColorTokens: FlatToken[];
+  hasDark: boolean;
+  colorBucket: TokenBucket;
+  lightSchemeTokens: FlatToken[];
+  lightMaps: ThemeMaps;
+  darkMaps: ThemeMaps;
+}
+
+/**
+ * Split flattened tokens into light / dark schemes and derive the
+ * `createTokens({ color })` bucket and `createThemes` value maps.
+ */
+function analyzeTokens(tokens: FlatToken[]): TokenAnalysis {
+  const colorTokens = tokens.filter(token => token.category === "color");
+  const lightColorTokens = tokensForScheme(colorTokens, "light");
+  const darkColorTokens = tokensForScheme(colorTokens, "dark");
+  const hasDark = darkColorTokens.length > 0;
+
+  const colorBucket = colorBucketForCreateTokens(
+    lightColorTokens,
+    darkColorTokens
+  );
+
+  const lightSchemeTokens = tokensForScheme(tokens, "light");
+  const darkSchemeTokens = hasDark
+    ? tokensForScheme(tokens, "dark")
+    : lightSchemeTokens;
+
+  return {
+    lightColorTokens,
+    darkColorTokens,
+    hasDark,
+    colorBucket,
+    lightSchemeTokens,
+    lightMaps: collectThemeMaps(lightSchemeTokens, colorBucket),
+    darkMaps: collectThemeMaps(darkSchemeTokens, colorBucket)
+  };
+}
+
+/**
+ * Names the generated Tamagui config defines, used to derive lint allowlists.
+ */
+export interface TamaguiVocabulary {
+  /** `createTokens` category → token keys (`color` holds palette keys). */
+  tokens: Partial<Record<TamaguiTokenCategory, string[]>>;
+  /** Theme value keys (`background`, `ringSubtle`, …) across all themes. */
+  themeKeys: string[];
+  /** Nested semantic themes (`primary`, `danger`, …). */
+  childThemes: string[];
+  /** True when the schema carries a dark token set. */
+  hasDark: boolean;
+  /** `createFont` entries emitted for the schema. */
+  fonts: TamaguiFontDef[];
+}
+
+/**
+ * Collect the token, theme and font names {@link renderTamaguiConfig} emits
+ * for the same schema and flattened tokens.
+ */
+export function collectTamaguiVocabulary(
+  spec: Schema,
+  tokens: FlatToken[]
+): TamaguiVocabulary {
+  const { hasDark, colorBucket, lightSchemeTokens, lightMaps, darkMaps } =
+    analyzeTokens(tokens);
+  const maps = hasDark ? [lightMaps, darkMaps] : [lightMaps];
+
+  const categories: Partial<Record<TamaguiTokenCategory, string[]>> = {};
+  if (Object.keys(colorBucket).length > 0) {
+    categories.color = Object.keys(colorBucket);
+  }
+  for (const [category, bucket] of Object.entries(
+    buildCategoryBuckets(lightSchemeTokens)
+  )) {
+    if (bucket && Object.keys(bucket).length > 0) {
+      categories[category as TamaguiTokenCategory] = Object.keys(bucket);
+    }
+  }
+
+  return {
+    tokens: categories,
+    themeKeys: collectAppThemeKeys(maps),
+    childThemes: [
+      ...new Set(maps.flatMap(map => Object.keys(map.children)))
+    ].toSorted((a, b) => a.localeCompare(b)),
+    hasDark,
+    fonts: collectTamaguiFonts(tokens, spec.fonts ?? {})
+  };
+}
+
 /**
  * Render a Tamagui config module from flattened design tokens.
  *
@@ -1260,22 +1353,15 @@ export function renderTamaguiConfig(
   const animations = options.animations ?? "css";
   const includeTypeAugmentation = options.includeTypeAugmentation !== false;
 
-  const colorTokens = tokens.filter(token => token.category === "color");
-  const lightColorTokens = tokensForScheme(colorTokens, "light");
-  const darkColorTokens = tokensForScheme(colorTokens, "dark");
-  const hasDark = darkColorTokens.length > 0;
-
-  const colorBucket = colorBucketForCreateTokens(
+  const {
     lightColorTokens,
-    darkColorTokens
-  );
-
-  const lightSchemeTokens = tokensForScheme(tokens, "light");
-  const darkSchemeTokens = hasDark
-    ? tokensForScheme(tokens, "dark")
-    : lightSchemeTokens;
-  const lightMaps = collectThemeMaps(lightSchemeTokens, colorBucket);
-  const darkMaps = collectThemeMaps(darkSchemeTokens, colorBucket);
+    darkColorTokens,
+    hasDark,
+    colorBucket,
+    lightSchemeTokens,
+    lightMaps,
+    darkMaps
+  } = analyzeTokens(tokens);
   const { statements: themeStatements, hasThemes } = renderThemesModule(
     lightMaps,
     darkMaps,

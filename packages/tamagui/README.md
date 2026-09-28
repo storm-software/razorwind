@@ -93,6 +93,59 @@ import tamagui from "@razorwind/tamagui"
 tamagui({ target: "v3" })
 ```
 
+## ESLint guardrails (Tamagui v3)
+
+`@razorwind/tamagui/eslint` is a second generator that emits an ESLint flat-config plugin aligned with the generated Tamagui config. It lints v3 flat values (`bg="background hover:background-hover"`, `p="4 sm:6"`) on JSX components and in `styled()` configs. It only emits when `target` is `"v3"`; with the default `"v2"` target it writes nothing.
+
+```ts
+import { defineConfig } from "@razorwind/core"
+import tamagui from "@razorwind/tamagui"
+import tamaguiEslint from "@razorwind/tamagui/eslint"
+
+export default defineConfig({
+  plugins: [tamagui({ target: "v3" }), tamaguiEslint({ target: "v3" })]
+})
+```
+
+```js
+// eslint.config.mjs
+import guardrails from "./eslint/tamagui/razorwind-guardrails.mjs"
+
+export default [
+  guardrails({
+    files: ["src/**/*.{ts,tsx}"],
+    severity: { "no-stock-palette": "error" }
+  })
+]
+```
+
+Token rules only turn on for categories the generated config defines. Use them alongside `@tamagui/eslint-plugin`'s `valid-flat-values`, which owns grammar and typo checks.
+
+| Rule                         | Default (when enabled) | Flags                                                             |
+| ---------------------------- | ---------------------- | ----------------------------------------------------------------- |
+| `no-legacy-token-prefix`     | `error`                | `bg="$background"`, `p="$4"`                                      |
+| `no-legacy-condition-object` | `error`                | `hoverStyle={…}`, `pressStyle`, `$sm={…}`, `$theme-dark={…}`      |
+| `no-color-literal`           | `error`                | `bg="#fff"`, `color="hover:oklch(…)"`                             |
+| `no-stock-palette`           | `warn`                 | `color="red10"` / `"red-500"` unless the schema defines it        |
+| `no-spacing-literal`         | `warn`                 | `p={13}`, `mt="12px"`, `gap="7"` when `7` is not a space token    |
+| `no-radius-literal`          | `error`                | `rounded={3}`, `borderRadius="3px"`                               |
+| `no-typography-literal`      | `warn`                 | raw `fontSize` / `lineHeight` / `letterSpacing`, unknown families |
+| `no-shadow-literal`          | `error`                | `boxShadow="0 2px 4px #000"`                                      |
+| `no-dark-pairs`              | `error`                | `bg="background dark:blue1"` when tokens carry a dark set         |
+| `focus-visible`              | `warn`                 | `outlineColor="focus:…"` (use `focus-visible:`)                   |
+
+Every capitalized JSX component is linted by default; pass `components: ["View", "Text", …]` to restrict it, and `callees` to change the `styled` factory names.
+
+| Option          | Default                                     | Description                                       |
+| --------------- | ------------------------------------------- | ------------------------------------------------- |
+| `target`        | `"v2"`                                      | Must be `"v3"` for any output                     |
+| `eslintPath`    | `"eslint/tamagui/razorwind-guardrails.mjs"` | Output path of the generated plugin module        |
+| `prefix`        | `"design-system"`                           | Rule namespace in flat config                     |
+| `runtimeImport` | `"@razorwind/tamagui/eslint-runtime"`       | Module the generated file imports rules from      |
+| `shorthands`    | `@tamagui/shorthands/v5`                    | Extra shorthands, merged over the v5 defaults     |
+| `includeTypes`  | All types                                   | Same token `$type` filter as the config generator |
+| `installGuide`  | Generated                                   | Override body for the generated `INSTALL.md`      |
+
 ### Building
 
 Run `nx build tamagui` to build the library.
