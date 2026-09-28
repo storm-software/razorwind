@@ -77,3 +77,88 @@ export interface FlatThemeToken {
   /** Optional theme id when tokens are multi-theme (`light` / `dark`). */
   theme?: string;
 }
+
+/**
+ * Options for the Razorwind Tailwind CSS ESLint guardrails generate plugin.
+ */
+export interface TailwindEslintPluginOptions {
+  /**
+   * Output path of the generated ESLint plugin module, written relative to
+   * the execution cwd.
+   *
+   * @defaultValue "eslint/razorwind-guardrails.mjs"
+   */
+  eslintPath?: string;
+
+  /**
+   * Rule namespace used in `eslint.config.*` (`<prefix>/no-color-literal`).
+   *
+   * @defaultValue "design-system"
+   */
+  prefix?: string;
+
+  /**
+   * Module the generated file imports `createGuardrails` from.
+   *
+   * @defaultValue "@razorwind/tailwindcss/eslint-runtime"
+   */
+  runtimeImport?: string;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, ESLint flat-config
+   * wiring steps are generated for the output file.
+   */
+  installGuide?: string;
+}
+
+/** ESLint rule ids emitted by the guardrails generator. */
+export type GuardrailRuleId =
+  | "no-color-literal"
+  | "no-stock-palette"
+  | "no-unknown-theme-var"
+  | "no-radius-literal"
+  | "no-spacing-literal"
+  | "no-typography-literal"
+  | "no-shadow-literal"
+  | "no-dark-pairs"
+  | "focus-visible";
+
+export type GuardrailSeverity = "error" | "warn" | "off";
+
+/**
+ * Schema-derived Tailwind theme serialized into the generated ESLint module.
+ */
+export interface GuardrailTheme {
+  /** Plugin `meta.name`. */
+  name: string;
+  /** Plugin `meta.version`. */
+  version: string;
+  /** Rule namespace used in flat config. */
+  prefix: string;
+  /** Theme ids present in the schema (e.g. `light`, `dark`). */
+  themes: string[];
+  /**
+   * Tailwind v4 theme namespace → defined names, e.g.
+   * `{ color: ["primary", "neutral-800"], radius: ["", "lg"] }`. An empty
+   * name is the namespace's `DEFAULT` (`--radius`).
+   */
+  namespaces: Record<string, string[]>;
+}
+
+/** Shared ESLint `settings.razorwind` read by every guardrail rule. */
+export interface GuardrailSettings {
+  /** JSX attributes holding class lists. */
+  attributes?: string[];
+  /** Helper calls / template tags holding class lists (`cn`, `cva`, …). */
+  callees?: string[];
+}
+
+/** Options for the generated flat-config factory. */
+export interface GuardrailOptions extends GuardrailSettings {
+  /** Glob(s) the rules apply to. */
+  files?: string[];
+  /** Glob(s) exempt from every rule (renderers that cannot use CSS vars). */
+  ignores?: string[];
+  /** Per-rule overrides of the schema-derived default severities. */
+  severity?: Partial<Record<GuardrailRuleId, GuardrailSeverity>>;
+}

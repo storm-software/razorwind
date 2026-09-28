@@ -100,6 +100,53 @@ export default defineConfig({
 | `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
 | `overview`    | Generated summary           | Prose for the `## Overview` section                      |
 
+### ESLint guardrails
+
+`@razorwind/tailwindcss/eslint` is a second generator that emits an ESLint flat-config plugin aligned with the schema's Tailwind `@theme` tokens. Rules only turn on for token namespaces the schema defines, and their messages suggest the real token utilities.
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import tailwindcss from "@razorwind/tailwindcss/generate";
+import tailwindcssEslint from "@razorwind/tailwindcss/eslint";
+
+export default defineConfig({
+  plugins: [tailwindcss(), tailwindcssEslint()]
+});
+```
+
+```js
+// eslint.config.mjs
+import guardrails from "./eslint/razorwind-guardrails.mjs";
+
+export default [
+  guardrails({
+    files: ["src/**/*.{ts,tsx}"],
+    severity: { "no-stock-palette": "error" }
+  })
+];
+```
+
+| Rule                    | Default (when enabled) | Flags                                                                  |
+| ----------------------- | ---------------------- | ---------------------------------------------------------------------- |
+| `no-color-literal`      | `error`                | `bg-[#fff]`, `text-[oklch(…)]`                                         |
+| `no-stock-palette`      | `warn`                 | `bg-red-500` unless the schema defines `color.red.500`                 |
+| `no-unknown-theme-var`  | `error`                | `bg-(--color-x)` / `[var(--radius-x)]` not defined by the schema       |
+| `no-radius-literal`     | `error`                | `rounded-[3px]`                                                        |
+| `no-spacing-literal`    | `warn`                 | `p-[13px]`, `-mt-[2rem]`                                               |
+| `no-typography-literal` | `warn`                 | `text-[14px]`, `font-[…]`, `leading-[…]`, `tracking-[…]`               |
+| `no-shadow-literal`     | `error`                | `shadow-[…]`                                                           |
+| `no-dark-pairs`         | `error`                | `dark:bg-primary` when tokens already carry a `dark` theme             |
+| `focus-visible`         | `warn`                 | `focus:ring-*` (use `focus-visible:`)                                  |
+
+Class lists are read from `className` / `class` attributes and from `cn`, `clsx`, `cx`, `cva`, `classNames`, `twMerge`, `twJoin` and `tw` (override with the `attributes` / `callees` options).
+
+| Option          | Default                                   | Description                                          |
+| --------------- | ----------------------------------------- | ---------------------------------------------------- |
+| `eslintPath`    | `"eslint/razorwind-guardrails.mjs"`       | Output path of the generated plugin module           |
+| `prefix`        | `"design-system"`                         | Rule namespace in flat config                        |
+| `runtimeImport` | `"@razorwind/tailwindcss/eslint-runtime"` | Module the generated file imports rules from         |
+| `installGuide`  | Generated                                 | Override body for the generated `INSTALL.md`         |
+
 ## Development
 
 ### Building

@@ -26,6 +26,7 @@
     "razorwind",
     "design-tokens",
     "dtcg",
+    "eslint",
     "storm-software"
   ],
   "exports": {
@@ -41,6 +42,34 @@
       "default": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
+      }
+    },
+    "./eslint": {
+      "require": {
+        "types": "./dist/eslint.d.cts",
+        "default": "./dist/eslint.cjs"
+      },
+      "import": {
+        "types": "./dist/eslint.d.mts",
+        "default": "./dist/eslint.mjs"
+      },
+      "default": {
+        "types": "./dist/eslint.d.mts",
+        "default": "./dist/eslint.mjs"
+      }
+    },
+    "./eslint-runtime": {
+      "require": {
+        "types": "./dist/eslint-runtime.d.cts",
+        "default": "./dist/eslint-runtime.cjs"
+      },
+      "import": {
+        "types": "./dist/eslint-runtime.d.mts",
+        "default": "./dist/eslint-runtime.mjs"
+      },
+      "default": {
+        "types": "./dist/eslint-runtime.d.mts",
+        "default": "./dist/eslint-runtime.mjs"
       }
     },
     "./extract": {

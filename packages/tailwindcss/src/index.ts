@@ -16,5 +16,6 @@
 
  ------------------------------------------------------------------- */
 
+export * as eslint from "./eslint";
 export * as extract from "./extract";
 export * as generate from "./generate";
