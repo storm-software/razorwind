@@ -244,6 +244,60 @@ describe("resolveConfig", () => {
     expect(configs.map(config => config.name)).toEqual(["dark", "light"]);
   });
 
+  it("does not duplicate array options when c12 loads the same config file", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default {
+  plugins: [],
+  fonts: {
+    code: {
+      source: "google",
+      family: "Google Sans Code",
+      variable: true,
+      weights: [300, 800],
+      styles: ["normal", "italic"]
+    }
+  }
+};
+`,
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts"
+    });
+    const fonts = config.fonts as Record<
+      string,
+      { weights?: number[]; styles?: string[] }
+    >;
+
+    expect(fonts.code?.weights).toEqual([300, 800]);
+    expect(fonts.code?.styles).toEqual(["normal", "italic"]);
+  });
+
+  it("still merges .razorwindrc and package.json when deduping the config file", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default { plugins: [] };\n`,
+      "utf8"
+    );
+    await writeFile(join(dir, ".razorwindrc"), `name=from-rc\n`, "utf8");
+    await writeFile(
+      join(dir, "package.json"),
+      JSON.stringify({ name: "fixture", razorwind: { tokensPath: "from-package.json" } }),
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts"
+    });
+
+    expect(config.name).toBe("from-rc");
+    expect(config.tokensPath).toBe("from-package.json");
+  });
+
   it("throws when the config array is empty", async () => {
     const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
     await writeFile(

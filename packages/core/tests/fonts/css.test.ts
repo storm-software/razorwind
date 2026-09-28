@@ -60,6 +60,28 @@ describe("toGoogleFontsCssUrl", () => {
       "https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400;1,700&display=swap"
     );
   });
+
+  it("builds a variable range from the min and max weights with italics", () => {
+    expect(
+      toGoogleFontsCssUrl({
+        name: "code",
+        title: "Google Sans Code",
+        source: "google",
+        family: "Google Sans Code",
+        variable: true,
+        weights: [300, 800, 300, 800],
+        styles: ["normal", "italic", "normal", "italic"]
+      })
+    ).toMatchInlineSnapshot(
+      `"https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap"`
+    );
+  });
+
+  it("dedupes and sorts static weights", () => {
+    expect(
+      toGoogleFontsCssUrl({ ...google, weights: [700, 400, 700, 400] })
+    ).toBe(toGoogleFontsCssUrl(google));
+  });
 });
 
 describe("cssFontFamily", () => {

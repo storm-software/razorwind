@@ -409,7 +409,7 @@ export async function resolveConfigs(
     })
   ]);
 
-  const workspaceLayer = asConfigLayer(workspaceConfig?.config);
+  let workspaceLayer = asConfigLayer(workspaceConfig?.config);
   const loadedConfigPath = resolvedFilePath
     ? isAbsolute(resolvedFilePath)
       ? resolvedFilePath
@@ -425,7 +425,19 @@ export async function resolveConfigs(
     workspaceConfigFile &&
     resolve(cwd, workspaceConfigFile) === loadedConfigPath
   ) {
-    delete workspaceLayer.plugins;
+    // c12 loaded the same file that jiti already imported. Merging both
+    // copies with `defu` concatenates every array option (plugins, font
+    // weights, styles, paths, ...), so rebuild the workspace layer from the
+    // remaining c12 layers (`.razorwindrc`, `package.json#razorwind`,
+    // `extends`) and leave out the duplicate main config file.
+    workspaceLayer = asConfigLayer(
+      defu(
+        {},
+        ...(workspaceConfig.layers ?? [])
+          .filter(layer => layer.configFile !== "razorwind.config")
+          .map(layer => asConfigLayer(layer.config))
+      )
+    );
   }
 
   const sharedLayers = {

@@ -90,15 +90,25 @@ export function cssFontFamily(font: Font): string {
 export function toGoogleFontsCssUrl(font: GoogleFont): string {
   const family = fontFamilyName(font).replaceAll(" ", "+");
   const display: FontDisplay = font.display ?? "swap";
-  const weights = (font.weights ?? []).map(String);
-  const styles = font.styles ?? ["normal"];
+  // Google Fonts rejects duplicate or unsorted weight tuples.
+  const weights = [...new Set((font.weights ?? []).map(String))].sort(
+    (a, b) => Number(a) - Number(b)
+  );
+  const numericWeights = weights
+    .map(Number)
+    .filter(weight => Number.isFinite(weight));
+  const styles = [...new Set(font.styles ?? ["normal"])];
   const hasItalic = styles.includes("italic");
 
   let familySpec = family;
 
   if (font.variable) {
     const range =
-      weights.length === 2 ? `${weights[0]}..${weights[1]}` : "100..900";
+      numericWeights.length >= 2
+        ? `${numericWeights[0]}..${numericWeights[numericWeights.length - 1]}`
+        : numericWeights.length === 1
+          ? String(numericWeights[0])
+          : "100..900";
     if (hasItalic) {
       familySpec = `${family}:ital,wght@0,${range};1,${range}`;
     } else {
