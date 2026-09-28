@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.12) (09/27/2026)
+
+### Bug Fixes
+
+- **css:** Resovled font duplication issue in css generator ([eaa16e2](https://github.com/storm-software/razorwind/commit/eaa16e2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.76**
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.11) (09/24/2026)
 
 ### Updated Dependencies

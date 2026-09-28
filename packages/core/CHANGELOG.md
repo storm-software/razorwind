@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/core%400.0.76) (09/27/2026)
+
+### Bug Fixes
+
+- **css:** Resovled font duplication issue in css generator ([eaa16e2](https://github.com/storm-software/razorwind/commit/eaa16e2))
+
 ## [0.0.67](https://github.com/storm-software/razorwind/releases/tag/core%400.0.67) (09/17/2026)
 
 ### Miscellaneous
