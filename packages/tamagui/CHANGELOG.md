@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.77) (09/27/2026)
+
+### Features
+
+- **tamagui:** Added Guard Rails Tamagui ESLint plugin generator ([8e65b71](https://github.com/storm-software/razorwind/commit/8e65b71))
+
 ## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.76) (09/27/2026)
 
 ### Updated Dependencies

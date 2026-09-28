@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.74](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.74) (09/27/2026)
+
+### Features
+
+- **tamagui:** Added Guard Rails Tamagui ESLint plugin generator ([8e65b71](https://github.com/storm-software/razorwind/commit/8e65b71))
+- **tailwindcss:** Added the Guard Rails ESLint plugin generator ([afa94b9](https://github.com/storm-software/razorwind/commit/afa94b9))
+
 ## [0.0.73](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.73) (09/27/2026)
 
 ### Updated Dependencies
