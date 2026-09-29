@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/core%400.0.77) (09/29/2026)
+
+### Features
+
+- **docgen:** Added font demo documentation generators ([08a9d17](https://github.com/storm-software/razorwind/commit/08a9d17))
+
 ## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/core%400.0.76) (09/27/2026)
 
 ### Bug Fixes

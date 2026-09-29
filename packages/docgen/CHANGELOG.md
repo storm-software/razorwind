@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.73](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.73) (09/29/2026)
+
+### Features
+
+- **docgen:** Added font demo documentation generators ([08a9d17](https://github.com/storm-software/razorwind/commit/08a9d17))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.77**
+
 ## [0.0.72](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.72) (09/27/2026)
 
 ### Updated Dependencies

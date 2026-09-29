@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.13) (09/29/2026)
+
+### Features
+
+- **docgen:** Added font demo documentation generators ([08a9d17](https://github.com/storm-software/razorwind/commit/08a9d17))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.77**
+
 ## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.12) (09/27/2026)
 
 ### Bug Fixes
