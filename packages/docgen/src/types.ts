@@ -44,7 +44,7 @@ export interface DocgenGeneratePluginOptions {
   /**
    * CSS custom-property prefix used when emitting `var(--…)` references.
    *
-   * @defaultValue `"rw"`
+   * @defaultValue initials derived from the extracted spec name
    */
   cssVarPrefix?: string;
 

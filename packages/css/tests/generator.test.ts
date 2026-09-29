@@ -21,6 +21,7 @@ import { describe, expect, it } from "vitest";
 import generate from "../src/generate";
 
 const spec = {
+  name: "Acme Design System",
   components: {},
   icons: {},
   fonts: {},
@@ -56,7 +57,7 @@ describe("css generate plugin", () => {
     } as never);
 
     const css = cssContent(documents, "src/styles.css");
-    expect(css).toContain("--color-primary");
+    expect(css).toContain("--ads-color-primary");
     expect(css).toContain("#0066cc");
   });
 
@@ -84,6 +85,6 @@ describe("css generate plugin", () => {
     expect(css).toContain(
       '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");'
     );
-    expect(css).toContain("--color-primary");
+    expect(css).toContain("--ads-color-primary");
   });
 });

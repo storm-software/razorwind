@@ -22,7 +22,7 @@ import {
   styleDictionaryLogOptions
 } from "@razorwind/core/lib/tokens";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument } from "@razorwind/core/utils";
+import { createDocument, cssVarPrefixFromName } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import StyleDictionary from "style-dictionary";
@@ -85,6 +85,30 @@ function defaultInstallPath(outputPaths: string[]): string {
   return parent === "." ? "INSTALL.md" : join(parent, "INSTALL.md");
 }
 
+function withCssVariablePrefix(
+  platforms: StyleDictionaryPluginOptions["platforms"],
+  prefix: string | undefined
+): StyleDictionaryPluginOptions["platforms"] {
+  if (!platforms || !prefix) {
+    return platforms;
+  }
+
+  return Object.fromEntries(
+    Object.entries(platforms).map(([name, platform]) => {
+      const writesCssVariables = platform.files?.some(
+        file => file.format === "css/variables"
+      );
+
+      return [
+        name,
+        writesCssVariables && !platform.prefix
+          ? { ...platform, prefix }
+          : platform
+      ];
+    })
+  );
+}
+
 export { renderInstallMd };
 
 /**
@@ -110,7 +134,10 @@ export async function generateStyleDictionary(
       source: resolveGlobs(source, cwd),
       include: resolveGlobs(include, cwd),
       tokens: resolveTokens(spec.tokens),
-      platforms,
+      platforms: withCssVariablePrefix(
+        platforms,
+        cssVarPrefixFromName(spec.name)
+      ),
       usesDtcg: usesDtcg ?? true
     },
     styleDictionaryLogOptions(verbose)

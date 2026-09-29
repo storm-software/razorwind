@@ -118,7 +118,7 @@ export interface StorybookPluginOptions {
   /**
    * CSS custom-property prefix used when emitting `var(--…)` references.
    *
-   * @defaultValue `"rw"`
+   * @defaultValue initials derived from the extracted spec name
    */
   cssVarPrefix?: string;
 
@@ -163,6 +163,13 @@ export interface StorybookPluginOptions {
    * @defaultValue `false`
    */
   skipIcons?: boolean;
+
+  /**
+   * Skip generating font documentation pages.
+   *
+   * @defaultValue `false`
+   */
+  skipFonts?: boolean;
 
   /**
    * Override body for generated `INSTALL.md`. When omitted, Storybook wiring

@@ -36,6 +36,7 @@ const tokens = {
 } satisfies Schema["tokens"];
 
 const spec = {
+  name: "Acme Design System",
   components: {},
   icons: {}, fonts: {},
   tokens
@@ -82,7 +83,7 @@ describe("style-dictionary plugin", () => {
     );
 
     const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
-    expect(css).toContain("--color-primary");
+    expect(css).toContain("--ads-color-primary");
     expect(css).toContain("#0066cc");
   });
 
@@ -127,7 +128,7 @@ describe("style-dictionary plugin", () => {
 
     expect(
       documents["build/css/variables.css"]?.chunks?.[0]?.content
-    ).toContain("--color-primary");
+    ).toContain("--ads-color-primary");
   });
 
   it("formats inferred-style color objects and cubicBezier arrays", async () => {
@@ -171,8 +172,8 @@ describe("style-dictionary plugin", () => {
     );
 
     const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
-    expect(css).toContain("--color-transparent");
-    expect(css).toContain("--ease-in");
+    expect(css).toContain("--ads-color-transparent");
+    expect(css).toContain("--ads-ease-in");
   });
 
   it("formats $type size tokens as CSS dimensions", async () => {
@@ -207,9 +208,9 @@ describe("style-dictionary plugin", () => {
     );
 
     const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
-    expect(css).toContain("--size-none: 0px;");
-    expect(css).toContain("--size-sm: 8px;");
-    expect(css).toContain("--size-md: 20px;");
+    expect(css).toContain("--ads-size-none: 0px;");
+    expect(css).toContain("--ads-size-sm: 8px;");
+    expect(css).toContain("--ads-size-md: 20px;");
     expect(css).not.toContain("[object Object]");
   });
 });

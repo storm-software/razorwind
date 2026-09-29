@@ -71,7 +71,7 @@ describe("resolveConfig", () => {
     expect(config.verbose).toBe(false);
   });
 
-  it("does not add a default fontsPath when the directory has no files", async () => {
+  it("does not add default icon or font paths when the directories have no files", async () => {
     const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
     await mkdir(join(dir, "assets/icons"), { recursive: true });
     await mkdir(join(dir, "assets/fonts"), { recursive: true });
@@ -89,7 +89,7 @@ describe("resolveConfig", () => {
     expect(config.iconsPath).toBeUndefined();
   });
 
-  it("adds default icon and font paths when their directories contain files", async () => {
+  it("does not default icon and font paths to the assets directory", async () => {
     const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
     await writeFile(join(dir, "razorwind.config.ts"), `export default {}\n`);
     await mkdir(join(dir, "assets/icons"), { recursive: true });
@@ -101,8 +101,8 @@ describe("resolveConfig", () => {
       configFile: "razorwind.config.ts"
     });
 
-    expect(config.iconsPath).toBe(join(dir, "assets/icons"));
-    expect(config.fontsPath).toBe(join(dir, "assets/fonts"));
+    expect(config.iconsPath).toBeUndefined();
+    expect(config.fontsPath).toBeUndefined();
   });
 
   it("retains parser-only and preprocessor-only plugins", async () => {

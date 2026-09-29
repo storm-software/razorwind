@@ -67,6 +67,7 @@ const tokens = {
 } satisfies Schema["tokens"];
 
 const spec = {
+  name: "Acme Design System",
   components: {},
   icons: {
     home: {
@@ -201,6 +202,9 @@ describe("storybook plugin", () => {
     expect(colors).toContain("ColorPalette");
     expect(colors).toContain("ColorItem");
     expect(colors).toContain("#0066cc");
+    expect(documents["docs/tokens/tokens.json"]?.chunks?.[0]?.content).toContain(
+      "--ads-color-primary"
+    );
 
     const overview = documents["docs/tokens/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("<ColorPaletteBlock />");
@@ -341,6 +345,92 @@ describe("storybook plugin", () => {
     expect(
       documents["out/blocks/index.ts"]?.chunks?.[0]?.content
     ).not.toContain("IconGallery");
+  });
+
+  it("writes a dedicated page per font with a size specimen", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans",
+            weights: [400, 700]
+          }
+        }
+      },
+      { outputPath: "out" }
+    );
+
+    expect(documents["out/Fonts.mdx"]).toBeDefined();
+    expect(documents["out/blocks/FontSpecimen.tsx"]).toBeDefined();
+    expect(documents["out/Fonts/inter.mdx"]).toBeDefined();
+
+    const index = documents["out/Fonts.mdx"]?.chunks?.[0]?.content;
+    expect(index).toContain("# Fonts");
+    expect(index).toContain("./Fonts/inter.mdx");
+
+    const page = documents["out/Fonts/inter.mdx"]?.chunks?.[0]?.content;
+    expect(page).toContain("# Inter");
+    expect(page).toContain("## Specimen");
+    expect(page).toContain('<FontSpecimenBlock name={"inter"} />');
+
+    const block = documents["out/blocks/FontSpecimen.tsx"]?.chunks?.[0]
+      ?.content;
+    expect(block).toContain("export function FontSpecimenBlock");
+    expect(block).toContain("sizes.map");
+    expect(block).toContain("DEFAULT_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72]");
+
+    const overview = documents["out/Tokens.mdx"]?.chunks?.[0]?.content;
+    expect(overview).toContain("## Fonts");
+    expect(overview).toContain("<FontSpecimenBlock />");
+
+    expect(
+      documents["out/blocks/index.ts"]?.chunks?.[0]?.content
+    ).toContain("FontSpecimenBlock");
+
+    expect(
+      (ts.transpile(block!, {
+        jsx: ts.JsxEmit.ReactJSX,
+        target: ts.ScriptTarget.ESNext
+      }) as any).diagnostics ?? []
+    ).toEqual([]);
+  });
+
+  it("omits font documentation when the schema has no fonts", () => {
+    const documents = generateTokenDocs(spec, { outputPath: "out" });
+
+    expect(documents["out/Fonts.mdx"]).toBeUndefined();
+    expect(documents["out/blocks/FontSpecimen.tsx"]).toBeUndefined();
+    expect(
+      documents["out/blocks/index.ts"]?.chunks?.[0]?.content
+    ).not.toContain("FontSpecimen");
+    expect(documents["out/Tokens.mdx"]?.chunks?.[0]?.content).not.toContain(
+      "## Fonts"
+    );
+  });
+
+  it("skips fonts when requested", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter"
+          }
+        }
+      },
+      { outputPath: "out", skipFonts: true }
+    );
+
+    expect(documents["out/Fonts.mdx"]).toBeUndefined();
+    expect(documents["out/blocks/FontSpecimen.tsx"]).toBeUndefined();
   });
 
   it("separates palette, semantic, and unmarked colors into doc sections", () => {

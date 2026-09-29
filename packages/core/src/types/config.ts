@@ -51,15 +51,11 @@ export interface Options {
 
   /**
    * The path(s) to directories containing icon assets or icon directories.
-   *
-   * @defaultValue "assets/icons"
    */
   iconsPath?: string | string[];
 
   /**
    * The path(s) to directories containing font files or font directories.
-   *
-   * @defaultValue "assets/fonts"
    */
   fontsPath?: string | string[];
 

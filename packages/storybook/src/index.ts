@@ -24,10 +24,17 @@ export { flattenTokens, resolveTokenSets } from "./flatten";
 export { formatTokenValue, toCssVar } from "./format";
 export {
   applyBrandDefaults,
+  extractFonts,
+  fontSlug,
+  fontSlugs,
   generateTokenDocs,
   normalizeThemes,
+  renderFontMdx,
+  renderFontsMdx,
+  renderFontSpecimenBlock,
   renderInstallMd,
-  renderThemeFile
+  renderThemeFile,
+  resolveFontStack
 } from "./generate";
 export type {
   FlatToken,

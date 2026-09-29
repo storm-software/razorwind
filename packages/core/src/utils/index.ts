@@ -22,6 +22,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
   return isObjectFn(value);
 }
 
+export { cssVarPrefixFromName } from "./css-var-prefix";
 export {
   flattenTokens,
   isSharedThemeId,
@@ -63,16 +64,16 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
  * Convert a token path into a CSS custom property name.
  *
  * @example
- * toCssVar("color.primary", "rw") // "--rw-color-primary"
+ * toCssVar("color.primary", "ads") // "--ads-color-primary"
  */
-export function toCssVar(path: string, prefix: string): string {
+export function toCssVar(path: string, prefix?: string): string {
   const slug = path
     .split(".")
     .filter(Boolean)
     .join("-")
     .replaceAll(/[^\w-]+/g, "-");
 
-  return `--${prefix}-${slug}`;
+  return `--${prefix ? `${prefix}-` : ""}${slug}`;
 }
 
 /**

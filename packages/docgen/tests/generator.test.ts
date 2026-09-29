@@ -64,6 +64,7 @@ const tokens = {
 } satisfies Schema["tokens"];
 
 const spec = {
+  name: "Acme Design System",
   components: {
     button: {
       name: "button",
@@ -259,7 +260,7 @@ describe("docgen generate plugin", () => {
 
     const index = documents["docs/design-system/index.mdx"]?.chunks?.[0]
       ?.content;
-    expect(index).toContain("# Design System");
+    expect(index).toContain("# Acme Design System");
     expect(index).toContain("./tokens/color.mdx");
     expect(index).toContain("./registry/ui.mdx");
     expect(index).toContain("./icons.mdx");
@@ -270,7 +271,7 @@ describe("docgen generate plugin", () => {
     expect(colors).toContain("| Preview | Token | Type | Value | CSS Variable |");
     expect(colors).toContain("`color.primary`");
     expect(colors).toContain("#0066cc");
-    expect(colors).toContain("`--rw-color-primary`");
+    expect(colors).toContain("`--ads-color-primary`");
     expect(colors).toContain("Brand primary");
 
     expect(documents["docs/design-system/registry.mdx"]).toBeUndefined();
@@ -360,10 +361,61 @@ describe("docgen generate plugin", () => {
     expect(documents["out/fonts.mdx"]).toBeDefined();
     const fonts = documents["out/fonts.mdx"]?.chunks?.[0]?.content;
     expect(fonts).toContain("Inter");
-    expect(fonts).toContain("`google`");
+    expect(fonts).toContain("./fonts/inter.mdx");
     expect(documents["out/index.mdx"]?.chunks?.[0]?.content).toContain(
       "./fonts.mdx"
     );
+  });
+
+  it("writes a dedicated page per font with a size specimen", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        fonts: {
+          inter: {
+            name: "inter",
+            title: "Inter",
+            source: "google",
+            family: "Inter",
+            role: "sans",
+            weights: [400, 700]
+          },
+          jakarta: {
+            name: "jakarta",
+            title: "Plus Jakarta Sans",
+            source: "local",
+            family: "Plus Jakarta Sans",
+            files: [
+              {
+                path: "assets/fonts/PlusJakartaSans-Regular.woff2",
+                format: "woff2",
+                weight: 400,
+                style: "normal"
+              }
+            ]
+          }
+        }
+      },
+      { outputPath: "out" }
+    );
+
+    expect(documents["out/fonts/inter.mdx"]).toBeDefined();
+    expect(documents["out/fonts/jakarta.mdx"]).toBeDefined();
+
+    const inter = documents["out/fonts/inter.mdx"]?.chunks?.[0]?.content;
+    expect(inter).toContain("# Inter");
+    expect(inter).toContain("`google`");
+    expect(inter).toContain("`400`");
+    expect(inter).toContain("### Specimen");
+    expect(inter).toContain('fontSize: "12px"');
+    expect(inter).toContain('fontSize: "72px"');
+    expect(inter).toContain("The quick brown fox jumps over the lazy dog");
+
+    const jakarta = documents["out/fonts/jakarta.mdx"]?.chunks?.[0]?.content;
+    expect(jakarta).toContain("# Plus Jakarta Sans");
+    expect(jakarta).toContain("### Specimen");
+    expect(jakarta).toContain("### Files");
+    expect(jakarta).toContain("assets/fonts/PlusJakartaSans-Regular.woff2");
   });
 
   it("skips fonts when requested", () => {

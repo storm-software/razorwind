@@ -21,6 +21,7 @@ import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import {
   createDocument,
+  cssVarPrefixFromName,
   isObject,
   resolveSchemaIdentity,
   slugifyThemeName,
@@ -628,6 +629,87 @@ export function extractFonts(fonts: unknown): Record<string, unknown>[] {
     );
 }
 
+/** Sample text rendered in font specimen previews. */
+export const FONT_SPECIMEN_TEXT = "The quick brown fox jumps over the lazy dog";
+
+/** Font sizes (in px) rendered in font specimen previews. */
+export const FONT_SPECIMEN_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72];
+
+const GENERIC_FALLBACK_FROM_ROLE: Record<string, string> = {
+  sans: "sans-serif",
+  serif: "serif",
+  mono: "monospace",
+  code: "monospace",
+  display: "sans-serif",
+  heading: "sans-serif",
+  body: "sans-serif"
+};
+
+function quoteFontFamily(family: string): string {
+  const trimmed = family.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  if (/^[a-z-]+$/i.test(trimmed) && !/\s/.test(trimmed)) {
+    return trimmed;
+  }
+
+  return `"${trimmed.replaceAll('"', '\\"')}"`;
+}
+
+/**
+ * Resolve the CSS `font-family` stack used for specimen previews.
+ */
+export function resolveFontStack(item: Record<string, unknown>): string {
+  const family =
+    readString(item, "family") ??
+    readString(item, "title") ??
+    readString(item, "name") ??
+    "sans-serif";
+  const parts = [quoteFontFamily(family)];
+
+  for (const fallback of readStringArray(item, "fallbacks")) {
+    const quoted = quoteFontFamily(fallback);
+    if (quoted && !parts.includes(quoted)) {
+      parts.push(quoted);
+    }
+  }
+
+  const generic = GENERIC_FALLBACK_FROM_ROLE[readString(item, "role") ?? ""];
+  if (generic && !parts.includes(generic)) {
+    parts.push(generic);
+  }
+
+  return parts.filter(Boolean).join(", ");
+}
+
+/**
+ * Slug used for a per-font documentation page.
+ */
+export function fontSlug(item: Record<string, unknown>): string {
+  const name = readString(item, "name") ?? readString(item, "title") ?? "font";
+
+  return toSlug(name) || "font";
+}
+
+/**
+ * Render a specimen section previewing a font at a range of sizes.
+ */
+export function renderFontSpecimen(
+  item: Record<string, unknown>,
+  sampleText = FONT_SPECIMEN_TEXT
+): string {
+  const stack = resolveFontStack(item);
+  const showcase = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "32px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify("AaBbCcDdEeFfGgHh 0123456789")}}}</div>`;
+  const rows = FONT_SPECIMEN_SIZES.map(
+    size =>
+      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={{ display: "block", fontSize: "12px", lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }}>${size}px</span>{${JSON.stringify(sampleText)}}}</div>`
+  );
+
+  return ["### Specimen", showcase, ...rows].join("\n\n");
+}
+
 function renderFontFiles(item: Record<string, unknown>): string {
   const files = Array.isArray(item.files) ? item.files : [];
 
@@ -664,16 +746,57 @@ function renderFontFiles(item: Record<string, unknown>): string {
   ].join("\n");
 }
 
-function renderFont(item: Record<string, unknown>): string {
+/**
+ * Assign a unique page slug to each font, deduplicating collisions with a
+ * numeric suffix.
+ */
+export function fontSlugs(
+  fonts: Record<string, unknown>[]
+): Map<Record<string, unknown>, string> {
+  const seen = new Map<string, number>();
+  const slugs = new Map<Record<string, unknown>, string>();
+
+  for (const font of fonts) {
+    const base = fontSlug(font);
+    const count = seen.get(base) ?? 0;
+    seen.set(base, count + 1);
+    slugs.set(font, count === 0 ? base : `${base}-${count + 1}`);
+  }
+
+  return slugs;
+}
+
+function readWeights(item: Record<string, unknown>): string[] {
+  const value = item.weights;
+
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter(
+      (entry): entry is string | number =>
+        typeof entry === "string" || typeof entry === "number"
+    )
+    .map(String);
+}
+
+function renderFontBody(item: Record<string, unknown>): string {
   const name = readString(item, "name") ?? "unknown";
-  const title = readString(item, "title") ?? titleCase(name);
   const description = readString(item, "description");
   const source = readString(item, "source") ?? "local";
   const family = readString(item, "family");
   const role = readString(item, "role");
+  const fallbacks = readStringArray(item, "fallbacks");
+  const display = readString(item, "display");
+  const category = readString(item, "category");
   const tags = readStringArray(item, "tags");
+  const weights = readWeights(item);
+  const styles = readStringArray(item, "styles");
+  const subsets = readStringArray(item, "subsets");
+  const variable = item.variable;
 
-  const sections: string[] = [`## ${title}`];
+  const sections: string[] = [];
 
   if (description) {
     sections.push(description);
@@ -682,13 +805,35 @@ function renderFont(item: Record<string, unknown>): string {
   const meta = [
     `- **Name:** \`${name}\``,
     `- **Source:** \`${source}\``,
-    ...(family ? [`- **Family:** \`${family}\``] : []),
+    `- **Family:** \`${escapeTableCell(resolveFontStack(item))}\``,
+    ...(family ? [`- **Font family:** \`${escapeTableCell(family)}\``] : []),
     ...(role ? [`- **Role:** \`${role}\``] : []),
+    ...(category ? [`- **Category:** \`${category}\``] : []),
+    ...(display ? [`- **Display:** \`${display}\``] : []),
+    ...(fallbacks.length > 0
+      ? [
+          `- **Fallbacks:** ${fallbacks.map(entry => `\`${escapeTableCell(entry)}\``).join(", ")}`
+        ]
+      : []),
+    ...(source === "google" && weights.length > 0
+      ? [`- **Weights:** ${weights.map(entry => `\`${entry}\``).join(", ")}`]
+      : []),
+    ...(source === "google" && styles.length > 0
+      ? [`- **Styles:** ${styles.map(entry => `\`${entry}\``).join(", ")}`]
+      : []),
+    ...(source === "google" && subsets.length > 0
+      ? [`- **Subsets:** ${subsets.map(entry => `\`${entry}\``).join(", ")}`]
+      : []),
+    ...(source === "google" && typeof variable === "boolean"
+      ? [`- **Variable:** \`${String(variable)}\``]
+      : []),
     ...(tags.length > 0
       ? [`- **Tags:** ${tags.map(entry => `\`${entry}\``).join(", ")}`]
       : [])
   ];
   sections.push(meta.join("\n"));
+
+  sections.push(renderFontSpecimen(item));
 
   if (source === "local") {
     const files = renderFontFiles(item);
@@ -700,13 +845,42 @@ function renderFont(item: Record<string, unknown>): string {
   return sections.join("\n\n");
 }
 
+function renderFont(item: Record<string, unknown>): string {
+  const name = readString(item, "name") ?? "unknown";
+  const title = readString(item, "title") ?? titleCase(name);
+
+  return [`## ${title}`, renderFontBody(item)].join("\n\n");
+}
+
 /**
- * Render an MDX documentation page for all fonts.
+ * Render a dedicated MDX documentation page for a single font, including a
+ * specimen that previews the face at a range of sizes.
+ */
+export function renderFontMdx(
+  font: Record<string, unknown>,
+  systemTitle = "design system"
+): string {
+  const name = readString(font, "name") ?? "unknown";
+  const title = readString(font, "title") ?? titleCase(name);
+
+  return [
+    frontmatter({
+      title,
+      description: `${title} font specimen and file reference for the ${systemTitle}.`
+    }),
+    `# ${title}`,
+    renderFontBody(font)
+  ].join("\n\n");
+}
+
+/**
+ * Render the fonts index page linking to each per-font documentation page.
  */
 export function renderFontsMdx(
   fonts: Record<string, unknown>[],
   systemTitle = "design system"
 ): string {
+  const slugs = fontSlugs(fonts);
   const sections: string[] = [
     frontmatter({
       title: "Fonts",
@@ -716,9 +890,16 @@ export function renderFontsMdx(
     `${fonts.length} font${fonts.length === 1 ? "" : "s"} in the design system.`
   ];
 
-  for (const font of fonts) {
-    sections.push(renderFont(font));
-  }
+  const links = fonts.map(font => {
+    const name = readString(font, "name") ?? "unknown";
+    const title = readString(font, "title") ?? titleCase(name);
+    const slug = slugs.get(font) ?? fontSlug(font);
+    const family = readString(font, "family") ?? title;
+
+    return `- [${title}](./fonts/${slug}.mdx) — \`${escapeTableCell(family)}\``;
+  });
+
+  sections.push(links.join("\n"));
 
   return `${sections.join("\n\n")}\n`;
 }
@@ -786,7 +967,10 @@ export function generateDocs(
   const title = identity.title ?? "Design System";
   const systemTitle = identity.title ?? "design system";
 
-  const flat = flattenTokens(spec.tokens, options);
+  const flat = flattenTokens(spec.tokens, {
+    ...options,
+    cssVarPrefix: options.cssVarPrefix ?? cssVarPrefixFromName(spec.name)
+  });
   const groups = groupTokens(flat);
   const itemPages = options.skipRegistry
     ? []
@@ -853,6 +1037,15 @@ export function generateDocs(
       renderFontsMdx(fonts, systemTitle),
       "mdx"
     );
+
+    for (const [font, slug] of fontSlugs(fonts)) {
+      const fontPath = joinPaths("fonts", `${slug}.mdx`);
+      documents[joinPaths(outputPath, fontPath)] = createDoc(
+        fontPath,
+        renderFontMdx(font, systemTitle),
+        "mdx"
+      );
+    }
   }
 
   documents[joinPaths(outputPath, "tokens.json")] = createDoc(

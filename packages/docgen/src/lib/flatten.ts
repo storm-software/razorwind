@@ -38,7 +38,7 @@ export function flattenTokens(
     "cssVarPrefix" | "includeTypes"
   > = {}
 ): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
+  const cssVarPrefix = options.cssVarPrefix;
 
   return flattenTokensBase<FlatToken>(tokens, {
     includeTypes: options.includeTypes,

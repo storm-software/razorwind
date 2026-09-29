@@ -113,7 +113,7 @@ export function flattenTokens(
   tokens: Tokens | Record<string, Tokens>,
   options: Pick<StorybookPluginOptions, "cssVarPrefix" | "includeTypes"> = {}
 ): FlatToken[] {
-  const cssVarPrefix = options.cssVarPrefix ?? "rw";
+  const cssVarPrefix = options.cssVarPrefix;
   const metadata = collectColorMetadata(tokens);
 
   return flattenTokensBase<FlatToken>(tokens, {
