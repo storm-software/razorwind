@@ -94,6 +94,20 @@ export function normalizeThemes(
   });
 }
 
+function resolveThemeFileName(
+  theme: ShikiTheme,
+  spec: Schema,
+  options: ShikiPluginOptions
+): string {
+  const fileName = (
+    typeof options.fileName === "function"
+      ? options.fileName(theme, spec)
+      : options.fileName
+  )?.trim();
+
+  return fileName ? fileName : `${slugifyThemeName(theme.name)}.json`;
+}
+
 function assertOptions(
   options: ShikiPluginOptions
 ): asserts options is ShikiPluginOptions & {
@@ -183,13 +197,17 @@ export function generateShikiTheme(
   }> = [];
 
   for (const theme of themes) {
-    let fileName = `${slugifyThemeName(theme.name)}.json`;
+    const baseName = resolveThemeFileName(theme, spec, options).replace(
+      /\.json$/i,
+      ""
+    );
+    let fileName = `${baseName}.json`;
     if (usedSlugs.has(fileName)) {
       let suffix = 2;
-      while (usedSlugs.has(`${slugifyThemeName(theme.name)}-${suffix}.json`)) {
+      while (usedSlugs.has(`${baseName}-${suffix}.json`)) {
         suffix += 1;
       }
-      fileName = `${slugifyThemeName(theme.name)}-${suffix}.json`;
+      fileName = `${baseName}-${suffix}.json`;
     }
     usedSlugs.add(fileName);
 

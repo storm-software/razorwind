@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { getEnvPaths } from "@stryke/env/get-env-paths";
-import { findFilePath } from "@stryke/path/find";
+import { correctPath } from "@stryke/path/correct-path";
 import { joinPaths } from "@stryke/path/join";
 import { replacePath } from "@stryke/path/replace";
 import { isFunction } from "@stryke/type-checks/is-function";
@@ -163,10 +163,10 @@ function finalizeConfig(
   if (Array.isArray(config.componentsPath)) {
     const paths = config.componentsPath
       .filter(isSetString)
-      .map(path => findFilePath(path));
+      .map(path => correctPath(path));
     config.componentsPath = paths.length > 0 ? paths : cwd;
   } else if (isSetString(config.componentsPath)) {
-    config.componentsPath = findFilePath(config.componentsPath);
+    config.componentsPath = correctPath(config.componentsPath);
   } else {
     config.componentsPath = cwd;
   }
@@ -174,10 +174,10 @@ function finalizeConfig(
   if (Array.isArray(config.iconsPath)) {
     const paths = config.iconsPath
       .filter(isSetString)
-      .map(path => findFilePath(path));
+      .map(path => correctPath(path));
     config.iconsPath = paths.length > 0 ? paths : undefined;
   } else if (isSetString(config.iconsPath)) {
-    config.iconsPath = findFilePath(config.iconsPath);
+    config.iconsPath = correctPath(config.iconsPath);
   } else {
     config.iconsPath = undefined;
   }
@@ -185,10 +185,10 @@ function finalizeConfig(
   if (Array.isArray(config.fontsPath)) {
     const paths = config.fontsPath
       .filter(isSetString)
-      .map(path => findFilePath(path));
+      .map(path => correctPath(path));
     config.fontsPath = paths.length > 0 ? paths : undefined;
   } else if (isSetString(config.fontsPath)) {
-    config.fontsPath = findFilePath(config.fontsPath);
+    config.fontsPath = correctPath(config.fontsPath);
   } else {
     config.fontsPath = undefined;
   }

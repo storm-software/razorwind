@@ -21,6 +21,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { loadFonts, parseFontFilename } from "../../src/lib/fonts/load";
+import { buildSfnt } from "./sfnt-fixture";
 
 const tempDirs: string[] = [];
 
@@ -30,11 +31,20 @@ async function createFixture(): Promise<string> {
   return root;
 }
 
-function contextFor(cwd: string, fontsPath: string) {
+function contextFor(cwd: string, fontsPath: string | string[]) {
   return {
     cwd,
     options: { fontsPath }
   } as Parameters<typeof loadFonts>[0];
+}
+
+async function writeUfo(path: string, family: string, style: string) {
+  await mkdir(path, { recursive: true });
+  await writeFile(
+    join(path, "fontinfo.plist"),
+    `<?xml version="1.0"?><plist version="1.0"><dict><key>familyName</key><string>${family}</string><key>styleName</key><string>${style}</string><key>openTypeOS2WeightClass</key><integer>400</integer></dict></plist>`,
+    "utf8"
+  );
 }
 
 describe("parseFontFilename", () => {
@@ -172,4 +182,81 @@ describe("loadFonts", () => {
       ]
     });
   });
+  it("groups compiled files by the family embedded in each file", async () => {
+    const root = await createFixture();
+    const dist = join(root, "fonts", "dist");
+    await mkdir(dist, { recursive: true });
+    const files = {
+      "AcmeSans-Regular.ttf": { weight: 400 },
+      "AcmeSans-Text.ttf": { weight: 450 },
+      "AcmeSans-LightItalic.ttf": { weight: 300, italicAngle: -12 },
+      "AcmeSans-VF.ttf": { weight: 100, wght: [100, 700] as [number, number] }
+    };
+    for (const [filename, fixture] of Object.entries(files)) {
+      await writeFile(
+        join(dist, filename),
+        buildSfnt({ family: "Acme Sans", ...fixture })
+      );
+    }
+
+    const fonts = await loadFonts(contextFor(root, "fonts/dist"));
+
+    expect(Object.keys(fonts)).toEqual(["acme-sans"]);
+    const font = fonts["acme-sans"];
+    expect(font).toMatchObject({ family: "Acme Sans", title: "Acme Sans" });
+    expect(
+      Object.fromEntries(
+        (font?.source === "local" ? font.files : []).map(file => [
+          file.path.slice(dist.length + 1),
+          `${file.weight} ${file.style}`
+        ])
+      )
+    ).toEqual({
+      "AcmeSans-Regular.ttf": "400 normal",
+      "AcmeSans-Text.ttf": "450 normal",
+      "AcmeSans-LightItalic.ttf": "300 italic",
+      "AcmeSans-VF.ttf": "100 700 normal"
+    });
+  });
+
+  it("names a metadata-less font directory after itself", async () => {
+    const root = await createFixture();
+    const fontDir = join(root, "fonts", "acme");
+    await mkdir(fontDir, { recursive: true });
+    await writeFile(join(fontDir, "Acme-Regular.woff2"), "woff2", "utf8");
+
+    const fonts = await loadFonts(contextFor(root, "fonts"));
+
+    expect(Object.keys(fonts)).toEqual(["acme"]);
+    expect(fonts.acme).toMatchObject({ family: "Acme", title: "Acme" });
+  });
+
+  it.each([
+    ["compiled files first", ["dist", "src"]],
+    ["UFO sources first", ["src", "dist"]]
+  ])(
+    "takes the family name from UFO sources over compiled filenames (%s)",
+    async (_, order) => {
+      const root = await createFixture();
+      const dist = join(root, "dist");
+      const ufo = join(root, "src", "AcmeSans-Regular.ufo");
+      await mkdir(dist, { recursive: true });
+      await writeFile(join(dist, "AcmeSans-Regular.ttf"), "ttf", "utf8");
+      await writeFile(join(dist, "AcmeSans-BoldItalic.ttf"), "ttf", "utf8");
+      await writeUfo(ufo, "Acme Sans", "Regular");
+
+      const fonts = await loadFonts(contextFor(root, order));
+
+      expect(Object.keys(fonts)).toEqual(["acme-sans"]);
+      const font = fonts["acme-sans"];
+      expect(font).toMatchObject({
+        source: "local",
+        name: "acme-sans",
+        title: "Acme Sans",
+        family: "Acme Sans",
+        sources: [expect.objectContaining({ path: ufo, format: "ufo" })]
+      });
+      expect(font?.source === "local" ? font.files : []).toHaveLength(2);
+    }
+  );
 });

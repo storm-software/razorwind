@@ -81,6 +81,7 @@ export default definePlugin(
     const inner = styleDictionary({
       platforms: {
         css: {
+          prefix: options?.prefix,
           transformGroup: "css",
           files: [
             {

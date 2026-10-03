@@ -304,4 +304,64 @@ describe("shiki plugin", () => {
       "shiki-themes/demo-light.json"
     ]);
   });
+
+  it("uses a fixed fileName option", () => {
+    const documents = generateShikiTheme(spec, {
+      fileName: "theme.json",
+      mapTheme: mapDarkTheme
+    });
+
+    expect(Object.keys(documents).sort()).toEqual([
+      "shiki-themes/INSTALL.md",
+      "shiki-themes/theme.json"
+    ]);
+    expect(
+      documents["shiki-themes/INSTALL.md"]!.chunks![0]!.content
+    ).toContain('import theme from "./theme.json";');
+  });
+
+  it("suffixes a fixed fileName shared by multiple themes", () => {
+    const documents = generateShikiTheme(spec, {
+      fileName: "theme",
+      mapTheme: () => [
+        mapDarkTheme(),
+        { ...mapDarkTheme(), name: "demo-light", type: "light" }
+      ]
+    });
+
+    expect(Object.keys(documents).sort()).toEqual([
+      "shiki-themes/INSTALL.md",
+      "shiki-themes/theme-2.json",
+      "shiki-themes/theme.json"
+    ]);
+  });
+
+  it("derives fileName from a function", () => {
+    const documents = generateShikiTheme(
+      { ...spec, theme: "dark" } as Schema,
+      {
+        fileName: (theme, input) => `${input.theme}-${theme.type}.json`,
+        mapTheme: mapDarkTheme
+      }
+    );
+
+    expect(documents["shiki-themes/dark-dark.json"]).toBeDefined();
+  });
+
+  it("writes fileName into each theme folder under splitThemes", () => {
+    const [document] = Object.values(
+      generateShikiTheme(spec, {
+        fileName: "theme.json",
+        mapTheme: mapDarkTheme
+      })
+    );
+    const appendTheme = document!.meta!.data!.appendTheme as (
+      path: string,
+      theme: string
+    ) => string;
+
+    expect(appendTheme("shiki-themes/theme.json", "darkDimmed")).toBe(
+      "shiki-themes/dark-dimmed/theme.json"
+    );
+  });
 });

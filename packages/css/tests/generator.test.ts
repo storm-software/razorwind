@@ -61,6 +61,20 @@ describe("css generate plugin", () => {
     expect(css).toContain("#0066cc");
   });
 
+  it("uses a custom CSS variable prefix", async () => {
+    const plugin = generate({
+      outputPath: "src/styles.css",
+      prefix: "storm"
+    });
+    const documents = await plugin.generate!(spec, {
+      cwd: process.cwd()
+    } as never);
+
+    const css = cssContent(documents, "src/styles.css");
+    expect(css).toContain("--storm-color-primary");
+    expect(css).not.toContain("--ads-color-primary");
+  });
+
   it("prepends Google Fonts @import when spec.fonts is set", async () => {
     const plugin = generate({ outputPath: "src/styles.css" });
     const documents = await plugin.generate!(

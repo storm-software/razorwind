@@ -42,6 +42,15 @@ import type { Config, PlatformConfig } from "style-dictionary/types";
  */
 export type StyleDictionaryPluginOptions = Omit<Config, "tokens"> & {
   /**
+   * Default prefix for platforms that emit `css/variables` files.
+   * A platform-level `prefix` takes precedence when both are set.
+   *
+   * @example "storm" produces `--storm-color-accent`
+   * @defaultValue initials derived from the schema name
+   */
+  prefix?: string;
+
+  /**
    * When true, Style Dictionary runs with `log.verbosity: "verbose"`.
    *
    * Overrides `log.verbosity` on this config, matching the Style Dictionary

@@ -117,7 +117,7 @@ export default defineConfig({
 
 Generated files (under `shiki-themes/` by default):
 
-- `{theme-name}.json` — Shiki / TextMate theme documents from `mapTheme`
+- `{theme-name}.json` — Shiki / TextMate theme documents from `mapTheme` (see `fileName`)
 
 Load a generated theme with [Shiki custom themes](https://shiki.style/guide/load-theme):
 
@@ -133,10 +133,11 @@ const highlighter = await createHighlighter({
 
 ### Options
 
-| Option       | Default          | Description                                       |
-| ------------ | ---------------- | ------------------------------------------------- |
-| `mapTheme`   | _(required)_     | `(tokens) =>` theme, theme array, or theme record |
-| `outputPath` | `"shiki-themes"` | Output directory for theme JSON files             |
+| Option       | Default                 | Description                                                                                         |
+| ------------ | ----------------------- | --------------------------------------------------------------------------------------------------- |
+| `mapTheme`   | _(required)_            | `(tokens) =>` theme, theme array, or theme record                                                   |
+| `outputPath` | `"shiki-themes"`        | Output directory for theme JSON files                                                               |
+| `fileName`   | `"{theme-name}.json"`   | Fixed file name (e.g. `"theme.json"` with `splitThemes`) or `(theme, spec) =>` name for each theme |
 
 `mapTheme` return shapes: a single `ShikiTheme`, an array, or a `Record<string, ShikiTheme>`. Each theme needs a `name` plus TextMate `settings` (or VS Code-style `tokenColors`). Optional Shiki fields: `type` (`light` | `dark`), `bg`, `fg`, `colors`.
 

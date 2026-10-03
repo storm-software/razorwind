@@ -38,7 +38,8 @@ const tokens = {
 const spec = {
   name: "Acme Design System",
   components: {},
-  icons: {}, fonts: {},
+  icons: {},
+  fonts: {},
   tokens
 } as Schema;
 
@@ -51,7 +52,9 @@ describe("style-dictionary plugin", () => {
 
   it("returns empty documents when platforms is omitted", async () => {
     const plugin = styleDictionary({});
-    const documents = await plugin.generate!(spec, { cwd: process.cwd() } as never);
+    const documents = await plugin.generate!(spec, {
+      cwd: process.cwd()
+    } as never);
     expect(documents).toEqual({});
   });
 
@@ -85,6 +88,49 @@ describe("style-dictionary plugin", () => {
     const css = documents["build/css/variables.css"]?.chunks?.[0]?.content;
     expect(css).toContain("--ads-color-primary");
     expect(css).toContain("#0066cc");
+  });
+
+  it("uses a custom prefix for CSS variable platforms", async () => {
+    const documents = await generateStyleDictionary(spec, {
+      prefix: "storm",
+      platforms: {
+        css: {
+          transformGroup: "css",
+          files: [
+            {
+              destination: "variables.css",
+              format: "css/variables"
+            }
+          ]
+        }
+      }
+    });
+
+    const css = documents["variables.css"]?.chunks?.[0]?.content;
+    expect(css).toContain("--storm-color-primary");
+    expect(css).not.toContain("--ads-color-primary");
+  });
+
+  it("prefers a CSS platform prefix over the generator prefix", async () => {
+    const documents = await generateStyleDictionary(spec, {
+      prefix: "storm",
+      platforms: {
+        css: {
+          prefix: "product",
+          transformGroup: "css",
+          files: [
+            {
+              destination: "variables.css",
+              format: "css/variables"
+            }
+          ]
+        }
+      }
+    });
+
+    const css = documents["variables.css"]?.chunks?.[0]?.content;
+    expect(css).toContain("--product-color-primary");
+    expect(css).not.toContain("--storm-color-primary");
   });
 
   it("generateStyleDictionary mirrors the plugin generate output", async () => {

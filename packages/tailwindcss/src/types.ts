@@ -41,6 +41,15 @@ export interface TailwindExtractPluginOptions {
  */
 export interface TailwindGeneratePluginOptions {
   /**
+   * Prefix applied by Tailwind to compiled utility classes and CSS variables.
+   * The generated `@theme` declarations remain unprefixed as required by
+   * Tailwind CSS v4.
+   *
+   * @example "storm" produces compiled variables such as `--storm-color-accent`
+   */
+  prefix?: string;
+
+  /**
    * Output path written relative to the execution cwd. When omitted, the
    * detected workspace CSS entry is used (falling back to `src/app.css`).
    */

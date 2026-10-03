@@ -24,10 +24,14 @@
 export function renderInstallMd(options: {
   cssPath: string;
   includeImport: boolean;
+  prefix?: string;
 }): string {
   const importLine = options.includeImport
-    ? "The file includes `@import \"tailwindcss\"` and `@theme` token mappings."
-    : "The file contains `@theme` token mappings (no `@import \"tailwindcss\"`).";
+    ? `The file includes \`@import "tailwindcss"${options.prefix ? ` prefix(${options.prefix})` : ""}\` and \`@theme\` token mappings.`
+    : 'The file contains `@theme` token mappings (no `@import "tailwindcss"`).';
+  const utility = options.prefix
+    ? `${options.prefix}:bg-primary`
+    : "bg-primary";
 
   return `# Installing Tailwind Theme CSS
 
@@ -47,7 +51,7 @@ import "./${options.cssPath}";
 
 2. Ensure your build uses Tailwind v4 (Vite plugin, PostCSS, or CLI).
 
-3. Use generated theme tokens as utilities or arbitrary values, e.g. \`bg-primary\` when \`--color-primary\` is defined in \`@theme\`\.
+3. Use generated theme tokens as utilities or arbitrary values, e.g. \`${utility}\` when \`--color-primary\` is defined in \`@theme\`\.
 
 ## Regenerate
 

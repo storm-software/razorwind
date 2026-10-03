@@ -122,7 +122,8 @@ export async function generateStyleDictionary(
   options: StyleDictionaryPluginOptions = {},
   cwd = process.cwd()
 ): Promise<Record<string, GeneratedDocument>> {
-  const { source, include, usesDtcg, platforms, verbose, ...rest } = options;
+  const { source, include, usesDtcg, platforms, prefix, verbose, ...rest } =
+    options;
 
   if (!platforms || Object.keys(platforms).length === 0) {
     return {};
@@ -136,7 +137,7 @@ export async function generateStyleDictionary(
       tokens: resolveTokens(spec.tokens),
       platforms: withCssVariablePrefix(
         platforms,
-        cssVarPrefixFromName(spec.name)
+        prefix ?? cssVarPrefixFromName(spec.name)
       ),
       usesDtcg: usesDtcg ?? true
     },

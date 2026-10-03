@@ -154,6 +154,26 @@ describe("resolveConfig", () => {
     expect(config.fontsPath).toHaveLength(2);
   });
 
+  it("keeps the final segment of nested directory paths", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
+    await writeFile(
+      join(dir, "razorwind.config.ts"),
+      `export default { plugins: [] };\n`,
+      "utf8"
+    );
+
+    const config = await resolveConfig(dir, {
+      configFile: "razorwind.config.ts",
+      fontsPath: "fonts/dist",
+      iconsPath: ["assets/icons"],
+      componentsPath: "packages/ui/components"
+    });
+
+    expect(config.fontsPath).toBe("fonts/dist");
+    expect(config.iconsPath).toEqual(["assets/icons"]);
+    expect(config.componentsPath).toBe("packages/ui/components");
+  });
+
   it("resolves an array config into two independent configs", async () => {
     const dir = await mkdtemp(join(tmpdir(), "razorwind-resolve-config-"));
     await writeFile(

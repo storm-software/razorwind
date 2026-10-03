@@ -23,8 +23,7 @@ import { readJsonFile } from "@stryke/fs/json";
 import { appendPath } from "@stryke/path/append";
 import {
   findFileExtensionSafe,
-  findFileName,
-  findFolderName
+  findFileName
 } from "@stryke/path/file-path-fns";
 import { joinPaths } from "@stryke/path/join";
 import { titleCase } from "@stryke/string-format/title-case";
@@ -32,7 +31,7 @@ import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { createDefu } from "defu";
 import { readFile, readdir } from "node:fs/promises";
-import { dirname, isAbsolute, resolve } from "node:path";
+import { basename, dirname, isAbsolute, resolve } from "node:path";
 import type { Schema } from "../../schema";
 import type {
   Font,
@@ -54,6 +53,7 @@ import {
   FONT_FORMAT_FROM_EXTENSION,
   WEIGHT_FROM_SUFFIX
 } from "./constants";
+import { readSfntMetadata } from "./sfnt";
 
 /** Overlay merge: arrays from the left source replace (do not concat). */
 const defuOverlay = createDefu((object, key, value) => {
@@ -165,6 +165,28 @@ function slugifyFamily(family: string): string {
     .replaceAll(/^-+|-+$/g, "");
 }
 
+/**
+ * Family identity ignoring separators, so the filename-derived `StormSans`
+ * and the UFO family `Storm Sans` resolve to the same font.
+ */
+function compactFamily(family: string): string {
+  return family.toLowerCase().replaceAll(/[^a-z0-9]/g, "");
+}
+
+function findLocalFontKey(fonts: Fonts, family: string): string | undefined {
+  const key = slugifyFamily(family);
+  if (fonts[key]) {
+    return key;
+  }
+
+  const compact = compactFamily(family);
+
+  return Object.keys(fonts).find(
+    existing =>
+      fonts[existing]?.source === "local" && compactFamily(existing) === compact
+  );
+}
+
 function decodeXml(value: string): string {
   return value
     .replaceAll("&amp;", "&")
@@ -262,6 +284,7 @@ async function readDesignspaceSources(path: string): Promise<UfoFontSource[]> {
   const sources = await Promise.all(
     readDesignspaceSourcePaths(content).map(async filename => {
       const sourcePath = resolve(dirname(path), filename);
+
       return sourcePath.endsWith(".ufo") && isDirectory(sourcePath)
         ? readUfoFontSource(sourcePath)
         : undefined;
@@ -433,10 +456,39 @@ async function extractFromFontJson(
   return parseFontPartial(data);
 }
 
+interface DiscoveredFontFile {
+  family: string;
+  /** `family` came from the file's own `name` table, not its filename. */
+  named: boolean;
+  file: FontFile;
+}
+
+/**
+ * Describe a font asset, preferring the family, weight, and style embedded in
+ * the file over what its filename suggests.
+ */
+async function discoverFontFile(path: string): Promise<DiscoveredFontFile> {
+  const parsed = parseFontFilename(basename(path));
+  const metadata = await readSfntMetadata(path);
+  const weight = metadata?.weight ?? parsed.weight;
+  const style = metadata?.style ?? parsed.style;
+
+  return {
+    family: metadata?.family ?? parsed.family,
+    named: Boolean(metadata?.family),
+    file: {
+      path,
+      format: parsed.format,
+      ...(weight !== undefined ? { weight } : {}),
+      ...(style ? { style } : {})
+    }
+  };
+}
+
 function resolveFontFiles(
   directory: string,
   files: FontFile[] | undefined,
-  discovered: string[]
+  discovered: DiscoveredFontFile[]
 ): FontFile[] {
   if (files?.length) {
     return files.map(file => {
@@ -450,16 +502,7 @@ function resolveFontFiles(
     });
   }
 
-  return discovered.map(filename => {
-    const parsed = parseFontFilename(filename);
-
-    return {
-      path: appendPath(filename, directory),
-      format: parsed.format,
-      ...(parsed.weight !== undefined ? { weight: parsed.weight } : {}),
-      ...(parsed.style ? { style: parsed.style } : {})
-    };
-  });
+  return discovered.map(entry => entry.file);
 }
 
 async function loadFontFromDirectory(
@@ -475,14 +518,21 @@ async function loadFontFromDirectory(
 
   const merged = defuOverlay(fromFontJson ?? {}, fromPackageJson ?? {});
 
-  const folderName = findFolderName(directory);
-  const name = isSetString(merged.name) ? merged.name : folderName;
-  const title = isSetString(merged.title) ? merged.title : titleCase(name);
-  const files = resolveFontFiles(
-    directory,
-    merged.source === "local" ? merged.files : undefined,
-    assetFiles
-  );
+  const declared = merged.source === "local" ? merged.files : undefined;
+  const discovered = declared?.length
+    ? []
+    : await Promise.all(
+        assetFiles.map(async filename =>
+          discoverFontFile(appendPath(filename, directory))
+        )
+      );
+  const embeddedFamily = discovered.find(entry => entry.named)?.family;
+
+  const name = isSetString(merged.name) ? merged.name : basename(directory);
+  const title = isSetString(merged.title)
+    ? merged.title
+    : (embeddedFamily ?? titleCase(name));
+  const files = resolveFontFiles(directory, declared, discovered);
 
   const source = merged.source ?? (files.length > 0 ? "local" : "google");
 
@@ -493,14 +543,14 @@ async function loadFontFromDirectory(
           source: "google" as const,
           name,
           title,
-          family: merged.family ?? title
+          family: merged.family ?? embeddedFamily ?? title
         }
       : {
           ...merged,
           source: "local" as const,
           name,
           title,
-          family: merged.family ?? title,
+          family: merged.family ?? embeddedFamily ?? title,
           files:
             files.length > 0
               ? files
@@ -514,12 +564,44 @@ async function loadFontFromDirectory(
   return parsed.success ? parsed.data : undefined;
 }
 
+/**
+ * Re-key a font whose family was guessed from filenames under an
+ * authoritative family name (embedded `name` table or UFO `fontinfo.plist`).
+ */
+function adoptFamily(
+  fonts: Fonts,
+  inferred: Set<string>,
+  key: string,
+  family: string
+): string {
+  const existing = fonts[key];
+  if (!inferred.has(key) || existing?.source !== "local") {
+    return key;
+  }
+
+  const slug = slugifyFamily(family) || "font";
+  inferred.delete(key);
+  delete fonts[key];
+  fonts[slug] = {
+    ...existing,
+    name: slug,
+    title: titleCase(family),
+    family
+  };
+
+  return slug;
+}
+
 function upsertLocalFontFile(
   fonts: Fonts,
-  family: string,
-  file: FontFile
+  inferred: Set<string>,
+  { family, named, file }: DiscoveredFontFile
 ): void {
-  const key = slugifyFamily(family) || "font";
+  let key =
+    findLocalFontKey(fonts, family) ?? (slugifyFamily(family) || "font");
+  if (named) {
+    key = adoptFamily(fonts, inferred, key, family);
+  }
   const existing = fonts[key];
 
   if (existing?.source === "local") {
@@ -545,10 +627,23 @@ function upsertLocalFontFile(
     family,
     files: [file]
   } satisfies LocalFont;
+  if (!named) {
+    inferred.add(key);
+  }
 }
 
-function upsertLocalFontSource(fonts: Fonts, source: UfoFontSource): void {
-  const key = slugifyFamily(source.family) || "font";
+function upsertLocalFontSource(
+  fonts: Fonts,
+  inferred: Set<string>,
+  source: UfoFontSource
+): void {
+  const key = adoptFamily(
+    fonts,
+    inferred,
+    findLocalFontKey(fonts, source.family) ??
+      (slugifyFamily(source.family) || "font"),
+    source.family
+  );
   const existing = fonts[key];
 
   if (existing?.source === "local") {
@@ -579,12 +674,16 @@ function upsertLocalFontSource(fonts: Fonts, source: UfoFontSource): void {
  * Supports:
  * 1. Per-font directories with `package.json` / `font.json` metadata
  * 2. UFO and designspace font sources, using each UFO's `fontinfo.plist`
- * 3. Flat font files at the fonts path root, grouped by family prefix
+ * 3. Flat font files at the fonts path root, grouped by the family in each
+ *    file's `name` table (OpenType / TrueType), else by filename prefix; a
+ *    UFO/designspace family matching that prefix (`StormSans` ↔ `Storm Sans`)
+ *    supplies the family name
  */
 export async function loadFonts(
   context: ExecutionContext<Schema, Config, void>
 ): Promise<Fonts> {
   const fonts: Fonts = {};
+  const inferred = new Set<string>();
   const paths = normalizeFontsPaths(context.options.fontsPath);
 
   for (const fontsPath of paths) {
@@ -596,7 +695,7 @@ export async function loadFonts(
     if (!isDirectory(absolute)) {
       if (absolute.endsWith(".designspace")) {
         for (const source of await readDesignspaceSources(absolute)) {
-          upsertLocalFontSource(fonts, source);
+          upsertLocalFontSource(fonts, inferred, source);
         }
       }
       continue;
@@ -605,7 +704,7 @@ export async function loadFonts(
     if (absolute.endsWith(".ufo")) {
       const source = await readUfoFontSource(absolute);
       if (source) {
-        upsertLocalFontSource(fonts, source);
+        upsertLocalFontSource(fonts, inferred, source);
       }
       continue;
     }
@@ -624,7 +723,7 @@ export async function loadFonts(
           if (entry.name.endsWith(".ufo")) {
             const source = await readUfoFontSource(entryPath);
             if (source) {
-              upsertLocalFontSource(fonts, source);
+              upsertLocalFontSource(fonts, inferred, source);
             }
             continue;
           }
@@ -641,19 +740,17 @@ export async function loadFonts(
 
         if (entry.isFile() && entry.name.endsWith(".designspace")) {
           for (const source of await readDesignspaceSources(entryPath)) {
-            upsertLocalFontSource(fonts, source);
+            upsertLocalFontSource(fonts, inferred, source);
           }
           continue;
         }
 
         if (entry.isFile() && isFontAssetFile(entry.name)) {
-          const parsed = parseFontFilename(entry.name);
-          upsertLocalFontFile(fonts, parsed.family, {
-            path: entryPath,
-            format: parsed.format,
-            ...(parsed.weight !== undefined ? { weight: parsed.weight } : {}),
-            ...(parsed.style ? { style: parsed.style } : {})
-          });
+          upsertLocalFontFile(
+            fonts,
+            inferred,
+            await discoverFontFile(entryPath)
+          );
         }
       }
     } catch {

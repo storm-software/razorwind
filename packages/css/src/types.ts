@@ -21,6 +21,14 @@
  */
 export interface CssGeneratePluginOptions {
   /**
+   * Prefix prepended to generated CSS custom-property names.
+   *
+   * @example "storm" produces `--storm-color-accent`
+   * @defaultValue initials derived from the schema name
+   */
+  prefix?: string;
+
+  /**
    * Output file path (relative to the execution cwd).
    *
    * @defaultValue "src/styles.css"

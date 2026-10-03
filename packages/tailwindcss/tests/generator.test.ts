@@ -53,7 +53,8 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {}, fonts: {},
+  icons: {},
+  fonts: {},
   tokens
 } as Schema;
 
@@ -91,6 +92,16 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
     expect(css).toContain("--radius: 4px;");
   });
 
+  it("configures Tailwind to prefix compiled CSS variables", () => {
+    const css = renderTailwindCss(flattenThemeTokens(spec.tokens), {
+      prefix: "storm"
+    });
+
+    expect(css).toContain(`@import "tailwindcss" prefix(storm);`);
+    expect(css).toContain("--color-primary: #0066cc;");
+    expect(css).not.toContain("--storm-color-primary: #0066cc;");
+  });
+
   it("assigns reused tokens as CSS var() references", () => {
     const aliased = {
       color: {
@@ -108,9 +119,7 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
 
     const css = renderTailwindCss(flattenThemeTokens(aliased));
     expect(css).toContain("--color-accent: var(--color-brand);");
-    expect(css).toContain(
-      "--color-border-disabled: var(--color-neutral-800);"
-    );
+    expect(css).toContain("--color-border-disabled: var(--color-neutral-800);");
     expect(css).toContain("--color-neutral-800: #35373a;");
     expect(css).not.toContain("{color.");
   });
@@ -203,10 +212,7 @@ describe("tailwindcss generate plugin", () => {
     const plugin = generate({ cssPath: "src/theme.css" });
     const documents = await plugin.generate!(spec, {} as never);
 
-    expect(Object.keys(documents)).toEqual([
-      "src/theme.css",
-      "src/INSTALL.md"
-    ]);
+    expect(Object.keys(documents)).toEqual(["src/theme.css", "src/INSTALL.md"]);
     const css = documents["src/theme.css"]?.chunks?.[0]?.content;
     expect(css).toContain(`@import "tailwindcss";`);
     expect(css).toContain("--color-primary: #0066cc;");
@@ -224,6 +230,17 @@ describe("tailwindcss generate plugin", () => {
     expect(css).toContain("@theme {");
     expect(css).toContain("--color-secondary: #663399;");
     expect(documents["out/INSTALL.md"]).toBeDefined();
+  });
+
+  it("documents prefixed Tailwind utilities", async () => {
+    const documents = await generateTailwindCss(spec, {
+      cssPath: "out/app.css",
+      prefix: "storm"
+    });
+
+    const install = documents["out/INSTALL.md"]?.chunks?.[0]?.content;
+    expect(install).toContain("`storm:bg-primary`");
+    expect(install).toContain('`@import "tailwindcss" prefix(storm)`');
   });
 
   it("emits Google Fonts imports and --font-role theme vars", async () => {

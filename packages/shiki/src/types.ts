@@ -111,6 +111,15 @@ export interface ShikiPluginOptions {
   outputPath?: string;
 
   /**
+   * File name for each generated theme JSON document. Pass a string for a
+   * fixed name (e.g. `"theme.json"` when `splitThemes` already writes each
+   * theme to its own folder), or a function to derive it per theme.
+   *
+   * @defaultValue `"<slugified theme name>.json"`
+   */
+  fileName?: string | ((theme: ShikiTheme, spec: Schema) => string);
+
+  /**
    * Map extracted tokens to Shiki theme JSON document(s).
    *
    * Required — without a mapping there is nothing to emit.
