@@ -1079,7 +1079,7 @@ export function renderFontSpecimen(
   sampleText = FONT_SPECIMEN_TEXT
 ): string {
   const stack = resolveFontStack(item);
-  const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "64px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}}</div>`;
+  const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "64px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}</div>`;
   const rows = FONT_SPECIMEN_SIZES.map(
     size =>
       `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={${FONT_SPECIMEN_LABEL_STYLE}}>${size}px</span>{${JSON.stringify(sampleText)}}</div>`
@@ -1092,8 +1092,10 @@ export function renderFontSpecimen(
   return [
     "### Character Set",
     characterSet,
-    "### Specimen",
+    "",
+    "### Sizes",
     ...rows,
+    "",
     "### Weights",
     ...weightRows
   ].join("\n\n");
