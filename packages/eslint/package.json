@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/eslint",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Razorwind ESLint plugin generator to create eslint rules that can be used as design system guidelines.",
   "repository": {

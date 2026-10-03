@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.16](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.16) (10/03/2026)
+
+### Features
+
+- **stylelint:** Added Stylelint plugin generation extension package ([344c34b](https://github.com/storm-software/razorwind/commit/344c34b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.80**
+
 ## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.15) (10/03/2026)
 
 ### Features
