@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { resolveFontAssetUrl } from "@razorwind/core/lib/fonts";
 import type { Font, LocalFont, Schema } from "@razorwind/core/schema";
 import { resolveSchemaIdentity } from "@razorwind/core/utils";
 import { escapeTableCell, relativePath } from "./format";
@@ -33,12 +34,16 @@ function inlineValues(
     : undefined;
 }
 
-function renderLocalFiles(font: LocalFont, rootDir?: string): string {
+function renderLocalFiles(font: LocalFont, options: LlmsRenderOptions): string {
   const rows = font.files
     .toSorted((a, b) => a.path.localeCompare(b.path))
     .map(
       file =>
-        `| \`${escapeTableCell(relativePath(file.path, rootDir))}\` | ${
+        `| \`${escapeTableCell(
+          options.fontAssetBaseUrl
+            ? resolveFontAssetUrl(file.path, options.fontAssetBaseUrl)
+            : relativePath(file.path, options.rootDir)
+        )}\` | ${
           file.format ? `\`${escapeTableCell(file.format)}\`` : ""
         } | ${file.weight !== undefined ? `\`${file.weight}\`` : ""} | ${
           file.style ? `\`${escapeTableCell(file.style)}\`` : ""
@@ -55,7 +60,7 @@ function renderLocalFiles(font: LocalFont, rootDir?: string): string {
   ].join("\n");
 }
 
-function renderFont(font: Font, rootDir?: string): string {
+function renderFont(font: Font, options: LlmsRenderOptions): string {
   const fallbacks = inlineValues(font.fallbacks);
   const tags = inlineValues(font.tags);
   const metadata = [
@@ -87,7 +92,7 @@ function renderFont(font: Font, rootDir?: string): string {
     `## ${font.title}`,
     ...(font.description ? [font.description] : []),
     metadata.join("\n"),
-    ...(font.source === "local" ? [renderLocalFiles(font, rootDir)] : [])
+    ...(font.source === "local" ? [renderLocalFiles(font, options)] : [])
   ].join("\n\n");
 }
 
@@ -108,7 +113,7 @@ export function renderFontsDocument(
   if (fonts.length === 0) {
     sections.push("No documented fonts were found.");
   } else {
-    sections.push(...fonts.map(font => renderFont(font, options.rootDir)));
+    sections.push(...fonts.map(font => renderFont(font, options)));
   }
 
   return `${sections.join("\n\n")}\n`;

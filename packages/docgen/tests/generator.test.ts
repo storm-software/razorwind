@@ -471,6 +471,65 @@ describe("docgen generate plugin", () => {
     expect(jakarta).toContain("assets/fonts/PlusJakartaSans-Regular.woff2");
   });
 
+  it("closes specimen expressions before rendering the font files table", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        fonts: {
+          jakarta: {
+            name: "jakarta",
+            title: "Plus Jakarta Sans",
+            source: "local",
+            family: "Plus Jakarta Sans",
+            files: [
+              {
+                path: "assets/fonts/PlusJakartaSans-Regular.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        }
+      },
+      { outputPath: "out" }
+    );
+
+    const jakarta = documents["out/fonts/jakarta.mdx"]?.chunks?.[0]?.content;
+
+    expect(jakarta).toContain(
+      '>{"The quick brown fox jumps over the lazy dog"}</div>\n\n### Files\n\n| Path | Format | Weight | Style |'
+    );
+  });
+
+  it("renders local font file paths from the configured asset CDN", async () => {
+    const plugin = generate({ outputPath: "out" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        fonts: {
+          jakarta: {
+            name: "jakarta",
+            title: "Plus Jakarta Sans",
+            source: "local",
+            files: [
+              {
+                path: "assets/fonts/Plus Jakarta Sans.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        }
+      },
+      {
+        cwd: process.cwd(),
+        fontAssetBaseUrl: "https://cdn.acme.test/fonts"
+      } as never
+    );
+
+    expect(documents["out/fonts/jakarta.mdx"]?.chunks?.[0]?.content).toContain(
+      "https://cdn.acme.test/fonts/Plus%20Jakarta%20Sans.woff2"
+    );
+  });
+
   it("skips fonts when requested", () => {
     const documents = generateDocs(
       {

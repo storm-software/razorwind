@@ -104,6 +104,7 @@ export function renderLlmsIndex(
     ...(repository ? [`- [Repository](${repository}): Source repository.`] : [])
   ];
   const sections = [
+    "",
     `# ${title}`,
     ...(summary ? [`> ${summary}`] : []),
     ...(details ? [details] : []),
@@ -114,7 +115,7 @@ export function renderLlmsIndex(
       : [])
   ];
 
-  return `${sections.join("\n\n")}\n`;
+  return `${sections.join("\n\n").trim()}\n`;
 }
 
 /** Render the complete llms.txt document set from a Razorwind schema. */
@@ -165,5 +166,9 @@ export function generateLlms(
 export default definePlugin((options?: LlmsPluginOptions) => ({
   name: "llms:generate",
   generate: async (spec, config) =>
-    generateLlms(spec, options ?? {}, config.cwd)
+    generateLlms(
+      spec,
+      { fontAssetBaseUrl: config.fontAssetBaseUrl, ...options },
+      config.cwd
+    )
 }));

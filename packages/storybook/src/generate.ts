@@ -18,16 +18,6 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import {
-  extractFonts,
-  FONT_CHARACTER_SET,
-  FONT_SPECIMEN_SIZES,
-  FONT_SPECIMEN_TEXT,
-  fontSlug,
-  fontSlugs,
-  renderFontBody,
-  resolveFontStack
-} from "@razorwind/docgen/generate";
-import {
   cssFontFamily,
   MONO_ROLES,
   pickFontByRole,
@@ -44,6 +34,16 @@ import {
   SHARED_THEME_ID,
   toThemeCssVar
 } from "@razorwind/core/utils";
+import {
+  extractFonts,
+  FONT_CHARACTER_SET,
+  FONT_SPECIMEN_SIZES,
+  FONT_SPECIMEN_TEXT,
+  fontSlug,
+  fontSlugs,
+  renderFontBody,
+  resolveFontStack
+} from "@razorwind/docgen/generate";
 import { joinPaths } from "@stryke/path/join";
 import type { PartialKeys } from "@stryke/types/base";
 import { flattenTokens, resolveTokenSets } from "./flatten";
@@ -787,7 +787,7 @@ export interface FontSpecimenBlockProps {
 }
 
 const FONT_FAMILIES: Record<string, { family: string; title: string }> = {
-${entries || '  // No fonts'}
+${entries || "  // No fonts"}
 };
 
 const DEFAULT_FONT = ${toLiteral(fonts[0] ? (readString(fonts[0], "name") ?? "unknown") : "unknown")};
@@ -876,7 +876,10 @@ ${links.join("\n")}
 export function renderFontMdx(
   font: Record<string, unknown>,
   _fontName: string,
-  options: Pick<StorybookPluginOptions, "sampleText" | "titlePrefix"> = {}
+  options: Pick<
+    StorybookPluginOptions,
+    "fontAssetBaseUrl" | "sampleText" | "titlePrefix"
+  > = {}
 ): string {
   const titlePrefix = options.titlePrefix ?? "Design Tokens";
   const name = readString(font, "name") ?? "unknown";
@@ -888,7 +891,7 @@ export function renderFontMdx(
 
 # ${title}
 
-${renderFontBody(font, options.sampleText)}
+${renderFontBody(font, options.sampleText, options.fontAssetBaseUrl)}
 `;
 }
 

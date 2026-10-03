@@ -203,9 +203,9 @@ describe("storybook plugin", () => {
     expect(colors).toContain("ColorPalette");
     expect(colors).toContain("ColorItem");
     expect(colors).toContain("#0066cc");
-    expect(documents["docs/tokens/tokens.json"]?.chunks?.[0]?.content).toContain(
-      "--ads-color-primary"
-    );
+    expect(
+      documents["docs/tokens/tokens.json"]?.chunks?.[0]?.content
+    ).toContain("--ads-color-primary");
 
     const overview = documents["docs/tokens/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("<ColorPaletteBlock />");
@@ -382,28 +382,32 @@ describe("storybook plugin", () => {
       "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789"
     );
 
-    const block = documents["out/blocks/FontSpecimen.tsx"]?.chunks?.[0]
-      ?.content;
+    const block =
+      documents["out/blocks/FontSpecimen.tsx"]?.chunks?.[0]?.content;
     expect(block).toContain("export function FontSpecimenBlock");
     expect(block).toContain("sizes.map");
     expect(block).toContain(
       "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789"
     );
-    expect(block).toContain("DEFAULT_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72]");
+    expect(block).toContain(
+      "DEFAULT_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72]"
+    );
 
     const overview = documents["out/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("## Fonts");
     expect(overview).toContain("<FontSpecimenBlock />");
 
-    expect(
-      documents["out/blocks/index.ts"]?.chunks?.[0]?.content
-    ).toContain("FontSpecimenBlock");
+    expect(documents["out/blocks/index.ts"]?.chunks?.[0]?.content).toContain(
+      "FontSpecimenBlock"
+    );
 
     expect(
-      (ts.transpile(block!, {
-        jsx: ts.JsxEmit.ReactJSX,
-        target: ts.ScriptTarget.ESNext
-      }) as any).diagnostics ?? []
+      (
+        ts.transpile(block!, {
+          jsx: ts.JsxEmit.ReactJSX,
+          target: ts.ScriptTarget.ESNext
+        }) as any
+      ).diagnostics ?? []
     ).toEqual([]);
   });
 
@@ -435,6 +439,33 @@ describe("storybook plugin", () => {
 
     expect(storybookPage.slice(storybookPage.indexOf(bodyStart)).trim()).toBe(
       docgenPage.slice(docgenPage.indexOf(bodyStart)).trim()
+    );
+  });
+
+  it("renders local font file paths from the configured asset CDN", async () => {
+    const plugin = storybook({ outputPath: "out" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        fonts: {
+          jakarta: {
+            name: "jakarta",
+            title: "Plus Jakarta Sans",
+            source: "local",
+            files: [
+              {
+                path: "assets/fonts/Plus Jakarta Sans.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        }
+      },
+      { fontAssetBaseUrl: "https://cdn.acme.test/fonts" } as never
+    );
+
+    expect(documents["out/Fonts/jakarta.mdx"]?.chunks?.[0]?.content).toContain(
+      "https://cdn.acme.test/fonts/Plus%20Jakarta%20Sans.woff2"
     );
   });
 
@@ -736,10 +767,12 @@ describe("storybook plugin", () => {
     for (const block of [colors, typeset, table, selector]) {
       expect(block).toBeDefined();
       expect(
-        (ts.transpile(block!, {
-          jsx: ts.JsxEmit.ReactJSX,
-          target: ts.ScriptTarget.ESNext
-        }) as any).diagnostics ?? []
+        (
+          ts.transpile(block!, {
+            jsx: ts.JsxEmit.ReactJSX,
+            target: ts.ScriptTarget.ESNext
+          }) as any
+        ).diagnostics ?? []
       ).toEqual([]);
     }
   });

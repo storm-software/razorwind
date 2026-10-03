@@ -17,13 +17,14 @@
  ------------------------------------------------------------------- */
 
 import { describe, expect, it } from "vitest";
-import type { Fonts, GoogleFont, LocalFont } from "../../src/schema/fonts";
 import {
   cssFontFamily,
   renderFontCss,
+  resolveFontAssetUrl,
   toGoogleFontsCssUrl
 } from "../../src/lib/fonts/css";
 import { parseCssFonts } from "../../src/lib/fonts/parse";
+import type { Fonts, GoogleFont, LocalFont } from "../../src/schema/fonts";
 
 const google: GoogleFont = {
   name: "inter",
@@ -53,6 +54,23 @@ const local: LocalFont = {
 };
 
 const fonts: Fonts = { inter: google, jetbrains: local };
+
+describe("resolveFontAssetUrl", () => {
+  it("joins a local font basename to a normalized HTTP CDN base URL", () => {
+    expect(
+      resolveFontAssetUrl(
+        "/tmp/JetBrains Mono.woff2",
+        "https://cdn.acme.test/design-system/fonts"
+      )
+    ).toBe("https://cdn.acme.test/design-system/fonts/JetBrains%20Mono.woff2");
+  });
+
+  it("rejects a non-HTTP CDN base URL", () => {
+    expect(() =>
+      resolveFontAssetUrl("/tmp/font.woff2", "./public/fonts")
+    ).toThrow(/fontAssetBaseUrl.*absolute HTTP/i);
+  });
+});
 
 describe("toGoogleFontsCssUrl", () => {
   it("builds a CSS2 family URL with italic weights", () => {
@@ -97,8 +115,10 @@ describe("renderFontCss", () => {
     expect(css).toContain(
       '@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400;1,700&display=swap");'
     );
-    expect(css).toContain("font-family: \"JetBrains Mono\";");
-    expect(css).toContain('url("./fonts/JetBrainsMono-Regular.woff2") format("woff2")');
+    expect(css).toContain('font-family: "JetBrains Mono";');
+    expect(css).toContain(
+      'url("./fonts/JetBrainsMono-Regular.woff2") format("woff2")'
+    );
     expect(css.indexOf("@import")).toBeLessThan(css.indexOf("@font-face"));
   });
 });

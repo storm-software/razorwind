@@ -1,31 +1,10 @@
-# Patching Dependencies
+# Plugin Package Updates
 
-When a bug or missing behavior is traced to an external Storm package, **do not patch it in this repository**.
+When adding or updating a Razorwind plugin package, make sure the [Preset package](./packages/preset) is also updated accordingly:
 
-The following ecosystems are maintained in separate repositories and must never be modified locally (including `node_modules`, `pnpm patch`, `patchedDependencies`, or vendored copies):
-
-| Ecosystem | Package scopes | External repository |
-| --- | --- | --- |
-| **powerlines** | `powerlines`, `@powerlines/*` | [storm-software/powerlines](https://github.com/storm-software/powerlines) |
-| **power-plant** | `@power-plant/*` | [storm-software/power-plant](https://github.com/storm-software/power-plant) |
-| **shell-shock** | `@shell-shock/*` | [storm-software/shell-shock](https://github.com/storm-software/shell-shock) |
-| **storm-ops** | `@storm-software/*` | [storm-software/storm-ops](https://github.com/storm-software/storm-ops) |
-
-Instead, produce a **descriptive fix outline** that can be applied in the correct external repository. Work around the issue in Razorwind only when a local workaround is explicitly requested and does not require patching these packages.
-
-## Fix outline format
-
-When the fix belongs upstream, write an outline with these sections:
-
-1. **Summary** — One or two sentences describing the problem and the intended outcome.
-2. **Affected packages** — Exact package name(s), version observed, and npm scope.
-3. **Symptoms** — Error messages, failing commands, or incorrect behavior seen in Razorwind.
-4. **Root cause** — Where the bug lives (file path, function, config option) in the external repo.
-5. **Proposed change** — Concrete edits: files to touch, code to add/remove/replace, and any config updates.
-6. **Verification** — How to confirm the fix in the external repo (build, test, or CLI command).
-7. **Razorwind follow-up** — Catalog or dependency version bump needed here after the upstream release.
-
-Keep the outline actionable enough that someone can open the external repository and implement the fix without re-investigating from scratch.
+1. If options or functionality changes in a Razorwind plugin package, update the corresponding options/functionality in the [Preset package](./packages/preset) to keep them in sync.
+2. If a new Razorwind plugin package is added, ensure it is also registered and configured in the [Preset package](./packages/preset).
+3. If a Razorwind plugin package is removed, ensure it is also deregistered and any related configuration is cleaned up in the [Preset package](./packages/preset).
 
 <!-- nx configuration start-->
 <!-- Leave the start & end comments to automatically receive updates. -->
@@ -52,7 +31,7 @@ Keep the outline actionable enough that someone can open the external repository
 <!-- nx configuration end-->
 <!-- nx configuration end-->
 <!-- storm configuration start-->
- ## External packages — DO NOT PATCH
+## External packages — DO NOT PATCH
 
 The following Storm Software ecosystems are maintained in **separate repositories**. Do **not** modify their package code, vendored scaffolding, or `node_modules` contents in this repo — including via `patch-package`, manual edits under `node_modules`, or direct changes to generated integration layers.
 

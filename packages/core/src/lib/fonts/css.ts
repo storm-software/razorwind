@@ -35,6 +35,9 @@ export interface RenderFontCssOptions {
    * @defaultValue `"./fonts/"`
    */
   urlPrefix?: string;
+
+  /** Absolute HTTP(S) base URL used instead of {@link urlPrefix}. */
+  fontAssetBaseUrl?: string;
 }
 
 function quoteFamily(family: string): string {
@@ -136,10 +139,40 @@ function formatFromFile(file: FontFile): FontFileFormat | undefined {
   return file.format;
 }
 
-function localSrc(file: FontFile, urlPrefix: string): string {
+/** Resolve a local font file to its public CDN URL. */
+export function resolveFontAssetUrl(
+  filePath: string,
+  fontAssetBaseUrl: string
+): string {
+  let base: URL;
+
+  try {
+    base = new URL(fontAssetBaseUrl);
+  } catch {
+    throw new TypeError("fontAssetBaseUrl must be an absolute HTTP(S) URL.");
+  }
+
+  if (base.protocol !== "http:" && base.protocol !== "https:") {
+    throw new TypeError("fontAssetBaseUrl must be an absolute HTTP(S) URL.");
+  }
+
+  base.pathname = base.pathname.endsWith("/")
+    ? base.pathname
+    : `${base.pathname}/`;
+
+  return new URL(basename(filePath), base).toString();
+}
+
+function localSrc(
+  file: FontFile,
+  urlPrefix: string,
+  fontAssetBaseUrl?: string
+): string {
   const name = basename(file.path);
   const prefix = urlPrefix.endsWith("/") ? urlPrefix : `${urlPrefix}/`;
-  const url = `${prefix}${name}`;
+  const url = fontAssetBaseUrl
+    ? resolveFontAssetUrl(file.path, fontAssetBaseUrl)
+    : `${prefix}${name}`;
   const format = formatFromFile(file);
 
   if (format) {
@@ -149,7 +182,11 @@ function localSrc(file: FontFile, urlPrefix: string): string {
   return `url("${url}")`;
 }
 
-function renderLocalFontFace(font: LocalFont, urlPrefix: string): string {
+function renderLocalFontFace(
+  font: LocalFont,
+  urlPrefix: string,
+  fontAssetBaseUrl?: string
+): string {
   const family = fontFamilyName(font);
   const display = font.display ?? "swap";
 
@@ -158,7 +195,7 @@ function renderLocalFontFace(font: LocalFont, urlPrefix: string): string {
       const lines = [
         "@font-face {",
         `  font-family: ${quoteFamily(family)};`,
-        `  src: ${localSrc(file, urlPrefix)};`
+        `  src: ${localSrc(file, urlPrefix, fontAssetBaseUrl)};`
       ];
 
       if (file.weight !== undefined) {
@@ -198,7 +235,7 @@ export function renderLocalFontFaces(
 
   return Object.values(fonts)
     .filter(font => font.source === "local")
-    .map(font => renderLocalFontFace(font, urlPrefix))
+    .map(font => renderLocalFontFace(font, urlPrefix, options.fontAssetBaseUrl))
     .join("\n\n");
 }
 

@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
+import { resolveFontAssetUrl } from "@razorwind/core/lib/fonts";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import {
@@ -964,10 +965,10 @@ export function renderFontSpecimen(
   sampleText = FONT_SPECIMEN_TEXT
 ): string {
   const stack = resolveFontStack(item);
-  const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "32px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}}</div>`;
+  const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "64px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}}</div>`;
   const rows = FONT_SPECIMEN_SIZES.map(
     size =>
-      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={{ display: "block", fontSize: "12px", lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }}>${size}px</span>{${JSON.stringify(sampleText)}}}</div>`
+      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={{ display: "block", fontSize: "12px", lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }}>${size}px</span>{${JSON.stringify(sampleText)}}</div>`
   );
 
   return ["### Character Set", characterSet, "### Specimen", ...rows].join(
@@ -975,7 +976,10 @@ export function renderFontSpecimen(
   );
 }
 
-function renderFontFiles(item: Record<string, unknown>): string {
+function renderFontFiles(
+  item: Record<string, unknown>,
+  fontAssetBaseUrl?: string
+): string {
   const files = Array.isArray(item.files) ? item.files : [];
 
   const rows = files
@@ -996,7 +1000,11 @@ function renderFontFiles(item: Record<string, unknown>): string {
           : undefined;
       const style = readString(file, "style");
 
-      return `| \`${escapeTableCell(path)}\` | ${format ? `\`${escapeTableCell(format)}\`` : "—"} | ${weight ? `\`${escapeTableCell(weight)}\`` : "—"} | ${style ? `\`${escapeTableCell(style)}\`` : "—"} |`;
+      const assetPath = fontAssetBaseUrl
+        ? resolveFontAssetUrl(path, fontAssetBaseUrl)
+        : path;
+
+      return `| \`${escapeTableCell(assetPath)}\` | ${format ? `\`${escapeTableCell(format)}\`` : "—"} | ${weight ? `\`${escapeTableCell(weight)}\`` : "—"} | ${style ? `\`${escapeTableCell(style)}\`` : "—"} |`;
     })
     .filter((row): row is string => row !== undefined);
 
@@ -1051,7 +1059,8 @@ function readWeights(item: Record<string, unknown>): string[] {
  */
 export function renderFontBody(
   item: Record<string, unknown>,
-  sampleText = FONT_SPECIMEN_TEXT
+  sampleText = FONT_SPECIMEN_TEXT,
+  fontAssetBaseUrl?: string
 ): string {
   const name = readString(item, "name") ?? "unknown";
   const description = readString(item, "description");
@@ -1107,7 +1116,7 @@ export function renderFontBody(
   sections.push(renderFontSpecimen(item, sampleText));
 
   if (source === "local") {
-    const files = renderFontFiles(item);
+    const files = renderFontFiles(item, fontAssetBaseUrl);
     if (files) {
       sections.push("### Files", files);
     }
@@ -1129,7 +1138,8 @@ function renderFont(item: Record<string, unknown>): string {
  */
 export function renderFontMdx(
   font: Record<string, unknown>,
-  systemTitle = "design system"
+  systemTitle = "design system",
+  fontAssetBaseUrl?: string
 ): string {
   const name = readString(font, "name") ?? "unknown";
   const title = readString(font, "title") ?? titleCase(name);
@@ -1140,7 +1150,7 @@ export function renderFontMdx(
       description: `${title} font specimen and file reference for the ${systemTitle}.`
     }),
     `# ${title}`,
-    renderFontBody(font)
+    renderFontBody(font, FONT_SPECIMEN_TEXT, fontAssetBaseUrl)
   ].join("\n\n");
 }
 
@@ -1319,7 +1329,7 @@ export function generateDocs(
       const fontPath = joinPaths("fonts", `${slug}.mdx`);
       documents[joinPaths(outputPath, fontPath)] = createDoc(
         fontPath,
-        renderFontMdx(font, systemTitle),
+        renderFontMdx(font, systemTitle, options.fontAssetBaseUrl),
         "mdx"
       );
     }
@@ -1363,6 +1373,10 @@ export function generateDocs(
 export default definePlugin((options?: DocgenGeneratePluginOptions) => ({
   name: "docgen:generate",
   generate: async (spec, config) => {
-    return generateDocs(spec, options ?? {}, config.cwd);
+    return generateDocs(
+      spec,
+      { fontAssetBaseUrl: config.fontAssetBaseUrl, ...options },
+      config.cwd
+    );
   }
 }));

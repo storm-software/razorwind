@@ -41,7 +41,8 @@ async function applyFontsToCssDocuments(
   documents: Record<string, GeneratedDocument>,
   fonts: Fonts | undefined,
   outputPath: string,
-  cwd: string
+  cwd: string,
+  fontAssetBaseUrl?: string
 ): Promise<Record<string, GeneratedDocument>> {
   if (isEmptyFonts(fonts)) {
     return documents;
@@ -54,7 +55,8 @@ async function applyFontsToCssDocuments(
         outputPath);
   const existing = documents[cssPath];
   const combined = prependFontCss(documentContent(existing), fonts, {
-    urlPrefix: "./fonts/"
+    urlPrefix: "./fonts/",
+    fontAssetBaseUrl
   });
 
   const fontsDir = join(
@@ -102,7 +104,8 @@ export default definePlugin(
           documents,
           spec.fonts,
           outputPath,
-          config.cwd
+          config.cwd,
+          options?.fontAssetBaseUrl ?? config.fontAssetBaseUrl
         );
       }
     };

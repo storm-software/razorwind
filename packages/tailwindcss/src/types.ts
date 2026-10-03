@@ -40,6 +40,9 @@ export interface TailwindExtractPluginOptions {
  * Options for the Razorwind Tailwind CSS generate plugin.
  */
 export interface TailwindGeneratePluginOptions {
+  /** Absolute HTTP(S) base URL for generated local font asset references. */
+  fontAssetBaseUrl?: string;
+
   /**
    * Prefix applied by Tailwind to compiled utility classes and CSS variables.
    * The generated `@theme` declarations remain unprefixed as required by
@@ -109,7 +112,7 @@ export interface TailwindEslintPluginOptions {
   /**
    * Module the generated file imports `createGuardrails` from.
    *
-   * @defaultValue "@razorwind/tailwindcss/eslint-runtime"
+   * @defaultValue "\@razorwind/tailwindcss/eslint-runtime"
    */
   runtimeImport?: string;
 
@@ -194,7 +197,7 @@ export interface TailwindStylelintPluginOptions {
   /**
    * Module the generated file imports `createGuardrails` from.
    *
-   * @defaultValue "@razorwind/tailwindcss/stylelint-runtime"
+   * @defaultValue "\@razorwind/tailwindcss/stylelint-runtime"
    */
   runtimeImport?: string;
 

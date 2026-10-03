@@ -271,4 +271,31 @@ describe("tailwindcss generate plugin", () => {
       css?.indexOf('@import "tailwindcss"') ?? -1
     );
   });
+
+  it("uses the configured font asset CDN in local font src URLs", async () => {
+    const plugin = generate({ cssPath: "out/app.css" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        fonts: {
+          acme: {
+            name: "acme",
+            title: "Acme Sans",
+            source: "local",
+            files: [
+              {
+                path: "/workspace/fonts/Acme Sans.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        }
+      },
+      { fontAssetBaseUrl: "https://cdn.acme.test/fonts" } as never
+    );
+
+    expect(documents["out/app.css"]?.chunks?.[0]?.content).toContain(
+      'src: url("https://cdn.acme.test/fonts/Acme%20Sans.woff2") format("woff2");'
+    );
+  });
 });

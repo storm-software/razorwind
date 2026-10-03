@@ -78,5 +78,9 @@ export type {
 export default definePlugin((options?: StorybookPluginOptions) => ({
   name: "storybook",
   themeGeneration: "combined",
-  generate: async spec => generateTokenDocs(spec, options ?? {})
+  generate: async (spec, config) =>
+    generateTokenDocs(spec, {
+      fontAssetBaseUrl: config.fontAssetBaseUrl,
+      ...options
+    })
 }));

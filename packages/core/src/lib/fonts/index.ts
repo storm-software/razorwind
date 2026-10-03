@@ -32,6 +32,7 @@ export {
   renderFontCss,
   renderGoogleFontImports,
   renderLocalFontFaces,
+  resolveFontAssetUrl,
   toGoogleFontsCssUrl,
   type RenderFontCssOptions
 } from "./css";

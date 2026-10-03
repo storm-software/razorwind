@@ -60,6 +60,14 @@ export interface Options {
   fontsPath?: string | string[];
 
   /**
+   * Absolute HTTP(S) base URL used for local font asset references emitted by
+   * generators. Font filenames are appended to this URL.
+   *
+   * @example "https://cdn.example.com/design-system/fonts"
+   */
+  fontAssetBaseUrl?: string;
+
+  /**
    * Token source path(s): file, directory, Style Dictionary config, or glob.
    *
    * Directories are expanded to `**\/*.{json,yaml,...}`. Globs (e.g.

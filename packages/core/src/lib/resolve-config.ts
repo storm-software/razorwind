@@ -108,7 +108,8 @@ const CONFIG_OWNED_OPTION_KEYS = [
   "tokensPath",
   "componentsPath",
   "iconsPath",
-  "fontsPath"
+  "fontsPath",
+  "fontAssetBaseUrl"
 ] as const;
 
 /**

@@ -248,7 +248,10 @@ function applyFontRoleVars(
  */
 export function renderTailwindCss(
   tokens: FlatThemeToken[],
-  options: Pick<TailwindGeneratePluginOptions, "includeImport" | "prefix"> & {
+  options: Pick<
+    TailwindGeneratePluginOptions,
+    "fontAssetBaseUrl" | "includeImport" | "prefix"
+  > & {
     fonts?: Fonts;
   } = {}
 ): string {
@@ -270,7 +273,11 @@ export function renderTailwindCss(
       `@import "tailwindcss"${options.prefix ? ` prefix(${options.prefix})` : ""};\n`
     );
   }
-  const faces = fonts ? renderLocalFontFaces(fonts) : "";
+  const faces = fonts
+    ? renderLocalFontFaces(fonts, {
+        fontAssetBaseUrl: options.fontAssetBaseUrl
+      })
+    : "";
   if (faces) {
     parts.push(`${faces}\n`);
   }
@@ -372,5 +379,9 @@ export async function generateTailwindCss(
  */
 export default definePlugin((options?: TailwindGeneratePluginOptions) => ({
   name: "tailwindcss:generate",
-  generate: async spec => generateTailwindCss(spec, options ?? {})
+  generate: async (spec, config) =>
+    generateTailwindCss(spec, {
+      fontAssetBaseUrl: config.fontAssetBaseUrl,
+      ...options
+    })
 }));

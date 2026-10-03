@@ -101,4 +101,34 @@ describe("css generate plugin", () => {
     );
     expect(css).toContain("--ads-color-primary");
   });
+
+  it("uses the configured font asset CDN in local font src URLs", async () => {
+    const plugin = generate({ outputPath: "src/styles.css" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        fonts: {
+          acme: {
+            name: "acme",
+            title: "Acme Sans",
+            source: "local",
+            files: [
+              {
+                path: "/workspace/fonts/Acme Sans.woff2",
+                format: "woff2"
+              }
+            ]
+          }
+        }
+      },
+      {
+        cwd: process.cwd(),
+        fontAssetBaseUrl: "https://cdn.acme.test/fonts"
+      } as never
+    );
+
+    expect(cssContent(documents, "src/styles.css")).toContain(
+      'src: url("https://cdn.acme.test/fonts/Acme%20Sans.woff2") format("woff2");'
+    );
+  });
 });

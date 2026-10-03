@@ -20,11 +20,11 @@ import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
 import llms, {
   generateLlms,
-  renderLlmsDocuments,
-  renderLlmsIndex,
   renderComponentsDocument,
   renderFontsDocument,
   renderIconsDocument,
+  renderLlmsDocuments,
+  renderLlmsIndex,
   renderTokensDocument
 } from "../src";
 
@@ -268,9 +268,7 @@ describe("llms plugin", () => {
 
     const documents = generateLlms(spec, { outputPath: "public" }, root);
     const output = Object.values(documents)
-      .flatMap(
-        document => document.chunks?.map(chunk => chunk.content) ?? []
-      )
+      .flatMap(document => document.chunks?.map(chunk => chunk.content) ?? [])
       .join("\n");
     const rendered = renderLlmsDocuments(spec, { rootDir: `${root}/public` });
 
@@ -374,8 +372,7 @@ describe("renderTokensDocument", () => {
     expect(content).toContain(
       "| `color.primary` | `color` | `#66aaff` | Brand primary \\| dark |"
     );
-    expect(content).toContain("| `spacing.sm` | `dimension` | `8px` |  |"
-    );
+    expect(content).toContain("| `spacing.sm` | `dimension` | `8px` |  |");
     expect(content).not.toContain("hidden");
   });
 
@@ -427,7 +424,9 @@ describe("renderComponentsDocument", () => {
     expect(content).toContain("#### With markdown");
     expect(content).toContain("Renders Markdown content.");
     expect(content).toContain("- **Path:** `usage/markdown.tsx`");
-    expect(content).toContain('````tsx\nconst markdown = "```example```";\n````');
+    expect(content).toContain(
+      '````tsx\nconst markdown = "```example```";\n````'
+    );
     expect(content).toContain("#### Metadata only");
     expect(content).toContain("- **Path:** `usage/metadata.tsx`");
     expect(content).not.toContain("````tsx\n\n````");
@@ -506,6 +505,17 @@ describe("renderFontsDocument", () => {
     expect(regular).toBeGreaterThan(0);
     expect(bold).toBeLessThan(regular);
     expect(content).toContain("`U+0000-00FF`");
+  });
+
+  it("renders local font files from the configured asset CDN", () => {
+    const content = renderFontsDocument(fontSpec, {
+      fontAssetBaseUrl: "https://cdn.acme.test/fonts"
+    });
+
+    expect(content).toContain(
+      "`https://cdn.acme.test/fonts/acme-mono-bold.woff2`"
+    );
+    expect(content).toContain("`https://cdn.acme.test/fonts/acme-mono.woff2`");
   });
 
   it("renders an explicit empty state", () => {
