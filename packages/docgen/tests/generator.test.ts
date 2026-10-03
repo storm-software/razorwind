@@ -17,6 +17,9 @@
  ------------------------------------------------------------------- */
 
 import type { Schema } from "@razorwind/core/schema";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import extract from "../src/extract";
 import generate, { generateDocs } from "../src/generate";
@@ -80,7 +83,8 @@ const spec = {
           description: "A primary button.",
           path: "usage/default.tsx",
           language: "tsx",
-          content: 'export default function Default() {\n  return <Button>Click</Button>;\n}'
+          content:
+            "export default function Default() {\n  return <Button>Click</Button>;\n}"
         }
       ]
     },
@@ -258,17 +262,19 @@ describe("docgen generate plugin", () => {
       ])
     );
 
-    const index = documents["docs/design-system/index.mdx"]?.chunks?.[0]
-      ?.content;
+    const index =
+      documents["docs/design-system/index.mdx"]?.chunks?.[0]?.content;
     expect(index).toContain("# Acme Design System");
     expect(index).toContain("./tokens/color.mdx");
     expect(index).toContain("./registry/ui.mdx");
     expect(index).toContain("./icons.mdx");
     expect(index).not.toContain("./registry.mdx");
 
-    const colors = documents["docs/design-system/tokens/color.mdx"]?.chunks?.[0]
-      ?.content;
-    expect(colors).toContain("| Preview | Token | Type | Value | CSS Variable |");
+    const colors =
+      documents["docs/design-system/tokens/color.mdx"]?.chunks?.[0]?.content;
+    expect(colors).toContain(
+      "| Preview | Token | Type | Value | CSS Variable |"
+    );
     expect(colors).toContain("`color.primary`");
     expect(colors).toContain("#0066cc");
     expect(colors).toContain("`--ads-color-primary`");
@@ -276,8 +282,8 @@ describe("docgen generate plugin", () => {
 
     expect(documents["docs/design-system/registry.mdx"]).toBeUndefined();
 
-    const ui = documents["docs/design-system/registry/ui.mdx"]?.chunks?.[0]
-      ?.content;
+    const ui =
+      documents["docs/design-system/registry/ui.mdx"]?.chunks?.[0]?.content;
     expect(ui).toContain("# UI Primitives");
     expect(ui).toContain("## Button");
     expect(ui).toContain("Displays a button or a component");
@@ -289,27 +295,69 @@ describe("docgen generate plugin", () => {
     expect(ui).toContain("```tsx");
     expect(ui).toContain("<Button>Click</Button>");
 
-    const components = documents["docs/design-system/registry/components.mdx"]
-      ?.chunks?.[0]?.content;
+    const components =
+      documents["docs/design-system/registry/components.mdx"]?.chunks?.[0]
+        ?.content;
     expect(components).toContain("## Login Form");
     expect(components).toContain("### Registry Dependencies");
     expect(components).toContain("`components/login-form.tsx`");
 
-    const blocks = documents["docs/design-system/registry/blocks.mdx"]
-      ?.chunks?.[0]?.content;
+    const blocks =
+      documents["docs/design-system/registry/blocks.mdx"]?.chunks?.[0]?.content;
     expect(blocks).toContain("**Categories:** `marketing`");
     expect(blocks).toContain("Use above the fold.");
 
     // hooks have no dedicated page
     expect(documents["docs/design-system/registry/hooks.mdx"]).toBeUndefined();
 
-    const icons = documents["docs/design-system/icons.mdx"]?.chunks?.[0]
-      ?.content;
+    const icons =
+      documents["docs/design-system/icons.mdx"]?.chunks?.[0]?.content;
     expect(icons).toContain("# Icons");
     expect(icons).toContain("## Home");
     expect(icons).toContain("`navigation`");
     expect(icons).toContain("assets/icons/light/home.svg");
     expect(icons).toContain("### Preview");
+  });
+
+  it("renders catalog and workspace dependency versions", async () => {
+    const cwd = await mkdtemp(join(tmpdir(), "razorwind-docgen-"));
+
+    try {
+      await mkdir(join(cwd, "packages", "core"), { recursive: true });
+      await writeFile(
+        join(cwd, "pnpm-workspace.yaml"),
+        `packages:\n  - packages/*\ncatalog:\n  react-dom: ^19.2.0\ncatalogs:\n  tooling:\n    vitest: ~4.1.11\n`
+      );
+      await writeFile(
+        join(cwd, "packages", "core", "package.json"),
+        JSON.stringify({ name: "@acme/core", version: "1.2.3" })
+      );
+
+      const plugin = generate({ outputPath: "out" });
+      const documents = await plugin.generate!(
+        {
+          ...spec,
+          components: {
+            button: {
+              ...spec.components.button,
+              dependencies: {
+                "@acme/core": "workspace:*",
+                "react-dom": "catalog:"
+              },
+              registryDependencies: { vitest: "catalog:tooling" }
+            }
+          }
+        },
+        { cwd } as never
+      );
+      const content = documents["out/registry/ui.mdx"]?.chunks?.[0]?.content;
+
+      expect(content).toContain("`@acme/core@1.2.3`");
+      expect(content).toContain("`react-dom@^19.2.0`");
+      expect(content).toContain("`vitest@~4.1.11`");
+    } finally {
+      await rm(cwd, { force: true, recursive: true });
+    }
   });
 
   it("skips the registry page when requested", () => {

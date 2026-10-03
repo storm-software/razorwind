@@ -60,6 +60,19 @@ export const fontFileSchema = z.object({
 
 export type FontFile = z.infer<typeof fontFileSchema>;
 
+export const fontSourceFormatSchema = z.enum(["designspace", "ufo"]);
+
+export type FontSourceFormat = z.infer<typeof fontSourceFormatSchema>;
+
+export const fontSourceSchema = z.object({
+  path: z.string(),
+  format: fontSourceFormatSchema,
+  weight: z.union([z.number(), z.string()]).optional(),
+  style: z.enum(["normal", "italic", "oblique"]).optional()
+});
+
+export type FontSource = z.infer<typeof fontSourceSchema>;
+
 const fontBaseSchema = z.object({
   name: z.string(),
   title: z.string(),
@@ -85,10 +98,15 @@ export const googleFontSchema = fontBaseSchema.extend({
 
 export type GoogleFont = z.infer<typeof googleFontSchema>;
 
-export const localFontSchema = fontBaseSchema.extend({
-  source: z.literal("local"),
-  files: z.array(fontFileSchema).min(1)
-});
+export const localFontSchema = fontBaseSchema
+  .extend({
+    source: z.literal("local"),
+    files: z.array(fontFileSchema).min(1).optional(),
+    sources: z.array(fontSourceSchema).min(1).optional()
+  })
+  .refine(font => Boolean(font.files?.length || font.sources?.length), {
+    message: "Local fonts require at least one file or source."
+  });
 
 export type LocalFont = z.infer<typeof localFontSchema>;
 

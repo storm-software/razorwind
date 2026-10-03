@@ -20,13 +20,17 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, resolveSchemaIdentity } from "@razorwind/core/utils";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { renderComponentsDocument } from "./components";
 import { renderFontsDocument } from "./fonts";
 import { resolveResourceUrl, validHttpUrl } from "./format";
 import { renderIconsDocument } from "./icons";
 import { renderTokensDocument } from "./tokens";
-import type { LlmsDocumentSet, LlmsPluginOptions } from "./types";
+import type {
+  LlmsDocumentSet,
+  LlmsPluginOptions,
+  LlmsRenderOptions
+} from "./types";
 
 export { renderComponentsDocument } from "./components";
 export { renderFontsDocument } from "./fonts";
@@ -116,24 +120,31 @@ export function renderLlmsIndex(
 /** Render the complete llms.txt document set from a Razorwind schema. */
 export function renderLlmsDocuments(
   spec: Schema,
-  options: LlmsPluginOptions = {}
+  options: LlmsPluginOptions & LlmsRenderOptions = {}
 ): LlmsDocumentSet {
   return {
     index: renderLlmsIndex(spec, options),
     tokens: renderTokensDocument(spec),
-    components: renderComponentsDocument(spec),
-    icons: renderIconsDocument(spec),
-    fonts: renderFontsDocument(spec)
+    components: renderComponentsDocument(spec, options),
+    icons: renderIconsDocument(spec, options),
+    fonts: renderFontsDocument(spec, options)
   };
 }
 
-/** Generate the five llms.txt files as Power Plant documents. */
+/**
+ * Generate the five llms.txt files as Power Plant documents. Absolute schema
+ * file paths are rendered relative to the output directory under `cwd`.
+ */
 export function generateLlms(
   spec: Schema,
-  options: LlmsPluginOptions = {}
+  options: LlmsPluginOptions = {},
+  cwd = process.cwd()
 ): GeneratorFunctionResult<Schema, LlmsPluginOptions> {
-  const rendered = renderLlmsDocuments(spec, options);
   const outputPath = options.outputPath?.trim();
+  const rendered = renderLlmsDocuments(spec, {
+    ...options,
+    rootDir: resolve(cwd, outputPath ?? "")
+  });
   const documents: GeneratorFunctionResult<Schema, LlmsPluginOptions> = {};
 
   for (const [key, file] of FILES) {
@@ -153,5 +164,6 @@ export function generateLlms(
 /** Generate AI-ready llms.txt documentation from a Razorwind schema. */
 export default definePlugin((options?: LlmsPluginOptions) => ({
   name: "llms:generate",
-  generate: async spec => generateLlms(spec, options ?? {})
+  generate: async (spec, config) =>
+    generateLlms(spec, options ?? {}, config.cwd)
 }));

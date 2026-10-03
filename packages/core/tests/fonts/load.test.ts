@@ -101,4 +101,75 @@ describe("loadFonts", () => {
     expect(inter.files).toHaveLength(2);
     expect(inter.files.map(file => file.weight).toSorted()).toEqual([400, 700]);
   });
+
+  it("loads a designspace from its UFO source metadata", async () => {
+    const root = await createFixture();
+    const fontsDir = join(root, "fonts");
+    const regularUfo = join(fontsDir, "Acme-Regular.ufo");
+    const italicUfo = join(fontsDir, "Acme-Italic.ufo");
+    await mkdir(regularUfo, { recursive: true });
+    await mkdir(italicUfo, { recursive: true });
+    await writeFile(
+      join(fontsDir, "Acme.designspace"),
+      `<designspace format="5.0"><sources><source filename="Acme-Regular.ufo"/><source filename="Acme-Italic.ufo"/></sources></designspace>`,
+      "utf8"
+    );
+    await writeFile(
+      join(regularUfo, "fontinfo.plist"),
+      `<?xml version="1.0"?><plist version="1.0"><dict><key>familyName</key><string>Acme Sans</string><key>styleName</key><string>Regular</string><key>openTypeOS2WeightClass</key><integer>400</integer></dict></plist>`,
+      "utf8"
+    );
+    await writeFile(
+      join(italicUfo, "fontinfo.plist"),
+      `<?xml version="1.0"?><plist version="1.0"><dict><key>familyName</key><string>Acme Sans</string><key>styleName</key><string>Italic</string><key>openTypeOS2WeightClass</key><integer>400</integer></dict></plist>`,
+      "utf8"
+    );
+
+    const fonts = await loadFonts(contextFor(root, "fonts"));
+
+    expect(fonts["acme-sans"]).toMatchObject({
+      source: "local",
+      family: "Acme Sans",
+      sources: expect.arrayContaining([
+        {
+          path: regularUfo,
+          format: "ufo",
+          weight: 400,
+          style: "normal"
+        },
+        {
+          path: italicUfo,
+          format: "ufo",
+          weight: 400,
+          style: "italic"
+        }
+      ])
+    });
+  });
+
+  it("loads a standalone UFO from fontinfo.plist", async () => {
+    const root = await createFixture();
+    const ufo = join(root, "fonts", "Display.ufo");
+    await mkdir(ufo, { recursive: true });
+    await writeFile(
+      join(ufo, "fontinfo.plist"),
+      `<?xml version="1.0"?><plist version="1.0"><dict><key>familyName</key><string>Display Serif</string><key>styleName</key><string>Bold</string><key>openTypeOS2WeightClass</key><integer>700</integer></dict></plist>`,
+      "utf8"
+    );
+
+    const fonts = await loadFonts(contextFor(root, "fonts"));
+
+    expect(fonts["display-serif"]).toMatchObject({
+      source: "local",
+      family: "Display Serif",
+      sources: [
+        {
+          path: ufo,
+          format: "ufo",
+          weight: 700,
+          style: "normal"
+        }
+      ]
+    });
+  });
 });

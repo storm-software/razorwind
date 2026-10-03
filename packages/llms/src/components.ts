@@ -22,7 +22,8 @@ import type {
   Schema
 } from "@razorwind/core/schema";
 import { resolveSchemaIdentity } from "@razorwind/core/utils";
-import { codeFence, escapeTableCell } from "./format";
+import { codeFence, escapeTableCell, relativePath } from "./format";
+import type { LlmsRenderOptions } from "./types";
 
 function renderDependencies(
   heading: string,
@@ -42,14 +43,17 @@ function renderDependencies(
   ].join("\n\n");
 }
 
-function renderFiles(files: Component["files"]): string | undefined {
+function renderFiles(
+  files: Component["files"],
+  rootDir?: string
+): string | undefined {
   if (!files || files.length === 0) {
     return undefined;
   }
 
   const rows = files.toSorted((a, b) => a.path.localeCompare(b.path)).map(
     file =>
-      `| \`${escapeTableCell(file.path)}\` | ${
+      `| \`${escapeTableCell(relativePath(file.path, rootDir))}\` | ${
         file.type ? `\`${escapeTableCell(file.type)}\`` : ""
       } | ${file.target ? `\`${escapeTableCell(file.target)}\`` : ""} |`
   );
@@ -62,10 +66,11 @@ function renderFiles(files: Component["files"]): string | undefined {
   ].join("\n");
 }
 
-function renderUsage(usage: ComponentUsage): string {
-  const title = usage.title ?? usage.name ?? usage.path;
+function renderUsage(usage: ComponentUsage, rootDir?: string): string {
+  const path = relativePath(usage.path, rootDir);
+  const title = usage.title ?? usage.name ?? path;
   const metadata = [
-    `- **Path:** \`${usage.path}\``,
+    `- **Path:** \`${path}\``,
     ...(usage.language ? [`- **Language:** \`${usage.language}\``] : [])
   ];
   const sections = [
@@ -86,7 +91,7 @@ function inlineValues(values: string[] | undefined): string | undefined {
     : undefined;
 }
 
-function renderComponent(component: Component): string {
+function renderComponent(component: Component, rootDir?: string): string {
   const tags = inlineValues(component.tags);
   const related = inlineValues(component.related);
   const metadata = [
@@ -105,12 +110,12 @@ function renderComponent(component: Component): string {
     renderDependencies("Development Dependencies", component.devDependencies),
     renderDependencies("Registry Dependencies", component.registryDependencies)
   ].filter((value): value is string => value !== undefined);
-  const files = renderFiles(component.files);
+  const files = renderFiles(component.files, rootDir);
   const usage = component.usage
     ?.toSorted((a, b) =>
       (a.name ?? a.path).localeCompare(b.name ?? b.path)
     )
-    .map(renderUsage);
+    .map(item => renderUsage(item, rootDir));
   const sections = [
     `## ${component.title}`,
     ...(component.description ? [component.description] : []),
@@ -124,7 +129,10 @@ function renderComponent(component: Component): string {
 }
 
 /** Render the llms.txt component companion document. */
-export function renderComponentsDocument(spec: Schema): string {
+export function renderComponentsDocument(
+  spec: Schema,
+  options: LlmsRenderOptions = {}
+): string {
   const title = resolveSchemaIdentity(spec).title ?? "Design System";
   const components = Object.values(spec.components).toSorted((a, b) =>
     a.name.localeCompare(b.name)
@@ -137,7 +145,11 @@ export function renderComponentsDocument(spec: Schema): string {
   if (components.length === 0) {
     sections.push("No documented components were found.");
   } else {
-    sections.push(...components.map(renderComponent));
+    sections.push(
+      ...components.map(component =>
+        renderComponent(component, options.rootDir)
+      )
+    );
   }
 
   return `${sections.join("\n\n")}\n`;

@@ -32,6 +32,8 @@ export {
   fontFileSchema,
   fontRoleSchema,
   fontSchema,
+  fontSourceFormatSchema,
+  fontSourceSchema,
   fontsSchema,
   googleFontSchema,
   localFontSchema,
@@ -40,6 +42,8 @@ export {
   type FontFile,
   type FontFileFormat,
   type FontRole,
+  type FontSource,
+  type FontSourceFormat,
   type Fonts,
   type GoogleFont,
   type LocalFont

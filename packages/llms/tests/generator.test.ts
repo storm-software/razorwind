@@ -235,6 +235,52 @@ describe("llms plugin", () => {
       "public/llms-fonts.txt"
     ]);
   });
+
+  it("renders absolute schema file paths relative to the output directory", () => {
+    const root = "/workspace/acme";
+    const spec = {
+      ...emptySpec,
+      components: {
+        button: {
+          name: "button",
+          title: "Button",
+          type: "registry:ui",
+          files: [{ path: `${root}/src/button.tsx`, type: "ui" }],
+          usage: [{ path: `${root}/usage/basic.tsx` }]
+        }
+      },
+      icons: {
+        home: {
+          name: "home",
+          title: "Home",
+          files: [{ path: `${root}/icons/home.svg`, type: "svg" }]
+        }
+      },
+      fonts: {
+        "acme-mono": {
+          name: "acme-mono",
+          title: "Acme Mono",
+          source: "local",
+          files: [{ path: `${root}/fonts/acme-mono.woff2` }]
+        }
+      }
+    } as unknown as Schema;
+
+    const documents = generateLlms(spec, { outputPath: "public" }, root);
+    const output = Object.values(documents)
+      .flatMap(
+        document => document.chunks?.map(chunk => chunk.content) ?? []
+      )
+      .join("\n");
+    const rendered = renderLlmsDocuments(spec, { rootDir: `${root}/public` });
+
+    expect(output).not.toContain(root);
+    expect(rendered.components).toContain("`../src/button.tsx`");
+    expect(rendered.components).toContain("- **Path:** `../usage/basic.tsx`");
+    expect(rendered.icons).toContain("`../icons/home.svg`");
+    expect(rendered.fonts).toContain("`../fonts/acme-mono.woff2`");
+    expect(renderIconsDocument(spec)).toContain(`\`${root}/icons/home.svg\``);
+  });
 });
 
 describe("renderLlmsIndex", () => {

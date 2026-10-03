@@ -16,6 +16,20 @@
 
  ------------------------------------------------------------------- */
 
+import { isAbsolute, relative, sep } from "node:path";
+
+/**
+ * Express an absolute file path relative to `rootDir` using POSIX separators.
+ * Relative paths, URLs, and calls without a `rootDir` are returned unchanged.
+ */
+export function relativePath(path: string, rootDir?: string): string {
+  if (!rootDir || !isAbsolute(path)) {
+    return path;
+  }
+
+  return relative(rootDir, path).split(sep).join("/") || ".";
+}
+
 /** Escape content for a GitHub-flavored Markdown table cell. */
 export function escapeTableCell(value: unknown): string {
   return String(value ?? "")

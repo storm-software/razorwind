@@ -30,6 +30,15 @@ export interface LlmsPluginOptions {
   baseUrl?: string;
 }
 
+/** Options shared by the companion document renderers. */
+export interface LlmsRenderOptions {
+  /**
+   * Absolute directory the documents are written to. Absolute schema file
+   * paths are rendered relative to it.
+   */
+  rootDir?: string;
+}
+
 /** The five rendered llms.txt documents before generator wrapping. */
 export interface LlmsDocumentSet {
   index: string;

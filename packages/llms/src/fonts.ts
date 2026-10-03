@@ -18,7 +18,8 @@
 
 import type { Font, LocalFont, Schema } from "@razorwind/core/schema";
 import { resolveSchemaIdentity } from "@razorwind/core/utils";
-import { escapeTableCell } from "./format";
+import { escapeTableCell, relativePath } from "./format";
+import type { LlmsRenderOptions } from "./types";
 
 function inlineValues(
   values: readonly (string | number)[] | undefined
@@ -32,12 +33,12 @@ function inlineValues(
     : undefined;
 }
 
-function renderLocalFiles(font: LocalFont): string {
+function renderLocalFiles(font: LocalFont, rootDir?: string): string {
   const rows = font.files
     .toSorted((a, b) => a.path.localeCompare(b.path))
     .map(
       file =>
-        `| \`${escapeTableCell(file.path)}\` | ${
+        `| \`${escapeTableCell(relativePath(file.path, rootDir))}\` | ${
           file.format ? `\`${escapeTableCell(file.format)}\`` : ""
         } | ${file.weight !== undefined ? `\`${file.weight}\`` : ""} | ${
           file.style ? `\`${escapeTableCell(file.style)}\`` : ""
@@ -54,7 +55,7 @@ function renderLocalFiles(font: LocalFont): string {
   ].join("\n");
 }
 
-function renderFont(font: Font): string {
+function renderFont(font: Font, rootDir?: string): string {
   const fallbacks = inlineValues(font.fallbacks);
   const tags = inlineValues(font.tags);
   const metadata = [
@@ -86,12 +87,15 @@ function renderFont(font: Font): string {
     `## ${font.title}`,
     ...(font.description ? [font.description] : []),
     metadata.join("\n"),
-    ...(font.source === "local" ? [renderLocalFiles(font)] : [])
+    ...(font.source === "local" ? [renderLocalFiles(font, rootDir)] : [])
   ].join("\n\n");
 }
 
 /** Render the llms.txt font companion document. */
-export function renderFontsDocument(spec: Schema): string {
+export function renderFontsDocument(
+  spec: Schema,
+  options: LlmsRenderOptions = {}
+): string {
   const title = resolveSchemaIdentity(spec).title ?? "Design System";
   const fonts = Object.values(spec.fonts).toSorted((a, b) =>
     a.name.localeCompare(b.name)
@@ -104,7 +108,7 @@ export function renderFontsDocument(spec: Schema): string {
   if (fonts.length === 0) {
     sections.push("No documented fonts were found.");
   } else {
-    sections.push(...fonts.map(renderFont));
+    sections.push(...fonts.map(font => renderFont(font, options.rootDir)));
   }
 
   return `${sections.join("\n\n")}\n`;

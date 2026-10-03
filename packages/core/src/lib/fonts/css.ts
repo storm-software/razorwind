@@ -153,7 +153,7 @@ function renderLocalFontFace(font: LocalFont, urlPrefix: string): string {
   const family = fontFamilyName(font);
   const display = font.display ?? "swap";
 
-  return font.files
+  return (font.files ?? [])
     .map(file => {
       const lines = [
         "@font-face {",

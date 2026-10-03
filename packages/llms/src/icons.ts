@@ -18,7 +18,8 @@
 
 import type { Icon, Schema } from "@razorwind/core/schema";
 import { resolveSchemaIdentity } from "@razorwind/core/utils";
-import { escapeTableCell } from "./format";
+import { escapeTableCell, relativePath } from "./format";
+import type { LlmsRenderOptions } from "./types";
 
 function inlineValues(values: string[] | undefined): string | undefined {
   return values?.length
@@ -26,7 +27,10 @@ function inlineValues(values: string[] | undefined): string | undefined {
     : undefined;
 }
 
-function renderFiles(files: Icon["files"]): string | undefined {
+function renderFiles(
+  files: Icon["files"],
+  rootDir?: string
+): string | undefined {
   if (!files || files.length === 0) {
     return undefined;
   }
@@ -39,7 +43,7 @@ function renderFiles(files: Icon["files"]): string | undefined {
     )
     .map(
       file =>
-        `| \`${escapeTableCell(file.path)}\` | ${
+        `| \`${escapeTableCell(relativePath(file.path, rootDir))}\` | ${
           file.type ? `\`${escapeTableCell(file.type)}\`` : ""
         } | ${file.theme ? `\`${escapeTableCell(file.theme)}\`` : ""} | ${
           file.target ? `\`${escapeTableCell(file.target)}\`` : ""
@@ -54,7 +58,7 @@ function renderFiles(files: Icon["files"]): string | undefined {
   ].join("\n");
 }
 
-function renderIcon(icon: Icon): string {
+function renderIcon(icon: Icon, rootDir?: string): string {
   const tags = inlineValues(icon.tags);
   const aliases = inlineValues(icon.aliases);
   const related = inlineValues(icon.related);
@@ -67,7 +71,7 @@ function renderIcon(icon: Icon): string {
     ...(icon.since ? [`- **Since:** \`${icon.since}\``] : []),
     ...(icon.version ? [`- **Version:** \`${icon.version}\``] : [])
   ];
-  const files = renderFiles(icon.files);
+  const files = renderFiles(icon.files, rootDir);
 
   return [
     `## ${icon.title}`,
@@ -78,7 +82,10 @@ function renderIcon(icon: Icon): string {
 }
 
 /** Render the llms.txt icon companion document. */
-export function renderIconsDocument(spec: Schema): string {
+export function renderIconsDocument(
+  spec: Schema,
+  options: LlmsRenderOptions = {}
+): string {
   const title = resolveSchemaIdentity(spec).title ?? "Design System";
   const icons = Object.values(spec.icons).toSorted((a, b) =>
     a.name.localeCompare(b.name)
@@ -91,7 +98,7 @@ export function renderIconsDocument(spec: Schema): string {
   if (icons.length === 0) {
     sections.push("No documented icons were found.");
   } else {
-    sections.push(...icons.map(renderIcon));
+    sections.push(...icons.map(icon => renderIcon(icon, options.rootDir)));
   }
 
   return `${sections.join("\n\n")}\n`;

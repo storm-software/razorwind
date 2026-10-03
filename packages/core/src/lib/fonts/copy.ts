@@ -43,7 +43,7 @@ export async function copyFontFiles(
 
     await mkdir(destDir, { recursive: true });
 
-    for (const file of font.files) {
+    for (const file of font.files ?? []) {
       if (!file.path || !existsSync(file.path)) {
         continue;
       }

@@ -28,7 +28,8 @@ import {
   titleCase
 } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path";
-import { join } from "node:path";
+import { existsSync, readdirSync, readFileSync, type Dirent } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
 import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
@@ -269,9 +270,252 @@ function readStringArray(item: Record<string, unknown>, key: string): string[] {
     : [];
 }
 
+type DependencyRecord = Record<string, string>;
+
+interface WorkspaceManifest {
+  packages?: string[];
+  catalog?: DependencyRecord;
+  catalogs?: Record<string, DependencyRecord>;
+}
+
+interface WorkspacePackage {
+  name?: string;
+  version?: string;
+}
+
+function yamlScalar(value: string): string {
+  return value.trim().replace(/^(["'])(.*)\1$/, "$2");
+}
+
+function parseWorkspaceManifest(content: string): WorkspaceManifest {
+  const manifest: WorkspaceManifest = {};
+  let section: "catalog" | "catalogs" | "packages" | undefined;
+  let catalogName: string | undefined;
+
+  for (const rawLine of content.split("\n")) {
+    const line = rawLine.replace(/\s+#.*$/, "");
+    const trimmed = line.trim();
+    const indent = line.length - line.trimStart().length;
+    if (!trimmed) {
+      continue;
+    }
+
+    if (indent === 0) {
+      section =
+        trimmed === "packages:"
+          ? "packages"
+          : trimmed === "catalog:"
+            ? "catalog"
+            : trimmed === "catalogs:"
+              ? "catalogs"
+              : undefined;
+      catalogName = undefined;
+      if (section === "packages") {
+        manifest.packages ??= [];
+      } else if (section === "catalog") {
+        manifest.catalog ??= {};
+      } else if (section === "catalogs") {
+        manifest.catalogs ??= {};
+      }
+      continue;
+    }
+
+    if (section === "packages") {
+      const packageMatch = /^-\s+(.+)$/.exec(trimmed);
+      if (packageMatch?.[1]) {
+        manifest.packages?.push(yamlScalar(packageMatch[1]));
+      }
+      continue;
+    }
+
+    const entryMatch = /^([^:]+):\s*(.*)$/.exec(trimmed);
+    if (!entryMatch?.[1]) {
+      continue;
+    }
+
+    const name = yamlScalar(entryMatch[1]);
+    const value = yamlScalar(entryMatch[2] ?? "");
+    if (section === "catalog" && value) {
+      manifest.catalog![name] = value;
+    } else if (section === "catalogs") {
+      if (indent === 2 && !value) {
+        catalogName = name;
+        manifest.catalogs![catalogName] ??= {};
+      } else if (indent >= 4 && catalogName && value) {
+        manifest.catalogs![catalogName]![name] = value;
+      }
+    }
+  }
+
+  return manifest;
+}
+
+function globToRegExp(pattern: string): RegExp {
+  let expression = "^";
+  const normalized = pattern.replaceAll("\\", "/");
+
+  for (let index = 0; index < normalized.length; index++) {
+    const character = normalized[index] ?? "";
+    if (character === "*") {
+      if (normalized[index + 1] === "*") {
+        expression += ".*";
+        index++;
+      } else {
+        expression += "[^/]*";
+      }
+    } else if (character === "?") {
+      expression += "[^/]";
+    } else {
+      expression += character.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
+    }
+  }
+
+  return new RegExp(`${expression}$`);
+}
+
+function findWorkspacePackages(
+  directory: string,
+  patterns: RegExp[],
+  workspaceRoot: string,
+  versions: Map<string, string>
+): void {
+  let entries: Dirent<string>[];
+  try {
+    entries = readdirSync(directory, { withFileTypes: true });
+  } catch {
+    return;
+  }
+
+  for (const entry of entries) {
+    if (entry.name === "node_modules" || entry.name === ".git") {
+      continue;
+    }
+
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      findWorkspacePackages(path, patterns, workspaceRoot, versions);
+      continue;
+    }
+
+    if (entry.name !== "package.json") {
+      continue;
+    }
+
+    const packageDirectory = relative(workspaceRoot, dirname(path)).replaceAll(
+      "\\",
+      "/"
+    );
+    if (!patterns.some(pattern => pattern.test(packageDirectory))) {
+      continue;
+    }
+
+    try {
+      const packageJson = JSON.parse(
+        readFileSync(path, "utf8")
+      ) as WorkspacePackage;
+      if (packageJson.name && packageJson.version) {
+        versions.set(packageJson.name, packageJson.version);
+      }
+    } catch {
+      // Ignore unreadable workspace manifests.
+    }
+  }
+}
+
+function resolveWorkspaceSpecifier(specifier: string, version: string): string {
+  const range = specifier.slice("workspace:".length);
+
+  if (range === "*") {
+    return version;
+  }
+
+  if (range === "^" || range === "~") {
+    return `${range}${version}`;
+  }
+
+  return range;
+}
+
+function findPnpmWorkspaceRoot(cwd: string): string | undefined {
+  let directory = resolve(cwd);
+
+  while (true) {
+    if (existsSync(join(directory, "pnpm-workspace.yaml"))) {
+      return directory;
+    }
+
+    const parent = dirname(directory);
+    if (parent === directory) {
+      return undefined;
+    }
+
+    directory = parent;
+  }
+}
+
+function createDependencyVersionResolver(cwd: string) {
+  const workspaceRoot = findPnpmWorkspaceRoot(cwd) ?? cwd;
+  const workspaceFile = join(workspaceRoot, "pnpm-workspace.yaml");
+  let manifest: WorkspaceManifest = {};
+
+  if (existsSync(workspaceFile)) {
+    try {
+      manifest = parseWorkspaceManifest(readFileSync(workspaceFile, "utf8"));
+    } catch {
+      // The resolver below reports a dependency-specific error when needed.
+    }
+  }
+
+  const workspaceVersions = new Map<string, string>();
+  const patterns = manifest.packages?.filter(
+    (pattern): pattern is string =>
+      typeof pattern === "string" && !pattern.startsWith("!")
+  );
+  if (patterns?.length) {
+    findWorkspacePackages(
+      workspaceRoot,
+      patterns.map(globToRegExp),
+      workspaceRoot,
+      workspaceVersions
+    );
+  }
+
+  return (name: string, specifier: string): string => {
+    if (specifier.startsWith("catalog:")) {
+      const catalogName = specifier.slice("catalog:".length);
+      const catalog = catalogName
+        ? manifest.catalogs?.[catalogName]
+        : manifest.catalog;
+      const version = catalog?.[name];
+
+      if (!version) {
+        throw new Error(
+          `Unable to resolve ${specifier} for ${name} from ${workspaceFile}.`
+        );
+      }
+
+      return version;
+    }
+
+    if (specifier.startsWith("workspace:")) {
+      const version = workspaceVersions.get(name);
+      if (!version) {
+        throw new Error(
+          `Unable to resolve ${specifier} for workspace package ${name}.`
+        );
+      }
+
+      return resolveWorkspaceSpecifier(specifier, version);
+    }
+
+    return specifier;
+  };
+}
+
 function readDependencyEntries(
   item: Record<string, unknown>,
-  key: string
+  key: string,
+  resolveVersion: (name: string, specifier: string) => string
 ): string[] {
   const value = item[key];
 
@@ -283,9 +527,14 @@ function readDependencyEntries(
     return [];
   }
 
-  return Object.entries(value).map(([name, version]) =>
-    typeof version === "string" && version !== "*" ? `${name}@${version}` : name
-  );
+  return Object.entries(value).map(([name, version]) => {
+    if (typeof version !== "string") {
+      return name;
+    }
+
+    const resolved = resolveVersion(name, version);
+    return resolved !== "*" ? `${name}@${resolved}` : name;
+  });
 }
 
 function readCategories(item: Record<string, unknown>): string[] {
@@ -424,16 +673,24 @@ function renderRegistryItemUsage(item: Record<string, unknown>): string {
   return blocks.join("\n\n");
 }
 
-function renderRegistryItem(item: Record<string, unknown>): string {
+function renderRegistryItem(
+  item: Record<string, unknown>,
+  resolveVersion: (name: string, specifier: string) => string
+): string {
   const name = readString(item, "name") ?? "unknown";
   const title = readString(item, "title") ?? titleCase(name);
   const description = readString(item, "description");
   const author = readString(item, "author");
   const categories = readCategories(item);
-  const dependencies = readDependencyEntries(item, "dependencies");
+  const dependencies = readDependencyEntries(
+    item,
+    "dependencies",
+    resolveVersion
+  );
   const registryDependencies = readDependencyEntries(
     item,
-    "registryDependencies"
+    "registryDependencies",
+    resolveVersion
   );
 
   const sections: string[] = [`## ${title}`];
@@ -909,7 +1166,11 @@ export function renderFontsMdx(
  */
 export function renderRegistryItemsMdx(
   page: RegistryItemPage,
-  systemTitle = "component registry"
+  systemTitle = "component registry",
+  resolveVersion: (name: string, specifier: string) => string = (
+    _name,
+    specifier
+  ) => specifier
 ): string {
   const sections: string[] = [
     frontmatter({
@@ -925,7 +1186,7 @@ export function renderRegistryItemsMdx(
   );
 
   for (const item of items) {
-    sections.push(renderRegistryItem(item));
+    sections.push(renderRegistryItem(item, resolveVersion));
   }
 
   return `${sections.join("\n\n")}\n`;
@@ -960,7 +1221,8 @@ const getCreateDocument =
  */
 export function generateDocs(
   spec: Schema,
-  options: DocgenGeneratePluginOptions = {}
+  options: DocgenGeneratePluginOptions = {},
+  cwd = process.cwd()
 ): GeneratorFunctionResult<Schema, DocgenGeneratePluginOptions> {
   const outputPath = options.outputPath ?? "docs/design-system";
   const identity = resolveSchemaIdentity(spec, { title: options.title });
@@ -975,6 +1237,7 @@ export function generateDocs(
   const itemPages = options.skipRegistry
     ? []
     : extractRegistryItems(spec.components);
+  const resolveVersion = createDependencyVersionResolver(cwd);
   const hasComponents = itemPages.length > 0;
   const icons = options.skipIcons ? [] : extractIcons(spec.icons);
   const fonts = options.skipFonts ? [] : extractFonts(spec.fonts);
@@ -1016,7 +1279,7 @@ export function generateDocs(
     const path = joinPaths("registry", `${page.slug}.mdx`);
     documents[joinPaths(outputPath, path)] = createDoc(
       path,
-      renderRegistryItemsMdx(page, systemTitle),
+      renderRegistryItemsMdx(page, systemTitle, resolveVersion),
       "mdx"
     );
   }
@@ -1085,7 +1348,7 @@ export function generateDocs(
  */
 export default definePlugin((options?: DocgenGeneratePluginOptions) => ({
   name: "docgen:generate",
-  generate: async spec => {
-    return generateDocs(spec, options ?? {});
+  generate: async (spec, config) => {
+    return generateDocs(spec, options ?? {}, config.cwd);
   }
 }));

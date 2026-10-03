@@ -31,13 +31,14 @@ import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { createDefu } from "defu";
-import { readdir } from "node:fs/promises";
-import { isAbsolute, resolve } from "node:path";
+import { readFile, readdir } from "node:fs/promises";
+import { dirname, isAbsolute, resolve } from "node:path";
 import type { Schema } from "../../schema";
 import type {
   Font,
   FontFile,
   FontFileFormat,
+  FontSource,
   Fonts,
   LocalFont
 } from "../../schema/fonts";
@@ -162,6 +163,112 @@ function slugifyFamily(family: string): string {
     .toLowerCase()
     .replaceAll(/[^a-z0-9]+/g, "-")
     .replaceAll(/^-+|-+$/g, "");
+}
+
+function decodeXml(value: string): string {
+  return value
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&apos;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+}
+
+function readPlistValue(content: string, key: string): string | undefined {
+  const escapedKey = key.replaceAll(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = new RegExp(
+    `<key>\\s*${escapedKey}\\s*</key>\\s*<(?:string|integer|real)>([\\s\\S]*?)</(?:string|integer|real)>`
+  ).exec(content);
+
+  return match?.[1] ? decodeXml(match[1].trim()) : undefined;
+}
+
+function sourceStyle(
+  styleName: string | undefined,
+  styleMapStyleName: string | undefined,
+  italicAngle: string | undefined
+): FontSource["style"] {
+  const style = `${styleName ?? ""} ${styleMapStyleName ?? ""}`.toLowerCase();
+  const angle = Number(italicAngle);
+  if (style.includes("oblique")) {
+    return "oblique";
+  }
+
+  if (style.includes("italic") || (Number.isFinite(angle) && angle !== 0)) {
+    return "italic";
+  }
+
+  return "normal";
+}
+
+interface UfoFontSource {
+  family: string;
+  source: FontSource;
+}
+
+async function readUfoFontSource(
+  directory: string
+): Promise<UfoFontSource | undefined> {
+  const fontInfoPath = joinPaths(directory, "fontinfo.plist");
+  if (!existsSync(fontInfoPath)) {
+    return undefined;
+  }
+
+  let content: string;
+  try {
+    content = await readFile(fontInfoPath, "utf8");
+  } catch {
+    return undefined;
+  }
+
+  const family =
+    readPlistValue(content, "familyName") ??
+    readPlistValue(content, "styleMapFamilyName");
+  if (!family) {
+    return undefined;
+  }
+
+  const weight = Number(readPlistValue(content, "openTypeOS2WeightClass"));
+
+  return {
+    family,
+    source: {
+      path: directory,
+      format: "ufo",
+      ...(Number.isFinite(weight) ? { weight } : {}),
+      style: sourceStyle(
+        readPlistValue(content, "styleName"),
+        readPlistValue(content, "styleMapStyleName"),
+        readPlistValue(content, "italicAngle")
+      )
+    }
+  };
+}
+
+function readDesignspaceSourcePaths(content: string): string[] {
+  return [...content.matchAll(/<source\b[^>]*\bfilename\s*=\s*(["'])(.*?)\1/gi)]
+    .map(match => decodeXml(match[2] ?? ""))
+    .filter(Boolean);
+}
+
+async function readDesignspaceSources(path: string): Promise<UfoFontSource[]> {
+  let content: string;
+  try {
+    content = await readFile(path, "utf8");
+  } catch {
+    return [];
+  }
+
+  const sources = await Promise.all(
+    readDesignspaceSourcePaths(content).map(async filename => {
+      const sourcePath = resolve(dirname(path), filename);
+      return sourcePath.endsWith(".ufo") && isDirectory(sourcePath)
+        ? readUfoFontSource(sourcePath)
+        : undefined;
+    })
+  );
+
+  return sources.filter((source): source is UfoFontSource => Boolean(source));
 }
 
 function parseFontFiles(value: unknown): FontFile[] | undefined {
@@ -416,7 +523,7 @@ function upsertLocalFontFile(
   const existing = fonts[key];
 
   if (existing?.source === "local") {
-    const files = [...existing.files];
+    const files = [...(existing.files ?? [])];
     const duplicate = files.findIndex(entry => entry.path === file.path);
     if (duplicate >= 0) {
       files[duplicate] = file;
@@ -440,12 +547,39 @@ function upsertLocalFontFile(
   } satisfies LocalFont;
 }
 
+function upsertLocalFontSource(fonts: Fonts, source: UfoFontSource): void {
+  const key = slugifyFamily(source.family) || "font";
+  const existing = fonts[key];
+
+  if (existing?.source === "local") {
+    const sources = [...(existing.sources ?? [])];
+    if (!sources.some(entry => entry.path === source.source.path)) {
+      sources.push(source.source);
+    }
+    fonts[key] = { ...existing, sources };
+    return;
+  }
+
+  if (existing) {
+    return;
+  }
+
+  fonts[key] = {
+    source: "local",
+    name: key,
+    title: titleCase(source.family),
+    family: source.family,
+    sources: [source.source]
+  } satisfies LocalFont;
+}
+
 /**
  * Load fonts from `fontsPath` directories.
  *
  * Supports:
  * 1. Per-font directories with `package.json` / `font.json` metadata
- * 2. Flat font files at the fonts path root, grouped by family prefix
+ * 2. UFO and designspace font sources, using each UFO's `fontinfo.plist`
+ * 3. Flat font files at the fonts path root, grouped by family prefix
  */
 export async function loadFonts(
   context: ExecutionContext<Schema, Config, void>
@@ -455,7 +589,24 @@ export async function loadFonts(
 
   for (const fontsPath of paths) {
     const absolute = toAbsolute(context.cwd, fontsPath);
-    if (!existsSync(absolute) || !isDirectory(absolute)) {
+    if (!existsSync(absolute)) {
+      continue;
+    }
+
+    if (!isDirectory(absolute)) {
+      if (absolute.endsWith(".designspace")) {
+        for (const source of await readDesignspaceSources(absolute)) {
+          upsertLocalFontSource(fonts, source);
+        }
+      }
+      continue;
+    }
+
+    if (absolute.endsWith(".ufo")) {
+      const source = await readUfoFontSource(absolute);
+      if (source) {
+        upsertLocalFontSource(fonts, source);
+      }
       continue;
     }
 
@@ -470,12 +621,27 @@ export async function loadFonts(
         const entryPath = joinPaths(absolute, entry.name);
 
         if (entry.isDirectory()) {
+          if (entry.name.endsWith(".ufo")) {
+            const source = await readUfoFontSource(entryPath);
+            if (source) {
+              upsertLocalFontSource(fonts, source);
+            }
+            continue;
+          }
+
           const font = await loadFontFromDirectory(entryPath);
           if (font) {
             const existing = fonts[font.name];
             fonts[font.name] = existing
               ? (defuOverlay(font, existing) as Font)
               : font;
+          }
+          continue;
+        }
+
+        if (entry.isFile() && entry.name.endsWith(".designspace")) {
+          for (const source of await readDesignspaceSources(entryPath)) {
+            upsertLocalFontSource(fonts, source);
           }
           continue;
         }
