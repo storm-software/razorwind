@@ -392,6 +392,13 @@ describe("storybook plugin", () => {
     expect(block).toContain(
       "DEFAULT_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72]"
     );
+    expect(block).toContain("weights: [400, 700]");
+    expect(block).toContain("(weights ?? entry.weights).map");
+    expect(block).toContain("fontWeight: weight");
+    expect(block).toContain('700: "Bold"');
+
+    expect(page).toContain("### Weights");
+    expect(page).toContain(">700 · Bold</span>");
 
     const overview = documents["out/Tokens.mdx"]?.chunks?.[0]?.content;
     expect(overview).toContain("## Fonts");

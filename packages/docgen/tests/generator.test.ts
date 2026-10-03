@@ -22,7 +22,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import extract from "../src/extract";
-import generate, { generateDocs } from "../src/generate";
+import generate, { generateDocs, resolveFontWeights } from "../src/generate";
 import { flattenTokens } from "../src/lib/flatten";
 import {
   escapeTableCell,
@@ -463,12 +463,60 @@ describe("docgen generate plugin", () => {
     expect(inter).toContain('fontSize: "12px"');
     expect(inter).toContain('fontSize: "72px"');
     expect(inter).toContain("The quick brown fox jumps over the lazy dog");
+    expect(inter).toContain("### Weights");
+    expect(inter).toContain("fontWeight: 400,");
+    expect(inter).toContain("fontWeight: 700,");
+    expect(inter).not.toContain("fontWeight: 500,");
+    expect(inter).toContain(">400 · Regular</span>");
+    expect(inter).toContain(">700 · Bold</span>");
+    expect(inter?.indexOf("### Specimen")).toBeLessThan(
+      inter?.indexOf("### Weights") ?? -1
+    );
 
     const jakarta = documents["out/fonts/jakarta.mdx"]?.chunks?.[0]?.content;
     expect(jakarta).toContain("# Plus Jakarta Sans");
     expect(jakarta).toContain("### Specimen");
+    expect(jakarta).toContain("### Weights");
+    expect(jakarta).toContain(">400 · Regular</span>");
     expect(jakarta).toContain("### Files");
     expect(jakarta).toContain("assets/fonts/PlusJakartaSans-Regular.woff2");
+  });
+
+  it("resolves the font weights previewed in the weight specimen", () => {
+    expect(
+      resolveFontWeights({ source: "google", weights: [700, "400", 400] })
+    ).toEqual([400, 700]);
+    expect(
+      resolveFontWeights({
+        source: "google",
+        weights: ["300", "800"],
+        variable: true
+      })
+    ).toEqual([300, 400, 500, 600, 700, 800]);
+    expect(resolveFontWeights({ source: "google", variable: true })).toEqual([
+      100, 200, 300, 400, 500, 600, 700, 800, 900
+    ]);
+    expect(
+      resolveFontWeights({
+        source: "local",
+        files: [
+          { path: "a.woff2", weight: "bold" },
+          { path: "b.woff2", weight: 300 },
+          { path: "c.woff2", weight: "normal" }
+        ],
+        sources: [{ path: "d.designspace", format: "designspace", weight: 900 }]
+      })
+    ).toEqual([300, 400, 700, 900]);
+    expect(
+      resolveFontWeights({
+        source: "local",
+        files: [{ path: "variable.woff2", weight: "250 750" }]
+      })
+    ).toEqual([250, 300, 400, 500, 600, 700, 750]);
+    expect(
+      resolveFontWeights({ source: "local", files: [{ path: "a.woff2" }] })
+    ).toEqual([400]);
+    expect(resolveFontWeights({ source: "google" })).toEqual([400]);
   });
 
   it("closes specimen expressions before rendering the font files table", () => {

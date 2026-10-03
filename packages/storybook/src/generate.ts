@@ -39,10 +39,13 @@ import {
   FONT_CHARACTER_SET,
   FONT_SPECIMEN_SIZES,
   FONT_SPECIMEN_TEXT,
+  FONT_WEIGHT_NAMES,
+  FONT_WEIGHT_SPECIMEN_SIZE,
   fontSlug,
   fontSlugs,
   renderFontBody,
-  resolveFontStack
+  resolveFontStack,
+  resolveFontWeights
 } from "@razorwind/docgen/generate";
 import { joinPaths } from "@stryke/path/join";
 import type { PartialKeys } from "@stryke/types/base";
@@ -60,7 +63,8 @@ export {
   extractFonts,
   fontSlug,
   fontSlugs,
-  resolveFontStack
+  resolveFontStack,
+  resolveFontWeights
 } from "@razorwind/docgen/generate";
 
 const DEFAULT_SAMPLE_TEXT = FONT_SPECIMEN_TEXT;
@@ -755,7 +759,7 @@ import { IconGalleryBlock } from "./blocks/IconGallery";
 
 /**
  * Build a React FontSpecimen doc block previewing each font at a range of
- * sizes.
+ * sizes and at each of its font weights.
  */
 export function renderFontSpecimenBlock(
   fonts: Record<string, unknown>[],
@@ -769,11 +773,15 @@ export function renderFontSpecimenBlock(
 
       return `  ${toLiteral(name)}: {
     family: ${toLiteral(family)},
-    title: ${toLiteral(readString(font, "title") ?? name)}
+    title: ${toLiteral(readString(font, "title") ?? name)},
+    weights: [${resolveFontWeights(font).join(", ")}]
   }`;
     })
     .join(",\n");
   const sizesLiteral = `[${FONT_SPECIMEN_SIZES.join(", ")}]`;
+  const weightNames = Object.entries(FONT_WEIGHT_NAMES)
+    .map(([weight, weightName]) => `  ${weight}: ${toLiteral(weightName)}`)
+    .join(",\n");
 
   return `import type { CSSProperties, ReactElement } from "react";
 
@@ -784,23 +792,40 @@ export interface FontSpecimenBlockProps {
   sampleText?: string;
   /** Override the previewed sizes. */
   sizes?: number[];
+  /** Override the previewed font weights. Defaults to the weights the font provides. */
+  weights?: number[];
 }
 
-const FONT_FAMILIES: Record<string, { family: string; title: string }> = {
+const FONT_FAMILIES: Record<
+  string,
+  { family: string; title: string; weights: number[] }
+> = {
 ${entries || "  // No fonts"}
+};
+
+const WEIGHT_NAMES: Record<number, string> = {
+${weightNames}
 };
 
 const DEFAULT_FONT = ${toLiteral(fonts[0] ? (readString(fonts[0], "name") ?? "unknown") : "unknown")};
 const DEFAULT_SIZES = ${sizesLiteral};
 const DEFAULT_SAMPLE_TEXT = ${toLiteral(sampleText)};
+const WEIGHT_SAMPLE_SIZE = ${FONT_WEIGHT_SPECIMEN_SIZE};
 
 const labelStyle: CSSProperties = {
   display: "block",
   fontSize: "12px",
+  fontWeight: 400,
   lineHeight: 1.4,
   fontFamily: "system-ui, sans-serif",
   color: "rgba(128, 128, 128, 0.9)"
 };
+
+function weightLabel(weight: number): string {
+  const weightName = WEIGHT_NAMES[weight];
+
+  return weightName ? \`\${weight} · \${weightName}\` : String(weight);
+}
 
 /**
  * Font specimen previews for Storybook MDX docs.
@@ -808,7 +833,8 @@ const labelStyle: CSSProperties = {
 export function FontSpecimenBlock({
   name,
   sampleText = DEFAULT_SAMPLE_TEXT,
-  sizes = DEFAULT_SIZES
+  sizes = DEFAULT_SIZES,
+  weights
 }: FontSpecimenBlockProps = {}): ReactElement {
   const entry = (name && FONT_FAMILIES[name]) || FONT_FAMILIES[DEFAULT_FONT];
 
@@ -837,6 +863,20 @@ export function FontSpecimenBlock({
             margin: "0 0 0.4em"
           }}>
           <span style={labelStyle}>{size}px</span>
+          {sampleText}
+        </div>
+      ))}
+      {(weights ?? entry.weights).map(weight => (
+        <div
+          key={\`weight-\${weight}\`}
+          style={{
+            fontFamily: entry.family,
+            fontSize: \`\${WEIGHT_SAMPLE_SIZE}px\`,
+            fontWeight: weight,
+            lineHeight: 1.45,
+            margin: "0 0 0.4em"
+          }}>
+          <span style={labelStyle}>{weightLabel(weight)}</span>
           {sampleText}
         </div>
       ))}

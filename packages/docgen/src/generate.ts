@@ -899,6 +899,35 @@ export const FONT_CHARACTER_SET =
 /** Font sizes (in px) rendered in font specimen previews. */
 export const FONT_SPECIMEN_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72];
 
+/** Standard CSS font weights rendered for variable fonts and weight ranges. */
+export const FONT_SPECIMEN_WEIGHTS = [
+  100, 200, 300, 400, 500, 600, 700, 800, 900
+];
+
+/** Font size (in px) used for each row of the font weight specimen. */
+export const FONT_WEIGHT_SPECIMEN_SIZE = 64;
+
+/** Common names of the standard CSS font weights. */
+export const FONT_WEIGHT_NAMES: Record<number, string> = {
+  100: "Thin",
+  200: "Extra Light",
+  300: "Light",
+  400: "Regular",
+  500: "Medium",
+  600: "Semi Bold",
+  700: "Bold",
+  800: "Extra Bold",
+  900: "Black"
+};
+
+const FONT_WEIGHT_KEYWORDS: Record<string, number> = {
+  normal: 400,
+  bold: 700
+};
+
+const FONT_SPECIMEN_LABEL_STYLE =
+  '{ display: "block", fontSize: "12px", fontWeight: 400, lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }';
+
 const GENERIC_FALLBACK_FROM_ROLE: Record<string, string> = {
   sans: "sans-serif",
   serif: "serif",
@@ -957,8 +986,93 @@ export function fontSlug(item: Record<string, unknown>): string {
   return toSlug(name) || "font";
 }
 
+function isFontWeight(value: number): boolean {
+  return Number.isFinite(value) && value >= 1 && value <= 1000;
+}
+
 /**
- * Render a specimen section previewing a font at a range of sizes.
+ * Expand a weight range to its bounds plus every standard weight between them.
+ */
+function expandFontWeightRange(min: number, max: number): number[] {
+  if (min === max) {
+    return [min];
+  }
+
+  return [
+    min,
+    ...FONT_SPECIMEN_WEIGHTS.filter(weight => weight > min && weight < max),
+    max
+  ];
+}
+
+/**
+ * Parse a declared font weight — a number, a numeric string, a `normal` /
+ * `bold` keyword, or a variable range such as `100 900` (CSS) or `100..900`
+ * (Google Fonts).
+ */
+function parseFontWeight(value: unknown): number[] {
+  if (typeof value !== "number" && typeof value !== "string") {
+    return [];
+  }
+
+  const raw = String(value).trim().toLowerCase();
+  const keyword = FONT_WEIGHT_KEYWORDS[raw];
+  if (keyword !== undefined) {
+    return [keyword];
+  }
+
+  const bounds = raw.split(/\s*\.\.\s*|\s+/).map(Number);
+  if (bounds.length > 2 || !bounds.every(isFontWeight)) {
+    return [];
+  }
+
+  const min = Math.min(...bounds);
+  const max = Math.max(...bounds);
+
+  return expandFontWeightRange(min, max);
+}
+
+/**
+ * Resolve the font weights previewed in the weight specimen.
+ *
+ * Weights are read from Google `weights` and from local `files` / `sources`.
+ * Variable fonts preview every standard weight across their declared range
+ * (`100`–`900` when none is declared), and fonts that declare no weights fall
+ * back to the regular (`400`) weight.
+ */
+export function resolveFontWeights(item: Record<string, unknown>): number[] {
+  const declared = [
+    ...(Array.isArray(item.weights) ? item.weights : []),
+    ...[item.files, item.sources].flatMap(entries =>
+      Array.isArray(entries)
+        ? entries.filter(isObject).map(entry => entry.weight)
+        : []
+    )
+  ].flatMap(parseFontWeight);
+
+  if (item.variable === true) {
+    return declared.length > 0
+      ? expandFontWeightRange(Math.min(...declared), Math.max(...declared))
+      : [...FONT_SPECIMEN_WEIGHTS];
+  }
+
+  const weights = [...new Set(declared)].toSorted((a, b) => a - b);
+
+  return weights.length > 0 ? weights : [400];
+}
+
+/**
+ * Label a font weight with its common name, e.g. `700 · Bold`.
+ */
+export function fontWeightLabel(weight: number): string {
+  const name = FONT_WEIGHT_NAMES[weight];
+
+  return name ? `${weight} · ${name}` : String(weight);
+}
+
+/**
+ * Render a specimen section previewing a font at a range of sizes and at each
+ * of its font weights.
  */
 export function renderFontSpecimen(
   item: Record<string, unknown>,
@@ -968,12 +1082,21 @@ export function renderFontSpecimen(
   const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "64px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}}</div>`;
   const rows = FONT_SPECIMEN_SIZES.map(
     size =>
-      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={{ display: "block", fontSize: "12px", lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }}>${size}px</span>{${JSON.stringify(sampleText)}}</div>`
+      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={${FONT_SPECIMEN_LABEL_STYLE}}>${size}px</span>{${JSON.stringify(sampleText)}}</div>`
+  );
+  const weightRows = resolveFontWeights(item).map(
+    weight =>
+      `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${FONT_WEIGHT_SPECIMEN_SIZE}px", fontWeight: ${weight}, lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={${FONT_SPECIMEN_LABEL_STYLE}}>${fontWeightLabel(weight)}</span>{${JSON.stringify(sampleText)}}</div>`
   );
 
-  return ["### Character Set", characterSet, "### Specimen", ...rows].join(
-    "\n\n"
-  );
+  return [
+    "### Character Set",
+    characterSet,
+    "### Specimen",
+    ...rows,
+    "### Weights",
+    ...weightRows
+  ].join("\n\n");
 }
 
 function renderFontFiles(
@@ -1134,7 +1257,7 @@ function renderFont(item: Record<string, unknown>): string {
 
 /**
  * Render a dedicated MDX documentation page for a single font, including a
- * specimen that previews the face at a range of sizes.
+ * specimen that previews the face at a range of sizes and weights.
  */
 export function renderFontMdx(
   font: Record<string, unknown>,

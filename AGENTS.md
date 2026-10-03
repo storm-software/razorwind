@@ -31,7 +31,7 @@ When adding or updating a Razorwind plugin package, make sure the [Preset packag
 <!-- nx configuration end-->
 <!-- nx configuration end-->
 <!-- storm configuration start-->
-## External packages — DO NOT PATCH
+ ## External packages — DO NOT PATCH
 
 The following Storm Software ecosystems are maintained in **separate repositories**. Do **not** modify their package code, vendored scaffolding, or `node_modules` contents in this repo — including via `patch-package`, manual edits under `node_modules`, or direct changes to generated integration layers.
 

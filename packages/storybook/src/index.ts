@@ -34,7 +34,8 @@ export {
   renderFontSpecimenBlock,
   renderInstallMd,
   renderThemeFile,
-  resolveFontStack
+  resolveFontStack,
+  resolveFontWeights
 } from "./generate";
 export type {
   FlatToken,
