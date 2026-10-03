@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.17](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.17) (10/03/2026)
+
+### Bug Fixes
+
+- **core:** Added font-weight documentation generation ([883e02a](https://github.com/storm-software/razorwind/commit/883e02a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+
 ## [0.0.16](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.16) (10/03/2026)
 
 ### Features

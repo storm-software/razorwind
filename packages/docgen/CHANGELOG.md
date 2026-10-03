@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.77) (10/03/2026)
+
+### Bug Fixes
+
+- **core:** Added font-weight documentation generation ([883e02a](https://github.com/storm-software/razorwind/commit/883e02a))
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+
 ## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.76) (10/03/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.16](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.16) (10/03/2026)
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+
 ## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.15) (10/03/2026)
 
 ### Updated Dependencies

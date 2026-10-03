@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.79](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.79) (10/03/2026)
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+
 ## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.78) (10/03/2026)
 
 ### Features

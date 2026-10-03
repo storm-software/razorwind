@@ -2,6 +2,21 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.79](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.79) (10/03/2026)
+
+### Bug Fixes
+
+- **core:** Added font-weight documentation generation ([883e02a](https://github.com/storm-software/razorwind/commit/883e02a))
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+- Updated **docgen** to **v0.0.77**
+
 ## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.78) (10/03/2026)
 
 ### Updated Dependencies

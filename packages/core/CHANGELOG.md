@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.81](https://github.com/storm-software/razorwind/releases/tag/core%400.0.81) (10/03/2026)
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
 ## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/core%400.0.78) (10/03/2026)
 
 ### Bug Fixes

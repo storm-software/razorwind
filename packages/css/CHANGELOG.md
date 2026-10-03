@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.64](https://github.com/storm-software/razorwind/releases/tag/css%400.0.64) (10/03/2026)
+
+### Features
+
+- **core:** Added the `fontAssetBaseUrl` option ([53032bd](https://github.com/storm-software/razorwind/commit/53032bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.81**
+- Updated **style-dictionary** to **v0.0.67**
+
 ## [0.0.63](https://github.com/storm-software/razorwind/releases/tag/css%400.0.63) (10/03/2026)
 
 ### Updated Dependencies
