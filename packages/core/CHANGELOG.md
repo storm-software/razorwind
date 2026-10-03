@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/core%400.0.78) (10/03/2026)
+
+### Bug Fixes
+
+- **llms:** Update paths in generated output to be relative instead of absolute ([64e9b97](https://github.com/storm-software/razorwind/commit/64e9b97))
+
+### Features
+
+- **css:** Added the `prefix` option for css variable prefixes ([3fcc60b](https://github.com/storm-software/razorwind/commit/3fcc60b))
+
 ## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/core%400.0.77) (09/29/2026)
 
 ### Features

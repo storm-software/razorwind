@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.14) (10/03/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.13) (09/29/2026)
 
 ### Features

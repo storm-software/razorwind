@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.64](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.64) (10/03/2026)
+
+### Features
+
+- **css:** Added the `prefix` option for css variable prefixes ([3fcc60b](https://github.com/storm-software/razorwind/commit/3fcc60b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.63](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.63) (09/29/2026)
 
 ### Features

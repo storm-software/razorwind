@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.74](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.74) (10/03/2026)
+
+### Bug Fixes
+
+- **llms:** Update paths in generated output to be relative instead of absolute ([64e9b97](https://github.com/storm-software/razorwind/commit/64e9b97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.73](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.73) (09/29/2026)
 
 ### Features

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shiki
 
+## [0.0.52](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.52) (10/03/2026)
+
+### Features
+
+- **css:** Added the `prefix` option for css variable prefixes ([3fcc60b](https://github.com/storm-software/razorwind/commit/3fcc60b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.51](https://github.com/storm-software/razorwind/releases/tag/shiki%400.0.51) (09/29/2026)
 
 ### Updated Dependencies

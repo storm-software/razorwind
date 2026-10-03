@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - JSON Render
 
+## [0.0.6](https://github.com/storm-software/razorwind/releases/tag/json-render%400.0.6) (10/03/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.5](https://github.com/storm-software/razorwind/releases/tag/json-render%400.0.5) (09/29/2026)
 
 ### Updated Dependencies

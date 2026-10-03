@@ -2,6 +2,24 @@
 
 # Changelog for Razorwind - Preset
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.12) (10/03/2026)
+
+### Updated Dependencies
+
+- Updated **chrome** to **v0.0.12**
+- Updated **core** to **v0.0.78**
+- Updated **cursor** to **v0.0.53**
+- Updated **ghostty** to **v0.0.52**
+- Updated **notepad-plus-plus** to **v0.0.52**
+- Updated **sandpack** to **v0.0.12**
+- Updated **shiki** to **v0.0.52**
+- Updated **storybook** to **v0.0.76**
+- Updated **thunderbird** to **v0.0.12**
+- Updated **vivaldi** to **v0.0.26**
+- Updated **vsce** to **v0.0.55**
+- Updated **zed** to **v0.0.52**
+- Updated **zsh** to **v0.0.52**
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.11) (09/29/2026)
 
 ### Updated Dependencies

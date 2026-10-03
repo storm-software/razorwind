@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.13) (10/03/2026)
+
+### Bug Fixes
+
+- **llms:** Update paths in generated output to be relative instead of absolute ([64e9b97](https://github.com/storm-software/razorwind/commit/64e9b97))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.78**
+
 ## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.12) (09/29/2026)
 
 ### Updated Dependencies
