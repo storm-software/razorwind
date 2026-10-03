@@ -451,9 +451,14 @@ describe("docgen generate plugin", () => {
     expect(documents["out/fonts/jakarta.mdx"]).toBeDefined();
 
     const inter = documents["out/fonts/inter.mdx"]?.chunks?.[0]?.content;
+    const characterSet =
+      "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789";
     expect(inter).toContain("# Inter");
     expect(inter).toContain("`google`");
     expect(inter).toContain("`400`");
+    expect(inter).toContain("### Character Set");
+    expect(inter).toContain(characterSet);
+    expect(inter?.split(characterSet)).toHaveLength(2);
     expect(inter).toContain("### Specimen");
     expect(inter).toContain('fontSize: "12px"');
     expect(inter).toContain('fontSize: "72px"');

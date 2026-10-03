@@ -18,6 +18,16 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import {
+  extractFonts,
+  FONT_CHARACTER_SET,
+  FONT_SPECIMEN_SIZES,
+  FONT_SPECIMEN_TEXT,
+  fontSlug,
+  fontSlugs,
+  renderFontBody,
+  resolveFontStack
+} from "@razorwind/docgen/generate";
+import {
   cssFontFamily,
   MONO_ROLES,
   pickFontByRole,
@@ -46,7 +56,14 @@ import type {
   StorybookThemePartial
 } from "./types";
 
-const DEFAULT_SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog";
+export {
+  extractFonts,
+  fontSlug,
+  fontSlugs,
+  resolveFontStack
+} from "@razorwind/docgen/generate";
+
+const DEFAULT_SAMPLE_TEXT = FONT_SPECIMEN_TEXT;
 const TYPOGRAPHY_TOKEN_TYPES = new Set([
   "fontFamily",
   "fontWeight",
@@ -736,127 +753,6 @@ import { IconGalleryBlock } from "./blocks/IconGallery";
 `;
 }
 
-const FONT_SPECIMEN_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72];
-
-function readFontString(
-  item: Record<string, unknown>,
-  key: string
-): string | undefined {
-  return readString(item, key);
-}
-
-function readFontStringArray(
-  item: Record<string, unknown>,
-  key: string
-): string[] {
-  const value = item[key];
-
-  return Array.isArray(value)
-    ? value.filter((entry): entry is string => typeof entry === "string")
-    : [];
-}
-
-/**
- * Collect font entries from `schema.fonts`, sorted by name.
- */
-export function extractFonts(fonts: unknown): Record<string, unknown>[] {
-  if (!isObject(fonts)) {
-    return [];
-  }
-
-  return Object.values(fonts)
-    .filter(isObject)
-    .toSorted((a, b) =>
-      (readString(a, "name") ?? "").localeCompare(readString(b, "name") ?? "")
-    );
-}
-
-/**
- * Slug used for a per-font documentation page.
- */
-export function fontSlug(item: Record<string, unknown>): string {
-  const name =
-    readString(item, "name") ?? readString(item, "title") ?? "font";
-
-  return (
-    name
-      .trim()
-      .replaceAll(/[^\w-]+/g, "-")
-      .replaceAll(/-{2,}/g, "-")
-      .replaceAll(/^-|-$/g, "")
-      .toLowerCase() || "font"
-  );
-}
-
-/**
- * Assign a unique page slug to each font, deduplicating collisions with a
- * numeric suffix.
- */
-export function fontSlugs(
-  fonts: Record<string, unknown>[]
-): Map<Record<string, unknown>, string> {
-  const seen = new Map<string, number>();
-  const slugs = new Map<Record<string, unknown>, string>();
-
-  for (const font of fonts) {
-    const base = fontSlug(font);
-    const count = seen.get(base) ?? 0;
-    seen.set(base, count + 1);
-    slugs.set(font, count === 0 ? base : `${base}-${count + 1}`);
-  }
-
-  return slugs;
-}
-
-const GENERIC_FALLBACK_FROM_ROLE: Record<string, string> = {
-  sans: "sans-serif",
-  serif: "serif",
-  mono: "monospace",
-  code: "monospace",
-  display: "sans-serif",
-  heading: "sans-serif",
-  body: "sans-serif"
-};
-
-function quoteFontFamily(family: string): string {
-  const trimmed = family.trim();
-  if (!trimmed) {
-    return trimmed;
-  }
-
-  if (/^[a-z-]+$/i.test(trimmed) && !/\s/.test(trimmed)) {
-    return trimmed;
-  }
-
-  return `"${trimmed.replaceAll('"', '\\"')}"`;
-}
-
-/**
- * Resolve the CSS `font-family` stack for a font entry.
- */
-export function resolveFontStack(item: Record<string, unknown>): string {
-  const family =
-    readFontString(item, "family") ??
-    readFontString(item, "title") ??
-    readFontString(item, "name") ??
-    "sans-serif";
-  const parts = [quoteFontFamily(family)];
-
-  for (const fallback of readFontStringArray(item, "fallbacks")) {
-    const quoted = quoteFontFamily(fallback);
-    if (quoted && !parts.includes(quoted)) {
-      parts.push(quoted);
-    }
-  }
-
-  const generic = GENERIC_FALLBACK_FROM_ROLE[readFontString(item, "role") ?? ""];
-  if (generic && !parts.includes(generic)) {
-    parts.push(generic);
-  }
-
-  return parts.filter(Boolean).join(", ");
-}
-
 /**
  * Build a React FontSpecimen doc block previewing each font at a range of
  * sizes.
@@ -929,7 +825,7 @@ export function FontSpecimenBlock({
           lineHeight: 1.25,
           margin: "0 0 0.5em"
         }}>
-        AaBbCcDdEeFfGgHh 0123456789
+        ${FONT_CHARACTER_SET}
       </div>
       {sizes.map(size => (
         <div
@@ -948,50 +844,6 @@ export function FontSpecimenBlock({
   );
 }
 `;
-}
-
-function renderFontMeta(font: Record<string, unknown>): string {
-  const name = readString(font, "name") ?? "unknown";
-  const source = readString(font, "source") ?? "local";
-  const role = readString(font, "role");
-  const category = readString(font, "category");
-  const display = readString(font, "display");
-  const fallbacks = readFontStringArray(font, "fallbacks");
-  const weights = Array.isArray(font.weights)
-    ? font.weights.filter(
-        (entry): entry is string | number =>
-          typeof entry === "string" || typeof entry === "number"
-      )
-    : [];
-  const styles = readFontStringArray(font, "styles");
-  const subsets = readFontStringArray(font, "subsets");
-  const tags = readFontStringArray(font, "tags");
-
-  const meta = [
-    `- **Name:** \`${name}\``,
-    `- **Source:** \`${source}\``,
-    `- **Family:** \`${escapeString(resolveFontStack(font))}\``,
-    ...(role ? [`- **Role:** \`${role}\``] : []),
-    ...(category ? [`- **Category:** \`${category}\``] : []),
-    ...(display ? [`- **Display:** \`${display}\``] : []),
-    ...(fallbacks.length > 0
-      ? [`- **Fallbacks:** ${fallbacks.map(entry => `\`${entry}\``).join(", ")}`]
-      : []),
-    ...(weights.length > 0
-      ? [`- **Weights:** ${weights.map(entry => `\`${entry}\``).join(", ")}`]
-      : []),
-    ...(styles.length > 0
-      ? [`- **Styles:** ${styles.map(entry => `\`${entry}\``).join(", ")}`]
-      : []),
-    ...(subsets.length > 0
-      ? [`- **Subsets:** ${subsets.map(entry => `\`${entry}\``).join(", ")}`]
-      : []),
-    ...(tags.length > 0
-      ? [`- **Tags:** ${tags.map(entry => `\`${entry}\``).join(", ")}`]
-      : [])
-  ];
-
-  return meta.join("\n");
 }
 
 export function renderFontsMdx(
@@ -1023,28 +875,20 @@ ${links.join("\n")}
 
 export function renderFontMdx(
   font: Record<string, unknown>,
-  fontName: string,
-  options: Pick<StorybookPluginOptions, "titlePrefix"> = {}
+  _fontName: string,
+  options: Pick<StorybookPluginOptions, "sampleText" | "titlePrefix"> = {}
 ): string {
   const titlePrefix = options.titlePrefix ?? "Design Tokens";
   const name = readString(font, "name") ?? "unknown";
   const title = readString(font, "title") ?? name;
-  const description = readString(font, "description");
 
   return `import { Meta } from "@storybook/addon-docs/blocks";
-import { FontSpecimenBlock } from "../blocks/FontSpecimen";
 
 <Meta title="${escapeString(titlePrefix)}/Fonts/${escapeString(title)}" />
 
 # ${title}
 
-${description ?? `${title} font specimen.`}
-
-${renderFontMeta(font)}
-
-## Specimen
-
-<FontSpecimenBlock name={${toLiteral(fontName)}} />
+${renderFontBody(font, options.sampleText)}
 `;
 }
 

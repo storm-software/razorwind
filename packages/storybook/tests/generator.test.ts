@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Schema, Tokens } from "@razorwind/core/schema";
+import { renderFontMdx as renderDocgenFontMdx } from "@razorwind/docgen/generate";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { flattenTokens } from "../src/flatten";
@@ -375,13 +376,19 @@ describe("storybook plugin", () => {
 
     const page = documents["out/Fonts/inter.mdx"]?.chunks?.[0]?.content;
     expect(page).toContain("# Inter");
-    expect(page).toContain("## Specimen");
-    expect(page).toContain('<FontSpecimenBlock name={"inter"} />');
+    expect(page).toContain("### Character Set");
+    expect(page).toContain("### Specimen");
+    expect(page).toContain(
+      "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789"
+    );
 
     const block = documents["out/blocks/FontSpecimen.tsx"]?.chunks?.[0]
       ?.content;
     expect(block).toContain("export function FontSpecimenBlock");
     expect(block).toContain("sizes.map");
+    expect(block).toContain(
+      "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789"
+    );
     expect(block).toContain("DEFAULT_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72]");
 
     const overview = documents["out/Tokens.mdx"]?.chunks?.[0]?.content;
@@ -398,6 +405,37 @@ describe("storybook plugin", () => {
         target: ts.ScriptTarget.ESNext
       }) as any).diagnostics ?? []
     ).toEqual([]);
+  });
+
+  it("uses the same font documentation body as docgen", () => {
+    const font = {
+      name: "jakarta",
+      title: "Plus Jakarta Sans",
+      description: "A versatile sans-serif family.",
+      source: "local",
+      family: "Plus Jakarta Sans",
+      role: "sans",
+      files: [
+        {
+          path: "assets/fonts/PlusJakartaSans-Regular.woff2",
+          format: "woff2",
+          weight: 400,
+          style: "normal"
+        }
+      ]
+    };
+    const documents = generateTokenDocs(
+      { ...spec, fonts: { jakarta: font } },
+      { outputPath: "out" }
+    );
+    const storybookPage =
+      documents["out/Fonts/jakarta.mdx"]?.chunks?.[0]?.content ?? "";
+    const docgenPage = renderDocgenFontMdx(font, spec.name);
+    const bodyStart = "- **Name:**";
+
+    expect(storybookPage.slice(storybookPage.indexOf(bodyStart)).trim()).toBe(
+      docgenPage.slice(docgenPage.indexOf(bodyStart)).trim()
+    );
   });
 
   it("omits font documentation when the schema has no fonts", () => {

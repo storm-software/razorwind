@@ -1280,6 +1280,9 @@ importers:
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
+      '@razorwind/docgen':
+        specifier: workspace:*
+        version: link:../docgen
       '@storybook/addon-docs':
         specifier: '>=8'
         version: 10.6.1(@types/react@17.0.4)(storybook@10.6.1(@types/react@17.0.4)(prettier@3.9.9)(react@19.3.0))

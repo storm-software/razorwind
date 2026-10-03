@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { defineConfig } from "vitest/config";
 
 const coreSrc = resolve(__dirname, "../core/src");
+const docgenSrc = resolve(__dirname, "../docgen/src");
 
 export default defineConfig(() => ({
   root: __dirname,
@@ -11,6 +12,7 @@ export default defineConfig(() => ({
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(["*.md"])],
   resolve: {
     alias: {
+      "@razorwind/docgen/generate": resolve(docgenSrc, "generate.ts"),
       "@razorwind/core/plugin": resolve(coreSrc, "plugin.ts"),
       "@razorwind/core/schema": resolve(coreSrc, "schema/index.ts"),
       "@razorwind/core/lib/fonts": resolve(coreSrc, "lib/fonts/index.ts"),

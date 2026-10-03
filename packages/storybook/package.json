@@ -86,6 +86,7 @@
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
     "@razorwind/core": "workspace:*",
+    "@razorwind/docgen": "workspace:*",
     "@stryke/path": "catalog:",
     "@stryke/type-checks": "catalog:"
   },

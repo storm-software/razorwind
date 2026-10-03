@@ -28,7 +28,8 @@ import {
   titleCase
 } from "@razorwind/core/utils";
 import { joinPaths } from "@stryke/path";
-import { existsSync, readdirSync, readFileSync, type Dirent } from "node:fs";
+import type { Dirent } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
@@ -533,6 +534,7 @@ function readDependencyEntries(
     }
 
     const resolved = resolveVersion(name, version);
+
     return resolved !== "*" ? `${name}@${resolved}` : name;
   });
 }
@@ -889,6 +891,10 @@ export function extractFonts(fonts: unknown): Record<string, unknown>[] {
 /** Sample text rendered in font specimen previews. */
 export const FONT_SPECIMEN_TEXT = "The quick brown fox jumps over the lazy dog";
 
+/** English letters and numbers rendered once in each font preview. */
+export const FONT_CHARACTER_SET =
+  "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789";
+
 /** Font sizes (in px) rendered in font specimen previews. */
 export const FONT_SPECIMEN_SIZES = [12, 14, 16, 20, 24, 32, 48, 64, 72];
 
@@ -958,13 +964,15 @@ export function renderFontSpecimen(
   sampleText = FONT_SPECIMEN_TEXT
 ): string {
   const stack = resolveFontStack(item);
-  const showcase = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "32px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify("AaBbCcDdEeFfGgHh 0123456789")}}}</div>`;
+  const characterSet = `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "32px", lineHeight: 1.25, margin: "0 0 0.5em" }}>{${JSON.stringify(FONT_CHARACTER_SET)}}}</div>`;
   const rows = FONT_SPECIMEN_SIZES.map(
     size =>
       `<div style={{ fontFamily: ${JSON.stringify(stack)}, fontSize: "${size}px", lineHeight: 1.45, margin: "0 0 0.4em" }}><span style={{ display: "block", fontSize: "12px", lineHeight: 1.4, fontFamily: "system-ui, sans-serif", color: "rgba(128, 128, 128, 0.9)" }}>${size}px</span>{${JSON.stringify(sampleText)}}}</div>`
   );
 
-  return ["### Specimen", showcase, ...rows].join("\n\n");
+  return ["### Character Set", characterSet, "### Specimen", ...rows].join(
+    "\n\n"
+  );
 }
 
 function renderFontFiles(item: Record<string, unknown>): string {
@@ -1038,7 +1046,13 @@ function readWeights(item: Record<string, unknown>): string[] {
     .map(String);
 }
 
-function renderFontBody(item: Record<string, unknown>): string {
+/**
+ * Render the reusable MDX body for a font documentation page.
+ */
+export function renderFontBody(
+  item: Record<string, unknown>,
+  sampleText = FONT_SPECIMEN_TEXT
+): string {
   const name = readString(item, "name") ?? "unknown";
   const description = readString(item, "description");
   const source = readString(item, "source") ?? "local";
@@ -1090,7 +1104,7 @@ function renderFontBody(item: Record<string, unknown>): string {
   ];
   sections.push(meta.join("\n"));
 
-  sections.push(renderFontSpecimen(item));
+  sections.push(renderFontSpecimen(item, sampleText));
 
   if (source === "local") {
     const files = renderFontFiles(item);
