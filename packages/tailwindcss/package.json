@@ -27,6 +27,7 @@
     "design-tokens",
     "dtcg",
     "eslint",
+    "stylelint",
     "storm-software"
   ],
   "exports": {
@@ -100,7 +101,35 @@
         "default": "./dist/generate.mjs"
       }
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./stylelint": {
+      "require": {
+        "types": "./dist/stylelint.d.cts",
+        "default": "./dist/stylelint.cjs"
+      },
+      "import": {
+        "types": "./dist/stylelint.d.mts",
+        "default": "./dist/stylelint.mjs"
+      },
+      "default": {
+        "types": "./dist/stylelint.d.mts",
+        "default": "./dist/stylelint.mjs"
+      }
+    },
+    "./stylelint-runtime": {
+      "require": {
+        "types": "./dist/stylelint-runtime.d.cts",
+        "default": "./dist/stylelint-runtime.cjs"
+      },
+      "import": {
+        "types": "./dist/stylelint-runtime.d.mts",
+        "default": "./dist/stylelint-runtime.mjs"
+      },
+      "default": {
+        "types": "./dist/stylelint-runtime.d.mts",
+        "default": "./dist/stylelint-runtime.mjs"
+      }
+    }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -117,6 +146,14 @@
     "@tailwindcss/node": "catalog:",
     "fast-glob": "catalog:",
     "tailwindcss": "catalog:"
+  },
+  "peerDependencies": {
+    "stylelint": "^16.8.2 || ^17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "stylelint": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",

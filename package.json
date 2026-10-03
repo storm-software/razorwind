@@ -101,6 +101,7 @@
     "powerlines": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "stylelint": "catalog:",
     "typescript": "^6.0.3",
     "verdaccio": "catalog:",
     "vite": "catalog:",

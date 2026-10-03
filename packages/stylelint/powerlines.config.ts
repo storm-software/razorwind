@@ -16,7 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-export * as eslint from "./eslint";
-export * as extract from "./extract";
-export * as generate from "./generate";
-export * as stylelint from "./stylelint";
+import { plugin as tsdown } from "@powerlines/plugin-tsdown";
+import { defineConfig } from "powerlines/config";
+
+export default defineConfig({
+  input: ["src/index.ts", "src/runtime.ts"],
+  platform: "node",
+  output: {
+    format: ["cjs", "esm"]
+  },
+  resolve: {
+    skipNodeModulesBundle: true
+  },
+  plugins: [
+    tsdown({
+      exports: false
+    })
+  ]
+});

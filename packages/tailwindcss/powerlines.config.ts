@@ -25,7 +25,9 @@ export default defineConfig({
     "src/generate.ts",
     "src/extract.ts",
     "src/eslint.ts",
-    "src/eslint-runtime.ts"
+    "src/eslint-runtime.ts",
+    "src/stylelint.ts",
+    "src/stylelint-runtime.ts"
   ],
   platform: "node",
   output: {

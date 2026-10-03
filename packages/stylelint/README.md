@@ -49,23 +49,29 @@
 
 <!-- END header -->
 
-# Razorwind - Tailwind CSS Plugin
+# Razorwind - Stylelint Extension Plugin
 
-**Razorwind - Tailwind CSS** is a package that can create Tailwind CSS files from design tokens or read a Tailwind CSS file and return the design tokens.
+A Razorwind plugin that generates a Stylelint plugin from the design system
+spec. It ports the rules of
+[`@atlaskit/stylelint-design-system`](https://bitbucket.org/atlassian/atlassian-frontend-mirror/src/master/design-system/stylelint/)
+onto your own tokens and fonts, adds the
+[`@razorwind/eslint`](../eslint) rules that apply to stylesheets, and bundles
+the `@razorwind/tailwindcss` guardrails for `@apply` and theme variables in the
+same plugin.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @razorwind/tailwindcss
+pnpm add -D @razorwind/stylelint stylelint
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @razorwind/tailwindcss
+npm install -D @razorwind/stylelint stylelint
 ```
 
 </details>
@@ -74,133 +80,121 @@ npm install -D @razorwind/tailwindcss
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @razorwind/tailwindcss
+yarn add -D @razorwind/stylelint stylelint
 ```
 
 </details>
 
+Stylelint `^16.8.2` or `^17` is required; autofix uses the `fix` callback
+those versions pass to rules.
+
 ## Usage
 
-```ts
-import { defineConfig } from "@razorwind/core";
-import tailwindcss from "@razorwind/tailwindcss";
-
-export default defineConfig({
-  plugins: [tailwindcss]
-});
-```
-
-### Options
-
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
-
-### ESLint guardrails
-
-`@razorwind/tailwindcss/eslint` is a second generator that emits an ESLint flat-config plugin aligned with the schema's Tailwind `@theme` tokens. Rules only turn on for token namespaces the schema defines, and their messages suggest the real token utilities.
+Add the plugin to `razorwind.config.ts`:
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import tailwindcss from "@razorwind/tailwindcss/generate";
-import tailwindcssEslint from "@razorwind/tailwindcss/eslint";
+import stylelint from "@razorwind/stylelint";
 
 export default defineConfig({
-  plugins: [tailwindcss(), tailwindcssEslint()]
+  plugins: [
+    stylelint({
+      // Rule namespace: `acme/ensure-design-token-usage`.
+      prefix: "acme"
+    })
+  ]
 });
 ```
+
+Generating writes `stylelint/design-system/index.mjs` (the plugin, with the
+design-system manifest inlined) and an `INSTALL.md` listing every rule and its
+default severity. Wire the plugin into `stylelint.config.mjs`:
 
 ```js
-// eslint.config.mjs
-import guardrails from "./eslint/razorwind-guardrails.mjs";
+import designSystem from "./stylelint/design-system/index.mjs";
 
-export default [
-  guardrails({
-    files: ["src/**/*.{ts,tsx}"],
-    severity: { "no-stock-palette": "error" }
-  })
-];
-```
-
-| Rule                    | Default (when enabled) | Flags                                                                  |
-| ----------------------- | ---------------------- | ---------------------------------------------------------------------- |
-| `no-color-literal`      | `error`                | `bg-[#fff]`, `text-[oklch(…)]`                                         |
-| `no-stock-palette`      | `warn`                 | `bg-red-500` unless the schema defines `color.red.500`                 |
-| `no-unknown-theme-var`  | `error`                | `bg-(--color-x)` / `[var(--radius-x)]` not defined by the schema       |
-| `no-radius-literal`     | `error`                | `rounded-[3px]`                                                        |
-| `no-spacing-literal`    | `warn`                 | `p-[13px]`, `-mt-[2rem]`                                               |
-| `no-typography-literal` | `warn`                 | `text-[14px]`, `font-[…]`, `leading-[…]`, `tracking-[…]`               |
-| `no-shadow-literal`     | `error`                | `shadow-[…]`                                                           |
-| `no-dark-pairs`         | `error`                | `dark:bg-primary` when tokens already carry a `dark` theme             |
-| `focus-visible`         | `warn`                 | `focus:ring-*` (use `focus-visible:`)                                  |
-
-Class lists are read from `className` / `class` attributes and from `cn`, `clsx`, `cx`, `cva`, `classNames`, `twMerge`, `twJoin` and `tw` (override with the `attributes` / `callees` options).
-
-| Option          | Default                                   | Description                                          |
-| --------------- | ----------------------------------------- | ---------------------------------------------------- |
-| `eslintPath`    | `"eslint/razorwind-guardrails.mjs"`       | Output path of the generated plugin module           |
-| `prefix`        | `"design-system"`                         | Rule namespace in flat config                        |
-| `runtimeImport` | `"@razorwind/tailwindcss/eslint-runtime"` | Module the generated file imports rules from         |
-| `installGuide`  | Generated                                 | Override body for the generated `INSTALL.md`         |
-
-### Stylelint guardrails
-
-`@razorwind/tailwindcss/stylelint` emits the same guardrails as Stylelint plugins for stylesheets. The class rules read `@apply` preludes, and `no-unknown-theme-var` also reads `var()`, `theme()` and `--theme()` references in declarations and at-rule preludes. Rule ids, messages and default severities match the ESLint guardrails.
-
-```ts
-import { defineConfig } from "@razorwind/core";
-import tailwindcss from "@razorwind/tailwindcss/generate";
-import tailwindcssStylelint from "@razorwind/tailwindcss/stylelint";
-
-export default defineConfig({
-  plugins: [tailwindcss(), tailwindcssStylelint()]
-});
-```
-
-```js
-// stylelint.config.mjs
-import guardrails from "./stylelint/razorwind-guardrails.mjs";
-
-const { plugins, rules } = guardrails({
-  severity: { "no-stock-palette": "error" }
+const { plugins, rules } = designSystem({
+  // Domains `ensure-design-token-usage` checks (Atlassian's primary option).
+  tokenUsage: { color: true, spacing: true },
+  // `var(--token, fallback)`: "forced", "optional" (default) or "none".
+  fallbackUsage: "optional",
+  severity: { "no-physical-properties": "error" }
 });
 
 export default {
+  extends: ["stylelint-config-standard"],
   plugins: [...plugins],
   rules: { ...rules }
 };
 ```
 
+Passing `files` moves the rules into an `overrides` entry for those globs, and
+`ignoreFiles` is forwarded as is. Deliberate one-offs carry an inline,
+reviewable exception:
+
 ```css
-.button {
-  @apply bg-primary rounded-lg; /* ok */
-  @apply bg-[#ff0000];          /* no-color-literal */
-  color: var(--color-brnd);     /* no-unknown-theme-var */
-}
+/* stylelint-disable-next-line acme/ensure-design-token-usage -- <reason> */
 ```
 
-Pass `files` to scope the rules to globs (they move into an `overrides` entry) and `ignoreFiles` to exempt files. `@razorwind/stylelint` bundles these rules as `tailwind-*` alongside its design-token rules.
+### Options
 
-| Option           | Default                                      | Description                                  |
-| ---------------- | -------------------------------------------- | -------------------------------------------- |
-| `stylelintPath`  | `"stylelint/razorwind-guardrails.mjs"`       | Output path of the generated plugin module   |
-| `prefix`         | `"design-system"`                            | Rule namespace in `stylelint.config.*`       |
-| `runtimeImport`  | `"@razorwind/tailwindcss/stylelint-runtime"` | Module the generated file imports rules from |
-| `installGuide`   | Generated                                    | Override body for the generated `INSTALL.md` |
+| Option          | Default                               | Description                                                                     |
+| --------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
+| `stylelintPath` | `"stylelint/design-system/index.mjs"` | Output path of the generated plugin module.                                     |
+| `prefix`        | `"design-system"`                     | Rule namespace used in `stylelint.config.*`.                                    |
+| `runtimeImport` | `"@razorwind/stylelint/runtime"`      | Module the generated file imports the runtime from.                             |
+| `cssVarPrefix`  | initials of the schema name           | Prefix of the token CSS variables, matching `@razorwind/css`. `false` for none. |
+| `tailwind`      | `true`                                | Include the `@razorwind/tailwindcss` guardrails as `tailwind-*` rules.          |
+| `installGuide`  | generated                             | Override the generated `INSTALL.md`.                                            |
+
+### Rules
+
+Every rule reads its allowlist, matches and examples from the design system,
+and token rules are enabled when the schema defines that token category.
+Literals whose value matches exactly one token are replaced by
+`stylelint --fix`; when several tokens match, the message names them and the
+choice is left to you.
+
+| Rule                               | Default (when enabled) | Fix | Checks                                                                                                                                                        |
+| ---------------------------------- | ---------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ensure-design-token-usage`        | `error`                | ✓   | Hard-coded colors and shadows; with `tokenUsage`, also spacing, typography and `var()`s outside the design system (`nonTokenCssVariables`).                   |
+| `no-unsafe-design-token-usage`     | `error`                | ✓   | `var(--acme-…)` names the design system does not define, with "did you mean"; the `fallbackUsage` strategy (fixes add the token value or drop the fallback). |
+| `no-deprecated-design-token-usage` | `warn`                 | ✓   | DTCG `$deprecated` tokens; the replacement is read from a `{token.path}` reference in the note.                                                               |
+| `use-tokens-space`                 | `warn`                 | ✓   | Lengths in `padding`, `margin`, `gap`, `inset`, … .                                                                                                          |
+| `use-tokens-shape`                 | `warn`                 | ✓   | Radii and border widths.                                                                                                                                      |
+| `use-tokens-typography`            | `warn`                 | ✓   | Font size, weight, family, line height and letter spacing; families outside the schema fonts.                                                                |
+| `use-tokens-motion`                | `warn`                 | ✓   | Durations and easings, including inside `transition` / `animation`.                                                                                           |
+| `expand-motion-shorthand`          | `off`                  | ✓   | `transition` / `animation` shorthands, expanded to longhands so each value can use a token.                                                                  |
+| `no-physical-properties`           | `off`                  | ✓   | Physical properties and values (`margin-left`, `text-align: left`), replaced by their logical equivalents.                                                    |
+| `no-margin`                        | `off`                  |     | `margin*`, pointing at the schema's layout primitives. Off by default because stylesheets hold resets.                                                        |
+| `use-visually-hidden`              | `warn`                 |     | Hand-rolled visually hidden rules, pointing at the schema's visually hidden component.                                                                        |
+| `tailwind-*`                       | see below              |     | The `@razorwind/tailwindcss` guardrails over `@apply` classes, plus `var()` / `theme()` / `--theme()` references to unknown theme variables.                  |
+
+The `tailwind-*` rules are `tailwind-no-color-literal`,
+`tailwind-no-stock-palette`, `tailwind-no-unknown-theme-var`,
+`tailwind-no-radius-literal`, `tailwind-no-spacing-literal`,
+`tailwind-no-typography-literal`, `tailwind-no-shadow-literal`,
+`tailwind-no-dark-pairs` and `tailwind-focus-visible`. See the
+[`@razorwind/tailwindcss` README](../tailwindcss#stylelint-guardrails).
+
+#### Migrating from `@atlaskit/stylelint-design-system`
+
+The three Atlassian rules keep their names and options:
+`ensure-design-token-usage` accepts the `{ color, spacing, typography,
+nonTokenCssVariables }` object, and `no-unsafe-design-token-usage` accepts
+`fallbackUsage` and the older `shouldEnsureFallbackUsage` flag. Atlassian's
+deleted-token renames are covered by `no-deprecated-design-token-usage`, which
+reads replacements from the schema's `$deprecated` notes.
 
 ## Development
 
 ### Building
 
-Run `nx build tailwindcss` to build the library.
+Run `nx build stylelint` to build the library.
 
 ### Running unit tests
 
-Run `nx test tailwindcss` to execute the unit tests via [Vitest](https://vitest.dev/).
+Run `vitest run --project stylelint` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

@@ -171,3 +171,46 @@ export interface GuardrailOptions extends GuardrailSettings {
   /** Per-rule overrides of the schema-derived default severities. */
   severity?: Partial<Record<GuardrailRuleId, GuardrailSeverity>>;
 }
+
+/**
+ * Options for the Razorwind Tailwind CSS Stylelint guardrails generate plugin.
+ */
+export interface TailwindStylelintPluginOptions {
+  /**
+   * Output path of the generated Stylelint plugin module, written relative
+   * to the execution cwd.
+   *
+   * @defaultValue "stylelint/razorwind-guardrails.mjs"
+   */
+  stylelintPath?: string;
+
+  /**
+   * Rule namespace used in `stylelint.config.*` (`<prefix>/no-color-literal`).
+   *
+   * @defaultValue "design-system"
+   */
+  prefix?: string;
+
+  /**
+   * Module the generated file imports `createGuardrails` from.
+   *
+   * @defaultValue "@razorwind/tailwindcss/stylelint-runtime"
+   */
+  runtimeImport?: string;
+
+  /**
+   * Override body for generated `INSTALL.md`. When omitted, Stylelint config
+   * wiring steps are generated for the output file.
+   */
+  installGuide?: string;
+}
+
+/** Options for the generated Stylelint config factory. */
+export interface StylelintGuardrailOptions {
+  /** Glob(s) the rules apply to; the rules move into an `overrides` entry. */
+  files?: string[];
+  /** Glob(s) exempt from every rule. */
+  ignoreFiles?: string[];
+  /** Per-rule overrides of the schema-derived default severities. */
+  severity?: Partial<Record<GuardrailRuleId, GuardrailSeverity>>;
+}
