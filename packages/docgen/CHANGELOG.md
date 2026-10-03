@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.75](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.75) (10/03/2026)
+
+### Features
+
+- **docgen:** Added character set documentation to generated display ([9e7e9ab](https://github.com/storm-software/razorwind/commit/9e7e9ab))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.79**
+
 ## [0.0.74](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.74) (10/03/2026)
 
 ### Bug Fixes

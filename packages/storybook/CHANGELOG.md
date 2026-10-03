@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.77) (10/03/2026)
+
+### Features
+
+- **docgen:** Added character set documentation to generated display ([9e7e9ab](https://github.com/storm-software/razorwind/commit/9e7e9ab))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.79**
+- Updated **docgen** to **v0.0.75**
+
 ## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.76) (10/03/2026)
 
 ### Updated Dependencies
