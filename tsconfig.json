@@ -91,6 +91,9 @@
       "path": "./packages/json-render"
     },
     {
+      "path": "./packages/eslint"
+    },
+    {
       "path": "./packages/benchmark"
     }
   ],

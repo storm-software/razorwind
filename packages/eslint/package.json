@@ -1,0 +1,104 @@
+{
+  "name": "@razorwind/eslint",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind ESLint plugin generator to create eslint rules that can be used as design system guidelines.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/eslint"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./generate": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./runtime": {
+      "require": {
+        "types": "./dist/runtime.d.cts",
+        "default": "./dist/runtime.cjs"
+      },
+      "import": {
+        "types": "./dist/runtime.d.mts",
+        "default": "./dist/runtime.mjs"
+      },
+      "default": {
+        "types": "./dist/runtime.d.mts",
+        "default": "./dist/runtime.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@power-plant/dtcg-schema": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@razorwind/tailwindcss": "workspace:*",
+    "@razorwind/tamagui": "workspace:*"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
