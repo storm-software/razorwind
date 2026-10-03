@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.78) (10/03/2026)
+
+### Bug Fixes
+
+- **docgen:** Clean up the fonts generated documentation ([64a7ac6](https://github.com/storm-software/razorwind/commit/64a7ac6))
+
 ## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.77) (10/03/2026)
 
 ### Bug Fixes
