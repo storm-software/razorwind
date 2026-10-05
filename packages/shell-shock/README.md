@@ -125,7 +125,7 @@ Every command prints JSON (Markdown for `guidelines`) and is exposed as an MCP t
 | `search-fonts`      | —                       | Fuzzy search fonts by name, family, role, tags and category (Razorwind extension)                                    |
 | `list-fonts`        | —                       | Every font record with its CSS `font-family` stack                                                                   |
 | `plan`              | `ads_plan`              | Run token, icon, component and font searches in one call                                                             |
-| `guidelines`        | `ads_get_guidelines`    | Markdown guidelines generated from the spec (overview, components with usage examples, typography) plus bundled docs |
+| `guidelines`        | `ads_get_guidelines`    | Markdown guidelines from the spec (overview, components, typography, `guidelinesPath` docs) plus bundled docs        |
 | `analyze-a11y`      | `ads_analyze_a11y`      | Heuristic accessibility analysis of a JSX string / file; hard-coded colors are mapped to the nearest token           |
 
 Search semantics follow the ADS tools: `--limit` is the number of matches **per term**, results are merged by score and de-duplicated, and an empty result returns an error object listing the available names.
@@ -141,7 +141,7 @@ The remaining ADS tools are tied to Atlassian-specific content (`atlaskit_*` pac
 | `root`      | CLI project root     | Directory containing `razorwind.config.*` to extract from                                                                    |
 | `configFile`| —                    | Explicit Razorwind config file                                                                                               |
 | `themeId`   | first non-shared set | Token set used for the CLI theme when tokens are multi-theme (`light` / `dark`)                                              |
-| `guidelines`| —                    | `GuidelineDocument[]` or a directory of Markdown files (front matter `title` / `keywords` are honoured)                      |
+| `guidelines`| —                    | Extra `GuidelineDocument[]` or Markdown directory (front matter `title` / `keywords`), plus `guidelinesPath` docs            |
 | `prefix`    | —                    | Prefix for every contributed command name (`"ds"` → `ds-search-tokens`)                                                      |
 | `commands`  | all                  | `DesignSystemCommandId[]` or `{ [id]: false }` to restrict the contributed commands                                          |
 | `mapTheme`  | `inferPalette`       | `(spec) =>` `ShellShockPalette` or full `ThemeUserConfig`                                                                     |

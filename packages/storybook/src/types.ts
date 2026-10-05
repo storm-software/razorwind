@@ -175,6 +175,13 @@ export interface StorybookPluginOptions {
   skipFonts?: boolean;
 
   /**
+   * Skip generating guideline documentation pages.
+   *
+   * @defaultValue `false`
+   */
+  skipGuidelines?: boolean;
+
+  /**
    * Override body for generated `INSTALL.md`. When omitted, Storybook wiring
    * steps are generated for the output directory.
    */

@@ -22,6 +22,7 @@ import llms, {
   generateLlms,
   renderComponentsDocument,
   renderFontsDocument,
+  renderGuidelinesDocument,
   renderIconsDocument,
   renderLlmsDocuments,
   renderLlmsIndex,
@@ -210,21 +211,23 @@ describe("llms plugin", () => {
       "llms-tokens.txt",
       "llms-components.txt",
       "llms-icons.txt",
-      "llms-fonts.txt"
+      "llms-fonts.txt",
+      "llms-guidelines.txt"
     ]);
     expect(renderLlmsDocuments(emptySpec)).toEqual({
       index: expect.any(String),
       tokens: expect.any(String),
       components: expect.any(String),
       icons: expect.any(String),
-      fonts: expect.any(String)
+      fonts: expect.any(String),
+      guidelines: expect.any(String)
     });
 
     const pluginDocuments = await llms().generate!(emptySpec, {} as never);
     expect(Object.keys(pluginDocuments)).toEqual(Object.keys(documents));
   });
 
-  it("places all five files under outputPath", () => {
+  it("places all six files under outputPath", () => {
     expect(
       Object.keys(generateLlms(emptySpec, { outputPath: "public" }))
     ).toEqual([
@@ -232,8 +235,37 @@ describe("llms plugin", () => {
       "public/llms-tokens.txt",
       "public/llms-components.txt",
       "public/llms-icons.txt",
-      "public/llms-fonts.txt"
+      "public/llms-fonts.txt",
+      "public/llms-guidelines.txt"
     ]);
+  });
+
+  it("renders guidelines grouped by directory with demoted headings", () => {
+    const document = renderGuidelinesDocument({
+      ...emptySpec,
+      guidelines: {
+        voice: {
+          name: "Voice",
+          content: "# Voice\n\nBe direct.\n\n## Tone\n\nFriendly."
+        },
+        components: {
+          buttons: {
+            name: "Buttons",
+            version: "1.0.0",
+            content: "Use one primary button."
+          }
+        }
+      }
+    });
+
+    expect(document).toContain("## Voice\n\n- **Id:** `voice`");
+    expect(document).not.toContain("### Voice");
+    expect(document).toContain("### Tone");
+    expect(document).toContain("## Components\n\n### Buttons");
+    expect(document).toContain("- **Version:** `1.0.0`");
+    expect(document.indexOf("## Voice")).toBeLessThan(
+      document.indexOf("## Components")
+    );
   });
 
   it("renders absolute schema file paths relative to the output directory", () => {
@@ -299,6 +331,7 @@ Follow Acme accessibility guidance.
 - [Components](llms-components.txt): Available components, dependencies, files, and usage examples.
 - [Icons](llms-icons.txt): Available icon names, aliases, metadata, and asset variants.
 - [Fonts](llms-fonts.txt): Approved font families, roles, sources, weights, and files.
+- [Guidelines](llms-guidelines.txt): Style-guide rules and usage guidelines grouped by topic.
 
 ## Project Resources
 

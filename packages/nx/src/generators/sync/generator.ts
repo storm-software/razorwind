@@ -95,6 +95,7 @@ async function generateForProject(
     componentsPath?: string | string[];
     iconsPath?: string | string[];
     fontsPath?: string | string[];
+    guidelinesPath?: string | string[];
     tokensPath?: string | string[];
   }
 ): Promise<string[]> {
@@ -108,6 +109,7 @@ async function generateForProject(
     componentsPath: options.componentsPath,
     iconsPath: options.iconsPath,
     fontsPath: options.fontsPath,
+    guidelinesPath: options.guidelinesPath,
     tokensPath: options.tokensPath,
     cwd: tree.root,
     output: noop
@@ -189,6 +191,7 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
       let componentsPath: string | string[] | undefined;
       let iconsPath: string | string[] | undefined;
       let fontsPath: string | string[] | undefined;
+      let guidelinesPath: string | string[] | undefined;
       let tokensPath: string | string[] | undefined;
 
       if (generateTarget?.executor === GENERATE_EXECUTOR) {
@@ -203,6 +206,7 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
         componentsPath = generateTarget.options?.componentsPath;
         iconsPath = generateTarget.options?.iconsPath;
         fontsPath = generateTarget.options?.fontsPath;
+        guidelinesPath = generateTarget.options?.guidelinesPath;
         tokensPath = generateTarget.options?.tokensPath;
 
         const configured = generateTarget.options?.configFile
@@ -233,6 +237,7 @@ export async function syncGenerator(tree: Tree): Promise<SyncGeneratorResult> {
         componentsPath,
         iconsPath,
         fontsPath,
+        guidelinesPath,
         tokensPath
       });
       outOfSyncDetails.push(...changed);

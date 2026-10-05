@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { TokenType } from "@power-plant/dtcg-schema";
+import type { GuidelineGroup } from "@razorwind/core/utils";
 
 export interface DesignMdExtractPluginOptions {
   /**
@@ -129,4 +130,6 @@ export interface DesignMdDocument {
   rounded: Record<string, string>;
   spacing: Record<string, string>;
   components: Record<string, ComponentToken>;
+  /** Style guidelines rendered after the canonical sections. */
+  guidelines?: GuidelineGroup[];
 }

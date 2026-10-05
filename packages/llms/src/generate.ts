@@ -24,6 +24,7 @@ import { join, resolve } from "node:path";
 import { renderComponentsDocument } from "./components";
 import { renderFontsDocument } from "./fonts";
 import { resolveResourceUrl, validHttpUrl } from "./format";
+import { renderGuidelinesDocument } from "./guidelines";
 import { renderIconsDocument } from "./icons";
 import { renderTokensDocument } from "./tokens";
 import type {
@@ -34,6 +35,7 @@ import type {
 
 export { renderComponentsDocument } from "./components";
 export { renderFontsDocument } from "./fonts";
+export { renderGuidelinesDocument } from "./guidelines";
 export { renderIconsDocument } from "./icons";
 export { renderTokensDocument } from "./tokens";
 
@@ -42,7 +44,8 @@ const FILES = [
   ["tokens", "llms-tokens.txt"],
   ["components", "llms-components.txt"],
   ["icons", "llms-icons.txt"],
-  ["fonts", "llms-fonts.txt"]
+  ["fonts", "llms-fonts.txt"],
+  ["guidelines", "llms-guidelines.txt"]
 ] as const;
 
 const COMPANION_LINKS = [
@@ -65,6 +68,11 @@ const COMPANION_LINKS = [
     "Fonts",
     "llms-fonts.txt",
     "Approved font families, roles, sources, weights, and files."
+  ],
+  [
+    "Guidelines",
+    "llms-guidelines.txt",
+    "Style-guide rules and usage guidelines grouped by topic."
   ]
 ] as const;
 
@@ -128,12 +136,13 @@ export function renderLlmsDocuments(
     tokens: renderTokensDocument(spec),
     components: renderComponentsDocument(spec, options),
     icons: renderIconsDocument(spec, options),
-    fonts: renderFontsDocument(spec, options)
+    fonts: renderFontsDocument(spec, options),
+    guidelines: renderGuidelinesDocument(spec)
   };
 }
 
 /**
- * Generate the five llms.txt files as Power Plant documents. Absolute schema
+ * Generate the six llms.txt files as Power Plant documents. Absolute schema
  * file paths are rendered relative to the output directory under `cwd`.
  */
 export function generateLlms(

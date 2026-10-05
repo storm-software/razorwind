@@ -109,6 +109,7 @@ const CONFIG_OWNED_OPTION_KEYS = [
   "componentsPath",
   "iconsPath",
   "fontsPath",
+  "guidelinesPath",
   "fontAssetBaseUrl"
 ] as const;
 
@@ -192,6 +193,17 @@ function finalizeConfig(
     config.fontsPath = correctPath(config.fontsPath);
   } else {
     config.fontsPath = undefined;
+  }
+
+  if (Array.isArray(config.guidelinesPath)) {
+    const paths = config.guidelinesPath
+      .filter(isSetString)
+      .map(path => correctPath(path));
+    config.guidelinesPath = paths.length > 0 ? paths : undefined;
+  } else if (isSetString(config.guidelinesPath)) {
+    config.guidelinesPath = correctPath(config.guidelinesPath);
+  } else {
+    config.guidelinesPath = undefined;
   }
 
   const plugins = uniquePlugins(

@@ -24,12 +24,19 @@ import {
   SANS_ROLES
 } from "@razorwind/core/lib/fonts";
 import type { Fonts, Schema } from "@razorwind/core/schema";
-import type { TokenSet } from "@razorwind/core/utils";
+import type {
+  GuidelineEntry,
+  GuidelineGroup,
+  TokenSet
+} from "@razorwind/core/utils";
 import {
   createDocument,
   cssVarPrefixFromName,
+  escapeMdx,
+  groupGuidelines,
   isSharedThemeId,
   mergeTokenTrees,
+  renderGuidelineBody,
   resolveSchemaIdentity,
   SHARED_THEME_ID,
   toThemeCssVar
@@ -43,6 +50,7 @@ import {
   FONT_WEIGHT_SPECIMEN_SIZE,
   fontSlug,
   fontSlugs,
+  guidelinePath,
   renderFontBody,
   resolveFontStack,
   resolveFontWeights
@@ -935,6 +943,32 @@ ${renderFontBody(font, options.sampleText, options.fontAssetBaseUrl)}
 `;
 }
 
+export function renderGuidelineMdx(
+  group: GuidelineGroup,
+  entry: GuidelineEntry,
+  options: Pick<StorybookPluginOptions, "titlePrefix"> = {}
+): string {
+  const titlePrefix = options.titlePrefix ?? "Design Tokens";
+  const { guideline } = entry;
+  const title = [
+    titlePrefix,
+    "Guidelines",
+    ...(group.title ? group.title.split(" / ") : []),
+    guideline.name
+  ]
+    .map(escapeString)
+    .join("/");
+
+  return `import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="${title}" />
+
+# ${escapeMdx(guideline.name)}
+${guideline.version ? `\n_Version ${escapeMdx(guideline.version)}_\n` : ""}
+${escapeMdx(renderGuidelineBody(guideline, 1))}
+`;
+}
+
 export function renderBlocksIndex(hasIcons = true, hasFonts = true): string {
   return `export { ColorPaletteBlock } from "./ColorPalette";
 export type { ColorPaletteBlockProps } from "./ColorPalette";
@@ -1469,6 +1503,19 @@ export function generateTokenDocs(
         renderFontMdx(font, fontName, docsOptions),
         "mdx"
       );
+    }
+  }
+
+  if (!options.skipGuidelines) {
+    for (const group of groupGuidelines(spec.guidelines)) {
+      for (const entry of group.guidelines) {
+        const path = guidelinePath(entry);
+        documents[joinPaths(outputPath, path)] = createDoc(
+          path,
+          renderGuidelineMdx(group, entry, docsOptions),
+          "mdx"
+        );
+      }
     }
   }
 

@@ -23,6 +23,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 }
 
 export { cssVarPrefixFromName } from "./css-var-prefix";
+export { escapeMdx } from "./escape-mdx";
 export {
   flattenTokens,
   isSharedThemeId,
@@ -34,6 +35,13 @@ export {
   type FlattenTokensOptions,
   type TokenSet
 } from "./flatten-tokens";
+export {
+  groupGuidelines,
+  isGuideline,
+  renderGuidelineBody,
+  type GuidelineEntry,
+  type GuidelineGroup
+} from "./group-guidelines";
 export { mergeTokenTrees } from "./merge-tokens";
 export {
   resolveSchemaIdentity,

@@ -29,12 +29,12 @@ catalog:
   "@powerlines/tsconfig": ^0.4.258
   "@powerlines/tsdoc": ^0.2.206
   "@powerlines/plugin-tsdown": ^0.1.615
-  "@shell-shock/eslint-plugin": ^0.0.94
-  "@shell-shock/preset-cli": ^0.9.42
-  "@shell-shock/core": ^0.17.30
-  "@shell-shock/nx": ^0.0.103
-  "@shell-shock/plugin-mcp": ^0.1.8
-  "@shell-shock/plugin-theme": ^0.4.43
+  "@shell-shock/eslint-plugin": ^0.0.95
+  "@shell-shock/preset-cli": ^0.9.43
+  "@shell-shock/core": ^0.17.31
+  "@shell-shock/nx": ^0.0.104
+  "@shell-shock/plugin-mcp": ^0.1.9
+  "@shell-shock/plugin-theme": ^0.4.44
   "@storm-software/config": ^1.138.83
   "@storm-software/config-tools": ^1.190.147
   "@storm-software/cspell": ^0.46.214

@@ -43,6 +43,14 @@ export interface GenerateExecutorSchema {
  fontsPath?: string | string[],
 
  /**
+  * The path to a directory containing guideline markdown files or guideline directories, or an array of paths
+  * 
+  * 
+  * @oneOf [object Object],[object Object]
+ */
+ guidelinesPath?: string | string[],
+
+ /**
   * The path to the tokens.json file, or an array of paths
   * 
   * 

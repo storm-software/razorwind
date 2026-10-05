@@ -45,11 +45,12 @@ export interface LlmsRenderOptions {
   rootDir?: string;
 }
 
-/** The five rendered llms.txt documents before generator wrapping. */
+/** The six rendered llms.txt documents before generator wrapping. */
 export interface LlmsDocumentSet {
   index: string;
   tokens: string;
   components: string;
   icons: string;
   fonts: string;
+  guidelines: string;
 }

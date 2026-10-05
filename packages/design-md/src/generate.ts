@@ -19,7 +19,11 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
-import { resolveSchemaIdentity } from "@razorwind/core/utils";
+import {
+  groupGuidelines,
+  renderGuidelineBody,
+  resolveSchemaIdentity
+} from "@razorwind/core/utils";
 import { isObject } from "@stryke/type-checks/is-object";
 import { dirname, join } from "node:path";
 import { renderInstallMd } from "./install";
@@ -328,6 +332,11 @@ export function extractDesignMd(spec: Schema): DesignMdDocument {
     document.components[componentName][property] = value;
   }
 
+  const guidelines = groupGuidelines(spec.guidelines);
+  if (guidelines.length > 0) {
+    document.guidelines = guidelines;
+  }
+
   return document;
 }
 
@@ -493,6 +502,30 @@ function renderBody(
             return `- **${name}:** ${details}`;
           })
           .join("\n")
+      )
+    );
+  }
+
+  if (document.guidelines?.length) {
+    sections.push(
+      section(
+        "Guidelines",
+        document.guidelines
+          .map(group => {
+            const level = group.title ? 4 : 3;
+            const entries = group.guidelines.map(({ guideline }) =>
+              [
+                `${"#".repeat(level)} ${guideline.name}`,
+                renderGuidelineBody(guideline, level)
+              ].join("\n\n")
+            );
+
+            return [
+              ...(group.title ? [`### ${group.title}`] : []),
+              ...entries
+            ].join("\n\n");
+          })
+          .join("\n\n")
       )
     );
   }

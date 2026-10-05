@@ -23,6 +23,8 @@ import type { Components } from "./components";
 import { componentsSchema } from "./components";
 import type { Fonts } from "./fonts";
 import { fontsSchema } from "./fonts";
+import type { Guidelines } from "./guidelines";
+import { guidelinesSchema } from "./guidelines";
 import type { Icons } from "./icons";
 import { iconsSchema } from "./icons";
 
@@ -46,6 +48,7 @@ export interface Schema {
   components: Components;
   icons: Icons;
   fonts: Fonts;
+  guidelines?: Guidelines;
   tokens: Tokens | Record<string, Tokens>;
 }
 
@@ -60,5 +63,7 @@ export const schema: z.ZodType<Schema> = z.object({
   tokens: tokensFieldSchema,
   components: componentsSchema,
   icons: iconsSchema,
-  fonts: fontsSchema
+  fonts: fontsSchema,
+  // Defaulted so specs / snapshots written before guidelines existed still parse.
+  guidelines: guidelinesSchema.default({})
 });

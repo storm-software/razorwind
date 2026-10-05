@@ -69,6 +69,11 @@ export interface NxPluginOptions {
   fontsPath?: string | string[];
 
   /**
+   * The path to a directory containing guideline markdown files or guideline directories, or an array of paths.
+   */
+  guidelinesPath?: string | string[];
+
+  /**
    * The path to the tokens.json file, or an array of paths.
    */
   tokensPath?: string | string[];
@@ -223,6 +228,11 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
                   : options?.fontsPath) ?? []
               ).map(path => joinPaths("{workspaceRoot}", path)),
               ...(
+                (isSetString(options?.guidelinesPath)
+                  ? [options.guidelinesPath]
+                  : options?.guidelinesPath) ?? []
+              ).map(path => joinPaths("{workspaceRoot}", path)),
+              ...(
                 (isSetString(options?.tokensPath)
                   ? [options.tokensPath]
                   : options?.tokensPath) ?? []
@@ -236,6 +246,7 @@ export const createNodesV2: CreateNodes<NxPluginOptions> = [
               componentsPath: options?.componentsPath,
               iconsPath: options?.iconsPath,
               fontsPath: options?.fontsPath,
+              guidelinesPath: options?.guidelinesPath,
               tokensPath: options?.tokensPath
             },
             configurations: {

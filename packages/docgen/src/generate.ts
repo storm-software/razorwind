@@ -20,10 +20,14 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { resolveFontAssetUrl } from "@razorwind/core/lib/fonts";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
+import type { GuidelineEntry, GuidelineGroup } from "@razorwind/core/utils";
 import {
   createDocument,
   cssVarPrefixFromName,
+  escapeMdx,
+  groupGuidelines,
   isObject,
+  renderGuidelineBody,
   resolveSchemaIdentity,
   slugifyThemeName,
   titleCase
@@ -163,6 +167,7 @@ export function renderIndexMdx(input: {
   componentPages?: { slug: string; title: string; count: number }[];
   iconCount?: number;
   fontCount?: number;
+  guidelineCount?: number;
 }): string {
   const {
     title,
@@ -170,7 +175,8 @@ export function renderIndexMdx(input: {
     hasComponents,
     componentPages = [],
     iconCount = 0,
-    fontCount = 0
+    fontCount = 0,
+    guidelineCount = 0
   } = input;
 
   const totalTokens = [...groups.values()].reduce(
@@ -222,6 +228,13 @@ export function renderIndexMdx(input: {
     sections.push(
       "## Fonts",
       `- [Fonts](./fonts.mdx) — ${fontCount} font${fontCount === 1 ? "" : "s"}`
+    );
+  }
+
+  if (guidelineCount > 0) {
+    sections.push(
+      "## Guidelines",
+      `- [Guidelines](./guidelines.mdx) — ${guidelineCount} guideline${guidelineCount === 1 ? "" : "s"}`
     );
   }
 
@@ -1341,6 +1354,75 @@ export function renderRegistryItemsMdx(
   return `${sections.join("\n\n")}\n`;
 }
 
+/** Output path (relative to the docs root) of a guideline page. */
+export function guidelinePath(entry: GuidelineEntry): string {
+  return `guidelines/${entry.path.split("/").map(toSlug).join("/")}.mdx`;
+}
+
+/**
+ * Render a dedicated MDX documentation page for a single guideline.
+ */
+export function renderGuidelineMdx(
+  entry: GuidelineEntry,
+  systemTitle = "design system"
+): string {
+  const { guideline } = entry;
+  const description = guideline.data?.description;
+
+  return `${[
+    frontmatter({
+      title: guideline.name,
+      description:
+        typeof description === "string"
+          ? description
+          : `${guideline.name} guideline for the ${systemTitle}.`,
+      ...(guideline.version ? { version: guideline.version } : {})
+    }),
+    `# ${escapeMdx(guideline.name)}`,
+    ...(guideline.version ? [`_Version ${escapeMdx(guideline.version)}_`] : []),
+    escapeMdx(renderGuidelineBody(guideline, 1))
+  ].join("\n\n")}\n`;
+}
+
+/**
+ * Render the guidelines index page, grouped by guideline directory.
+ */
+export function renderGuidelinesMdx(
+  groups: GuidelineGroup[],
+  systemTitle = "design system"
+): string {
+  const count = groups.reduce((sum, group) => sum + group.guidelines.length, 0);
+  const sections: string[] = [
+    frontmatter({
+      title: "Guidelines",
+      description: `Style guidelines for the ${systemTitle}.`
+    }),
+    `# Guidelines`,
+    `${count} guideline${count === 1 ? "" : "s"} in the design system.`
+  ];
+
+  for (const group of groups) {
+    if (group.title) {
+      sections.push(`## ${escapeMdx(group.title)}`);
+    }
+    sections.push(
+      group.guidelines
+        .map(entry => {
+          const description = entry.guideline.data?.description;
+
+          return `- [${escapeMdx(entry.guideline.name)}](./${guidelinePath(entry)})${
+            typeof description === "string"
+              ? ` — ${escapeMdx(description)}`
+              : ""
+          }`;
+        })
+        .join("\n")
+    );
+  }
+
+  return `${sections.join("\n\n")}\n`;
+}
+
 export { renderInstallMd };
 
 const getCreateDocument =
@@ -1390,6 +1472,10 @@ export function generateDocs(
   const hasComponents = itemPages.length > 0;
   const icons = options.skipIcons ? [] : extractIcons(spec.icons);
   const fonts = options.skipFonts ? [] : extractFonts(spec.fonts);
+  const guidelineGroups = options.skipGuidelines
+    ? []
+    : groupGuidelines(spec.guidelines);
+  const guidelines = guidelineGroups.flatMap(group => group.guidelines);
 
   const createDoc = getCreateDocument(outputPath);
 
@@ -1409,7 +1495,8 @@ export function generateDocs(
           count: page.items.length
         })),
         iconCount: icons.length,
-        fontCount: fonts.length
+        fontCount: fonts.length,
+        guidelineCount: guidelines.length
       }),
       "mdx"
     )
@@ -1455,6 +1542,24 @@ export function generateDocs(
       documents[joinPaths(outputPath, fontPath)] = createDoc(
         fontPath,
         renderFontMdx(font, systemTitle, options.fontAssetBaseUrl),
+        "mdx"
+      );
+    }
+  }
+
+  if (guidelines.length > 0) {
+    const path = "guidelines.mdx";
+    documents[joinPaths(outputPath, path)] = createDoc(
+      path,
+      renderGuidelinesMdx(guidelineGroups, systemTitle),
+      "mdx"
+    );
+
+    for (const entry of guidelines) {
+      const guidelineFile = guidelinePath(entry);
+      documents[joinPaths(outputPath, guidelineFile)] = createDoc(
+        guidelineFile,
+        renderGuidelineMdx(entry, systemTitle),
         "mdx"
       );
     }

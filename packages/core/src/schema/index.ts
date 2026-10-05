@@ -49,6 +49,12 @@ export {
   type LocalFont
 } from "./fonts";
 export {
+  guidelineSchema,
+  guidelinesSchema,
+  type Guideline,
+  type Guidelines
+} from "./guidelines";
+export {
   iconFileSchema,
   iconSchema,
   iconsSchema,

@@ -40,6 +40,13 @@ The path to a directory containing icon assets or icon directories, or an array 
 The path to a directory containing font files or font directories, or an array of paths
 
 
+## `guidelinesPath`
+- **Type**: `string | string[]`
+
+
+The path to a directory containing guideline markdown files or guideline directories, or an array of paths
+
+
 ## `tokensPath`
 - **Type**: `string | string[]`
 

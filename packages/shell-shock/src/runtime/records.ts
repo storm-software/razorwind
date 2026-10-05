@@ -20,12 +20,15 @@ import type {
   Component,
   ComponentUsage,
   Font,
+  Guideline,
   Icon,
   Schema
 } from "@razorwind/core/schema";
 import {
   cssVarPrefixFromName,
   flattenTokens,
+  groupGuidelines,
+  renderGuidelineBody,
   resolveSchemaIdentity,
   titleCase,
   toCssVar
@@ -303,9 +306,59 @@ function firstHeading(markdown: string): string | undefined {
   return /^#{1,6}[ \t]+(\S.*)$/m.exec(markdown)?.[1]?.trim();
 }
 
+function stringList(value: unknown): string[] {
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map(entry => entry.trim())
+      .filter(Boolean);
+  }
+
+  return Array.isArray(value)
+    ? value.filter((entry): entry is string => typeof entry === "string")
+    : [];
+}
+
+/**
+ * Convert a core {@link Guideline} into a searchable {@link GuidelineDocument}.
+ * Keywords come from the slash-joined `id` path (group keys and file name),
+ * the name and the frontmatter `keywords` / `tags` attributes.
+ */
+export function toGuidelineDocument(
+  id: string,
+  guideline: Guideline
+): GuidelineDocument {
+  const title =
+    typeof guideline.data?.title === "string"
+      ? guideline.data.title
+      : guideline.name;
+  const keywords = new Set(
+    [
+      ...id.split(/[/\-_\s]+/),
+      title,
+      ...stringList(guideline.data?.keywords),
+      ...stringList(guideline.data?.tags)
+    ]
+      .filter(Boolean)
+      .map(keyword => keyword.toLowerCase())
+  );
+
+  return {
+    id: `guideline:${id}`,
+    title,
+    keywords: [...keywords],
+    content: [
+      `# ${title}`,
+      ...(guideline.version ? [`_Version ${guideline.version}_`] : []),
+      renderGuidelineBody(guideline, 1)
+    ].join("\n\n")
+  };
+}
+
 /**
  * Build the guideline document set: an overview generated from the spec,
- * one document per component / font, plus any consumer-provided documents.
+ * one document per component / font, one per `spec.guidelines` entry (loaded
+ * from the Razorwind `guidelinesPath`), plus any consumer-provided documents.
  */
 export function getGuidelineDocuments(
   snapshot: DesignSystemSnapshot
@@ -419,6 +472,12 @@ export function getGuidelineDocuments(
       ],
       content: lines.join("\n")
     });
+  }
+
+  for (const group of groupGuidelines(spec.guidelines)) {
+    for (const entry of group.guidelines) {
+      docs.push(toGuidelineDocument(entry.path, entry.guideline));
+    }
   }
 
   for (const [index, doc] of (snapshot.guidelines ?? []).entries()) {

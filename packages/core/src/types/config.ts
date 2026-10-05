@@ -21,6 +21,7 @@ import type { EnvPaths } from "@stryke/env/get-env-paths";
 import type { RequiredKeys } from "@stryke/types/base";
 import type { Components } from "../schema/components";
 import type { Fonts } from "../schema/fonts";
+import type { Guidelines } from "../schema/guidelines";
 import type { Icons } from "../schema/icons";
 import type { Plugin } from "./plugin";
 
@@ -78,6 +79,11 @@ export interface Options {
    * @defaultValue "tokens.json" (or "tokens" directory)
    */
   tokensPath?: string | string[];
+
+  /**
+   * The path(s) to directories containing guideline markdown files or guideline directories. Each guideline should be a markdown file with optional frontmatter for metadata.
+   */
+  guidelinesPath?: string | string[];
 
   /**
    * The mode to use for the configuration.
@@ -157,6 +163,7 @@ export interface UserConfig extends Options {
   components?: Components;
   icons?: Icons;
   fonts?: Fonts;
+  guidelines?: Guidelines;
   plugins?: Plugin[];
 }
 

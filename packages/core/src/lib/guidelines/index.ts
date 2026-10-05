@@ -16,13 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./components";
-export * from "./fonts";
-export * from "./generate";
-export * from "./guidelines";
-export * from "./icons";
-export * from "./meta";
-export * from "./prepare";
-export * from "./resolve-config";
-export * from "./tokens";
-export * from "./write-documents";
+export * from "./load";

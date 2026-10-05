@@ -312,7 +312,7 @@ export default async function handler(options: PlanOptions) {
     id: "guidelines",
     title: "Guidelines",
     description:
-      "Return design-system guidelines as Markdown: an overview of the token groups, one section per component (with usage examples), typography, and any bundled guideline documents. Pass --terms to search; omit for the full set.",
+      "Return design-system guidelines as Markdown: an overview of the token groups, one section per component (with usage examples), typography, the design-system style guidelines, and any bundled guideline documents. Pass --terms to search; omit for the full set.",
     icon: "📖",
     tags: ["Design System", "Docs"],
     render: context => `${GENERATED_HEADER}

@@ -23,6 +23,7 @@ import type { Config, Options } from "../types/config";
 import { loadComponents } from "./components";
 import { loadFonts } from "./fonts";
 import type { GenerationRun } from "./generate";
+import { loadGuidelines } from "./guidelines";
 import { loadIcons } from "./icons";
 import { resolveSchemaMeta } from "./meta";
 import { resolveConfigs } from "./resolve-config";
@@ -58,7 +59,11 @@ export async function prepareSpec(
       (await loadComponents(context)) ?? {}
     ),
     icons: defu(context.options.icons ?? {}, (await loadIcons(context)) ?? {}),
-    fonts: defu(context.options.fonts ?? {}, (await loadFonts(context)) ?? {})
+    fonts: defu(context.options.fonts ?? {}, (await loadFonts(context)) ?? {}),
+    guidelines: defu(
+      context.options.guidelines ?? {},
+      await loadGuidelines(context)
+    )
   };
 
   for (const plugin of context.options.plugins.filter(

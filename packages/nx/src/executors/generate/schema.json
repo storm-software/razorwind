@@ -65,6 +65,21 @@
       "tsType": "string | string[]",
       "description": "The path to a directory containing font files or font directories, or an array of paths"
     },
+    "guidelinesPath": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "tsType": "string | string[]",
+      "description": "The path to a directory containing guideline markdown files or guideline directories, or an array of paths"
+    },
     "tokensPath": {
       "oneOf": [
         {
