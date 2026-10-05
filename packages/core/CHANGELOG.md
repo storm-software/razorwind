@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.83](https://github.com/storm-software/razorwind/releases/tag/core%400.0.83) (10/05/2026)
+
+### Features
+
+- **core:** Added guidelines to the design system schema ([e81ceb1](https://github.com/storm-software/razorwind/commit/e81ceb1))
+
 ## [0.0.81](https://github.com/storm-software/razorwind/releases/tag/core%400.0.81) (10/03/2026)
 
 ### Features

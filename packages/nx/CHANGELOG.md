@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.79](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.79) (10/05/2026)
+
+### Features
+
+- **core:** Added guidelines to the design system schema ([e81ceb1](https://github.com/storm-software/razorwind/commit/e81ceb1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.83**
+
 ## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.78) (10/05/2026)
 
 ### Updated Dependencies

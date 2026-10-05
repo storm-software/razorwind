@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.82](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.82) (10/05/2026)
+
+### Features
+
+- **core:** Added guidelines to the design system schema ([e81ceb1](https://github.com/storm-software/razorwind/commit/e81ceb1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.83**
+- Updated **docgen** to **v0.0.80**
+
 ## [0.0.81](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.81) (10/05/2026)
 
 ### Updated Dependencies

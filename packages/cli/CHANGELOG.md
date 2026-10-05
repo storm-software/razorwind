@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.19](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.19) (10/05/2026)
+
+### Features
+
+- **core:** Added guidelines to the design system schema ([e81ceb1](https://github.com/storm-software/razorwind/commit/e81ceb1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.83**
+
 ## [0.0.18](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.18) (10/05/2026)
 
 ### Features

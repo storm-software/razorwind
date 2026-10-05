@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Color Variants
 
+## [0.0.61](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.61) (10/05/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.83**
+
 ## [0.0.60](https://github.com/storm-software/razorwind/releases/tag/color-variants%400.0.60) (10/05/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.80](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.80) (10/05/2026)
+
+### Features
+
+- **core:** Added guidelines to the design system schema ([e81ceb1](https://github.com/storm-software/razorwind/commit/e81ceb1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.83**
+
 ## [0.0.79](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.79) (10/05/2026)
 
 ### Updated Dependencies
