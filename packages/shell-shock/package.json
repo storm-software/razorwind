@@ -1,0 +1,104 @@
+{
+  "name": "@razorwind/shell-shock",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Razorwind + Shell Shock integration: generate a CLI theme from design tokens and expose the extracted design system through Shell Shock commands and MCP tools.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/razorwind.git",
+    "directory": "packages/shell-shock"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "files": ["dist"],
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "mcp",
+    "cli",
+    "theme",
+    "razorwind",
+    "design-tokens",
+    "dtcg",
+    "storm-software"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./plugin": {
+      "require": {
+        "types": "./dist/plugin.d.cts",
+        "default": "./dist/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      }
+    },
+    "./runtime": {
+      "require": {
+        "types": "./dist/runtime.d.cts",
+        "default": "./dist/runtime.cjs"
+      },
+      "import": {
+        "types": "./dist/runtime.d.mts",
+        "default": "./dist/runtime.mjs"
+      },
+      "default": {
+        "types": "./dist/runtime.d.mts",
+        "default": "./dist/runtime.mjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "dependencies": {
+    "@power-plant/core": "catalog:",
+    "@power-plant/dtcg-schema": "catalog:",
+    "@razorwind/core": "workspace:*",
+    "@shell-shock/core": "catalog:",
+    "@shell-shock/plugin-mcp": "catalog:",
+    "@shell-shock/plugin-theme": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "defu": "catalog:",
+    "powerlines": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-tsdown": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "^6.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

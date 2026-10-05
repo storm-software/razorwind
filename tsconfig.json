@@ -46,6 +46,9 @@
       "path": "./packages/shiki"
     },
     {
+      "path": "./packages/shell-shock"
+    },
+    {
       "path": "./packages/sandpack"
     },
     {

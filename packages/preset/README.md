@@ -35,6 +35,6 @@ Use a plugin factory directly when its only required option is `mapTheme`.
 Use `presetPlugin(factory, options)` when that target also needs options such
 as an output path, package name, or publisher. The selected plugins are
 expanded during configuration, so their normal output and multi-theme behavior
-remain unchanged. Individual adapters (`mapShikiTheme`, `mapVsceTheme`, and
-the other `map<Name>Theme` exports) are also available when configuring one
-plugin directly.
+remain unchanged. Individual adapters (`mapShikiTheme`, `mapVsceTheme`,
+`mapShellShockTheme`, and the other `map<Name>Theme` exports) are also
+available when configuring one plugin directly.

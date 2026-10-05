@@ -1,0 +1,9 @@
+{
+  "name": "playground-cli",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "playground/cli/src",
+  "tags": ["type:playground", "platform:node"],
+  "implicitDependencies": ["core", "shell-shock", "playground-tokens"],
+  "targets": {}
+}

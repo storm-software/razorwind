@@ -21,6 +21,7 @@ import type { CursorTheme } from "@razorwind/cursor";
 import type { GhosttyTheme } from "@razorwind/ghostty";
 import type { NotepadPlusPlusTheme } from "@razorwind/notepad-plus-plus";
 import type { SandpackTheme } from "@razorwind/sandpack";
+import type { ShellShockPalette } from "@razorwind/shell-shock";
 import type { ShikiTheme } from "@razorwind/shiki";
 import type { StorybookTheme } from "@razorwind/storybook";
 import type { ThunderbirdTheme } from "@razorwind/thunderbird";
@@ -413,6 +414,26 @@ export function mapZedTheme(theme: PresetTheme): ZedTheme {
         }
       }
     ]
+  };
+}
+
+/** Map a shared preset theme to a Shell Shock CLI theme palette. */
+export function mapShellShockTheme(theme: PresetTheme): ShellShockPalette {
+  const color = resolveThemeColors(theme);
+  const danger = foreground(theme.error);
+
+  return {
+    name: theme.name,
+    primary: color.primaryForeground,
+    secondary: color.secondaryForeground,
+    text: color.primaryForeground,
+    muted: color.muted,
+    border: theme.border ?? color.muted,
+    link: color.primaryForeground,
+    success: foreground(theme.success),
+    warning: foreground(theme.warning),
+    danger,
+    error: danger
   };
 }
 

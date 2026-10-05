@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["shell-shock.config.ts", "src/**/*.ts"],
+  "exclude": ["dist", ".shell-shock", "out-tsc"],
+  "references": [
+    { "path": "../../packages/shell-shock" },
+    { "path": "../../packages/core" }
+  ]
+}

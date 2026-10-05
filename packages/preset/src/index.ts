@@ -25,6 +25,7 @@ import {
   mapGhosttyTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
+  mapShellShockTheme,
   mapShikiTheme,
   mapStorybookTheme,
   mapThunderbirdTheme,
@@ -49,6 +50,7 @@ export {
   mapGhosttyTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
+  mapShellShockTheme,
   mapShikiTheme,
   mapStorybookTheme,
   mapThunderbirdTheme,
@@ -133,6 +135,8 @@ function mapPluginTheme(pluginName: string, theme: PresetTheme): unknown {
       return mapNotepadPlusPlusTheme(theme);
     case "sandpack":
       return mapSandpackTheme(theme);
+    case "shell-shock":
+      return mapShellShockTheme(theme);
     case "shiki":
       return mapShikiTheme(theme);
     case "storybook":

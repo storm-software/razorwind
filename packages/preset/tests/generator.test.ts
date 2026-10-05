@@ -8,6 +8,7 @@ import preset, {
   mapGhosttyTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
+  mapShellShockTheme,
   mapShikiTheme,
   mapStorybookTheme,
   mapThunderbirdTheme,
@@ -146,6 +147,7 @@ describe("preset", () => {
       mapGhosttyTheme(theme),
       mapNotepadPlusPlusTheme(theme),
       mapSandpackTheme(theme),
+      mapShellShockTheme(theme),
       mapShikiTheme(theme),
       mapStorybookTheme(theme),
       mapThunderbirdTheme(theme),
@@ -155,7 +157,18 @@ describe("preset", () => {
       mapZshTheme(theme)
     ];
 
-    expect(mappedThemes).toHaveLength(12);
+    expect(mappedThemes).toHaveLength(13);
+    expect(mapShellShockTheme(theme)).toMatchObject({
+      name: "demo-dark",
+      primary: theme.primary.foreground,
+      secondary: theme.secondary.foreground,
+      muted: theme.muted,
+      border: theme.border,
+      success: theme.success,
+      warning: theme.warning,
+      danger: theme.error,
+      error: theme.error
+    });
     expect(mapChromeTheme(theme).colors.frame).toBe(
       theme.primary.background
     );

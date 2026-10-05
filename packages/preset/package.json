@@ -50,6 +50,7 @@
     "@razorwind/ghostty": "workspace:*",
     "@razorwind/notepad-plus-plus": "workspace:*",
     "@razorwind/sandpack": "workspace:*",
+    "@razorwind/shell-shock": "workspace:*",
     "@razorwind/shiki": "workspace:*",
     "@razorwind/storybook": "workspace:*",
     "@razorwind/thunderbird": "workspace:*",

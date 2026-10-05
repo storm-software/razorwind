@@ -12,6 +12,7 @@
     { "path": "../ghostty/tsconfig.lib.json" },
     { "path": "../notepad-plus-plus/tsconfig.lib.json" },
     { "path": "../sandpack/tsconfig.lib.json" },
+    { "path": "../shell-shock/tsconfig.lib.json" },
     { "path": "../shiki/tsconfig.lib.json" },
     { "path": "../storybook/tsconfig.lib.json" },
     { "path": "../thunderbird/tsconfig.lib.json" },
