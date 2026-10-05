@@ -332,23 +332,23 @@ catalogs:
       specifier: ^0.2.206
       version: 0.2.206
     '@shell-shock/core':
-      specifier: ^0.17.30
-      version: 0.17.30
+      specifier: ^0.17.31
+      version: 0.17.31
     '@shell-shock/eslint-plugin':
-      specifier: ^0.0.94
-      version: 0.0.94
+      specifier: ^0.0.95
+      version: 0.0.95
     '@shell-shock/nx':
-      specifier: ^0.0.103
-      version: 0.0.103
+      specifier: ^0.0.104
+      version: 0.0.104
     '@shell-shock/plugin-mcp':
-      specifier: ^0.1.8
-      version: 0.1.8
+      specifier: ^0.1.9
+      version: 0.1.9
     '@shell-shock/plugin-theme':
-      specifier: ^0.4.43
-      version: 0.4.43
+      specifier: ^0.4.44
+      version: 0.4.44
     '@shell-shock/preset-cli':
-      specifier: ^0.9.42
-      version: 0.9.42
+      specifier: ^0.9.43
+      version: 0.9.43
     '@storm-software/config':
       specifier: ^1.138.83
       version: 1.138.83
@@ -571,7 +571,7 @@ importers:
         version: 0.2.206(@storm-software/tsdoc@0.13.299(@microsoft/api-extractor@7.59.3(@types/node@25.9.9)))
       '@shell-shock/nx':
         specifier: 'catalog:'
-        version: 0.0.103(0ca0bf565654e6ddc7ac3500bd1e3e21)
+        version: 0.0.104(0ca0bf565654e6ddc7ac3500bd1e3e21)
       '@storm-software/config':
         specifier: 'catalog:'
         version: 1.138.83(zod@4.6.5)
@@ -738,14 +738,14 @@ importers:
         version: link:../core
       '@shell-shock/core':
         specifier: 'catalog:'
-        version: 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@shell-shock/preset-cli':
         specifier: 'catalog:'
-        version: 0.9.42(fb3974af3254fdc5502f54916aa2265e)
+        version: 0.9.43(fb3974af3254fdc5502f54916aa2265e)
     devDependencies:
       '@shell-shock/eslint-plugin':
         specifier: 'catalog:'
-        version: 0.0.94(39a673a5f04bd37c3dd2fbee531af61b)
+        version: 0.0.95(39a673a5f04bd37c3dd2fbee531af61b)
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.9
@@ -1306,13 +1306,13 @@ importers:
         version: link:../core
       '@shell-shock/core':
         specifier: 'catalog:'
-        version: 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@shell-shock/plugin-mcp':
         specifier: 'catalog:'
-        version: 0.1.8(1eca4bb4c04bc8ac9ce3a0049e24926e)
+        version: 0.1.9(1eca4bb4c04bc8ac9ce3a0049e24926e)
       '@shell-shock/plugin-theme':
         specifier: 'catalog:'
-        version: 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+        version: 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/path':
         specifier: 'catalog:'
         version: 0.29.43
@@ -1694,23 +1694,23 @@ importers:
         version: link:../../packages/shell-shock
       '@shell-shock/core':
         specifier: 'catalog:'
-        version: 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@shell-shock/plugin-mcp':
         specifier: 'catalog:'
-        version: 0.1.8(1eca4bb4c04bc8ac9ce3a0049e24926e)
+        version: 0.1.9(1eca4bb4c04bc8ac9ce3a0049e24926e)
       '@shell-shock/plugin-theme':
         specifier: 'catalog:'
-        version: 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+        version: 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@shell-shock/preset-cli':
         specifier: 'catalog:'
-        version: 0.9.42(fb3974af3254fdc5502f54916aa2265e)
+        version: 0.9.43(fb3974af3254fdc5502f54916aa2265e)
       zod:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
       '@shell-shock/eslint-plugin':
         specifier: 'catalog:'
-        version: 0.0.94(39a673a5f04bd37c3dd2fbee531af61b)
+        version: 0.0.95(39a673a5f04bd37c3dd2fbee531af61b)
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.9
@@ -6177,63 +6177,63 @@ packages:
     resolution: {integrity: sha512-eMF6tPNi9SWZgPvqBvPQFhJN7gV9PcjRdF3kPiiWo5yZJocWqVgxFuspCHrOij3bIJ797NIGZ+j/v7AiXfA6qg==}
     engines: {node: '>=20.18.1'}
 
-  '@shell-shock/core@0.17.30':
-    resolution: {integrity: sha512-5Lpzxk8vqOSv+/fpU7eCc4Yz1wAlmuA/Nqr1nRNmYDkeLkehE2t/+u5h+FU6zGLJ63fjjHAEaCXiHLsyBM+8qw==}
+  '@shell-shock/core@0.17.31':
+    resolution: {integrity: sha512-pnPfoYznfuXyk6odEYL5cy3QhKB5qiQgGRRMXSMIa6haF9UUaOqucHl6UvMWdUdaB9QoLH5IMHZwWgiUVgCIAA==}
 
-  '@shell-shock/eslint-plugin@0.0.94':
-    resolution: {integrity: sha512-rctXMJ+i8L823fNwKadI9o02Qmel9OU2Xebqk/IUS6UP9dV5iTf+1uFKZca69vNInFWlF6dmbjpf+WoxhEvs4g==}
+  '@shell-shock/eslint-plugin@0.0.95':
+    resolution: {integrity: sha512-+LOEVA9tulu1wbqTmwK1OQ1uNbUFqOdfupW93vb1HVkzo6N0mIU3L1nu5q00qwEe9qsNIQkCgoEU8ybf/jIbAw==}
     peerDependencies:
       eslint: '>=9.39.3'
 
-  '@shell-shock/nx@0.0.103':
-    resolution: {integrity: sha512-BI0ydyFHxz0k51H4jmyAbvHEQGSFzGSzQyUo37NNe2nfCXcYXVYwrMTgl4XrxehWj5i4/eQ8PV9pmhoAS7p+Mg==}
+  '@shell-shock/nx@0.0.104':
+    resolution: {integrity: sha512-2jhI29wa95nT1M3dzfnP1mzjUx9QVpMNYfnptAfoIL/nXxz3cXnbQcFwWp3WnncUSeWFjRZ0EiUnFKlyNCX4nw==}
     peerDependencies:
       nx: '>=22.7.0'
 
-  '@shell-shock/plugin-banner@0.1.57':
-    resolution: {integrity: sha512-OYJOgyFXQG167IWLVfsNhaj02NAyDSZpXvWcxJorb/EQcUUCgf0jwH1Lb/9MeU2ubMf4hOabWdBjdGYR/j7k/g==}
+  '@shell-shock/plugin-banner@0.1.58':
+    resolution: {integrity: sha512-aiVR6WRiE40Tx5bGmaRbbLoYpTYLfGY18di7+rEL/zjwDdGUDMivg1hBts4buT5vAKk0igNYydoYmWxvButm9A==}
 
-  '@shell-shock/plugin-changelog@0.1.33':
-    resolution: {integrity: sha512-uh8yzPnYJKVhlVfmfJn1/juRf/x5fv2a32UoDH8lS4Ri9re99JwnDmUmuBvis+BGNNMlN2I3OAACKQwho96Wpw==}
+  '@shell-shock/plugin-changelog@0.1.34':
+    resolution: {integrity: sha512-tZqBqIvWBVOfawULnZ4zvBdFyG0yol2/RXew9Ao4JXDWwQBEQEaQ+xpZDFfAcyjvBxpNoI+s2Exp14XbWcaTNw==}
 
-  '@shell-shock/plugin-completions@0.4.38':
-    resolution: {integrity: sha512-6cO23WND9scz3r8OZ6VogozrmQotgdvxzUdRuaiLi1vaG8IQk0IL/D+ckkiueujGnzM3qeyv4ll9e2OVjRIrzA==}
+  '@shell-shock/plugin-completions@0.4.39':
+    resolution: {integrity: sha512-LXACCVxaS4QTpSlAtG5eVa4SQInmUSVgW38acroXuf56DGtT4FGKfFHXFhfxnYGpvAuOAzYmN15UnR8NZGnrfw==}
 
-  '@shell-shock/plugin-console@0.2.34':
-    resolution: {integrity: sha512-AL/75konqqTX/K9D4V1XsjV2PaqXzktm8o2kiY9ecI75jwzZPwkvPUpM8vnoRvXMr3m4vDcwoEexEfQQELObMA==}
+  '@shell-shock/plugin-console@0.2.35':
+    resolution: {integrity: sha512-JVVxQ7RFrs8z01e3UOBuwm4YUXtTqi4jnCLi4qGQSkzwLvDX0CkLnSeQl9MIuwEzQyvSs8sNfRJ7gSrxCflNxA==}
 
-  '@shell-shock/plugin-help@0.2.48':
-    resolution: {integrity: sha512-btcyJyRQB68ww90/KkFQFicoIEDI2nLKtg9XAJaSoSuesUw/r1ywaPDh49Sj5ktdtfLXJaJeguuV+LbnyWkSEw==}
+  '@shell-shock/plugin-help@0.2.49':
+    resolution: {integrity: sha512-RW55KoZYm7kd1Rt6U1iTcz9oNRP8sxyfiQ7xMKfzziSrEVUZhC2rxpjkgEIDaCOuvUpMCRvqQiDKMjFQF124DQ==}
 
-  '@shell-shock/plugin-mcp@0.1.8':
-    resolution: {integrity: sha512-rC5EWy9+9oWNkut8cddHr8BSVjb4wdVEQ9c4/69wqFnxpQXhdnNiNJbPZ68sTNGPda0XodnSupk8QAkyoZjAbg==}
+  '@shell-shock/plugin-mcp@0.1.9':
+    resolution: {integrity: sha512-lzrX1IuMxksn/W0BAvjhB0doUzF3qCD8Xuh9d6unlB7oTh/nB2x4v8pbMiZGomi9HXUSJ4SbIc9j/rDikkcjRw==}
     peerDependencies:
       '@modelcontextprotocol/server': ^2.3.0
       zod: ^4.6.5
 
-  '@shell-shock/plugin-prompts@0.3.71':
-    resolution: {integrity: sha512-6dkO6vrr3z79wMpizH5VTEC1rW/apFaog5GXBnp8PIVAgwbeEXvUdOyC3VLUucjNL8UpBTn/sxbgmtObzeb5uQ==}
+  '@shell-shock/plugin-prompts@0.3.72':
+    resolution: {integrity: sha512-/glY8vz2JCkEVYW1jOc+AmABK2XGv3kHV3r1/Tj48g5qrtLGhGvurp0Ygu/iaFfUlim+bGYqYmBAYAix9u5F0g==}
 
-  '@shell-shock/plugin-skills@0.0.21':
-    resolution: {integrity: sha512-WkorxDO+9gaQtzF3znyiyrcnVIILY8qw4d10C4Rq4Ju3pCpypBdOHhvuj16v0p5sl86e14sDYI6dKlrg7CvP0g==}
+  '@shell-shock/plugin-skills@0.0.22':
+    resolution: {integrity: sha512-7s+ljshEZDEoexRye3sMRY80pqy3aibga81o1dIpg8n3t1wEIjiVzOojmJpF9BufNPs6ouCaSX8Wqlt/3fwPxw==}
 
-  '@shell-shock/plugin-theme@0.4.43':
-    resolution: {integrity: sha512-c3FVcTf2Cr9agaDwWm7Tm5cgXQ02aV93jkaZyB2c8EYLZncLsEOKCoYp9FaMGVI+MvzyBjsVlE1kwbi7MiX9QQ==}
+  '@shell-shock/plugin-theme@0.4.44':
+    resolution: {integrity: sha512-Vxy+tZ0sGfCvUDRRQJHaZ1rxVY9vGZgC9ONNf3yuMBOTtQUQ0w+X66PN8vXO4mAB5goT3fKXi0c7mbkL9YI7GA==}
 
-  '@shell-shock/plugin-update@0.1.75':
-    resolution: {integrity: sha512-0qeMFuwsx/sq/MQJWQ9sB4bAMDVOTOH74pUiUxUU6u8HIfi/djB6k81Ko4/pv5gAh+H4U9uzJpahYcmOfPXJQA==}
+  '@shell-shock/plugin-update@0.1.76':
+    resolution: {integrity: sha512-fhE9rQlw8FuOjKT9QazgxGtA7kBHZ/a3XupedxbX/GErjYXmaeJvq7EEFS3SZo60+zZh+s+R716PljPnBhPbKQ==}
 
-  '@shell-shock/preset-cli@0.9.42':
-    resolution: {integrity: sha512-o0tVerpGcooYzM0AIGsLuIaZ/B0cbrleX5MkNt84hMDv8glJKSy4T/T9ns1Z7fE822Nr/wEGVcVBLGdFfwaCoA==}
+  '@shell-shock/preset-cli@0.9.43':
+    resolution: {integrity: sha512-dDplyyrH68YMZXsk1W25JFZJvRW+xWSLsfXnOnQ1xOOEPNMGFeD2Ni54hshgTQf620ncPsN08nvh32QeYibhYg==}
 
-  '@shell-shock/preset-script@0.6.85':
-    resolution: {integrity: sha512-ByxqvpRthmpf8ACuQiXsJwh4nat4I9l4Snqb/ppbuPvX/Bs7ktyTOBchuwH8GCkxTjzOxoLV6G/gx5DdInvVZQ==}
+  '@shell-shock/preset-script@0.6.86':
+    resolution: {integrity: sha512-674+6VkSbfulf2Aavw/OUpBkJLFwJaN+UuLMBPQG7MQOHfMn1teVlC+QnFQVWw6qNUBqn8nQkxNC4JSWN9uuCA==}
 
-  '@shell-shock/schema@0.0.9':
-    resolution: {integrity: sha512-2F0TzbJgGQTDINzdpEczev55ikccXjOBcf5RCQxluQSRvDEX7d70BgS1Td4Kb5fn3l90IBwuGNZCrYMCZQsJog==}
+  '@shell-shock/schema@0.0.10':
+    resolution: {integrity: sha512-0PRFDDCEmraW2SZPum2PPgkQkgU3EWqP7OvaYDTx1ub+sWyUDdJ1hM2SM6WGN/rGqCsrG8E9k+HzHVx9qHiulA==}
 
-  '@shell-shock/unified@0.2.28':
-    resolution: {integrity: sha512-KBFEWEqpa1pxra9Q3cvUNmS9a8c0IapSDZOyXOx5BkVyTIRlxe3j0AKY/UNWFTgJ6W5CrJXUKhzgI2Wn75JGNw==}
+  '@shell-shock/unified@0.2.29':
+    resolution: {integrity: sha512-Vhw+LCAxES4eprYoPiIEFW190hrOIkCmAII7D8ejJOfIPaZHYc153XTiS6cAEx6K5bXI5oG8smnU1EriTXAQyw==}
 
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -24468,7 +24468,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@shell-shock/core@0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))':
+  '@shell-shock/core@0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/markdown': 0.24.0
@@ -24485,7 +24485,7 @@ snapshots:
       '@powerlines/plugin-power-plant': 0.1.71(bf0de91e4782845ea50308d5dc73eccc)
       '@powerlines/plugin-tsdown': 0.1.615(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
       '@powerlines/unplugin': 0.0.181(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/schema': 0.0.9(valibot@1.5.0(typescript@6.0.3))
+      '@shell-shock/schema': 0.0.10(valibot@1.5.0(typescript@6.0.3))
       '@stryke/cli': 0.13.90(zod@4.6.5)
       '@stryke/convert': 0.7.47
       '@stryke/fs': 0.33.118(zod@4.6.5)
@@ -24581,7 +24581,7 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@shell-shock/eslint-plugin@0.0.94(39a673a5f04bd37c3dd2fbee531af61b)':
+  '@shell-shock/eslint-plugin@0.0.95(39a673a5f04bd37c3dd2fbee531af61b)':
     dependencies:
       '@storm-software/testing-tools': 1.119.299(@nx/jest@23.1.1(@babel/traverse@7.29.8)(@types/node@25.9.9)(babel-plugin-macros@3.1.0)(jest@30.0.5(@types/node@25.9.9)(babel-plugin-macros@3.1.0))(nx@23.1.0)(typescript@6.0.3)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(jest@30.0.5(@types/node@25.9.9)(babel-plugin-macros@3.1.0))
       '@stryke/fs': 0.33.118(zod@4.6.5)
@@ -24657,11 +24657,11 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/nx@0.0.103(0ca0bf565654e6ddc7ac3500bd1e3e21)':
+  '@shell-shock/nx@0.0.104(0ca0bf565654e6ddc7ac3500bd1e3e21)':
     dependencies:
       '@nx/devkit': 23.1.0(nx@23.1.0)
       '@powerlines/nx': 0.13.254(2fb7bf0e3d41102cef588c009435e293)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@storm-software/config': 1.138.83(zod@4.6.5)
       '@storm-software/config-tools': 1.190.147(zod@4.6.5)
       '@storm-software/workspace-tools': 1.297.16(@babel/traverse@7.29.8)(@storm-software/pnpm-tools@0.7.161(zod@4.6.5))(@types/node@25.9.9)(nx@23.1.0)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(typescript@6.0.3)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0))
@@ -24764,16 +24764,16 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-banner@0.1.57(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-banner@0.1.58(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-console': 0.2.34(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-console': 0.2.35(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/path': 0.29.43
       '@stryke/type-checks': 0.6.49
       defu: 6.1.7
@@ -24858,15 +24858,15 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-changelog@0.1.33(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-changelog@0.1.34(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/unified': 0.2.28(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/unified': 0.2.29(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/path': 0.29.43
       '@stryke/type-checks': 0.6.49
       '@stryke/types': 0.12.44
@@ -24952,14 +24952,14 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-completions@0.4.38(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-completions@0.4.39(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@stryke/path': 0.29.43
       '@stryke/string-format': 0.17.58
       powerlines: 0.47.214(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
@@ -25043,7 +25043,7 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-console@0.2.34(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-console@0.2.35(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
@@ -25051,8 +25051,8 @@ snapshots:
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/string-format': 0.17.58
       '@stryke/type-checks': 0.6.49
       defu: 6.1.7
@@ -25137,16 +25137,16 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-help@0.2.48(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-help@0.2.49(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-console': 0.2.34(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-console': 0.2.35(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/helpers': 0.10.56
       '@stryke/path': 0.29.43
       '@stryke/string-format': 0.17.58
@@ -25234,7 +25234,7 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-mcp@0.1.8(1eca4bb4c04bc8ac9ce3a0049e24926e)':
+  '@shell-shock/plugin-mcp@0.1.9(1eca4bb4c04bc8ac9ce3a0049e24926e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
@@ -25243,7 +25243,7 @@ snapshots:
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@stryke/path': 0.29.43
       '@stryke/type-checks': 0.6.49
       defu: 6.1.7
@@ -25328,15 +25328,15 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@shell-shock/plugin-prompts@0.3.71(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-prompts@0.3.72(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       defu: 6.1.7
       powerlines: 0.47.214(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
     transitivePeerDependencies:
@@ -25419,14 +25419,14 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-skills@0.0.21(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-skills@0.0.22(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@stryke/path': 0.29.43
       '@stryke/type-checks': 0.6.49
       '@stryke/types': 0.12.44
@@ -25512,14 +25512,14 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-theme@0.4.43(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/plugin-theme@0.4.44(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@power-plant/noop-output': 0.0.72(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
       '@powerlines/plugin-style-dictionary': 0.3.584(bf0de91e4782845ea50308d5dc73eccc)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@stryke/helpers': 0.10.56
       '@stryke/json': 0.15.40
       '@stryke/string-format': 0.17.58
@@ -25608,7 +25608,7 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/plugin-update@0.1.75(3a0ead2bf24c93936fcaab27a006014f)':
+  '@shell-shock/plugin-update@0.1.76(3a0ead2bf24c93936fcaab27a006014f)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
@@ -25616,7 +25616,7 @@ snapshots:
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       '@stryke/path': 0.29.43
       '@stryke/type-checks': 0.6.49
       '@stryke/types': 0.12.44
@@ -25702,24 +25702,24 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@shell-shock/preset-cli@0.9.42(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/preset-cli@0.9.43(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-banner': 0.1.57(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-changelog': 0.1.33(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-completions': 0.4.38(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-console': 0.2.34(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-help': 0.2.48(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-prompts': 0.3.71(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-skills': 0.0.21(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-update': 0.1.75(3a0ead2bf24c93936fcaab27a006014f)
-      '@shell-shock/preset-script': 0.6.85(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-banner': 0.1.58(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-changelog': 0.1.34(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-completions': 0.4.39(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-console': 0.2.35(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-help': 0.2.49(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-prompts': 0.3.72(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-skills': 0.0.22(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-update': 0.1.76(3a0ead2bf24c93936fcaab27a006014f)
+      '@shell-shock/preset-script': 0.6.86(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/path': 0.29.43
       '@stryke/string-format': 0.17.58
       '@stryke/type-checks': 0.6.49
@@ -25808,18 +25808,18 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/preset-script@0.6.85(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/preset-script@0.6.86(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@alloy-js/core': 0.24.1
       '@alloy-js/typescript': 0.24.0
       '@power-plant/alloy-js': 0.0.90(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@powerlines/plugin-alloy': 0.26.312(0ed4bb05df2af12b5ace4cc85185f154)
       '@powerlines/plugin-plugin': 0.12.627(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.24.2)(tsx@4.23.15)(typescript@6.0.3))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(zod@4.6.5)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-banner': 0.1.57(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-console': 0.2.34(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-help': 0.2.48(fb3974af3254fdc5502f54916aa2265e)
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-banner': 0.1.58(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-console': 0.2.35(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-help': 0.2.49(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/helpers': 0.10.56
       '@stryke/path': 0.29.43
       '@stryke/string-format': 0.17.58
@@ -25905,7 +25905,7 @@ snapshots:
       - webpack
       - zod
 
-  '@shell-shock/schema@0.0.9(valibot@1.5.0(typescript@6.0.3))':
+  '@shell-shock/schema@0.0.10(valibot@1.5.0(typescript@6.0.3))':
     dependencies:
       '@power-plant/core': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
       '@power-plant/schema': 0.0.91(valibot@1.5.0(typescript@6.0.3))(zod@4.6.5)
@@ -25934,11 +25934,11 @@ snapshots:
       - uploadthing
       - valibot
 
-  '@shell-shock/unified@0.2.28(fb3974af3254fdc5502f54916aa2265e)':
+  '@shell-shock/unified@0.2.29(fb3974af3254fdc5502f54916aa2265e)':
     dependencies:
       '@mdit/plugin-alert': 0.23.2(markdown-it@14.3.2)
-      '@shell-shock/core': 0.17.30(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      '@shell-shock/plugin-theme': 0.4.43(fb3974af3254fdc5502f54916aa2265e)
+      '@shell-shock/core': 0.17.31(@alloy-js/babel-preset@0.3.0(@babel/core@8.0.6))(@babel/core@8.0.6)(@babel/plugin-syntax-typescript@8.0.3(@babel/core@8.0.6))(@babel/plugin-transform-json-modules@8.0.1(@babel/core@8.0.6))(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@farmfe/cli@1.0.5)(@modelcontextprotocol/sdk@1.32.0(zod@4.6.5))(@nx/devkit@23.1.0(nx@23.1.0))(@nx/js@23.1.0(@babel/traverse@7.29.8)(nx@23.1.0)(verdaccio@6.0.5(encoding@0.1.13)(typanion@3.14.0)))(@typescript/native-preview@7.0.0-dev.20251218.3)(esbuild@0.28.2)(nx@23.1.0)(oxc-resolver@11.24.2)(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.9))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.9)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.9))(prettier-plugin-sh@0.15.0(prettier@3.9.9))(prettier-plugin-toml@2.0.6(prettier@3.9.9))(rolldown@1.2.12)(rollup@4.64.0)(tsx@4.23.15)(valibot@1.5.0(typescript@6.0.3))(vite@8.3.2(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@shell-shock/plugin-theme': 0.4.44(fb3974af3254fdc5502f54916aa2265e)
       '@stryke/path': 0.29.43
       '@stryke/string-format': 0.17.58
       '@stryke/type-checks': 0.6.49
