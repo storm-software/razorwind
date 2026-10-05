@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/stylelint",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "description": "Razorwind Stylelint plugin generator to create stylelint rules that can be used as design system guidelines.",
   "repository": {

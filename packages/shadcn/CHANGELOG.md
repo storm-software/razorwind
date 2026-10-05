@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.78) (10/05/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.82**
+
 ## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.77) (10/03/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.18](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.18) (10/05/2026)
+
+### Features
+
+- **shell-shock:** Added the Shell Shock CLI plugin package ([9f4574b](https://github.com/storm-software/razorwind/commit/9f4574b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.82**
+
 ## [0.0.17](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.17) (10/03/2026)
 
 ### Bug Fixes
