@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.20) (10/07/2026)
+
+### Features
+
+- **cli:** Added the `test` command to the CLI ([f8eeba7](https://github.com/storm-software/razorwind/commit/f8eeba7))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.84**
+
 ## [0.0.19](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.19) (10/05/2026)
 
 ### Features
