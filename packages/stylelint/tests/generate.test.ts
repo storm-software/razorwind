@@ -33,6 +33,26 @@ import type { DesignSystemPlugin } from "../src/runtime";
 import { designSystem, lint, manifest, spec } from "./fixture";
 
 describe("buildManifest", () => {
+  it("uses unscoped JSX names for scoped component packages", () => {
+    const scoped = buildManifest({
+      ...spec,
+      components: {
+        "@cyclone-ui/select-field": {
+          name: "@cyclone-ui/select-field",
+          title: "@cyclone-ui/select-field"
+        }
+      }
+    } as Schema);
+
+    expect(scoped.components).toEqual([
+      {
+        name: "@cyclone-ui/select-field",
+        jsx: ["SelectField"],
+        roles: []
+      }
+    ]);
+  });
+
   it("collects tokens the way @razorwind/eslint does", () => {
     expect(manifest).toMatchObject({
       name: "Acme",

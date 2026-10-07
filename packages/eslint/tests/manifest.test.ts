@@ -125,6 +125,35 @@ describe("buildManifest", () => {
     });
   });
 
+  it("uses the unscoped package name for JSX names and roles", () => {
+    const scoped = buildManifest({
+      ...spec,
+      components: {
+        "@cyclone-ui/select-field": {
+          name: "@cyclone-ui/select-field",
+          title: "@cyclone-ui/select-field"
+        },
+        "@cyclone-ui/button": {
+          name: "@cyclone-ui/button",
+          title: "@cyclone-ui/button"
+        }
+      }
+    } as Schema);
+
+    expect(scoped.components).toEqual([
+      {
+        name: "@cyclone-ui/button",
+        jsx: ["Button"],
+        roles: ["button"]
+      },
+      {
+        name: "@cyclone-ui/select-field",
+        jsx: ["SelectField"],
+        roles: []
+      }
+    ]);
+  });
+
   it("names icons and fonts", () => {
     expect(manifest.icons).toEqual(["ArrowRightIcon", "ChevronRightIcon"]);
     expect(manifest.fonts).toEqual([{ family: "Inter", role: "sans" }]);

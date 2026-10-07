@@ -345,17 +345,20 @@ export function collectManifestComponents(
   components: Schema["components"]
 ): ManifestComponent[] {
   const all = Object.values(components ?? {});
+  const unscopedName = (value: string) => value.replace(/^@[^/]+\//, "");
   const jsxNames = (component: (typeof all)[number]) => [
     ...new Set(
-      [component.title, component.name].map(pascalCase).filter(Boolean)
+      [component.title, component.name]
+        .map(name => pascalCase(unscopedName(name)))
+        .filter(Boolean)
     )
   ];
 
   return all
     .map(component => {
       const words = new Set([
-        compact(component.name),
-        compact(component.title)
+        compact(unscopedName(component.name)),
+        compact(unscopedName(component.title))
       ]);
       const roles = (Object.keys(ROLE_NAMES) as ComponentRole[]).filter(role =>
         ROLE_NAMES[role].some(name => words.has(name))
