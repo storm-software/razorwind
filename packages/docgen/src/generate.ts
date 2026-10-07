@@ -35,7 +35,7 @@ import {
 import { joinPaths } from "@stryke/path";
 import type { Dirent } from "node:fs";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
 import { escapeTableCell, toSlug } from "./lib/format";
@@ -600,13 +600,18 @@ export function extractRegistryItems(components: unknown): RegistryItemPage[] {
   return pages;
 }
 
-function renderRegistryItemFiles(item: Record<string, unknown>): string {
+function renderRegistryItemFiles(
+  item: Record<string, unknown>,
+  cwd: string
+): string {
   const files = Array.isArray(item.files) ? item.files : [];
+  const displayPath = (path: string) =>
+    isAbsolute(path) ? relative(cwd, path).replaceAll("\\", "/") : path;
 
   const rows = files
     .map(file => {
       if (typeof file === "string") {
-        return `| \`${escapeTableCell(file)}\` | — | — |`;
+        return `| \`${escapeTableCell(displayPath(file))}\` | — | — |`;
       }
 
       if (!isObject(file)) {
@@ -621,7 +626,7 @@ function renderRegistryItemFiles(item: Record<string, unknown>): string {
       const type = readString(file, "type");
       const target = readString(file, "target");
 
-      return `| \`${escapeTableCell(path)}\` | ${type ? `\`${escapeTableCell(type)}\`` : "—"} | ${target ? `\`${escapeTableCell(target)}\`` : "—"} |`;
+      return `| \`${escapeTableCell(displayPath(path))}\` | ${type ? `\`${escapeTableCell(type)}\`` : "—"} | ${target ? `\`${escapeTableCell(target)}\`` : "—"} |`;
     })
     .filter((row): row is string => row !== undefined);
 
@@ -691,7 +696,8 @@ function renderRegistryItemUsage(item: Record<string, unknown>): string {
 
 function renderRegistryItem(
   item: Record<string, unknown>,
-  resolveVersion: (name: string, specifier: string) => string
+  resolveVersion: (name: string, specifier: string) => string,
+  cwd: string
 ): string {
   const name = readString(item, "name") ?? "unknown";
   const title = readString(item, "title") ?? titleCase(name);
@@ -741,7 +747,7 @@ function renderRegistryItem(
     );
   }
 
-  const files = renderRegistryItemFiles(item);
+  const files = renderRegistryItemFiles(item, cwd);
   if (files) {
     sections.push("### Files", files);
   }
@@ -1332,7 +1338,8 @@ export function renderRegistryItemsMdx(
   resolveVersion: (name: string, specifier: string) => string = (
     _name,
     specifier
-  ) => specifier
+  ) => specifier,
+  cwd = process.cwd()
 ): string {
   const sections: string[] = [
     frontmatter({
@@ -1348,7 +1355,7 @@ export function renderRegistryItemsMdx(
   );
 
   for (const item of items) {
-    sections.push(renderRegistryItem(item, resolveVersion));
+    sections.push(renderRegistryItem(item, resolveVersion, cwd));
   }
 
   return `${sections.join("\n\n")}\n`;
@@ -1515,7 +1522,7 @@ export function generateDocs(
     const path = joinPaths("registry", `${page.slug}.mdx`);
     documents[joinPaths(outputPath, path)] = createDoc(
       path,
-      renderRegistryItemsMdx(page, systemTitle, resolveVersion),
+      renderRegistryItemsMdx(page, systemTitle, resolveVersion, cwd),
       "mdx"
     );
   }

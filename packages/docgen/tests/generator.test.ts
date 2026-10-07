@@ -319,6 +319,33 @@ describe("docgen generate plugin", () => {
     expect(icons).toContain("### Preview");
   });
 
+  it("renders absolute registry file paths relative to the generation cwd", async () => {
+    const cwd = await mkdtemp(join(tmpdir(), "razorwind-docgen-paths-"));
+
+    try {
+      const documents = generateDocs(
+        {
+          ...spec,
+          components: {
+            ...spec.components,
+            button: {
+              ...spec.components.button,
+              files: [{ path: join(cwd, "registry/ui/button.tsx"), type: "ui" }]
+            }
+          }
+        } as Schema,
+        { outputPath: "out" },
+        cwd
+      );
+      const content = documents["out/registry/ui.mdx"]?.chunks?.[0]?.content;
+
+      expect(content).toContain("`registry/ui/button.tsx`");
+      expect(content).not.toContain(cwd);
+    } finally {
+      await rm(cwd, { force: true, recursive: true });
+    }
+  });
+
   it("renders catalog and workspace dependency versions", async () => {
     const cwd = await mkdtemp(join(tmpdir(), "razorwind-docgen-"));
 
