@@ -470,11 +470,17 @@ function matchSpecFont(
   });
 }
 
-function renderFaceLiteral(font: LocalFont): string | undefined {
+function renderFaceLiteral(
+  font: LocalFont,
+  weights?: Set<string>
+): string | undefined {
   const byWeight = new Map<string, { normal?: string; italic?: string }>();
 
   for (const file of font.files) {
     const weight = String(file.weight ?? 400);
+    if (weights && !weights.has(weight)) {
+      continue;
+    }
     const stem = basename(file.path).replace(/\.[^.]+$/, "");
     const entry = byWeight.get(weight) ?? {};
     if (file.style === "italic" || file.style === "oblique") {
@@ -627,7 +633,15 @@ function applyTypography(
     };
   }
 
-  return alignFontScaleKeys(next);
+  next = alignFontScaleKeys(next);
+  if (specFont?.source === "local" && Object.keys(next.weight).length > 0) {
+    return {
+      ...next,
+      face: renderFaceLiteral(specFont, new Set(Object.values(next.weight)))
+    };
+  }
+
+  return next;
 }
 
 function alignFontScaleKeys(def: TamaguiFontDef): TamaguiFontDef {

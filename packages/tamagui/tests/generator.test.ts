@@ -803,6 +803,68 @@ describe("tamagui plugin", () => {
     expect(content).toContain('true: "400"');
   });
 
+  it("emits only the local faces used by each typography font's weight", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Inter",
+              fontSize: { value: 16, unit: "px" },
+              fontWeight: 400
+            }
+          },
+          heading: {
+            $value: {
+              fontFamily: "Inter",
+              fontSize: { value: 24, unit: "px" },
+              fontWeight: 600
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(
+      spec,
+      {},
+      {
+        inter: {
+          name: "inter",
+          title: "Inter",
+          source: "local",
+          family: "Inter",
+          role: "sans",
+          files: [
+            { path: "fonts/Inter-Light.ttf", weight: 300, style: "normal" },
+            { path: "fonts/Inter-Regular.ttf", weight: 400, style: "normal" },
+            { path: "fonts/Inter-Italic.ttf", weight: 400, style: "italic" },
+            { path: "fonts/Inter-Semibold.ttf", weight: 600, style: "normal" }
+          ]
+        }
+      }
+    );
+    const body = content
+      .split("const bodyFont = createFont({")[1]
+      ?.split("});")[0];
+    const heading = content
+      .split("const headingFont = createFont({")[1]
+      ?.split("});")[0];
+
+    expect(body).toContain(
+      '400: { normal: "Inter-Regular", italic: "Inter-Italic" }'
+    );
+    expect(body).not.toContain("300: {");
+    expect(body).not.toContain("600: {");
+    expect(heading).toContain('600: { normal: "Inter-Semibold" }');
+    expect(heading).not.toContain("300: {");
+    expect(heading).not.toContain("400: {");
+  });
+
   it("emits light and dark createThemes extras from scheme token sets", () => {
     function stepped(
       name: string,
