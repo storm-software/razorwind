@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.12](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.12) (10/07/2026)
+
+### Bug Fixes
+
+- **eslint:** Resolve issue with `jsx` component naming prefix ([b34b988](https://github.com/storm-software/razorwind/commit/b34b988))
+
 ## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.11) (10/07/2026)
 
 ### Bug Fixes

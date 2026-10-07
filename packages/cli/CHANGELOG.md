@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.24) (10/07/2026)
+
+### Bug Fixes
+
+- **eslint:** Resolve issue with `jsx` component naming prefix ([b34b988](https://github.com/storm-software/razorwind/commit/b34b988))
+
 ## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.23) (10/07/2026)
 
 ### Bug Fixes
