@@ -2,7 +2,7 @@
   "name": "@razorwind/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
+  "description": "💨  Razorwind is a unified set of tools that make creating design systems a breeze.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/razorwind.git"
@@ -43,6 +43,7 @@
     "bootstrap": "pnpm exec zx tools/scripts/src/bootstrap.mjs",
     "build": "pnpm exec zx tools/scripts/src/build.mjs --prod",
     "build-dev": "pnpm exec zx tools/scripts/src/build.mjs --dev",
+    "build-playground": "pnpm exec zx tools/scripts/src/build.mjs --playground --dev",
     "clean": "pnpm exec zx tools/scripts/src/clean.mjs",
     "commit": "pnpm exec storm-git commit",
     "dep-graph": "nx dep-graph",

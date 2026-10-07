@@ -1,11 +1,11 @@
 ---
-id: "clean"
-name: "clean"
-path: "clean"
-reference: "https://docs.stormsoftware.com/projects/razorwind/reference/cli/clean"
+id: "generate"
+name: "generate"
+path: "generate"
+reference: "https://docs.stormsoftware.com/projects/razorwind/reference/cli/generate"
 virtual: false
-title: "Clean"
-description: "Cleans the project by removing build artifacts and temporary files."
+title: "Generate"
+description: "Generates the project for production deployment."
 tags: []
 ---
 
@@ -13,19 +13,19 @@ tags: []
 <!-- oxlint-disable -->
 <!-- biome-ignore lint: disable -->
 
-# Clean
+# Generate
 
-Cleans the project by removing build artifacts and temporary files.
+Generates the project for production deployment.
 
 ## Usage
 
-The `clean` command can be executed using the following syntax:
+The `generate` command can be executed using the following syntax:
 
 <details>
 <summary>Using npm:</summary>
 
 ```sh
-npx razorwind clean [options]
+npx razorwind generate [options]
 ```
 
 </details>
@@ -34,7 +34,7 @@ npx razorwind clean [options]
 <summary>Using yarn:</summary>
 
 ```sh
-yarn exec razorwind clean [options]
+yarn exec razorwind generate [options]
 ```
 
 </details>
@@ -43,7 +43,7 @@ yarn exec razorwind clean [options]
 <summary>Using pnpm:</summary>
 
 ```sh
-pnpm exec razorwind clean [options]
+pnpm exec razorwind generate [options]
 ```
 
 </details>
@@ -52,14 +52,14 @@ pnpm exec razorwind clean [options]
 <summary>Using bun:</summary>
 
 ```sh
-bun x razorwind clean [options]
+bun x razorwind generate [options]
 ```
 
 </details>
 
 ## Options
 
-The following options are available for the `clean` command:
+The following options are available for the `generate` command:
 
 
 

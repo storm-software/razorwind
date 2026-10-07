@@ -20,20 +20,20 @@
 import { $, argv, chalk, echo } from "zx";
 
 try {
+  const isPlayground = argv.playground;
   let configuration = argv.configuration;
   if (!configuration) {
     if (argv.prod) {
       configuration = "production";
     } else if (argv.dev) {
       configuration = "development";
-    } else {
+    } else if (!isPlayground) {
       configuration = "production";
     }
   }
 
-  echo`${chalk.whiteBright(
-    ` 🏗️  Building the monorepo in ${configuration} mode...`
-  )}`;
+  const buildTarget = isPlayground ? "playground" : configuration;
+  echo`${chalk.whiteBright(`🏗️  Building in ${buildTarget} mode...`)}`;
 
   let proc = $`pnpm bootstrap`.timeout(`${1 * 60}s`);
   proc.stdout.on("data", data => {
@@ -48,24 +48,23 @@ try {
     );
   }
 
-  proc = $`pnpm nx run-many --target=build --exclude=monorepo --configuration=${
-    configuration
-  } --outputStyle=dynamic-legacy --parallel=5`.timeout(`${45 * 60}s`);
+  const nxFilter = isPlayground ? "--filter=@playground" : "--exclude=monorepo";
+  const configFlag = configuration ? `--configuration=${configuration}` : "";
+  proc =
+    $`pnpm nx run-many --target=build ${nxFilter} ${configFlag} --outputStyle=dynamic-legacy --parallel=5`.timeout(
+      `${45 * 60}s`
+    );
   proc.stdout.on("data", data => {
     echo`${data}`;
   });
   result = await proc;
   if (result.exitCode !== 0) {
     throw new Error(
-      `An error occurred while building the monorepo in ${
-        configuration
-      } mode: \n\n${result.message}\n`
+      `An error occurred while building the ${buildTarget} mode: \n\n${result.message}\n`
     );
   }
 
-  echo`${chalk.green(
-    ` ✔ Successfully built the monorepo in ${configuration} mode!`
-  )}\n`;
+  echo`${chalk.green(`✔ Successfully built the ${buildTarget} mode!`)}\n`;
 } catch (error) {
   echo`${chalk.red(error?.message ? error.message : "A failure occurred while building the monorepo")}`;
 
