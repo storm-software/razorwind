@@ -42,8 +42,9 @@ export type {
  */
 export interface EslintPluginOptions {
   /**
-   * Output path of the generated ESLint plugin module, written relative to
-   * the execution cwd.
+   * Filename of the generated ESLint plugin module, not an output directory.
+   * Relative paths are resolved against the generation cwd. For a module in
+   * a directory, include the filename (for example, `eslint/design-system/index.mjs`).
    *
    * @defaultValue "eslint/design-system/index.mjs"
    */

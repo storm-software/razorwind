@@ -20,7 +20,8 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
-import { dirname, join } from "node:path";
+import { stat } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { buildManifest } from "./manifest";
 import { createDesignSystemPlugin } from "./runtime";
 import type {
@@ -177,7 +178,8 @@ Re-run Razorwind generate when the design system changes so \`${eslintPath}\` st
  */
 export async function generateEslintPlugin(
   spec: Schema,
-  options: EslintPluginOptions = {}
+  options: EslintPluginOptions = {},
+  cwd: string = process.cwd()
 ): Promise<GeneratorFunctionResult<Schema, EslintPluginOptions>> {
   const manifest = buildManifest(spec, options);
   if (
@@ -189,6 +191,18 @@ export async function generateEslintPlugin(
   }
 
   const eslintPath = options.eslintPath ?? DEFAULT_ESLINT_PATH;
+  const existingPath = await stat(resolve(cwd, eslintPath)).catch(
+    (error: NodeJS.ErrnoException) => {
+      if (error.code === "ENOENT") return undefined;
+      throw error;
+    }
+  );
+  if (existingPath?.isDirectory()) {
+    throw new Error(
+      `eslintPath must be a filename, not an existing directory: "${eslintPath}". Set eslintPath to "${join(eslintPath, "index.mjs")}" instead.`
+    );
+  }
+
   const installPath = join(dirname(eslintPath), "INSTALL.md");
   const meta = { name: "razorwind-eslint" };
 
@@ -229,5 +243,6 @@ export async function generateEslintPlugin(
 export default definePlugin((options?: EslintPluginOptions) => ({
   name: "eslint",
   themeGeneration: "combined",
-  generate: async spec => generateEslintPlugin(spec, options ?? {})
+  generate: async (spec, config) =>
+    generateEslintPlugin(spec, options ?? {}, config.cwd)
 }));

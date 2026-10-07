@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Schema } from "@razorwind/core/schema";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -212,6 +212,44 @@ describe("generateStylelintPlugin", () => {
       "stylelint/design-system/index.mjs",
       "stylelint/design-system/INSTALL.md"
     ]);
+  });
+
+  it("accepts an existing .ts output filename", async () => {
+    const cwd = await mkdtemp(join(tmpdir(), "razorwind-stylelint-file-"));
+    try {
+      await mkdir(join(cwd, "lint"));
+      await writeFile(join(cwd, "lint/acme.ts"), "");
+
+      expect(
+        Object.keys(
+          await generateStylelintPlugin(
+            spec,
+            { stylelintPath: "lint/acme.ts" },
+            cwd
+          )
+        )
+      ).toEqual(["lint/acme.ts", "lint/INSTALL.md"]);
+    } finally {
+      await rm(cwd, { recursive: true, force: true });
+    }
+  });
+
+  it("rejects an existing directory relative to the generation cwd", async () => {
+    const cwd = await mkdtemp(join(tmpdir(), "razorwind-stylelint-output-"));
+    const outputDir = join(cwd, "lint");
+    try {
+      await mkdir(outputDir);
+
+      await expect(
+        generatePluginDocuments(spec, {
+          cwd,
+          plugins: [stylelint({ stylelintPath: "lint" })]
+        } as Parameters<typeof generatePluginDocuments>[1])
+      ).rejects.toThrow(/stylelintPath.*lint\/index\.mjs/);
+      expect(await readdir(outputDir)).toEqual([]);
+    } finally {
+      await rm(cwd, { recursive: true, force: true });
+    }
   });
 
   it("emits one shared plugin for multi-theme tokens", async () => {

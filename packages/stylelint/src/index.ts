@@ -20,7 +20,8 @@ import type { GeneratorFunctionResult } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument } from "@razorwind/core/utils";
-import { dirname, join } from "node:path";
+import { stat } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { buildManifest } from "./manifest";
 import { createDesignSystemPlugin } from "./runtime";
 import type {
@@ -167,7 +168,8 @@ Re-run Razorwind generate when the design system changes so \`${stylelintPath}\`
  */
 export async function generateStylelintPlugin(
   spec: Schema,
-  options: StylelintPluginOptions = {}
+  options: StylelintPluginOptions = {},
+  cwd: string = process.cwd()
 ): Promise<GeneratorFunctionResult<Schema, StylelintPluginOptions>> {
   const manifest = buildManifest(spec, options);
   if (manifest.tokens.length === 0 && manifest.components.length === 0) {
@@ -175,6 +177,18 @@ export async function generateStylelintPlugin(
   }
 
   const stylelintPath = options.stylelintPath ?? DEFAULT_STYLELINT_PATH;
+  const existingPath = await stat(resolve(cwd, stylelintPath)).catch(
+    (error: NodeJS.ErrnoException) => {
+      if (error.code === "ENOENT") return undefined;
+      throw error;
+    }
+  );
+  if (existingPath?.isDirectory()) {
+    throw new Error(
+      `stylelintPath must be a filename, not an existing directory: "${stylelintPath}". Set stylelintPath to "${join(stylelintPath, "index.mjs")}" instead.`
+    );
+  }
+
   const installPath = join(dirname(stylelintPath), "INSTALL.md");
   const meta = { name: "razorwind-stylelint" };
 
@@ -217,5 +231,6 @@ export async function generateStylelintPlugin(
 export default definePlugin((options?: StylelintPluginOptions) => ({
   name: "stylelint",
   themeGeneration: "combined",
-  generate: async spec => generateStylelintPlugin(spec, options ?? {})
+  generate: async (spec, config) =>
+    generateStylelintPlugin(spec, options ?? {}, config.cwd)
 }));

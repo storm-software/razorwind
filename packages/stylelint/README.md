@@ -141,12 +141,16 @@ reviewable exception:
 
 | Option          | Default                               | Description                                                                     |
 | --------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-| `stylelintPath` | `"stylelint/design-system/index.mjs"` | Output path of the generated plugin module.                                     |
+| `stylelintPath` | `"stylelint/design-system/index.mjs"` | Output filename of the generated plugin module, not a directory.               |
 | `prefix`        | `"design-system"`                     | Rule namespace used in `stylelint.config.*`.                                    |
 | `runtimeImport` | `"@razorwind/stylelint/runtime"`      | Module the generated file imports the runtime from.                             |
 | `cssVarPrefix`  | initials of the schema name           | Prefix of the token CSS variables, matching `@razorwind/css`. `false` for none. |
 | `tailwind`      | `true`                                | Include the `@razorwind/tailwindcss` guardrails as `tailwind-*` rules.          |
 | `installGuide`  | generated                             | Override the generated `INSTALL.md`.                                            |
+
+Relative `stylelintPath` values resolve against the generation cwd. Include a full
+filename when placing the module in a directory, for example
+`stylelint({ stylelintPath: "stylelint/design-system/index.ts" })`.
 
 ### Rules
 

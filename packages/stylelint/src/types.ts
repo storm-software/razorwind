@@ -43,8 +43,9 @@ export type {
  */
 export interface StylelintPluginOptions {
   /**
-   * Output path of the generated Stylelint plugin module, written relative
-   * to the execution cwd.
+   * Filename of the generated Stylelint plugin module, not an output directory.
+   * Relative paths are resolved against the generation cwd. For a module in
+   * a directory, include the filename (for example, `stylelint/design-system/index.mjs`).
    *
    * @defaultValue "stylelint/design-system/index.mjs"
    */

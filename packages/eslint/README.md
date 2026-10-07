@@ -129,13 +129,17 @@ export default [
 
 | Option          | Default                            | Description                                                                          |
 | --------------- | ---------------------------------- | ------------------------------------------------------------------------------------ |
-| `eslintPath`    | `"eslint/design-system/index.mjs"` | Output path of the generated plugin module.                                          |
+| `eslintPath`    | `"eslint/design-system/index.mjs"` | Output filename of the generated plugin module, not a directory.                    |
 | `prefix`        | `"design-system"`                  | Rule namespace used in `eslint.config.*`.                                            |
 | `runtimeImport` | `"@razorwind/eslint/runtime"`      | Module the generated file imports the runtime from.                                  |
 | `cssVarPrefix`  | initials of the schema name        | Prefix of the token CSS variables, matching `@razorwind/css`. `false` for none.      |
 | `tailwind`      | `true`                             | Include the `@razorwind/tailwindcss` class guardrails as `tailwind-*` rules.         |
 | `tamagui`       | `false`                            | Include the `@razorwind/tamagui` v3 guardrails as `tamagui-*` rules.                 |
 | `installGuide`  | generated                          | Override the generated `INSTALL.md`.                                                 |
+
+Relative `eslintPath` values resolve against the generation cwd. Include a full
+filename when placing the module in a directory, for example
+`eslint({ eslintPath: "eslint/design-system/index.ts" })`.
 
 ### Rules
 
