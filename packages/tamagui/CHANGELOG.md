@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.87](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.87) (10/07/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with duplicate font faces ([5e2e3e5](https://github.com/storm-software/razorwind/commit/5e2e3e5))
+
 ## [0.0.86](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.86) (10/07/2026)
 
 ### Updated Dependencies

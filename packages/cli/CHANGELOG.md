@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.22) (10/07/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with duplicate font faces ([5e2e3e5](https://github.com/storm-software/razorwind/commit/5e2e3e5))
+
 ## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.21) (10/07/2026)
 
 ### Features
