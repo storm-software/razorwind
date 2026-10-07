@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/benchmark",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "description": "Razorwind plugin for evaluating design-system effectiveness with AI coding agents.",
   "repository": {

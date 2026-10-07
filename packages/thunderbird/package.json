@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/thunderbird",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "type": "module",
   "description": "Razorwind plugin that generates Mozilla Thunderbird themes from design tokens.",
   "repository": {

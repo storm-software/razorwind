@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/docgen",
-  "version": "0.0.81",
+  "version": "0.0.82",
   "type": "module",
   "description": "Razorwind plugin that creates MDX documentation for the tokens/components defined in the design system.",
   "repository": {

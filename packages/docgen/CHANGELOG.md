@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.82](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.82) (10/07/2026)
+
+### Bug Fixes
+
+- **docgen:** Update registry docs to use relative path instead of absolute paths ([f3b4f96](https://github.com/storm-software/razorwind/commit/f3b4f96))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.85**
+
 ## [0.0.81](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.81) (10/07/2026)
 
 ### Updated Dependencies
