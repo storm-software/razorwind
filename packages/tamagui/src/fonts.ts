@@ -476,11 +476,12 @@ function renderFaceLiteral(
 ): string | undefined {
   const byWeight = new Map<string, { normal?: string; italic?: string }>();
 
-  for (const file of font.files) {
+  for (const file of font.files ?? []) {
     const weight = String(file.weight ?? 400);
     if (weights && !weights.has(weight)) {
       continue;
     }
+
     const stem = basename(file.path).replace(/\.[^.]+$/, "");
     const entry = byWeight.get(weight) ?? {};
     if (file.style === "italic" || file.style === "oblique") {
@@ -488,6 +489,7 @@ function renderFaceLiteral(
     } else {
       entry.normal = stem;
     }
+
     byWeight.set(weight, entry);
   }
 
@@ -502,9 +504,11 @@ function renderFaceLiteral(
       if (faces.normal) {
         parts.push(`normal: ${toLiteral(faces.normal)}`);
       }
+
       if (faces.italic) {
         parts.push(`italic: ${toLiteral(faces.italic)}`);
       }
+
       return `    ${weight}: { ${parts.join(", ")} }`;
     });
 
