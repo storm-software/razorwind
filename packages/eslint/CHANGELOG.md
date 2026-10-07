@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.11](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.11) (10/07/2026)
+
+### Bug Fixes
+
+- **eslint:** Resolve issue with generated plugin code path resolution ([140b56f](https://github.com/storm-software/razorwind/commit/140b56f))
+
 ## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.10) (10/07/2026)
 
 ### Bug Fixes
