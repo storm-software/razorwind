@@ -228,5 +228,6 @@ export async function generateEslintPlugin(
  */
 export default definePlugin((options?: EslintPluginOptions) => ({
   name: "eslint",
+  themeGeneration: "combined",
   generate: async spec => generateEslintPlugin(spec, options ?? {})
 }));
