@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.10](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.10) (10/07/2026)
+
+### Bug Fixes
+
+- **eslint:** Resolve issue with multiple generated eslint plugins ([2fe1090](https://github.com/storm-software/razorwind/commit/2fe1090))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.86**
+- Updated **tailwindcss** to **v0.0.84**
+- Updated **tamagui** to **v0.0.89**
+
 ## [0.0.9](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.9) (10/07/2026)
 
 ### Updated Dependencies

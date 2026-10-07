@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/theme-seeds",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "type": "module",
   "description": "Razorwind extractor that generates semantic design tokens from theme seeds.",
   "repository": {

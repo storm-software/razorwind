@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.23](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.23) (10/07/2026)
+
+### Bug Fixes
+
+- **eslint:** Resolve issue with multiple generated eslint plugins ([2fe1090](https://github.com/storm-software/razorwind/commit/2fe1090))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.86**
+
 ## [0.0.22](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.22) (10/07/2026)
 
 ### Bug Fixes
