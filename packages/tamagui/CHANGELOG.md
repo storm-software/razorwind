@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.88) (10/07/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with missing fonts ([2cda6c8](https://github.com/storm-software/razorwind/commit/2cda6c8))
+
 ## [0.0.87](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.87) (10/07/2026)
 
 ### Bug Fixes
