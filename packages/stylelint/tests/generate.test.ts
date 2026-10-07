@@ -22,6 +22,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { describe, expect, it } from "vitest";
+import { generatePluginDocuments } from "../../core/src/lib/generate";
 import stylelint, {
   generateStylelintPlugin,
   renderStylelintInstallMd,
@@ -211,6 +212,20 @@ describe("generateStylelintPlugin", () => {
       "stylelint/design-system/index.mjs",
       "stylelint/design-system/INSTALL.md"
     ]);
+  });
+
+  it("emits one shared plugin for multi-theme tokens", async () => {
+    const documents = await generatePluginDocuments(spec, {
+      plugins: [stylelint()]
+    } as Parameters<typeof generatePluginDocuments>[1]);
+
+    expect(Object.keys(documents).sort()).toEqual([
+      "stylelint/design-system/INSTALL.md",
+      "stylelint/design-system/index.mjs"
+    ]);
+    expect(
+      documents["stylelint/design-system/index.mjs"]?.chunks?.[0]?.content
+    ).toContain('"themes": [\n    "light",\n    "dark"\n  ]');
   });
 
   it("honours an install guide override", async () => {

@@ -216,5 +216,6 @@ export async function generateStylelintPlugin(
  */
 export default definePlugin((options?: StylelintPluginOptions) => ({
   name: "stylelint",
+  themeGeneration: "combined",
   generate: async spec => generateStylelintPlugin(spec, options ?? {})
 }));

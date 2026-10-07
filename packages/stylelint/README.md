@@ -108,7 +108,8 @@ export default defineConfig({
 
 Generating writes `stylelint/design-system/index.mjs` (the plugin, with the
 design-system manifest inlined) and an `INSTALL.md` listing every rule and its
-default severity. Wire the plugin into `stylelint.config.mjs`:
+default severity. Multi-theme token sets generate one shared plugin and guide,
+not separate files per theme. Wire the plugin into `stylelint.config.mjs`:
 
 ```js
 import designSystem from "./stylelint/design-system/index.mjs";
