@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/json-render",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "type": "module",
   "description": "Razorwind plugin that generates json-render catalogs, prompts, and structured-output schemas from extracted design-system metadata.",
   "repository": {
