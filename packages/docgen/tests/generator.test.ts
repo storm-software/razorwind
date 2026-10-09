@@ -194,6 +194,24 @@ describe("format", () => {
 });
 
 describe("flattenTokens", () => {
+  it("preserves color token themes independently of token-set themes", () => {
+    const flat = flattenTokens({
+      light: {
+        color: {
+          accent: { $type: "color", $value: "#f00", theme: "danger" },
+          plain: { $type: "color", $value: "#fff" }
+        }
+      }
+    } as unknown as Schema["tokens"]);
+
+    expect(flat.find(token => token.path === "color.accent")).toEqual(
+      expect.objectContaining({ theme: "light", childTheme: "danger" })
+    );
+    expect(
+      flat.find(token => token.path === "color.plain")?.childTheme
+    ).toBeUndefined();
+  });
+
   it("walks nested DTCG tokens", () => {
     const flat = flattenTokens(spec.tokens);
     expect(flat.map(token => token.path)).toEqual(
@@ -236,6 +254,32 @@ describe("docgen extract plugin", () => {
 });
 
 describe("docgen generate plugin", () => {
+  it("groups color tokens by their own themes and retains unthemed colors", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            danger: { $type: "color", $value: "#f00", theme: "danger" },
+            warning: { $type: "color", $value: "#ff0", theme: "warning" }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/tokens/color.mdx"]?.chunks?.[0]?.content ?? "";
+
+    expect(colors.split("## Danger\n\n")[1]?.split("## Warning")[0]).toContain(
+      "`color.danger`"
+    );
+    expect(colors.split("## Warning\n\n")[1]).toContain("`color.warning`");
+    expect(colors.match(/`color.base`/g)).toHaveLength(1);
+    expect(colors.match(/`color.danger`/g)).toHaveLength(1);
+    expect(colors.match(/`color.warning`/g)).toHaveLength(1);
+  });
+
   it("is a Razorwind Plugin", () => {
     const plugin = generate({});
     expect(plugin.name).toBe("docgen:generate");

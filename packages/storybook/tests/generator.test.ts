@@ -509,7 +509,7 @@ describe("storybook plugin", () => {
     expect(documents["out/blocks/FontSpecimen.tsx"]).toBeUndefined();
   });
 
-  it("separates palette, semantic, and unmarked colors into doc sections", () => {
+  it("separates palette, themed, and unmarked colors into doc sections", () => {
     const documents = generateTokenDocs(
       {
         ...spec,
@@ -537,8 +537,35 @@ describe("storybook plugin", () => {
       documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content;
     expect(colors).toContain("<h2>Color palettes</h2>");
     expect(colors).toContain("<h2>Semantic colors</h2>");
+    expect(colors).toContain('<h3>{"Danger"}</h3>');
     expect(colors).toContain("<h2>Colors</h2>");
     expect(colors?.match(/<ColorPalette>/g)).toHaveLength(3);
+  });
+
+  it("groups themed colors separately without repeating them in other sections", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            danger: { $type: "color", $value: "#f00", theme: "danger" },
+            dangerAlt: { $type: "color", $value: "#e00", theme: "danger" },
+            warning: { $type: "color", $value: "#ff0", theme: "warning" }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content ?? "";
+
+    expect(colors).toMatch(/<h3>\{"Danger"\}<\/h3>[\s\S]*?<ColorPalette>/);
+    expect(colors).toMatch(/<h3>\{"Warning"\}<\/h3>[\s\S]*?<ColorPalette>/);
+    expect(colors.match(/"#f00"/g)).toHaveLength(1);
+    expect(colors.match(/"#e00"/g)).toHaveLength(1);
+    expect(colors.match(/"#ff0"/g)).toHaveLength(1);
+    expect(colors.match(/"#fff"/g)).toHaveLength(1);
   });
 
   it("keeps the single color palette block when no color metadata is present", () => {

@@ -53,6 +53,8 @@
 
 **Razorwind - Documentation Generator** is a Power Plant generator that creates MDX documentation for the tokens/components defined in the Razorwind design system.
 
+Color tokens with a `theme` property appear under theme headings; unthemed colors remain in the main color table.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

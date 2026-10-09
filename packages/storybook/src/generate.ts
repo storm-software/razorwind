@@ -39,6 +39,7 @@ import {
   renderGuidelineBody,
   resolveSchemaIdentity,
   SHARED_THEME_ID,
+  titleCase,
   toThemeCssVar
 } from "@razorwind/core/utils";
 import {
@@ -278,19 +279,17 @@ ${colorsObject}
 
   const renderPalette = (tokens: FlatToken[]) => {
     const colors = tokens.filter(token => token.type === "color");
-    const paletteColors = colors.filter(token => token.palette);
-    const semanticColors = colors.filter(
-      token => !token.palette || token.childTheme
-    );
-    const otherColors = colors.filter(
-      token => !token.palette && !token.childTheme
-    );
+    const unthemedColors = colors.filter(token => !token.childTheme);
+    const paletteColors = unthemedColors.filter(token => token.palette);
+    const otherColors = unthemedColors.filter(token => !token.palette);
+    const colorThemes = [
+      ...new Set(colors.map(token => token.childTheme).filter(Boolean))
+    ] as string[];
     const hasCategorizedColors =
-      paletteColors.length > 0 || semanticColors.length > 0;
+      paletteColors.length > 0 || colorThemes.length > 0;
     const items = renderItems(colors);
     const sections = [
       ["Color palettes", paletteColors],
-      ["Semantic colors", semanticColors],
       ["Colors", otherColors]
     ]
       .filter(
@@ -305,9 +304,28 @@ ${renderItems(sectionTokens, "          ")}
       </section>`
       )
       .join("\n");
+    const semanticSection = colorThemes.length
+      ? `      <section>
+        <h2>Semantic colors</h2>
+${colorThemes
+  .toSorted((a, b) => a.localeCompare(b))
+  .map(
+    theme => `        <section>
+          <h3>{${toLiteral(titleCase(theme))}}</h3>
+          <ColorPalette>
+${renderItems(
+  colors.filter(token => token.childTheme === theme),
+  "            "
+)}
+          </ColorPalette>
+        </section>`
+  )
+  .join("\n")}
+      </section>`
+      : "";
 
     return hasCategorizedColors
-      ? `<>\n${sections}\n    </>`
+      ? `<>\n${sections}\n${semanticSection}\n    </>`
       : `<ColorPalette>\n${items || "      {/* No color tokens */}"}\n    </ColorPalette>`;
   };
 

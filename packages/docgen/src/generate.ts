@@ -145,13 +145,36 @@ export function renderGroupMdx(
     `${tokens.length} token${tokens.length === 1 ? "" : "s"} in the \`${group}\` group.`
   ];
 
+  const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
+    if (group !== "color" || !groupTokens.some(token => token.childTheme)) {
+      return [renderTokenTable(groupTokens)];
+    }
+
+    const unthemed = groupTokens.filter(token => !token.childTheme);
+    const colorThemes = [
+      ...new Set(groupTokens.map(token => token.childTheme).filter(Boolean))
+    ] as string[];
+
+    return [
+      ...(unthemed.length ? [renderTokenTable(unthemed)] : []),
+      ...colorThemes
+        .toSorted((a, b) => a.localeCompare(b))
+        .flatMap(theme => [
+          `${"#".repeat(headingLevel)} ${escapeMdx(titleCase(theme))}`,
+          renderTokenTable(
+            groupTokens.filter(token => token.childTheme === theme)
+          )
+        ])
+    ];
+  };
+
   if (themes.length > 1) {
     for (const theme of themes.toSorted((a, b) => a.localeCompare(b))) {
       const themed = tokens.filter(token => token.theme === theme);
-      sections.push(`## ${titleCase(theme)}`, renderTokenTable(themed));
+      sections.push(`## ${titleCase(theme)}`, ...renderSections(themed, 3));
     }
   } else {
-    sections.push(renderTokenTable(tokens));
+    sections.push(...renderSections(tokens, 2));
   }
 
   return `${sections.join("\n\n")}\n`;

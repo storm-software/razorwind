@@ -53,6 +53,8 @@
 
 **Razorwind - Storybook Generator** is a Power Plant generator that creates Storybook MDX token doc blocks from Razorwind design tokens.
 
+Color tokens with a `theme` property appear in separate themed palettes alongside unthemed colors.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

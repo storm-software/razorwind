@@ -110,4 +110,6 @@ export interface FlatToken {
   description?: string;
   /** Theme / set id when tokens are a `Record<string, Tokens>`. */
   theme?: string;
+  /** Theme declared on a color token or its ancestor group. */
+  childTheme?: string;
 }
