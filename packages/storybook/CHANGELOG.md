@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.87](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.87) (10/08/2026)
+
+### Bug Fixes
+
+- **docgen:** Update generated documentation to group colors by theme ([c1dca95](https://github.com/storm-software/razorwind/commit/c1dca95))
+- **tamagui:** Resolve issue with font naming conventions ([4db0bcd](https://github.com/storm-software/razorwind/commit/4db0bcd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.88**
+- Updated **docgen** to **v0.0.85**
+
 ## [0.0.86](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.86) (10/07/2026)
 
 ### Updated Dependencies

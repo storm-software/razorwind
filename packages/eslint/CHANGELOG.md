@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.14) (10/08/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with font naming conventions ([4db0bcd](https://github.com/storm-software/razorwind/commit/4db0bcd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.88**
+- Updated **tailwindcss** to **v0.0.86**
+- Updated **tamagui** to **v0.0.91**
+
 ## [0.0.13](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.13) (10/07/2026)
 
 ### Updated Dependencies

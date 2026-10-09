@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.91](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.91) (10/08/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with font naming conventions ([4db0bcd](https://github.com/storm-software/razorwind/commit/4db0bcd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.88**
+
 ## [0.0.90](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.90) (10/07/2026)
 
 ### Updated Dependencies
