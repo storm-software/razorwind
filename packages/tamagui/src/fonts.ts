@@ -250,21 +250,20 @@ function stripPathPrefix(path: string, prefix: RegExp): string[] {
 }
 
 function toFontKey(segments: string[]): string {
-  const parts = segments.flatMap(segment => segment.split("-")).filter(Boolean);
+  const parts = segments
+    .flatMap(segment =>
+      segment
+        .replaceAll(/([A-Z])([A-Z][a-z])/g, "$1-$2")
+        .replaceAll(/([a-z\d])([A-Z])/g, "$1-$2")
+        .split("-")
+    )
+    .filter(Boolean);
 
   if (parts.length === 0) {
     return "body";
   }
 
-  return parts
-    .map((part, index) => {
-      if (index === 0) {
-        return `${part.charAt(0).toLowerCase()}${part.slice(1)}`;
-      }
-
-      return `${part.charAt(0).toUpperCase()}${part.slice(1)}`;
-    })
-    .join("");
+  return parts.map(part => part.toLowerCase()).join("-");
 }
 
 /**

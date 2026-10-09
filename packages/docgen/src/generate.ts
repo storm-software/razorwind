@@ -336,14 +336,14 @@ function parseWorkspaceManifest(content: string): WorkspaceManifest {
     }
 
     if (section === "packages") {
-      const packageMatch = /^-\s+(.+)$/.exec(trimmed);
+      const packageMatch = /^-\s+(\S.*)$/.exec(trimmed);
       if (packageMatch?.[1]) {
         manifest.packages?.push(yamlScalar(packageMatch[1]));
       }
       continue;
     }
 
-    const entryMatch = /^([^:]+):\s*(.*)$/.exec(trimmed);
+    const entryMatch = /^([^:]+):(?:\s+(\S.*)|\s*)$/.exec(trimmed);
     if (!entryMatch?.[1]) {
       continue;
     }
@@ -1267,13 +1267,6 @@ export function renderFontBody(
   }
 
   return sections.join("\n\n");
-}
-
-function renderFont(item: Record<string, unknown>): string {
-  const name = readString(item, "name") ?? "unknown";
-  const title = readString(item, "title") ?? titleCase(name);
-
-  return [`## ${title}`, renderFontBody(item)].join("\n\n");
 }
 
 /**

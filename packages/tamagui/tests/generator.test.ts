@@ -522,6 +522,33 @@ describe("tamagui plugin", () => {
     expect(content).toContain("body: bodyFont");
   });
 
+  it("uses kebab-case config keys for camel-case spec font roles and names", () => {
+    const content = renderConfig(
+      spec,
+      { useDefaultConfig: false, animations: false },
+      {
+        stormSans: {
+          name: "stormSans",
+          title: "Storm Sans",
+          source: "google",
+          family: "Storm Sans",
+          role: "stormSans"
+        },
+        stormSerif: {
+          name: "stormSerif",
+          title: "Storm Serif",
+          source: "google",
+          family: "Storm Serif"
+        }
+      }
+    );
+
+    expect(content).toContain('"storm-sans": stormSansFont');
+    expect(content).toContain('"storm-serif": stormSerifFont');
+    expect(content).not.toContain("stormSans: stormSansFont");
+    expect(content).not.toContain("stormSerif: stormSerifFont");
+  });
+
   it("emits createFont from typography tokens", () => {
     const spec = {
       components: {},

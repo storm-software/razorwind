@@ -280,7 +280,7 @@ ${colorsObject}
     const colors = tokens.filter(token => token.type === "color");
     const paletteColors = colors.filter(token => token.palette);
     const semanticColors = colors.filter(
-      token => !token.palette && token.childTheme
+      token => !token.palette || token.childTheme
     );
     const otherColors = colors.filter(
       token => !token.palette && !token.childTheme

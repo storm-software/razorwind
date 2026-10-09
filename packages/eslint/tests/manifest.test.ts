@@ -138,7 +138,7 @@ describe("buildManifest", () => {
           title: "@cyclone-ui/button"
         }
       }
-    } as Schema);
+    } as unknown as Schema);
 
     expect(scoped.components).toEqual([
       {
