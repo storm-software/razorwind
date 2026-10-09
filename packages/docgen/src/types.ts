@@ -112,4 +112,6 @@ export interface FlatToken {
   theme?: string;
   /** Theme declared on a color token or its ancestor group. */
   childTheme?: string;
+  /** Group declared on a color token or its ancestor group. */
+  childGroup?: string;
 }

@@ -38,8 +38,11 @@ function metadataKey(theme: string | undefined, path: string): string {
   return theme ? `${theme}:${path}` : path;
 }
 
-function readChildTheme(node: Record<string, unknown>): string | undefined {
-  const value = node.theme ?? node.$theme;
+function readString(
+  node: Record<string, unknown>,
+  key: string
+): string | undefined {
+  const value = node[key] ?? node[`$${key}`];
 
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
@@ -53,20 +56,27 @@ function isColorMetadataKey(key: string, value: unknown): boolean {
     );
   }
 
-  return (key === "theme" || key === "$theme") && typeof value === "string";
+  return (
+    ["theme", "$theme", "group", "$group"].includes(key) &&
+    typeof value === "string"
+  );
 }
 
 function collectColorMetadata(
   tokens: Tokens | Record<string, Tokens>
-): Map<string, Pick<FlatToken, "palette" | "childTheme">> {
-  const metadata = new Map<string, Pick<FlatToken, "palette" | "childTheme">>();
+): Map<string, Pick<FlatToken, "palette" | "childTheme" | "childGroup">> {
+  const metadata = new Map<
+    string,
+    Pick<FlatToken, "palette" | "childTheme" | "childGroup">
+  >();
 
   function walk(
     node: unknown,
     path: string[],
     theme: string | undefined,
     palette: boolean,
-    childTheme: string | undefined
+    childTheme: string | undefined,
+    childGroup: string | undefined
   ): void {
     if (!isObject(node)) {
       return;
@@ -74,13 +84,15 @@ function collectColorMetadata(
 
     const nextPalette =
       palette || isTruthyFlag(node.palette) || isTruthyFlag(node.$palette);
-    const nextChildTheme = readChildTheme(node) ?? childTheme;
+    const nextChildTheme = readString(node, "theme") ?? childTheme;
+    const nextChildGroup = readString(node, "group") ?? childGroup;
 
     if (isTokenLeaf(node)) {
-      if (nextPalette || nextChildTheme) {
+      if (nextPalette || nextChildTheme || nextChildGroup) {
         metadata.set(metadataKey(theme, path.join(".")), {
           ...(nextPalette && { palette: true }),
-          ...(nextChildTheme && { childTheme: nextChildTheme })
+          ...(nextChildTheme && { childTheme: nextChildTheme }),
+          ...(nextChildGroup && { childGroup: nextChildGroup })
         });
       }
       return;
@@ -88,19 +100,27 @@ function collectColorMetadata(
 
     for (const [key, child] of Object.entries(node)) {
       if (
-        (key.startsWith("$") && key !== "$palette" && key !== "$theme") ||
+        (key.startsWith("$") &&
+          !["$palette", "$theme", "$group"].includes(key)) ||
         isColorMetadataKey(key, child)
       ) {
         continue;
       }
 
-      walk(child, [...path, key], theme, nextPalette, nextChildTheme);
+      walk(
+        child,
+        [...path, key],
+        theme,
+        nextPalette,
+        nextChildTheme,
+        nextChildGroup
+      );
     }
   }
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walk(set.tokens, [], theme, false, undefined);
+    walk(set.tokens, [], theme, false, undefined, undefined);
   }
 
   return metadata;

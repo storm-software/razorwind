@@ -280,6 +280,30 @@ describe("docgen generate plugin", () => {
     expect(colors.match(/`color.warning`/g)).toHaveLength(1);
   });
 
+  it("groups color tokens by their own groups", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            brand: {
+              group: "brand",
+              primary: { $type: "color", $value: "#00f" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/tokens/color.mdx"]?.chunks?.[0]?.content ?? "";
+
+    expect(colors.split("## Brand\n\n")[1]).toContain("`color.brand.primary`");
+    expect(colors.match(/`color.base`/g)).toHaveLength(1);
+    expect(colors.match(/`color.brand.primary`/g)).toHaveLength(1);
+  });
+
   it("is a Razorwind Plugin", () => {
     const plugin = generate({});
     expect(plugin.name).toBe("docgen:generate");

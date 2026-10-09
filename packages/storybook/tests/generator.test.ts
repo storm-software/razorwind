@@ -568,6 +568,31 @@ describe("storybook plugin", () => {
     expect(colors.match(/"#fff"/g)).toHaveLength(1);
   });
 
+  it("groups colors by their group property", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            brand: {
+              group: "brand",
+              primary: { $type: "color", $value: "#00f" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content ?? "";
+
+    expect(colors).toMatch(/<h2>\{"Brand"\}<\/h2>[\s\S]*?<ColorPalette>/);
+    expect(colors).toContain("<h2>Colors</h2>");
+    expect(colors.match(/"#00f"/g)).toHaveLength(1);
+    expect(colors.match(/"#fff"/g)).toHaveLength(1);
+  });
+
   it("keeps the single color palette block when no color metadata is present", () => {
     const documents = generateTokenDocs(spec, { outputPath: "out" });
     const colors =

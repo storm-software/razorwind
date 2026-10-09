@@ -146,23 +146,27 @@ export function renderGroupMdx(
   ];
 
   const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
-    if (group !== "color" || !groupTokens.some(token => token.childTheme)) {
+    // A color's own theme takes precedence over its group.
+    const sectionOf = (token: FlatToken) =>
+      token.childTheme ?? token.childGroup;
+
+    if (group !== "color" || !groupTokens.some(sectionOf)) {
       return [renderTokenTable(groupTokens)];
     }
 
-    const unthemed = groupTokens.filter(token => !token.childTheme);
-    const colorThemes = [
-      ...new Set(groupTokens.map(token => token.childTheme).filter(Boolean))
+    const unsectioned = groupTokens.filter(token => !sectionOf(token));
+    const colorSections = [
+      ...new Set(groupTokens.map(sectionOf).filter(Boolean))
     ] as string[];
 
     return [
-      ...(unthemed.length ? [renderTokenTable(unthemed)] : []),
-      ...colorThemes
+      ...(unsectioned.length ? [renderTokenTable(unsectioned)] : []),
+      ...colorSections
         .toSorted((a, b) => a.localeCompare(b))
-        .flatMap(theme => [
-          `${"#".repeat(headingLevel)} ${escapeMdx(titleCase(theme))}`,
+        .flatMap(section => [
+          `${"#".repeat(headingLevel)} ${escapeMdx(titleCase(section))}`,
           renderTokenTable(
-            groupTokens.filter(token => token.childTheme === theme)
+            groupTokens.filter(token => sectionOf(token) === section)
           )
         ])
     ];

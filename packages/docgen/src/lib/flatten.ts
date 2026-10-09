@@ -30,47 +30,58 @@ import type { DocgenGeneratePluginOptions, FlatToken } from "../types";
 export { resolveTokenSets };
 export type { TokenSet };
 
-function collectColorThemes(
+type ColorMetadata = Pick<FlatToken, "childTheme" | "childGroup">;
+
+function readString(
+  node: Record<string, unknown>,
+  key: string
+): string | undefined {
+  const value = node[key] ?? node[`$${key}`];
+
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function collectColorMetadata(
   tokens: Tokens | Record<string, Tokens>
-): Map<string, string> {
-  const themes = new Map<string, string>();
+): Map<string, ColorMetadata> {
+  const metadata = new Map<string, ColorMetadata>();
 
   function walk(
     node: unknown,
     path: string[],
     setId: string | undefined,
-    inheritedTheme: string | undefined
+    inherited: ColorMetadata
   ): void {
     if (!isObject(node)) {
       return;
     }
 
-    const ownTheme = node.theme ?? node.$theme;
-    const childTheme =
-      typeof ownTheme === "string" && ownTheme.length > 0
-        ? ownTheme
-        : inheritedTheme;
+    const childTheme = readString(node, "theme") ?? inherited.childTheme;
+    const childGroup = readString(node, "group") ?? inherited.childGroup;
 
     if (isTokenLeaf(node)) {
-      if (childTheme) {
-        themes.set(`${setId ?? ""}:${path.join(".")}`, childTheme);
+      if (childTheme || childGroup) {
+        metadata.set(`${setId ?? ""}:${path.join(".")}`, {
+          ...(childTheme && { childTheme }),
+          ...(childGroup && { childGroup })
+        });
       }
       return;
     }
 
     for (const [key, child] of Object.entries(node)) {
-      if (key.startsWith("$") || key === "theme") {
+      if (key.startsWith("$") || key === "theme" || key === "group") {
         continue;
       }
-      walk(child, [...path, key], setId, childTheme);
+      walk(child, [...path, key], setId, { childTheme, childGroup });
     }
   }
 
   for (const set of resolveTokenSets(tokens)) {
-    walk(set.tokens, [], set.id === "default" ? undefined : set.id, undefined);
+    walk(set.tokens, [], set.id === "default" ? undefined : set.id, {});
   }
 
-  return themes;
+  return metadata;
 }
 
 /**
@@ -84,7 +95,7 @@ export function flattenTokens(
   > = {}
 ): FlatToken[] {
   const cssVarPrefix = options.cssVarPrefix;
-  const colorThemes = collectColorThemes(tokens);
+  const colorMetadata = collectColorMetadata(tokens);
 
   return flattenTokensBase<FlatToken>(tokens, {
     includeTypes: options.includeTypes,
@@ -93,9 +104,7 @@ export function flattenTokens(
       ...base,
       cssVar: toCssVar(base.path, cssVarPrefix),
       ...(base.type === "color" &&
-        colorThemes.has(`${base.theme ?? ""}:${base.path}`) && {
-          childTheme: colorThemes.get(`${base.theme ?? ""}:${base.path}`)
-        })
+        colorMetadata.get(`${base.theme ?? ""}:${base.path}`))
     })
   });
 }

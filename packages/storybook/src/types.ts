@@ -41,6 +41,8 @@ export interface FlatToken {
   palette?: boolean;
   /** Semantic child-theme name from a token or ancestor `theme` property. */
   childTheme?: string;
+  /** Color group name from a token or ancestor `group` property. */
+  childGroup?: string;
 }
 
 /**

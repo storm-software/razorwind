@@ -280,16 +280,28 @@ ${colorsObject}
   const renderPalette = (tokens: FlatToken[]) => {
     const colors = tokens.filter(token => token.type === "color");
     const unthemedColors = colors.filter(token => !token.childTheme);
-    const paletteColors = unthemedColors.filter(token => token.palette);
-    const otherColors = unthemedColors.filter(token => !token.palette);
+    const ungroupedColors = unthemedColors.filter(token => !token.childGroup);
+    const paletteColors = ungroupedColors.filter(token => token.palette);
+    const otherColors = ungroupedColors.filter(token => !token.palette);
     const colorThemes = [
       ...new Set(colors.map(token => token.childTheme).filter(Boolean))
     ] as string[];
+    const colorGroups = [
+      ...new Set(unthemedColors.map(token => token.childGroup).filter(Boolean))
+    ] as string[];
     const hasCategorizedColors =
-      paletteColors.length > 0 || colorThemes.length > 0;
+      paletteColors.length > 0 ||
+      colorThemes.length > 0 ||
+      colorGroups.length > 0;
     const items = renderItems(colors);
     const sections = [
       ["Color palettes", paletteColors],
+      ...colorGroups
+        .toSorted((a, b) => a.localeCompare(b))
+        .map(group => [
+          `{${toLiteral(titleCase(group))}}`,
+          unthemedColors.filter(token => token.childGroup === group)
+        ]),
       ["Colors", otherColors]
     ]
       .filter(
