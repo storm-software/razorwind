@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.27) (10/09/2026)
+
+### Features
+
+- **docgen:** Added support for a `group` command to group colors in documents ([6b1c101](https://github.com/storm-software/razorwind/commit/6b1c101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.89**
+
 ## [0.0.26](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.26) (10/08/2026)
 
 ### Updated Dependencies

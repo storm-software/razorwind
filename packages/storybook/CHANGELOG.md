@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.88) (10/09/2026)
+
+### Features
+
+- **docgen:** Added support for a `group` command to group colors in documents ([6b1c101](https://github.com/storm-software/razorwind/commit/6b1c101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.89**
+- Updated **docgen** to **v0.0.86**
+
 ## [0.0.87](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.87) (10/08/2026)
 
 ### Bug Fixes

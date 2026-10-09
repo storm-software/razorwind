@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.86](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.86) (10/09/2026)
+
+### Features
+
+- **docgen:** Added support for a `group` command to group colors in documents ([6b1c101](https://github.com/storm-software/razorwind/commit/6b1c101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.89**
+
 ## [0.0.85](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.85) (10/08/2026)
 
 ### Bug Fixes
