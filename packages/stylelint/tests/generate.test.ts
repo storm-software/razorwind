@@ -181,6 +181,18 @@ describe("renderStylelintPlugin", () => {
     );
     expect(code).toContain('"cssVar": "--acme-color-primary"');
     expect(code).toContain("export default designSystem.config;");
+    expect(code).not.toContain("DesignSystemManifest");
+  });
+
+  it("annotates the manifest when emitting TypeScript", () => {
+    const code = renderStylelintPlugin(manifest, {
+      stylelintPath: "lint/index.ts"
+    });
+
+    expect(code).toContain(
+      'import { createDesignSystemPlugin, type DesignSystemManifest } from "@razorwind/stylelint/runtime";'
+    );
+    expect(code).toContain("export const manifest: DesignSystemManifest = {");
   });
 
   it("emits a module that Stylelint can load", async () => {
