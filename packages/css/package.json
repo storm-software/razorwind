@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/css",
-  "version": "0.0.72",
+  "version": "0.0.73",
   "type": "module",
   "description": "Razorwind CSS plugin that can create CSS files from design tokens or read a CSS file and return the design tokens.",
   "repository": {

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.25) (10/10/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.90**
+
 ## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.24) (10/09/2026)
 
 ### Updated Dependencies
