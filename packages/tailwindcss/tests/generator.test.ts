@@ -167,6 +167,47 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
   });
 });
 
+describe("duplicate color reuse", () => {
+  it("references the scale step for repeated colors", () => {
+    const css = renderTailwindCss(
+      flattenThemeTokens({
+        color: {
+          $type: "color",
+          primary: { $value: "#0066CC" },
+          blue: { 500: { $value: "#0066cc" } }
+        }
+      } as never)
+    );
+
+    expect(css).toContain("--color-blue-500: #0066cc;");
+    expect(css).toContain("--color-primary: var(--color-blue-500);");
+  });
+
+  it("keeps literals when only one side has a dark override", () => {
+    const css = renderTailwindCss(
+      flattenThemeTokens({
+        light: {
+          color: {
+            $type: "color",
+            bg: { $value: "#ffffff" },
+            card: { $value: "#ffffff" }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            bg: { $value: "#000000" },
+            ring: { $value: "#000000" }
+          }
+        }
+      } as never)
+    );
+
+    expect(css).toContain("--color-card: #ffffff;");
+    expect(css).toContain("--color-ring: var(--color-bg);");
+  });
+});
+
 describe("tailwindcss extract plugin", () => {
   it("is a Razorwind Plugin", () => {
     const plugin = extract({});

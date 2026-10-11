@@ -88,7 +88,8 @@ export default definePlugin(
           files: [
             {
               destination: outputPath,
-              format: "css/variables"
+              format: "css/variables",
+              options: { outputReferences: true }
             }
           ]
         }

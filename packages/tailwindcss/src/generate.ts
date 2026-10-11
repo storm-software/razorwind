@@ -27,6 +27,7 @@ import {
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Fonts, Schema, Tokens } from "@razorwind/core/schema";
 import {
+  aliasDuplicateColors,
   createDocument,
   formatTokenValue,
   isObject,
@@ -153,10 +154,33 @@ export function flattenThemeTokens(
   tokens: Tokens | Record<string, Tokens>
 ): FlatThemeToken[] {
   const flat: FlatThemeToken[] = [];
+  const sets = resolveTokenSets(tokens);
 
-  for (const set of resolveTokenSets(tokens)) {
+  // A primary alias must not cross a `.dark` override boundary, or the
+  // aliasing token would silently pick up the dark value.
+  const darkPaths = new Set<string>();
+  const dark = sets.find(set => set.id.toLowerCase() === "dark");
+  if (dark) {
+    const darkTokens: FlatThemeToken[] = [];
+    walkTokens(dark.tokens, [], undefined, darkTokens);
+    for (const token of darkTokens) {
+      darkPaths.add(token.path);
+    }
+  }
+
+  for (const set of sets) {
     const setTokens: FlatThemeToken[] = [];
-    walkTokens(set.tokens, [], undefined, setTokens);
+    walkTokens(
+      aliasDuplicateColors(
+        set.tokens,
+        set === dark
+          ? undefined
+          : (from, to) => darkPaths.has(from) === darkPaths.has(to)
+      ),
+      [],
+      undefined,
+      setTokens
+    );
     for (const token of setTokens) {
       flat.push({
         ...token,

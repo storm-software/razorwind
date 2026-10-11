@@ -22,7 +22,11 @@ import {
   styleDictionaryLogOptions
 } from "@razorwind/core/lib/tokens";
 import type { Schema } from "@razorwind/core/schema";
-import { createDocument, cssVarPrefixFromName } from "@razorwind/core/utils";
+import {
+  aliasDuplicateColors,
+  createDocument,
+  cssVarPrefixFromName
+} from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import StyleDictionary from "style-dictionary";
@@ -65,14 +69,15 @@ function resolveGlobs(
  * Resolve schema tokens into a Style Dictionary `DesignTokens` document.
  *
  * Multi-theme records (`{ light, dark, … }`) pass through as nested groups so
- * platforms can filter/transform per theme if desired.
+ * platforms can filter/transform per theme if desired. Repeated color values
+ * become aliases so formats using `outputReferences` reuse one variable.
  */
 function resolveTokens(tokens: Schema["tokens"]): DesignTokens {
   if (!tokens || typeof tokens !== "object") {
     return {};
   }
 
-  return normalizeTokenTree(tokens) as DesignTokens;
+  return aliasDuplicateColors(normalizeTokenTree(tokens)) as DesignTokens;
 }
 
 function defaultInstallPath(outputPaths: string[]): string {

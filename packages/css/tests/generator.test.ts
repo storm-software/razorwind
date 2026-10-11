@@ -131,4 +131,27 @@ describe("css generate plugin", () => {
       'src: url("https://cdn.acme.test/fonts/Acme%20Sans.woff2") format("woff2");'
     );
   });
+
+  it("reuses variables for aliases and repeated color values", async () => {
+    const plugin = generate({ outputPath: "src/styles.css", prefix: "x" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            $type: "color",
+            blue: { 500: { $value: "#0066cc" } },
+            primary: { $value: "#0066cc" },
+            link: { $value: "{color.primary}" }
+          }
+        }
+      } as Schema,
+      { cwd: process.cwd() } as never
+    );
+
+    const css = cssContent(documents, "src/styles.css");
+    expect(css).toContain("--x-color-blue-500: #0066cc;");
+    expect(css).toContain("--x-color-primary: var(--x-color-blue-500);");
+    expect(css).toContain("--x-color-link: var(--x-color-primary);");
+  });
 });

@@ -58,6 +58,7 @@ export {
 } from "./theme-output";
 export { titleCase } from "./title-case";
 export {
+  aliasDuplicateColors,
   formatColorValue,
   formatCssAliasReferences,
   formatDimensionValue,

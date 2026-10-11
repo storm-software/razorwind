@@ -17,7 +17,11 @@ export default defineConfig(() => ({
       "@razorwind/core/lib/tokens": resolve(coreSrc, "lib/tokens/index.ts"),
       "@razorwind/core/tokens": resolve(coreSrc, "lib/tokens/index.ts"),
       "@razorwind/core/utils": resolve(coreSrc, "utils/index.ts"),
-      "@razorwind/core": resolve(coreSrc, "plugin.ts")
+      "@razorwind/core": resolve(coreSrc, "plugin.ts"),
+      "@razorwind/style-dictionary/generate": resolve(
+        __dirname,
+        "../style-dictionary/src/index.ts"
+      )
     }
   },
   test: {

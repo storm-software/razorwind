@@ -268,3 +268,81 @@ export function formatTokenValue(value: unknown, type?: string): string {
     return String(value);
   }
 }
+
+interface ColorLeaf {
+  node: Record<string, unknown>;
+  path: string[];
+}
+
+function collectColorLeaves(
+  node: unknown,
+  path: string[],
+  inheritedType: string | undefined,
+  out: ColorLeaf[]
+): void {
+  if (!isObject(node)) {
+    return;
+  }
+
+  const type =
+    typeof node.$type === "string"
+      ? node.$type
+      : typeof node.type === "string"
+        ? node.type
+        : inheritedType;
+
+  if ("$value" in node || "value" in node) {
+    if (type === "color") {
+      out.push({ node, path });
+    }
+    return;
+  }
+
+  for (const [key, child] of Object.entries(node)) {
+    if (!key.startsWith("$")) {
+      collectColorLeaves(child, [...path, key], type, out);
+    }
+  }
+}
+
+/**
+ * Rewrite color tokens whose literal value repeats another color token into
+ * DTCG aliases (`{color.blue.500}`), so emitted CSS reuses one custom property
+ * per distinct color via `var(--…)`. Scale steps (`…500`) are preferred as the
+ * alias target; otherwise the first token in document order wins.
+ *
+ * @param tokens - The DTCG token tree (not mutated).
+ * @param canAlias - Optional guard; return `false` to keep `from` literal.
+ */
+export function aliasDuplicateColors<T>(
+  tokens: T,
+  canAlias?: (from: string, to: string) => boolean
+): T {
+  const result = structuredClone(tokens);
+  const leaves: ColorLeaf[] = [];
+  collectColorLeaves(result, [], undefined, leaves);
+
+  const isStep = (leaf: ColorLeaf) => /^\d+$/.test(leaf.path.at(-1) ?? "");
+  const ordered = leaves.toSorted(
+    (a, b) => Number(isStep(b)) - Number(isStep(a))
+  );
+
+  const targets = new Map<string, string>();
+  for (const leaf of ordered) {
+    const key = "$value" in leaf.node ? "$value" : "value";
+    const color = formatColorValue(leaf.node[key])?.toLowerCase();
+    if (!color || color.includes("{") || color.includes("var(")) {
+      continue;
+    }
+
+    const from = leaf.path.join(".");
+    const to = targets.get(color);
+    if (!to) {
+      targets.set(color, from);
+    } else if (!canAlias || canAlias(from, to)) {
+      leaf.node[key] = `{${to}}`;
+    }
+  }
+
+  return result;
+}
