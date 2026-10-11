@@ -73,7 +73,15 @@ export function App() {
 - \`textShadow="${token("textShadow.sm")}"\`
 - \`filter="${token("dropShadow.sm")}"\`
 
-## Regenerate
+${
+  usesV3
+    ? `## Animations
+
+If you use the CSS animation driver with \`Sheet\` or animated-number hooks, import \`createAnimations\` from \`@tamagui/animations-css/extras\` — the root entry omits them and \`Sheet\` throws.
+
+`
+    : ""
+}## Regenerate
 
 Re-run Razorwind generate when tokens change so \`${options.outputPath}\` stays aligned with your design system.
 `;

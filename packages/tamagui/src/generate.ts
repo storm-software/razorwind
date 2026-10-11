@@ -19,6 +19,7 @@
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import { createDocument, toThemeCssVar } from "@razorwind/core/utils";
+import { createThemes } from "@tamagui/theme-builder";
 import { dirname, join } from "node:path";
 import { flattenTokens, toCamelCaseKey } from "./flatten";
 import type { TamaguiFontDef } from "./fonts";
@@ -1028,7 +1029,7 @@ function renderThemeInterface(
 
   return [
     "/**",
-    ` * Theme values available on \`useTheme()\` and \`$\` style props for the ${options.specName || "design system"}.`,
+    ` * Theme values available on \`useTheme()\` and theme-aware style props for the ${options.specName || "design system"}.`,
     " *",
     " * Derived from semantic color tokens mapped by \`createThemes\`. Nested",
     " * themes (`light_primary`, `dark_danger`, …) come from each token's",
@@ -1160,7 +1161,8 @@ function renderThemesModule(
   dark: ThemeMaps,
   colorBucket: TokenBucket,
   lightColorTokens: FlatToken[],
-  darkColorTokens: FlatToken[]
+  darkColorTokens: FlatToken[],
+  freeze = false
 ): { statements: string[]; hasThemes: boolean } {
   const childNames = [
     ...new Set([...Object.keys(light.children), ...Object.keys(dark.children)])
@@ -1190,6 +1192,24 @@ function renderThemesModule(
     basePalette.dark
   );
 
+  if (freeze) {
+    return {
+      statements: [
+        renderFrozenThemes({
+          light,
+          dark,
+          colorBucket,
+          basePalette,
+          accentPalette,
+          hasBase,
+          hasAccent,
+          nestedNames
+        })
+      ],
+      hasThemes: true
+    };
+  }
+
   const statements: string[] = [];
   const createThemesFields: string[] = ["  componentThemes: false"];
 
@@ -1218,7 +1238,15 @@ function renderThemesModule(
       `  childrenThemes: ${renderEmptyChildrenThemes(nestedNames, 4)}`
     );
     const skipAccent = hasAccent ? ' || child === "accent"' : "";
-    createThemesFields.push(`  getTheme: ({ name, theme, scheme }) => {
+    createThemesFields.push(`  getTheme: ({
+            name,
+            theme,
+            scheme
+          }: {
+            name: string;
+            theme: Record<string, string>;
+            scheme?: ColorScheme;
+          }) => {
     const child = name.replace(/^(?:light|dark)_/, "");
     if (child === name${skipAccent}) {
       return theme;
@@ -1235,6 +1263,104 @@ function renderThemesModule(
   );
 
   return { statements, hasThemes: true };
+}
+
+/**
+ * Turn a rendered theme expression back into its value: `tokens.color.K.val`
+ * reads the color bucket, anything else is a {@link toLiteral} literal.
+ */
+function evaluateThemeExpression(
+  expression: string,
+  colorBucket: TokenBucket
+): string | number {
+  const ref = /^tokens\.color\.(.+)\.val$/.exec(expression);
+
+  return ref ? colorBucket[ref[1]!]! : JSON.parse(expression);
+}
+
+/**
+ * Tamagui v3 removed `@tamagui/theme-builder`, so run the same `createThemes`
+ * input {@link renderThemesModule} emits for v2 at generation time and write
+ * the output as a static `themes` literal (v3's frozen v5 packs keep the same
+ * camelCase keys).
+ *
+ * @see https://tamagui.dev/docs/guides/how-to-upgrade
+ */
+function renderFrozenThemes(input: {
+  light: ThemeMaps;
+  dark: ThemeMaps;
+  colorBucket: TokenBucket;
+  basePalette: { light: string[]; dark: string[] };
+  accentPalette: { light: string[]; dark: string[] };
+  hasBase: boolean;
+  hasAccent: boolean;
+  nestedNames: string[];
+}): string {
+  const { light, dark, colorBucket } = input;
+  const values = (expressions: string[]) =>
+    expressions.map(expression =>
+      String(evaluateThemeExpression(expression, colorBucket))
+    );
+  const extra = (map: Record<string, string>) =>
+    Object.fromEntries(
+      Object.entries(map).map(([key, expression]) => [
+        key,
+        evaluateThemeExpression(expression, colorBucket)
+      ])
+    );
+  const palette = (scheme: { light: string[]; dark: string[] }) => ({
+    light: values(scheme.light),
+    dark: values(scheme.dark)
+  });
+
+  const nested = {
+    light: childrenForScheme(light, dark, input.nestedNames),
+    dark: childrenForScheme(dark, light, input.nestedNames)
+  };
+
+  const themes = createThemes({
+    componentThemes: false,
+    base: {
+      palette: palette(input.basePalette),
+      ...(input.hasBase
+        ? { extra: { light: extra(light.base), dark: extra(dark.base) } }
+        : {})
+    },
+    ...(input.hasAccent
+      ? {
+          accent: {
+            palette: palette(input.accentPalette),
+            extra: {
+              light: extra(light.children.accent ?? dark.children.accent ?? {}),
+              dark: extra(dark.children.accent ?? light.children.accent ?? {})
+            }
+          }
+        }
+      : {}),
+    ...(input.nestedNames.length > 0
+      ? {
+          childrenThemes: Object.fromEntries(
+            input.nestedNames.map(name => [name, {}])
+          ),
+          getTheme: ({
+            name,
+            theme,
+            scheme
+          }: {
+            name: string;
+            theme: Record<string, string>;
+            scheme?: ColorScheme;
+          }) => {
+            const extras =
+              nested[scheme ?? "light"][name.replace(/^(?:light|dark)_/, "")];
+
+            return extras ? { ...theme, ...extra(extras) } : theme;
+          }
+        }
+      : {})
+  } as Parameters<typeof createThemes>[0]);
+
+  return `const themes = ${JSON.stringify(themes, null, 2)};`;
 }
 
 interface TokenAnalysis {
@@ -1367,7 +1493,8 @@ export function renderTamaguiConfig(
     darkMaps,
     colorBucket,
     lightColorTokens,
-    darkColorTokens
+    darkColorTokens,
+    target === "v3"
   );
   const appThemeKeys = collectAppThemeKeys(
     hasDark ? [lightMaps, darkMaps] : [lightMaps]
@@ -1389,7 +1516,10 @@ export function renderTamaguiConfig(
     }
   }
 
-  const imports: string[] = ["import { isWeb } from '@tamagui/constants';"];
+  // v3 documents `tamagui` as the config entry point (and augmentation target).
+  const tamaguiModule = target === "v3" ? "tamagui" : "@tamagui/core";
+  const imports: string[] =
+    target === "v3" ? [] : ["import { isWeb } from '@tamagui/constants';"];
   if (useDefaultConfig) {
     imports.push(`import { defaultConfig } from "@tamagui/config/v5";`);
   }
@@ -1404,11 +1534,14 @@ export function renderTamaguiConfig(
     imports.push(`import userConfig from "${options.importConfig}";`);
   }
 
-  if (hasThemes) {
+  if (hasThemes && target !== "v3") {
     imports.push(`import { createThemes } from "@tamagui/theme-builder";`);
   }
 
   const tamaguiImports = ["createTamagui", "px"];
+  if (target === "v3") {
+    tamaguiImports.push("isWeb");
+  }
   if (createTokensArgs.length > 0) {
     tamaguiImports.push("createTokens");
   }
@@ -1416,8 +1549,6 @@ export function renderTamaguiConfig(
   if (assignedFonts.length > 0) {
     tamaguiImports.push("createFont");
   }
-  const tamaguiModule = "@tamagui/core";
-  const typeAugmentationModule = target === "v3" ? "tamagui" : tamaguiModule;
   imports.push(
     `import { ${tamaguiImports.join(", ")} } from "${tamaguiModule}";`
   );
@@ -1532,7 +1663,9 @@ export function renderTamaguiConfig(
 
   if (target === "v3") {
     configParts.push(
-      '  settings: { styleValueSyntax: "string", legacyConditionObjects: false }'
+      useDefaultConfig
+        ? '  settings: { ...defaultConfig.settings, styleValueSyntax: "string" }'
+        : '  settings: { styleValueSyntax: "string" }'
     );
   }
 
@@ -1555,7 +1688,7 @@ export const config = createTamagui({`,
 
   if (includeTypeAugmentation) {
     lines.push(
-      `declare module "${typeAugmentationModule}" {`,
+      `declare module "${tamaguiModule}" {`,
       `  // eslint-disable-next-line @typescript-eslint/no-empty-object-type`,
       `  interface TamaguiCustomConfig extends AppConfig {}`,
       `}`,

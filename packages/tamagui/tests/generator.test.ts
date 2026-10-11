@@ -482,11 +482,11 @@ describe("tamagui plugin", () => {
     const content = renderConfig(spec, { target: "v3" });
 
     expect(content).toContain(
-      'import { createTamagui, px, createTokens } from "@tamagui/core";'
+      'import { createTamagui, px, isWeb, createTokens } from "tamagui";'
     );
-    expect(content).toContain(
-      'settings: { styleValueSyntax: "string", legacyConditionObjects: false }'
-    );
+    expect(content).not.toContain("@tamagui/constants");
+    expect(content).toContain('settings: { styleValueSyntax: "string" }');
+    expect(content).not.toContain("legacyConditionObjects");
     expect(content).toContain('declare module "tamagui"');
     expect(content).not.toContain('declare module "@tamagui/core"');
   });
@@ -1305,6 +1305,21 @@ describe("tamagui plugin", () => {
     expect(content).toContain("childrenThemes:");
     expect(content).toContain("getTheme:");
     expect(content).not.toContain("const light_red");
+
+    const v3 = renderConfig(spec, {
+      target: "v3",
+      animations: false,
+      includeTypeAugmentation: false
+    });
+    expect(v3).not.toContain("@tamagui/theme-builder");
+    expect(v3).not.toContain("createThemes(");
+    const start = v3.indexOf("const themes = ") + "const themes = ".length;
+    const frozen = JSON.parse(v3.slice(start, v3.indexOf("\n};", start) + 2));
+    expect(frozen.light_danger.foreground).toBe("#ff4600");
+    expect(frozen.dark_danger.foreground).toBe("#aa4600");
+    expect(frozen.light_success.backgroundSubtle).toBe("#00ff5a");
+    expect(frozen.light_accent.foreground).toBe("#00ccaa");
+    expect(frozen.light.backgroundHover).toBeTypeOf("string");
   });
 
   it("strips the theme name from semantic keys on the named theme", () => {
