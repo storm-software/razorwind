@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.93](https://github.com/storm-software/razorwind/releases/tag/core%400.0.93) (10/11/2026)
+
+### Bug Fixes
+
+- **style-dictionary:** Resolve issue with declaration file output paths ([9b79d39](https://github.com/storm-software/razorwind/commit/9b79d39))
+
 ## [0.0.91](https://github.com/storm-software/razorwind/releases/tag/core%400.0.91) (10/11/2026)
 
 ### Bug Fixes

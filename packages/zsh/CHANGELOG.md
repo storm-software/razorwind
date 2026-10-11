@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Zsh
 
+## [0.0.67](https://github.com/storm-software/razorwind/releases/tag/zsh%400.0.67) (10/11/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.93**
+
 ## [0.0.66](https://github.com/storm-software/razorwind/releases/tag/zsh%400.0.66) (10/11/2026)
 
 ### Updated Dependencies

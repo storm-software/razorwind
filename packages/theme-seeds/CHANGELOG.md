@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Theme Seeds
 
+## [0.0.26](https://github.com/storm-software/razorwind/releases/tag/theme-seeds%400.0.26) (10/11/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.93**
+
 ## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/theme-seeds%400.0.25) (10/11/2026)
 
 ### Updated Dependencies
