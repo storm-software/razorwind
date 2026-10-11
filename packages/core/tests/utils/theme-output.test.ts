@@ -54,6 +54,15 @@ describe("appendThemeToFilePath", () => {
       "ghostty-theme-dark"
     );
   });
+
+  it("inserts the theme slug before TypeScript declaration extensions", () => {
+    expect(appendThemeToFilePath("tokens.d.ts", "dark")).toBe(
+      "tokens-dark.d.ts"
+    );
+    expect(appendThemeToFilePath("src/js/tokens.d.mts", "light")).toBe(
+      "src/js/tokens-light.d.mts"
+    );
+  });
 });
 
 describe("applyThemeToDocuments", () => {

@@ -48,8 +48,14 @@ export function applyThemeToTitle(
  *
  * @example
  * appendThemeToFilePath("tokens.css", "dark") // "tokens-dark.css"
+ * appendThemeToFilePath("tokens.d.ts", "dark") // "tokens-dark.d.ts"
  */
 export function appendThemeToFilePath(filePath: string, theme: string): string {
+  const declaration = /(\.d\.[cm]?ts)$/.exec(filePath);
+  if (declaration?.[1] && filePath.length > declaration[1].length) {
+    return `${filePath.slice(0, -declaration[1].length)}-${slugifyThemeName(theme)}${declaration[1]}`;
+  }
+
   const parsed = parse(filePath);
   if (!parsed.name) {
     return filePath;
