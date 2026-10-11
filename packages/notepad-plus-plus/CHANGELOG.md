@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Notepad Plus Plus
 
+## [0.0.66](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.66) (10/11/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.92**
+
 ## [0.0.65](https://github.com/storm-software/razorwind/releases/tag/notepad-plus-plus%400.0.65) (10/11/2026)
 
 ### Updated Dependencies

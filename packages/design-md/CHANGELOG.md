@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.89](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.89) (10/11/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.92**
+
 ## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.88) (10/11/2026)
 
 ### Updated Dependencies
