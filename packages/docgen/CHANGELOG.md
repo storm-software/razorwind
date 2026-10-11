@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.89](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.89) (10/11/2026)
+
+### Bug Fixes
+
+- **docgen:** Improve documentation groupings in generated token docs ([6008aba](https://github.com/storm-software/razorwind/commit/6008aba))
+
 ## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.88) (10/11/2026)
 
 ### Bug Fixes
