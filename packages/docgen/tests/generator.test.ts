@@ -241,6 +241,37 @@ describe("flattenTokens", () => {
 });
 
 describe("docgen extract plugin", () => {
+  it("orders shared color names consistently across swatches", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            brand: {
+              group: "brand",
+              primary: { $type: "color", $value: "#00f" },
+              accent: { $type: "color", $value: "#0f0" }
+            },
+            status: {
+              group: "status",
+              danger: { $type: "color", $value: "#f00" },
+              accent: { $type: "color", $value: "#ff0" },
+              primary: { $type: "color", $value: "#0ff" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const status = (
+      documents["out/tokens/color.mdx"]?.chunks?.[0]?.content ?? ""
+    ).split("## Status\n\n")[1] ?? "";
+
+    expect(status.indexOf("`color.status.primary`")).toBeLessThan(
+      status.indexOf("`color.status.accent`")
+    );
+  });
+
   it("is a Razorwind Plugin", () => {
     const plugin = extract({});
     expect(plugin.name).toBe("docgen:extract");

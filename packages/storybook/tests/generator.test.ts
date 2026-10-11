@@ -593,6 +593,33 @@ describe("storybook plugin", () => {
     expect(colors.match(/"#fff"/g)).toHaveLength(1);
   });
 
+  it("orders shared color labels consistently across swatches", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            blue: {
+              light: { $type: "color", $value: "#00f" },
+              dark: { $type: "color", $value: "#008" }
+            },
+            red: {
+              dark: { $type: "color", $value: "#800" },
+              base: { $type: "color", $value: "#f00" },
+              light: { $type: "color", $value: "#f88" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content ?? "";
+    const red = colors.slice(colors.indexOf('"color.red"'));
+
+    expect(red.indexOf('"#f88"')).toBeLessThan(red.indexOf('"#800"'));
+  });
+
   it("keeps the single color palette block when no color metadata is present", () => {
     const documents = generateTokenDocs(spec, { outputPath: "out" });
     const colors =

@@ -35,6 +35,7 @@ import {
   escapeMdx,
   groupGuidelines,
   isSharedThemeId,
+  mergeOrder,
   mergeTokenTrees,
   renderGuidelineBody,
   resolveSchemaIdentity,
@@ -251,11 +252,27 @@ export function renderColorPaletteBlock(
   const variantEntries = Object.entries(variants);
   const defaultTheme = variantEntries[0]?.[0] ?? "default";
   const themed = hasThemeVariants(variants);
+  // Keep labels shared between swatches in the same relative order everywhere.
+  const labelOrder = mergeOrder(
+    variantEntries.flatMap(([, tokens]) =>
+      [
+        ...groupByPath(
+          tokens.filter(token => token.type === "color"),
+          groupBy
+        ).entries()
+      ].map(([group, groupTokens]) =>
+        groupTokens.map(token => leafLabel(token.path, group))
+      )
+    )
+  );
+  const rankOf = (token: FlatToken, group: string) =>
+    labelOrder.get(leafLabel(token.path, group)) ?? 0;
   const renderItems = (sectionTokens: FlatToken[], indent = "    ") =>
     [...groupByPath(sectionTokens, groupBy).entries()]
       .toSorted(([a], [b]) => a.localeCompare(b))
       .map(([group, groupTokens]) => {
         const colorsObject = groupTokens
+          .toSorted((a, b) => rankOf(a, group) - rankOf(b, group))
           .map(token => {
             const label = leafLabel(token.path, group);
 

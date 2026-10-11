@@ -27,6 +27,7 @@ import {
   escapeMdx,
   groupGuidelines,
   isObject,
+  mergeOrder,
   renderGuidelineBody,
   resolveSchemaIdentity,
   slugifyThemeName,
@@ -75,9 +76,13 @@ function swatch(cssValue: string): string {
 }
 
 /**
- * Render a markdown token table for a set of flattened tokens.
+ * Render a markdown token table for a set of flattened tokens. When `rank` is
+ * provided, rows follow it instead of being sorted by path.
  */
-export function renderTokenTable(tokens: FlatToken[]): string {
+export function renderTokenTable(
+  tokens: FlatToken[],
+  rank?: Map<FlatToken, number>
+): string {
   const hasTheme = tokens.some(token => token.theme);
   const hasDescription = tokens.some(token => token.description);
   const hasColor = tokens.some(token => token.type === "color");
@@ -96,7 +101,9 @@ export function renderTokenTable(tokens: FlatToken[]): string {
     .toSorted(
       (a, b) =>
         (a.theme ?? "").localeCompare(b.theme ?? "") ||
-        a.path.localeCompare(b.path)
+        (rank
+          ? (rank.get(a) ?? 0) - (rank.get(b) ?? 0)
+          : a.path.localeCompare(b.path))
     )
     .map(token => {
       const cells = [
@@ -124,6 +131,48 @@ export function renderTokenTable(tokens: FlatToken[]): string {
 }
 
 /**
+ * Rank tokens so that names shared between swatches (one table per theme and
+ * section) appear in the same relative order in every swatch. A token's name
+ * is its path relative to the common path prefix of its swatch.
+ */
+function rankSwatchNames(
+  tokens: FlatToken[],
+  sectionOf: (token: FlatToken) => string | undefined
+): Map<FlatToken, number> {
+  const swatches = new Map<string, FlatToken[]>();
+  for (const token of tokens) {
+    const key = `${token.theme ?? ""}\0${sectionOf(token) ?? ""}`;
+    swatches.set(key, [...(swatches.get(key) ?? []), token]);
+  }
+
+  const names = new Map<FlatToken, string>();
+  for (const swatch of swatches.values()) {
+    const paths = swatch.map(token => token.path.split("."));
+    const max = Math.min(...paths.map(path => path.length)) - 1;
+    let prefix = 0;
+    while (
+      prefix < max &&
+      paths.every(path => path[prefix] === paths[0]?.[prefix])
+    ) {
+      prefix++;
+    }
+    swatch.forEach((token, index) =>
+      names.set(token, paths[index]!.slice(prefix).join("."))
+    );
+  }
+
+  const order = mergeOrder(
+    [...swatches.values()].map(swatch =>
+      swatch.map(token => names.get(token)!)
+    )
+  );
+
+  return new Map(
+    tokens.map(token => [token, order.get(names.get(token)!) ?? 0])
+  );
+}
+
+/**
  * Render an MDX documentation page for a single token group.
  */
 export function renderGroupMdx(
@@ -145,13 +194,13 @@ export function renderGroupMdx(
     `${tokens.length} token${tokens.length === 1 ? "" : "s"} in the \`${group}\` group.`
   ];
 
-  const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
-    // A color's own theme takes precedence over its group.
-    const sectionOf = (token: FlatToken) =>
-      token.childTheme ?? token.childGroup;
+  // A color's own theme takes precedence over its group.
+  const sectionOf = (token: FlatToken) => token.childTheme ?? token.childGroup;
+  const rank = group === "color" ? rankSwatchNames(tokens, sectionOf) : undefined;
 
+  const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
     if (group !== "color" || !groupTokens.some(sectionOf)) {
-      return [renderTokenTable(groupTokens)];
+      return [renderTokenTable(groupTokens, rank)];
     }
 
     const unsectioned = groupTokens.filter(token => !sectionOf(token));
@@ -160,13 +209,14 @@ export function renderGroupMdx(
     ] as string[];
 
     return [
-      ...(unsectioned.length ? [renderTokenTable(unsectioned)] : []),
+      ...(unsectioned.length ? [renderTokenTable(unsectioned, rank)] : []),
       ...colorSections
         .toSorted((a, b) => a.localeCompare(b))
         .flatMap(section => [
           `${"#".repeat(headingLevel)} ${escapeMdx(titleCase(section))}`,
           renderTokenTable(
-            groupTokens.filter(token => sectionOf(token) === section)
+            groupTokens.filter(token => sectionOf(token) === section),
+            rank
           )
         ])
     ];

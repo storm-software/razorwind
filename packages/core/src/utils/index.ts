@@ -42,6 +42,7 @@ export {
   type GuidelineEntry,
   type GuidelineGroup
 } from "./group-guidelines";
+export { mergeOrder } from "./merge-order";
 export { mergeTokenTrees } from "./merge-tokens";
 export {
   resolveSchemaIdentity,
