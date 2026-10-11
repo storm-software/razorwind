@@ -542,6 +542,34 @@ describe("storybook plugin", () => {
     expect(colors?.match(/<ColorPalette>/g)).toHaveLength(3);
   });
 
+  it("includes colors marked semantic in the semantic section", () => {
+    const documents = generateTokenDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            surface: { $type: "color", $value: "#eee", semantic: true },
+            status: {
+              semantic: true,
+              group: "status",
+              ok: { $type: "color", $value: "#0f0" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/blocks/ColorPalette.tsx"]?.chunks?.[0]?.content ?? "";
+    const semantic = colors.split("<h2>Semantic colors</h2>")[1] ?? "";
+
+    expect(semantic).toContain('"#eee"');
+    expect(semantic).toMatch(/<h3>\{"Status"\}<\/h3>[\s\S]*?"#0f0"/);
+    expect(colors.match(/"#eee"/g)).toHaveLength(1);
+    expect(colors.match(/"#0f0"/g)).toHaveLength(1);
+  });
+
   it("groups themed colors separately without repeating them in other sections", () => {
     const documents = generateTokenDocs(
       {

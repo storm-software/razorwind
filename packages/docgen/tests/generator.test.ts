@@ -285,6 +285,36 @@ describe("docgen extract plugin", () => {
 });
 
 describe("docgen generate plugin", () => {
+  it("includes colors marked semantic in the semantic section", () => {
+    const documents = generateDocs(
+      {
+        ...spec,
+        tokens: {
+          color: {
+            base: { $type: "color", $value: "#fff" },
+            surface: { $type: "color", $value: "#eee", semantic: true },
+            status: {
+              semantic: true,
+              group: "status",
+              ok: { $type: "color", $value: "#0f0" }
+            }
+          }
+        } as unknown as Schema["tokens"]
+      },
+      { outputPath: "out" }
+    );
+    const colors =
+      documents["out/tokens/color.mdx"]?.chunks?.[0]?.content ?? "";
+    const [before, semantic] = colors.split("## Semantic colors\n\n");
+
+    expect(before).toContain("`color.base`");
+    expect(semantic).toContain("`color.surface`");
+    expect(semantic?.split("### Status\n\n")[1]).toContain(
+      "`color.status.ok`"
+    );
+    expect(colors.match(/`color.surface`/g)).toHaveLength(1);
+  });
+
   it("groups color tokens by their own themes and retains unthemed colors", () => {
     const documents = generateDocs(
       {

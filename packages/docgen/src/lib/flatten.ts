@@ -30,7 +30,7 @@ import type { DocgenGeneratePluginOptions, FlatToken } from "../types";
 export { resolveTokenSets };
 export type { TokenSet };
 
-type ColorMetadata = Pick<FlatToken, "childTheme" | "childGroup">;
+type ColorMetadata = Pick<FlatToken, "childTheme" | "childGroup" | "semantic">;
 
 function readString(
   node: Record<string, unknown>,
@@ -58,12 +58,15 @@ function collectColorMetadata(
 
     const childTheme = readString(node, "theme") ?? inherited.childTheme;
     const childGroup = readString(node, "group") ?? inherited.childGroup;
+    const semantic =
+      inherited.semantic || node.semantic === true || node.$semantic === true;
 
     if (isTokenLeaf(node)) {
-      if (childTheme || childGroup) {
+      if (childTheme || childGroup || semantic) {
         metadata.set(`${setId ?? ""}:${path.join(".")}`, {
           ...(childTheme && { childTheme }),
-          ...(childGroup && { childGroup })
+          ...(childGroup && { childGroup }),
+          ...(semantic && { semantic })
         });
       }
       return;
@@ -73,7 +76,7 @@ function collectColorMetadata(
       if (key.startsWith("$") || key === "theme" || key === "group") {
         continue;
       }
-      walk(child, [...path, key], setId, { childTheme, childGroup });
+      walk(child, [...path, key], setId, { childTheme, childGroup, semantic });
     }
   }
 

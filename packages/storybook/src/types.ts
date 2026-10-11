@@ -43,6 +43,8 @@ export interface FlatToken {
   childTheme?: string;
   /** Color group name from a token or ancestor `group` property. */
   childGroup?: string;
+  /** True when a color token or its ancestor group is marked `semantic: true`. */
+  semantic?: boolean;
 }
 
 /**

@@ -48,7 +48,7 @@ function readString(
 }
 
 function isColorMetadataKey(key: string, value: unknown): boolean {
-  if (key === "palette" || key === "$palette") {
+  if (["palette", "$palette", "semantic", "$semantic"].includes(key)) {
     return (
       typeof value === "boolean" ||
       typeof value === "number" ||
@@ -64,10 +64,10 @@ function isColorMetadataKey(key: string, value: unknown): boolean {
 
 function collectColorMetadata(
   tokens: Tokens | Record<string, Tokens>
-): Map<string, Pick<FlatToken, "palette" | "childTheme" | "childGroup">> {
+): Map<string, Pick<FlatToken, "palette" | "childTheme" | "childGroup" | "semantic">> {
   const metadata = new Map<
     string,
-    Pick<FlatToken, "palette" | "childTheme" | "childGroup">
+    Pick<FlatToken, "palette" | "childTheme" | "childGroup" | "semantic">
   >();
 
   function walk(
@@ -76,7 +76,8 @@ function collectColorMetadata(
     theme: string | undefined,
     palette: boolean,
     childTheme: string | undefined,
-    childGroup: string | undefined
+    childGroup: string | undefined,
+    semantic: boolean
   ): void {
     if (!isObject(node)) {
       return;
@@ -86,13 +87,16 @@ function collectColorMetadata(
       palette || isTruthyFlag(node.palette) || isTruthyFlag(node.$palette);
     const nextChildTheme = readString(node, "theme") ?? childTheme;
     const nextChildGroup = readString(node, "group") ?? childGroup;
+    const nextSemantic =
+      semantic || isTruthyFlag(node.semantic) || isTruthyFlag(node.$semantic);
 
     if (isTokenLeaf(node)) {
-      if (nextPalette || nextChildTheme || nextChildGroup) {
+      if (nextPalette || nextChildTheme || nextChildGroup || nextSemantic) {
         metadata.set(metadataKey(theme, path.join(".")), {
           ...(nextPalette && { palette: true }),
           ...(nextChildTheme && { childTheme: nextChildTheme }),
-          ...(nextChildGroup && { childGroup: nextChildGroup })
+          ...(nextChildGroup && { childGroup: nextChildGroup }),
+          ...(nextSemantic && { semantic: true })
         });
       }
       return;
@@ -113,14 +117,15 @@ function collectColorMetadata(
         theme,
         nextPalette,
         nextChildTheme,
-        nextChildGroup
+        nextChildGroup,
+        nextSemantic
       );
     }
   }
 
   for (const set of resolveTokenSets(tokens)) {
     const theme = set.id === "default" ? undefined : set.id;
-    walk(set.tokens, [], theme, false, undefined, undefined);
+    walk(set.tokens, [], theme, false, undefined, undefined, false);
   }
 
   return metadata;

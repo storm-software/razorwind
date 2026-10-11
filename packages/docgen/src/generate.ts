@@ -198,7 +198,10 @@ export function renderGroupMdx(
   const sectionOf = (token: FlatToken) => token.childTheme ?? token.childGroup;
   const rank = group === "color" ? rankSwatchNames(tokens, sectionOf) : undefined;
 
-  const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
+  const renderColorSections = (
+    groupTokens: FlatToken[],
+    headingLevel: number
+  ) => {
     if (group !== "color" || !groupTokens.some(sectionOf)) {
       return [renderTokenTable(groupTokens, rank)];
     }
@@ -219,6 +222,23 @@ export function renderGroupMdx(
             rank
           )
         ])
+    ];
+  };
+
+  const isSemantic = (token: FlatToken) =>
+    !!token.childTheme || token.semantic === true;
+
+  const renderSections = (groupTokens: FlatToken[], headingLevel: number) => {
+    if (group !== "color" || !groupTokens.some(isSemantic)) {
+      return renderColorSections(groupTokens, headingLevel);
+    }
+
+    const other = groupTokens.filter(token => !isSemantic(token));
+
+    return [
+      ...(other.length ? renderColorSections(other, headingLevel) : []),
+      `${"#".repeat(headingLevel)} Semantic colors`,
+      ...renderColorSections(groupTokens.filter(isSemantic), headingLevel + 1)
     ];
   };
 

@@ -296,19 +296,28 @@ ${colorsObject}
 
   const renderPalette = (tokens: FlatToken[]) => {
     const colors = tokens.filter(token => token.type === "color");
-    const unthemedColors = colors.filter(token => !token.childTheme);
+    const isSemantic = (token: FlatToken) =>
+      !!token.childTheme || token.semantic === true;
+    // A semantic color's own theme takes precedence over its group.
+    const semanticSectionOf = (token: FlatToken) =>
+      token.childTheme ?? token.childGroup;
+    const semanticColors = colors.filter(isSemantic);
+    const unthemedColors = colors.filter(token => !isSemantic(token));
     const ungroupedColors = unthemedColors.filter(token => !token.childGroup);
     const paletteColors = ungroupedColors.filter(token => token.palette);
     const otherColors = ungroupedColors.filter(token => !token.palette);
+    const unsectionedSemanticColors = semanticColors.filter(
+      token => !semanticSectionOf(token)
+    );
     const colorThemes = [
-      ...new Set(colors.map(token => token.childTheme).filter(Boolean))
+      ...new Set(semanticColors.map(semanticSectionOf).filter(Boolean))
     ] as string[];
     const colorGroups = [
       ...new Set(unthemedColors.map(token => token.childGroup).filter(Boolean))
     ] as string[];
     const hasCategorizedColors =
       paletteColors.length > 0 ||
-      colorThemes.length > 0 ||
+      semanticColors.length > 0 ||
       colorGroups.length > 0;
     const items = renderItems(colors);
     const sections = [
@@ -333,17 +342,24 @@ ${renderItems(sectionTokens, "          ")}
       </section>`
       )
       .join("\n");
-    const semanticSection = colorThemes.length
+    const semanticSection = semanticColors.length
       ? `      <section>
         <h2>Semantic colors</h2>
-${colorThemes
+${
+  unsectionedSemanticColors.length
+    ? `        <ColorPalette>
+${renderItems(unsectionedSemanticColors, "          ")}
+        </ColorPalette>
+`
+    : ""
+}${colorThemes
   .toSorted((a, b) => a.localeCompare(b))
   .map(
     theme => `        <section>
           <h3>{${toLiteral(titleCase(theme))}}</h3>
           <ColorPalette>
 ${renderItems(
-  colors.filter(token => token.childTheme === theme),
+  semanticColors.filter(token => semanticSectionOf(token) === theme),
   "            "
 )}
           </ColorPalette>

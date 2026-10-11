@@ -114,4 +114,6 @@ export interface FlatToken {
   childTheme?: string;
   /** Group declared on a color token or its ancestor group. */
   childGroup?: string;
+  /** True when a color token or its ancestor group is marked `semantic: true`. */
+  semantic?: boolean;
 }
