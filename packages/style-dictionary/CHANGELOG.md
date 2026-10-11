@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.77) (10/11/2026)
+
+### Bug Fixes
+
+- **css:** Update the generated css files to use variables to reduce hardcoded values ([ba12de8](https://github.com/storm-software/razorwind/commit/ba12de8))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.91**
+
 ## [0.0.76](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.76) (10/10/2026)
 
 ### Updated Dependencies

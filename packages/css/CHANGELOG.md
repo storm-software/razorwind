@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.74](https://github.com/storm-software/razorwind/releases/tag/css%400.0.74) (10/11/2026)
+
+### Bug Fixes
+
+- **css:** Update the generated css files to use variables to reduce hardcoded values ([ba12de8](https://github.com/storm-software/razorwind/commit/ba12de8))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.91**
+- Updated **style-dictionary** to **v0.0.77**
+
 ## [0.0.73](https://github.com/storm-software/razorwind/releases/tag/css%400.0.73) (10/10/2026)
 
 ### Updated Dependencies

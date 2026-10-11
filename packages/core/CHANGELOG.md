@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.91](https://github.com/storm-software/razorwind/releases/tag/core%400.0.91) (10/11/2026)
+
+### Bug Fixes
+
+- **css:** Update the generated css files to use variables to reduce hardcoded values ([ba12de8](https://github.com/storm-software/razorwind/commit/ba12de8))
+- **docgen:** Improve toke ordering in documentation ([11989dd](https://github.com/storm-software/razorwind/commit/11989dd))
+
 ## [0.0.83](https://github.com/storm-software/razorwind/releases/tag/core%400.0.83) (10/05/2026)
 
 ### Features

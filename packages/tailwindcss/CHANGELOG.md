@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.89](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.89) (10/11/2026)
+
+### Bug Fixes
+
+- **css:** Update the generated css files to use variables to reduce hardcoded values ([ba12de8](https://github.com/storm-software/razorwind/commit/ba12de8))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.91**
+
 ## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.88) (10/10/2026)
 
 ### Updated Dependencies

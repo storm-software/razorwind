@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.29) (10/11/2026)
+
+### Bug Fixes
+
+- **docgen:** Improve toke ordering in documentation ([11989dd](https://github.com/storm-software/razorwind/commit/11989dd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.91**
+
 ## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.28) (10/10/2026)
 
 ### Updated Dependencies
