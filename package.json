@@ -76,6 +76,7 @@
     "@powerlines/tsconfig": "catalog:",
     "@powerlines/tsdoc": "catalog:",
     "@shell-shock/nx": "catalog:",
+    "@sourcebook/config": "catalog:",
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
     "@storm-software/cspell": "catalog:",

@@ -349,6 +349,9 @@ catalogs:
     '@shell-shock/preset-cli':
       specifier: ^0.9.44
       version: 0.9.44
+    '@sourcebook/config':
+      specifier: ^0.0.8
+      version: 0.0.8
     '@storm-software/config':
       specifier: ^1.138.83
       version: 1.138.83
@@ -581,6 +584,9 @@ importers:
       '@shell-shock/nx':
         specifier: 'catalog:'
         version: 0.0.105(f5896a8cb806a3c655862819c1653243)
+      '@sourcebook/config':
+        specifier: 'catalog:'
+        version: 0.0.8
       '@storm-software/config':
         specifier: 'catalog:'
         version: 1.138.83(zod@4.6.5)
@@ -6366,6 +6372,9 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       size-limit: 11.2.0
+
+  '@sourcebook/config@0.0.8':
+    resolution: {integrity: sha512-RaYbD2v6m3GSeIAIEiHc+OYpsPOWMmPUIivw9VHChXCDu4dOlH7XcqJXmOZ4Noba7PNwS0JF6FG7TgywVdC1uA==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -26575,6 +26584,8 @@ snapshots:
   '@size-limit/file@11.2.0(size-limit@11.2.0)':
     dependencies:
       size-limit: 11.2.0
+
+  '@sourcebook/config@0.0.8': {}
 
   '@standard-schema/spec@1.1.0': {}
 
