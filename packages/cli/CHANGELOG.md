@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.32](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.32) (10/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace to include Sourcebook agent skills ([d4aee2a](https://github.com/storm-software/razorwind/commit/d4aee2a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.94**
+
 ## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.31) (10/11/2026)
 
 ### Updated Dependencies

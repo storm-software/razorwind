@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Thunderbird
 
+## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/thunderbird%400.0.28) (10/12/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.94**
+
 ## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/thunderbird%400.0.27) (10/11/2026)
 
 ### Updated Dependencies
