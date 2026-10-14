@@ -134,6 +134,7 @@
   "dependencies": {
     "@power-plant/core": "catalog:",
     "@power-plant/dtcg-schema": "catalog:",
+    "@power-plant/prettier-formatter": "catalog:",
     "@power-plant/schema": "catalog:",
     "@power-plant/utils": "catalog:",
     "@stryke/env": "catalog:",

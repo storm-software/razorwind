@@ -53,6 +53,15 @@
 
 **Razorwind - Shiki Theme Generator** is a package that can create themes for the [Shiki](https://github.com/shikijs/shiki) library.
 
+## Quick Features
+
+- Generate Shiki and TextMate themes from design tokens with `mapTheme`.
+- Build theme objects directly with `generateShikiTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Control output directory, file names, and theme splitting.
+- Load output with Shiki custom themes.
+- Share one mapping across editors with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

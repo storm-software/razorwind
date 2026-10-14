@@ -53,6 +53,13 @@
 
 **Razorwind - DESIGN.md** is a package that can create a [DESIGN.md](https://github.com/google-labs-code/design.md) design-system specification file from design tokens or read a DESIGN.md file and return the design-system specification.
 
+## Quick Features
+
+- Write a `DESIGN.md` spec file from design tokens.
+- Read the spec back into tokens with the extract plugin.
+- Control name, description, version, and overview front matter.
+- Set the output path with `outputPath` (default `"DESIGN.md"`).
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -83,10 +90,10 @@ yarn add -D @razorwind/design-md
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import designMd from "@razorwind/design-md";
+import designMd from "@razorwind/design-md/generate";
 
 export default defineConfig({
-  plugins: [designMd]
+  plugins: [designMd()]
 });
 ```
 

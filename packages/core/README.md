@@ -53,6 +53,15 @@
 
 **Razorwind** is a unified set of tools that make creating design systems a breeze.
 
+## Quick Features
+
+- Run the generate pipeline: extraction hooks, then `extract` and `validate`,
+  then `generate`.
+- Configure themes with `defineConfig` and per-theme plugin lists.
+- Validate tokens, components, icons, and fonts against the core schema.
+- Author plugins with `definePlugin` from `@razorwind/core/plugin`.
+- Reuse token, font, and document helpers from `lib` and `utils`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +87,22 @@ yarn add -D @razorwind/core
 ```
 
 </details>
+
+## Usage
+
+Define one config per theme. List the plugins that should run for each theme.
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import css from "@razorwind/css/generate";
+
+export default defineConfig({
+  plugins: [css()]
+});
+```
+
+The generator runs extraction hooks first, then `extract` and `validate` on the
+input, then `generate` for each plugin.
 
 ## Development
 

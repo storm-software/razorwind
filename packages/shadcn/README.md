@@ -53,6 +53,14 @@
 
 **Razorwind - Shadcn** is a package that can create Shadcn UI registry files from design tokens/components or read a Shadcn UI registry file and return the design tokens/components.
 
+## Quick Features
+
+- Generate a Shadcn UI `registry.json` from tokens and components.
+- Read tokens back from registry files with the extract plugin.
+- Set registry `name` and `homepage` fields.
+- Change the output file with `configFile` (default `"registry.json"`).
+- Get wiring steps from the generated `INSTALL.md`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -83,22 +91,21 @@ yarn add -D @razorwind/shadcn
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import shadcn from "@razorwind/shadcn";
+import shadcn from "@razorwind/shadcn/generate";
 
 export default defineConfig({
-  plugins: [shadcn]
+  plugins: [shadcn({ name: "acme", homepage: "https://acme.com" })]
 });
 ```
 
 ### Options
 
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
+| Option         | Default           | Description                                              |
+| -------------- | ----------------- | -------------------------------------------------------- |
+| `configFile`   | `"registry.json"` | Output path for the generated `registry.json` file       |
+| `name`         | —                 | Registry `name` field written into `registry.json`       |
+| `homepage`     | —                 | Registry `homepage` field written into `registry.json`   |
+| `installGuide` | Generated steps   | Override body for the generated `INSTALL.md`             |
 
 ## Development
 

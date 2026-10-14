@@ -3,6 +3,14 @@
 `@razorwind/theme-seeds` is a Razorwind extractor plugin that derives a
 self-contained semantic DTCG token tree from seven compact theme decisions.
 
+## Quick Features
+
+- Derive a full semantic token tree from seven seed decisions.
+- Call `generateThemeTokens(seeds)` directly for programmatic use.
+- Hand-authored tokens win at every colliding path.
+- Validate ranges with `SEED_RANGES` (hue, chroma, warmth, energy, density).
+- Refine seeds per appearance (dark and light seeds).
+
 ## Installation
 
 ```sh

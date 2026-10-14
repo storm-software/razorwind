@@ -18,7 +18,9 @@
 
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import { defineGenerator, defineSchema, useExecution } from "@power-plant/core";
+import prettier from "@power-plant/prettier-formatter";
 import type StyleDictionary from "style-dictionary";
+import packageJson from "../package.json" with { type: "json" };
 import type { GenerationRun } from "./lib/generate";
 import { generateAllPluginDocuments } from "./lib/generate";
 import { prepareGenerationRuns } from "./lib/prepare";
@@ -26,8 +28,6 @@ import { writeGeneratedDocuments } from "./lib/write-documents";
 import type { Schema } from "./schema";
 import { schema } from "./schema";
 import type { Config, Options } from "./types/config";
-
-import packageJson from "../package.json" with { type: "json" };
 
 declare module "@power-plant/core" {
   interface Context {
@@ -77,6 +77,7 @@ export const generator = defineGenerator<Schema, Options, any>({
     const context = useExecution<Schema, Config>();
     await writeGeneratedDocuments(documents, context.cwd);
   },
+  format: [prettier],
   generator: async (
     spec
   ): Promise<GeneratorFunctionResult<Schema, Options>> => {

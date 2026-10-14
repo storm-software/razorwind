@@ -55,6 +55,14 @@
 into an executable [json-render](https://json-render.dev) catalog and the AI
 artifacts needed to generate validated UI specs.
 
+## Quick Features
+
+- Generate json-render catalogs, prompts, and structured-output schemas.
+- Customize components with `mapComponent` and expose `actions`.
+- Tune agent prompts through `prompt` options.
+- Reject unknown fields with `strict` (default `true`).
+- Reuse `generateJsonRender` and `renderCatalogSource` programmatically.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

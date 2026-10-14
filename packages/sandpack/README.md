@@ -53,6 +53,13 @@
 
 **Razorwind - Sandpack Theme Generator** creates [Sandpack](https://sandpack.codesandbox.io/) custom themes from design tokens and emits component `usage` demos as Sandpack [`files`](https://sandpack.codesandbox.io/docs/getting-started/usage#files) payloads for docs / Storybook.
 
+## Quick Features
+
+- Generate Sandpack custom themes from design tokens with `mapTheme`.
+- Emit component usage demos as Sandpack `files` payloads.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

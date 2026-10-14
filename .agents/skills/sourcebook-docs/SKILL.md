@@ -17,7 +17,7 @@ Document the projects described by the target workspace's `sourcebook.config.*`.
 4. Write Markdown under each documentation object's `outputPath` (default `docs`). With the root object's `useLocalOutput: true` (default), place documentation under each identified project's own directory; with `false`, place it under the workspace root. Resolve project directories from the repository's structure and manifests. Check final paths remain within the workspace, avoid collisions across config entries, and report the files written.
 5. Use only the scoped JSON returned by the reader. Do not read or apply `blog` configuration; `sourcebook-blog` owns it.
 
-The config selects projects and guidance, not an exact document list. Choose useful Markdown pages based on the inspected project and the user's request. Install this skill with its `scripts/` and `references/` directories. When copied outside this repository, install its `c12` runtime dependency in the skill folder.
+The config selects projects and guidance, not an exact document list. Choose useful Markdown pages based on the inspected project and the user's request. Install this skill with its `scripts/` and `references/` directories. The scripts bundle `c12` and need no package install.
 
 ## Diagrams
 

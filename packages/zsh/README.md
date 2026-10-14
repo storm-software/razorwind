@@ -53,6 +53,12 @@
 
 **Razorwind - Oh My Zsh Theme Generator** creates [Oh My Zsh](https://ohmyz.sh/) `*.zsh-theme` files from design tokens. Prompt layout follows [Dracula for Zsh](https://draculatheme.com/zsh) (status arrow, optional time/context, directory, git).
 
+## Quick Features
+
+- Generate Oh My Zsh `*.zsh-theme` files from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

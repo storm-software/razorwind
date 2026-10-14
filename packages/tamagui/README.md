@@ -53,6 +53,13 @@
 
 **Razorwind - Tamagui Generator** is a Power Plant generator that creates Tamagui theme tokens from Razorwind design tokens.
 
+## Quick Features
+
+- Generate a Tamagui config from design tokens.
+- Target Tamagui v2 by default or v3 with `target: "v3"`.
+- Emit ESLint guardrails for v3 flat values.
+- Get v3 setup steps from the generated `INSTALL.md`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +85,19 @@ yarn add -D @razorwind/tamagui
 ```
 
 </details>
+
+## Usage
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import tamagui from "@razorwind/tamagui";
+
+export default defineConfig({
+  plugins: [tamagui()]
+});
+```
+
+See [Tamagui version target](#tamagui-version-target) to generate v3 output.
 
 ## Development
 

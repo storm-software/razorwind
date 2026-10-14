@@ -53,19 +53,26 @@
 
 **Razorwind** is a unified set of tools that make creating design systems a breeze.
 
+## Quick Features
+
+- Run the Razorwind pipeline with `razorwind generate`.
+- Clean, test, update, and garbage-collect output (`clean`, `test`, `update`, `gc`).
+- Write changelog entries with `changelog`.
+- Shell completions for bash, fish, powershell, and zsh.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @razorwind/core
+pnpm add -D @razorwind/cli
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @razorwind/core
+npm install -D @razorwind/cli
 ```
 
 </details>
@@ -74,20 +81,32 @@ npm install -D @razorwind/core
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @razorwind/core
+yarn add -D @razorwind/cli
 ```
 
 </details>
+
+## Usage
+
+Run the pipeline from the terminal:
+
+```sh
+npx razorwind generate [options]
+```
+
+Other commands: `clean`, `test`, `update`, `gc`, `changelog`, and `help`. Shell
+completions are available for bash, fish, powershell, and zsh. Full command
+pages live in [docs/reference](docs/reference/cli/generate.md).
 
 ## Development
 
 ### Building
 
-Run `nx build core` to build the library.
+Run `nx build cli` to build the library.
 
 ### Running unit tests
 
-Run `nx test core` to execute the unit tests via [Vitest](https://vitest.dev/).
+Run `nx test cli` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

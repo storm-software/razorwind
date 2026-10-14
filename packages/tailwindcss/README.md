@@ -53,6 +53,14 @@
 
 **Razorwind - Tailwind CSS** is a package that can create Tailwind CSS files from design tokens or read a Tailwind CSS file and return the design tokens.
 
+## Quick Features
+
+- Write Tailwind CSS v4 `@theme` files from design tokens.
+- Read tokens back from Tailwind files with the extract plugin.
+- Prefix compiled utilities with `prefix` (theme declarations stay unprefixed).
+- Toggle the Tailwind import with `includeImport` (default `true`).
+- Emit ESLint and Stylelint guardrail plugins aligned with theme tokens.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -83,22 +91,22 @@ yarn add -D @razorwind/tailwindcss
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import tailwindcss from "@razorwind/tailwindcss";
+import tailwindcss from "@razorwind/tailwindcss/generate";
 
 export default defineConfig({
-  plugins: [tailwindcss]
+  plugins: [tailwindcss()]
 });
 ```
 
 ### Options
 
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
+| Option             | Default          | Description                                                   |
+| ------------------ | ---------------- | ------------------------------------------------------------- |
+| `cssPath`          | Detected entry   | Output path for the generated Tailwind CSS file               |
+| `prefix`           | —                | Prefix applied to compiled utility classes and CSS variables  |
+| `includeImport`    | `true`           | Include `@import "tailwindcss";` at the top of the file       |
+| `fontAssetBaseUrl` | —                | Absolute HTTP(S) base URL for generated font asset references |
+| `installGuide`     | Generated steps  | Override body for the generated `INSTALL.md`                  |
 
 ### ESLint guardrails
 

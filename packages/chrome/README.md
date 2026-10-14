@@ -53,6 +53,14 @@
 
 **Razorwind - Chrome Theme Generator** creates [Google Chrome](https://www.google.com/chrome/) extension theme folders from design tokens. Output matches community themes such as [Dracula for Chrome](https://github.com/dracula/google-chrome) (`manifest.json` plus optional images and icons).
 
+## Quick Features
+
+- Generate Chrome extension themes from design tokens with `mapTheme`.
+- Normalize multi-theme input with `normalizeThemes`.
+- Convert token colors with `toChromeRgb`.
+- Render `manifest.json` with `renderManifestJson`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

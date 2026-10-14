@@ -23,6 +23,11 @@ export default defineConfig({
   displayName: "Razorwind",
   docs: [
     {
+      type: "application",
+      variant: "cli",
+      src: "packages/cli"
+    },
+    {
       type: "library",
       packages: ["packages"]
     }

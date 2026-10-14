@@ -55,6 +55,14 @@
 
 Color tokens with a `theme` or `group` property (on the token or an ancestor group) appear under matching headings; other colors remain in the main color table.
 
+## Quick Features
+
+- Generate MDX documentation for tokens and components.
+- Group color tokens by `theme` or `group` under matching headings.
+- Write docs to `docs/design-system` (change with `outputPath`).
+- Set the index title with `title` and the CSS prefix with `cssVarPrefix`.
+- Limit output with `includeTypes`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -80,6 +88,20 @@ yarn add -D @razorwind/docgen
 ```
 
 </details>
+
+## Usage
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import docgen from "@razorwind/docgen/generate";
+
+export default defineConfig({
+  plugins: [docgen()]
+});
+```
+
+Docs are written to `docs/design-system` by default. Set `outputPath` and
+`title` to change the location and index page title.
 
 ## Development
 

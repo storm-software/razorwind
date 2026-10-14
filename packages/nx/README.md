@@ -53,6 +53,12 @@
 
 An [Nx](https://nx.dev/) plugin for Razorwind.
 
+## Quick Features
+
+- Synchronize generated files across the workspace with the `sync` generator.
+- Build Razorwind output per project with the `generate` executor.
+- Read schemas per generator and executor from their directories.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -79,13 +85,21 @@ yarn add -D @razorwind/nx
 
 </details>
 
+## Usage
+
+Synchronize Razorwind output across the workspace with the `sync` generator:
+
+```sh
+nx generate @razorwind/nx:sync
+```
+
+Run the `generate` executor through an Nx target to build Razorwind output for
+a project. See `generators.json` and `executors.json` for the full list and
+options.
+
 ## Building
 
 Run `nx build nx` to build the library.
-
-## Running unit tests
-
-Run `nx test nx` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

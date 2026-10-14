@@ -55,6 +55,13 @@
 
 Color tokens with a `theme` property appear in separate themed palettes, and tokens with a `group` property appear in their own palette sections, alongside other colors.
 
+## Quick Features
+
+- Generate Storybook MDX token doc blocks from design tokens.
+- Map tokens to doc data with `mapTheme`.
+- Render themed palettes and grouped palette sections.
+- Write blocks to `storybook/tokens` (change with `outputPath`).
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -80,6 +87,26 @@ yarn add -D @razorwind/storybook
 ```
 
 </details>
+
+## Usage
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import storybook from "@razorwind/storybook";
+
+export default defineConfig({
+  plugins: [
+    storybook({
+      mapTheme: tokens => ({
+        base: "light",
+        colorPrimary: tokens.find(t => t.path === "color.primary")?.cssValue
+      })
+    })
+  ]
+});
+```
+
+Doc blocks are written to `storybook/tokens` by default.
 
 ## Development
 

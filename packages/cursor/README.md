@@ -53,6 +53,12 @@
 
 **Razorwind - Cursor Theme Extension** creates Cursor-installable theme extensions from design tokens. Cursor is a VS Code fork and loads the same VSIX theme format ([Dracula Cursor](https://draculatheme.com/cursor) is a good reference).
 
+## Quick Features
+
+- Build Cursor VSIX themes from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across editors with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

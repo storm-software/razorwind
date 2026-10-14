@@ -53,6 +53,12 @@
 
 **Razorwind - Ghostty Theme Generator** creates [Ghostty](https://ghostty.org/) terminal theme files from design tokens. Color layout follows [Dracula for Ghostty](https://draculatheme.com/ghostty) (`palette`, `background`, `foreground`, cursor, selection).
 
+## Quick Features
+
+- Generate Ghostty terminal themes from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

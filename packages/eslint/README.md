@@ -58,6 +58,14 @@ onto your own tokens, components, icons and fonts, and bundles the
 `@razorwind/tailwindcss` and `@razorwind/tamagui` guardrails in the same
 plugin.
 
+## Quick Features
+
+- Generate an ESLint plugin with rules for your own tokens and components.
+- Bundle Tailwind and Tamagui guardrails in the same plugin.
+- Read every rule and its default severity from the generated `INSTALL.md`.
+- Configure namespace with `prefix` and Tamagui linting with `tamagui`.
+- Consume `manifest`, `rules`, `configs`, and `defaultSeverity` at runtime.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

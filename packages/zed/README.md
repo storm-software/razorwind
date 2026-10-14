@@ -53,6 +53,12 @@
 
 **Razorwind - Zed Theme Extension** creates Zed-installable theme extensions from design tokens. Output matches official Zed extension layout ([Dracula for Zed](https://draculatheme.com/zed) is a good reference).
 
+## Quick Features
+
+- Build Zed theme extensions from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across editors with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

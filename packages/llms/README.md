@@ -56,6 +56,13 @@
 documents from a Razorwind schema. The output gives AI agents concise,
 structured references for approved tokens, components, icons, and fonts.
 
+## Quick Features
+
+- Generate an `llms.txt` index plus token, component, icon, and font files.
+- Override title, summary, and details from the schema.
+- Publish absolute companion links with `baseUrl`.
+- Point font assets at a CDN with `fontAssetBaseUrl`.
+
 ## Installing
 
 Using [pnpm](https://pnpm.io):
@@ -86,7 +93,7 @@ yarn add -D @razorwind/llms
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import llms from "@razorwind/llms";
+import llms from "@razorwind/llms/generate";
 
 export default defineConfig({
   plugins: [

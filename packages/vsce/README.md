@@ -53,6 +53,12 @@
 
 **Razorwind - Visual Studio Code Extension** is a package that can create themeing extensions from design tokens.
 
+## Quick Features
+
+- Build VS Code theme extensions from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across editors with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

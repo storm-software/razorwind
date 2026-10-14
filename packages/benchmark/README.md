@@ -14,6 +14,14 @@ mechanical graders, and emits JSON plus a self-contained HTML report.
 > judgment is disabled unless `judge` is explicitly configured. Automated
 > package tests never invoke a live agent.
 
+## Quick Features
+
+- Measure how well AI coding agents use a design system.
+- Run Claude Code or Codex trials in isolated TypeScript fixtures.
+- Grade with deterministic mechanical graders (model judges optional).
+- Emit JSON plus a self-contained HTML report.
+- Stay safe with the bounded smoke profile (one task, two contexts).
+
 ## Installation
 
 ```bash

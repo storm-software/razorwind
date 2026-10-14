@@ -53,6 +53,14 @@
 
 **Razorwind - CSS** is a package that can create CSS files from design tokens or read a CSS file and return the design tokens.
 
+## Quick Features
+
+- Write a stylesheet from design tokens (default output `src/styles.css`).
+- Read tokens back from a CSS file with the extract plugin.
+- Prefix custom-property names with `prefix`.
+- Copy and reference font files from token fonts.
+- Point font assets at a CDN with `fontAssetBaseUrl`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -83,7 +91,7 @@ yarn add -D @razorwind/css
 
 ```ts
 import { defineConfig } from "@razorwind/core";
-import css from "@razorwind/css";
+import css from "@razorwind/css/generate";
 
 export default defineConfig({
   plugins: [css()]
@@ -92,23 +100,21 @@ export default defineConfig({
 
 ### Options
 
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
+| Option             | Default          | Description                                                     |
+| ------------------ | ---------------- | --------------------------------------------------------------- |
+| `outputPath`       | `"src/styles.css"` | Output file path (relative to the execution cwd)              |
+| `prefix`           | Schema initials  | Prefix for generated CSS custom-property names                  |
+| `fontAssetBaseUrl` | —                | Absolute HTTP(S) base URL for generated font asset references   |
 
 ## Development
 
 ### Building
 
-Run `nx build tailwindcss` to build the library.
+Run `nx build css` to build the library.
 
 ### Running unit tests
 
-Run `nx test tailwindcss` to execute the unit tests via [Vitest](https://vitest.dev/).
+Run `nx test css` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

@@ -49,23 +49,31 @@
 
 <!-- END header -->
 
-# Razorwind - Storybook Generator
+# Razorwind - Style Dictionary Plugin
 
-**Razorwind - Storybook Generator** is a Power Plant generator that creates Storybook MDX token doc blocks from Razorwind design tokens.
+**Razorwind - Style Dictionary** is a package that uses Style Dictionary to generate code from Razorwind design tokens.
+
+## Quick Features
+
+- Generate platform code from tokens through Style Dictionary.
+- Declare build targets under `platforms` (transform groups, formats, files).
+- Prefix `css/variables` output with `prefix`.
+- Run verbose builds for debugging.
+- Reuse `generateStyleDictionary` and `renderInstallMd` programmatically.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @razorwind/storybook
+pnpm add -D @razorwind/style-dictionary
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @razorwind/storybook
+npm install -D @razorwind/style-dictionary
 ```
 
 </details>
@@ -74,20 +82,44 @@ npm install -D @razorwind/storybook
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @razorwind/storybook
+yarn add -D @razorwind/style-dictionary
 ```
 
 </details>
+
+## Usage
+
+```ts
+import { defineConfig } from "@razorwind/core";
+import styleDictionary from "@razorwind/style-dictionary";
+
+export default defineConfig({
+  plugins: [
+    styleDictionary({
+      platforms: {
+        css: {
+          transformGroup: "css",
+          buildPath: "build/css/",
+          files: [{ destination: "variables.css", format: "css/variables" }]
+        }
+      }
+    })
+  ]
+});
+```
+
+Tokens come from the Razorwind schema. Declare build targets under `platforms`
+(transform groups, formats, build paths, files).
 
 ## Development
 
 ### Building
 
-Run `nx build storybook` to build the library.
+Run `nx build style-dictionary` to build the library.
 
 ### Running unit tests
 
-Run `nx test storybook` to execute the unit tests via [Vitest](https://vitest.dev/).
+Run `nx test style-dictionary` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

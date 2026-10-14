@@ -59,6 +59,14 @@ onto your own tokens and fonts, adds the
 the `@razorwind/tailwindcss` guardrails for `@apply` and theme variables in the
 same plugin.
 
+## Quick Features
+
+- Generate a Stylelint plugin with rules for your own tokens and fonts.
+- Reuse the ESLint design-system rules that apply to stylesheets.
+- Bundle Tailwind guardrails for `@apply` and theme variables.
+- Read every rule and its default severity from the generated `INSTALL.md`.
+- Consume `manifest`, `plugins`, `rules`, and `defaultSeverity` at runtime.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

@@ -53,6 +53,12 @@
 
 **Razorwind - Notepad++ Theme Generator** creates [Notepad++](https://notepad-plus-plus.org/) `*.xml` theme files from design tokens. Structure follows [Dracula for Notepad++](https://draculatheme.com/notepad-plus-plus) (`LexerStyles`, `GlobalStyles`, `WordsStyle`, `WidgetStyle`).
 
+## Quick Features
+
+- Generate Notepad++ `*.xml` themes from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

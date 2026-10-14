@@ -53,6 +53,12 @@
 
 **Razorwind - Thunderbird Theme Generator** creates [Mozilla Thunderbird](https://www.thunderbird.net/) extension theme folders from design tokens. Output matches community themes such as [Dracula for Thunderbird](https://draculatheme.com/thunderbird) (`manifest.json` plus optional icons).
 
+## Quick Features
+
+- Generate Thunderbird extension themes from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

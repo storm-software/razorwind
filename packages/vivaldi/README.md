@@ -53,6 +53,12 @@
 
 **Razorwind - Vivaldi Theme Generator** creates [Vivaldi](https://vivaldi.com/) browser theme folders from design tokens. Output matches shareable Vivaldi themes such as [Dracula for Vivaldi](https://draculatheme.com/vivaldi) (`settings.json` plus optional background image).
 
+## Quick Features
+
+- Generate Vivaldi browser themes from design tokens with `mapTheme`.
+- Flatten token trees for lookup with `flattenTokens`.
+- Share one mapping across targets with `@razorwind/preset`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

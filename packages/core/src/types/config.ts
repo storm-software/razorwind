@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Tokens } from "@power-plant/dtcg-schema";
+import type { Options as PrettierOptions } from "@power-plant/prettier-formatter";
 import type { EnvPaths } from "@stryke/env/get-env-paths";
 import type { RequiredKeys } from "@stryke/types/base";
 import type { Components } from "../schema/components";
@@ -25,7 +26,7 @@ import type { Guidelines } from "../schema/guidelines";
 import type { Icons } from "../schema/icons";
 import type { Plugin } from "./plugin";
 
-export interface Options {
+export interface Options extends PrettierOptions {
   /**
    * The directory or file containing a Razorwind configuration file.
    *

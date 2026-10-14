@@ -61,6 +61,14 @@
 - Achromatopsia
 - Monochromatic
 
+## Quick Features
+
+- Expand token color sets into dimmed, high-contrast, and CVD variants.
+- Pass variants as an array or through the `variants` option.
+- Multi-theme records gain suffixed keys (`darkHighContrast`, `lightDimmed`).
+- Single trees keep the original set as `default` with camelCase variant keys.
+- Reuse helpers such as `expandColorVariants` and `simulateCVD`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):

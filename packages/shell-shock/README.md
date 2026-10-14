@@ -56,6 +56,14 @@
 - A **Razorwind plugin** (`@razorwind/shell-shock`) that maps extracted design tokens to a Shell Shock CLI theme and writes `<name>.theme.json`, a `design-system.json` snapshot and an `INSTALL.md`.
 - A **Shell Shock plugin** (`@razorwind/shell-shock/plugin`) that bakes the extracted design system into a CLI: it themes the CLI through [`@shell-shock/plugin-theme`](https://github.com/storm-software/shell-shock/tree/main/packages/plugin-theme), adds design-system commands modelled on the [Atlassian Design System MCP server](https://bitbucket.org/atlassian/atlassian-frontend-mirror/src/master/design-system/ads-mcp/), and exposes those commands as MCP tools through [`@shell-shock/plugin-mcp`](https://github.com/storm-software/shell-shock/tree/main/packages/plugin-mcp).
 
+## Quick Features
+
+- Map design tokens to a Shell Shock CLI theme (`<name>.theme.json`).
+- Bake the design system into a CLI with search, list, and `analyze-a11y` commands.
+- Expose every command as an MCP tool.
+- Map palettes programmatically with `inferPalette` (or `mapShellShockTheme` from `@razorwind/preset`).
+- Read the theme at runtime with `@razorwind/shell-shock/runtime`.
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
