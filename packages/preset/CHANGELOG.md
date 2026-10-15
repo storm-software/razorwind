@@ -2,6 +2,29 @@
 
 # Changelog for Razorwind - Preset
 
+## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.31) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **chrome** to **v0.0.29**
+- Updated **core** to **v0.0.95**
+- Updated **cursor** to **v0.0.70**
+- Updated **ghostty** to **v0.0.69**
+- Updated **notepad-plus-plus** to **v0.0.69**
+- Updated **sandpack** to **v0.0.29**
+- Updated **shell-shock** to **v0.0.15**
+- Updated **shiki** to **v0.0.69**
+- Updated **storybook** to **v0.0.95**
+- Updated **thunderbird** to **v0.0.29**
+- Updated **vivaldi** to **v0.0.43**
+- Updated **vsce** to **v0.0.72**
+- Updated **zed** to **v0.0.69**
+- Updated **zsh** to **v0.0.69**
+
 ## [0.0.30](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.30) (10/12/2026)
 
 ### Updated Dependencies

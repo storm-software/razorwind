@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vsce
 
+## [0.0.72](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.72) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+
 ## [0.0.71](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.71) (10/12/2026)
 
 ### Updated Dependencies

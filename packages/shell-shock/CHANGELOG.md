@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Shell Shock
 
+## [0.0.15](https://github.com/storm-software/razorwind/releases/tag/shell-shock%400.0.15) (10/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace README files ([8760ceb](https://github.com/storm-software/razorwind/commit/8760ceb))
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+
 ## [0.0.14](https://github.com/storm-software/razorwind/releases/tag/shell-shock%400.0.14) (10/12/2026)
 
 ### Updated Dependencies

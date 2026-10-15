@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.21](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.21) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+- Updated **tailwindcss** to **v0.0.93**
+- Updated **tamagui** to **v0.0.98**
+
 ## [0.0.20](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.20) (10/12/2026)
 
 ### Updated Dependencies

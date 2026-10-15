@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Vivaldi
 
+## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.43) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+
 ## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/vivaldi%400.0.42) (10/12/2026)
 
 ### Updated Dependencies

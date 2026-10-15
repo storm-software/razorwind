@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.95](https://github.com/storm-software/razorwind/releases/tag/core%400.0.95) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
 ## [0.0.93](https://github.com/storm-software/razorwind/releases/tag/core%400.0.93) (10/11/2026)
 
 ### Bug Fixes

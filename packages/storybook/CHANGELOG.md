@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.95](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.95) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+- Updated **docgen** to **v0.0.93**
+
 ## [0.0.94](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.94) (10/12/2026)
 
 ### Updated Dependencies

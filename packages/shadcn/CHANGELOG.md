@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.91](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.91) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+
 ## [0.0.90](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.90) (10/12/2026)
 
 ### Updated Dependencies

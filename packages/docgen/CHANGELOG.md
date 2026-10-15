@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.93](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.93) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+
 ## [0.0.92](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.92) (10/12/2026)
 
 ### Updated Dependencies

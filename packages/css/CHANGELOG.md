@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/css%400.0.78) (10/15/2026)
+
+### Bug Fixes
+
+- **core:** Added the Prettier formatter and updated `README.md` files ([c0dd45c](https://github.com/storm-software/razorwind/commit/c0dd45c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.95**
+- Updated **style-dictionary** to **v0.0.81**
+
 ## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/css%400.0.77) (10/12/2026)
 
 ### Updated Dependencies
