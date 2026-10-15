@@ -39,3 +39,41 @@ State supported runtimes, module formats, platform requirements, and version or 
 Include repository-supported build and test commands for contributors, plus common errors and their remedies when tests or existing documentation establish them. Keep consumer instructions distinct from contributor workflows. Link to existing release or maintenance guides where they are authoritative.
 
 Choose only sections that help the package and have supporting source. Keep examples aligned with the current public API, and mark missing information as a gap rather than presenting assumptions as guarantees.
+
+## Structure
+
+The following section outlines the documentation sections that should be created for each package within the repository.
+
+**Note: Each documentation sections should be created in a separate markdown file within the repository.**
+
+### Installation
+
+Add this in a file named `installation.md`.
+
+Provide instructions for installing the package, including any prerequisites and supported platforms. Include example commands for different package managers if applicable.
+
+### Quick start
+
+Add this in a file named `quick-start.md`.
+
+Provide a small working example using the package, including the minimum required setup and expected result. Include any important notes or common pitfalls for new users.
+
+### Configuration
+
+Add this in a file named `configuration.md`.
+
+Document public options, environment variables, plugins, adapters, callbacks, or customization hooks. Show valid values and precedence when implementation or tests define them. Describe what consumers must implement and how extensions are registered; omit speculative extension patterns.
+
+### API reference
+
+Add this in a file named `api-reference.md`.
+
+Document the public functions, classes, components, hooks, commands, or types provided by the package. Include their signatures, required and optional inputs, defaults, return values, side effects, errors, and short usage examples when applicable. Include overloads, generics, asynchronous behavior, or lifecycle rules only when they affect correct use. Link to the owning export and avoid documenting internal symbols as supported interfaces.
+
+### Development and troubleshooting
+
+Add this in a file named `troubleshooting.md`.
+
+Include repository-supported build and test commands for contributors, plus common errors and their remedies when tests or existing documentation establish them. Keep consumer instructions distinct from contributor workflows. Link to existing release or maintenance guides when they are authoritative.
+
+This section is optional and should be included only if the package has specific development or troubleshooting guidance that is not covered elsewhere.

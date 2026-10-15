@@ -35,7 +35,7 @@
       "source": "storm-software/sourcebook",
       "sourceType": "github",
       "skillPath": "skills/sourcebook-docs/SKILL.md",
-      "computedHash": "bdaa7baf0696f465642f402684117360321fdab92c8d7df8fa255694fe707f2c"
+      "computedHash": "109ded3ed7ee3f7aed706deaab5787300ef69e80cdd250c10d157e2e26b36933"
     },
     "sourcebook-editor": {
       "source": "storm-software/sourcebook",
@@ -47,7 +47,7 @@
       "source": "storm-software/sourcebook",
       "sourceType": "github",
       "skillPath": "skills/sourcebook-readme/SKILL.md",
-      "computedHash": "704b526e1ab6bf4af2f21901e6f7b5998c626313ca44799792cd6309645c4ae7"
+      "computedHash": "47bc3140720db9752d8b9de443d737d642442d3d0c0e249c1212758016ae7617"
     },
     "storybook-component-documentation": {
       "source": "thebushidocollective/han",

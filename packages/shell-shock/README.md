@@ -212,6 +212,19 @@ The `@razorwind/preset` package exposes `mapShellShockTheme` so this plugin can 
 
 `@razorwind/shell-shock/runtime` contains the pure functions the generated commands call (`searchTokens`, `listComponents`, `plan`, `getGuidelines`, `analyzeA11y`, `fuzzySearch`, …). They operate on a `DesignSystemSnapshot` and can be reused in other tooling.
 
+## Development
+
+Clone the Razorwind repository and install workspace dependencies with
+`pnpm install`. Use Nx to inspect the package's available inferred targets:
+
+```sh
+pnpm nx show project shell-shock
+```
+
+The `playground/cli` project exercises the Shell Shock integration against the
+sibling token playground; rebuild it with `pnpm nx build playground-cli` after
+changing this package.
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

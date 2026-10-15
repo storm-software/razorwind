@@ -39,20 +39,24 @@
 </a>
 </div>
 
-<!-- START doctoc -->
+# Quick Features
+
+- Load and validate design tokens, components, icons, and fonts against the
+  Razorwind schema.
+- Configure one or more themed generation runs with `defineConfig`.
+- Compose plugins that extract inputs and generate design-system artifacts,
+  including CSS and documentation.
+- Run the configured generation pipeline through the Razorwind CLI.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-## Table of Contents
-
 - [Getting Started](#getting-started)
+- [Usage](#usage)
   - [Environment Configuration Help](#environment-configuration-help)
   - [Build](#build)
-  - [Development Server](#development-server)
-- [Environment Configuration Help](#environment-configuration-help-1)
-  - [Plug-Ins](#plug-ins)
-  - [Generate an Application](#generate-an-application)
-  - [Generate a Library](#generate-a-library)
-  - [Code Scaffolding](#code-scaffolding)
+  - [Package Development](#package-development)
+- [Workspace Guide](#workspace-guide)
 - [Testing](#testing)
   - [Running Unit Tests](#running-unit-tests)
   - [Running End-to-End Tests](#running-end-to-end-tests)
@@ -60,6 +64,7 @@
 - [☁ Nx Cloud](#-nx-cloud)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
+  - [Development](#development)
 - [Support](#support)
 - [License](#license)
 - [Contributors ✨](#contributors-)
@@ -70,11 +75,41 @@
 
 # Getting Started
 
-Once the code is pulled locally, open a command prompt and run `pnpm install` in
-the root repo directory (/razorwind).
+Razorwind requires Node.js `>=26.3.0` and pnpm `>=11.1.2`. Install the core,
+the generators you need, and the CLI from npm:
+
+```sh
+pnpm add -D @razorwind/core @razorwind/css @razorwind/cli
+```
 
 More information can be found in the
 [Razorwind documentation](https://storm-software.github.io/razorwind/docs/getting-started/installation).
+
+<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
+<br />
+
+# Usage
+
+Create `razorwind.config.ts` beside a `tokens.json` file and list the plugins
+that should generate artifacts from those tokens:
+
+```ts
+import { defineConfig } from "@razorwind/core"
+import css from "@razorwind/css/generate"
+
+export default defineConfig({
+  plugins: [css()]
+})
+```
+
+Run the generator from the project containing the configuration:
+
+```sh
+pnpm exec razorwind generate
+```
+
+See individual package READMEs for generator-specific options and output
+formats.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -87,102 +122,50 @@ information.
 
 ## Build
 
-Run `pnpm build` to build the project. The build artifacts will be stored in the
-`dist/` directory. Use the `--prod` flag for a production build.
+Run `pnpm build` to bootstrap and build the workspace packages in production
+mode. Use `pnpm build-dev` for a development-mode build.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
-## Development Server
+## Package Development
 
-Run `pnpm serve` for a dev server. Navigate to <http://localhost:4200/>. The app
-will automatically reload if you change any of the source files.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-# Environment Configuration Help
-
-If you run into any issues while trying to run any of the above steps, please
-reach out to Patrick Sullivan. See the [Support](#support) section for more
-information.
+Razorwind is a package workspace, not an application with a root development
+server. Use `pnpm nx show projects` to find a package and run its available Nx
+targets, such as `pnpm nx test core`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
-## Plug-Ins
+# Workspace Guide
 
-Some of the plug-ins used by this repository are:
-
-- [@nx/next](https://nx.dev/packages/next)
-- [@nx/react](https://nx.dev/packages/react)
-- [@nx/lint](https://nx.dev/linter/overview)
-- [@nx/js](https://nx.dev/js/overview)
-- [@nx/node](https://nodejs.org)
-- [@nx/web](https://nx.dev/web/overview)
-- [@nx/storybook](https://nx.dev/storybook/overview-react)
-- [@nx/cypress](https://nx.dev/packages/cypress)
-- [@nx/jest](https://nx.dev/packages/jest)
-- And more...
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Generate an Application
-
-Run `nx g @storm-software/workspace:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same
-workspace.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Generate a Library
-
-Run `nx g @storm-software/workspace:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported
-from `@razorwind/my-lib`.
-
-<div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
-<br />
-
-## Code Scaffolding
-
-Run `nx g @nx/react:component my-component --project=razorwind` to generate a new
-component.
+Razorwind uses pnpm workspaces and Nx. Run `pnpm nx show projects` to list
+workspace projects, or `pnpm graph` to inspect their dependencies.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 # Testing
 
-Open System uses [Jest](https://jestjs.io/) for unit testing and
-[Cypress](https://www.cypress.io/) for end-to-end testing.
+Package unit tests use [Vitest](https://vitest.dev/) through Nx targets.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Running Unit Tests
 
-Run `pnpm test` to execute the unit tests via [Jest](https://jestjs.io).
+Run a package's tests with `pnpm nx test <project>`. For example:
 
-Run `pnpm affected:test` to execute the unit tests affected by a change.
+```sh
+pnpm nx test core
+```
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Running End-to-End Tests
 
-Run `pnpm e2e` to execute the end-to-end tests via
-[Cypress](https://www.cypress.io).
-
-Run `pnpm affected:e2e` to execute the end-to-end tests affected by a change.
+The root workspace does not currently define an end-to-end test target.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -228,6 +211,23 @@ First off, thanks for taking the time to contribute! Contributions are what
 makes the open-source community such an amazing place to learn, inspire, and
 create. Any contributions you make will benefit everybody else and are **greatly
 appreciated**.
+
+## Development
+
+To contribute from source, clone the repository and install its workspace
+dependencies, then use the root scripts for workspace checks:
+
+```sh
+git clone https://github.com/storm-software/razorwind.git
+cd razorwind
+pnpm install
+pnpm build
+pnpm typecheck
+pnpm nx test <project>
+```
+
+Use `pnpm nx show projects` to select a package. Do not rely on the root
+`pnpm lint` script for validation: its lint commands are currently disabled.
 
 Please try to create bug reports that are:
 

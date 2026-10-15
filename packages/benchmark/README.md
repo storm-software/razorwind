@@ -60,6 +60,18 @@ export default defineConfig({
 The smoke profile is bounded to one task, two context levels, and one
 repetition. It still calls a real agent when Razorwind generation runs.
 
+## Development
+
+Clone the Razorwind repository and install workspace dependencies with
+`pnpm install`. Run the focused package tests from the repository root:
+
+```sh
+pnpm nx test benchmark
+```
+
+The test suite uses mocked agent execution; it does not invoke Codex or Claude
+Code.
+
 ## Options
 
 | Option              | Default                 | Description                                                           |
