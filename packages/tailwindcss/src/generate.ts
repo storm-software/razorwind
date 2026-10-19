@@ -274,7 +274,7 @@ export function renderTailwindCss(
   tokens: FlatThemeToken[],
   options: Pick<
     TailwindGeneratePluginOptions,
-    "fontAssetBaseUrl" | "includeImport" | "prefix"
+    "fontAssetsUrl" | "includeImport" | "prefix"
   > & {
     fonts?: Fonts;
   } = {}
@@ -299,7 +299,7 @@ export function renderTailwindCss(
   }
   const faces = fonts
     ? renderLocalFontFaces(fonts, {
-        fontAssetBaseUrl: options.fontAssetBaseUrl
+        fontAssetsUrl: options.fontAssetsUrl
       })
     : "";
   if (faces) {
@@ -405,7 +405,7 @@ export default definePlugin((options?: TailwindGeneratePluginOptions) => ({
   name: "tailwindcss:generate",
   generate: async (spec, config) =>
     generateTailwindCss(spec, {
-      fontAssetBaseUrl: config.fontAssetBaseUrl,
+      fontAssetsUrl: config.fontAssetsUrl,
       ...options
     })
 }));

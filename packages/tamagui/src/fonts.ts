@@ -568,12 +568,40 @@ function scaleFromTypographyValue<T>(
   return scale;
 }
 
-function ensureSize(def: TamaguiFontDef): TamaguiFontDef {
+function fontSizeScale(
+  tokens: FlatToken[],
+  byPath: Map<string, FlatToken>
+): Record<string, number> {
+  const scale: Record<string, number> = {};
+
+  for (const token of tokens) {
+    if (!isFontSizeToken(token)) {
+      continue;
+    }
+
+    const value = toPixelNumber(resolveTokenValue(token.value, byPath));
+    if (value != null) {
+      scale[scaleKeyFromPath(token.path, FONT_SIZE_PATH_PREFIX)] = value;
+    }
+  }
+
+  return scale;
+}
+
+function ensureSize(
+  def: TamaguiFontDef,
+  fallback: Record<string, number>
+): TamaguiFontDef {
   if (Object.keys(def.size).length > 0) {
     return def;
   }
 
-  return { ...def, size: { ...DEFAULT_FONT_SIZE_SCALE } };
+  return {
+    ...def,
+    size: {
+      ...(Object.keys(fallback).length > 0 ? fallback : DEFAULT_FONT_SIZE_SCALE)
+    }
+  };
 }
 
 function applyTypography(
@@ -692,6 +720,7 @@ export function collectTamaguiFonts(
   fonts?: Fonts
 ): TamaguiFontDef[] {
   const byPath = new Map(tokens.map(token => [token.path, token]));
+  const fallbackSize = fontSizeScale(tokens, byPath);
   const defs = new Map<string, TamaguiFontDef>();
 
   const put = (def: TamaguiFontDef): void => {
@@ -735,7 +764,7 @@ export function collectTamaguiFonts(
   }
 
   return [...defs.values()]
-    .map(ensureSize)
+    .map(def => ensureSize(def, fallbackSize))
     .toSorted((a, b) => a.key.localeCompare(b.key));
 }
 

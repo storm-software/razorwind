@@ -162,9 +162,7 @@ function rankSwatchNames(
   }
 
   const order = mergeOrder(
-    [...swatches.values()].map(swatch =>
-      swatch.map(token => names.get(token)!)
-    )
+    [...swatches.values()].map(swatch => swatch.map(token => names.get(token)!))
   );
 
   return new Map(
@@ -196,7 +194,8 @@ export function renderGroupMdx(
 
   // A color's own theme takes precedence over its group.
   const sectionOf = (token: FlatToken) => token.childTheme ?? token.childGroup;
-  const rank = group === "color" ? rankSwatchNames(tokens, sectionOf) : undefined;
+  const rank =
+    group === "color" ? rankSwatchNames(tokens, sectionOf) : undefined;
 
   const renderColorSections = (
     groupTokens: FlatToken[],
@@ -1219,7 +1218,7 @@ export function renderFontSpecimen(
 
 function renderFontFiles(
   item: Record<string, unknown>,
-  fontAssetBaseUrl?: string
+  fontAssetsUrl?: string
 ): string {
   const files = Array.isArray(item.files) ? item.files : [];
 
@@ -1241,8 +1240,8 @@ function renderFontFiles(
           : undefined;
       const style = readString(file, "style");
 
-      const assetPath = fontAssetBaseUrl
-        ? resolveFontAssetUrl(path, fontAssetBaseUrl)
+      const assetPath = fontAssetsUrl
+        ? resolveFontAssetUrl(path, fontAssetsUrl)
         : path;
 
       return `| \`${escapeTableCell(assetPath)}\` | ${format ? `\`${escapeTableCell(format)}\`` : "—"} | ${weight ? `\`${escapeTableCell(weight)}\`` : "—"} | ${style ? `\`${escapeTableCell(style)}\`` : "—"} |`;
@@ -1301,7 +1300,7 @@ function readWeights(item: Record<string, unknown>): string[] {
 export function renderFontBody(
   item: Record<string, unknown>,
   sampleText = FONT_SPECIMEN_TEXT,
-  fontAssetBaseUrl?: string
+  fontAssetsUrl?: string
 ): string {
   const name = readString(item, "name") ?? "unknown";
   const description = readString(item, "description");
@@ -1357,7 +1356,7 @@ export function renderFontBody(
   sections.push(renderFontSpecimen(item, sampleText));
 
   if (source === "local") {
-    const files = renderFontFiles(item, fontAssetBaseUrl);
+    const files = renderFontFiles(item, fontAssetsUrl);
     if (files) {
       sections.push("### Files", files);
     }
@@ -1373,7 +1372,7 @@ export function renderFontBody(
 export function renderFontMdx(
   font: Record<string, unknown>,
   systemTitle = "design system",
-  fontAssetBaseUrl?: string
+  fontAssetsUrl?: string
 ): string {
   const name = readString(font, "name") ?? "unknown";
   const title = readString(font, "title") ?? titleCase(name);
@@ -1384,7 +1383,7 @@ export function renderFontMdx(
       description: `${title} font specimen and file reference for the ${systemTitle}.`
     }),
     `# ${title}`,
-    renderFontBody(font, FONT_SPECIMEN_TEXT, fontAssetBaseUrl)
+    renderFontBody(font, FONT_SPECIMEN_TEXT, fontAssetsUrl)
   ].join("\n\n");
 }
 
@@ -1638,7 +1637,7 @@ export function generateDocs(
       const fontPath = joinPaths("fonts", `${slug}.mdx`);
       documents[joinPaths(outputPath, fontPath)] = createDoc(
         fontPath,
-        renderFontMdx(font, systemTitle, options.fontAssetBaseUrl),
+        renderFontMdx(font, systemTitle, options.fontAssetsUrl),
         "mdx"
       );
     }
@@ -1702,7 +1701,7 @@ export default definePlugin((options?: DocgenGeneratePluginOptions) => ({
   generate: async (spec, config) => {
     return generateDocs(
       spec,
-      { fontAssetBaseUrl: config.fontAssetBaseUrl, ...options },
+      { fontAssetsUrl: config.fontAssetsUrl, ...options },
       config.cwd
     );
   }

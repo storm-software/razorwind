@@ -123,7 +123,7 @@ describe("css generate plugin", () => {
       },
       {
         cwd: process.cwd(),
-        fontAssetBaseUrl: "https://cdn.acme.test/fonts"
+        fontAssetsUrl: "https://cdn.acme.test/fonts"
       } as never
     );
 

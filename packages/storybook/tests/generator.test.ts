@@ -468,7 +468,7 @@ describe("storybook plugin", () => {
           }
         }
       },
-      { fontAssetBaseUrl: "https://cdn.acme.test/fonts" } as never
+      { fontAssetsUrl: "https://cdn.acme.test/fonts" } as never
     );
 
     expect(documents["out/Fonts/jakarta.mdx"]?.chunks?.[0]?.content).toContain(

@@ -110,7 +110,7 @@ const CONFIG_OWNED_OPTION_KEYS = [
   "iconsPath",
   "fontsPath",
   "guidelinesPath",
-  "fontAssetBaseUrl"
+  "fontAssetsUrl"
 ] as const;
 
 /**

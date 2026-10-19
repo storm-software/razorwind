@@ -59,7 +59,7 @@
 - Read tokens back from a CSS file with the extract plugin.
 - Prefix custom-property names with `prefix`.
 - Copy and reference font files from token fonts.
-- Point font assets at a CDN with `fontAssetBaseUrl`.
+- Point font assets at a CDN with `fontAssetsUrl`.
 
 ## Installing
 
@@ -104,7 +104,7 @@ export default defineConfig({
 | ------------------ | ---------------- | --------------------------------------------------------------- |
 | `outputPath`       | `"src/styles.css"` | Output file path (relative to the execution cwd)              |
 | `prefix`           | Schema initials  | Prefix for generated CSS custom-property names                  |
-| `fontAssetBaseUrl` | —                | Absolute HTTP(S) base URL for generated font asset references   |
+| `fontAssetsUrl` | —                | Absolute HTTP(S) base URL for generated font asset references   |
 
 ## Development
 

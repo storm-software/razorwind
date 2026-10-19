@@ -21,7 +21,7 @@
  */
 export interface CssGeneratePluginOptions {
   /** Absolute HTTP(S) base URL for generated local font asset references. */
-  fontAssetBaseUrl?: string;
+  fontAssetsUrl?: string;
 
   /**
    * Prefix prepended to generated CSS custom-property names.

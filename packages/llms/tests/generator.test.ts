@@ -542,7 +542,7 @@ describe("renderFontsDocument", () => {
 
   it("renders local font files from the configured asset CDN", () => {
     const content = renderFontsDocument(fontSpec, {
-      fontAssetBaseUrl: "https://cdn.acme.test/fonts"
+      fontAssetsUrl: "https://cdn.acme.test/fonts"
     });
 
     expect(content).toContain(

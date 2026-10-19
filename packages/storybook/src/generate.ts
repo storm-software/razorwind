@@ -353,9 +353,9 @@ ${renderItems(unsectionedSemanticColors, "          ")}
 `
     : ""
 }${colorThemes
-  .toSorted((a, b) => a.localeCompare(b))
-  .map(
-    theme => `        <section>
+          .toSorted((a, b) => a.localeCompare(b))
+          .map(
+            theme => `        <section>
           <h3>{${toLiteral(titleCase(theme))}}</h3>
           <ColorPalette>
 ${renderItems(
@@ -364,8 +364,8 @@ ${renderItems(
 )}
           </ColorPalette>
         </section>`
-  )
-  .join("\n")}
+          )
+          .join("\n")}
       </section>`
       : "";
 
@@ -989,7 +989,7 @@ export function renderFontMdx(
   _fontName: string,
   options: Pick<
     StorybookPluginOptions,
-    "fontAssetBaseUrl" | "sampleText" | "titlePrefix"
+    "fontAssetsUrl" | "sampleText" | "titlePrefix"
   > = {}
 ): string {
   const titlePrefix = options.titlePrefix ?? "Design Tokens";
@@ -1002,7 +1002,7 @@ export function renderFontMdx(
 
 # ${title}
 
-${renderFontBody(font, options.sampleText, options.fontAssetBaseUrl)}
+${renderFontBody(font, options.sampleText, options.fontAssetsUrl)}
 `;
 }
 

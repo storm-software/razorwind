@@ -41,7 +41,7 @@ export interface TailwindExtractPluginOptions {
  */
 export interface TailwindGeneratePluginOptions {
   /** Absolute HTTP(S) base URL for generated local font asset references. */
-  fontAssetBaseUrl?: string;
+  fontAssetsUrl?: string;
 
   /**
    * Prefix applied by Tailwind to compiled utility classes and CSS variables.

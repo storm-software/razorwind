@@ -68,7 +68,7 @@ describe("resolveFontAssetUrl", () => {
   it("rejects a non-HTTP CDN base URL", () => {
     expect(() =>
       resolveFontAssetUrl("/tmp/font.woff2", "./public/fonts")
-    ).toThrow(/fontAssetBaseUrl.*absolute HTTP/i);
+    ).toThrow(/fontAssetsUrl.*absolute HTTP/i);
   });
 });
 

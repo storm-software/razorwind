@@ -94,12 +94,12 @@ Create `razorwind.config.ts` beside a `tokens.json` file and list the plugins
 that should generate artifacts from those tokens:
 
 ```ts
-import { defineConfig } from "@razorwind/core"
-import css from "@razorwind/css/generate"
+import { defineConfig } from "@razorwind/core";
+import css from "@razorwind/css/generate";
 
 export default defineConfig({
   plugins: [css()]
-})
+});
 ```
 
 Run the generator from the project containing the configuration:

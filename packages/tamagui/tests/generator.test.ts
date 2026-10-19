@@ -522,6 +522,40 @@ describe("tamagui plugin", () => {
     expect(content).toContain("body: bodyFont");
   });
 
+  it("uses font-size tokens instead of the default font size scale", () => {
+    const content = renderConfig(
+      {
+        components: {},
+        icons: {},
+        fonts: {},
+        tokens: {
+          font: {
+            $type: "fontFamily",
+            sans: { $value: ["Inter", "system-ui", "sans-serif"] }
+          },
+          "font-size": {
+            $type: "dimension",
+            sm: { $value: { value: 0.875, unit: "rem" } },
+            DEFAULT: { $value: { value: 1, unit: "rem" } },
+            lg: { $value: { value: 1.25, unit: "rem" } }
+          }
+        }
+      } as Schema,
+      {
+        useDefaultConfig: false,
+        animations: false,
+        includeTypeAugmentation: false
+      }
+    );
+
+    const body = createFontBlock(content, "bodyFont");
+    expect(body).toContain("sm: 14");
+    expect(body).toContain("true: 16");
+    expect(body).toContain("lg: 20");
+    expect(body).not.toContain("1: 12");
+    expect(body).not.toContain("10: 48");
+  });
+
   it("uses kebab-case config keys for camel-case spec font roles and names", () => {
     const content = renderConfig(
       spec,

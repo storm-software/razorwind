@@ -105,7 +105,7 @@ export default defineConfig({
 | `cssPath`          | Detected entry   | Output path for the generated Tailwind CSS file               |
 | `prefix`           | —                | Prefix applied to compiled utility classes and CSS variables  |
 | `includeImport`    | `true`           | Include `@import "tailwindcss";` at the top of the file       |
-| `fontAssetBaseUrl` | —                | Absolute HTTP(S) base URL for generated font asset references |
+| `fontAssetsUrl` | —                | Absolute HTTP(S) base URL for generated font asset references |
 | `installGuide`     | Generated steps  | Override body for the generated `INSTALL.md`                  |
 
 ### ESLint guardrails

@@ -332,7 +332,7 @@ describe("tailwindcss generate plugin", () => {
           }
         }
       },
-      { fontAssetBaseUrl: "https://cdn.acme.test/fonts" } as never
+      { fontAssetsUrl: "https://cdn.acme.test/fonts" } as never
     );
 
     expect(documents["out/app.css"]?.chunks?.[0]?.content).toContain(

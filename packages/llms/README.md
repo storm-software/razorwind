@@ -61,7 +61,7 @@ structured references for approved tokens, components, icons, and fonts.
 - Generate an `llms.txt` index plus token, component, icon, and font files.
 - Override title, summary, and details from the schema.
 - Publish absolute companion links with `baseUrl`.
-- Point font assets at a CDN with `fontAssetBaseUrl`.
+- Point font assets at a CDN with `fontAssetsUrl`.
 
 ## Installing
 

@@ -19,7 +19,7 @@
 /** Options for the Razorwind llms.txt documentation generator. */
 export interface LlmsPluginOptions {
   /** Absolute HTTP(S) base URL for generated local font asset references. */
-  fontAssetBaseUrl?: string;
+  fontAssetsUrl?: string;
 
   /** Directory relative to the generation cwd. Defaults to the cwd. */
   outputPath?: string;
@@ -36,7 +36,7 @@ export interface LlmsPluginOptions {
 /** Options shared by the companion document renderers. */
 export interface LlmsRenderOptions {
   /** Absolute HTTP(S) base URL for rendered local font asset references. */
-  fontAssetBaseUrl?: string;
+  fontAssetsUrl?: string;
 
   /**
    * Absolute directory the documents are written to. Absolute schema file

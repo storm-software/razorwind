@@ -177,7 +177,7 @@ export default definePlugin((options?: LlmsPluginOptions) => ({
   generate: async (spec, config) =>
     generateLlms(
       spec,
-      { fontAssetBaseUrl: config.fontAssetBaseUrl, ...options },
+      { fontAssetsUrl: config.fontAssetsUrl, ...options },
       config.cwd
     )
 }));

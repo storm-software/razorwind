@@ -40,8 +40,8 @@ function renderLocalFiles(font: LocalFont, options: LlmsRenderOptions): string {
     .map(
       file =>
         `| \`${escapeTableCell(
-          options.fontAssetBaseUrl
-            ? resolveFontAssetUrl(file.path, options.fontAssetBaseUrl)
+          options.fontAssetsUrl
+            ? resolveFontAssetUrl(file.path, options.fontAssetsUrl)
             : relativePath(file.path, options.rootDir)
         )}\` | ${
           file.format ? `\`${escapeTableCell(file.format)}\`` : ""

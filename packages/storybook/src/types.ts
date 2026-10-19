@@ -106,7 +106,7 @@ export type GenerateStorybookTheme = (
  */
 export interface StorybookPluginOptions {
   /** Absolute HTTP(S) base URL for generated local font asset references. */
-  fontAssetBaseUrl?: string;
+  fontAssetsUrl?: string;
 
   /**
    * Directory (relative to the execution cwd) where generated docs are written.
