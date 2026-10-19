@@ -25,7 +25,8 @@ import type { Schema } from "@razorwind/core/schema";
 import {
   aliasDuplicateColors,
   createDocument,
-  cssVarPrefixFromName
+  cssVarPrefixFromName,
+  slugifyThemeName
 } from "@razorwind/core/utils";
 import { isString } from "@stryke/type-checks/is-string";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -88,6 +89,15 @@ function defaultInstallPath(outputPaths: string[]): string {
   const parent = dirname(first);
 
   return parent === "." ? "INSTALL.md" : join(parent, "INSTALL.md");
+}
+
+function appendThemeToDeclarationPath(path: string, theme: string): string {
+  const declaration = /(\.d\.[cm]?ts)$/.exec(path);
+  if (!declaration?.[1] || path.length <= declaration[1].length) {
+    return path;
+  }
+
+  return `${path.slice(0, -declaration[1].length)}.${slugifyThemeName(theme)}${declaration[1]}`;
 }
 
 function withCssVariablePrefix(
@@ -156,13 +166,29 @@ export async function generateStyleDictionary(
   const documents: Record<string, GeneratedDocument> = {};
 
   for (const [platform, files] of Object.entries(formatted)) {
-    for (const file of files) {
+    for (const [index, file] of files.entries()) {
       const path = file.destination ?? `${platform}.output`;
-      documents[path] = createDocument<Schema, StyleDictionaryPluginOptions>(
+      const sharesDeclarationShape =
+        platforms[platform]?.files?.[index]?.format ===
+        "typescript/module-declarations";
+      const document = createDocument<Schema, StyleDictionaryPluginOptions>(
         path,
         stringifyOutput(file.output),
-        { name: platform }
+        { name: platform },
+        sharesDeclarationShape ? appendThemeToDeclarationPath : undefined
       );
+
+      if (sharesDeclarationShape) {
+        document.meta = {
+          ...document.meta,
+          data: {
+            ...document.meta?.data,
+            shareIdenticalThemeOutput: true
+          }
+        };
+      }
+
+      documents[path] = document;
     }
   }
 

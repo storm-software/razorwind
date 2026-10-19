@@ -18,6 +18,8 @@
 
 import type { Schema } from "@razorwind/core/schema";
 import { describe, expect, it } from "vitest";
+import { generatePluginDocuments } from "../../core/src/lib/generate";
+import type { Config } from "../../core/src/types/config";
 import { generateStyleDictionary } from "../src/generate";
 import styleDictionary from "../src/index";
 
@@ -42,6 +44,33 @@ const spec = {
   fonts: {},
   tokens
 } as Schema;
+
+function declarationConfig(tokens: Schema["tokens"]): {
+  spec: Schema;
+  config: Config;
+} {
+  const plugin = styleDictionary({
+    platforms: {
+      typescript: {
+        transformGroup: "js",
+        files: [
+          {
+            destination: "tokens.d.ts",
+            format: "typescript/module-declarations"
+          }
+        ]
+      }
+    }
+  });
+
+  return {
+    spec: { ...spec, tokens },
+    config: {
+      cwd: process.cwd(),
+      plugins: [plugin]
+    } as Config
+  };
+}
 
 describe("style-dictionary plugin", () => {
   it("is a Razorwind Plugin", () => {
@@ -258,5 +287,78 @@ describe("style-dictionary plugin", () => {
     expect(css).toContain("--ads-size-sm: 8px;");
     expect(css).toContain("--ads-size-md: 20px;");
     expect(css).not.toContain("[object Object]");
+  });
+
+  it("uses dotted theme names before TypeScript declaration extensions", async () => {
+    const { spec: themedSpec, config } = declarationConfig({
+      light: {
+        color: {
+          foreground: { $type: "color", $value: "#111111" }
+        }
+      },
+      dark: {
+        color: {
+          foreground: { $type: "color", $value: "#eeeeee" },
+          background: { $type: "color", $value: "#111111" }
+        }
+      }
+    });
+
+    const documents = await generatePluginDocuments(themedSpec, config);
+    const declarations = Object.keys(documents)
+      .filter(path => path.endsWith(".d.ts"))
+      .sort();
+
+    expect(declarations).toEqual(["tokens.dark.d.ts", "tokens.light.d.ts"]);
+  });
+
+  it("emits one declaration file when every theme has the same token structure", async () => {
+    const { spec: themedSpec, config } = declarationConfig({
+      light: {
+        color: {
+          foreground: { $type: "color", $value: "#111111" }
+        }
+      },
+      dark: {
+        color: {
+          foreground: { $type: "color", $value: "#eeeeee" }
+        }
+      }
+    });
+
+    const documents = await generatePluginDocuments(themedSpec, config);
+    const declarations = Object.keys(documents).filter(path =>
+      path.endsWith(".d.ts")
+    );
+
+    expect(declarations).toEqual(["tokens.d.ts"]);
+  });
+
+  it("shares matching declaration structures and keeps distinct structures themed", async () => {
+    const { spec: themedSpec, config } = declarationConfig({
+      light: {
+        color: {
+          foreground: { $type: "color", $value: "#111111" }
+        }
+      },
+      dark: {
+        color: {
+          foreground: { $type: "color", $value: "#eeeeee" }
+        }
+      },
+      "high-contrast": {
+        color: {
+          foreground: { $type: "color", $value: "#ffffff" },
+          background: { $type: "color", $value: "#000000" }
+        }
+      }
+    });
+
+    const documents = await generatePluginDocuments(themedSpec, config);
+    const declarations = Object.keys(documents)
+      .filter(path => path.endsWith(".d.ts"))
+      .sort();
+
+    expect(declarations).toEqual(["tokens.d.ts", "tokens.high-contrast.d.ts"]);
   });
 });

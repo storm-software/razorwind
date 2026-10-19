@@ -53,6 +53,7 @@ export { slugifyThemeName } from "./slugify-theme-name";
 export { themeDisplayName, type ThemeNamed } from "./theme-display-name";
 export {
   appendThemeToFilePath,
+  applyThemesToDocuments,
   applyThemeToDocuments,
   applyThemeToTitle
 } from "./theme-output";

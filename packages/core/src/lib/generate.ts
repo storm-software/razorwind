@@ -29,7 +29,7 @@ import {
 } from "../utils/flatten-tokens";
 import { mergeTokenTrees } from "../utils/merge-tokens";
 import {
-  applyThemeToDocuments,
+  applyThemesToDocuments,
   applyThemeToTitle
 } from "../utils/theme-output";
 
@@ -152,14 +152,20 @@ export async function generatePluginDocuments(
     return defu(await runPluginGenerators(spec, config, split), documents);
   }
 
+  const themedDocuments = [];
+
   for (const theme of themes) {
-    const generated = await runPluginGenerators(
-      specForTheme(spec, theme, sets),
-      configForTheme(config, theme),
-      split
-    );
-    documents = defu(applyThemeToDocuments(generated, theme.id), documents);
+    themedDocuments.push({
+      theme: theme.id,
+      documents: await runPluginGenerators(
+        specForTheme(spec, theme, sets),
+        configForTheme(config, theme),
+        split
+      )
+    });
   }
+
+  documents = defu(applyThemesToDocuments(themedDocuments), documents);
 
   return documents;
 }
