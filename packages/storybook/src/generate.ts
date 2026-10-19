@@ -419,6 +419,7 @@ export function renderTypesetBlock(
   const themed = hasThemeVariants(variants);
   const variantEntries = Object.entries(variants);
   const defaultTheme = variantEntries[0]?.[0] ?? "default";
+
   const renderTypeset = (tokens: FlatToken[]) => {
     const fontSizes = tokens
       .filter(
@@ -431,16 +432,20 @@ export function renderTypesetBlock(
 
         return match ? Number(match[1]) : token.cssValue;
       });
+
     const uniqueSizes = [...new Set(fontSizes)];
+
     const fromFonts = pickFontByRole(options.fonts, SANS_ROLES);
     const fontFamily =
       (fromFonts ? cssFontFamily(fromFonts) : undefined) ??
       tokens.find(token => token.type === "fontFamily")?.cssValue ??
       "system-ui, sans-serif";
+
     const fontWeightToken = tokens.find(token => token.type === "fontWeight");
     const fontWeight = fontWeightToken
       ? Number.parseFloat(fontWeightToken.cssValue) || 400
       : 400;
+
     const sizesLiteral =
       uniqueSizes.length > 0
         ? `[${uniqueSizes.map(size => toLiteral(size)).join(", ")}]`
@@ -453,6 +458,7 @@ export function renderTypesetBlock(
       sampleText={${toLiteral(sampleText)}}
     />`;
   };
+
   const typesetVariants = variantEntries
     .map(
       ([theme, tokens]) => `  ${toLiteral(theme)}: (${renderTypeset(tokens)})`
@@ -978,9 +984,9 @@ export function renderFontsMdx(
 
 # Fonts
 
-${options.fonts.length} font${options.fonts.length === 1 ? "" : "s"} in the design system.
+The following ${options.fonts.length} font${options.fonts.length === 1 ? "" : "s"} are available in the design system:
 
-${links.join("\n")}
+${links.map(link => `- ${link}`).join("\n")}
 `;
 }
 

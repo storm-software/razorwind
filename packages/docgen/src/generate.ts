@@ -1401,7 +1401,7 @@ export function renderFontsMdx(
       description: `Fonts available in the ${systemTitle}.`
     }),
     `# Fonts`,
-    `${fonts.length} font${fonts.length === 1 ? "" : "s"} in the design system.`
+    `The following ${fonts.length} font${fonts.length === 1 ? "" : "s"} in the design system:`
   ];
 
   const links = fonts.map(font => {
@@ -1634,9 +1634,9 @@ export function generateDocs(
     );
 
     for (const [font, slug] of fontSlugs(fonts)) {
-      const fontPath = joinPaths("fonts", `${slug}.mdx`);
-      documents[joinPaths(outputPath, fontPath)] = createDoc(
-        fontPath,
+      const fontsPath = joinPaths("fonts", `${slug}.mdx`);
+      documents[joinPaths(outputPath, fontsPath)] = createDoc(
+        fontsPath,
         renderFontMdx(font, systemTitle, options.fontAssetsUrl),
         "mdx"
       );

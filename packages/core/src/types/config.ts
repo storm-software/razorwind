@@ -59,7 +59,7 @@ export interface Options extends PrettierOptions {
   /**
    * The path(s) to directories containing font files or font directories.
    */
-  fontPath?: string | string[];
+  fontsPath?: string | string[];
 
   /**
    * Absolute HTTP(S) base URL used for local font asset references emitted by generators. Font filenames are appended to this URL.
