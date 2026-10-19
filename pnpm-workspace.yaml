@@ -9,7 +9,7 @@ catalog:
   "@babel/types": ^7.29.8
   "@power-plant/prettier-formatter": ^0.0.2
   "@types/babel__traverse": ^7.28.0
-  "@ls-lint/ls-lint": ^2.3.1
+  "@ls-lint/ls-lint": ^2.3.2
   "@nx/devkit": 23.1.0
   "@nx/eslint-plugin": 23.1.0
   "@nx/js": 23.1.0
@@ -20,10 +20,10 @@ catalog:
   "@json-render/react": ^0.21.1
   "@modelcontextprotocol/server": ^2.3.1
   "@nx/workspace": 23.1.0
-  "@power-plant/core": ^0.0.94
+  "@power-plant/core": ^0.0.95
   "@power-plant/dtcg-schema": ^0.0.1
-  "@power-plant/schema": ^0.0.92
-  "@power-plant/utils": ^0.0.80
+  "@power-plant/schema": ^0.0.93
+  "@power-plant/utils": ^0.0.81
   "@powerlines/plugin-env": ^0.16.423
   "@powerlines/nx": ^0.13.254
   "@powerlines/plugin-untyped": ^0.2.630
@@ -68,11 +68,11 @@ catalog:
   chalk: ^5.6.2
   copyfiles: ^2.4.1
   defu: ^6.1.7
-  eslint: ^10.12.0
+  eslint: ^10.13.0
   eslint-flat-config-utils: ^3.2.0
   fast-glob: ^3.3.3
   jiti: ^2.7.0
-  jsdom: ^30.1.2
+  jsdom: ^30.1.3
   json5: ^2.2.3
   jsonc-eslint-parser: ^3.3.0
   lefthook: ^2.2.2
@@ -82,16 +82,16 @@ catalog:
   prettier: ^3.9.10
   react-docgen-typescript: ^2.4.0
   rimraf: ^6.1.3
-  shadcn: ^4.21.4
+  shadcn: ^4.22.0
   smol-toml: ^1.9.1
-  style-dictionary: ^5.6.1
+  style-dictionary: ^5.7.0
   stylelint: ^17.16.0
   tailwindcss: ^4.3.3
   tsconfig-paths: ^4.2.0
   untyped: ^2.0.0
   verdaccio: 6.0.5
   vite: ^8.3.4
-  vitest: ~4.1.11
+  vitest: ~4.1.12
   yaml: ^2.9.1
   zod: ^4.6.7
   zx: ^8.8.5
