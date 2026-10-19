@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.95](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.95) (10/19/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with config option name mismatch ([23d59f5](https://github.com/storm-software/razorwind/commit/23d59f5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.97**
+
 ## [0.0.94](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.94) (10/19/2026)
 
 ### Bug Fixes

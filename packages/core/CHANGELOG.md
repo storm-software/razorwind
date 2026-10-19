@@ -2,6 +2,13 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.97](https://github.com/storm-software/razorwind/releases/tag/core%400.0.97) (10/19/2026)
+
+### Bug Fixes
+
+- **style-dictionary:** Resolve issue with generated Typescript file names ([e2bd329](https://github.com/storm-software/razorwind/commit/e2bd329))
+- **core:** Resolve issue with config option name mismatch ([23d59f5](https://github.com/storm-software/razorwind/commit/23d59f5))
+
 ## [0.0.96](https://github.com/storm-software/razorwind/releases/tag/core%400.0.96) (10/19/2026)
 
 ### Bug Fixes

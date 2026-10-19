@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.83](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.83) (10/19/2026)
+
+### Bug Fixes
+
+- **style-dictionary:** Resolve issue with generated Typescript file names ([e2bd329](https://github.com/storm-software/razorwind/commit/e2bd329))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.97**
+
 ## [0.0.82](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.82) (10/19/2026)
 
 ### Updated Dependencies

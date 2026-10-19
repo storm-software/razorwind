@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.97](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.97) (10/19/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with config option name mismatch ([23d59f5](https://github.com/storm-software/razorwind/commit/23d59f5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.97**
+- Updated **docgen** to **v0.0.95**
+
 ## [0.0.96](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.96) (10/19/2026)
 
 ### Bug Fixes
