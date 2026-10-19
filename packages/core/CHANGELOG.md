@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.96](https://github.com/storm-software/razorwind/releases/tag/core%400.0.96) (10/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update logic for generated config to use `font-size` tokens ([d69c61f](https://github.com/storm-software/razorwind/commit/d69c61f))
+
 ## [0.0.95](https://github.com/storm-software/razorwind/releases/tag/core%400.0.95) (10/15/2026)
 
 ### Bug Fixes

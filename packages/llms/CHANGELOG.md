@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.31](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.31) (10/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update logic for generated config to use `font-size` tokens ([d69c61f](https://github.com/storm-software/razorwind/commit/d69c61f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.96**
+
 ## [0.0.30](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.30) (10/15/2026)
 
 ### Bug Fixes

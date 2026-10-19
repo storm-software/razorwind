@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Storybook
 
+## [0.0.96](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.96) (10/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update logic for generated config to use `font-size` tokens ([d69c61f](https://github.com/storm-software/razorwind/commit/d69c61f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.96**
+- Updated **docgen** to **v0.0.94**
+
 ## [0.0.95](https://github.com/storm-software/razorwind/releases/tag/storybook%400.0.95) (10/15/2026)
 
 ### Bug Fixes

@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.79](https://github.com/storm-software/razorwind/releases/tag/css%400.0.79) (10/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update logic for generated config to use `font-size` tokens ([d69c61f](https://github.com/storm-software/razorwind/commit/d69c61f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.96**
+- Updated **style-dictionary** to **v0.0.82**
+
 ## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/css%400.0.78) (10/15/2026)
 
 ### Bug Fixes
