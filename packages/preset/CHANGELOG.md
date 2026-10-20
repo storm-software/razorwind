@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Preset
 
+## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.38) (10/20/2026)
+
+### Updated Dependencies
+
+- Updated **shell-shock** to **v0.0.22**
+
 ## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.37) (10/20/2026)
 
 ### Updated Dependencies

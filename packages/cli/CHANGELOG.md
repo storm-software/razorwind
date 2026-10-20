@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.40) (10/20/2026)
+
+### Bug Fixes
+
+- **shell-shock:** Resolve issue with theme selection in generated CLI application code ([94972bf](https://github.com/storm-software/razorwind/commit/94972bf))
+
 ## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.39) (10/20/2026)
 
 ### Bug Fixes

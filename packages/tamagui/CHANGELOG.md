@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.106](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.106) (10/20/2026)
+
+### Bug Fixes
+
+- **shell-shock:** Resolve issue with theme selection in generated CLI application code ([94972bf](https://github.com/storm-software/razorwind/commit/94972bf))
+
 ## [0.0.105](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.105) (10/20/2026)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.29) (10/20/2026)
+
+### Updated Dependencies
+
+- Updated **tamagui** to **v0.0.106**
+
 ## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.28) (10/20/2026)
 
 ### Bug Fixes

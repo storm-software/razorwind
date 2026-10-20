@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Stylelint
 
+## [0.0.29](https://github.com/storm-software/razorwind/releases/tag/stylelint%400.0.29) (10/20/2026)
+
+### Updated Dependencies
+
+- Updated **eslint** to **v0.0.29**
+
 ## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/stylelint%400.0.28) (10/20/2026)
 
 ### Updated Dependencies
