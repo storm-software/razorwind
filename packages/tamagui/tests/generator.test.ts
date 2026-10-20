@@ -1567,11 +1567,80 @@ describe("tamagui plugin", () => {
     expect(v3).not.toContain("createThemes(");
     const start = v3.indexOf("const themes = ") + "const themes = ".length;
     const frozen = JSON.parse(v3.slice(start, v3.indexOf("\n};", start) + 2));
-    expect(frozen.light_danger.foreground).toBe("#ff4600");
-    expect(frozen.dark_danger.foreground).toBe("#aa4600");
-    expect(frozen.light_success.backgroundSubtle).toBe("#00ff5a");
-    expect(frozen.light_accent.foreground).toBe("#00ccaa");
-    expect(frozen.light.backgroundHover).toBeTypeOf("string");
+    expect(frozen.light_danger.foreground).toMatch(/^oklch\(/);
+    expect(frozen.dark_danger.foreground).toMatch(/^oklch\(/);
+    expect(frozen.light_success.backgroundSubtle).toMatch(/^oklch\(/);
+    expect(frozen.light_accent.foreground).toMatch(/^oklch\(/);
+    expect(frozen.light.backgroundHover).toBeUndefined();
+  });
+
+  it("keeps only token-owned values in frozen v3 themes", () => {
+    const schema = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            surface: { $value: "#f0f0f0" },
+            foreground: {
+              accent: { $value: "#008080", theme: "accent" }
+            }
+          }
+        },
+        dark: {
+          color: {
+            $type: "color",
+            surface: { $value: "#101010" },
+            foreground: {
+              accent: { $value: "#80ffff", theme: "accent" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(schema, { target: "v3", animations: false });
+    const start = content.indexOf("const themes = ") + "const themes = ".length;
+    const themes = JSON.parse(
+      content.slice(start, content.indexOf("\n};", start) + 2)
+    );
+
+    expect(Object.keys(themes.light)).toEqual(["surface"]);
+    expect(Object.keys(themes.dark)).toEqual(["surface"]);
+    expect(Object.keys(themes.light_accent)).toEqual(["foreground"]);
+    expect(Object.keys(themes.dark_accent)).toEqual(["foreground"]);
+  });
+
+  it("prefers OKLCH for generated color tokens and frozen theme values", () => {
+    const schema = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            $type: "color",
+            red: { primitive: true, 1: { $value: "#ff0000" } },
+            surface: { $value: "{color.red.1}" },
+            overlay: { $value: "#ff000080" },
+            known: { $value: "oklch(0.5 0.1 200)" }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(schema, { target: "v3", animations: false });
+    const start = content.indexOf("const themes = ") + "const themes = ".length;
+    const themes = JSON.parse(
+      content.slice(start, content.indexOf("\n};", start) + 2)
+    );
+
+    expect(content).toContain('lightRed1: "oklch(0.627955 0.257683 29.234)"');
+    expect(themes.light.surface).toBe("oklch(0.627955 0.257683 29.234)");
+    expect(themes.light.overlay).toMatch(/^oklch\(.+ \/ 0\.502\)$/);
+    expect(themes.light.known).toBe("oklch(0.5 0.1 200)");
   });
 
   it("strips the theme name from semantic keys on the named theme", () => {

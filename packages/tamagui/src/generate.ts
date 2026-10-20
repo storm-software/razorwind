@@ -269,6 +269,50 @@ const ACCENT_PALETTE_NAMES = ["accent", "brand"] as const;
 const FALLBACK_LIGHT_PALETTE = ['"#ffffff"', '"#000000"'] as const;
 const FALLBACK_DARK_PALETTE = ['"#000000"', '"#ffffff"'] as const;
 
+/** Keep generated color values in the source's preferred CSS color space. */
+function preferOklchColor(value: string): string {
+  const match = /^#([\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.exec(value.trim());
+  if (!match) {
+    return value;
+  }
+
+  const raw = match[1]!;
+  const hex =
+    raw.length <= 4 ? [...raw].map(digit => digit + digit).join("") : raw;
+  const channel = (offset: number) => {
+    const srgb = Number.parseInt(hex.slice(offset, offset + 2), 16) / 255;
+
+    return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+  };
+  const red = channel(0);
+  const green = channel(2);
+  const blue = channel(4);
+  const l = Math.cbrt(
+    0.412_221_470_8 * red + 0.536_332_536_3 * green + 0.051_445_992_9 * blue
+  );
+  const m = Math.cbrt(
+    0.211_903_498_2 * red + 0.680_699_545_1 * green + 0.107_396_956_6 * blue
+  );
+  const s = Math.cbrt(
+    0.088_302_461_9 * red + 0.281_718_837_6 * green + 0.629_978_700_5 * blue
+  );
+  const lightness =
+    0.210_454_255_3 * l + 0.793_617_785 * m - 0.004_072_046_8 * s;
+  const a = 1.977_998_495_1 * l - 2.428_592_205 * m + 0.450_593_709_9 * s;
+  const b = 0.025_904_037_1 * l + 0.782_771_766_2 * m - 0.808_675_766 * s;
+  const chroma = Math.hypot(a, b);
+  const hue =
+    chroma < 0.000001 ? 0 : ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360;
+  const format = (number: number, places: number) =>
+    Number(number.toFixed(places)).toString();
+  const alpha =
+    hex.length === 8
+      ? ` / ${format(Number.parseInt(hex.slice(6, 8), 16) / 255, 3)}`
+      : "";
+
+  return `oklch(${format(lightness, 6)} ${format(chroma < 0.000001 ? 0 : chroma, 6)} ${format(hue, 3)}${alpha})`;
+}
+
 /**
  * Primitive scale identity from a flattened path (`color.base.1` → base / 1).
  */
@@ -1360,7 +1404,38 @@ function renderFrozenThemes(input: {
       : {})
   } as Parameters<typeof createThemes>[0]);
 
-  return `const themes = ${JSON.stringify(themes, null, 2)};`;
+  const tokenThemes = Object.fromEntries(
+    Object.entries(themes).map(([name, theme]) => {
+      const match = /^(light|dark)(?:_(.+))?$/.exec(name);
+      if (!match) {
+        return [name, theme];
+      }
+
+      const maps = match[1] === "dark" ? dark : light;
+      const fallback = match[1] === "dark" ? light : dark;
+      const child = match[2];
+      const allowed = new Set([
+        ...Object.keys(maps.base),
+        ...Object.keys(
+          child ? (maps.children[child] ?? fallback.children[child] ?? {}) : {}
+        )
+      ]);
+
+      return [
+        name,
+        Object.fromEntries(
+          Object.entries(theme)
+            .filter(([key]) => allowed.has(key))
+            .map(([key, value]) => [
+              key,
+              typeof value === "string" ? preferOklchColor(value) : value
+            ])
+        )
+      ];
+    })
+  );
+
+  return `const themes = ${JSON.stringify(tokenThemes, null, 2)};`;
 }
 
 interface TokenAnalysis {
@@ -1506,7 +1581,19 @@ export function renderTamaguiConfig(
   const buckets = buildCategoryBuckets(lightSchemeTokens);
   const createTokensArgs: string[] = [];
   if (Object.keys(colorBucket).length > 0) {
-    createTokensArgs.push(`  color: ${renderObjectLiteral(colorBucket, 4)}`);
+    createTokensArgs.push(
+      `  color: ${renderObjectLiteral(
+        target === "v3"
+          ? Object.fromEntries(
+              Object.entries(colorBucket).map(([key, value]) => [
+                key,
+                typeof value === "string" ? preferOklchColor(value) : value
+              ])
+            )
+          : colorBucket,
+        4
+      )}`
+    );
   }
 
   for (const category of CREATE_TOKEN_CATEGORIES) {
