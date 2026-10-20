@@ -546,6 +546,89 @@ function localFontWeightScale(font: LocalFont): Record<string, string> {
   );
 }
 
+type FontWeightRange = readonly [minimum: number, maximum: number];
+
+function toFontWeightRange(
+  value: number | string
+): FontWeightRange | undefined {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? [value, value] : undefined;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  const parts = trimmed.split(/\s+/);
+  if (parts.length > 2) {
+    return undefined;
+  }
+
+  const minimum = Number(parts[0]);
+  const maximum = Number(parts[1] ?? parts[0]);
+  if (!Number.isFinite(minimum) || !Number.isFinite(maximum)) {
+    return undefined;
+  }
+
+  return minimum <= maximum ? [minimum, maximum] : [maximum, minimum];
+}
+
+function availableFontWeightRanges(font: Font): FontWeightRange[] {
+  const values =
+    font.source === "google"
+      ? (font.weights ?? [])
+      : [...(font.files ?? []), ...(font.sources ?? [])]
+          .map(file => file.weight)
+          .filter((weight): weight is number | string => weight != null);
+
+  return values
+    .map(toFontWeightRange)
+    .filter((range): range is FontWeightRange => range != null)
+    .toSorted(
+      ([minimumA, maximumA], [minimumB, maximumB]) =>
+        minimumA - minimumB || maximumA - maximumB
+    );
+}
+
+function matchAvailableFontWeights(
+  scale: Record<string, string>,
+  font: Font
+): Record<string, string> {
+  const ranges = availableFontWeightRanges(font);
+  if (ranges.length === 0) {
+    return scale;
+  }
+
+  return Object.fromEntries(
+    Object.entries(scale).map(([key, value]) => {
+      const requested = Number(value);
+      if (!Number.isFinite(requested)) {
+        return [key, value];
+      }
+
+      let closest: number | undefined;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      for (const [minimum, maximum] of ranges) {
+        if (requested >= minimum && requested <= maximum) {
+          return [key, value];
+        }
+
+        for (const candidate of [minimum, maximum]) {
+          const distance = Math.abs(requested - candidate);
+          if (distance < closestDistance) {
+            closest = candidate;
+            closestDistance = distance;
+          }
+        }
+      }
+
+      return [key, closest == null ? value : String(closest)];
+    })
+  );
+}
+
 function applySpecFont(def: TamaguiFontDef, font: Font): TamaguiFontDef {
   return {
     ...def,
@@ -744,10 +827,17 @@ function applyTypography(
           ? localFontWeightScale(specFont)
           : next.weight;
 
-    return { ...next, weight };
+    next = { ...next, weight };
   }
 
-  if (specFont?.source === "local") {
+  if (specFont) {
+    next = {
+      ...next,
+      weight: matchAvailableFontWeights(next.weight, specFont)
+    };
+  }
+
+  if (hasExplicitWeight && specFont?.source === "local") {
     return {
       ...next,
       face: renderFaceLiteral(specFont, new Set(Object.values(next.weight)))

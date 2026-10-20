@@ -1024,7 +1024,7 @@ describe("tamagui plugin", () => {
     expect(body).toContain('600: "600"');
   });
 
-  it("uses font-weight token properties when typography omits fontWeight", () => {
+  it("maps font-weight token properties to the closest available local font weight", () => {
     const spec = {
       components: {},
       icons: {},
@@ -1032,9 +1032,15 @@ describe("tamagui plugin", () => {
       tokens: {
         "font-weight": {
           $type: "fontWeight",
+          thin: { $value: 100 },
+          extralight: { $value: 200 },
           light: { $value: 300 },
           regular: { $value: 400 },
-          semibold: { $value: 600 }
+          medium: { $value: 500 },
+          semibold: { $value: 600 },
+          bold: { $value: 700 },
+          extrabold: { $value: 800 },
+          black: { $value: 900 }
         },
         typography: {
           $type: "typography",
@@ -1059,9 +1065,16 @@ describe("tamagui plugin", () => {
           family: "Inter",
           role: "sans",
           files: [
+            { path: "fonts/Inter-Thin.ttf", weight: 100, style: "normal" },
+            {
+              path: "fonts/Inter-ExtraLight.ttf",
+              weight: 200,
+              style: "normal"
+            },
             { path: "fonts/Inter-Light.ttf", weight: 300, style: "normal" },
             { path: "fonts/Inter-Regular.ttf", weight: 400, style: "normal" },
-            { path: "fonts/Inter-Semibold.ttf", weight: 600, style: "normal" }
+            { path: "fonts/Inter-Semibold.ttf", weight: 600, style: "normal" },
+            { path: "fonts/Inter-Bold.ttf", weight: 700, style: "normal" }
           ]
         }
       }
@@ -1070,10 +1083,65 @@ describe("tamagui plugin", () => {
     const weight = body.match(/weight: \{(?<scale>[\s\S]*?)\n  \}/)?.groups
       ?.scale;
 
+    expect(weight).toContain('thin: "100"');
+    expect(weight).toContain('extralight: "200"');
     expect(weight).toContain('light: "300"');
     expect(weight).toContain('regular: "400"');
+    expect(weight).toContain('medium: "400"');
     expect(weight).toContain('semibold: "600"');
+    expect(weight).toContain('bold: "700"');
+    expect(weight).toContain('extrabold: "700"');
+    expect(weight).toContain('black: "700"');
     expect(weight).not.toContain('300: "300"');
+  });
+
+  it("maps font-weight token properties to the closest declared Google font weight", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        "font-weight": {
+          $type: "fontWeight",
+          regular: { $value: 400 },
+          medium: { $value: 500 },
+          bold: { $value: 700 },
+          black: { $value: 900 }
+        },
+        typography: {
+          $type: "typography",
+          code: {
+            $value: {
+              fontFamily: "Google Sans Code",
+              fontSize: { value: 16, unit: "px" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(
+      spec,
+      {},
+      {
+        googleSansCode: {
+          name: "google-sans-code",
+          title: "Google Sans Code",
+          source: "google",
+          family: "Google Sans Code",
+          role: "code",
+          weights: [400, 700]
+        }
+      }
+    );
+    const code = createFontBlock(content, "codeFont");
+    const weight = code.match(/weight: \{(?<scale>[\s\S]*?)\n  \}/)?.groups
+      ?.scale;
+
+    expect(weight).toContain('regular: "400"');
+    expect(weight).toContain('medium: "400"');
+    expect(weight).toContain('bold: "700"');
+    expect(weight).toContain('black: "700"');
   });
 
   it("emits light and dark createThemes extras from scheme token sets", () => {
