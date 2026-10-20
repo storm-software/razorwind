@@ -10,6 +10,7 @@ catalog:
   "@power-plant/prettier-formatter": ^0.0.5
   "@types/babel__traverse": ^7.28.0
   "@ls-lint/ls-lint": ^2.3.2
+  "@maplibre/maplibre-gl-style-spec": ^24.10.0
   "@nx/devkit": 23.1.0
   "@nx/eslint-plugin": 23.1.0
   "@nx/js": 23.1.0

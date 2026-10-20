@@ -101,6 +101,9 @@
     },
     {
       "path": "./packages/benchmark"
+    },
+    {
+      "path": "./packages/maplibre"
     }
   ],
   "files": []

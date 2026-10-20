@@ -19,6 +19,7 @@
 import type { ChromeTheme } from "@razorwind/chrome";
 import type { CursorTheme } from "@razorwind/cursor";
 import type { GhosttyTheme } from "@razorwind/ghostty";
+import type { MapLibreStyle } from "@razorwind/maplibre";
 import type { NotepadPlusPlusTheme } from "@razorwind/notepad-plus-plus";
 import type { SandpackTheme } from "@razorwind/sandpack";
 import type { ShellShockPalette } from "@razorwind/shell-shock";
@@ -169,6 +170,22 @@ export function mapGhosttyTheme(theme: PresetTheme): GhosttyTheme {
     cursorText: color.primaryBackground,
     selectionForeground: color.selectionForeground,
     selectionBackground: color.selectionBackground
+  };
+}
+
+/** Map shared colors to a valid background-only MapLibre style. */
+export function mapMapLibreTheme(theme: PresetTheme): MapLibreStyle {
+  return {
+    version: 8,
+    name: theme.name,
+    sources: {},
+    layers: [
+      {
+        id: "background",
+        type: "background",
+        paint: { "background-color": background(theme.primary)! }
+      }
+    ]
   };
 }
 

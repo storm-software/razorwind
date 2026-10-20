@@ -10,6 +10,7 @@
     { "path": "../core/tsconfig.lib.json" },
     { "path": "../cursor/tsconfig.lib.json" },
     { "path": "../ghostty/tsconfig.lib.json" },
+    { "path": "../maplibre/tsconfig.lib.json" },
     { "path": "../notepad-plus-plus/tsconfig.lib.json" },
     { "path": "../sandpack/tsconfig.lib.json" },
     { "path": "../shell-shock/tsconfig.lib.json" },

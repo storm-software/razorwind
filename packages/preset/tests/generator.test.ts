@@ -6,6 +6,7 @@ import preset, {
   mapChromeTheme,
   mapCursorTheme,
   mapGhosttyTheme,
+  mapMapLibreTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
   mapShellShockTheme,
@@ -70,14 +71,21 @@ describe("preset", () => {
       themePlugin("shiki", options?.mapTheme);
     const zsh = (options?: { mapTheme?: (tokens: Tokens) => unknown }) =>
       themePlugin("zsh", options?.mapTheme);
+    const maplibre = (options?: { mapTheme?: (tokens: Tokens) => unknown }) =>
+      themePlugin("maplibre", options?.mapTheme);
 
-    const plugin = preset({ plugins: [shiki, zsh], mapTheme });
+    const plugin = preset({ plugins: [shiki, zsh, maplibre], mapTheme });
 
     expect(plugin.name).toBe("preset");
-    expect(plugin.plugins?.map(child => child.name)).toEqual(["shiki", "zsh"]);
+    expect(plugin.plugins?.map(child => child.name)).toEqual([
+      "shiki",
+      "zsh",
+      "maplibre"
+    ]);
     expect(uniquePlugins([plugin]).map(child => child.name)).toEqual([
       "shiki",
-      "zsh"
+      "zsh",
+      "maplibre"
     ]);
     const shikiOutput = await plugin.plugins![0].generate!(spec, {} as never);
     expect(shikiOutput).toEqual(
@@ -92,6 +100,17 @@ describe("preset", () => {
       expect.objectContaining({
         "zsh.json": expect.objectContaining({
           content: JSON.stringify(mapZshTheme(theme))
+        })
+      })
+    );
+    const maplibreOutput = await plugin.plugins![2]!.generate!(
+      spec,
+      {} as never
+    );
+    expect(maplibreOutput).toEqual(
+      expect.objectContaining({
+        "maplibre.json": expect.objectContaining({
+          content: JSON.stringify(mapMapLibreTheme(theme))
         })
       })
     );
@@ -123,9 +142,9 @@ describe("preset", () => {
   });
 
   it("rejects plugins without a preset theme adapter", () => {
-    const unsupported = (
-      options?: { mapTheme?: (tokens: Tokens) => unknown }
-    ) => themePlugin("unsupported", options?.mapTheme);
+    const unsupported = (options?: {
+      mapTheme?: (tokens: Tokens) => unknown;
+    }) => themePlugin("unsupported", options?.mapTheme);
     const plugin = preset({ plugins: [unsupported], mapTheme: () => theme });
 
     expect(() => plugin.plugins![0].generate!(spec, {} as never)).toThrow(
@@ -145,6 +164,7 @@ describe("preset", () => {
       mapChromeTheme(theme),
       mapCursorTheme(theme),
       mapGhosttyTheme(theme),
+      mapMapLibreTheme(theme),
       mapNotepadPlusPlusTheme(theme),
       mapSandpackTheme(theme),
       mapShellShockTheme(theme),
@@ -157,7 +177,19 @@ describe("preset", () => {
       mapZshTheme(theme)
     ];
 
-    expect(mappedThemes).toHaveLength(13);
+    expect(mappedThemes).toHaveLength(14);
+    expect(mapMapLibreTheme(theme)).toMatchObject({
+      version: 8,
+      name: "demo-dark",
+      sources: {},
+      layers: [
+        {
+          id: "background",
+          type: "background",
+          paint: { "background-color": "#111111" }
+        }
+      ]
+    });
     expect(mapShellShockTheme(theme)).toMatchObject({
       name: "demo-dark",
       primary: theme.primary.foreground,
@@ -169,13 +201,9 @@ describe("preset", () => {
       danger: theme.error,
       error: theme.error
     });
-    expect(mapChromeTheme(theme).colors.frame).toBe(
-      theme.primary.background
-    );
+    expect(mapChromeTheme(theme).colors.frame).toBe(theme.primary.background);
     expect(mapStorybookTheme(theme).base).toBe(theme.appearance);
-    expect(mapThunderbirdTheme(theme).gecko.id).toBe(
-      "demo-dark@razorwind"
-    );
+    expect(mapThunderbirdTheme(theme).gecko.id).toBe("demo-dark@razorwind");
     expect(mapZedTheme(theme).themes[0].style).toMatchObject({
       "editor.background": theme.primary.background
     });

@@ -48,6 +48,7 @@
     "@razorwind/core": "workspace:*",
     "@razorwind/cursor": "workspace:*",
     "@razorwind/ghostty": "workspace:*",
+    "@razorwind/maplibre": "workspace:*",
     "@razorwind/notepad-plus-plus": "workspace:*",
     "@razorwind/sandpack": "workspace:*",
     "@razorwind/shell-shock": "workspace:*",

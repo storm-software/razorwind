@@ -72,8 +72,12 @@ Use `presetPlugin(factory, options)` when that target also needs options such
 as an output path, package name, or publisher. The selected plugins are
 expanded during configuration, so their normal output and multi-theme behavior
 remain unchanged. Individual adapters (`mapShikiTheme`, `mapVsceTheme`,
-`mapShellShockTheme`, and the other `map<Name>Theme` exports) are also
+`mapShellShockTheme`, `mapMapLibreTheme`, and the other `map<Name>Theme` exports) are also
 available when configuring one plugin directly.
+
+`mapMapLibreTheme` emits a valid background-only style. Configure
+`@razorwind/maplibre` directly when your map needs tile sources and geographic
+layers.
 
 ## Development
 

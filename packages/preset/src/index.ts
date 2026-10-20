@@ -23,6 +23,7 @@ import {
   mapChromeTheme,
   mapCursorTheme,
   mapGhosttyTheme,
+  mapMapLibreTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
   mapShellShockTheme,
@@ -48,6 +49,7 @@ export {
   mapChromeTheme,
   mapCursorTheme,
   mapGhosttyTheme,
+  mapMapLibreTheme,
   mapNotepadPlusPlusTheme,
   mapSandpackTheme,
   mapShellShockTheme,
@@ -131,6 +133,8 @@ function mapPluginTheme(pluginName: string, theme: PresetTheme): unknown {
       return mapCursorTheme(theme);
     case "ghostty":
       return mapGhosttyTheme(theme);
+    case "maplibre":
+      return mapMapLibreTheme(theme);
     case "notepad-plus-plus":
       return mapNotepadPlusPlusTheme(theme);
     case "sandpack":
