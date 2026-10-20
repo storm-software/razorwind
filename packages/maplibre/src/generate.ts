@@ -21,9 +21,11 @@ import { validateStyleMin } from "@maplibre/maplibre-gl-style-spec";
 import type { GeneratorFunctionResult } from "@power-plant/core";
 import type { Schema } from "@razorwind/core/schema";
 import {
+  appendThemeToFilePath,
   createDocument,
   isObject,
-  slugifyThemeName
+  slugifyThemeName,
+  titleCase
 } from "@razorwind/core/utils";
 import { join } from "node:path";
 import { renderInstallMd } from "./install";
@@ -106,7 +108,7 @@ export function generateMapLibreStyle(
     throw new Error("@razorwind/maplibre requires options.mapTheme");
   }
 
-  const styles = normalizeStyles(options.mapTheme(spec.tokens));
+  const styles = normalizeStyles(options.mapTheme(spec.tokens, spec.theme));
   if (styles.length === 0) {
     throw new Error("@razorwind/maplibre mapTheme() returned no styles");
   }
@@ -116,9 +118,13 @@ export function generateMapLibreStyle(
   const usedNames = new Set<string>();
   const entries: Array<{ name: string; fileName: string }> = [];
 
-  for (const style of styles) {
+  for (const mapped of styles) {
+    const baseName = slugifyThemeName(mapped.name);
+    // Split-theme passes share one style name; label each with its theme
+    const style = spec.theme
+      ? { ...mapped, name: `${mapped.name} - ${titleCase(spec.theme)}` }
+      : mapped;
     const content = renderStyleJson(style);
-    const baseName = slugifyThemeName(style.name);
 
     let fileName = `${baseName}.json`;
     let suffix = 2;
@@ -137,7 +143,13 @@ export function generateMapLibreStyle(
       "json"
     );
 
-    entries.push({ name: style.name, fileName });
+    // Core appends `-<theme>` to output paths after split-theme passes
+    entries.push({
+      name: style.name,
+      fileName: spec.theme
+        ? appendThemeToFilePath(fileName, spec.theme)
+        : fileName
+    });
   }
 
   const installPath = join(outputPath, "INSTALL.md");

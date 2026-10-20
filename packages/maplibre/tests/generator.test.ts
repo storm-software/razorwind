@@ -139,4 +139,25 @@ describe("maplibre plugin", () => {
     );
     expect(documents["maplibre-styles/harbor-dark.json"]).toBeDefined();
   });
+
+  it("labels split-theme styles and lists their themed file names", () => {
+    const documents = generateMapLibreStyle(
+      { ...spec, theme: "darkDimmed" },
+      {
+        mapTheme: (_, theme) => {
+          expect(theme).toBe("darkDimmed");
+          return { ...style, name: "Harbor" };
+        }
+      }
+    );
+    expect(
+      JSON.parse(
+        documents["maplibre-styles/harbor.json"]!.chunks![0]!
+          .content!
+      )
+    ).toMatchObject({ name: "Harbor - Dark Dimmed" });
+    expect(
+      documents["maplibre-styles/INSTALL.md"]!.chunks![0]!.content
+    ).toContain("`harbor-dark-dimmed.json` — Harbor - Dark Dimmed");
+  });
 });

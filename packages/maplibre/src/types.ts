@@ -22,9 +22,15 @@ import type { Tokens } from "@razorwind/core/schema";
 /** A complete MapLibre style with a name used for its generated filename. */
 export type MapLibreStyle = StyleSpecification & { name: string };
 
-/** Map extracted design tokens into one or more complete MapLibre styles. */
+/**
+ * Map extracted design tokens into one or more complete MapLibre styles.
+ *
+ * `theme` is the active theme id (for example `darkDimmed`) when Razorwind
+ * generates each theme separately.
+ */
 export type GenerateMapLibreStyle = (
-  tokens: Tokens | Record<string, Tokens>
+  tokens: Tokens | Record<string, Tokens>,
+  theme?: string
 ) => MapLibreStyle | MapLibreStyle[] | Record<string, StyleSpecification>;
 
 export interface MapLibrePluginOptions {

@@ -101,6 +101,8 @@ export default defineConfig({
 });
 ```
 
+With `splitThemes`, Razorwind calls `mapTheme` once per theme, appends ` - <Theme>` to each style `name` (`Cyclone` → `Cyclone - Dark Dimmed`), and suffixes each file with the theme (`cyclone-dark-dimmed.json`).
+
 Run `pnpm exec razorwind generate`. The default output is `maplibre-styles/my-map.json` and `maplibre-styles/INSTALL.md`. Load the JSON by URL in the MapLibre map constructor or call `map.setStyle(style)` with its parsed object.
 
 MapLibre requires a version 8 style with `sources` and `layers`. To render geography, supply your own tile source and matching layers in `mapTheme`. The [Cyclone style flavor module](https://github.com/storm-software/cyclone-ui/blob/main/maps/styles/src/flavors.ts) is an example of token-driven color roles; those colors belong in the complete style you return. For vector labels and PMTiles sources, supply reachable glyph, sprite, and tile URLs in the style and register the PMTiles protocol in your app when used.
@@ -109,7 +111,7 @@ MapLibre requires a version 8 style with `sources` and `layers`. To render geogr
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `mapTheme` | Required | `(tokens) => style`, style array, or style record. Single styles and array entries need a `name`; record keys fill missing names. |
+| `mapTheme` | Required | `(tokens, theme) => style`, style array, or style record. Single styles and array entries need a `name`; record keys fill missing names. `theme` is the active theme id when themes are generated separately. |
 | `outputPath` | `"maplibre-styles"` | Generated output directory. |
 | `installGuide` | Generated | Override the generated `INSTALL.md` body. |
 
