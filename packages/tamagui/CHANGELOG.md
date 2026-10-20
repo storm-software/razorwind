@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.102](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.102) (10/19/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with `font-weight` token defaulting ([c58bd6d](https://github.com/storm-software/razorwind/commit/c58bd6d))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.99**
+
 ## [0.0.101](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.101) (10/19/2026)
 
 ### Updated Dependencies
