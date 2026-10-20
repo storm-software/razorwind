@@ -2,6 +2,14 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.105](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.105) (10/20/2026)
+
+### Bug Fixes
+
+- **tamagui:** Ensure fonts are not incorrectly added to config ([8150d08](https://github.com/storm-software/razorwind/commit/8150d08))
+- **tamagui:** Update generator to no longer use camel-case for token names ([a19af74](https://github.com/storm-software/razorwind/commit/a19af74))
+- **tamagui:** Added sorting and token references to generated config file ([0a344df](https://github.com/storm-software/razorwind/commit/0a344df))
+
 ## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.104) (10/20/2026)
 
 ### Bug Fixes

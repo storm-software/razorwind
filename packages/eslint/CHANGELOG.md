@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.28](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.28) (10/20/2026)
+
+### Bug Fixes
+
+- **tamagui:** Update generator to no longer use camel-case for token names ([a19af74](https://github.com/storm-software/razorwind/commit/a19af74))
+
+### Updated Dependencies
+
+- Updated **tamagui** to **v0.0.105**
+
 ## [0.0.27](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.27) (10/20/2026)
 
 ### Updated Dependencies
