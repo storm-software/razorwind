@@ -882,8 +882,10 @@ function alignFontScaleKeys(def: TamaguiFontDef): TamaguiFontDef {
 }
 
 /**
- * Build Tamagui font definitions from typography tokens, font-family tokens,
- * and `spec.fonts`. Each resulting entry is emitted via `createFont`.
+ * Build Tamagui font definitions from typography and font-family tokens.
+ * Matching `spec.fonts` entries enrich token-defined fonts with platform and
+ * face metadata. When no font tokens exist, `spec.fonts` provide the fallback
+ * definitions.
  *
  * @see https://tamagui.dev/docs/core/font-language#font-tokens
  */
@@ -899,12 +901,6 @@ export function collectTamaguiFonts(
   const put = (def: TamaguiFontDef): void => {
     defs.set(def.key, def);
   };
-
-  if (fonts) {
-    for (const [key, font] of assignSpecFonts(fonts)) {
-      put(applySpecFont(emptyFont(key), font));
-    }
-  }
 
   for (const token of tokens) {
     if (!isFontFamilyToken(token) || isTypographyToken(token)) {
@@ -943,6 +939,12 @@ export function collectTamaguiFonts(
         fallbackWeight
       )
     );
+  }
+
+  if (defs.size === 0 && fonts) {
+    for (const [key, font] of assignSpecFonts(fonts)) {
+      put(applySpecFont(emptyFont(key), font));
+    }
   }
 
   return [...defs.values()]

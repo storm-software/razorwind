@@ -513,7 +513,7 @@ describe("tamagui plugin", () => {
     expect(install).not.toContain('color="$primary"');
   });
 
-  it("emits createFont from spec.fonts", () => {
+  it("falls back to spec.fonts without font tokens", () => {
     const content = renderConfig(
       spec,
       { useDefaultConfig: false, animations: false },
@@ -569,9 +569,18 @@ describe("tamagui plugin", () => {
     expect(body).not.toContain("10: 48");
   });
 
-  it("uses kebab-case config keys for camel-case spec font roles and names", () => {
+  it("emits only spec fonts that are defined by font-family tokens", () => {
     const content = renderConfig(
-      spec,
+      {
+        ...spec,
+        tokens: {
+          ...spec.tokens,
+          font: {
+            $type: "fontFamily",
+            stormSans: { $value: "Storm Sans" }
+          }
+        }
+      } as Schema,
       { useDefaultConfig: false, animations: false },
       {
         stormSans: {
@@ -591,9 +600,9 @@ describe("tamagui plugin", () => {
     );
 
     expect(content).toContain('"storm-sans": stormSansFont');
-    expect(content).toContain('"storm-serif": stormSerifFont');
+    expect(content).not.toContain("stormSerifFont");
+    expect(content).not.toContain("Storm Serif");
     expect(content).not.toContain("stormSans: stormSansFont");
-    expect(content).not.toContain("stormSerif: stormSerifFont");
   });
 
   it("emits createFont from typography tokens", () => {
