@@ -225,11 +225,33 @@ function toLineHeightPx(value: unknown, fontSize?: number): number | undefined {
     return undefined;
   }
 
-  if (fontSize != null && numeric > 0 && numeric <= 4) {
+  if (fontSize != null && isLineHeightRatio(numeric)) {
     return roundPixels(numeric * fontSize);
   }
 
   return roundPixels(numeric);
+}
+
+function isLineHeightRatio(value: number): boolean {
+  return value > 0 && value <= 4;
+}
+
+/**
+ * A unitless multiplier on a typography token without its own font size
+ * applies to every step of the font's size scale. `true` (and a referenced
+ * DTCG leaf such as `snug`) follow Tamagui's `size: true` step, `sm`.
+ */
+function lineHeightRatioScale(
+  ratio: number,
+  sizes: Record<string, number>,
+  source: unknown
+): Record<string, number> {
+  const scale = Object.fromEntries(
+    Object.entries(sizes).map(([key, size]) => [key, roundPixels(ratio * size)])
+  );
+  const base = scale.sm ?? Object.values(scale)[0] ?? roundPixels(ratio);
+
+  return { ...scaleFromTypographyValue(base, source), ...scale };
 }
 
 function pathStartsWith(path: string, prefix: RegExp): boolean {
@@ -514,6 +536,16 @@ function renderFaceLiteral(
   return `{\n${lines.join(",\n")}\n  }`;
 }
 
+function localFontWeightScale(font: LocalFont): Record<string, string> {
+  return Object.fromEntries(
+    (font.files ?? []).map(file => {
+      const weight = String(file.weight ?? 400);
+
+      return [weight, weight];
+    })
+  );
+}
+
 function applySpecFont(def: TamaguiFontDef, font: Font): TamaguiFontDef {
   return {
     ...def,
@@ -588,6 +620,26 @@ function fontSizeScale(
   return scale;
 }
 
+function fontWeightScale(
+  tokens: FlatToken[],
+  byPath: Map<string, FlatToken>
+): Record<string, string> {
+  const scale: Record<string, string> = {};
+
+  for (const token of tokens) {
+    if (!isFontWeightToken(token)) {
+      continue;
+    }
+
+    const value = toWeightString(resolveTokenValue(token.value, byPath));
+    if (value) {
+      scale[scaleKeyFromPath(token.path, FONT_WEIGHT_PATH_PREFIX)] = value;
+    }
+  }
+
+  return scale;
+}
+
 function ensureSize(
   def: TamaguiFontDef,
   fallback: Record<string, number>
@@ -608,7 +660,9 @@ function applyTypography(
   def: TamaguiFontDef,
   token: FlatToken,
   byPath: Map<string, FlatToken>,
-  fonts: Fonts | undefined
+  fonts: Fonts | undefined,
+  fallbackSize: Record<string, number>,
+  fallbackWeight: Record<string, string>
 ): TamaguiFontDef {
   if (!isObject(token.value)) {
     return def;
@@ -653,19 +707,47 @@ function applyTypography(
   }
 
   const rawLineHeight = readProperty(token.value, TYPOGRAPHY_LINE_HEIGHT_KEYS);
-  const lineHeight = toLineHeightPx(
-    resolveTokenValue(rawLineHeight, byPath),
-    next.size.true ?? fontSize
-  );
-  if (lineHeight != null) {
+  const resolvedLineHeight = resolveTokenValue(rawLineHeight, byPath);
+  const singleSize = next.size.true ?? fontSize;
+  const lineHeightRatio = toPixelNumber(resolvedLineHeight);
+  if (
+    singleSize == null &&
+    lineHeightRatio != null &&
+    isLineHeightRatio(lineHeightRatio)
+  ) {
+    // Tamagui emits font line heights as px, so a bare ratio must be scaled.
     next = {
       ...next,
-      lineHeight: scaleFromTypographyValue(lineHeight, rawLineHeight)
+      lineHeight: lineHeightRatioScale(
+        lineHeightRatio,
+        ensureSize(next, fallbackSize).size,
+        rawLineHeight
+      )
     };
+  } else {
+    const lineHeight = toLineHeightPx(resolvedLineHeight, singleSize);
+    if (lineHeight != null) {
+      next = {
+        ...next,
+        lineHeight: scaleFromTypographyValue(lineHeight, rawLineHeight)
+      };
+    }
   }
 
   next = alignFontScaleKeys(next);
-  if (specFont?.source === "local" && Object.keys(next.weight).length > 0) {
+  const hasExplicitWeight = Object.keys(next.weight).length > 0;
+  if (!hasExplicitWeight) {
+    const weight =
+      Object.keys(fallbackWeight).length > 0
+        ? fallbackWeight
+        : specFont?.source === "local"
+          ? localFontWeightScale(specFont)
+          : next.weight;
+
+    return { ...next, weight };
+  }
+
+  if (specFont?.source === "local") {
     return {
       ...next,
       face: renderFaceLiteral(specFont, new Set(Object.values(next.weight)))
@@ -721,6 +803,7 @@ export function collectTamaguiFonts(
 ): TamaguiFontDef[] {
   const byPath = new Map(tokens.map(token => [token.path, token]));
   const fallbackSize = fontSizeScale(tokens, byPath);
+  const fallbackWeight = fontWeightScale(tokens, byPath);
   const defs = new Map<string, TamaguiFontDef>();
 
   const put = (def: TamaguiFontDef): void => {
@@ -760,7 +843,16 @@ export function collectTamaguiFonts(
 
     const key = typographyFontKey(token.path);
     const existing = defs.get(key) ?? emptyFont(key);
-    put(applyTypography(existing, token, byPath, fonts));
+    put(
+      applyTypography(
+        existing,
+        token,
+        byPath,
+        fonts,
+        fallbackSize,
+        fallbackWeight
+      )
+    );
   }
 
   return [...defs.values()]

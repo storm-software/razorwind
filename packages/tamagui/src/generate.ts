@@ -1517,7 +1517,8 @@ export function renderTamaguiConfig(
   }
 
   // v3 documents `tamagui` as the config entry point (and augmentation target).
-  const tamaguiModule = target === "v3" ? "tamagui" : "@tamagui/core";
+  const tamaguiModule =
+    options.tamaguiModule ?? (target === "v3" ? "tamagui" : "@tamagui/core");
   const imports: string[] =
     target === "v3" ? [] : ["import { isWeb } from '@tamagui/constants';"];
   if (useDefaultConfig) {

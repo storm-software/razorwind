@@ -302,20 +302,20 @@ catalogs:
       specifier: 23.1.0
       version: 23.1.0
     '@power-plant/core':
-      specifier: ^0.0.95
-      version: 0.0.95
+      specifier: ^0.0.97
+      version: 0.0.97
     '@power-plant/dtcg-schema':
       specifier: ^0.0.1
       version: 0.0.1
     '@power-plant/prettier-formatter':
-      specifier: ^0.0.2
-      version: 0.0.2
+      specifier: ^0.0.5
+      version: 0.0.5
     '@power-plant/schema':
-      specifier: ^0.0.93
-      version: 0.0.93
+      specifier: ^0.0.95
+      version: 0.0.95
     '@power-plant/utils':
-      specifier: ^0.0.81
-      version: 0.0.81
+      specifier: ^0.0.83
+      version: 0.0.83
     '@powerlines/nx':
       specifier: ^0.13.254
       version: 0.13.254
@@ -503,8 +503,8 @@ catalogs:
       specifier: ^6.1.3
       version: 6.1.3
     shadcn:
-      specifier: ^4.22.0
-      version: 4.22.0
+      specifier: ^4.22.1
+      version: 4.22.1
     smol-toml:
       specifier: ^1.9.1
       version: 1.9.1
@@ -700,7 +700,7 @@ importers:
         version: 7.29.8
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
@@ -725,7 +725,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -747,7 +747,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@powerlines/plugin-env':
         specifier: 'catalog:'
         version: 0.16.423(757596c0154b771afda8bff67f72cc96)
@@ -797,19 +797,19 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
       '@power-plant/prettier-formatter':
         specifier: 'catalog:'
-        version: 0.0.2(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.10))(prettier-plugin-packagejson@3.0.2(prettier@3.9.10))(prettier-plugin-sh@0.15.0(prettier@3.9.10))(prettier-plugin-toml@2.0.6(prettier@3.9.10))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.5(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.10))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.10)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.10))(prettier-plugin-sh@0.15.0(prettier@3.9.10))(prettier-plugin-toml@2.0.6(prettier@3.9.10))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/schema':
         specifier: 'catalog:'
-        version: 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/utils':
         specifier: 'catalog:'
-        version: 0.0.81(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.83(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@stryke/env':
         specifier: 'catalog:'
         version: 0.20.135(zod@4.6.7)
@@ -873,7 +873,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -913,7 +913,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -938,7 +938,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -975,7 +975,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1003,7 +1003,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1034,7 +1034,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1062,7 +1062,7 @@ importers:
         version: 0.21.1(react@19.3.1)(zod@4.6.7)
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
@@ -1084,7 +1084,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1106,7 +1106,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1131,7 +1131,7 @@ importers:
         version: 23.1.0(nx@23.3.0)
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
@@ -1253,7 +1253,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1275,7 +1275,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1302,7 +1302,7 @@ importers:
         version: 3.3.3
       shadcn:
         specifier: 'catalog:'
-        version: 4.22.0(babel-plugin-macros@3.1.0)
+        version: 4.22.1(babel-plugin-macros@3.1.0)
       tsconfig-paths:
         specifier: 'catalog:'
         version: 4.2.0
@@ -1327,7 +1327,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1370,7 +1370,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1395,7 +1395,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1438,7 +1438,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../core
@@ -1463,7 +1463,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1494,7 +1494,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1540,7 +1540,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1599,7 +1599,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1621,7 +1621,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1643,7 +1643,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1665,7 +1665,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1687,7 +1687,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@power-plant/dtcg-schema':
         specifier: 'catalog:'
         version: 0.0.1(valibot@1.5.0(typescript@6.0.3))
@@ -1712,7 +1712,7 @@ importers:
         version: 2.3.1
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@powerlines/plugin-env':
         specifier: 'catalog:'
         version: 0.16.423(757596c0154b771afda8bff67f72cc96)
@@ -1749,7 +1749,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1786,7 +1786,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1823,7 +1823,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/color-variants':
         specifier: workspace:*
         version: link:../../packages/color-variants
@@ -1866,7 +1866,7 @@ importers:
     dependencies:
       '@power-plant/core':
         specifier: 'catalog:'
-        version: 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+        version: 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@razorwind/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -5660,11 +5660,8 @@ packages:
   '@power-plant/core@0.0.93':
     resolution: {integrity: sha512-RJBLowe2T9BkJFI45mAKGZGNQpKLnRCI+Vbv53lh7uWiO2KFkWXghXyIks3XQrgS+p6wkxWkUFf5mdAHny2euw==}
 
-  '@power-plant/core@0.0.94':
-    resolution: {integrity: sha512-iVKyvNJQFbNe9kBJ+XkhsRlKdmUU+dEwWK+ity6mgdTMALsr7SEznEnGiT7B0abz8u+niLKxB4E7lgDpmhimpQ==}
-
-  '@power-plant/core@0.0.95':
-    resolution: {integrity: sha512-UG61xHfoOKXcpyuPfK7+aZDRhhPGdBmZsk0m4B1lzqZp7Ub3d0gdecRX2EteXkms0qRLEplTrwlhtvgKIp5G9A==}
+  '@power-plant/core@0.0.97':
+    resolution: {integrity: sha512-oFsbuhsnVe+16dUjG81UUSWocIpfb+O5W+7dGaHR21mLlMttSlxAzK394X+bntEp1Tz88+/6Njna0Y/YulvD1g==}
 
   '@power-plant/dtcg-schema@0.0.1':
     resolution: {integrity: sha512-VkM7yuIbOi/vTPLmleXYxD4mlccCVefYhlgWcb3nafI1ogYYTa7yRb5GMSn0NYefVOCGZGxF1bQ/WSjIqU54/w==}
@@ -5672,8 +5669,10 @@ packages:
   '@power-plant/noop-output@0.0.72':
     resolution: {integrity: sha512-d6q6OTFLOfzXSqAy7pqdmnEgTTWrhM0VvAWNc35uqiv15HTGmwf7X25kDMdfsrLY4sTX/7YWIiHpSSnguW8mow==}
 
-  '@power-plant/prettier-formatter@0.0.2':
-    resolution: {integrity: sha512-fLbvYfiPRPB+/M5OtAyDorExjMiJgk7g53A4lzsBQWgQPDPzp6T45BXh8kbEgaFKnh/ygs6uGpc45GlagxlIPg==}
+  '@power-plant/prettier-formatter@0.0.5':
+    resolution: {integrity: sha512-TVxJnCgDd/k/hr8IerPslaWZNZ+NE7Vpb5AHAEL+Sb/xcSa1m88RV4XKckZol4g3VwqoFAzEPVClJ0G3TC4qRg==}
+    peerDependencies:
+      typescript: '>=2.9'
 
   '@power-plant/schema@0.0.16':
     resolution: {integrity: sha512-ph+mBwquF++p+nlfQ+FNRhx0UvY8gafQC2HZS0VY8ka0qu/iv+XU7ANDXkfXhmFJPA2Cga9B1fU+1VVExvJ7cA==}
@@ -5697,19 +5696,8 @@ packages:
       zod:
         optional: true
 
-  '@power-plant/schema@0.0.92':
-    resolution: {integrity: sha512-SB0eVfBob/6KXMHvrKsQx6FqEIf4aGI+B3v3nkCbPBVHuthnw0JQSf3HR/keQKktIF+1XHCGgDL0Hv2lfI+MTA==}
-    peerDependencies:
-      valibot: ^1.4.0 || ^1.5.0
-      zod: ^3.25.0 || ^4.0.0
-    peerDependenciesMeta:
-      valibot:
-        optional: true
-      zod:
-        optional: true
-
-  '@power-plant/schema@0.0.93':
-    resolution: {integrity: sha512-dAtWaq9rBEKpIwRNGfc5s+aE1jCQgud1FQmC9meqoUXqSHDvOTwiUKAUr5QaBH2QMe81V7Fa3cLTpV3ceJk5Ow==}
+  '@power-plant/schema@0.0.95':
+    resolution: {integrity: sha512-30QaKYGgE5+woXkc0ru2zjwbVO/JhDf7Zc1FiVmx6mRT1wFforfmgFt6jrGHVDAajC9NoWqAhCKTUW3dzBUmmg==}
     peerDependencies:
       valibot: ^1.4.0 || ^1.5.0
       zod: ^3.25.0 || ^4.0.0
@@ -5722,8 +5710,8 @@ packages:
   '@power-plant/style-dictionary@0.0.78':
     resolution: {integrity: sha512-8zIBNvcFZGtjDrdWOmI4bPcQ3CNSDUHj/mIDHQMWILEYQHYXF2YuSzCgGo8q7ree73bvrOH66+IS3cu1qXEePA==}
 
-  '@power-plant/utils@0.0.81':
-    resolution: {integrity: sha512-Rl1aebaQhTMq57p5T+uFT/RG8v2baz8RaQOT3iAZfNlx4Z7KkDHVro8frksFjvnhjifFGPOkRU5qjzHFwdN+bg==}
+  '@power-plant/utils@0.0.83':
+    resolution: {integrity: sha512-26llU4JG4ZWtlqlw0rDuBiS3XowyrYuu1LwXsr1aQYiGwYl7M9PItTtoOa0773dNnC8PK+7v9VItSK14tXKFkw==}
 
   '@powerlines/core@0.48.133':
     resolution: {integrity: sha512-/9Qpa1pQ7trdu6Kg/fQy5oty4z8Q+0JIMbWeA4t2kbuiqQ+LaiDmEZpUrIhXxrYvnILW9dMBUUignmg/VEbA8Q==}
@@ -14649,8 +14637,8 @@ packages:
     resolution: {integrity: sha512-FCE5xLH+hjbzRdpbRb1IMCvPv9yZx2QnDarBEYSN0N0HYk+TcXsEhwdFcFb+SRWOKzKGErhIEbBK2ogyLdTtfQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.30:
-    resolution: {integrity: sha512-zkd+e9S1AQHhmaBKye9zlFHWjOwVgqXl1q3ECYy8561K7qxR2cREf/STLskulBFd78k6AOFeA+ff1TtEzk9bAA==}
+  postcss@8.5.31:
+    resolution: {integrity: sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==}
     engines: {node: ^10 || ^12 || >=14}
 
   powerlines@0.47.214:
@@ -15593,8 +15581,8 @@ packages:
     engines: {node: '>= 0.10'}
     hasBin: true
 
-  shadcn@4.22.0:
-    resolution: {integrity: sha512-QKR3XUnatWlgo8IbZqGHrpsxjgdsfpPSAvJvLntQqAxPEf5U2sNsjDYLAS2xmFrOkC9lpj5UpZbrh/BuHrE2CQ==}
+  shadcn@4.22.1:
+    resolution: {integrity: sha512-LbB4Lro+b0qSVki/tgL5edtKylEnXe1ppxMJC12d7NHPgaT+eSgJGMQULwP72V7X9tbiUq7xfx3VDAfB7jdGoA==}
     engines: {node: '>=20.18.1'}
     hasBin: true
 
@@ -22923,53 +22911,9 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/core@0.0.94(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
+  '@power-plant/core@0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
     dependencies:
-      '@power-plant/schema': 0.0.92(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
-      '@stryke/convert': 0.7.47
-      '@stryke/date': 0.0.28
-      '@stryke/env': 0.20.135(zod@4.6.7)
-      '@stryke/fs': 0.33.118(zod@4.6.7)
-      '@stryke/helpers': 0.10.56
-      '@stryke/json': 0.15.40
-      '@stryke/path': 0.29.43
-      '@stryke/resolve': 0.0.33(zod@4.6.7)
-      '@stryke/string-format': 0.17.58
-      '@stryke/type-checks': 0.6.49
-      '@stryke/types': 0.12.44
-      '@stryke/unique-id': 0.3.129(zod@4.6.7)
-      c12: 3.3.4
-      defu: 6.1.7
-      jiti: 2.7.0
-      unstorage: 1.17.6
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@netlify/blobs'
-      - '@planetscale/database'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - aws4fetch
-      - db0
-      - idb-keyval
-      - ioredis
-      - magicast
-      - supports-color
-      - uploadthing
-      - valibot
-      - zod
-
-  '@power-plant/core@0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
-    dependencies:
-      '@power-plant/schema': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+      '@power-plant/schema': 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@stryke/convert': 0.7.47
       '@stryke/date': 0.0.28
       '@stryke/env': 0.20.135(zod@4.6.7)
@@ -23068,14 +23012,14 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/prettier-formatter@0.0.2(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.10))(prettier-plugin-packagejson@3.0.2(prettier@3.9.10))(prettier-plugin-sh@0.15.0(prettier@3.9.10))(prettier-plugin-toml@2.0.6(prettier@3.9.10))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
+  '@power-plant/prettier-formatter@0.0.5(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.10))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.10)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.10))(prettier-plugin-sh@0.15.0(prettier@3.9.10))(prettier-plugin-toml@2.0.6(prettier@3.9.10))(typescript@6.0.3)(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
     dependencies:
-      '@power-plant/core': 0.0.94(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+      '@power-plant/core': 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@storm-software/prettier': 0.59.203(prettier-plugin-astro@0.14.1)(prettier-plugin-jsdoc@1.8.1(prettier@3.9.10))(prettier-plugin-organize-imports@4.3.0(prettier@3.9.10)(typescript@6.0.3))(prettier-plugin-packagejson@3.0.2(prettier@3.9.10))(prettier-plugin-sh@0.15.0(prettier@3.9.10))(prettier-plugin-toml@2.0.6(prettier@3.9.10))
       '@stryke/path': 0.29.43
       defu: 6.1.7
       prettier: 3.9.10
-      prettier-plugin-organize-imports: 4.3.0(prettier@3.9.10)(typescript@6.0.3)
+      typescript: 6.0.3
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -23098,6 +23042,7 @@ snapshots:
       - magicast
       - prettier-plugin-astro
       - prettier-plugin-jsdoc
+      - prettier-plugin-organize-imports
       - prettier-plugin-packagejson
       - prettier-plugin-prisma
       - prettier-plugin-sh
@@ -23105,10 +23050,8 @@ snapshots:
       - prettier-plugin-tailwindcss
       - prettier-plugin-toml
       - supports-color
-      - typescript
       - uploadthing
       - valibot
-      - vue-tsc
       - zod
 
   '@power-plant/schema@0.0.16(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
@@ -23221,69 +23164,7 @@ snapshots:
       - supports-color
       - uploadthing
 
-  '@power-plant/schema@0.0.92(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
-    dependencies:
-      '@deepkit/core': 1.0.19
-      '@deepkit/type': 1.0.19(@deepkit/core@1.0.19)
-      '@deepkit/type-spec': 1.0.19
-      '@marcj/ts-clone-node': 2.2.0(typescript@6.0.3)
-      '@standard-schema/spec': 1.1.0
-      '@stryke/convert': 0.7.47
-      '@stryke/date': 0.0.28
-      '@stryke/fs': 0.33.118(zod@4.6.7)
-      '@stryke/hash': 0.13.71(zod@4.6.7)
-      '@stryke/helpers': 0.10.56
-      '@stryke/json': 0.15.40
-      '@stryke/path': 0.29.43
-      '@stryke/resolve': 0.0.33(zod@4.6.7)
-      '@stryke/string-format': 0.17.58
-      '@stryke/type-checks': 0.6.49
-      '@stryke/types': 0.12.44
-      '@stryke/unique-id': 0.3.129(zod@4.6.7)
-      '@stryke/url': 0.4.68(zod@4.6.7)
-      '@stryke/zod': 0.3.62(zod@4.6.7)
-      '@typescript/vfs': 1.6.5(typescript@6.0.3)
-      '@valibot/to-json-schema': 1.8.0(valibot@1.5.0(typescript@6.0.3))
-      braces: 3.0.3
-      compatfactory: 4.0.4(typescript@6.0.3)
-      defu: 6.1.7
-      esbuild: 0.28.2
-      fill-range: 7.1.1
-      is-number: 7.0.0
-      jiti: 2.7.0
-      micromatch: 4.0.8
-      picomatch: 4.0.7
-      to-regex-range: 5.0.1
-      typescript: 6.0.3
-      unstorage: 1.17.6
-      untyped: 1.5.2
-    optionalDependencies:
-      valibot: 1.5.0(typescript@6.0.3)
-      zod: 4.6.7
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@netlify/blobs'
-      - '@planetscale/database'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - aws4fetch
-      - db0
-      - idb-keyval
-      - ioredis
-      - magicast
-      - supports-color
-      - uploadthing
-
-  '@power-plant/schema@0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
+  '@power-plant/schema@0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
     dependencies:
       '@deepkit/core': 1.0.19
       '@deepkit/type': 1.0.19(@deepkit/core@1.0.19)
@@ -23378,10 +23259,10 @@ snapshots:
       - valibot
       - zod
 
-  '@power-plant/utils@0.0.81(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
+  '@power-plant/utils@0.0.83(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)':
     dependencies:
-      '@power-plant/core': 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
-      '@power-plant/schema': 0.0.93(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+      '@power-plant/core': 0.0.97(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
+      '@power-plant/schema': 0.0.95(valibot@1.5.0(typescript@6.0.3))(zod@4.6.7)
       '@stryke/string-format': 0.17.58
       '@stryke/type-checks': 0.6.49
       '@stryke/types': 0.12.44
@@ -25109,7 +24990,7 @@ snapshots:
       fuzzysort: 3.1.0
       kleur: 4.1.5
       ora: 8.2.0
-      postcss: 8.5.30
+      postcss: 8.5.31
       prompts: 2.4.2
       recast: 0.23.21
       socks: 2.8.10
@@ -33025,7 +32906,7 @@ snapshots:
       eslint: 10.13.0(jiti@2.7.0)(supports-color@11.0.0)
       eslint-compat-utils: 0.6.5(eslint@10.13.0(jiti@2.7.0))
       globals: 16.5.0
-      postcss: 8.5.30
+      postcss: 8.5.31
       postcss-selector-parser: 7.1.6
     transitivePeerDependencies:
       - supports-color
@@ -39398,9 +39279,9 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss-safe-parser@7.1.0(postcss@8.5.30):
+  postcss-safe-parser@7.1.0(postcss@8.5.31):
     dependencies:
-      postcss: 8.5.30
+      postcss: 8.5.31
 
   postcss-selector-parser@7.1.6:
     dependencies:
@@ -39415,7 +39296,7 @@ snapshots:
       nanoid: 3.3.20
       source-map: 0.6.1
 
-  postcss@8.5.30:
+  postcss@8.5.31:
     dependencies:
       nanoid: 3.3.20
       picocolors: 1.1.1
@@ -40927,7 +40808,7 @@ snapshots:
       safe-buffer: 5.2.1
       to-buffer: 1.2.2
 
-  shadcn@4.22.0(babel-plugin-macros@3.1.0):
+  shadcn@4.22.1(babel-plugin-macros@3.1.0):
     dependencies:
       '@babel/core': 7.29.7
       '@babel/parser': 7.29.9
@@ -40950,7 +40831,7 @@ snapshots:
       kleur: 4.1.5
       open: 11.0.4
       ora: 8.2.0
-      postcss: 8.5.30
+      postcss: 8.5.31
       postcss-selector-parser: 7.1.6
       prompts: 2.4.2
       recast: 0.23.21
@@ -41556,8 +41437,8 @@ snapshots:
       micromatch: 4.0.8
       normalize-path: 3.0.0
       picocolors: 1.1.1
-      postcss: 8.5.30
-      postcss-safe-parser: 7.1.0(postcss@8.5.30)
+      postcss: 8.5.31
+      postcss-safe-parser: 7.1.0(postcss@8.5.31)
       postcss-selector-parser: 7.1.6
       postcss-value-parser: 4.2.0
       string-width: 8.3.0
@@ -42817,7 +42698,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.30
+      postcss: 8.5.31
       rolldown: 1.2.14
       tinyglobby: 0.2.17
     optionalDependencies:

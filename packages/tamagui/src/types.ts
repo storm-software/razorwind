@@ -67,6 +67,15 @@ export interface TamaguiPluginOptions {
   target?: TamaguiTarget;
 
   /**
+   * The module the generated config imports `createTamagui` (and friends)
+   * from, and augments with `TamaguiCustomConfig`. Use `"@tamagui/core"` for
+   * an app that depends on the core package rather than `tamagui`.
+   *
+   * @defaultValue `"tamagui"` for the `"v3"` target, `"@tamagui/core"` otherwise
+   */
+  tamaguiModule?: string;
+
+  /**
    * Output path written relative to the execution cwd.
    *
    * Light and dark schemes are always written to this single file — Tamagui

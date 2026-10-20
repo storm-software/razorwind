@@ -491,6 +491,19 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain('declare module "@tamagui/core"');
   });
 
+  it("imports and augments a custom tamagui module", () => {
+    const content = renderConfig(spec, {
+      target: "v3",
+      tamaguiModule: "@tamagui/core"
+    });
+
+    expect(content).toContain(
+      'import { createTamagui, px, isWeb, createTokens } from "@tamagui/core";'
+    );
+    expect(content).toContain('declare module "@tamagui/core"');
+    expect(content).not.toContain('from "tamagui"');
+  });
+
   it("documents bare-token style props for the v3 target", () => {
     const documents = generateTamaguiConfig(spec, { target: "v3" });
     const install = documents["INSTALL.md"]?.chunks?.[0]?.content ?? "";
@@ -674,6 +687,47 @@ describe("tamagui plugin", () => {
     expect(heading).toContain('true: "700"');
     expect(heading).not.toContain("true: 16");
     expect(body).not.toContain("true: 30");
+  });
+
+  it("scales a unitless line height across the size scale when the typography token has no font size", () => {
+    const spec = {
+      fonts: {},
+      tokens: {
+        "font-size": {
+          $type: "dimension",
+          sm: { $value: { value: 16, unit: "px" } },
+          md: { $value: { value: 18, unit: "px" } }
+        },
+        "line-height": {
+          $type: "number",
+          snug: { $value: 1.125 }
+        },
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Inter",
+              lineHeight: "{line-height.snug}"
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const body = createFontBlock(
+      renderConfig(spec, {
+        useDefaultConfig: false,
+        animations: false,
+        includeTypeAugmentation: false
+      }),
+      "bodyFont"
+    );
+
+    expect(body).toContain("md: 20.25");
+    expect(body).toContain("sm: 18");
+    expect(body).toContain("snug: 18");
+    expect(body).toContain("true: 18");
+    expect(body).not.toContain("1.125");
   });
 
   it("keeps each typography token as its own font with that token's metrics", () => {
@@ -924,6 +978,102 @@ describe("tamagui plugin", () => {
     expect(heading).toContain('600: { normal: "Inter-Semibold" }');
     expect(heading).not.toContain("300: {");
     expect(heading).not.toContain("400: {");
+  });
+
+  it("emits every local font weight when typography omits fontWeight", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Inter",
+              fontSize: { value: 16, unit: "px" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(
+      spec,
+      {},
+      {
+        inter: {
+          name: "inter",
+          title: "Inter",
+          source: "local",
+          family: "Inter",
+          role: "sans",
+          files: [
+            { path: "fonts/Inter-Light.ttf", weight: 300, style: "normal" },
+            { path: "fonts/Inter-Regular.ttf", weight: 400, style: "normal" },
+            { path: "fonts/Inter-Italic.ttf", weight: 400, style: "italic" },
+            { path: "fonts/Inter-Semibold.ttf", weight: 600, style: "normal" }
+          ]
+        }
+      }
+    );
+    const body = createFontBlock(content, "bodyFont");
+
+    expect(body).toContain('300: "300"');
+    expect(body).toContain('400: "400"');
+    expect(body).toContain('600: "600"');
+  });
+
+  it("uses font-weight token properties when typography omits fontWeight", () => {
+    const spec = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        "font-weight": {
+          $type: "fontWeight",
+          light: { $value: 300 },
+          regular: { $value: 400 },
+          semibold: { $value: 600 }
+        },
+        typography: {
+          $type: "typography",
+          body: {
+            $value: {
+              fontFamily: "Inter",
+              fontSize: { value: 16, unit: "px" }
+            }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(
+      spec,
+      {},
+      {
+        inter: {
+          name: "inter",
+          title: "Inter",
+          source: "local",
+          family: "Inter",
+          role: "sans",
+          files: [
+            { path: "fonts/Inter-Light.ttf", weight: 300, style: "normal" },
+            { path: "fonts/Inter-Regular.ttf", weight: 400, style: "normal" },
+            { path: "fonts/Inter-Semibold.ttf", weight: 600, style: "normal" }
+          ]
+        }
+      }
+    );
+    const body = createFontBlock(content, "bodyFont");
+    const weight = body.match(/weight: \{(?<scale>[\s\S]*?)\n  \}/)?.groups
+      ?.scale;
+
+    expect(weight).toContain('light: "300"');
+    expect(weight).toContain('regular: "400"');
+    expect(weight).toContain('semibold: "600"');
+    expect(weight).not.toContain('300: "300"');
   });
 
   it("emits light and dark createThemes extras from scheme token sets", () => {
