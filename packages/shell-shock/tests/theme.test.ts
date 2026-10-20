@@ -62,6 +62,51 @@ describe("inferPalette", () => {
     expect(palette.primary).toBe("#222222");
   });
 
+  it("resolves aliases and skips fill / state tokens", () => {
+    const palette = inferPalette({
+      tokens: {
+        color: {
+          $type: "color",
+          neutral: {
+            "1": { $value: "#fafafa" },
+            "5": { $value: "#cacacb" },
+            "7": { $value: "#959698" },
+            "9": { $value: "#606164" },
+            "11": { $value: "#2b2c30" }
+          },
+          green: { "1": { $value: "#d1f1d6" }, "4": { $value: "#45c791" } },
+          blue: { "3": { $value: "#6da2ff" }, "4": { $value: "#3586ff" } },
+          ink: {
+            body: { $value: "{color.neutral.5}" },
+            subtle: { $value: "{color.neutral.7}" }
+          },
+          surface: { canvas: { $value: "{color.neutral.11}" } },
+          hairline: { $value: "{color.neutral.9}" },
+          link: { $value: "{color.blue.3}" },
+          "link-active": { $value: "#95cdff" },
+          accent: {
+            success: { $value: "{color.green.4}" },
+            info: { $value: "{color.blue.4}" }
+          },
+          muted: {
+            base: { $value: "{color.neutral.11}" },
+            "base-active": { $value: "#333438" },
+            info: { $value: "#0146b0" }
+          },
+          "on-muted": { info: { $value: "#c7dcff" } }
+        }
+      }
+    });
+    expect(palette).toMatchObject({
+      text: "#cacacb",
+      muted: "#959698",
+      border: "#606164",
+      link: "#6da2ff",
+      success: "#45c791",
+      info: "#3586ff"
+    });
+  });
+
   it("falls back to defaults when no colors exist", () => {
     expect(inferPalette({ tokens: { space: { sm: { $value: "4px" } } } })).toEqual({
       primary: DEFAULT_PALETTE.primary

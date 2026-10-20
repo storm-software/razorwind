@@ -1812,8 +1812,12 @@ export function renderTamaguiConfig(
   if (target === "v3") {
     configParts.push(
       useDefaultConfig
-        ? '  settings: { styleValueSyntax: "string", ...defaultConfig.settings }'
-        : '  settings: { styleValueSyntax: "string" }'
+        ? `  settings: { styleValueSyntax: "string", ...defaultConfig.settings${
+            options.importConfig ? ", ...(userConfig.settings ?? {})" : ""
+          } }`
+        : `  settings: { styleValueSyntax: "string"${
+            options.importConfig ? ", ...(userConfig.settings ?? {})" : ""
+          } }`
     );
   }
 

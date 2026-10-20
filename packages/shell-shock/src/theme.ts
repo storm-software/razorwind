@@ -345,8 +345,8 @@ const ROLE_PATTERNS: Record<PaletteRole, RegExp[]> = {
   secondary: [/(^|\.)secondary(\.|$)/, /(^|\.)secondary/],
   tertiary: [/(^|\.)tertiary(\.|$)/, /(^|\.)tertiary/],
   text: [
-    /(^|\.)(text|fg|foreground)(\.(default|primary|base))?$/,
-    /(^|\.)(text|fg|foreground)(\.|$)/
+    /(^|\.)(text|fg|foreground|ink)(\.(default|primary|base|body))?$/,
+    /(^|\.)(text|fg|foreground|ink)(\.|$)/
   ],
   muted: [
     /(^|\.)(muted|subtle|subtlest|disabled|placeholder)(\.|$)/,
@@ -355,26 +355,84 @@ const ROLE_PATTERNS: Record<PaletteRole, RegExp[]> = {
   ],
   link: [/(^|\.)(link|anchor)(\.|$)/, /(^|\.)(link|anchor)/],
   border: [
-    /(^|\.)(border|divider|outline|stroke)(\.(default|primary|base))?$/,
-    /(^|\.)(border|divider|outline|stroke)(\.|$)/
+    /(^|\.)(border|divider|outline|stroke|hairline)(\.(default|primary|base))?$/,
+    /(^|\.)(border|divider|outline|stroke|hairline)(\.|$)/
   ],
-  success: [/(^|\.)(success|positive|green)(\.|$)/, /(^|\.)(success|positive)/],
+  // Semantic names come before raw palette hues (`green`, `red`, …) so
+  // `color.accent.success` wins over the first step of `color.green.*`.
+  success: [
+    /(^|\.)(success|positive)(\.|$)/,
+    /(^|\.)(success|positive)/,
+    /(^|\.)green(\.|$)/
+  ],
   info: [/(^|\.)(info|information|informative)(\.|$)/, /(^|\.)info/],
   help: [
-    /(^|\.)(help|discovery|purple|violet)(\.|$)/,
-    /(^|\.)(help|discovery)/
+    /(^|\.)(help|discovery)(\.|$)/,
+    /(^|\.)(help|discovery)/,
+    /(^|\.)(purple|violet)(\.|$)/
   ],
-  debug: [/(^|\.)(debug|neutral|gray|grey)(\.|$)/, /(^|\.)debug/],
+  // No `neutral`/`gray` fallback: the first step of a neutral scale is a
+  // near-white or near-black that vanishes in one of the themes, so `debug`
+  // falls back to `muted` instead.
+  debug: [/(^|\.)debug(\.|$)/, /(^|\.)debug/],
   warning: [
-    /(^|\.)(warning|warn|caution|yellow|amber)(\.|$)/,
-    /(^|\.)(warning|warn|caution)/
+    /(^|\.)(warning|warn|caution)(\.|$)/,
+    /(^|\.)(warning|warn|caution)/,
+    /(^|\.)(yellow|amber)(\.|$)/
   ],
   danger: [
     /(^|\.)(danger|destructive|critical)(\.|$)/,
     /(^|\.)(danger|destructive|critical)/
   ],
-  error: [/(^|\.)(error|negative|red)(\.|$)/, /(^|\.)(error|negative)/]
+  error: [
+    /(^|\.)(error|danger|negative)(\.|$)/,
+    /(^|\.)(error|danger|negative)/,
+    /(^|\.)red(\.|$)/
+  ]
 };
+
+/**
+ * Paths that hold fills or interaction states rather than foreground colors:
+ * surfaces and backgrounds, `on-*` colors drawn on top of fills, `muted.*`
+ * fill groups and `-hover`/`.active`-style state variants. Using these as
+ * terminal text inverts contrast (a dark fill becomes dark text on a dark
+ * terminal).
+ */
+const NON_FOREGROUND_PATH = [
+  /(^|\.)(surface|background|bg|canvas|backdrop|shadow|selection)(\.|$)/,
+  /(^|\.)on-[^.]+(\.|$)/,
+  /(^|\.)muted\./,
+  /-(hover|active|pressed|focus|focused|inactive|disabled)$/,
+  /\.(hover|active|pressed|focus|focused)$/
+];
+
+const ALIAS_REFERENCE = /^\{([^{}]+)\}$/;
+
+/**
+ * Follow `{group.token}` references to their final value. Returns
+ * `undefined` for missing or circular references.
+ */
+function resolveAlias(
+  value: unknown,
+  valuesByPath: Map<string, unknown>
+): unknown {
+  const seen = new Set<string>();
+  let current = value;
+  let match: RegExpExecArray | null;
+  while (
+    typeof current === "string" &&
+    (match = ALIAS_REFERENCE.exec(current.trim()))
+  ) {
+    const path = match[1]!;
+    if (seen.has(path)) {
+      return undefined;
+    }
+    seen.add(path);
+    current = valuesByPath.get(path);
+  }
+
+  return current;
+}
 
 /** Trailing path segments that mark a group's canonical value. */
 const CANONICAL_SUFFIX = /\.(?:default|base|main|500|600|solid|rest)$/i;
@@ -389,15 +447,23 @@ function collectColorCandidates(
   tokens: Tokens | Record<string, Tokens>
 ): ColorCandidate[] {
   const candidates: ColorCandidate[] = [];
+  const flat = flattenTokens(tokens);
+  const valuesByPath = new Map(flat.map(token => [token.path, token.value]));
 
-  for (const token of flattenTokens(tokens)) {
+  for (const token of flat) {
     if (token.type && token.type !== "color") {
       continue;
     }
-    const hex = toHexColor(token.value) ?? toHexColor(token.cssValue);
+    const path = token.path.toLowerCase();
+    if (NON_FOREGROUND_PATH.some(pattern => pattern.test(path))) {
+      continue;
+    }
+    const hex =
+      toHexColor(resolveAlias(token.value, valuesByPath)) ??
+      toHexColor(token.cssValue);
     if (hex) {
       candidates.push({
-        path: token.path.toLowerCase(),
+        path,
         hex,
         theme: token.theme
       });
