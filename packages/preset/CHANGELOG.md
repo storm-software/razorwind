@@ -2,6 +2,30 @@
 
 # Changelog for Razorwind - Preset
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.39) (10/20/2026)
+
+### Features
+
+- **maplibre:** Added Maplibre style generator plugin package ([b9222c2](https://github.com/storm-software/razorwind/commit/b9222c2))
+
+### Updated Dependencies
+
+- Updated **chrome** to **v0.0.36**
+- Updated **core** to **v0.0.102**
+- Updated **cursor** to **v0.0.77**
+- Updated **ghostty** to **v0.0.76**
+- Updated **maplibre** to **v0.0.2**
+- Updated **notepad-plus-plus** to **v0.0.76**
+- Updated **sandpack** to **v0.0.36**
+- Updated **shell-shock** to **v0.0.23**
+- Updated **shiki** to **v0.0.76**
+- Updated **storybook** to **v0.0.102**
+- Updated **thunderbird** to **v0.0.36**
+- Updated **vivaldi** to **v0.0.50**
+- Updated **vsce** to **v0.0.79**
+- Updated **zed** to **v0.0.76**
+- Updated **zsh** to **v0.0.76**
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/preset%400.0.38) (10/20/2026)
 
 ### Updated Dependencies

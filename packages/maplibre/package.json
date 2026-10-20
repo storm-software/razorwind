@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/maplibre",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Razorwind plugin that generates MapLibre styles from design tokens.",
   "repository": {
