@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.39) (10/20/2026)
+
+### Bug Fixes
+
+- **monorepo:** Update Storm-Ops packages to resolve publish issue ([1a13cd0](https://github.com/storm-software/razorwind/commit/1a13cd0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.101**
+
 ## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.38) (10/19/2026)
 
 ### Miscellaneous

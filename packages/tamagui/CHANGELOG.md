@@ -2,6 +2,17 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.104) (10/20/2026)
+
+### Bug Fixes
+
+- **tamagui:** Prevent tamagui config generator from adding extra color tokens ([e52bc14](https://github.com/storm-software/razorwind/commit/e52bc14))
+- **tamagui:** Resolve issue with font weight values provided to "createFont" function ([d835f15](https://github.com/storm-software/razorwind/commit/d835f15))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.101**
+
 ## [0.0.103](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.103) (10/19/2026)
 
 ### Updated Dependencies

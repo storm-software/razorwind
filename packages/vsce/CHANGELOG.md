@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Vsce
 
+## [0.0.78](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.78) (10/20/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.101**
+
 ## [0.0.77](https://github.com/storm-software/razorwind/releases/tag/vsce%400.0.77) (10/19/2026)
 
 ### Updated Dependencies
