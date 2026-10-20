@@ -44,10 +44,10 @@ const ANIMATION_IMPORTS: Record<
   Exclude<TamaguiAnimationDriver, false>,
   string
 > = {
-  css: "@tamagui/config/v5-css",
-  rn: "@tamagui/config/v5-rn",
-  reanimated: "@tamagui/config/v5-reanimated",
-  motion: "@tamagui/config/v5-motion"
+  css: "@tamagui/config/animations-css",
+  rn: "@tamagui/config/animations-rn",
+  reanimated: "@tamagui/config/animations-reanimated",
+  motion: "@tamagui/config/animations-motion"
 };
 
 type TokenBucket = Record<string, string | number>;
@@ -679,6 +679,13 @@ function resolveColorTokenReference(
 
   const literal = resolvedColorLiteral(token, lookups);
   if (literal) {
+    const matchingKey = Object.keys(colorBucket).find(
+      key => colorBucket[key] === literal
+    );
+    if (matchingKey) {
+      return tokenColorRef(matchingKey);
+    }
+
     return toLiteral(literal);
   }
 
@@ -1430,12 +1437,53 @@ function renderFrozenThemes(input: {
               key,
               typeof value === "string" ? preferOklchColor(value) : value
             ])
+            .toSorted(([a], [b]) =>
+              String(a).localeCompare(String(b), undefined, { numeric: true })
+            )
         )
       ];
     })
   );
 
-  return `const themes = ${JSON.stringify(tokenThemes, null, 2)};`;
+  const colorKeyByValue = new Map<string, string>();
+  for (const [key, value] of Object.entries(colorBucket)) {
+    if (typeof value === "string") {
+      const color = preferOklchColor(value);
+      if (!colorKeyByValue.has(color)) {
+        colorKeyByValue.set(color, key);
+      }
+    }
+  }
+
+  let hasTokenReferences = false;
+  const renderedThemes = Object.fromEntries(
+    Object.entries(tokenThemes).map(([name, theme]) => [
+      name,
+      renderConfigObjectLiteral(
+        Object.fromEntries(
+          Object.entries(theme).map(([key, value]) => {
+            const colorKey =
+              typeof value === "string"
+                ? colorKeyByValue.get(value)
+                : undefined;
+            hasTokenReferences ||= colorKey != null;
+
+            return [
+              key,
+              colorKey ? `tokens.color.${colorKey}` : toLiteral(value)
+            ];
+          })
+        ),
+        4
+      )
+    ])
+  );
+
+  return `const themes = ${
+    hasTokenReferences
+      ? renderConfigObjectLiteral(renderedThemes)
+      : JSON.stringify(tokenThemes, null, 2)
+  };`;
 }
 
 interface TokenAnalysis {

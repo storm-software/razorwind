@@ -23,7 +23,8 @@ import { createDocument } from "@razorwind/core/utils";
 import { dirname, join } from "node:path";
 import { DEFAULT_SHORTHANDS } from "./eslint-runtime";
 import { flattenTokens } from "./flatten";
-import { collectTamaguiVocabulary, type TamaguiVocabulary } from "./generate";
+import type { TamaguiVocabulary } from "./generate";
+import { collectTamaguiVocabulary } from "./generate";
 import type {
   GuardrailTheme,
   GuardrailTokenCategory,

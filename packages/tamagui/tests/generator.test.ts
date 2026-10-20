@@ -1565,13 +1565,11 @@ describe("tamagui plugin", () => {
     });
     expect(v3).not.toContain("@tamagui/theme-builder");
     expect(v3).not.toContain("createThemes(");
-    const start = v3.indexOf("const themes = ") + "const themes = ".length;
-    const frozen = JSON.parse(v3.slice(start, v3.indexOf("\n};", start) + 2));
-    expect(frozen.light_danger.foreground).toMatch(/^oklch\(/);
-    expect(frozen.dark_danger.foreground).toMatch(/^oklch\(/);
-    expect(frozen.light_success.backgroundSubtle).toMatch(/^oklch\(/);
-    expect(frozen.light_accent.foreground).toMatch(/^oklch\(/);
-    expect(frozen.light.backgroundHover).toBeUndefined();
+    expect(objectProperty(v3, "light_danger")).toContain("foreground:");
+    expect(objectProperty(v3, "dark_danger")).toContain("foreground:");
+    expect(objectProperty(v3, "light_success")).toContain("backgroundSubtle:");
+    expect(objectProperty(v3, "light_accent")).toContain("foreground:");
+    expect(objectProperty(v3, "light")).not.toContain("backgroundHover:");
   });
 
   it("keeps only token-owned values in frozen v3 themes", () => {
@@ -1613,6 +1611,37 @@ describe("tamagui plugin", () => {
     expect(Object.keys(themes.dark_accent)).toEqual(["foreground"]);
   });
 
+  it("sorts frozen v3 theme color properties alphabetically", () => {
+    const schema = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        light: {
+          color: {
+            foreground: { $value: "#111111" },
+            background: { $value: "#ffffff" },
+            accent: { $value: "#0066cc" },
+            "background-hovered": { $value: "#f0f0f0" }
+          }
+        }
+      }
+    } as Schema;
+
+    const content = renderConfig(schema, { target: "v3", animations: false });
+    const start = content.indexOf("const themes = ") + "const themes = ".length;
+    const themes = JSON.parse(
+      content.slice(start, content.indexOf("\n};", start) + 2)
+    );
+
+    expect(Object.keys(themes.light)).toEqual([
+      "accent",
+      "background",
+      "backgroundHovered",
+      "foreground"
+    ]);
+  });
+
   it("prefers OKLCH for generated color tokens and frozen theme values", () => {
     const schema = {
       components: {},
@@ -1632,15 +1661,11 @@ describe("tamagui plugin", () => {
     } as Schema;
 
     const content = renderConfig(schema, { target: "v3", animations: false });
-    const start = content.indexOf("const themes = ") + "const themes = ".length;
-    const themes = JSON.parse(
-      content.slice(start, content.indexOf("\n};", start) + 2)
-    );
-
     expect(content).toContain('lightRed1: "oklch(0.627955 0.257683 29.234)"');
-    expect(themes.light.surface).toBe("oklch(0.627955 0.257683 29.234)");
-    expect(themes.light.overlay).toMatch(/^oklch\(.+ \/ 0\.502\)$/);
-    expect(themes.light.known).toBe("oklch(0.5 0.1 200)");
+    const light = objectProperty(content, "light");
+    expect(light).toContain("surface: tokens.color.lightRed1");
+    expect(light).toMatch(/overlay: "oklch\(.+ \/ 0\.502\)"/);
+    expect(light).toContain('known: "oklch(0.5 0.1 200)"');
   });
 
   it("strips the theme name from semantic keys on the named theme", () => {
@@ -1869,6 +1894,35 @@ describe("tamagui plugin", () => {
     const light = createThemeBlock(content, "light");
     expect(light).toContain('overlayBackgroundHover: "#1a1a1acc"');
     expect(light).toContain('foregroundLinkHover: "#2563eb"');
+  });
+
+  it("references an existing color token when a theme color only matches its value", () => {
+    const schema = {
+      components: {},
+      icons: {},
+      fonts: {},
+      tokens: {
+        color: {
+          $type: "color",
+          green: {
+            primitive: true,
+            2: { $value: "#22aa44" }
+          },
+          outline: { $value: "#22aa44" },
+          separate: { $value: "#123456" }
+        }
+      }
+    } as Schema;
+
+    const v2 = renderConfig(schema, { animations: false });
+    expect(createThemeBlock(v2, "light")).toContain(
+      "outline: tokens.color.green2.val"
+    );
+    expect(createThemeBlock(v2, "light")).toContain('separate: "#123456"');
+
+    const v3 = renderConfig(schema, { target: "v3", animations: false });
+    expect(v3).toContain("outline: tokens.color.green2");
+    expect(v3).toContain('green2: "oklch(');
   });
 
   it("emits AppTheme from semantic createThemes keys", () => {
