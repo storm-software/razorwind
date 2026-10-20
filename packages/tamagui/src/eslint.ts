@@ -224,11 +224,14 @@ export async function generateEslintGuardrails(
   }
 
   const flat = hasTokens ? flattenTokens(spec.tokens, options) : [];
-  const theme = buildGuardrailTheme(collectTamaguiVocabulary(spec, flat), {
-    name: spec.name,
-    prefix: options.prefix,
-    shorthands: options.shorthands
-  });
+  const theme = buildGuardrailTheme(
+    collectTamaguiVocabulary(spec, flat, { target: options.target }),
+    {
+      name: spec.name,
+      prefix: options.prefix,
+      shorthands: options.shorthands
+    }
+  );
   if (Object.keys(theme.tokens).length === 0) {
     return {};
   }

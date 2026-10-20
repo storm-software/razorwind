@@ -39,6 +39,7 @@ const tokens = {
         2: { $value: "#0066cc" }
       },
       background: { $value: "#ffffff" },
+      "background-hover": { $value: "#f5f5f5" },
       "background-primary": { $value: "#0066cc", $theme: "primary" }
     },
     radius: {
@@ -65,6 +66,7 @@ const tokens = {
         2: { $value: "#0066cc" }
       },
       background: { $value: "#000000" },
+      "background-hover": { $value: "#111111" },
       "background-primary": { $value: "#66aaff", $theme: "primary" }
     }
   }
@@ -79,7 +81,7 @@ const spec = {
 } as Schema;
 
 const theme = buildGuardrailTheme(
-  collectTamaguiVocabulary(spec, flattenTokens(tokens)),
+  collectTamaguiVocabulary(spec, flattenTokens(tokens), { target: "v3" }),
   { name: "acme" }
 );
 
@@ -130,8 +132,14 @@ describe("buildGuardrailTheme", () => {
   it("collects the names the generated config defines", () => {
     expect(theme.themes).toEqual(["light", "dark", "primary"]);
     expect(theme.tokens.color).toEqual(
-      expect.arrayContaining(["background", "blue1", "blue2"])
+      expect.arrayContaining([
+        "background",
+        "background-hover",
+        "blue1",
+        "blue2"
+      ])
     );
+    expect(theme.tokens.color).not.toContain("backgroundHover");
     expect(theme.tokens.space).toEqual(["4", "sm"]);
     expect(theme.tokens.radius).toEqual(["lg", "true"]);
     expect(theme.tokens.shadow).toEqual(["shadow.sm"]);
@@ -140,7 +148,7 @@ describe("buildGuardrailTheme", () => {
 
   it("merges custom shorthands over the v5 defaults", () => {
     const custom = buildGuardrailTheme(
-      collectTamaguiVocabulary(spec, flattenTokens(tokens)),
+      collectTamaguiVocabulary(spec, flattenTokens(tokens), { target: "v3" }),
       { shorthands: { br: "borderRadius" } }
     );
 

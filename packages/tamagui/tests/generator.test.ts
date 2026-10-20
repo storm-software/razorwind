@@ -1567,7 +1567,13 @@ describe("tamagui plugin", () => {
     expect(v3).not.toContain("createThemes(");
     expect(objectProperty(v3, "light_danger")).toContain("foreground:");
     expect(objectProperty(v3, "dark_danger")).toContain("foreground:");
-    expect(objectProperty(v3, "light_success")).toContain("backgroundSubtle:");
+    expect(objectProperty(v3, "light_success")).toContain(
+      '"background-subtle":'
+    );
+    expect(objectProperty(v3, "light_success")).toContain('"foreground-on":');
+    expect(objectProperty(v3, "light_success")).not.toContain(
+      "backgroundSubtle:"
+    );
     expect(objectProperty(v3, "light_accent")).toContain("foreground:");
     expect(objectProperty(v3, "light")).not.toContain("backgroundHover:");
   });
@@ -1628,6 +1634,10 @@ describe("tamagui plugin", () => {
       }
     } as Schema;
 
+    const v2 = renderConfig(schema, { animations: false });
+    expect(createThemeBlock(v2, "light")).toContain("backgroundHovered:");
+    expect(v2).toContain("backgroundHovered: string;");
+
     const content = renderConfig(schema, { target: "v3", animations: false });
     const start = content.indexOf("const themes = ") + "const themes = ".length;
     const themes = JSON.parse(
@@ -1637,9 +1647,11 @@ describe("tamagui plugin", () => {
     expect(Object.keys(themes.light)).toEqual([
       "accent",
       "background",
-      "backgroundHovered",
+      "background-hovered",
       "foreground"
     ]);
+    expect(content).toContain('"background-hovered": string;');
+    expect(content).not.toContain("backgroundHovered");
   });
 
   it("prefers OKLCH for generated color tokens and frozen theme values", () => {

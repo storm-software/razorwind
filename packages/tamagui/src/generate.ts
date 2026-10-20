@@ -1064,6 +1064,15 @@ function collectAppThemeKeys(maps: ThemeMaps[]): string[] {
   );
 }
 
+/** Convert generated camelCase theme keys to Tamagui v3's kebab-case names. */
+function toV3ThemeKey(key: string): string {
+  return key
+    .replaceAll(/([\p{Ll}\d])(\p{Lu})/gu, "$1-$2")
+    .replaceAll(/(\p{Lu})(\p{Lu}\p{Ll})/gu, "$1-$2")
+    .replaceAll(/[_\s]+/g, "-")
+    .toLowerCase();
+}
+
 function renderThemeInterfaceProperty(key: string): string {
   const renderedKey = /^[A-Z_$][\w$]*$/i.test(key) ? key : toLiteral(key);
 
@@ -1332,8 +1341,8 @@ function evaluateThemeExpression(
 /**
  * Tamagui v3 removed `@tamagui/theme-builder`, so run the same `createThemes`
  * input {@link renderThemesModule} emits for v2 at generation time and write
- * the output as a static `themes` literal (v3's frozen v5 packs keep the same
- * camelCase keys).
+ * the output as a static `themes` literal. Tamagui v3 theme property names use
+ * kebab-case, so the frozen v2 builder output is normalized before rendering.
  *
  * @see https://tamagui.dev/docs/guides/how-to-upgrade
  */
@@ -1434,7 +1443,7 @@ function renderFrozenThemes(input: {
           Object.entries(theme)
             .filter(([key]) => allowed.has(key))
             .map(([key, value]) => [
-              key,
+              toV3ThemeKey(key),
               typeof value === "string" ? preferOklchColor(value) : value
             ])
             .toSorted(([a], [b]) =>
@@ -1549,7 +1558,8 @@ export interface TamaguiVocabulary {
  */
 export function collectTamaguiVocabulary(
   spec: Schema,
-  tokens: FlatToken[]
+  tokens: FlatToken[],
+  options: { target?: TamaguiTarget } = {}
 ): TamaguiVocabulary {
   const { hasDark, colorBucket, lightSchemeTokens, lightMaps, darkMaps } =
     analyzeTokens(tokens);
@@ -1569,7 +1579,9 @@ export function collectTamaguiVocabulary(
 
   return {
     tokens: categories,
-    themeKeys: collectAppThemeKeys(maps),
+    themeKeys: collectAppThemeKeys(maps).map(key =>
+      options.target === "v3" ? toV3ThemeKey(key) : key
+    ),
     childThemes: [
       ...new Set(maps.flatMap(map => Object.keys(map.children)))
     ].toSorted((a, b) => a.localeCompare(b)),
@@ -1621,7 +1633,7 @@ export function renderTamaguiConfig(
   );
   const appThemeKeys = collectAppThemeKeys(
     hasDark ? [lightMaps, darkMaps] : [lightMaps]
-  );
+  ).map(key => (target === "v3" ? toV3ThemeKey(key) : key));
   const themeInterfaceLines = renderThemeInterface(appThemeKeys, {
     specName: spec.name
   });
@@ -1800,7 +1812,7 @@ export function renderTamaguiConfig(
   if (target === "v3") {
     configParts.push(
       useDefaultConfig
-        ? '  settings: { ...defaultConfig.settings, styleValueSyntax: "string" }'
+        ? '  settings: { styleValueSyntax: "string", ...defaultConfig.settings }'
         : '  settings: { styleValueSyntax: "string" }'
     );
   }

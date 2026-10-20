@@ -489,7 +489,8 @@ function buildTamagui(
         ? flattenTamaguiTokens(spec.tokens, {
             includeTypes: tamagui.includeTypes
           })
-        : []
+        : [],
+      { target: "v3" }
     ),
     { name: spec.name, prefix, shorthands: tamagui.shorthands }
   );
