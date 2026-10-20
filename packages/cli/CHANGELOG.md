@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.38](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.38) (10/19/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update devenv modules ([f030f5c](https://github.com/storm-software/razorwind/commit/f030f5c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.100**
+
 ## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.37) (10/19/2026)
 
 ### Updated Dependencies
