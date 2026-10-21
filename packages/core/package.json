@@ -151,13 +151,13 @@
     "json5": "catalog:",
     "smol-toml": "catalog:",
     "style-dictionary": "catalog:",
+    "typescript": "^6.0.3",
     "yaml": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",
-    "@types/node": "catalog:",
-    "typescript": "^6.0.3"
+    "@types/node": "catalog:"
   },
   "publishConfig": {
     "access": "public"

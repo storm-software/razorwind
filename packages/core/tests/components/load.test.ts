@@ -61,9 +61,13 @@ describe("loadComponents usage", () => {
       await mkdir(join(componentDir, directory), { recursive: true });
       await writeFile(
         join(componentDir, directory, "index.ts"),
-        "export {};\n"
+        'export * from "./Button";\n'
       );
     }
+    await writeFile(
+      join(componentDir, "src", "Button.tsx"),
+      "export const Button = () => null;\n"
+    );
     await mkdir(join(root, "linked"));
     await writeFile(join(root, "linked", "index.ts"), "export {};\n");
     await symlink(join(root, "linked"), join(componentDir, "linked"), "dir");
@@ -72,11 +76,111 @@ describe("loadComponents usage", () => {
     const components = await loadComponents(contextFor(root, "."));
 
     expect(components.button?.files?.map(file => file.path)).toEqual([
-      join(componentDir, "src", "index.ts")
+      join(componentDir, "src", "Button.tsx")
     ]);
     expect(components.button?.devDependencies).toEqual({ vitest: "^4.0.0" });
     expect(await readFile(join(componentDir, "package.json"), "utf8")).toBe(
       manifest
+    );
+  });
+
+  it("follows component imports transitively without copying the entry barrel or unrelated sources", async () => {
+    const root = await createFixture();
+    const directory = join(root, "collapsible");
+    await mkdir(join(directory, "src", "helpers"), { recursive: true });
+    const sources = {
+      "index.ts": 'export * from "./Collapsible";\n',
+      "Collapsible.tsx":
+        'import { value } from "./get-value.js"; import type { Props } from "./types"; import "react"; export const Collapsible = () => value;\n',
+      "get-value.ts": 'export { value } from "./helpers";\n',
+      "helpers/index.ts": 'export { value } from "./value";\n',
+      "helpers/value.ts": 'import "../get-value"; export const value = true;\n',
+      "types.ts": "export interface Props {}\n",
+      "unused.ts": "export const unused = true;\n",
+      "Collapsible.test.tsx": 'import "./Collapsible";\n'
+    };
+    for (const [name, content] of Object.entries(sources)) {
+      await writeFile(join(directory, "src", name), content);
+    }
+    await writeFile(
+      join(directory, "package.json"),
+      JSON.stringify({ name: "collapsible" })
+    );
+    const components = await loadComponents(contextFor(root, "."));
+    expect(components.collapsible?.files?.map(file => file.path)).toEqual(
+      [
+        "Collapsible.tsx",
+        "get-value.ts",
+        "helpers/index.ts",
+        "helpers/value.ts",
+        "types.ts"
+      ]
+        .map(name => join(directory, "src", name))
+        .sort((a, b) => a.localeCompare(b))
+    );
+    expect(
+      components.collapsible?.files?.find(file =>
+        file.path.endsWith("get-value.ts")
+      )?.content
+    ).toBe(sources["get-value.ts"]);
+  });
+
+  it("keeps explicitly declared file lists unchanged", async () => {
+    const root = await createFixture();
+    const directory = join(root, "explicit");
+    await mkdir(directory);
+    await writeFile(
+      join(directory, "component.json"),
+      JSON.stringify({
+        name: "explicit",
+        files: [{ path: "index.ts", type: "file", target: "custom.ts" }]
+      })
+    );
+    await writeFile(
+      join(directory, "index.ts"),
+      'export * from "./Implementation";\n'
+    );
+    await writeFile(
+      join(directory, "Implementation.tsx"),
+      "export const Implementation = () => null;\n"
+    );
+    const components = await loadComponents(contextFor(root, "."));
+    expect(components.explicit?.files).toEqual([
+      {
+        path: join(directory, "index.ts"),
+        type: "file",
+        target: "custom.ts",
+        content: 'export * from "./Implementation";\n'
+      }
+    ]);
+  });
+
+  it("discovers components without barrels and includes lazy imports and assets", async () => {
+    const root = await createFixture();
+    const directory = join(root, "standalone");
+    await mkdir(directory);
+    await writeFile(
+      join(directory, "package.json"),
+      JSON.stringify({ name: "standalone" })
+    );
+    await writeFile(
+      join(directory, "Standalone.tsx"),
+      'import "./styles.css"; export const load = () => import("./lazy"); // import "./unused"\n'
+    );
+    await writeFile(join(directory, "lazy.ts"), "export const value = true;\n");
+    await writeFile(
+      join(directory, "styles.css"),
+      ".standalone { display: block; }\n"
+    );
+    await writeFile(
+      join(directory, "unused.ts"),
+      "export const unused = true;\n"
+    );
+    const components = await loadComponents(contextFor(root, "."));
+    expect(components.standalone?.files?.map(file => file.path)).toEqual(
+      ["lazy.ts", "Standalone.tsx", "styles.css"]
+        .map(name => join(directory, name))
+        .sort((a, b) => a.localeCompare(b))
     );
   });
 

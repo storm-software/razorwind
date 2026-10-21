@@ -32,7 +32,13 @@ import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { createDefu } from "defu";
 import { readdir, readFile } from "node:fs/promises";
-import { isAbsolute, resolve } from "node:path";
+import { dirname, isAbsolute, relative, resolve } from "node:path";
+import {
+  createSourceFile,
+  isExportDeclaration,
+  preProcessFile,
+  ScriptTarget
+} from "typescript";
 import type { Schema } from "../../schema";
 import type {
   Component,
@@ -390,29 +396,93 @@ async function resolveComponentUsage(
   );
 }
 
-/** Discover source entrypoints without traversing dependencies or generated assets. */
+/** Discover implementations reachable from source entrypoints, excluding entry barrels. */
 async function listComponentSourceFiles(directory: string): Promise<string[]> {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files: string[] = [];
-
-  for (const entry of entries) {
-    const path = joinPaths(directory, entry.name);
-    if (entry.isDirectory()) {
-      if (
-        !["node_modules", "dist", "usage"].includes(entry.name) &&
-        !entry.name.startsWith(".")
+  const available = new Set<string>();
+  async function discover(folder: string): Promise<void> {
+    for (const entry of await readdir(folder, { withFileTypes: true })) {
+      if (entry.name.startsWith(".")) continue;
+      const path = joinPaths(folder, entry.name);
+      if (entry.isDirectory()) {
+        if (
+          !["node_modules", "dist", "usage", "tests", "__tests__"].includes(
+            entry.name
+          )
+        ) {
+          await discover(path);
+        }
+      } else if (
+        entry.isFile() &&
+        !/\.(?:test|spec|stories)\.[^.]+$/.test(entry.name)
       ) {
-        files.push(...(await listComponentSourceFiles(path)));
+        available.add(path);
       }
-    } else if (
-      entry.isFile() &&
-      findFileName(entry.name, { withExtension: false }) === "index"
-    ) {
-      files.push(path);
     }
   }
+  await discover(directory);
 
-  return files.toSorted((a, b) => a.localeCompare(b));
+  const extensions = [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".mts",
+    ".cts",
+    ".mjs",
+    ".cjs"
+  ];
+  const entries = [...available].filter(path =>
+    /[/\\]index\.[cm]?[jt]sx?$/.test(path)
+  );
+  // Nested barrels are dependencies, rather than independent public entrypoints.
+  const roots = entries.filter(
+    path =>
+      !entries.some(
+        other =>
+          other !== path &&
+          !relative(dirname(other), path).startsWith("..") &&
+          dirname(other) !== dirname(path)
+      )
+  );
+  if (!roots.length)
+    roots.push(...[...available].filter(path => /\.[jt]sx$/.test(path)));
+
+  function resolveImport(file: string, specifier: string): string | undefined {
+    if (!specifier.startsWith(".")) return undefined;
+    const base = resolve(dirname(file), specifier);
+    const sourceBase = base.replace(/\.(?:[cm]?js|jsx)$/, "");
+    return [
+      ...extensions.map(extension => `${sourceBase}${extension}`),
+      base,
+      ...extensions.map(extension => joinPaths(base, `index${extension}`))
+    ].find(candidate => available.has(candidate));
+  }
+
+  const included = new Set<string>();
+  const visited = new Set<string>();
+  async function visit(path: string, entrypoint = false): Promise<void> {
+    if (!entrypoint) included.add(path);
+    if (visited.has(path)) return;
+    visited.add(path);
+    if (!/\.[cm]?[jt]sx?$/.test(path)) return;
+    const content = await readFile(path, "utf8");
+    if (entrypoint) {
+      const source = createSourceFile(path, content, ScriptTarget.Latest);
+      const barrel =
+        source.statements.length > 0 &&
+        source.statements.every(
+          statement =>
+            isExportDeclaration(statement) && statement.moduleSpecifier
+        );
+      if (!barrel) included.add(path);
+    }
+    for (const imported of preProcessFile(content, true, true).importedFiles) {
+      const dependency = resolveImport(path, imported.fileName);
+      if (dependency) await visit(dependency);
+    }
+  }
+  for (const root of roots) await visit(root, true);
+  return [...included].toSorted((a, b) => a.localeCompare(b));
 }
 
 async function resolveComponentFiles(
