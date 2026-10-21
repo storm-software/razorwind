@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.44) (10/21/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue selecting files for components ([87435d3](https://github.com/storm-software/razorwind/commit/87435d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.105**
+
 ## [0.0.43](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.43) (10/21/2026)
 
 ### Updated Dependencies

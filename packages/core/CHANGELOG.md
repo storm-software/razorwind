@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.105](https://github.com/storm-software/razorwind/releases/tag/core%400.0.105) (10/21/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue selecting files for components ([87435d3](https://github.com/storm-software/razorwind/commit/87435d3))
+
 ## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/core%400.0.104) (10/21/2026)
 
 ### Bug Fixes

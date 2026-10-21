@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/vsce",
-  "version": "0.0.81",
+  "version": "0.0.82",
   "type": "module",
   "description": "Razorwind Visual Studio Code Extension plugin that creates theming extensions from design tokens.",
   "repository": {
