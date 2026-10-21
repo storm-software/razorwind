@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Shell Shock
 
+## [0.0.25](https://github.com/storm-software/razorwind/releases/tag/shell-shock%400.0.25) (10/21/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.104**
+
 ## [0.0.24](https://github.com/storm-software/razorwind/releases/tag/shell-shock%400.0.24) (10/21/2026)
 
 ### Updated Dependencies

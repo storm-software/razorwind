@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Shadcn
 
+## [0.0.100](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.100) (10/21/2026)
+
+### Bug Fixes
+
+- **core:** Update logic to better handle local regisry component dependencies ([111c27c](https://github.com/storm-software/razorwind/commit/111c27c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.104**
+
 ## [0.0.99](https://github.com/storm-software/razorwind/releases/tag/shadcn%400.0.99) (10/21/2026)
 
 ### Updated Dependencies

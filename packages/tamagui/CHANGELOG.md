@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.109](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.109) (10/21/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.104**
+
 ## [0.0.108](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.108) (10/21/2026)
 
 ### Updated Dependencies

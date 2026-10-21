@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/core%400.0.104) (10/21/2026)
+
+### Bug Fixes
+
+- **core:** Update logic to better handle local regisry component dependencies ([111c27c](https://github.com/storm-software/razorwind/commit/111c27c))
+
 ## [0.0.97](https://github.com/storm-software/razorwind/releases/tag/core%400.0.97) (10/19/2026)
 
 ### Bug Fixes
