@@ -42,6 +42,15 @@ export interface ShadcnExtractPluginOptions {
  */
 export interface ShadcnGeneratePluginOptions {
   /**
+   * npm scopes whose packages are installed as local source files instead of
+   * npm packages (for example `["@cyclone-ui"]`). Excludes these packages from
+   * emitted dependencies and devDependencies. Registered runtime component
+   * dependencies are retained as unversioned registryDependencies.
+   * Source package manifests and component metadata are not modified.
+   */
+  localDependencyScopes?: string[];
+
+  /**
    * Output path for the generated `registry.json` file.
    *
    * @defaultValue `"registry.json"`

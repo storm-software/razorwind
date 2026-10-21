@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -43,6 +43,43 @@ describe("loadComponents usage", () => {
     tempDirs.length = 0;
   });
 
+  it("discovers source entries without bundling installed dependencies or build outputs", async () => {
+    const root = await createFixture();
+    const componentDir = join(root, "button");
+    const manifest = JSON.stringify({
+      name: "button",
+      dependencies: { react: "^19.0.0" },
+      devDependencies: { vitest: "^4.0.0" }
+    });
+    for (const directory of [
+      "src",
+      "dist",
+      "node_modules/react",
+      "node_modules/vitest",
+      "usage"
+    ]) {
+      await mkdir(join(componentDir, directory), { recursive: true });
+      await writeFile(
+        join(componentDir, directory, "index.ts"),
+        "export {};\n"
+      );
+    }
+    await mkdir(join(root, "linked"));
+    await writeFile(join(root, "linked", "index.ts"), "export {};\n");
+    await symlink(join(root, "linked"), join(componentDir, "linked"), "dir");
+    await writeFile(join(componentDir, "package.json"), manifest);
+
+    const components = await loadComponents(contextFor(root, "."));
+
+    expect(components.button?.files?.map(file => file.path)).toEqual([
+      join(componentDir, "src", "index.ts")
+    ]);
+    expect(components.button?.devDependencies).toEqual({ vitest: "^4.0.0" });
+    expect(await readFile(join(componentDir, "package.json"), "utf8")).toBe(
+      manifest
+    );
+  });
+
   it("discovers usage files under usage/", async () => {
     const root = await createFixture();
     const componentDir = join(root, "button");
@@ -58,12 +95,12 @@ describe("loadComponents usage", () => {
     );
     await writeFile(
       join(componentDir, "usage", "default.tsx"),
-      'export default function Default() {\n  return <Button>Click</Button>;\n}\n',
+      "export default function Default() {\n  return <Button>Click</Button>;\n}\n",
       "utf8"
     );
     await writeFile(
       join(componentDir, "usage", "with-icon.tsx"),
-      'export default function WithIcon() {\n  return <Button><Icon /></Button>;\n}\n',
+      "export default function WithIcon() {\n  return <Button><Icon /></Button>;\n}\n",
       "utf8"
     );
 

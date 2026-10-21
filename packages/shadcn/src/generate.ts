@@ -204,6 +204,52 @@ async function createDependencyVersionResolver(cwd: string) {
   };
 }
 
+/** Keep copied components out of npm installation while retaining registry edges. */
+function prepareRegistryComponents(
+  components: Components,
+  localDependencyScopes: readonly string[] = []
+): Components {
+  const names = new Set(
+    Object.values(components)
+      .filter(Boolean)
+      .map(component => component.name)
+  );
+  const isLocal = (name: string) =>
+    names.has(name) ||
+    localDependencyScopes.some(scope => name.startsWith(`${scope}/`));
+  const prepared: Components = {};
+
+  for (const [key, component] of Object.entries(components)) {
+    if (!component) {
+      continue;
+    }
+    const dependencies = Object.fromEntries(
+      Object.entries(component.dependencies ?? {}).filter(
+        ([name]) => !isLocal(name)
+      )
+    );
+    const devDependencies = Object.fromEntries(
+      Object.entries(component.devDependencies ?? {}).filter(
+        ([name]) => !isLocal(name)
+      )
+    );
+    const registryDependencies = { ...component.registryDependencies };
+    for (const name of Object.keys(component.dependencies ?? {})) {
+      if (names.has(name)) {
+        registryDependencies[name] = "*";
+      }
+    }
+    prepared[key] = {
+      ...component,
+      dependencies,
+      devDependencies,
+      registryDependencies
+    };
+  }
+
+  return prepared;
+}
+
 async function resolveComponentDependencyVersions(
   components: Components,
   cwd: string
@@ -352,13 +398,16 @@ export function componentToRegistryItem(
  */
 export function componentsToRegistryItems(
   components: Components | undefined,
-  cwd?: string
+  cwd?: string,
+  localDependencyScopes: readonly string[] = []
 ): RegistryItemLike[] {
   if (!components || Object.keys(components).length === 0) {
     return [];
   }
 
-  return Object.values(components)
+  return Object.values(
+    prepareRegistryComponents(components, localDependencyScopes)
+  )
     .filter((component): component is Component => Boolean(component?.name))
     .map(component => componentToRegistryItem(component, cwd))
     .toSorted((a, b) => a.name.localeCompare(b.name));
@@ -369,12 +418,19 @@ export function componentsToRegistryItems(
  */
 export function renderRegistryJson(
   components: Components | undefined,
-  options: Pick<ShadcnGeneratePluginOptions, "name" | "homepage"> = {},
+  options: Pick<
+    ShadcnGeneratePluginOptions,
+    "name" | "homepage" | "localDependencyScopes"
+  > = {},
   cwd?: string
 ): RegistryDocument {
   const document: RegistryDocument = {
     $schema: REGISTRY_SCHEMA,
-    items: componentsToRegistryItems(components, cwd)
+    items: componentsToRegistryItems(
+      components,
+      cwd,
+      options.localDependencyScopes
+    )
   };
 
   if (options.name) {
@@ -421,12 +477,13 @@ export async function generateRegistryJson(
   });
   const registryOptions = {
     name: options.name ?? identity.name,
-    homepage: options.homepage ?? identity.homepage
+    homepage: options.homepage ?? identity.homepage,
+    localDependencyScopes: options.localDependencyScopes
   };
 
   const outputPath = await resolveoutputPath(options);
   const components = await resolveComponentDependencyVersions(
-    spec.components,
+    prepareRegistryComponents(spec.components, options.localDependencyScopes),
     cwd ?? process.cwd()
   );
   const content = `${JSON.stringify(renderRegistryJson(components, registryOptions, cwd), null, 2)}\n`;

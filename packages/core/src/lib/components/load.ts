@@ -20,7 +20,6 @@ import type { ExecutionContext } from "@power-plant/core";
 import { existsSync } from "@stryke/fs/exists";
 import { isDirectory } from "@stryke/fs/is-file";
 import { readJsonFile } from "@stryke/fs/json";
-import { listFiles } from "@stryke/fs/list-files";
 import { appendPath } from "@stryke/path/append";
 import {
   findFileExtensionSafe,
@@ -391,18 +390,36 @@ async function resolveComponentUsage(
   );
 }
 
+/** Discover source entrypoints without traversing dependencies or generated assets. */
+async function listComponentSourceFiles(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const path = joinPaths(directory, entry.name);
+    if (entry.isDirectory()) {
+      if (
+        !["node_modules", "dist", "usage"].includes(entry.name) &&
+        !entry.name.startsWith(".")
+      ) {
+        files.push(...(await listComponentSourceFiles(path)));
+      }
+    } else if (
+      entry.isFile() &&
+      findFileName(entry.name, { withExtension: false }) === "index"
+    ) {
+      files.push(path);
+    }
+  }
+
+  return files.toSorted((a, b) => a.localeCompare(b));
+}
+
 async function resolveComponentFiles(
   directory: string,
   files: ComponentFile[] | string[] | undefined
 ): Promise<ComponentFile[]> {
-  const sources =
-    files ??
-    (await listFiles(directory)).filter(file => {
-      const base = findFileName(file, { withExtension: false });
-
-      // Skip usage assets; they are loaded separately under `usage`
-      return base === "index";
-    });
+  const sources = files ?? (await listComponentSourceFiles(directory));
 
   return Promise.all(
     sources.filter(Boolean).map(async file =>
