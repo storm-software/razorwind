@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Chrome
 
+## [0.0.37](https://github.com/storm-software/razorwind/releases/tag/chrome%400.0.37) (10/21/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.103**
+
 ## [0.0.36](https://github.com/storm-software/razorwind/releases/tag/chrome%400.0.36) (10/20/2026)
 
 ### Updated Dependencies

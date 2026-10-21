@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.42) (10/21/2026)
+
+### Bug Fixes
+
+- **maplibre:** Update the names of the generated themes ([76806e4](https://github.com/storm-software/razorwind/commit/76806e4))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.103**
+
 ## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.41) (10/20/2026)
 
 ### Updated Dependencies
