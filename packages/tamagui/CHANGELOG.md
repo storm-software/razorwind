@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.111](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.111) (10/22/2026)
+
+### Bug Fixes
+
+- **tamagui:** Resolve issue with Typescript compilation issues ([b3f10b3](https://github.com/storm-software/razorwind/commit/b3f10b3))
+
 ## [0.0.110](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.110) (10/21/2026)
 
 ### Updated Dependencies
