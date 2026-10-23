@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.104) (10/23/2026)
+
+### Bug Fixes
+
+- **design-md:** Ensure plugin does not overwrite custom text in the `DESIGN.md` file ([daa132a](https://github.com/storm-software/razorwind/commit/daa132a))
+
 ## [0.0.103](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.103) (10/23/2026)
 
 ### Documentation

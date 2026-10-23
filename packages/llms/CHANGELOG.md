@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.42](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.42) (10/23/2026)
+
+### Bug Fixes
+
+- **design-md:** Ensure plugin does not overwrite custom text in the `DESIGN.md` file ([daa132a](https://github.com/storm-software/razorwind/commit/daa132a))
+
 ## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.41) (10/23/2026)
 
 ### Bug Fixes
