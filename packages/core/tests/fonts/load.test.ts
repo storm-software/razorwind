@@ -219,6 +219,35 @@ describe("loadFonts", () => {
     });
   });
 
+  it("finds font files in child directories relative to fontsPath", async () => {
+    const root = await createFixture();
+    const dist = join(root, "fonts", "storm-sans", "dist");
+    const otf = join(dist, "otf");
+    const ttf = join(dist, "ttf");
+    await mkdir(otf, { recursive: true });
+    await mkdir(ttf, { recursive: true });
+    await writeFile(
+      join(otf, "Bold.otf"),
+      buildSfnt({ family: "Storm Sans", weight: 700 })
+    );
+    await writeFile(
+      join(ttf, "Italics.ttf"),
+      buildSfnt({ family: "Storm Sans", weight: 400, italicAngle: -12 })
+    );
+
+    const fonts = await loadFonts(
+      contextFor(root, "fonts/storm-sans/dist")
+    );
+
+    expect(Object.keys(fonts)).toEqual(["storm-sans"]);
+    const font = fonts["storm-sans"];
+    expect(
+      (font?.source === "local" ? (font.files ?? []) : [])
+        .map(file => file.path.slice(dist.length + 1))
+        .toSorted()
+    ).toEqual(["otf/Bold.otf", "ttf/Italics.ttf"]);
+  });
+
   it("names a metadata-less font directory after itself", async () => {
     const root = await createFixture();
     const fontDir = join(root, "fonts", "acme");

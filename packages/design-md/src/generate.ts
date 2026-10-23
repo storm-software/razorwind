@@ -16,10 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import {
-  tryUseExecution,
-  type GeneratorFunctionResult
-} from "@power-plant/core";
+import type { GeneratorFunctionResult } from "@power-plant/core";
+import { tryUseExecution } from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import {
@@ -619,7 +617,6 @@ export function generateDesignMd(
 async function readExistingDesignMd(
   outputPath: string
 ): Promise<string | undefined> {
-  // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
   const cwd = tryUseExecution()?.cwd ?? process.cwd();
   const filePath = isAbsolute(outputPath) ? outputPath : join(cwd, outputPath);
   const existing = await readFileIfExisting(filePath);

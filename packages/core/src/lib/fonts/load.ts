@@ -668,15 +668,69 @@ function upsertLocalFontSource(
   } satisfies LocalFont;
 }
 
+async function scanFontDirectory(
+  directory: string,
+  fonts: Fonts,
+  inferred: Set<string>
+): Promise<void> {
+  const entries = await readdir(directory, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (entry.name.startsWith(".")) {
+      continue;
+    }
+
+    const entryPath = joinPaths(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      if (entry.name.endsWith(".ufo")) {
+        const source = await readUfoFontSource(entryPath);
+        if (source) {
+          upsertLocalFontSource(fonts, inferred, source);
+        }
+        continue;
+      }
+
+      if (
+        existsSync(joinPaths(entryPath, "package.json")) ||
+        existsSync(joinPaths(entryPath, "font.json"))
+      ) {
+        const font = await loadFontFromDirectory(entryPath);
+        if (font) {
+          const existing = fonts[font.name];
+          fonts[font.name] = existing
+            ? (defuOverlay(font, existing) as Font)
+            : font;
+        }
+        continue;
+      }
+
+      await scanFontDirectory(entryPath, fonts, inferred);
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".designspace")) {
+      for (const source of await readDesignspaceSources(entryPath)) {
+        upsertLocalFontSource(fonts, inferred, source);
+      }
+      continue;
+    }
+
+    if (entry.isFile() && isFontAssetFile(entry.name)) {
+      upsertLocalFontFile(fonts, inferred, await discoverFontFile(entryPath));
+    }
+  }
+}
+
 /**
  * Load fonts from `fontsPath` directories.
  *
  * Supports:
  * 1. Per-font directories with `package.json` / `font.json` metadata
  * 2. UFO and designspace font sources, using each UFO's `fontinfo.plist`
- * 3. Flat font files at the fonts path root, grouped by the family in each
- *    file's `name` table (OpenType / TrueType), else by filename prefix; a
- *    UFO/designspace family matching that prefix (`StormSans` ↔ `Storm Sans`)
+ * 3. Font files at or below the fonts path root, grouped by the family in
+ *    each file's `name` table (OpenType / TrueType), else by filename prefix;
+ *    a UFO/designspace family matching that prefix (`StormSans` ↔ `Storm Sans`)
  *    supplies the family name
  */
 export async function loadFonts(
@@ -710,49 +764,7 @@ export async function loadFonts(
     }
 
     try {
-      const entries = await readdir(absolute, { withFileTypes: true });
-
-      for (const entry of entries) {
-        if (entry.name.startsWith(".")) {
-          continue;
-        }
-
-        const entryPath = joinPaths(absolute, entry.name);
-
-        if (entry.isDirectory()) {
-          if (entry.name.endsWith(".ufo")) {
-            const source = await readUfoFontSource(entryPath);
-            if (source) {
-              upsertLocalFontSource(fonts, inferred, source);
-            }
-            continue;
-          }
-
-          const font = await loadFontFromDirectory(entryPath);
-          if (font) {
-            const existing = fonts[font.name];
-            fonts[font.name] = existing
-              ? (defuOverlay(font, existing) as Font)
-              : font;
-          }
-          continue;
-        }
-
-        if (entry.isFile() && entry.name.endsWith(".designspace")) {
-          for (const source of await readDesignspaceSources(entryPath)) {
-            upsertLocalFontSource(fonts, inferred, source);
-          }
-          continue;
-        }
-
-        if (entry.isFile() && isFontAssetFile(entry.name)) {
-          upsertLocalFontFile(
-            fonts,
-            inferred,
-            await discoverFontFile(entryPath)
-          );
-        }
-      }
+      await scanFontDirectory(absolute, fonts, inferred);
     } catch {
       continue;
     }
