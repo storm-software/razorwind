@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Design Md
 
+## [0.0.105](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.105) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Ensure child directories containing fonts are included ([0ae3dc5](https://github.com/storm-software/razorwind/commit/0ae3dc5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.107**
+
 ## [0.0.104](https://github.com/storm-software/razorwind/releases/tag/design-md%400.0.104) (10/23/2026)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.107](https://github.com/storm-software/razorwind/releases/tag/core%400.0.107) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Ensure child directories containing fonts are included ([0ae3dc5](https://github.com/storm-software/razorwind/commit/0ae3dc5))
+
 ## [0.0.106](https://github.com/storm-software/razorwind/releases/tag/core%400.0.106) (10/23/2026)
 
 ### Bug Fixes

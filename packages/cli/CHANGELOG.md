@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.46](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.46) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Ensure child directories containing fonts are included ([0ae3dc5](https://github.com/storm-software/razorwind/commit/0ae3dc5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.107**
+
 ## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.45) (10/23/2026)
 
 ### Documentation
