@@ -1809,17 +1809,26 @@ export function renderTamaguiConfig(
     configParts.push(`  defaultFont: ${toLiteral(options.defaultFont)}`);
   }
 
+  if (options.importConfig && target === "v3") {
+    configParts.push("  ...userConfig");
+  }
+
   if (target === "v3") {
     configParts.push(
       useDefaultConfig
         ? `  settings: { styleValueSyntax: "string", ...defaultConfig.settings${
             options.importConfig ? ", ...(userConfig.settings ?? {})" : ""
-          } }`
+          } } as Parameters<typeof createTamagui>[0]["settings"]`
         : `  settings: { styleValueSyntax: "string"${
             options.importConfig ? ", ...(userConfig.settings ?? {})" : ""
-          } }`
+          } } as Parameters<typeof createTamagui>[0]["settings"]`
     );
   }
+
+  const appConfigOverrides = [
+    createTokensArgs.length > 0 ? "  tokens: typeof tokens;" : null,
+    hasThemes ? "  themes: typeof themes;" : null
+  ].filter(Boolean);
 
   lines.push(
     "",
@@ -1829,12 +1838,12 @@ export function renderTamaguiConfig(
  *
  * @see https://tamagui.dev/docs/core/configuration
  */
-export const config = createTamagui({`,
+export const config${target === "v3" ? ": ReturnType<typeof createTamagui>" : ""} = createTamagui({`,
     configParts.join(",\n"),
-    options.importConfig ? `, ...userConfig ` : "",
+    options.importConfig && target !== "v3" ? `, ...userConfig ` : "",
     `});`,
     "",
-    `export type AppConfig = typeof config;`,
+    `export type AppConfig = typeof config${target === "v3" && appConfigOverrides.length > 0 ? ` & {\n${appConfigOverrides.join("\n")}\n}` : ""};`,
     ""
   );
 

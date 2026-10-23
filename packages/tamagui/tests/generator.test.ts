@@ -491,6 +491,25 @@ describe("tamagui plugin", () => {
     expect(content).not.toContain('declare module "@tamagui/core"');
   });
 
+  it("merges imported v3 settings after the imported config", () => {
+    const content = renderConfig(spec, {
+      target: "v3",
+      importConfig: "./default-config"
+    });
+
+    expect(content).toContain("...userConfig");
+    expect(content).toContain("...(userConfig.settings ?? {})");
+    expect(content).toContain(
+      "export const config: ReturnType<typeof createTamagui> = createTamagui({"
+    );
+    expect(content).toContain("tokens: typeof tokens;");
+    expect(content).toContain("themes: typeof themes;");
+    expect(content.indexOf("...userConfig")).toBeLessThan(
+      content.indexOf("  settings: {")
+    );
+    expect(content.match(/\bsettings:/gu)).toHaveLength(1);
+  });
+
   it("imports and augments a custom tamagui module", () => {
     const content = renderConfig(spec, {
       target: "v3",
