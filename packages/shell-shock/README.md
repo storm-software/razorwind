@@ -90,6 +90,10 @@ yarn add -D @razorwind/shell-shock
 
 </details>
 
+## Usage
+
+Use the Shell Shock plugin to bake a design system into a CLI. Use the Razorwind plugin, later on this page, to write the theme file and `design-system.json`.
+
 ## Shell Shock plugin
 
 Register the plugin in `shell-shock.config.ts`. The design system is loaded once at build time and compiled into the CLI, so the generated commands have no runtime dependency on the Razorwind config.

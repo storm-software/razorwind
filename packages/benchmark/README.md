@@ -40,6 +40,10 @@ The plugin does not collect, persist, or transform credentials. With no agent
 selection, it detects Codex first and then Claude Code. Explicitly requested
 agents are required and missing executables fail before fixtures are created.
 
+## Usage
+
+The shortest path is the smoke profile below. With no `agents` list, generation detects `codex` first and then `claude-code`, and it keeps the first installed agent.
+
 ## Safe smoke configuration
 
 ```ts

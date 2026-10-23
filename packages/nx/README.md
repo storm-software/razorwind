@@ -97,7 +97,11 @@ Run the `generate` executor through an Nx target to build Razorwind output for
 a project. See `generators.json` and `executors.json` for the full list and
 options.
 
-## Building
+## Development
+
+Build the plugin from the repository root.
+
+### Building
 
 Run `nx build nx` to build the library.
 

@@ -75,12 +75,18 @@
 
 # Getting Started
 
-Razorwind requires Node.js `>=26.3.0` and pnpm `>=11.1.2`. Install the core,
-the generators you need, and the CLI from npm:
+Razorwind requires Node.js `>=26.3.0` and pnpm `>=11.1.2`. The packages are
+not on npm yet. Clone the repository and follow
+[Development](#development).
+
+After publication, install the core, a generator, and the CLI with:
 
 ```sh
 pnpm add -D @razorwind/core @razorwind/css @razorwind/cli
 ```
+
+`@razorwind/cli` is marked `private` in this checkout, so that install is not
+available from this repository today.
 
 More information can be found in the
 [Razorwind documentation](https://storm-software.github.io/razorwind/docs/getting-started/installation).

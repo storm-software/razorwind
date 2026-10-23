@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 210" role="img" aria-labelledby="gen-title gen-desc">
+  <title id="gen-title">Razorwind generation pipeline</title>
+  <desc id="gen-desc">Configuration is resolved, sources are loaded into a schema, plugins extract and validate that schema, then generate writes documents.</desc>
+  <style>
+    .box { fill: #f4f4f5; stroke: #18181b; stroke-width: 1.5; }
+    .accent { fill: #134e4a; }
+    .label { font-family: ui-sans-serif, sans-serif; font-size: 13px; fill: #18181b; }
+    .on-accent { font-family: ui-sans-serif, sans-serif; font-size: 13px; fill: #f4f4f5; }
+    .arrow { stroke: #134e4a; stroke-width: 1.5; fill: none; }
+  </style>
+  <rect class="box" x="16" y="48" width="132" height="72" rx="6"/>
+  <text class="label" x="82" y="78" text-anchor="middle">Config file</text>
+  <text class="label" x="82" y="98" text-anchor="middle">razorwind.config</text>
+  <path class="arrow" d="M148 84 H168" marker-end="url(#arrow)"/>
+  <rect class="box" x="172" y="48" width="132" height="72" rx="6"/>
+  <text class="label" x="238" y="78" text-anchor="middle">resolveConfigs</text>
+  <text class="label" x="238" y="98" text-anchor="middle">merge layers</text>
+  <path class="arrow" d="M304 84 H324" marker-end="url(#arrow)"/>
+  <rect class="box" x="328" y="48" width="132" height="72" rx="6"/>
+  <text class="label" x="394" y="78" text-anchor="middle">Load sources</text>
+  <text class="label" x="394" y="98" text-anchor="middle">tokens and assets</text>
+  <path class="arrow" d="M460 84 H480" marker-end="url(#arrow)"/>
+  <rect class="accent" x="484" y="48" width="148" height="72" rx="6"/>
+  <text class="on-accent" x="558" y="78" text-anchor="middle">extract</text>
+  <text class="on-accent" x="558" y="98" text-anchor="middle">then validate</text>
+  <path class="arrow" d="M632 84 H652" marker-end="url(#arrow)"/>
+  <rect class="accent" x="656" y="48" width="132" height="72" rx="6"/>
+  <text class="on-accent" x="722" y="88" text-anchor="middle">generate</text>
+  <path class="arrow" d="M788 84 H808" marker-end="url(#arrow)"/>
+  <rect class="box" x="812" y="48" width="148" height="72" rx="6"/>
+  <text class="label" x="886" y="88" text-anchor="middle">Write documents</text>
+  <text class="label" x="16" y="160">Filled boxes are plugin hooks. Outlined boxes are core steps.</text>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#134e4a"/>
+    </marker>
+  </defs>
+</svg>
