@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tamagui
 
+## [0.0.112](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.112) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.111](https://github.com/storm-software/razorwind/releases/tag/tamagui%400.0.111) (10/22/2026)
 
 ### Bug Fixes

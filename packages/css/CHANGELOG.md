@@ -2,6 +2,21 @@
 
 # Changelog for Razorwind - CSS
 
+## [0.0.89](https://github.com/storm-software/razorwind/releases/tag/css%400.0.89) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with font asset URLs ([26f2805](https://github.com/storm-software/razorwind/commit/26f2805))
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+- Updated **style-dictionary** to **v0.0.92**
+
 ## [0.0.88](https://github.com/storm-software/razorwind/releases/tag/css%400.0.88) (10/21/2026)
 
 ### Updated Dependencies

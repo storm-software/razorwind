@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - Stylelint
 
+## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/stylelint%400.0.35) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+- Updated **eslint** to **v0.0.35**
+- Updated **tailwindcss** to **v0.0.104**
+
 ## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/stylelint%400.0.34) (10/22/2026)
 
 ### Updated Dependencies

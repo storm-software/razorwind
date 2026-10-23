@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Style Dictionary
 
+## [0.0.92](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.92) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.91](https://github.com/storm-software/razorwind/releases/tag/style-dictionary%400.0.91) (10/21/2026)
 
 ### Updated Dependencies

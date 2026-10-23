@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Chrome
 
+## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/chrome%400.0.40) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.39](https://github.com/storm-software/razorwind/releases/tag/chrome%400.0.39) (10/21/2026)
 
 ### Updated Dependencies

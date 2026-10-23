@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.45](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.45) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.44](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.44) (10/21/2026)
 
 ### Bug Fixes

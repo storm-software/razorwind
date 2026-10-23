@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Nx
 
+## [0.0.102](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.102) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.101](https://github.com/storm-software/razorwind/releases/tag/nx%400.0.101) (10/21/2026)
 
 ### Updated Dependencies

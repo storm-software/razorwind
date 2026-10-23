@@ -2,6 +2,20 @@
 
 # Changelog for Razorwind - Llms
 
+## [0.0.41](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.41) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with font asset URLs ([26f2805](https://github.com/storm-software/razorwind/commit/26f2805))
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+
 ## [0.0.40](https://github.com/storm-software/razorwind/releases/tag/llms%400.0.40) (10/21/2026)
 
 ### Updated Dependencies

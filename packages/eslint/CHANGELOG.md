@@ -2,6 +2,18 @@
 
 # Changelog for Razorwind - ESLint
 
+## [0.0.35](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.35) (10/23/2026)
+
+### Documentation
+
+- **monorepo:** Added latest `sourcebook` skills and generated documentation ([6ea0541](https://github.com/storm-software/razorwind/commit/6ea0541))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.106**
+- Updated **tailwindcss** to **v0.0.104**
+- Updated **tamagui** to **v0.0.112**
+
 ## [0.0.34](https://github.com/storm-software/razorwind/releases/tag/eslint%400.0.34) (10/22/2026)
 
 ### Updated Dependencies
