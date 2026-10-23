@@ -16,7 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import type { GeneratorFunctionResult } from "@power-plant/core";
+import {
+  tryUseExecution,
+  type GeneratorFunctionResult
+} from "@power-plant/core";
 import { definePlugin } from "@razorwind/core/plugin";
 import type { Schema } from "@razorwind/core/schema";
 import {
@@ -24,8 +27,9 @@ import {
   renderGuidelineBody,
   resolveSchemaIdentity
 } from "@razorwind/core/utils";
+import { readFileIfExisting } from "@stryke/fs/read-file";
 import { isObject } from "@stryke/type-checks/is-object";
-import { dirname, join } from "node:path";
+import { dirname, isAbsolute, join } from "node:path";
 import { renderInstallMd } from "./install";
 import { flattenTokens } from "./lib/flatten";
 import {
@@ -34,6 +38,7 @@ import {
   toTokenName,
   toYamlScalar
 } from "./lib/format";
+import { mergeDesignMd, wrapRazorwindConfiguration } from "./lib/preserve";
 import type {
   DesignMdDocument,
   DesignMdGeneratePluginOptions,
@@ -534,8 +539,10 @@ function renderBody(
 }
 
 /**
- * Render a complete DESIGN.md file — YAML front matter followed by the
- * markdown body.
+ * Render a complete DESIGN.md file.
+ *
+ * YAML front matter stays above the managed block. Generated sections are
+ * written between the Razorwind configuration comments.
  *
  * @see https://github.com/google-labs-code/design.md
  */
@@ -543,24 +550,36 @@ export function renderDesignMd(
   document: DesignMdDocument,
   options: DesignMdGeneratePluginOptions = {}
 ): string {
-  return `${renderFrontMatter(document)}\n${renderBody(document, options)}`;
+  return `${renderFrontMatter(document)}\n${wrapRazorwindConfiguration(renderBody(document, options))}`;
 }
 
+export {
+  mergeDesignMd,
+  RAZORWIND_CONFIGURATION_END,
+  RAZORWIND_CONFIGURATION_START
+} from "./lib/preserve";
 export { renderInstallMd };
 
 /**
  * Generate a DESIGN.md design-system specification file from a Razorwind
  * schema.
  *
+ * When `existing` is set, the YAML front matter and the markdown inside the
+ * Razorwind configuration comments are replaced. Markdown outside those
+ * comments is copied into the result.
+ *
  * @see https://github.com/google-labs-code/design.md
  */
 export function generateDesignMd(
   spec: Schema,
-  options: DesignMdGeneratePluginOptions = {}
+  options: DesignMdGeneratePluginOptions = {},
+  existing?: string
 ): GeneratorFunctionResult<Schema, DesignMdGeneratePluginOptions> {
   const document = applyGenerateOptions(extractDesignMd(spec), options);
   const outputPath = options.outputPath ?? "DESIGN.md";
-  const content = renderDesignMd(document, options);
+  const rendered = renderDesignMd(document, options);
+  const content =
+    existing === undefined ? rendered : mergeDesignMd(existing, rendered);
   const installBody =
     options.installGuide ??
     renderInstallMd({
@@ -597,6 +616,17 @@ export function generateDesignMd(
   };
 }
 
+async function readExistingDesignMd(
+  outputPath: string
+): Promise<string | undefined> {
+  // eslint-disable-next-line react-hooks/rules-of-hooks, react/rules-of-hooks
+  const cwd = tryUseExecution()?.cwd ?? process.cwd();
+  const filePath = isAbsolute(outputPath) ? outputPath : join(cwd, outputPath);
+  const existing = await readFileIfExisting(filePath);
+
+  return existing.trim() ? existing : undefined;
+}
+
 /**
  * Generate a DESIGN.md design-system specification file from a Razorwind schema.
  *
@@ -616,6 +646,13 @@ export default definePlugin((options?: DesignMdGeneratePluginOptions) => ({
   name: "design-md:generate",
   themeGeneration: "combined",
   generate: async spec => {
-    return generateDesignMd(spec, options ?? {});
+    const resolved = options ?? {};
+    const outputPath = resolved.outputPath ?? "DESIGN.md";
+
+    return generateDesignMd(
+      spec,
+      resolved,
+      await readExistingDesignMd(outputPath)
+    );
   }
 }));

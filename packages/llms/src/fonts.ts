@@ -36,7 +36,7 @@ function inlineValues(
 
 function renderLocalFiles(font: LocalFont, options: LlmsRenderOptions): string {
   const rows = font.files
-    .toSorted((a, b) => a.path.localeCompare(b.path))
+    ?.toSorted((a, b) => a.path.localeCompare(b.path))
     .map(
       file =>
         `| \`${escapeTableCell(
@@ -56,7 +56,7 @@ function renderLocalFiles(font: LocalFont, options: LlmsRenderOptions): string {
     "### Files",
     "| Path | Format | Weight | Style | Unicode Range |",
     "| --- | --- | --- | --- | --- |",
-    ...rows
+    ...(rows ?? [])
   ].join("\n");
 }
 

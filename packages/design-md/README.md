@@ -59,6 +59,7 @@
 - Read the spec back into tokens with the extract plugin.
 - Control name, description, version, and overview front matter.
 - Set the output path with `outputPath` (default `"DESIGN.md"`).
+- Keep hand-written markdown outside `<!-- razorwind configuration start -->` and `<!-- razorwind configuration end -->` when Razorwind updates `DESIGN.md`.
 
 ## Installing
 
@@ -89,23 +90,23 @@ yarn add -D @razorwind/design-md
 ## Usage
 
 ```ts
-import { defineConfig } from "@razorwind/core";
-import designMd from "@razorwind/design-md/generate";
+import { defineConfig } from "@razorwind/core"
+import designMd from "@razorwind/design-md/generate"
 
 export default defineConfig({
   plugins: [designMd()]
-});
+})
 ```
 
 ### Options
 
-| Option        | Default                     | Description                                              |
-| ------------- | --------------------------- | -------------------------------------------------------- |
-| `outputPath`     | `"DESIGN.md"`               | Output file path (relative to the execution cwd)         |
-| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter      |
-| `description` | —                           | Short description written to the YAML front matter       |
-| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter  |
-| `overview`    | Generated summary           | Prose for the `## Overview` section                      |
+| Option        | Default                     | Description                                             |
+| ------------- | --------------------------- | ------------------------------------------------------- |
+| `outputPath`  | `"DESIGN.md"`               | Output file path (relative to the execution cwd)        |
+| `name`        | `"Razorwind Design System"` | Design system name written to the YAML front matter     |
+| `description` | —                           | Short description written to the YAML front matter      |
+| `version`     | `"alpha"`                   | DESIGN.md spec version written to the YAML front matter |
+| `overview`    | Generated summary           | Prose for the `## Overview` section                     |
 
 ## Development
 

@@ -17,16 +17,19 @@
  ------------------------------------------------------------------- */
 
 import type { Schema } from "@razorwind/core/schema";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import extract from "../src/extract";
-import {
+import generate, {
   extractDesignMd,
   generateDesignMd,
+  mergeDesignMd,
   renderDesignMd
 } from "../src/generate";
 import { flattenTokens } from "../src/lib/flatten";
 import { toTokenName, toYamlScalar } from "../src/lib/format";
-import generate from "../src/generate";
 
 const tokens = {
   color: {
@@ -78,7 +81,8 @@ const tokens = {
 
 const spec = {
   components: {},
-  icons: {}, fonts: {},
+  icons: {},
+  fonts: {},
   tokens
 } as Schema;
 
@@ -176,11 +180,14 @@ describe("extractDesignMd", () => {
 describe("renderDesignMd", () => {
   it("renders YAML front matter followed by canonical body sections", () => {
     const content = renderDesignMd(extractDesignMd(spec));
+    const start = content.indexOf("<!-- razorwind configuration start -->");
+    const end = content.indexOf("<!-- razorwind configuration end -->");
 
     expect(content.startsWith("---\n")).toBe(true);
     expect(content).toContain('primary: "#0066cc"');
     expect(content).toContain('backgroundColor: "{colors.primary}"');
     expect(content).toContain("fontSize: 1rem");
+    expect(content.indexOf("version:")).toBeLessThan(start);
 
     const sections = [
       "## Overview",
@@ -191,8 +198,92 @@ describe("renderDesignMd", () => {
       "## Components"
     ];
     const positions = sections.map(heading => content.indexOf(heading));
-    expect(positions.every(position => position > 0)).toBe(true);
+    expect(positions.every(position => position > start)).toBe(true);
+    expect(positions.every(position => position < end)).toBe(true);
     expect([...positions].sort((a, b) => a - b)).toEqual(positions);
+  });
+});
+
+describe("mergeDesignMd", () => {
+  const generated =
+    generateDesignMd(spec, { name: "Heritage" })["DESIGN.md"]?.chunks?.[0]
+      ?.content ?? "";
+
+  it("replaces the managed block and keeps markdown outside the comments", () => {
+    const existing = [
+      "---",
+      "name: Old",
+      "version: alpha",
+      "---",
+      "",
+      "# Custom title",
+      "",
+      "Intro stays.",
+      "",
+      "<!-- razorwind configuration start -->",
+      "## Overview",
+      "",
+      "Old overview.",
+      "<!-- razorwind configuration end -->",
+      "",
+      "## Notes",
+      "",
+      "Keep this."
+    ].join("\n");
+    const merged = mergeDesignMd(existing, generated);
+    const start = merged.indexOf("<!-- razorwind configuration start -->");
+    const end = merged.indexOf("<!-- razorwind configuration end -->");
+
+    expect(merged).toContain("name: Heritage");
+    expect(merged).not.toContain("name: Old");
+    expect(merged.indexOf("# Custom title")).toBeLessThan(start);
+    expect(merged.indexOf("Intro stays.")).toBeLessThan(start);
+    expect(merged).not.toContain("Old overview.");
+    expect(merged).toContain("**Primary (#0066cc):** Brand primary");
+    expect(merged.indexOf("## Notes")).toBeGreaterThan(end);
+    expect(merged).toContain("Keep this.");
+    expect(merged.match(/razorwind configuration start/g)).toHaveLength(1);
+  });
+
+  it("keeps a title and custom sections when the file has no comments yet", () => {
+    const existing = [
+      "---",
+      "name: Old",
+      "---",
+      "",
+      "# Title",
+      "",
+      "Intro",
+      "",
+      "```md",
+      "## Overview",
+      "not a section",
+      "```",
+      "",
+      "## Overview",
+      "",
+      "old overview",
+      "",
+      "## Field notes",
+      "",
+      "keep"
+    ].join("\n");
+    const once = mergeDesignMd(existing, generated);
+    const twice = mergeDesignMd(once, generated);
+
+    expect(twice).toBe(once);
+    expect(once).toContain("# Title");
+    expect(once).toContain("Intro");
+    expect(once).toContain("not a section");
+    expect(once).toContain("## Field notes");
+    expect(once).toContain("keep");
+    expect(once).not.toContain("old overview");
+    expect(once.indexOf("# Title")).toBeLessThan(
+      once.indexOf("<!-- razorwind configuration start -->")
+    );
+    expect(once.indexOf("## Field notes")).toBeGreaterThan(
+      once.indexOf("<!-- razorwind configuration end -->")
+    );
   });
 });
 
@@ -227,6 +318,47 @@ describe("design-md plugins", () => {
     expect(content).toContain("name: Heritage");
     expect(content).toContain("Architectural minimalism.");
     expect(content).toContain("**Primary (#0066cc):** Brand primary");
+    expect(content).toContain("<!-- razorwind configuration start -->");
+  });
+
+  it("keeps DESIGN.md prose outside the razorwind comments", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "razorwind-design-md-"));
+    const outputPath = join(dir, "DESIGN.md");
+    await writeFile(
+      outputPath,
+      [
+        "---",
+        "name: Old",
+        "version: alpha",
+        "---",
+        "",
+        "# Custom title",
+        "",
+        "Intro stays.",
+        "",
+        "<!-- razorwind configuration start -->",
+        "Old overview.",
+        "<!-- razorwind configuration end -->",
+        "",
+        "## Notes",
+        "",
+        "Keep this.",
+        ""
+      ].join("\n")
+    );
+
+    const plugin = generate({ outputPath, name: "Heritage" });
+    const documents = await plugin.generate!(spec, {} as never);
+    const content = documents[outputPath]?.chunks?.[0]?.content ?? "";
+    const start = content.indexOf("<!-- razorwind configuration start -->");
+    const end = content.indexOf("<!-- razorwind configuration end -->");
+
+    expect(content).toContain("name: Heritage");
+    expect(content.indexOf("# Custom title")).toBeLessThan(start);
+    expect(content).toContain("Intro stays.");
+    expect(content).not.toContain("Old overview.");
+    expect(content.indexOf("## Notes")).toBeGreaterThan(end);
+    expect(content).toContain("Keep this.");
   });
 
   it("generateDesignMd mirrors the plugin generate output", () => {
