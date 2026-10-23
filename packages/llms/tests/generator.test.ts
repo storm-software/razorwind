@@ -546,9 +546,11 @@ describe("renderFontsDocument", () => {
     });
 
     expect(content).toContain(
-      "`https://cdn.acme.test/fonts/acme-mono-bold.woff2`"
+      "`https://cdn.acme.test/fonts/mono/acme-mono-bold.woff2`"
     );
-    expect(content).toContain("`https://cdn.acme.test/fonts/acme-mono.woff2`");
+    expect(content).toContain(
+      "`https://cdn.acme.test/fonts/mono/acme-mono.woff2`"
+    );
   });
 
   it("renders an explicit empty state", () => {

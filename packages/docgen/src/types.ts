@@ -27,7 +27,7 @@ export interface DocgenExtractPluginOptions {}
  * Options for the Razorwind MDX documentation generator.
  */
 export interface DocgenGeneratePluginOptions {
-  /** Absolute HTTP(S) base URL for generated local font asset references. */
+  /** Absolute HTTP(S) base URL for generated local font asset references (`{url}/{font.name}/{filename}`). */
   fontAssetsUrl?: string;
 
   /**

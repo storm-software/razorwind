@@ -20,7 +20,7 @@
  * Options for the Razorwind CSS generate plugin.
  */
 export interface CssGeneratePluginOptions {
-  /** Absolute HTTP(S) base URL for generated local font asset references. */
+  /** Absolute HTTP(S) base URL for generated local font asset references (`{url}/{font.name}/{filename}`). */
   fontAssetsUrl?: string;
 
   /**

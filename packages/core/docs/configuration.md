@@ -44,7 +44,7 @@ Declared in `core/src/types/config.ts`.
 | `componentsPath` | No | `string \| string[]` | The path(s) to directories containing component directories or files. |
 | `iconsPath` | No | `string \| string[]` | The path(s) to directories containing icon assets or icon directories. |
 | `fontsPath` | No | `string \| string[]` | The path(s) to directories containing font files or font directories. |
-| `fontAssetsUrl` | No | `string` | Absolute HTTP(S) base URL used for local font asset references emitted by generators. Font filenames are appended to this URL. |
+| `fontAssetsUrl` | No | `string` | Absolute HTTP(S) base URL used for local font asset references emitted by generators. Each file is `{fontAssetsUrl}/{font.name}/{filename}`. |
 | `tokensPath` | No | `string \| string[]` | Default: "tokens.json" (or "tokens" directory) |
 | `guidelinesPath` | No | `string \| string[]` | The path(s) to directories containing guideline markdown files or guideline directories. Each guideline should be a markdown file with optional frontmatter for metadata. |
 | `mode` | No | `"development" \| "test" \| "production"` | The mode to use for the configuration. Default: "production" |

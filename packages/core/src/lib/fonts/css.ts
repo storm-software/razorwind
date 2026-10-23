@@ -139,10 +139,11 @@ function formatFromFile(file: FontFile): FontFileFormat | undefined {
   return file.format;
 }
 
-/** Resolve a local font file to its public CDN URL. */
+/** Resolve a local font file to `{fontAssetsUrl}/{fontName}/{filename}`. */
 export function resolveFontAssetUrl(
   filePath: string,
-  fontAssetsUrl: string
+  fontAssetsUrl: string,
+  fontName?: string
 ): string {
   let base: URL;
 
@@ -160,18 +161,24 @@ export function resolveFontAssetUrl(
     ? base.pathname
     : `${base.pathname}/`;
 
-  return new URL(basename(filePath), base).toString();
+  const name = fontName?.trim();
+  const relative = name
+    ? `${encodeURIComponent(name)}/${basename(filePath)}`
+    : basename(filePath);
+
+  return new URL(relative, base).toString();
 }
 
 function localSrc(
   file: FontFile,
   urlPrefix: string,
+  fontName: string,
   fontAssetsUrl?: string
 ): string {
   const name = basename(file.path);
   const prefix = urlPrefix.endsWith("/") ? urlPrefix : `${urlPrefix}/`;
   const url = fontAssetsUrl
-    ? resolveFontAssetUrl(file.path, fontAssetsUrl)
+    ? resolveFontAssetUrl(file.path, fontAssetsUrl, fontName)
     : `${prefix}${name}`;
   const format = formatFromFile(file);
 
@@ -195,7 +202,7 @@ function renderLocalFontFace(
       const lines = [
         "@font-face {",
         `  font-family: ${quoteFamily(family)};`,
-        `  src: ${localSrc(file, urlPrefix, fontAssetsUrl)};`
+        `  src: ${localSrc(file, urlPrefix, font.name, fontAssetsUrl)};`
       ];
 
       if (file.weight !== undefined) {

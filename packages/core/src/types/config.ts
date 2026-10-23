@@ -62,7 +62,7 @@ export interface Options extends PrettierOptions {
   fontsPath?: string | string[];
 
   /**
-   * Absolute HTTP(S) base URL used for local font asset references emitted by generators. Font filenames are appended to this URL.
+   * Absolute HTTP(S) base URL used for local font asset references emitted by generators. Each file is `{fontAssetsUrl}/{font.name}/{filename}`.
    *
    * @example "https://cdn.example.com/design-system/fonts"
    */

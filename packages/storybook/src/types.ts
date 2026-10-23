@@ -105,7 +105,7 @@ export type GenerateStorybookTheme = (
  * Options for the Razorwind Storybook token docs generator.
  */
 export interface StorybookPluginOptions {
-  /** Absolute HTTP(S) base URL for generated local font asset references. */
+  /** Absolute HTTP(S) base URL for generated local font asset references (`{url}/{font.name}/{filename}`). */
   fontAssetsUrl?: string;
 
   /**

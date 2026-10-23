@@ -41,7 +41,7 @@ function renderLocalFiles(font: LocalFont, options: LlmsRenderOptions): string {
       file =>
         `| \`${escapeTableCell(
           options.fontAssetsUrl
-            ? resolveFontAssetUrl(file.path, options.fontAssetsUrl)
+            ? resolveFontAssetUrl(file.path, options.fontAssetsUrl, font.name)
             : relativePath(file.path, options.rootDir)
         )}\` | ${
           file.format ? `\`${escapeTableCell(file.format)}\`` : ""

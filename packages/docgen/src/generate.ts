@@ -1241,7 +1241,7 @@ function renderFontFiles(
       const style = readString(file, "style");
 
       const assetPath = fontAssetsUrl
-        ? resolveFontAssetUrl(path, fontAssetsUrl)
+        ? resolveFontAssetUrl(path, fontAssetsUrl, readString(item, "name"))
         : path;
 
       return `| \`${escapeTableCell(assetPath)}\` | ${format ? `\`${escapeTableCell(format)}\`` : "—"} | ${weight ? `\`${escapeTableCell(weight)}\`` : "—"} | ${style ? `\`${escapeTableCell(style)}\`` : "—"} |`;

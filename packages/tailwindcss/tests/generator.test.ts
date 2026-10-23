@@ -336,7 +336,7 @@ describe("tailwindcss generate plugin", () => {
     );
 
     expect(documents["out/app.css"]?.chunks?.[0]?.content).toContain(
-      'src: url("https://cdn.acme.test/fonts/Acme%20Sans.woff2") format("woff2");'
+      'src: url("https://cdn.acme.test/fonts/acme/Acme%20Sans.woff2") format("woff2");'
     );
   });
 });

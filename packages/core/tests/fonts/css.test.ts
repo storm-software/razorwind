@@ -65,6 +65,16 @@ describe("resolveFontAssetUrl", () => {
     ).toBe("https://cdn.acme.test/design-system/fonts/JetBrains%20Mono.woff2");
   });
 
+  it("nests the font name ahead of the filename", () => {
+    expect(
+      resolveFontAssetUrl(
+        "/tmp/Bold.otf",
+        "https://public.storm-cdn.com/fonts",
+        "storm-serif"
+      )
+    ).toBe("https://public.storm-cdn.com/fonts/storm-serif/Bold.otf");
+  });
+
   it("rejects a non-HTTP CDN base URL", () => {
     expect(() =>
       resolveFontAssetUrl("/tmp/font.woff2", "./public/fonts")

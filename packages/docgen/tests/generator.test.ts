@@ -730,7 +730,7 @@ describe("docgen generate plugin", () => {
     );
 
     expect(documents["out/fonts/jakarta.mdx"]?.chunks?.[0]?.content).toContain(
-      "https://cdn.acme.test/fonts/Plus%20Jakarta%20Sans.woff2"
+      "https://cdn.acme.test/fonts/jakarta/Plus%20Jakarta%20Sans.woff2"
     );
   });
 

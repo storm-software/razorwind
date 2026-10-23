@@ -40,7 +40,7 @@ export interface TailwindExtractPluginOptions {
  * Options for the Razorwind Tailwind CSS generate plugin.
  */
 export interface TailwindGeneratePluginOptions {
-  /** Absolute HTTP(S) base URL for generated local font asset references. */
+  /** Absolute HTTP(S) base URL for generated local font asset references (`{url}/{font.name}/{filename}`). */
   fontAssetsUrl?: string;
 
   /**

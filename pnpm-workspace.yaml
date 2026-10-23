@@ -8,7 +8,6 @@ catalog:
   "@babel/traverse": ^7.29.10
   "@babel/types": ^7.29.8
   "@power-plant/prettier-formatter": ^0.0.6
-  "@tamagui/theme-builder": ^2.7.7
   "@types/babel__traverse": ^7.28.0
   "@ls-lint/ls-lint": ^2.3.2
   "@maplibre/maplibre-gl-style-spec": ^24.10.0
@@ -80,7 +79,7 @@ catalog:
   lefthook: ^2.2.2
   log4brains: ^1.1.0
   nx: 23.1.0
-  pkg-types: ^2.3.3
+  pkg-types: ^2.4.0
   prettier: ^3.9.10
   react-docgen-typescript: ^2.4.0
   rimraf: ^6.1.3
@@ -92,14 +91,14 @@ catalog:
   tsconfig-paths: ^4.2.0
   untyped: ^2.0.0
   verdaccio: 6.0.5
-  vite: ^8.3.4
+  vite: ^8.3.5
   vitest: ~4.1.12
   yaml: ^2.9.1
   zod: ^4.6.7
   zx: ^8.8.5
   powerlines: ^0.47.214
   "@storm-software/tsdoc": ^0.13.303
-  "@sourcebook/config": ^0.0.11
+  "@sourcebook/config": ^0.0.12
 overrides:
   "@emnapi/core": 1.11.2
   "@emnapi/runtime": 1.11.2
