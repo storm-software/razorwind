@@ -80,29 +80,23 @@ function readValue(node: Record<string, unknown>): unknown {
   return undefined;
 }
 
+type RawThemeToken = Pick<FlatThemeToken, "path" | "type" | "value">;
+
 function walkTokens(
   node: unknown,
   path: string[],
   inheritedType: string | undefined,
-  out: FlatThemeToken[]
-): void {
+  out: RawThemeToken[]
+): RawThemeToken[] {
   if (!isObject(node)) {
-    return;
+    return out;
   }
 
   const type = readType(node, inheritedType);
 
   if (isTokenLeaf(node)) {
-    const value = readValue(node);
-    const tokenPath = path.join(".");
-    out.push({
-      path: tokenPath,
-      type,
-      value,
-      cssValue: formatTokenValue(value, type),
-      cssVar: toThemeCssVar(tokenPath)
-    });
-    return;
+    out.push({ path: path.join("."), type, value: readValue(node) });
+    return out;
   }
 
   for (const [key, child] of Object.entries(node)) {
@@ -111,6 +105,131 @@ function walkTokens(
     }
     walkTokens(child, [...path, key], type, out);
   }
+
+  return out;
+}
+
+/**
+ * Token groups whose Tailwind v4 theme namespace differs from the group name,
+ * keyed by the group name lower-cased without separators (`font-size`,
+ * `fontSize` and `font.size` all read as `fontsize`).
+ *
+ * @see https://tailwindcss.com/docs/theme#theme-variable-namespaces
+ */
+const TAILWIND_NAMESPACES: Record<string, string> = {
+  borderradius: "radius",
+  fontfamily: "font",
+  fontsize: "text",
+  fontweight: "font-weight",
+  letterspacing: "tracking",
+  lineheight: "leading",
+  radii: "radius"
+};
+
+/**
+ * Rename a token path's group to its Tailwind v4 theme namespace, so the
+ * generated variables drive Tailwind's utilities.
+ *
+ * @example
+ * toTailwindThemePath("font-size.sm") // "text.sm"
+ * toTailwindThemePath("font.weight.bold") // "font-weight.bold"
+ * toTailwindThemePath("color.primary") // "color.primary"
+ */
+export function toTailwindThemePath(path: string): string {
+  const segments = path.split(".");
+  for (const length of [1, 2]) {
+    const group = segments.slice(0, length).join("");
+    const namespace =
+      TAILWIND_NAMESPACES[group.toLowerCase().replace(/[-_]/g, "")];
+    if (namespace && segments.length > length) {
+      return [namespace, ...segments.slice(length)].join(".");
+    }
+  }
+
+  return path;
+}
+
+const REFERENCE_PATTERN = /\{([^{}]+)\}/g;
+
+/** Replace every DTCG `{path}` reference in a token value. */
+function mapReferences(
+  value: unknown,
+  replace: (path: string) => string
+): unknown {
+  if (typeof value === "string") {
+    return value.replace(REFERENCE_PATTERN, (_, path: string) =>
+      replace(path.trim())
+    );
+  }
+  if (Array.isArray(value)) {
+    return value.map(item => mapReferences(item, replace));
+  }
+  if (isObject(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [
+        key,
+        mapReferences(item, replace)
+      ])
+    );
+  }
+
+  return value;
+}
+
+/**
+ * Where a composite typography token's properties land in the Tailwind theme.
+ * With a `fontSize`, the rest pair with it on `text-<name>`
+ * (`--text-<name>--line-height`); otherwise they stand alone
+ * (`--leading-<name>`).
+ */
+const TYPOGRAPHY_PROPERTIES: {
+  property: string;
+  type: string;
+  namespace: string;
+  paired?: string;
+}[] = [
+  { property: "fontFamily", type: "fontFamily", namespace: "font" },
+  { property: "fontSize", type: "dimension", namespace: "text" },
+  {
+    property: "fontWeight",
+    type: "fontWeight",
+    namespace: "font-weight",
+    paired: "font-weight"
+  },
+  {
+    property: "letterSpacing",
+    type: "dimension",
+    namespace: "tracking",
+    paired: "letter-spacing"
+  },
+  {
+    property: "lineHeight",
+    type: "number",
+    namespace: "leading",
+    paired: "line-height"
+  }
+];
+
+function expandTypography(
+  token: RawThemeToken,
+  format: (value: unknown, type: string) => string
+): FlatThemeToken[] {
+  const value = token.value as Record<string, unknown>;
+  const name = token.path.split(".").slice(1).join(".") || token.path;
+  const text = toThemeCssVar(`text.${name}`);
+
+  return TYPOGRAPHY_PROPERTIES.filter(
+    ({ property }) => value[property] !== undefined
+  ).map(({ property, type, namespace, paired }) => ({
+    path: `${token.path}.${property}`,
+    type,
+    value: value[property],
+    cssValue: format(value[property], type),
+    cssVar:
+      paired && value.fontSize !== undefined
+        ? `${text}--${paired}`
+        : toThemeCssVar(`${namespace}.${name}`)
+  }));
 }
 
 interface TokenSet {
@@ -148,42 +267,108 @@ export function resolveTokenSets(
 }
 
 /**
- * Flatten DTCG tokens into Tailwind `@theme` custom-property rows.
+ * Flatten DTCG tokens into Tailwind `@theme` custom-property rows, named by
+ * Tailwind v4 namespace (`font-size.sm` → `--text-sm`).
  */
 export function flattenThemeTokens(
-  tokens: Tokens | Record<string, Tokens>
+  tokens: Tokens | Record<string, Tokens>,
+  options: Pick<TailwindGeneratePluginOptions, "outputReferences"> = {}
 ): FlatThemeToken[] {
+  const outputReferences = options.outputReferences !== false;
   const flat: FlatThemeToken[] = [];
   const sets = resolveTokenSets(tokens);
 
   // A primary alias must not cross a `.dark` override boundary, or the
   // aliasing token would silently pick up the dark value.
-  const darkPaths = new Set<string>();
   const dark = sets.find(set => set.id.toLowerCase() === "dark");
-  if (dark) {
-    const darkTokens: FlatThemeToken[] = [];
-    walkTokens(dark.tokens, [], undefined, darkTokens);
-    for (const token of darkTokens) {
-      darkPaths.add(token.path);
-    }
-  }
+  const darkPaths = new Set(
+    dark ? walkTokens(dark.tokens, [], undefined, []).map(t => t.path) : []
+  );
+  const primary = pickPrimaryTheme(sets);
+  const primaryTokens = primary
+    ? walkTokens(primary.tokens, [], undefined, [])
+    : [];
 
   for (const set of sets) {
-    const setTokens: FlatThemeToken[] = [];
-    walkTokens(
-      aliasDuplicateColors(
-        set.tokens,
-        set === dark
-          ? undefined
-          : (from, to) => darkPaths.has(from) === darkPaths.has(to)
-      ),
+    const setTokens = walkTokens(
+      outputReferences
+        ? aliasDuplicateColors(
+            set.tokens,
+            set === dark
+              ? undefined
+              : (from, to) => darkPaths.has(from) === darkPaths.has(to)
+          )
+        : set.tokens,
       [],
       undefined,
-      setTokens
+      []
     );
-    for (const token of setTokens) {
+
+    // References resolve within the set, then against the primary theme.
+    const lookup = new Map(
+      [...primaryTokens, ...setTokens].map(token => [token.path, token])
+    );
+    const reference = (path: string, seen: string[]): string => {
+      const target = outputReferences ? undefined : lookup.get(path);
+
+      return target && !seen.includes(path)
+        ? formatTokenValue(
+            mapReferences(target.value, ref => reference(ref, [...seen, path])),
+            target.type
+          )
+        : `{${toTailwindThemePath(path)}}`;
+    };
+    const format = (value: unknown, type?: string) =>
+      formatTokenValue(
+        mapReferences(value, path => reference(path, [])),
+        type
+      );
+
+    const rows = setTokens.flatMap(token =>
+      token.type === "typography" && isObject(token.value)
+        ? expandTypography(token, format)
+        : [
+            {
+              ...token,
+              cssValue: format(token.value, token.type),
+              cssVar: toThemeCssVar(toTailwindThemePath(token.path))
+            }
+          ]
+    );
+
+    // Tailwind sizes `text-<name>` with `--text-<name>--line-height`, so a
+    // line-height token named like a font size becomes its leading.
+    const scale = (namespace: string) =>
+      new Map(
+        setTokens.flatMap(token => {
+          const [group, ...name] = toTailwindThemePath(token.path).split(".");
+
+          return group === namespace &&
+            token.type !== "color" &&
+            token.type !== "typography"
+            ? [[name.join("."), token] as const]
+            : [];
+        })
+      );
+    const defined = new Set(rows.map(row => row.cssVar));
+    const leading = scale("leading");
+    for (const name of scale("text").keys()) {
+      const lineHeight = leading.get(name);
+      const cssVar = `${toThemeCssVar(`text.${name}`)}--line-height`;
+      if (lineHeight && !defined.has(cssVar)) {
+        rows.push({
+          ...lineHeight,
+          cssVar,
+          cssValue: outputReferences
+            ? `var(${toThemeCssVar(`leading.${name}`)})`
+            : format(lineHeight.value, lineHeight.type)
+        });
+      }
+    }
+
+    for (const row of rows) {
       flat.push({
-        ...token,
+        ...row,
         theme: set.id === "default" ? undefined : set.id
       });
     }
@@ -345,7 +530,7 @@ export async function generateTailwindCss(
     return {};
   }
 
-  const flat = flattenThemeTokens(spec.tokens);
+  const flat = flattenThemeTokens(spec.tokens, options);
   if (flat.length === 0) {
     return {};
   }

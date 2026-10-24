@@ -167,6 +167,96 @@ describe("flattenThemeTokens / renderTailwindCss", () => {
   });
 });
 
+describe("Tailwind theme namespaces", () => {
+  const typographic = {
+    color: { $type: "color", ink: { $value: "#111111" } },
+    "font-size": {
+      $type: "dimension",
+      sm: { $value: "1rem" },
+      xxs: { $value: "0.75rem" }
+    },
+    "line-height": {
+      $type: "number",
+      sm: { $value: 1.25 },
+      snug: { $value: 1.125 }
+    },
+    letterSpacing: { $type: "dimension", wide: { $value: "0.05em" } },
+    "border-radius": {
+      $type: "dimension",
+      md: { $value: "0.375rem" },
+      card: { $value: "{border-radius.md}" }
+    },
+    font: { weight: { $type: "fontWeight", bold: { $value: 700 } } },
+    typography: {
+      $type: "typography",
+      body: {
+        $value: { fontFamily: "Storm Sans", lineHeight: "{line-height.snug}" }
+      },
+      title: {
+        $value: {
+          fontFamily: ["Inter", "sans-serif"],
+          fontSize: "2rem",
+          lineHeight: 1.2
+        }
+      }
+    }
+  } satisfies Schema["tokens"];
+
+  it("renames token groups, and references to them, onto Tailwind namespaces", () => {
+    const css = renderTailwindCss(flattenThemeTokens(typographic));
+
+    expect(css).toContain("--text-sm: 1rem;");
+    expect(css).toContain("--leading-snug: 1.125;");
+    expect(css).toContain("--tracking-wide: 0.05em;");
+    expect(css).toContain("--radius-md: 0.375rem;");
+    expect(css).toContain("--radius-card: var(--radius-md);");
+    expect(css).toContain("--font-weight-bold: 700;");
+    expect(css).not.toMatch(/--(font-size|line-height|border-radius)-/);
+  });
+
+  it("pairs a font size with the line height of the same name", () => {
+    const css = renderTailwindCss(flattenThemeTokens(typographic));
+
+    expect(css).toContain("--text-sm--line-height: var(--leading-sm);");
+    expect(css).not.toContain("--text-xxs--line-height");
+  });
+
+  it("expands composite typography into font, text and leading variables", () => {
+    const css = renderTailwindCss(flattenThemeTokens(typographic));
+
+    expect(css).toContain("--font-body: Storm Sans;");
+    expect(css).toContain("--leading-body: var(--leading-snug);");
+    expect(css).toContain("--font-title: Inter, sans-serif;");
+    expect(css).toContain("--text-title: 2rem;");
+    expect(css).toContain("--text-title--line-height: 1.2;");
+    expect(css).not.toContain("--typography");
+  });
+
+  it("resolves every reference and repeated color when outputReferences is false", () => {
+    const css = renderTailwindCss(
+      flattenThemeTokens(
+        {
+          ...typographic,
+          color: {
+            $type: "color",
+            blue: { 500: { $value: "#0066cc" } },
+            primary: { $value: "#0066cc" },
+            link: { $value: "{color.primary}" }
+          }
+        },
+        { outputReferences: false }
+      )
+    );
+
+    expect(css).toContain("--color-primary: #0066cc;");
+    expect(css).toContain("--color-link: #0066cc;");
+    expect(css).toContain("--radius-card: 0.375rem;");
+    expect(css).toContain("--leading-body: 1.125;");
+    expect(css).toContain("--text-sm--line-height: 1.25;");
+    expect(css).not.toContain("var(");
+  });
+});
+
 describe("duplicate color reuse", () => {
   it("references the scale step for repeated colors", () => {
     const css = renderTailwindCss(

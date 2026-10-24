@@ -116,6 +116,22 @@ describe("buildGuardrailTheme", () => {
     });
   });
 
+  it("reads token groups through their Tailwind namespaces", () => {
+    const named = buildGuardrailTheme(
+      flattenThemeTokens({
+        "border-radius": { $type: "dimension", md: { $value: "4px" } },
+        "font-size": { $type: "dimension", sm: { $value: "1rem" } },
+        "line-height": { $type: "number", sm: { $value: 1.5 } }
+      })
+    );
+
+    expect(named.namespaces).toEqual({
+      leading: ["sm"],
+      radius: ["md"],
+      text: ["sm"]
+    });
+  });
+
   it("includes font role variables", () => {
     const withFonts = buildGuardrailTheme([], {
       fonts: {

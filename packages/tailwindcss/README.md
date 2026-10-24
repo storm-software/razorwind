@@ -105,8 +105,23 @@ export default defineConfig({
 | `cssPath`          | Detected entry   | Output path for the generated Tailwind CSS file               |
 | `prefix`           | —                | Prefix applied to compiled utility classes and CSS variables  |
 | `includeImport`    | `true`           | Include `@import "tailwindcss";` at the top of the file       |
+| `outputReferences` | `true`           | `false` writes resolved values instead of `var(--…)` refs     |
 | `fontAssetsUrl` | —                | Absolute HTTP(S) base URL for generated font asset references |
 | `installGuide`     | Generated steps  | Override body for the generated `INSTALL.md`                  |
+
+### Theme namespaces
+
+Token groups are written to the [Tailwind v4 namespace](https://tailwindcss.com/docs/theme#theme-variable-namespaces) that drives their utilities, and references to them follow:
+
+| Token group                        | Theme variable    |
+| ---------------------------------- | ----------------- |
+| `font-size.sm`                     | `--text-sm`       |
+| `line-height.sm`                   | `--leading-sm`    |
+| `letter-spacing.wide`              | `--tracking-wide` |
+| `border-radius.md` (or `radii.md`) | `--radius-md`     |
+| `font-family.sans`                 | `--font-sans`     |
+
+camelCase (`fontSize`) and nested (`font.size`) groups map the same way. A font size and a line height with the same name are paired as `--text-sm--line-height`. Composite `typography` tokens become `--font-<name>` plus either `--text-<name>` with its paired properties (when they set a `fontSize`) or standalone `--leading-<name>`, `--tracking-<name>` and `--font-weight-<name>` variables.
 
 ### ESLint guardrails
 

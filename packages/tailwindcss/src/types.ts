@@ -66,6 +66,15 @@ export interface TailwindGeneratePluginOptions {
   includeImport?: boolean;
 
   /**
+   * Write token references (and repeated colors) as `var(--…)`. When `false`,
+   * every value is resolved instead, for consumers that can't follow
+   * `var()` chains, such as HTML email styles.
+   *
+   * @defaultValue true
+   */
+  outputReferences?: boolean;
+
+  /**
    * Override body for generated `INSTALL.md`. When omitted, Tailwind CSS
    * wiring steps are generated for the output file.
    */
