@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Maplibre
 
+## [0.0.8](https://github.com/storm-software/razorwind/releases/tag/maplibre%400.0.8) (10/24/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.108**
+
 ## [0.0.7](https://github.com/storm-software/razorwind/releases/tag/maplibre%400.0.7) (10/23/2026)
 
 ### Updated Dependencies

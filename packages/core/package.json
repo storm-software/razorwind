@@ -1,6 +1,6 @@
 {
   "name": "@razorwind/core",
-  "version": "0.0.107",
+  "version": "0.0.108",
   "private": false,
   "description": "💨 Razorwind is a unified set of tools that make creating design systems a breeze.",
   "keywords": ["razorwind", "storm-software"],
@@ -161,5 +161,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "inlinedDependencies": {
+    "style-dictionary": "5.7.0"
   }
 }
