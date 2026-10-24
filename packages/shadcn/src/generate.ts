@@ -321,9 +321,13 @@ function toRegistryItemType(
   }
 }
 
-function toRegistryFileType(
-  type: NonNullable<ComponentFile["type"]>
-): RegistryFileType {
+function toRegistryFileType(file: ComponentFile): RegistryFileType {
+  const type =
+    (file.type === undefined || file.type === "component") &&
+    /\.[cm]?[jt]s$/i.test(file.path)
+      ? "file"
+      : (file.type ?? "component");
+
   return `registry:${type}`;
 }
 
@@ -340,7 +344,7 @@ function mapFiles(
   }
 
   return files.map(file => {
-    const type = toRegistryFileType(file.type!);
+    const type = toRegistryFileType(file);
     const entry: RegistryFileLike = {
       path: toRegistryPath(file.path, cwd),
       type

@@ -203,6 +203,35 @@ describe("shadcn generate plugin", () => {
     });
   });
 
+  it("marks plain .ts and .js files as registry:file", () => {
+    expect(
+      componentToRegistryItem({
+        name: "collapsible",
+        title: "Collapsible",
+        type: "component",
+        files: [
+          { path: "src/Collapsible.tsx", type: "component" },
+          { path: "src/get-value.ts", type: "component" },
+          { path: "src/helpers.js" },
+          { path: "src/use-open.ts", type: "hook" }
+        ]
+      }).files
+    ).toEqual([
+      { path: "src/Collapsible.tsx", type: "registry:component" },
+      {
+        path: "src/get-value.ts",
+        type: "registry:file",
+        target: "src/get-value.ts"
+      },
+      {
+        path: "src/helpers.js",
+        type: "registry:file",
+        target: "src/helpers.js"
+      },
+      { path: "src/use-open.ts", type: "registry:hook" }
+    ]);
+  });
+
   it("renders a registry.json document", () => {
     const document = renderRegistryJson(components, {
       name: "acme",

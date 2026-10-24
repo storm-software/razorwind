@@ -25,32 +25,32 @@ catalog:
   "@power-plant/dtcg-schema": ^0.0.1
   "@power-plant/schema": ^0.0.96
   "@power-plant/utils": ^0.0.84
-  "@powerlines/plugin-env": ^0.16.423
-  "@powerlines/nx": ^0.13.254
-  "@powerlines/plugin-untyped": ^0.2.630
-  "@powerlines/tsconfig": ^0.4.258
-  "@powerlines/tsdoc": ^0.2.206
-  "@powerlines/plugin-tsdown": ^0.1.615
+  "@powerlines/plugin-env": ^0.16.426
+  "@powerlines/nx": ^0.13.257
+  "@powerlines/plugin-untyped": ^0.2.633
+  "@powerlines/tsconfig": ^0.4.260
+  "@powerlines/tsdoc": ^0.2.208
+  "@powerlines/plugin-tsdown": ^0.1.618
   "@shell-shock/eslint-plugin": ^0.0.96
   "@shell-shock/preset-cli": ^0.9.44
   "@shell-shock/core": ^0.17.32
   "@shell-shock/nx": ^0.0.105
   "@shell-shock/plugin-mcp": ^0.1.10
   "@shell-shock/plugin-theme": ^0.4.45
-  "@storm-software/config": ^1.138.87
-  "@storm-software/config-tools": ^1.190.151
-  "@storm-software/cspell": ^0.46.218
-  "@storm-software/eslint-plugin-pnpm": ^0.0.114
-  "@storm-software/eslint-config-react": ^0.0.108
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.114
-  "@storm-software/git-tools": ^2.132.8
-  "@storm-software/linting-tools": ^1.134.81
-  "@storm-software/markdownlint": ^0.30.306
-  "@storm-software/pnpm-tools": ^0.7.165
-  "@storm-software/prettier": ^0.59.204
-  "@storm-software/tsconfig": ^0.48.217
-  "@storm-software/untyped": ^0.24.293
-  "@storm-software/workspace-tools": ^1.297.21
+  "@storm-software/config": ^1.138.90
+  "@storm-software/config-tools": ^1.190.154
+  "@storm-software/cspell": ^0.46.221
+  "@storm-software/eslint-plugin-pnpm": ^0.0.117
+  "@storm-software/eslint-config-react": ^0.0.111
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.117
+  "@storm-software/git-tools": ^2.132.11
+  "@storm-software/linting-tools": ^1.134.84
+  "@storm-software/markdownlint": ^0.30.309
+  "@storm-software/pnpm-tools": ^0.7.168
+  "@storm-software/prettier": ^0.59.207
+  "@storm-software/tsconfig": ^0.48.220
+  "@storm-software/untyped": ^0.24.296
+  "@storm-software/workspace-tools": ^1.297.24
   "@stryke/env": ^0.20.135
   "@stryke/fs": ^0.33.118
   "@stryke/hash": ^0.13.71
@@ -96,8 +96,8 @@ catalog:
   yaml: ^2.9.1
   zod: ^4.6.7
   zx: ^8.8.5
-  powerlines: ^0.47.214
-  "@storm-software/tsdoc": ^0.13.303
+  powerlines: ^0.47.217
+  "@storm-software/tsdoc": ^0.13.306
   "@sourcebook/config": ^0.0.12
 overrides:
   "@emnapi/core": 1.11.2
