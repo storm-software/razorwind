@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.48](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.48) (10/24/2026)
+
+### Bug Fixes
+
+- **tailwindcss:** Resolve issue with css token names in generated theme ([3191162](https://github.com/storm-software/razorwind/commit/3191162))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.109**
+
 ## [0.0.47](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.47) (10/24/2026)
 
 ### Updated Dependencies

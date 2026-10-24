@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Tailwindcss
 
+## [0.0.107](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.107) (10/24/2026)
+
+### Bug Fixes
+
+- **tailwindcss:** Resolve issue with css token names in generated theme ([3191162](https://github.com/storm-software/razorwind/commit/3191162))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.109**
+
 ## [0.0.106](https://github.com/storm-software/razorwind/releases/tag/tailwindcss%400.0.106) (10/24/2026)
 
 ### Updated Dependencies
