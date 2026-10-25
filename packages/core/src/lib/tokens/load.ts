@@ -233,7 +233,8 @@ export async function loadTokens(
     return {};
   }
 
-  if (context.options.splitThemes) {
+  // `splitThemes` defaults to `true`, so only an explicit `false` merges.
+  if (context.options.splitThemes !== false) {
     return loadSplitByTheme(context.options, resolved.source);
   }
 

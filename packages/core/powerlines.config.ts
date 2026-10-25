@@ -33,7 +33,9 @@ export default defineConfig({
     format: ["cjs", "esm"]
   },
   resolve: {
-    noExternal: ["style-dictionary"],
+    // Keep `style-dictionary` external: inlining it leaves its own
+    // dependencies (`change-case`, `chalk`, …) as bare imports this package
+    // doesn't declare.
     skipNodeModulesBundle: true
   },
   plugins: [tsdown()]

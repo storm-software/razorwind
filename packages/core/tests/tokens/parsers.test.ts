@@ -483,11 +483,8 @@ color:
 
     const tokens = await loadTokens(testContext(dir, { tokensPath: globPath }));
     expect(tokens).toMatchObject({
-      color: {
-        primary: {
-          $type: "color"
-        }
-      }
+      light: { color: { primary: { $type: "color" } } },
+      dark: { color: { primary: { $type: "color" } } }
     });
   });
 
@@ -572,6 +569,34 @@ color:
         }
       }
     });
+  });
+
+  it("splits theme-named files unless splitThemes is false", async () => {
+    const dir = await makeTempDir();
+    for (const [theme, value] of [
+      ["light", "#111111"],
+      ["dark", "#eeeeee"]
+    ]) {
+      await writeFile(
+        join(dir, `${theme}.tokens.json`),
+        JSON.stringify({ color: { brand: { $type: "color", $value: value } } }),
+        "utf8"
+      );
+    }
+
+    const split = await loadTokens(
+      testContext(dir, { tokensPath: "*.tokens.json" })
+    );
+    const merged = await loadTokens(
+      testContext(dir, { tokensPath: "*.tokens.json", splitThemes: false })
+    );
+
+    expect(split).toMatchObject({
+      light: { color: { brand: { $type: "color" } } },
+      dark: { color: { brand: { $type: "color" } } }
+    });
+    expect(merged).toMatchObject({ color: { brand: { $type: "color" } } });
+    expect(merged).not.toHaveProperty("light");
   });
 
   it("applies Style Dictionary verbose logging when verbose is true", async () => {
