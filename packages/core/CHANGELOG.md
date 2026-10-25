@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.110](https://github.com/storm-software/razorwind/releases/tag/core%400.0.110) (10/25/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue witn incorrectly bundled packages ([6bc9857](https://github.com/storm-software/razorwind/commit/6bc9857))
+
 ## [0.0.107](https://github.com/storm-software/razorwind/releases/tag/core%400.0.107) (10/23/2026)
 
 ### Bug Fixes
