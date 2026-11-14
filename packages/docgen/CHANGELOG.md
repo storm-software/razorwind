@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - Docgen
 
+## [0.0.109](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.109) (11/14/2026)
+
+### Features
+
+- **core:** Added `properties` to the `components` and `icons` schemas ([5d9f002](https://github.com/storm-software/razorwind/commit/5d9f002))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.111**
+
 ## [0.0.108](https://github.com/storm-software/razorwind/releases/tag/docgen%400.0.108) (10/25/2026)
 
 ### Updated Dependencies

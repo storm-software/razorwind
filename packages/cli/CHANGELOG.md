@@ -2,6 +2,16 @@
 
 # Changelog for Razorwind - CLI
 
+## [0.0.50](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.50) (11/14/2026)
+
+### Features
+
+- **core:** Added `properties` to the `components` and `icons` schemas ([5d9f002](https://github.com/storm-software/razorwind/commit/5d9f002))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.0.111**
+
 ## [0.0.49](https://github.com/storm-software/razorwind/releases/tag/cli%400.0.49) (10/25/2026)
 
 ### Updated Dependencies

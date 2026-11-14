@@ -2,6 +2,12 @@
 
 # Changelog for Razorwind - Core
 
+## [0.0.111](https://github.com/storm-software/razorwind/releases/tag/core%400.0.111) (11/14/2026)
+
+### Features
+
+- **core:** Added `properties` to the `components` and `icons` schemas ([5d9f002](https://github.com/storm-software/razorwind/commit/5d9f002))
+
 ## [0.0.110](https://github.com/storm-software/razorwind/releases/tag/core%400.0.110) (10/25/2026)
 
 ### Bug Fixes
