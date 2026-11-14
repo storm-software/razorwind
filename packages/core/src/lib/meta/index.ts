@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+export { extractProperties } from "./extract-properties";
 export {
   loadSchemaMetaFromPackageJson,
   resolveSchemaMeta,

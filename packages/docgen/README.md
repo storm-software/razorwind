@@ -58,6 +58,7 @@ Color tokens with a `theme` or `group` property (on the token or an ancestor gro
 ## Quick Features
 
 - Generate MDX documentation for tokens and components.
+- Render a props table for each component and icon from its extracted `properties`.
 - Group color tokens by `theme` or `group` under matching headings.
 - Write docs to `docs/design-system` (change with `outputPath`).
 - Set the index title with `title` and the CSS prefix with `cssVarPrefix`.

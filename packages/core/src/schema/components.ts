@@ -66,7 +66,7 @@ export const componentUsageSchema = z.object({
   path: z.string(),
   content: z.string().optional(),
   language: z
-    .enum(["tsx", "jsx", "ts", "js", "mdx", "md", "css", "html", "txt"])
+    .enum(["js", "ts", "jsx", "tsx", "mdx", "md", "css", "html", "txt"])
     .optional()
     .describe(
       "Source language for syntax highlighting. Inferred from the file extension when omitted."
@@ -74,6 +74,36 @@ export const componentUsageSchema = z.object({
 });
 
 export type ComponentUsage = z.infer<typeof componentUsageSchema>;
+
+/**
+ * A property (prop) accepted by a component or icon.
+ *
+ * Extracted from the exported `*Props` interfaces / type aliases in the
+ * source files, or declared under `properties` in metadata.
+ */
+export const propertySchema = z.object({
+  name: z.string(),
+  type: z
+    .string()
+    .describe("The property's type annotation, as written in source."),
+  description: z.string().optional(),
+  default: z
+    .string()
+    .optional()
+    .describe("The `@default` / `@defaultValue` JSDoc tag value."),
+  required: z.boolean(),
+  deprecated: z.boolean().optional()
+});
+
+export type Property = z.infer<typeof propertySchema>;
+
+export const propertiesSchema = z
+  .record(z.string(), z.array(propertySchema))
+  .describe(
+    "Properties keyed by the name of the exported `*Props` type that declares them."
+  );
+
+export type Properties = z.infer<typeof propertiesSchema>;
 
 export const componentSchema = z.object({
   name: z.string(),
@@ -91,6 +121,11 @@ export const componentSchema = z.object({
   devDependencies: z.record(z.string(), z.string()).optional(),
   registryDependencies: z.record(z.string(), z.string()).optional(),
   files: z.array(componentFileSchema).optional(),
+  properties: propertiesSchema
+    .optional()
+    .describe(
+      "The component's properties. Extracted from exported `*Props` types in the component files when omitted."
+    ),
   usage: z
     .array(componentUsageSchema)
     .optional()

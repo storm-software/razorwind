@@ -37,8 +37,9 @@ import type { Schema } from "../../schema";
 import type { Icon, IconFile, Icons } from "../../schema/icons";
 import { iconFileSchema, iconSchema } from "../../schema/icons";
 import type { Config } from "../../types/config";
-import { THEME_BASENAME_PATTERN } from "../tokens/constants";
+import { extractProperties } from "../meta/extract-properties";
 import { normalizeUrl } from "../meta/normalize-url";
+import { THEME_BASENAME_PATTERN } from "../tokens/constants";
 
 const iconPartialSchema = iconSchema.partial();
 
@@ -51,6 +52,9 @@ const ICON_EXTENSIONS = new Set([
   "gif",
   "ico"
 ]);
+
+/** Icon component sources: typed when declared in `files`, never auto-discovered. */
+const SCRIPT_EXTENSIONS = new Set(["ts", "js", "jsx", "tsx"]);
 
 /** Overlay merge: arrays from the left source replace (do not concat). */
 const defuOverlay = createDefu((object, key, value) => {
@@ -78,7 +82,7 @@ function iconTypeFromExtension(
   extension: string
 ): IconFile["type"] | undefined {
   const normalized = extension.toLowerCase();
-  if (ICON_EXTENSIONS.has(normalized)) {
+  if (ICON_EXTENSIONS.has(normalized) || SCRIPT_EXTENSIONS.has(normalized)) {
     return normalized as IconFile["type"];
   }
 
@@ -279,7 +283,7 @@ async function resolveIconFiles(
         const content =
           file.content !== undefined
             ? file.content
-            : type === "svg"
+            : type === "svg" || SCRIPT_EXTENSIONS.has(type)
               ? await readFile(absolute, "utf8")
               : undefined;
 
@@ -327,9 +331,13 @@ async function loadIconFromDirectory(
     return undefined;
   }
 
+  const files = await resolveIconFiles(directory, parsed.data.files);
+  const properties = parsed.data.properties ?? extractProperties(files);
+
   return {
     ...parsed.data,
-    files: await resolveIconFiles(directory, parsed.data.files)
+    files,
+    ...(Object.keys(properties).length ? { properties } : {})
   };
 }
 

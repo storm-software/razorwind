@@ -790,6 +790,61 @@ function renderRegistryItemUsage(item: Record<string, unknown>): string {
   return blocks.join("\n\n");
 }
 
+/** Inline code safe inside a GFM table cell (MDX keeps `<` / `{` literal in code). */
+function codeCell(value: string): string {
+  const text = value.replaceAll("|", "\\|").replaceAll(/\s*\r?\n\s*/g, " ");
+
+  return text.includes("`") ? `\`\` ${text} \`\`` : `\`${text}\``;
+}
+
+/**
+ * Render a props table per `*Props` type from a component's or icon's
+ * `properties`. Returns an empty string when there are none.
+ */
+export function renderProperties(item: Record<string, unknown>): string {
+  if (!isObject(item.properties)) {
+    return "";
+  }
+
+  const types = Object.entries(item.properties).filter(
+    (entry): entry is [string, unknown[]] =>
+      Array.isArray(entry[1]) && entry[1].length > 0
+  );
+
+  return types
+    .map(([typeName, properties]) => {
+      const rows = properties.filter(isObject).map(property => {
+        const name = readString(property, "name") ?? "";
+        const type = readString(property, "type");
+        const defaultValue = readString(property, "default");
+        const description = readString(property, "description");
+        const deprecated = property.deprecated === true;
+        const notes = [
+          ...(deprecated ? ["**Deprecated.**"] : []),
+          ...(description ? [escapeTableCell(description)] : [])
+        ];
+
+        const cells = [
+          deprecated ? `~~${codeCell(name)}~~` : codeCell(name),
+          type ? codeCell(type) : "—",
+          defaultValue ? codeCell(defaultValue) : "—",
+          property.required === true ? "Yes" : "No",
+          notes.join(" ") || "—"
+        ];
+
+        return `| ${cells.join(" | ")} |`;
+      });
+
+      return [
+        ...(types.length > 1 ? [`#### ${codeCell(typeName)}`] : []),
+        "| Prop | Type | Default | Required | Description |",
+        "| --- | --- | --- | --- | --- |",
+        ...rows
+      ].join("\n");
+    })
+    .join("\n\n");
+}
+
 function renderRegistryItem(
   item: Record<string, unknown>,
   resolveVersion: (name: string, specifier: string) => string,
@@ -846,6 +901,11 @@ function renderRegistryItem(
   const files = renderRegistryItemFiles(item, cwd);
   if (files) {
     sections.push("### Files", files);
+  }
+
+  const properties = renderProperties(item);
+  if (properties) {
+    sections.push("### Props", properties);
   }
 
   const usage = renderRegistryItemUsage(item);
@@ -961,6 +1021,11 @@ function renderIcon(item: Record<string, unknown>): string {
   const files = renderIconFiles(item);
   if (files) {
     sections.push("### Files", files);
+  }
+
+  const properties = renderProperties(item);
+  if (properties) {
+    sections.push("### Props", properties);
   }
 
   return sections.join("\n\n");

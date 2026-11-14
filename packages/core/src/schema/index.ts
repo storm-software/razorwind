@@ -21,10 +21,14 @@ export {
   componentSchema,
   componentUsageSchema,
   componentsSchema,
+  propertiesSchema,
+  propertySchema,
   type Component,
   type ComponentFile,
   type ComponentUsage,
-  type Components
+  type Components,
+  type Properties,
+  type Property
 } from "./components";
 export {
   fontDisplaySchema,

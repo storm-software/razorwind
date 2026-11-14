@@ -448,6 +448,69 @@ describe("docgen generate plugin", () => {
     expect(icons).toContain("### Preview");
   });
 
+  it("renders props tables for components and icons", async () => {
+    const plugin = generate({ outputPath: "docs/design-system" });
+    const documents = await plugin.generate!(
+      {
+        ...spec,
+        components: {
+          ...spec.components,
+          button: {
+            ...spec.components.button,
+            properties: {
+              ButtonProps: [
+                {
+                  name: "variant",
+                  type: '"primary" | "ghost"',
+                  default: '"primary"',
+                  required: false,
+                  description: "Visual style."
+                },
+                {
+                  name: "onClick",
+                  type: "(event: MouseEvent<HTMLButtonElement>) => void",
+                  required: true,
+                  deprecated: true
+                }
+              ]
+            }
+          }
+        },
+        icons: {
+          home: {
+            ...spec.icons.home,
+            properties: {
+              IconProps: [{ name: "size", type: "number", required: false }],
+              IconSvgProps: [{ name: "title", type: "string", required: true }]
+            }
+          }
+        }
+      } as never,
+      {} as never
+    );
+
+    const ui =
+      documents["docs/design-system/registry/ui.mdx"]?.chunks?.[0]?.content;
+    expect(ui).toContain(
+      [
+        "### Props",
+        "",
+        "| Prop | Type | Default | Required | Description |",
+        "| --- | --- | --- | --- | --- |",
+        '| `variant` | `"primary" \\| "ghost"` | `"primary"` | No | Visual style. |',
+        "| ~~`onClick`~~ | `(event: MouseEvent<HTMLButtonElement>) => void` | — | Yes | **Deprecated.** |"
+      ].join("\n")
+    );
+    // A single props type needs no per-type heading
+    expect(ui).not.toContain("#### `ButtonProps`");
+
+    const icons =
+      documents["docs/design-system/icons.mdx"]?.chunks?.[0]?.content;
+    expect(icons).toContain("#### `IconProps`");
+    expect(icons).toContain("| `size` | `number` | — | No | — |");
+    expect(icons).toContain("#### `IconSvgProps`");
+  });
+
   it("renders absolute registry file paths relative to the generation cwd", async () => {
     const cwd = await mkdtemp(join(tmpdir(), "razorwind-docgen-paths-"));
 

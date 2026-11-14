@@ -17,11 +17,25 @@
  ------------------------------------------------------------------- */
 
 import { z } from "zod";
+import { propertiesSchema } from "./components";
 
 export const iconFileSchema = z.object({
   path: z.string(),
   type: z
-    .enum(["svg", "png", "webp", "jpg", "jpeg", "gif", "ico", "file"])
+    .enum([
+      "ts",
+      "js",
+      "jsx",
+      "tsx",
+      "svg",
+      "png",
+      "webp",
+      "jpg",
+      "jpeg",
+      "gif",
+      "ico",
+      "file"
+    ])
     .optional(),
   content: z.string().optional(),
   theme: z
@@ -52,7 +66,12 @@ export const iconSchema = z.object({
   version: z.string().optional(),
   repository: z.string().optional(),
   homepage: z.string().optional(),
-  files: z.array(iconFileSchema).optional()
+  files: z.array(iconFileSchema).optional(),
+  properties: propertiesSchema
+    .optional()
+    .describe(
+      "The icon component's properties. Extracted from exported `*Props` types in the icon's script files when omitted."
+    )
 });
 
 export type Icon = z.infer<typeof iconSchema>;

@@ -52,6 +52,7 @@ import {
   componentUsageSchema
 } from "../../schema/components";
 import type { Config } from "../../types/config";
+import { extractProperties } from "../meta/extract-properties";
 import { normalizeUrl } from "../meta/normalize-url";
 
 const componentPartialSchema = componentSchema.partial();
@@ -549,10 +550,13 @@ async function loadComponentFromDirectory(
   }
 
   const usage = await resolveComponentUsage(directory, parsed.data.usage);
+  const files = await resolveComponentFiles(directory, parsed.data.files);
+  const properties = parsed.data.properties ?? extractProperties(files);
 
   return {
     ...parsed.data,
-    files: await resolveComponentFiles(directory, parsed.data.files),
+    files,
+    ...(Object.keys(properties).length ? { properties } : {}),
     ...(usage?.length ? { usage } : {})
   };
 }
